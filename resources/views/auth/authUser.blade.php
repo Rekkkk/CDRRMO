@@ -4,34 +4,33 @@
             <h3 class="font-bold text-2xl text-center text-white">Welcome to E-LIGTAS</h3>
         </section>
         <section class="mt-10 flex flex-col">
-            <form action="/resident/dashboard" method="POST" class="flex ites-center whitespace-nowrap cursor-pointer">
+            <form action="/resident/dashboard" method="POST" class="flex items-center whitespace-nowrap cursor-pointer">
                 @method('GET')
                 @csrf
                 <button type="submit" class="btn w-full mb-3 bg-cyan-600 text-white hover:bg-cyan-900">
-                    Continue as Guess
+                    Continue as Resident
                 </button>
             </form>
 
             <button type="button" class="btn bg-green-800 text-white hover:bg-green-900" data-bs-toggle="modal" data-bs-target="#adminMode">
-                Continue as Admin
+                Continue to Admin Panel
             </button>
             
-            <div class="modal fade" id="adminMode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal fade" id="adminMode" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h1 class="modal-title fs-5 text-center" id="exampleModalLabel">{{ config('app.name')}}</h1>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h1 class="modal-title fs-5 text-center">{{ config('app.name') }}</h1>
                         </div>
                         <form action="/cdrrmo" method="POST">
                             @csrf
                             <div class="modal-body">
                                 <div class="mb-6 pt-3 rounded bg-gray-200">
-                                    <label for="id" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Id</label>
+                                    <label for="id" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Admin Number</label>
                                     <input type="number" name="id" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-3">
                                 </div>
                                 <div class="mb-6 pt-3 rounded bg-gray-200">
-                                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Password</label>
+                                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2 ml-3">Admin Password</label>
                                     <input type="password" name="password" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-3">
                                 </div>
                             </div>

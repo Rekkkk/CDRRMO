@@ -13,7 +13,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         DB::table('users')->insert([
-
             'password' => Hash::make('CDRRMO_Admin_Panel'),
             'created_at' => Date::now(),
             'updated_at' => Date::now(),

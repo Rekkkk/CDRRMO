@@ -23,10 +23,11 @@ class CdrrmoController extends Controller
             return redirect('/cdrrmo/dashboard')->with('message', 'Welcome to Admin Panel');
         }
 
-        return back()->with('message', 'Incorrect Password!');
+        return back()->with('message', 'Incorrect Admin Panel Password!');
     }
     
     public function dashboard(){
+        $this->middleware('ensure.token');
         return view('CDRRMO.dashboard');
     }
 
