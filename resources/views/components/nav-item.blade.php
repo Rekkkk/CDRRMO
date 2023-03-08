@@ -9,7 +9,7 @@
     <li>
         <a href="/cdrrmo/addData">
             <i class="bi bi-person-plus text-white"></i>
-            <span class="links_nam">Add Data</span>
+            <span class="links_name">Add Data</span>
         </a>
     </li>
     <li>
