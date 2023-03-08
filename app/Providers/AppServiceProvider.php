@@ -16,7 +16,7 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
-        View::share('title', 'Cabuyao City Disaster Risk Reduction Management Office');
+        //View::share('title', 'Cabuyao City Disaster Risk Reduction Management Office');
 
         // View::composer('cdrrmo.dashboard', function($view){
         //     $view->with('admin', User::all());
