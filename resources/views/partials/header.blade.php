@@ -8,12 +8,15 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="{{ URL('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
-    <link rel="stylesheet" href="{{ URL('assets/css/dashboard.css') }}">
+    <link rel="stylesheet" href="{{ URL('assets/css/theme.css') }}">
     <title>{{ config('app.name')}}</title>
     <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="bg-gray-400">
+    
     <div class="wrapper">
+        
+        
         <header class="header-section w-full bg-slate-50">
             <div class="container-fluid relative w-full h-full">
                 <div class="w-full h-full relative">
