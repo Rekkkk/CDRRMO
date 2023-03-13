@@ -6,8 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(GuessController::class)->group(function (){
     Route::get('/', 'landingPage')->name('login')->middleware('guest');
-    Route::get('/resident/dashboard', 'dashboard')->name('Cstatistics');
-    Route::get('/resident/eligtasGuidelines', 'guessEligtasGuidelines')->name('Gdashboard');
+    Route::get('/resident/dashboard', 'dashboard')->name('Gdashboard');
+    Route::get('/resident/eligtasGuidelines', 'guessEligtasGuidelines')->name('Gguidelines');
     Route::get('/resident/hotlineNumbers', 'guessHotlineNumbers')->name('GNumbers');
     Route::get('/resident/statistics', 'guessStatistics')->name('Gstatistics');
     Route::get('/resident/about', 'guessAbout')->name('Gabout');

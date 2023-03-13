@@ -6,7 +6,6 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
-
 class CdrrmoController extends Controller
 {
 
@@ -19,6 +18,7 @@ class CdrrmoController extends Controller
        
         if(auth()->attempt($validated)){
             $request->session()->regenerate();
+            
             
             return redirect('/cdrrmo/dashboard')->with('message', 'Welcome to Admin Panel');
         }
@@ -48,6 +48,18 @@ class CdrrmoController extends Controller
     }
 
     public function statistics(){
+        // $count = 0;
+
+        // $test = array();
+
+        // $dataTyphoon = DB::table('typhoon')->get();
+
+        // foreach ($dataTyphoon as $row) {
+        //     $test[$count]['label'] = "Typhoon";
+        //     $test[$count]['y'] = $row->male + $row->female;
+        //     $count++;
+        // }
+
         return view('CDRRMO.statistics');
     }
 

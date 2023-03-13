@@ -13,10 +13,7 @@
     <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="bg-gray-400">
-    
     <div class="wrapper">
-        
-        
         <header class="header-section w-full bg-slate-50">
             <div class="container-fluid relative w-full h-full">
                 <div class="w-full h-full relative">
@@ -27,7 +24,7 @@
         </header>
 
         <div class="page-wrap">
-            <div class="sidebar fixed left-0 top-0 h-full w-20">
+            <div class="sidebar drop-shadow-2xl fixed left-0 top-0 h-full w-20">
                 <div class="sidebar-heading flex justify-center items-center cursor-pointer text-white ">
                     <span class="links_name">E-LIGTAS</span>
                     <i class="bi bi-list absolute text-white text-center cursor-pointer text-3xl" id="btn-sidebar"></i>

@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Tilt+Neon&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
 *{
     margin: 0;
@@ -6,7 +7,6 @@
     text-decoration: none !important;
     box-sizing: border-box !important;
     list-style: none !important;
-    font-family: 'Tilt Neon', cursive;
 }
 
 :root {
@@ -20,6 +20,7 @@
 .wrapper .header-section{
     height: 10vh;
     box-shadow: 0 2px 10px 5px var(--color-shadow);
+    font-family: 'Tilt Neon', cursive;
 }
 
 .wrapper .header-section .container-fluid{
@@ -113,21 +114,30 @@
 
 /* Main Content */
 .main-content{
-    padding: 0 10rem 0 15rem !important;
+    padding: 2rem 5rem 0 10rem !important;
+    font-family: 'Poppins', sans-serif !important;
 }
 
 .main-content .content-item{
-    margin: 2rem 0 !important;
+    margin: 2% 0 !important;
+    background: var(--color-darkblue);
+    border-radius: 5px;
     box-shadow: 0 2px 10px 5px var(--color-shadow);
 }
 
-.main-content .content-item .content-header{
-    height: 10vh;
+.main-content .content-item .content-details .content-body .form-list{
+    padding: 5% 20% !important;
+}
+
+.main-content .content-item .content-details .content-body h1{
+    padding: 2% 0 !important;
+    border-radius: 5px 5px 0 0;
     background: var(--color-darkred);
 }
 
-.main-content .content-item .content-header .item-header{
-    font-size: 1.5rem;
+.main-content .content-item .content-details .content-body .form-list form{
+    opacity: 0;
+    display: none;
 }
 
 @media only screen and (max-width: 900px) {
@@ -141,14 +151,5 @@
         margin: 0 50% !important;
         float: none;
         transition: all 1.5s ease;
-    }
-
-    .main-content{
-        padding: 2rem 2rem 0 7rem !important;
-        transition: all 0.5s ease;
-    }
-
-    .main-content .content-item .content-header{
-        line-height: 20px;
     }
 }
