@@ -10,18 +10,15 @@ return [
 
     'debug' => (bool) env('APP_DEBUG', false),
 
-
     'url' => env('APP_URL', 'http://localhost'),
 
     'asset_url' => env('ASSET_URL'),
-
 
     'timezone' => 'UTC',
 
     'locale' => 'en',
 
     'fallback_locale' => 'en',
-
 
     'faker_locale' => 'en_US',
 
@@ -33,7 +30,6 @@ return [
         'driver' => 'file',
         // 'store'  => 'redis',
     ],
-
 
     'providers' => [
 
@@ -67,7 +63,6 @@ return [
         App\Providers\RouteServiceProvider::class,
 
     ],
-
 
     'aliases' => Facade::defaultAliases()->merge([
         // 'ExampleClass' => App\Example\ExampleClass::class,

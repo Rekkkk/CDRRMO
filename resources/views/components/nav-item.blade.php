@@ -1,49 +1,49 @@
 <ul class="nav_list">
     @auth
     <li>
-        <a href="/cdrrmo/dashboard">
+        <a href="{{ route('Cdashboard') }}">
             <i class="fbi bi-tv text-white"></i>
             <span class="links_name">Dashboard</span>
         </a>
     </li>
     <li>
-        <a href="/cdrrmo/addData">
+        <a href="{{ route('CaddData') }}">
             <i class="bi bi-person-plus text-white"></i>
             <span class="links_name">Add Data</span>
         </a>
     </li>
     <li>
-        <a href="/cdrrmo/eligtasGuidelines">
+        <a href="{{ route('Cguidelines') }}">
             <i class="bi bi-book text-white"></i>
             <span class="links_name">E-LIGTAS Guidelines</span>
         </a>
     </li>
     <li>
-        <a href="/cdrrmo/evacuationCenter">
+        <a href="{{ route('Cevacuation') }}">
             <i class="bi bi-house text-white"></i>
             <span class="links_name">Manage Evacuation Center</span>
         </a>
     </li>
     <li>
-        <a href="/cdrrmo/hotlineNumbers">
+        <a href="{{ route('CNumbers') }}">
             <i class="bi bi-telephone text-white"></i>
             <span class="links_name">Hotline Numbers</span>
         </a>
     </li>
     <li>
-        <a href="/cdrrmo/statistics">
+        <a href="{{ route('Cstatistics') }}">
             <i class="bi bi-graph-up text-white"></i>
             <span class="links_name">Data Analytics</span>
         </a>
     </li>
     <li>
-        <a href="/cdrrmo/about">
+        <a href="{{ route('Cabout') }}">
             <i class="bi bi-info-circle text-white"></i>
             <span class="links_name">About</span>
         </a>
     </li>
     <li>
-        <form action="/cdrrmo/logout" method="POST" class="flex ites-center whitespace-nowrap hover:bg-red-900 cursor-pointer">
+        <form action="{{ route('Clogout') }}" method="POST" class="flex ites-center whitespace-nowrap hover:bg-red-900 cursor-pointer">
             @csrf
             <i class="bi bi-box-arrow-in-left text-white"></i>
             <button class="links_name">Logout</button>
@@ -51,31 +51,31 @@
     </li>
     @else
     <li>
-        <a href="/resident/dashboard">
+        <a href="{{ route('Gdashboard') }}">
             <i class="fbi bi-tv text-white"></i>
             <span class="links_name">Dashboard</span>
         </a>
     </li>
     <li>
-        <a href="/resident/eligtasGuidelines">
+        <a href="{{ route('Gguidelines') }}">
             <i class="bi bi-book text-white"></i>
             <span class="links_name">E-LIGTAS Guidelines</span>
         </a>
     </li>
     <li>
-        <a href="/resident/hotlineNumbers">
+        <a href="{{ route('GNumbers') }}">
             <i class="bi bi-telephone text-white"></i>
             <span class="links_name">Hotline Numbers</span>
         </a>
     </li>
     <li>
-        <a href="/resident/statistics">
+        <a href="{{ route('Gstatistics') }}">
             <i class="bi bi-graph-up text-white"></i>
             <span class="links_name">Data Analytics</span>
         </a>
     </li>
     <li>
-        <a href="/resident/about">
+        <a href="{{ route('Gabout') }}">
             <i class="bi bi-info-circle text-white"></i>
             <span class="links_name">About</span>
         </a>
