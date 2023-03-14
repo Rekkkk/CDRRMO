@@ -19,7 +19,6 @@ class CdrrmoController extends Controller
         if(auth()->attempt($validated)){
             $request->session()->regenerate();
             
-            
             return redirect('/cdrrmo/dashboard')->with('message', 'Welcome to Admin Panel');
         }
 
