@@ -114,6 +114,7 @@
 /* Main Content */
 .main-content{
     padding: 2rem 5rem 0 10rem !important;
+    animation: transitionIn 0.75s;
 }
 
 .main-content .content-item .guidelines-item .widget{
@@ -137,6 +138,18 @@
     color: var(--color-text);
     background: var(--color-darkred);
     border-radius: 0 0 5px 5px;
+}
+
+@keyframes transitionIn{
+    from{
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+
+    to{
+        opacity: 1;
+        transform: rotateX(0);
+    }
 }
 
 @media only screen and (max-width: 1250px) {

@@ -114,6 +114,7 @@
 /* Main Content */
 .main-content{
     padding: 0 10rem 0 15rem !important;
+    animation: transitionIn 0.75s;
 }
 
 .main-content .content-item{
@@ -128,6 +129,18 @@
 
 .main-content .content-item .content-header .item-header{
     font-size: 1.5rem;
+}
+
+@keyframes transitionIn{
+    from{
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+
+    to{
+        opacity: 1;
+        transform: rotateX(0);
+    }
 }
 
 @media only screen and (max-width: 900px) {

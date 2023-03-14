@@ -10,7 +10,6 @@
     <link rel="shortcut icon" href="{{ URL('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ URL('assets/css/guidelines.css') }}">
     <title>{{ config('app.name')}}</title>
-    <script src="//unpkg.com/alpinejs" defer></script>
 </head>
 <body class="bg-gray-400">
     <div class="wrapper">

@@ -116,6 +116,7 @@
 .main-content{
     padding: 2rem 5rem 0 10rem !important;
     font-family: 'Poppins', sans-serif !important;
+    animation: transitionIn 0.75s;
 }
 
 .main-content .content-item{
@@ -138,6 +139,18 @@
 .main-content .content-item .content-details .content-body .form-list form{
     opacity: 0;
     display: none;
+}
+
+@keyframes transitionIn{
+    from{
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+
+    to{
+        opacity: 1;
+        transform: rotateX(0);
+    }
 }
 
 @media only screen and (max-width: 900px) {
