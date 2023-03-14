@@ -48,19 +48,10 @@ class CdrrmoController extends Controller
     }
 
     public function statistics(){
-        // $count = 0;
+        $male = DB::table('typhoon')->pluck('male');
+        $female = DB::table('typhoon')->pluck('female');
 
-        // $test = array();
-
-        // $dataTyphoon = DB::table('typhoon')->get();
-
-        // foreach ($dataTyphoon as $row) {
-        //     $test[$count]['label'] = "Typhoon";
-        //     $test[$count]['y'] = $row->male + $row->female;
-        //     $count++;
-        // }
-
-        return view('CDRRMO.statistics');
+        return view('CDRRMO.statistics', ['male' => $male, 'female' => $female]);
     }
 
     public function about(){
