@@ -9,8 +9,10 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="{{ URL('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ URL('assets/css/statistics.css') }}">
-    <title>{{ config('app.name')}}</title>
     <script src="//unpkg.com/alpinejs" defer></script>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <title>{{ config('app.name')}}</title>
     
 </head>
 <body class="bg-gray-400">
@@ -58,16 +60,45 @@
                                 <option value="flooding">Flooding</option>
                             </select>
                         </div>
-                          
-                        {{-- <div id="chartContainer" style="height: 370px; width: 100%;"></div> --}}
+                        
+                       <div id="highchart">
+                            <script>
+                                $(function(){
+                                    var maleData = {{ json_encode($male) }};
+                                    var femaleData = {{ json_encode($female) }};
 
+                                    $('#highchart').highcharts({
+                                        chart:{
+                                            type:'column'
+                                        },
+                                        title:{
+                                            text:'Typhoon Statistics'
+                                        },
+                                        xAxis:{
+                                            categories:['1-18 Years Old', '19-59 Years Old', '60 Above']
+                                        },
+                                        yAxis:{
+                                            title:{
+                                                text:'Data'
+                                            }
+                                        },
+                                        series:[{
+                                            name:'Male',
+                                            data:maleData
+                                        },{
+                                            name:'female',
+                                            data:femaleData
+                                        }]
+                                    });
+                                });
+                            </script>
+                        </div>
                     </div>
                 </div>
             </div>  
         </div>
     
     <script src="{{ URL('assets/js/landingPage.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     
 </body>
