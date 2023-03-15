@@ -7,23 +7,6 @@ use Illuminate\Support\Facades\DB;
 
 class CdrrmoController extends Controller
 {
-
-    public function authAdmin(Request $request){
-
-        $validated = $request->validate([
-            'id' => ['required'],
-            "password" => ['required'],
-        ]);
-       
-        if(auth()->attempt($validated)){
-            $request->session()->regenerate();
-            
-            return redirect('/cdrrmo/dashboard')->with('message', 'Welcome to Admin Panel');
-        }
-
-        return back()->with('message', 'Incorrect Admin Panel Password!');
-    }
-    
     public function dashboard(){
         $this->middleware('ensure.token');
         return view('CDRRMO.dashboard');
