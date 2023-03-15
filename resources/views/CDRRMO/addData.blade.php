@@ -37,10 +37,10 @@
         <x-messages />
 
         <div class="main-content">
-            <div class="content-item text-white">
+            <div class="content-item text-white m-4">
                 <div class="content-details">
                     <div class="content-body">
-                        <h1 class="text-center fs-5">ADD RESIDENT</h1>
+                        <h1 class="text-center fs-5 p-4">ADD RESIDENT</h1>
                         <div class="container form-list">
                             <div class="dropdown">
                                 <p class="text-center mb-2">Disaster Type</p>

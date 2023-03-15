@@ -33,6 +33,7 @@
 
 /* Side Bar Section */
 .sidebar{
+    z-index: 1;
     background: var(--color-darkblue);
     transition: all 0.5s ease;
 }
@@ -113,12 +114,12 @@
 
 /* Main Content */
 .main-content{
-    padding: 0 10% 0 15% !important;
+    padding: 0 10rem 0 15rem !important;
     animation: transitionIn 0.75s;
 }
 
 .main-content .content-item{
-    margin: 2% 0 !important;
+    margin: 2rem 0 !important;
     color: var(--color-black);
     background: var(--color-text);
     border-radius: 5px;
@@ -126,46 +127,22 @@
 }
 
 .main-content .content-item .content-header{
-    width: 100%;
-    height: 100%;
     background: var(--color-darkred);
     border-radius: 5px 5px 0 0;
 }
 
-.main-content .content-item .content-header .header-details{
-    text-align: center;
-}
-
-.main-content .content-item .content-header .header-details .item-header{
-    position: relative;
-    width: 100%;
+.main-content .content-item .content-header .item-header{
     font-size: 1.5rem;
-    color: var(--color-text);
 }
 
-.main-content .content-item .content-header .header-details  #header-logo-right{
+.main-content .content-item .content-header  #header-logo-right{
     float: right;
     width: 40px;
 }
 
-.main-content .content-item .content-header .header-details #header-logo-left{
+.main-content .content-item .content-header #header-logo-left{
     float: left;
     width: 40px;
-}
-
-.main-content .content-item .content-details, .content-header{
-    padding: 1% !important;
-    width: 100%;
-}
-
-.main-content .content-item .content-details img{
-    width: 100%;
-    height: 500px;
-}
-
-.main-content .content-item .content-details .content-body h1{
-    padding: 15px 0 !important;
-    text-align: center;
 }
 
 @keyframes transitionIn{
@@ -177,12 +154,6 @@
     to{
         opacity: 1;
         transform: rotateX(0);
-    }
-}
-
-@media only screen and (max-width: 1250px) {
-    .main-content .content-item .guidelines-item .widget{
-        overflow: hidden;
     }
 }
 

@@ -38,15 +38,15 @@
         <x-messages />
 
         <div class="main-content">
-            <div class="content-item">
-                <div class="content-header w-full h-full">
+            <div class="content-item m-4">
+                <div class="content-header w-full h-full p-3">
                     <div class="text-center">
                         <img id="header-logo-right" src="{{ url('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
                         <span class="relative w-full text-2xl text-white">{{ config('app.name')}}</span>
                         <img id="header-logo-left" src="{{ url('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
                     </div>
                 </div>
-                <div class="content-details w-full">
+                <div class="content-details w-full p-2">
                     <img src="{{ url('assets/img/Sample-Picture1.jpg') }}" alt="picture">
                     <div class="content-body">
                         <h1 class="text-center">Background Information</h1>
