@@ -69,12 +69,6 @@
         </a>
     </li>
     <li>
-        <a href="{{ route('Gstatistics') }}">
-            <i class="bi bi-graph-up text-white"></i>
-            <span class="links_name">Data Analytics</span>
-        </a>
-    </li>
-    <li>
         <a href="{{ route('Gabout') }}">
             <i class="bi bi-info-circle text-white"></i>
             <span class="links_name">About</span>

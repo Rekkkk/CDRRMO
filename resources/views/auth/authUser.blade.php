@@ -40,7 +40,7 @@
                         <div class="modal-header">
                             <h1 class="modal-title fs-5 text-center">{{ config('app.name') }}</h1>
                         </div>
-                        <form action="/cdrrmo" method="POST">
+                        <form action="/" method="POST">
                             @csrf
                             <div class="modal-body">
                                 <div class="mb-6 pt-3 rounded bg-gray-200">

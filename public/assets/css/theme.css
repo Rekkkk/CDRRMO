@@ -33,6 +33,7 @@
 
 /* Side Bar Section */
 .sidebar{
+    z-index: 1;
     background: var(--color-darkblue);
     transition: all 0.5s ease;
 }
@@ -125,10 +126,6 @@
 .main-content .content-item .content-header{
     height: 10vh;
     background: var(--color-darkred);
-}
-
-.main-content .content-item .content-header .item-header{
-    font-size: 1.5rem;
 }
 
 @keyframes transitionIn{
