@@ -114,7 +114,7 @@
 
 /* Main Content */
 .main-content{
-    padding: 2rem 5rem 0 10rem !important;
+    padding: 2rem 0 0 5rem !important;
     font-family: 'Poppins', sans-serif !important;
     animation: transitionIn 0.75s;
 }

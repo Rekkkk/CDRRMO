@@ -4,9 +4,9 @@
     @include('partials.dashboard.createPost')
     <div class="content-item rounded-t-lg w-full">
         <div class="content-header text-center text-white rounded-t-lg">
-            <div class="my-4 mx-2">
+            {{-- <div class="my-4 mx-2">
                 @include('partials.dashboard.postBtn')
-            </div>
+            </div> --}}
             <div class="text-2xl p-2 w-full h-full">
                 <span>CDRRMO Announcement</span><br>
                 <span>December 10, 2021</span>
@@ -19,9 +19,9 @@
 
     <div class="content-item rounded-t-lg w-full ">
         <div class="content-header text-center text-white w-full rounded-t-lg">
-            <div class="my-4 mx-2">
+            {{-- <div class="my-4 mx-2">
                 @include('partials.dashboard.postBtn')
-            </div>
+            </div> --}}
             <div class="text-2xl p-2 w-full h-full">
                 <span>CDRRMO Announcement</span><br>
                 <span>December 10, 2021</span>
