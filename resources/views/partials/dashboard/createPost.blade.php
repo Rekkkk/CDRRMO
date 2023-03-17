@@ -13,13 +13,21 @@
                 <form action="#" method="POST">
                     @csrf
                     <div class="modal-body">
-                        <div class="mb-6 pt-3 rounded bg-gray-200">
-                            <label for="id" class="block text-center text-gray-700 text-sm font-bold mb-2 ml-3">Admin Number</label>
-                            <input type="text" name="id" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-3" autocomplete="off">
+
+                        <div class="mb-6 pt-3">
+                            <label for="post-title" class="pb-2">Caption</label>
+                            <input type="text" class="form-control" id="post-title" placeholder="Caption Here..."><br>
                         </div>
-                        <div class="mb-6 pt-3 rounded bg-gray-200">
-                            <label for="password" class="block text-center text-gray-700 text-sm font-bold mb-2 ml-3">Admin Password</label>
-                            <input type="password" name="password" class="bg-gray-200 rounded w-full text-gray-700 focus:outline-none border-b-4 border-gray-400 px-3" autocomplete="off">
+
+                        <div class="mb-6">
+                            <label for="id" class="pb-2">Announcement</label>
+                            <textarea class="form-control" rows="4" autocomplete="off" placeholder="Content Here..."></textarea>
+                        </div>
+
+                        <div class="mb-6">
+                            <i class="bi bi-images text-lime-600"></i>
+                            <label for="post-image">Image/Video: </label>
+                            <input type="file" id="post-image" name="post-image"><br>
                         </div>
                     </div>
                     <div class="modal-footer">
