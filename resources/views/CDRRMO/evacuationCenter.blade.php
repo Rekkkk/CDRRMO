@@ -93,7 +93,7 @@
             </div>
         </div>
 
-        <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8aKsfeTmVYUCLK_Mdy4Znaeh2DNd3guc&callback=initMap"></script>
+        <script async src="https://maps.googleapis.com/maps/api/js?key=...&callback=initMap"></script>
         <script>
             let map, activeInfoWindow, markers = [];
 
