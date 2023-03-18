@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use RealRashid\SweetAlert\Facades\Alert;
 
 class CdrrmoController extends Controller
 {
@@ -13,6 +14,8 @@ class CdrrmoController extends Controller
     }
 
     public function addData(){
+        // Alert::success('Data Successfully Added!', 'Cabuyao City Disaster Risk Reduction Management Office');
+        
         return view('CDRRMO.addData');
     }
 

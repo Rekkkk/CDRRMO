@@ -7,16 +7,17 @@
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-        <link rel="shortcut icon" href="{{ URL('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
-        <link rel="stylesheet" href="{{ URL('assets/css/addData.css') }}">
-        <title>{{ config('app.name')}}</title>
+        <link rel="shortcut icon" href="{{ url('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
+        <link rel="stylesheet" href="{{ url('assets/css/addData.css') }}">
+        <title>{{ config('app.name') }}</title>
     </head>
     <body class="bg-gray-400">
+        {{-- @include('sweetalert::alert') --}}
         <div class="wrapper">
             <header class="header-section w-full bg-slate-50">
                 <div class="container-fluid relative w-full h-full">
                     <div class="w-full h-full relative">
-                        <img class="w-24 float-right h-full" src="{{ URL('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
+                        <img class="w-24 float-right h-full" src="{{ url('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
                         <span class="float-right h-full text-lg font-semibold">Cabuyao City Disaster Risk<br>Reduction and Management Office</span>
                     </div>
                 </div>
@@ -55,7 +56,7 @@
                                     </div>
                                 </div>
                                 
-                                <form id="Typhoon" class="mb-5">
+                                <form action="#" id="Typhoon" class="mb-5">
                                     <div class="mb-4">
                                         <p class="text-center mb-2">Age Range</p>
                                         <select class="form-select p-2">
@@ -82,7 +83,7 @@
                                     </div>
                                 </form>
 
-                                <form id="Road Accident" class="mb-3">
+                                <form action="#" id="Road Accident" class="mb-3">
                                     <div class="mb-4">
                                         <p class="text-center mb-2">Location</p>
                                         <select class="form-select p-2">
@@ -110,7 +111,7 @@
 
                                 </form>
 
-                                <form id="Earthquake" class="mb-3">
+                                <form action="#" id="Earthquake" class="mb-3">
                                         
                                     <div class="mb-3 text-center">
                                     <label class="form-label mb-2">Magnitude</label>
@@ -129,7 +130,7 @@
 
                                 </form>
 
-                                <form id="Flooding" class="mb-3">
+                                <form action="#" id="Flooding" class="mb-3">
                                     <div class="mb-4">
                                         <p class="text-center mb-2">Location</p>
                                         <select class="form-select p-2">
@@ -157,8 +158,8 @@
                 </div>
             </div>
         </div>
-        <script src="{{ URL('assets/js/form.js') }}"></script>
-        <script src="{{ URL('assets/js/landingPage.js') }}"></script>
+        <script src="{{ url('assets/js/form.js') }}"></script>
+        <script src="{{ url('assets/js/landingPage.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
     </body>
 </html>

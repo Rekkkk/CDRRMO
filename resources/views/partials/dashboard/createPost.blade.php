@@ -13,7 +13,6 @@
                 <form action="#" method="POST">
                     @csrf
                     <div class="modal-body">
-
                         <div class="mb-6 pt-3">
                             <label for="post-title" class="pb-2">Caption</label>
                             <input type="text" class="form-control" id="post-title" placeholder="Caption Here..."><br>

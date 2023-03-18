@@ -33,6 +33,7 @@
 
 /* Side Bar Section */
 .sidebar{
+    z-index: 1;
     background: var(--color-darkblue);
     transition: all 0.5s ease;
 }
@@ -138,6 +139,46 @@
     color: var(--color-text);
     background: var(--color-darkred);
     border-radius: 0 0 5px 5px;
+}
+
+.guideline-container .guideline-content{
+    position: relative;
+    margin: 10px 20px;
+}
+
+.guideline-container .guideline-content .label{
+    position: relative;
+    padding: 20px;
+    background: var(--color-darkblue);
+    color: var(--color-text);
+    cursor: pointer;
+}
+
+.guideline-container .guideline-content .label:before{
+    content: "+";
+    position: absolute;
+    top: 50%;
+    right: 20px;
+    transform: translateY(-50%);
+    font-size: 1.5rem;
+}
+
+.guideline-container .guideline-content.active .label:before{
+    content: "-";
+}
+
+.guideline-container .guideline-content .content{
+    position: relative;
+    background: var(--color-bg);
+    height: 0;
+    overflow: hidden;
+    transition: 0.5s;
+    overflow: auto;
+}
+
+.guideline-container .guideline-content.active .content{
+    height: 150px;
+    padding: 10px;
 }
 
 @keyframes transitionIn{
