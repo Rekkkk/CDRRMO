@@ -6,14 +6,14 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <script src="https://cdn.tailwindcss.com"></script>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-        <link rel="shortcut icon" href="{{ URL('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
+        <link rel="shortcut icon" href="{{ url('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
         <title>{{ config('app.name')}}</title>
         <script src="//unpkg.com/alpinejs" defer></script>
     </head>
     <body style="background: #0E1624;">
         <header class="max-w-lg mx-auto">
-            <a href="/">
-                <h1 class="text-4xl font-bold text-white text-center pt-12">{{ config('app.name')}}</h1>
+            <a href="{{ route('home') }}">
+                <h1 class="text-4xl font-bold text-white text-center pt-12">{{ config('app.name') }}</h1>
             </a>
         </header>
         <x-messages />
@@ -22,7 +22,7 @@
                 <h3 class="font-bold text-2xl text-center text-white">Welcome to E-LIGTAS</h3>
             </section>
             <section class="mt-10 flex flex-col">
-                <form action="/resident/dashboard" method="POST" class="flex items-center whitespace-nowrap cursor-pointer">
+                <form action="{{ route('Gdashboard') }}" method="POST" class="flex items-center whitespace-nowrap cursor-pointer">
                     @method('GET')
                     @csrf
                     <button type="submit" class="btn w-full mb-3 bg-red-800 text-white hover:bg-red-900">
@@ -40,7 +40,7 @@
                             <div class="modal-header">
                                 <h1 class="modal-title fs-5 text-center">{{ config('app.name') }}</h1>
                             </div>
-                            <form action="/" method="POST">
+                            <form action="{{ route('login') }}" method="POST">
                                 @csrf
                                 <div class="modal-body">
                                     <div class="mb-6 pt-3 rounded bg-gray-200">

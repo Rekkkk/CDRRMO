@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\CdrrmoController;
+use App\Http\Controllers\GuidelinesController;
 use App\Http\Controllers\GuessController;
 use Illuminate\Support\Facades\Route;
 
@@ -10,6 +11,11 @@ Route::group(['middleware' => 'check.login'], function(){
 });
 
 Route::controller(GuessController::class)->group(function (){
+
+    Route::controller(GuidelinesController::class)->group(function (){
+        Route::get('/resident/eligtasGuidelines/guidelines', 'guidelines')->name('Gguide')->middleware('guest');
+    });
+
     Route::get('/resident/dashboard', 'dashboard')->name('Gdashboard');
     Route::get('/resident/eligtasGuidelines', 'guessEligtasGuidelines')->name('Gguidelines');
     Route::get('/resident/hotlineNumbers', 'guessHotlineNumbers')->name('GNumbers');
@@ -22,6 +28,11 @@ Route::controller(AuthenticationController::class)->group(function (){
 });
 
 Route::group(['middleware' => 'auth'], function(){
+
+    Route::controller(GuidelinesController::class)->group(function (){
+        Route::get('/cdrrmo/eligtasGuidelines/guidelines', 'guidelines')->name('Cguide');
+    });
+
     Route::controller(CdrrmoController::class)->group(function (){
         Route::get('/cdrrmo/dashboard', 'dashboard')->name('Cdashboard');
         Route::get('/cdrrmo/addData', 'addData')->name('CaddData');
@@ -33,4 +44,6 @@ Route::group(['middleware' => 'auth'], function(){
         Route::post('/cdrrmo/logout', 'logout')->name('Clogout');
     });
 });
+
+
 
