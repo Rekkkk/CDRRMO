@@ -2,15 +2,21 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
+use App\Http\Controllers\AnnouncementController;
 
 class CdrrmoController extends Controller
 {
     public function dashboard(){
         $this->middleware('ensure.token');
-        return view('CDRRMO.dashboard');
+
+        $cdrrmoAnnouncement = new AnnouncementController();
+        $cdrrmoAnnouncement = $cdrrmoAnnouncement->displayAnnouncement();
+
+        return view('CDRRMO.dashboard', ['announcements' => $cdrrmoAnnouncement]);
     }
 
     public function addData(){
@@ -62,7 +68,7 @@ class CdrrmoController extends Controller
         $male = DB::table('typhoon')->pluck('male');
         $female = DB::table('typhoon')->pluck('female');
 
-        return view('CDRRMO.statistics', ['male' => $male, 'female' => $female]);
+        return view('CDRRMO.statistics', compact('male', 'female'));
     }
 
     public function about(){

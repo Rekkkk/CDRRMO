@@ -10,9 +10,9 @@ return new class extends Migration
     {
         Schema::create('typhoon', function (Blueprint $table) {
             $table->id('typhoon_id');
-            $table->string('age_range');
-            $table->integer('male');
-            $table->integer('female');
+            $table->string('age_range')->nullable();
+            $table->integer('male')->nullable();
+            $table->integer('female')->nullable();
         });
     }
 

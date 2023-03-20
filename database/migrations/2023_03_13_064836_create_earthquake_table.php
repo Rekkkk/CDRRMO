@@ -10,8 +10,8 @@ return new class extends Migration
     {
         Schema::create('earthquake', function (Blueprint $table) {
             $table->id('earthquake_id');
-            $table->double('magnitude');
-            $table->date('month');
+            $table->double('magnitude')->nullable();
+            $table->date('month')->nullable();
         });
     }
 

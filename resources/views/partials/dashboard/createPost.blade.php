@@ -10,23 +10,24 @@
                 <div class="modal-header text-center">
                     <h1 class="modal-title fs-5">New Announcement</h1>
                 </div>
-                <form action="#" method="POST">
+                <form action="{{ route('CCreateAnnouncement') }}" method="POST">
+                    @method('GET')
                     @csrf
                     <div class="modal-body">
                         <div class="mb-6 pt-3">
                             <label for="post-title" class="pb-2">Caption</label>
-                            <input type="text" class="form-control" id="post-title" placeholder="Caption Here..."><br>
+                            <input type="text" name="announcement_description" class="form-control" id="post-title" placeholder="Caption Here..."><br>
                         </div>
 
                         <div class="mb-6">
                             <label for="id" class="pb-2">Announcement</label>
-                            <textarea class="form-control" rows="4" autocomplete="off" placeholder="Content Here..."></textarea>
+                            <textarea class="form-control" name="announcement_content" rows="4" autocomplete="off" placeholder="Content Here..."></textarea>
                         </div>
 
                         <div class="mb-6">
                             <i class="bi bi-images text-lime-600"></i>
                             <label for="post-image">Image/Video: </label>
-                            <input type="file" id="post-image" name="post-image"><br>
+                            <input type="file" id="post-image" name="announcement_file"><br>
                         </div>
                     </div>
                     <div class="modal-footer">
