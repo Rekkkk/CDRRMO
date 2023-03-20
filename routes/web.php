@@ -7,7 +7,6 @@ use App\Http\Controllers\GuidelinesController;
 use App\Http\Controllers\GuessController;
 use Illuminate\Support\Facades\Route;
 
-
 Route::controller(AuthenticationController::class)->group(function (){
     Route::post('/', 'authUser')->name('login');
 
@@ -34,6 +33,8 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
 
     Route::controller(AnnouncementController::class)->group(function (){
         Route::get('/createAnnouncement', 'createAnnouncement')->name('CCreateAnnouncement');
+        Route::get('/editAnnouncement/{announcement_id}', 'editAnnouncement')->name('CEditAnnouncement');
+        Route::get('/deleteAnnouncement/{announcement_id}', 'deleteAnnouncement')->name('CDeleteAnnouncement');
     });
 
     Route::controller(GuidelinesController::class)->group(function (){
@@ -50,8 +51,6 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
         Route::get('/about', 'about')->name('Cabout');
         Route::post('/logout', 'logout')->name('Clogout');
     });
-
-
 });
 
 
