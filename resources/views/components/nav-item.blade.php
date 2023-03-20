@@ -74,5 +74,11 @@
             <span class="links_name">About</span>
         </a>
     </li>
+    <li>
+        <a href="{{ route('login') }}">
+            <i class="bi bi-box-arrow-in-right text-white"></i>
+            <span class="links_name">Login</span>
+        </a>
+    </li>
     @endauth
 </ul>

@@ -4,21 +4,15 @@ namespace App\Http\Controllers;
 
 class GuessController extends Controller
 {
-
-    public function landingPage(){
-        return view('/auth/authUser');
-    }
-    
     public function dashboard(){
-        return view('/CDRRMO/dashboard');
+        $cdrrmoAnnouncement = new AnnouncementController();
+        $cdrrmoAnnouncement = $cdrrmoAnnouncement->displayAnnouncement();
+
+        return view('/CDRRMO/dashboard' , ['announcements' => $cdrrmoAnnouncement]);
     }
 
     public function guessEligtasGuidelines(){
         return view('/CDRRMO/eligtasGuidelines');
-    }
-
-    public function guessGuidelines(){
-        return view('/CDRRMO/eligtasGuidelines/');
     }
 
     public function guessHotlineNumbers(){

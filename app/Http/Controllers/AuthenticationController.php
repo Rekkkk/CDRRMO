@@ -6,6 +6,11 @@ use Illuminate\Http\Request;
 
 class AuthenticationController extends Controller
 {
+
+    public function landingPage(){
+        return view('/auth/authUser');
+    }
+    
     public function authUser(Request $request){
         $validated = $request->validate([
             'id' => ['required'],
