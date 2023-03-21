@@ -17,7 +17,7 @@
             <div class="container-fluid relative w-full h-full">
                 <div class="w-full h-full relative">
                     <img class="w-24 float-right h-full" src="{{ url('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                    <span class="float-right h-full text-lg font-semibold">Cabuyao City Disaster Risk<br>Reduction and Management Office</span>
+                    <span class="float-right h-full text-xl">Cabuyao City Disaster Risk<br>Reduction and Management Office</span>
                 </div>
             </div>
         </header>

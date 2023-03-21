@@ -18,7 +18,7 @@
                 <div class="container-fluid relative w-full h-full">
                     <div class="w-full h-full relative">
                         <img class="w-24 float-right h-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                        <span class="float-right h-full text-lg font-semibold">Cabuyao City Disaster Risk<br>Reduction and Management Office</span>
+                        <span class="float-right h-full text-xl">Cabuyao City Disaster Risk<br>Reduction and Management Office</span>
                     </div>
                 </div>
             </header>
@@ -42,8 +42,8 @@
                     <div class="content-header text-center text-white rounded-t-lg">
                         <div class="text-2xl p-2 w-full h-full">
                             @include('partials.dashboard.postBtn')
-                            <span>{{ $announcement->announcement_description }}</span><br>
-                            <span>{{ $announcement->created_at }}</span>
+                            <span class="text-xl">{{ $announcement->announcement_description }}</span><br>
+                            <span class="text-sm">{{ $announcement->created_at }}</span>
                         </div>
                     </div>
                     <div class="pt-2 bg-white rounded-b-lg p-3">

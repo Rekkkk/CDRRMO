@@ -1,0 +1,40 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
+
+*{
+    margin: 0;
+    padding: 0;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.wrapper .main-content .content-container{
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+}
+
+.wrapper .main-content .content-body .bi{
+    top: 19%;
+    right: 3%;
+    transition: 0.5s;
+    font-size: 1.1rem;
+}
+
+.wrapper .main-content .content-body #show-password{
+    top: 49%;
+    right: 3%;
+    transition: 0.5s;
+    font-size: 1.1rem;
+}
+
+@media only screen and (max-width: 600px) {
+
+    .wrapper .header-section .container-fluid span{
+        position: absolute;
+        opacity: 0;
+    }
+
+    .wrapper .header-section .container-fluid img{
+        margin: 0 40%;
+        float: none;
+        transition: all 1.5s ease;
+    }
+}
