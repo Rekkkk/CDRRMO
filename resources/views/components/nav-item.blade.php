@@ -43,7 +43,7 @@
         </a>
     </li>
     <li>
-        <form action="{{ route('Clogout') }}" method="POST" class="flex ites-center whitespace-nowrap hover:bg-red-900 cursor-pointer">
+        <form action="{{ route('Clogout') }}" method="POST" class="flex items-center whitespace-nowrap hover:bg-red-900 cursor-pointer">
             @csrf
             <i class="bi bi-box-arrow-in-left text-white"></i>
             <button class="links_name">Logout</button>

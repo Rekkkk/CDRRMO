@@ -8,9 +8,8 @@ class EnsureTokenIsValid
 {
     public function handle($request, Closure $next)
     {
-        if ($request->input('token') !== 'my-secret-token') {
+        if ($request->input('token') !== 'my-secret-token')
             return redirect('home');
-        }
  
         return $next($request);
     }
