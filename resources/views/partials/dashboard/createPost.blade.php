@@ -8,10 +8,10 @@
     <div class="modal fade" id="createPost" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header text-center">
-                    <h1 class="modal-title fs-5">New Announcement</h1>
+                <div class="modal-header text-center bg-red-900">
+                    <h1 class="modal-title fs-5 text-white">New Announcement</h1>
                     <button type="button" class="text-dark text-2xl p-2 py-2 rounded transition duration-200" data-bs-dismiss="modal">
-                        <i class="bi bi-x-circle"></i>
+                        <i class="bi bi-x-circle text-white"></i>
                     </button>
                 </div>
                 <form action="{{ route('CCreateAnnouncement') }}" method="POST">

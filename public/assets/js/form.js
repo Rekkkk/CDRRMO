@@ -1,9 +1,5 @@
 const forms = ["Typhoon", "Road Accident", "Earthquake", "Flooding"];
 
-// window.onload = (event) => {
-   
-// };
-
 document.getElementById('disaster').addEventListener('change', (event) => {
     const selectForm = event.target.value;
     

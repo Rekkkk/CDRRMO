@@ -34,6 +34,7 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
     Route::controller(AnnouncementController::class)->group(function (){
         Route::get('/createAnnouncement', 'createAnnouncement')->name('CCreateAnnouncement');
         Route::get('/editAnnouncement/{announcement_id}', 'editAnnouncement')->name('CEditAnnouncement');
+        Route::get('/updateAnnouncement/{announcement_id}', 'updateAnnouncement')->name('CUpdateAnnouncement');
         Route::get('/deleteAnnouncement/{announcement_id}', 'deleteAnnouncement')->name('CDeleteAnnouncement');
     });
 
@@ -49,7 +50,7 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
         Route::get('/hotlineNumbers', 'hotlineNumbers')->name('CNumbers');
         Route::get('/statistics', 'statistics')->name('Cstatistics');
         Route::get('/about', 'about')->name('Cabout');
-        Route::post('/logout', 'logout')->name('Clogout');
+        Route::get('/logout', 'logout')->name('Clogout');
     });
 });
 

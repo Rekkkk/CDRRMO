@@ -21,8 +21,6 @@ class AnnouncementController extends Controller
         $validatedAnnouncement = Validator::make($request->all(), [
             'announcement_description' => 'required',
             'announcement_content' => 'required',
-            'announcement_video' => 'required',
-            'announcement_image' => 'required',
         ]);
 
         if($validatedAnnouncement->passes()) {
@@ -34,7 +32,7 @@ class AnnouncementController extends Controller
                 'announcement_image' => $request->announcement_image,
             ]);
     
-            Alert::success('Announcement Already Posted', 'Cabuyao City Disaster Risk Reduction Management Office');
+            Alert::success('Announcement Posted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
             return redirect('cdrrmo/dashboard');
         }
         
@@ -43,10 +41,56 @@ class AnnouncementController extends Controller
     }
 
     public function editAnnouncement($announcement_id){
-        return $announcement_id;
+        $announcement = Announcement::findOrFail($announcement_id);
+
+        return view('partials.dashboard.updateAnnouncement', ['announcements' => $announcement]);
+    }
+
+    public function updateAnnouncement(Request $request, $announcement_id){
+        $validatedAnnouncement = Validator::make($request->all(), [
+            'announcement_description' => 'required',
+            'announcement_content' => 'required',
+        ]);
+
+        if($validatedAnnouncement->passes()){
+
+            $announcement_description = $request->input('announcement_description');
+            $announcement_content = $request->input('announcement_content');
+            $announcement_video = $request->input('announcement_video');
+            $announcement_image = $request->input('announcement_image');
+
+            $updatedAnnouncement = Announcement::where('announcement_id', $announcement_id)->update([
+                'announcement_description' => $announcement_description,
+                'announcement_content' => $announcement_content,
+                'announcement_video' => $announcement_video,
+                'announcement_image' => $announcement_image,
+            ]);
+
+            if($updatedAnnouncement){
+                Alert::success('Announcement Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+                return redirect('cdrrmo/dashboard');
+            }
+            else{
+                Alert::error('Failed to Update Announcement', 'Cabuyao City Disaster Risk Reduction Management Office');
+                return redirect('cdrrmo/dashboard');
+            }
+        }
+
+        Alert::error('Failed to Update Announcement', 'Cabuyao City Disaster Risk Reduction Management Office');
+        return redirect('cdrrmo/dashboard');
     }
 
     public function deleteAnnouncement($announcement_id){
-        return $announcement_id;
+
+        $deletedAnnouncement = DB::table('admin_announcement')->where('announcement_id', $announcement_id)->delete();
+        
+        if($deletedAnnouncement){
+            Alert::success('Announcement Deleted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+            return redirect('cdrrmo/dashboard');
+        }
+        else{
+            Alert::error('Failed to Deleted Announcement', 'Cabuyao City Disaster Risk Reduction Management Office');
+            return redirect('cdrrmo/dashboard');
+        }
     }
 }
