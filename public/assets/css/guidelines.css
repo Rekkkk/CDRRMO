@@ -18,17 +18,11 @@
 }
 
 .wrapper .header-section{
-    height: 8vh;
     box-shadow: 0 2px 10px 5px var(--color-shadow);
 }
 
 .wrapper .header-section .container-fluid{
     background: var(--color-darkred)
-}
-
-/* Logo Section */
-.wrapper .header-section .container-fluid span{
-    padding: 8px 0 !important;
 }
 
 /* Side Bar Section */
@@ -39,7 +33,7 @@
 }
 
 .wrapper .page-wrap .sidebar .sidebar-heading{
-    height: 8%;
+    height: 8.4%;
     font-size: 180%;
 }
 
@@ -70,7 +64,7 @@
 .sidebar #btn-sidebar{
     left: 50%;
     top: 6px;
-    padding-top: 7px !important;
+    padding-top: 10px !important;
     height: 50%;
     width: 50px;
     line-height: 50px;
