@@ -23,6 +23,7 @@ Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function(){
     Route::controller(GuessController::class)->group(function (){
         Route::get('/dashboard', 'dashboard')->name('Gdashboard');
         Route::get('/eligtasGuidelines', 'guessEligtasGuidelines')->name('Gguidelines');
+        Route::get('/evacuationCenter', 'guessEvacuationCenter')->name('GEvacuation');
         Route::get('/hotlineNumbers', 'guessHotlineNumbers')->name('GNumbers');
         Route::get('/statistics', 'guessStatistics')->name('Gstatistics');
         Route::get('/about', 'guessAbout')->name('Gabout');

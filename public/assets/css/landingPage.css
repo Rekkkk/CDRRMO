@@ -33,7 +33,7 @@
     }
 
     .wrapper .header-section .container-fluid img{
-        margin: 0 40%;
+        margin: 0px auto;
         float: none;
         transition: all 1.5s ease;
     }
