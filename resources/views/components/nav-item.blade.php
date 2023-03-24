@@ -62,6 +62,12 @@
         </a>
     </li>
     <li>
+        <a href="{{ route('GEvacuation') }}">
+            <i class="bi bi-house text-white"></i>
+            <span class="links_name">CDRRMO Evacuation Center</span>
+        </a>
+    </li>
+    <li>
         <a href="{{ route('GNumbers') }}">
             <i class="bi bi-telephone text-white"></i>
             <span class="links_name">Hotline Numbers</span>

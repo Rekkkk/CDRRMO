@@ -70,6 +70,7 @@
             </div>
         </div>
 
+        @auth
         <script async src="https://maps.googleapis.com/maps/api/js?key=...&callback=initMap"></script>
         <script>
             let map, activeInfoWindow, markers = [];
@@ -140,6 +141,7 @@
                 console.log(event.latLng.lng());
             }
         </script>
+        @endauth
         <script src="{{ asset('assets/js/landingPage.js') }}"></script>
         @include('partials.content.footerPackage')
     </body>
