@@ -16,7 +16,7 @@
                 </div>
             </header>
 
-            <main class="main-content py-60">
+            <main class="main-content py-60 mx-3">
                 <div class="content-container max-w-lg mx-auto p-6 my-10 rounded-lg shadow-2xl bg-slate-800 ">
                     <header class="header-content">
                         <section class="py-4">
@@ -53,7 +53,6 @@
                                             </div>
                                             <div class="mb-3 relative">
                                                 <label for="password">Admin Password</label>
-                                                <i class="bi bi-eye-slash absolute cursor-pointer" id="show-password"></i>
                                                 <input type="password" name="password" id="password" class="form-control" autocomplete="off">
                                             </div>
                                         </div>
@@ -71,20 +70,6 @@
 
         <x-errorMessage />
 
-        <script>
-            let eyeicon = document.getElementById("show-password")
-            let password = document.getElementById("password")
-
-            eyeicon.onclick = function(){
-                if(password.type == "password"){
-                    this.classList.toggle("bi-eye");
-                    password.type = "text";
-                }else{
-                    this.classList.toggle("bi-eye");
-                    password.type = "password";
-                }
-            }
-        </script>
         @include('partials.content.footerPackage')
     </body>
 </html>
