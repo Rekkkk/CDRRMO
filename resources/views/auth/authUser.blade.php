@@ -15,8 +15,7 @@
                     </div>
                 </div>
             </header>
-
-            <main class="main-content py-60 mx-2">
+              <main class="main-content py-60 mx-3">
                 <div class="content-container max-w-lg mx-auto p-6 my-10 rounded-lg shadow-2xl bg-slate-800 ">
                     <header class="header-content">
                         <section class="py-4">
@@ -53,7 +52,6 @@
                                             </div>
                                             <div class="mb-3 relative">
                                                 <label for="password">Admin Password</label>
-                                                
                                                 <input type="password" name="password" id="password" class="form-control" autocomplete="off">
                                             </div>
                                         </div>
@@ -70,7 +68,6 @@
         </div>
 
         <x-errorMessage />
-        
         @include('partials.content.footerPackage')
     </body>
 </html>
