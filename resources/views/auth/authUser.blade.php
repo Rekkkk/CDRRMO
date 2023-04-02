@@ -15,8 +15,7 @@
                     </div>
                 </div>
             </header>
-
-            <main class="main-content py-60 mx-3">
+              <main class="main-content py-60 mx-3">
                 <div class="content-container max-w-lg mx-auto p-6 my-10 rounded-lg shadow-2xl bg-slate-800 ">
                     <header class="header-content">
                         <section class="py-4">
@@ -69,7 +68,6 @@
         </div>
 
         <x-errorMessage />
-
         @include('partials.content.footerPackage')
     </body>
 </html>
