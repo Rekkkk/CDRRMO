@@ -11,8 +11,8 @@
             @include('partials.content.sidebar')
             
             <div class="main-content">
-                <div class="content-item rounded-t-lg">
-                    <div class="content-header text-center text-white rounded-t-lg">
+                <div class="content-item">
+                    <div class="content-header text-center text-white">
                         <div class="text-2xl p-2 w-full h-full">
                             <span>{{ config('app.name') }}</span><br>
                             <span>"E-LIGTAS"</span>
@@ -43,7 +43,9 @@
                                 <td>Pulo</td>
                                 <td>
                                     <a href="#" class="btn btn-info">Locate</a>
+                                    @auth
                                     <a href="#" class="btn btn-warning">Edit</a>
+                                    @endauth
                                 </td>
                             </tr>
                             <tr>
@@ -52,7 +54,9 @@
                                 <td>Mamatid</td>
                                 <td>
                                     <a href="#" class="btn btn-info">Locate</a>
+                                    @auth
                                     <a href="#" class="btn btn-warning">Edit</a>
+                                    @endauth
                                 </td>
                             </tr>
                             <tr>
@@ -61,7 +65,9 @@
                                 <td>Cabuyao</td>
                                 <td>
                                     <a href="#" class="btn btn-info">Locate</a>
+                                    @auth
                                     <a href="#" class="btn btn-warning">Edit</a>
+                                    @endauth
                                 </td>
                             </tr>
                         </tbody>
@@ -71,13 +77,13 @@
         </div>
 
         @auth
-        <script async src="https://maps.googleapis.com/maps/api/js?key=...&callback=initMap"></script>
+        <script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8aKsfeTmVYUCLK_Mdy4Znaeh2DNd3guc&callback=initMap"></script>
         <script>
             let map, activeInfoWindow, markers = [];
 
             function initMap() {
                 map = new google.maps.Map(document.getElementById("map"), {
-                    center: { lat: 14.2843, lng: 121.0889},
+                    center: { lat: 14.242311, lng: 121.12772},
                     zoom: 15
                 });
 
