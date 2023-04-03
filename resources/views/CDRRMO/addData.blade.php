@@ -51,16 +51,26 @@
                                     </div>
                                         
                                     <div class="mb-3 text-center">
-                                    <label class="form-label mb-2">Male</label>
-                                    <input type="number" class="form-control p-2">
+                                        <label class="form-label mb-2">Male</label>
+                                        <input type="number" class="form-control p-2">
                                     </div>
 
-                                    <div class="mb-5 text-center">
-                                    <label class="form-label mb-2">Female</label>
-                                    <input type="number" class="form-control p-2">
+                                    <div class="mb-3 text-center">
+                                        <label class="form-label mb-2">Female</label>
+                                        <input type="number" class="form-control p-2">
                                     </div>
 
-                                    <div>
+                                    <div class="mb-3">
+                                        <p class="text-center mb-2">Evacuation Assigned</p>
+                                        <select class="form-select p-2">
+                                            <option value="">Choose Evacuation Center</option>
+                                            <option>Evacuation 1</option>
+                                            <option>Evacuation 2</option>
+                                            <option>Evacuation 3</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mt-4">
                                         <button type="submit" class="btn btn-success float-end p-2">Add Data</button>
                                         <button type="submit" class="btn btn-danger clear-both p-2">Cancel</button>
                                     </div>
@@ -78,16 +88,16 @@
                                     </div>
                                         
                                     <div class="mb-3 text-center">
-                                    <label class="form-label mb-2">Casualties</label>
-                                    <input type="number" class="form-control p-2">
+                                        <label class="form-label mb-2">Casualties</label>
+                                        <input type="number" class="form-control p-2">
                                     </div>
 
                                     <div class="mb-5 text-center">
-                                    <label class="form-label mb-2">Injured</label>
-                                    <input type="number" class="form-control p-2">
+                                        <label class="form-label mb-2">Injured</label>
+                                        <input type="number" class="form-control p-2">
                                     </div>
 
-                                    <div>
+                                    <div class="mt-4">
                                         <button type="submit" class="btn btn-success float-end p-2">Add Data</button>
                                         <button type="submit" class="btn btn-danger clear-both p-2">Cancel</button>
                                     </div>
@@ -97,16 +107,16 @@
                                 <form action="#" id="Earthquake" class="mb-3">
                                         
                                     <div class="mb-3 text-center">
-                                    <label class="form-label mb-2">Magnitude</label>
-                                    <input type="number" min="0.1" max="30" step="0.1" class="form-control p-2">
+                                        <label class="form-label mb-2">Magnitude</label>
+                                        <input type="number" min="0.1" max="30" step="0.1" class="form-control p-2">
                                     </div>
 
                                     <div class="mb-5 text-center">
-                                    <label class="form-label mb-2">Month</label>
-                                    <input type="text" class="form-control p-2">
+                                        <label class="form-label mb-2">Month</label>
+                                        <input type="text" class="form-control p-2">
                                     </div>
 
-                                    <div>
+                                    <div class="mt-4">
                                         <button type="submit" class="btn btn-success float-end p-2">Add Data</button>
                                         <button type="submit" class="btn btn-danger clear-both p-2">Cancel</button>
                                     </div>
@@ -125,11 +135,21 @@
                                     </div>
                                         
                                     <div class="mb-3 text-center">
-                                    <label class="form-label mb-2">Month</label>
-                                    <input type="number" class="form-control p-2">
+                                        <label class="form-label mb-2">Month</label>
+                                        <input type="number" class="form-control p-2">
                                     </div>
 
-                                    <div>
+                                    <div class="mb-3">
+                                        <p class="text-center mb-2">Evacuation Assigned</p>
+                                        <select class="form-select p-2">
+                                            <option value="">Choose Evacuation Center</option>
+                                            <option>Evacuation 1</option>
+                                            <option>Evacuation 2</option>
+                                            <option>Evacuation 3</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="mt-4">
                                         <button type="submit" class="btn btn-success float-end p-2">Add Data</button>
                                         <button type="submit" class="btn btn-danger clear-both p-2">Cancel</button>
                                     </div>
