@@ -102,22 +102,8 @@
     animation: transitionIn 0.75s;
 }
 
-.main-content .content-item{
-    background: var(--color-darkblue);
-    box-shadow: 0 2px 10px 5px var(--color-shadow);
-}
-
-.main-content .content-item .content-details .content-body .form-list{
-    padding: 5% 20%;
-}
-
-.main-content .content-item .content-details .content-body h1{
-    background: var(--color-darkred);
-}
-
-.main-content .content-item .content-details .content-body .form-list form{
-    opacity: 0;
-    display: none;
+.main-content .content-items{
+    padding: 10px 10px;
 }
 
 @keyframes transitionIn{

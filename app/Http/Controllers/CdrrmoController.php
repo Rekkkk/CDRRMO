@@ -4,17 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-use App\Http\Controllers\AnnouncementController;
 
 class CdrrmoController extends Controller
 {
     public function dashboard(){
         $this->middleware('ensure.token');
 
-        $cdrrmoAnnouncement = new AnnouncementController();
-        $cdrrmoAnnouncement = $cdrrmoAnnouncement->displayAnnouncement();
-
-        return view('CDRRMO.dashboard', ['announcements' => $cdrrmoAnnouncement]);
+        return view('CDRRMO.dashboard');
     }
 
     public function addData(){
@@ -23,8 +19,16 @@ class CdrrmoController extends Controller
         return view('CDRRMO.addData');
     }
 
+    public function disaster(){
+        return view('CDRRMO.disaster');
+    }
+
     public function eligtasGuidelines(){
         return view('CDRRMO.eligtasGuidelines');
+    }
+
+    public function baranggay(){
+        return view('CDRRMO.baranggay');
     }
 
     public function evacuationCenter(){
@@ -67,6 +71,10 @@ class CdrrmoController extends Controller
         $female = DB::table('typhoon')->pluck('female');
 
         return view('CDRRMO.statistics', compact('male', 'female'));
+    }
+
+    public function reportAccident(){
+        return view('CDRRMO.reportAccident');
     }
 
     public function about(){
