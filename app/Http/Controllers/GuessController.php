@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 class GuessController extends Controller
 {
     public function dashboard(){
-        $cdrrmoAnnouncement = new AnnouncementController();
-        $cdrrmoAnnouncement = $cdrrmoAnnouncement->displayAnnouncement();
-
-        return view('/CDRRMO/dashboard' , ['announcements' => $cdrrmoAnnouncement]);
+        return view('/CDRRMO/dashboard');
     }
 
     public function guessEligtasGuidelines(){

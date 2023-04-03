@@ -18,13 +18,6 @@
     font-size: 1.1rem;
 }
 
-.wrapper .main-content .content-body #show-password{
-    top: 49%;
-    right: 3%;
-    transition: 0.5s;
-    font-size: 1.1rem;
-}
-
 @media only screen and (max-width: 600px) {
 
     .wrapper .header-section .container-fluid span{

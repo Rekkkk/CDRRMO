@@ -2,14 +2,14 @@
     @auth
     <li>
         <a href="{{ route('Cdashboard') }}">
-            <i class="fbi bi-tv text-white"></i>
+            <i class="bi bi-speedometer2 text-white"></i>
             <span class="links_name">Dashboard</span>
         </a>
     </li>
     <li>
         <a href="{{ route('CaddData') }}">
             <i class="bi bi-person-plus text-white"></i>
-            <span class="links_name">Add Data</span>
+            <span class="links_name">Add Resident</span>
         </a>
     </li>
     <li>
@@ -19,21 +19,39 @@
         </a>
     </li>
     <li>
+        <a href="{{ route('Cdisaster') }}">
+            <i class="bi bi-tropical-storm text-white"></i>
+            <span class="links_name">Disaster Identification</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('Cbaranggay') }}">
+            <i class="bi bi-hospital text-white"></i>
+            <span class="links_name">Baranggay Information</span>
+        </a>
+    </li>
+    <li>
         <a href="{{ route('Cevacuation') }}">
             <i class="bi bi-house text-white"></i>
             <span class="links_name">Manage Evacuation Center</span>
         </a>
     </li>
     <li>
-        <a href="{{ route('CNumbers') }}">
-            <i class="bi bi-telephone text-white"></i>
-            <span class="links_name">Hotline Numbers</span>
+        <a href="{{ route('Cstatistics') }}">
+            <i class="bi bi-graph-up text-white"></i>
+            <span class="links_name">Data Statistics</span>
         </a>
     </li>
     <li>
-        <a href="{{ route('Cstatistics') }}">
-            <i class="bi bi-graph-up text-white"></i>
-            <span class="links_name">Data Analytics</span>
+        <a href="{{ route('Creport') }}">
+            <i class="bi bi-megaphone text-white"></i>
+            <span class="links_name">Report Accident</span>
+        </a>
+    </li>
+    <li>
+        <a href="{{ route('CNumbers') }}">
+            <i class="bi bi-telephone text-white"></i>
+            <span class="links_name">Hotline Numbers</span>
         </a>
     </li>
     <li>

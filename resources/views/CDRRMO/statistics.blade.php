@@ -9,17 +9,25 @@
     </head>
     <body class="bg-gray-400">
         <div class="wrapper">
+            
             @include('partials.content.header')
             @include('partials.content.sidebar')
 
             <x-messages />
 
             <div class="main-content">
+
+                <div class="dashboard-logo pb-4">
+                    <i class="bi bi-graph-up text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
+                    <span class="text-2xl font-bold tracking-wider mx-2">DISASTER STATICSTICS</span>
+                    <hr class="mt-4">
+                </div>
+
                 <div class="content-item">
                     <div class="content-header w-full h-full p-3">
                         <div class="text-center">
                             <img id="header-logo-right" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                            <span class="item-header relative w-full text-white ">Disaster Data Analytics</span>
+                            <span class="item-header relative w-full text-white ">Disaster Data Statistics</span>
                             <img id="header-logo-left" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
                         </div>
                     </div>
