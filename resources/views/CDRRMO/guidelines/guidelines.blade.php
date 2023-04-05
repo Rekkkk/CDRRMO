@@ -28,9 +28,9 @@
             </div>
            
             <div class="main-content">
+                @foreach ($guidelines as $guidelinesItem)
                 <div class="guideline-container w-full">
                     <div class="guideline-content">
-                        @foreach ($guidelines as $guidelinesItem)
                         <div class="label">
                             {{ $guidelinesItem->guidelines_description }}
                         </div>
@@ -40,21 +40,21 @@
                             </p>
                             <div class="action-btn w-full py-2 flex justify-start">
                                 <a href="#edit{{ $guidelinesItem->guidelines_id }}" data-bs-toggle="modal">
-                                <button type="submit" class="bg-slate-700 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200" >
-                                    <i class="bi bi-pencil text-sm mr-2"></i>Edit
-                                </button>
+                                    <button type="submit" class="bg-slate-700 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200" >
+                                        <i class="bi bi-pencil text-sm mr-2"></i>Edit
+                                    </button>
                                 </a>
                                 <a href="{{ route('Cremoveguide', $guidelinesItem->guidelines_id) }}">
                                     <button type="submit" class="bg-red-700 ml-2 p-2 py-2 text-white rounded shadow-lg hover:bg-red-900 transition duration-200" >
                                         <i class="bi bi-trash mr-2"></i>Delete
                                     </button>
                                 </a>
-                                @include('CDRRMO.guidelines.guidelines')
+                                @include('CDRRMO.guidelines.updateGuidelines')
                             </div>
                         </div>
-                        @endforeach
                     </div>
                 </div>
+                @endforeach
             </div>
         </div>
         <script>

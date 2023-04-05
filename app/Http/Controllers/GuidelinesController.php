@@ -41,28 +41,31 @@ class GuidelinesController extends Controller
     public function updateGuidelines(Request $request, $guideline_id){
 
         $validatedGuideline = Validator::make($request->all(), [
-            'baranggay_label' => 'required',
+            'guidelines_description' => 'required',
+            'guidelines_content' => 'required',
         ]);
 
         if($validatedGuideline->passes()){
 
-            $baranggay_label = $request->input('baranggay_label');
+            $guidelines_description = $request->input('guidelines_description');
+            $guidelines_content = $request->input('guidelines_content');
 
-            $updatedBaranggay = Guidelines::where('baranggay_id', $guideline_id)->update([
-                'baranggay_label' => $baranggay_label,
+            $updatedGuidelines = Guidelines::where('guidelines_id', $guideline_id)->update([
+                'guidelines_description' => $guidelines_description,
+                'guidelines_content' => $guidelines_content,
             ]);
 
-            if($updatedBaranggay){
-                Alert::success('Baranggay Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-                return redirect('cdrrmo/baranggay');
+            if($updatedGuidelines){
+                Alert::success('Guidelines Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+                return redirect('cdrrmo/eligtasGuidelines/guidelines');
             }
             else{
-                Alert::error('Failed to Update Baranggay', 'Cabuyao City Disaster Risk Reduction Management Office');
-                return redirect('cdrrmo/baranggay');
+                Alert::error('Failed to Update Guidelines', 'Cabuyao City Disaster Risk Reduction Management Office');
+                return redirect('cdrrmo/eligtasGuidelines/guidelines');
             }
         }
 
-        return redirect('cdrrmo/baranggay');
+        return redirect('cdrrmo/eligtasGuidelines/guidelines');
     }
 
     public function removeGuidelines($guideline_id){
