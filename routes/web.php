@@ -1,9 +1,11 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\BaranggayController;
 use App\Http\Controllers\CdrrmoController;
 use App\Http\Controllers\GuidelinesController;
 use App\Http\Controllers\GuessController;
+use App\Http\Controllers\DisasterController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthenticationController::class)->group(function (){
@@ -33,6 +35,21 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
 
     Route::controller(GuidelinesController::class)->group(function (){
         Route::get('/eligtasGuidelines/guidelines', 'guidelines')->name('Cguide');
+        Route::get('/eligtasGuidelines/guidelines/addGuidelines', 'addGuidelines')->name('Caguide');
+        Route::get('/eligtasGuidelines/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cupdateguide');
+        Route::get('/eligtasGuidelines/guidelines/removeGuidelines/{guidelines_id}', 'removeGuidelines')->name('Cremoveguide');
+    });
+
+    Route::controller(DisasterController::class)->group(function (){
+        Route::get('/disaster/registerDisaster', 'registerDisaster')->name('Cregisterdisaster');
+        Route::get('/disaster/updateDisaster/{disaster_id}', 'updateDisaster')->name('Cupdatedisaster');
+        Route::get('/disaster/removeDisaster/{disaster_id}', 'deleteDisaster')->name('Cremovedisaster');
+    });
+
+    Route::controller(BaranggayController::class)->group(function (){
+        Route::get('/disaster/registerBaranggay', 'registerBaranggay')->name('Cregisterbaranggay');
+        Route::get('/disaster/updateBaranggay/{baranggay_id}', 'updateBaranggay')->name('Cupdatebaranggay');
+        Route::get('/disaster/removeBaranggay/{baranggay_id}', 'deleteBaranggay')->name('Cremovebaranggay');
     });
 
     Route::controller(CdrrmoController::class)->group(function (){

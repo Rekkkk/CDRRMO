@@ -20,15 +20,21 @@ class CdrrmoController extends Controller
     }
 
     public function disaster(){
-        return view('CDRRMO.disaster');
+        $disasterList = new DisasterController();
+        $disasterList = $disasterList->disasterList();
+
+        return view('CDRRMO.disaster.disaster', $disasterList);
     }
 
     public function eligtasGuidelines(){
-        return view('CDRRMO.eligtasGuidelines');
+        return view('CDRRMO.guidelines.eligtasGuidelines');
     }
 
     public function baranggay(){
-        return view('CDRRMO.baranggay');
+        $baranggayList = new BaranggayController();
+        $baranggayList = $baranggayList->baranggayList();
+
+        return view('CDRRMO.baranggay.baranggay', $baranggayList);
     }
 
     public function evacuationCenter(){

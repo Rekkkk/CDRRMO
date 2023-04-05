@@ -9,10 +9,16 @@ class Baranggay extends Model
 {
     use HasFactory;
 
+    protected $table = 'baranggay';
+
+    protected $primaryKey = 'baranggay_id';
+
     protected $guarded = [];
 
     protected $fillable = [
-        'baranggay_number',
+        'baranggay_id',
         'baranggay_label',
     ];
+
+    public $timestamps = false;
 }

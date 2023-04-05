@@ -7,7 +7,7 @@
     </head>
     <body class="bg-gray-400">
         <div class="wrapper">
-            
+            @include('sweetalert::alert')
             @include('partials.content.header')
             @include('partials.content.sidebar')
 

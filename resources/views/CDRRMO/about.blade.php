@@ -30,7 +30,9 @@
                             <span class="font-bold">
                                 <i class="bi bi-geo-alt-fill mr-4 text-lg"></i>
                                 Address: 
-                                <i class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-yellow-600 text-white shadow-lg hover:bg-yellow-700 transition duration-200 rounded"></i>
+                                @auth
+                                    <i class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-yellow-600 text-white rounded shadow-lg hover:bg-yellow-700 transition duration-200"></i>
+                                @endauth
                             </span>
                             <hr class="mt-3 clear-both">
                             <a href="https://www.google.com/maps/place/Retail+Plaza+City+of+Cabuyao/@14.2772989,121.1214,17z/data=!3m1!4b1!4m6!3m5!1s0x3397d8604aa8f17d:0x4e0371b3a9d5540e!8m2!3d14.2772937!4d121.1235887!16s%2Fg%2F11bxg2qw2w">
