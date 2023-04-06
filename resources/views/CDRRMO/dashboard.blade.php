@@ -8,7 +8,6 @@
     <body class="bg-gray-400">
         @include('sweetalert::alert')
         <div class="wrapper">
-            
             @include('partials.content.header')
             @include('partials.content.sidebar')
             
