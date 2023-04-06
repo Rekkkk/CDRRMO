@@ -23,15 +23,14 @@
                     <div class="disaster-form p-5 mx-4 border-r-2">
                         <header class="text-xl font-semibold">Baranggay Information</header>
                         <hr>
-                        {!! Form::open(['route' => 'Cregisterbaranggay']) !!}
-                            @method('GET')
+                        <form action="{{ route('Cregisterbaranggay') }}" method="GET">
                             @csrf
                             <div class="form first">
                                 <div class="details personal">
                                     <div class="fields flex items-center justify-between flex-wrap">
                                         <div class="flex flex-col my-3">
-                                            {!! Form::label('baranggay_label', 'Baranggay Label') !!}
-                                            {!! Form::text('baranggay_label', '', ['class' => 'border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded', 'autocomplete' => 'off' ,'placeholder' => 'Enter Baranngay Name']) !!}
+                                            <label>Baranggay Label</label>
+                                            <input type="text" name="baranggay_label" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Enter Baranggay Name">
                                         </div>
                                     </div>
                                 </div>
@@ -42,7 +41,7 @@
                                 </a>
                                 <button type="submit" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Save</button>
                             </div>
-                        {!! Form::close() !!}
+                        </form>
                     </div>
                     <div class="disaster-table w-full relative">
                         <header class="text-2xl font-semibold">Baranggay Table</header>
