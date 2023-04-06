@@ -31,11 +31,11 @@
                     </div>
                 </div>
                 <div class="map-btn">
-                    <button type="button" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate Nearest Evacuation</button>
+                    <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate Nearest Evacuation</button>
                     <button type="button" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate Current Location</button>
                 </div>
                 <div class="evacuation-table mt-5">
-                    <table class="table table-dark table-striped">
+                    <table class="table bg-slate-50">
                         <thead>
                             <tr>
                                 <th scope="col">#</th>
@@ -50,10 +50,10 @@
                                 <td>Evacuation Center Example 1</td>
                                 <td>Pulo</td>
                                 <td>
-                                    <a href="#" class="btn btn-info">Locate</a>
                                     @auth
-                                    <a href="#" class="btn btn-warning">Edit</a>
+                                    <a href="#" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Edit</a>
                                     @endauth
+                                    <a href="#" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate</a>
                                 </td>
                             </tr>
                             <tr>
@@ -61,10 +61,10 @@
                                 <td>Evacuation Center Example 2</td>
                                 <td>Mamatid</td>
                                 <td>
-                                    <a href="#" class="btn btn-info">Locate</a>
                                     @auth
-                                    <a href="#" class="btn btn-warning">Edit</a>
+                                    <a href="#" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Edit</a>
                                     @endauth
+                                    <a href="#" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate</a>
                                 </td>
                             </tr>
                             <tr>
@@ -72,10 +72,10 @@
                                 <td>Evacuation Center Example 3</td>
                                 <td>Cabuyao</td>
                                 <td>
-                                    <a href="#" class="btn btn-info">Locate</a>
                                     @auth
-                                    <a href="#" class="btn btn-warning">Edit</a>
+                                    <a href="#" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Edit</a>
                                     @endauth
+                                    <a href="#" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate</a>
                                 </td>
                             </tr>
                         </tbody>

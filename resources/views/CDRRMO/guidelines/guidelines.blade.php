@@ -14,7 +14,8 @@
             <x-messages />
 
             <h1 class="text-center bg-slate-700 w-full mt-2 text-white mb-2 text-4xl p-3 font-bold">"E-LIGTAS Guidelines"</h1>
-
+            
+            @auth
             <div class="guidelines-btn w-full py-2 flex justify-end">
                 <button type="submit" class="bg-slate-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200" >
                     <i class="bi bi-pencil mr-2"></i> Edit Quiz
@@ -26,6 +27,7 @@
                 </a>
                 @include('CDRRMO.guidelines.addGuidelines')
             </div>
+            @endauth
            
             <div class="main-content">
                 @foreach ($guidelines as $guidelinesItem)
@@ -38,6 +40,7 @@
                             <p class="mb-2">
                                 {{ $guidelinesItem->guidelines_content }}
                             </p>
+                            @auth
                             <div class="action-btn w-full py-2 flex justify-start">
                                 <a href="#edit{{ $guidelinesItem->guidelines_id }}" data-bs-toggle="modal">
                                     <button type="submit" class="bg-slate-700 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200" >
@@ -49,11 +52,12 @@
                                         <i class="bi bi-trash mr-2"></i>Delete
                                     </button>
                                 </a>
-                                @include('CDRRMO.guidelines.updateGuidelines')
                             </div>
+                            @endauth
                         </div>
                     </div>
                 </div>
+                @include('CDRRMO.guidelines.updateGuidelines')
                 @endforeach
             </div>
         </div>

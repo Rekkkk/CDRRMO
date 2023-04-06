@@ -23,15 +23,14 @@
                     <div class="disaster-form p-5 mx-4 border-r-2">
                         <header class="text-xl font-semibold">Disaster Information</header>
                         <hr>
-                        {!! Form::open(['route' => 'Cregisterdisaster']) !!}
-                            @method('GET')
+                        <form action="{{ route('Cregisterdisaster') }}" method="GET">
                             @csrf
                             <div class="form first">
                                 <div class="details personal">
                                     <div class="fields flex items-center justify-between flex-wrap">
                                         <div class="flex flex-col my-3">
-                                            {!! Form::label('disaster_label', 'Disaster Label') !!}
-                                            {!! Form::text('disaster_label', '', ['class' => 'border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded', 'autocomplete' => 'off' ,'placeholder' => 'Enter Disaster Type']) !!}
+                                            <label for="disaster_label">Disaster Label</label>
+                                            <input type="text" name="disaster_label" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Enter Disaster Type">
                                         </div>
                                     </div>
                                 </div>
@@ -42,7 +41,7 @@
                                 </a>
                                 <button type="submit" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Save</button>
                             </div>
-                        {!! Form::close() !!}
+                        </form>
                     </div>
                     <div class="disaster-table w-full relative">
                         <header class="text-2xl font-semibold">Disaster Table</header>
@@ -69,9 +68,9 @@
                                                 <i class="bi bi-trash mr-2"></i>Delete
                                             </button>
                                         </a>
-                                        @include('CDRRMO.disaster.updateDisaster')
                                     </td>
                                 </tr>
+                                @include('CDRRMO.disaster.updateDisaster')
                                 @endforeach
                             </tbody>
                         </table>

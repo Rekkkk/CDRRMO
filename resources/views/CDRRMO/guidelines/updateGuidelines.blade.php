@@ -1,3 +1,4 @@
+@auth
 <div class="modal fade" id="edit{{ $guidelinesItem->guidelines_id }}" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -6,20 +7,23 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-            {!! Form::model($guidelinesItem, ['method' => 'get', 'route' => ['Cupdateguide', $guidelinesItem->guidelines_id]])!!}
-                <div class="mb-3">
-                    {!! Form::label('guidelines_description', 'Guidelines Desctription', ['class' => 'flex items-center justify-center']) !!}
-                    {!! Form::text('guidelines_description', $guidelinesItem->guidelines_description, ['class' => 'form-control', 'autocomplete' => 'off']) !!}
-                </div>
-                <div class="mb-3">
-                    {!! Form::label('guidelines_content', 'Guidelines Content', ['class' => 'flex items-center justify-center']) !!}
-                    {!! Form::textArea('guidelines_content', $guidelinesItem->guidelines_content, ['class' => 'form-control', 'autocomplete' => 'off']) !!}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200" data-bs-dismiss="modal">Close</button>
-                    {{ Form::button('Update Disaster', ['class' => 'bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200', 'type' => 'submit']) }}
-                </div>
-            {!! Form::close() !!}
+                <form action="{{ route('Cupdateguide', $guidelinesItem->guidelines_id) }}" method="GET">
+                    @csrf
+                    <div class="mb-3">
+                        <label for="guidelines_description" class="flex items-center justify-center">Guidelines Desctription</label>
+                        <input type="text" name="guidelines_description" value="{{ $guidelinesItem->guidelines_description }}" class="form-control" autocomplete="off">
+                    </div>
+                    <div class="mb-3">
+                        <label for="guidelines_content" class="flex items-center justify-center">Guidelines Content</label>
+                        <textarea name="guidelines_content" class="form-control" autocomplete="off" placeholder="Enter Guideline Content" rows="5">{{ $guidelinesItem->guidelines_content }}</textarea>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200" data-bs-dismiss="modal">Close</button>
+                        <button type="submit" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Update Disaster</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
+@endauth

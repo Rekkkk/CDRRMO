@@ -31,7 +31,7 @@
                                 <i class="bi bi-geo-alt-fill mr-4 text-lg"></i>
                                 Address: 
                                 @auth
-                                    <i class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-yellow-600 text-white rounded shadow-lg hover:bg-yellow-700 transition duration-200"></i>
+                                    <i class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-700 text-white rounded shadow-lg hover:bg-red-900 transition duration-200"></i>
                                 @endauth
                             </span>
                             <hr class="mt-3 clear-both">

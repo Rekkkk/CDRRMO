@@ -1,3 +1,4 @@
+@auth
 <div class="modal fade" id="add" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -6,23 +7,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                {!! Form::open(['route' => 'Caguide'])!!}
+                <form action="{{ route('Caguide') }}" method="POST">
                     @method('GET')
                     @csrf
                     <div class="mb-3">
-                        {!! Form::label('guideline_description', 'Guidelines Description', ['class' => 'flex items-center justify-center']) !!}
-                        {!! Form::text('guidelines_description', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter Guideline Description']) !!}
+                        <label for="guideline_description" class="flex items-center justify-center">Guidelines Description</label>
+                        <input type="text" name="guidelines_description" class="form-control" autocomplete="off" placeholder="Enter Guideline Description">
                     </div>
                     <div class="mb-3">
-                        {!! Form::label('guideline_content', 'Guidelines Content', ['class' => 'flex items-center justify-center']) !!}
-                        {!! Form::textArea('guidelines_content', '', ['class' => 'form-control', 'autocomplete' => 'off', 'placeholder' => 'Enter Guideline Content']) !!}
+                        <label for="guideline_content" class="flex items-center justify-center">Guidelines Content</label>
+                        <textarea name="guidelines_content" class="form-control" autocomplete="off" placeholder="Enter Guideline Content" rows="5"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200" data-bs-dismiss="modal">Close</button>
-                        {{ Form::button('Publish Guidelines', ['class' => 'bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200', 'type' => 'submit']) }}
+                        <button type="submit" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Publish Guidelines</button>
                     </div>
-                {!! Form::close() !!}
+                </form>
             </div>
         </div>
     </div>
 </div>
+@endauth
