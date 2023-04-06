@@ -12,6 +12,12 @@ class DatabaseSeeder extends Seeder
 {
     public function run(): void
     {
+
+        $this->call(DisasterSeeder::class);
+        $this->call(GuidelinesSeeder::class);
+        $this->call(BaranggaySeeder::class);
+        $this->call(EvacuationCenterSeeder::class);
+
         DB::table('users')->insert([
             'admin_email' => ('CDRRMO123@gmail.com'),
             'password' => Hash::make('CDRRMO_Admin_Panel'),

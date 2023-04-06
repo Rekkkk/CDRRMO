@@ -17,7 +17,10 @@ class Baranggay extends Model
 
     protected $fillable = [
         'baranggay_id',
-        'baranggay_label',
+        'baranggay_name',
+        'baranggay_location',
+        'baranggay_contact_number',
+        'baranggay_email_address',
     ];
 
     public $timestamps = false;

@@ -20,17 +20,41 @@
                     <hr class="mt-4">
                 </div>
                 <div class="main-content bg-slate-50 p-4">
-                    <div class="disaster-form p-5 mx-4 border-r-2">
+                    <div class="disaster-form p-3 mx-2 border-r-2">
                         <header class="text-xl font-semibold">Baranggay Information</header>
                         <hr>
                         <form action="{{ route('Cregisterbaranggay') }}" method="GET">
                             @csrf
-                            <div class="form first">
+                            <div class="form disaster my-3">
                                 <div class="details personal">
-                                    <div class="fields flex items-center justify-between flex-wrap">
-                                        <div class="flex flex-col my-3">
-                                            <label>Baranggay Label</label>
-                                            <input type="text" name="baranggay_label" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Enter Baranggay Name">
+                                    <div class="fields">
+                                        <div class="flex flex-col">
+                                            <label for="baranggay_name">Baranggay Name</label>
+                                            <input type="text" name="baranggay_name" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Baranggay Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="details personal">
+                                    <div class="fields">
+                                        <div class="flex flex-col">
+                                            <label for="baranggay_location">Baranggay Location</label>
+                                            <input type="text" name="baranggay_location" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Baranggay Location">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="details personal">
+                                    <div class="fields">
+                                        <div class="flex flex-col">
+                                            <label for="baranggay_contact">Baranggay Contact Number</label>
+                                            <input type="text" name="baranggay_contact" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Baranggay Contact Number">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="details personal">
+                                    <div class="fields">
+                                        <div class="flex flex-col">
+                                            <label for="baranggay_email">Baranggay Email Address</label>
+                                            <input type="text" name="baranggay_email" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Baranggay Email Address">
                                         </div>
                                     </div>
                                 </div>
@@ -50,13 +74,19 @@
                             <thead>
                                 <tr class="table-row">
                                     <th>Baranggay Name</th>
+                                    <th>Location</th>
+                                    <th>Contact Number</th>
+                                    <th>Email Address</th>
                                     <th class="text-right">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($baranggay as $baranggayList)
                                 <tr>
-                                    <td class="py-3">{{ $baranggayList->baranggay_label }}</td>
+                                    <td class="">{{ $baranggayList->baranggay_name }}</td>
+                                    <td class="w-2/5">{{ $baranggayList->baranggay_location }}</td>
+                                    <td class="">{{ $baranggayList->baranggay_contact_number }}</td>
+                                    <td class="">{{ $baranggayList->baranggay_email_address }}</td>
                                     <td class="text-right">
                                         <a href="#edit{{ $baranggayList->baranggay_id }}" data-bs-toggle="modal">
                                             <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">

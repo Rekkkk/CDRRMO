@@ -11,13 +11,13 @@ class Disaster extends Model
 
     protected $table = 'disaster';
 
-    protected $primaryKey = 'disaster_number';
+    protected $primaryKey = 'disaster_id';
 
     protected $guarded = [];
 
     protected $fillable = [
-        'disaster_number',
-        'disaster_label',
+        'disaster_id',
+        'disaster_name',
     ];
 
     public $timestamps = false;

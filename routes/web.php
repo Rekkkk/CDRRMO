@@ -41,7 +41,7 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
     });
 
     Route::controller(DisasterController::class)->group(function (){
-        Route::put('/disaster/registerDisaster', 'registerDisaster')->name('Cregisterdisaster');
+        Route::get('/disaster/registerDisaster', 'registerDisaster')->name('Cregisterdisaster');
         Route::get('/disaster/updateDisaster/{disaster_id}', 'updateDisaster')->name('Cupdatedisaster');
         Route::get('/disaster/removeDisaster/{disaster_id}', 'deleteDisaster')->name('Cremovedisaster');
     });

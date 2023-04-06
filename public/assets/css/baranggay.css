@@ -106,15 +106,19 @@
     display: flex;
 }
 
-.main-content > div{
-    margin: 2rem;
+.main-content .disaster-form{
+    flex: 0.4;
+}
+
+.main-content .disaster-table{
+    flex: 2;
 }
 
 .main-content .disaster-form form .form{
     transition: 0.3s ease;
 }
 
-.main-content .disaster-form form.secActive .form.first{
+.main-content .disaster-form form.secActive .form.disaster{
     opacity: 0;
     pointer-events: none;
     transform: translateX(-100%);

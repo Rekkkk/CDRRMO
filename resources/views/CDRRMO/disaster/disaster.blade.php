@@ -29,8 +29,8 @@
                                 <div class="details personal">
                                     <div class="fields flex items-center justify-between flex-wrap">
                                         <div class="flex flex-col my-3">
-                                            <label for="disaster_label">Disaster Label</label>
-                                            <input type="text" name="disaster_label" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Enter Disaster Type">
+                                            <label for="disaster_name">Disaster Name</label>
+                                            <input type="text" name="disaster_name" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Enter Disaster Type">
                                         </div>
                                     </div>
                                 </div>
@@ -49,21 +49,21 @@
                         <table class="table mt-2">
                             <thead>
                                 <tr class="table-row">
-                                    <th>Disaster Label</th>
+                                    <th>Disaster Name</th>
                                     <th class="text-right">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($disaster as $disasterList)
                                 <tr>
-                                    <td class="py-3">{{ $disasterList->disaster_label }}</td>
+                                    <td class="py-3">{{ $disasterList->disaster_name }}</td>
                                     <td class="text-right">
-                                        <a href="#edit{{ $disasterList->disaster_number }}" data-bs-toggle="modal">
+                                        <a href="#edit{{ $disasterList->disaster_id }}" data-bs-toggle="modal">
                                             <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
                                                 <i class="bi bi-pencil mr-2"></i>Edit
                                             </button>
                                         </a>
-                                        <a href="{{ route('Cremovedisaster', $disasterList->disaster_number) }}">
+                                        <a href="{{ route('Cremovedisaster', $disasterList->disaster_id) }}">
                                             <button type="button" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
                                                 <i class="bi bi-trash mr-2"></i>Delete
                                             </button>

@@ -1,5 +1,5 @@
 @auth
-<div class="modal fade" id="edit{{ $disasterList->disaster_number }}" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+<div class="modal fade" id="edit{{ $disasterList->disaster_id }}" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-red-900">
@@ -7,10 +7,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('Cupdatedisaster', $disasterList->disaster_number) }}" method="GET">
+                <form action="{{ route('Cupdatedisaster', $disasterList->disaster_id) }}" method="GET">
                     <div class="mb-3">
-                        <label for="disaster_label" class="flex items-center justify-center">Disaster Label</label>
-                        <input type="text" name="disaster_label" value="{{ $disasterList->disaster_label }}" class="form-control" autocomplete="off">
+                        <label for="disaster_name" class="flex items-center justify-center">Disaster Label</label>
+                        <input type="text" name="disaster_name" value="{{ $disasterList->disaster_name }}" class="form-control" autocomplete="off">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200" data-bs-dismiss="modal">Close</button>

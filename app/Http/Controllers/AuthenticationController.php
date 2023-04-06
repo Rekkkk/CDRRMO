@@ -13,8 +13,8 @@ class AuthenticationController extends Controller
     
     public function authUser(Request $request){
         $validated = $request->validate([
-            'id' => ['required'],
-            "password" => ['required'],
+            'id' => 'required',
+            "password" => 'required',
         ]);
        
         if(auth()->attempt($validated)){
