@@ -44,7 +44,7 @@
                             </div>
                             
                         <div id="highchart">
-                            <script>
+                            {{-- <script>
                                 $(function(){
                                     var maleData = {{ json_encode($male) }};
                                     var femaleData = {{ json_encode($female) }};
@@ -73,7 +73,7 @@
                                         }]
                                     });
                                 });
-                                </script>
+                                </script> --}}
                             </div>
                         </div>
                     </div>

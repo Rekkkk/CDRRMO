@@ -6,6 +6,7 @@ use App\Http\Controllers\CdrrmoController;
 use App\Http\Controllers\GuidelinesController;
 use App\Http\Controllers\GuessController;
 use App\Http\Controllers\DisasterController;
+use App\Http\Controllers\EvacuationCenterController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthenticationController::class)->group(function (){
@@ -40,6 +41,12 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
         Route::get('/eligtasGuidelines/guidelines/removeGuidelines/{guidelines_id}', 'removeGuidelines')->name('Cremoveguide');
     });
 
+    Route::controller(EvacuationCenterController::class)->group(function (){
+        Route::get('/evacuation/registerEvacuation', 'registerEvacuation')->name('Cregisterevacuation');
+        Route::get('/evacuation/updateEvacuation/{evacuation_id}', 'updateEvacuation')->name('Cupdateevacuation');
+        Route::get('/evacuation/removeEvacuation/{evacuation_id}', 'deleteEvacuation')->name('Cremoveevacuation');
+    });
+
     Route::controller(DisasterController::class)->group(function (){
         Route::get('/disaster/registerDisaster', 'registerDisaster')->name('Cregisterdisaster');
         Route::get('/disaster/updateDisaster/{disaster_id}', 'updateDisaster')->name('Cupdatedisaster');
@@ -58,6 +65,7 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
         Route::get('/disaster', 'disaster')->name('Cdisaster');
         Route::get('/eligtasGuidelines', 'eligtasGuidelines')->name('Cguidelines');
         Route::get('/baranggay', 'baranggay')->name('Cbaranggay');
+        Route::get('/evacuationManage', 'evacuationManage')->name('Cevacuationmanage');
         Route::get('/evacuationCenter', 'evacuationCenter')->name('Cevacuation');
         Route::get('/hotlineNumbers', 'hotlineNumbers')->name('CNumbers');
         Route::get('/statistics', 'statistics')->name('Cstatistics');
