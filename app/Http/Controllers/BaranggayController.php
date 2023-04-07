@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Validator;
 class BaranggayController extends Controller
 {
     public function baranggayList(){
-        $baranggayList = array("baranggay" => DB::table('baranggay')->orderBy('baranggay_id', 'asc')->simplePaginate(3));
+        $baranggayList = array("baranggay" => DB::table('baranggay')->orderBy('baranggay_id', 'asc')->simplePaginate(6));
         
         return $baranggayList;
     }
@@ -19,13 +19,19 @@ class BaranggayController extends Controller
     public function registerBaranggay(Request $request){
     
         $validatedBaranggay = Validator::make($request->all(), [
-            'baranggay_label' => 'required',
+            'baranggay_name' => 'required',
+            'baranggay_location' => 'required',
+            'baranggay_contact' => 'required',
+            'baranggay_email' => 'required',
         ]);
 
         if($validatedBaranggay->passes()) {
 
             Baranggay::create([
-                'baranggay_label' => $request->baranggay_label,
+                'baranggay_name' => $request->baranggay_name,
+                'baranggay_location' => $request->baranggay_location,
+                'baranggay_contact_number' => $request->baranggay_contact,
+                'baranggay_email_address' => $request->baranggay_email,
             ]);
 
             Alert::success('Baranggay Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
@@ -39,15 +45,24 @@ class BaranggayController extends Controller
     public function updateBaranggay(Request $request, $baranggay_id){
     
         $validatedBaranggay = Validator::make($request->all(), [
-            'baranggay_label' => 'required',
+            'baranggay_name' => 'required',
+            'baranggay_location' => 'required',
+            'baranggay_contact' => 'required',
+            'baranggay_email' => 'required',
         ]);
 
         if($validatedBaranggay->passes()){
 
-            $baranggay_label = $request->input('baranggay_label');
+            $baranggay_name = $request->input('baranggay_name');
+            $baranggay_location = $request->input('baranggay_location');
+            $baranggay_contact = $request->input('baranggay_contact');
+            $baranggay_email = $request->input('baranggay_email');
 
             $updatedBaranggay = Baranggay::where('baranggay_id', $baranggay_id)->update([
-                'baranggay_label' => $baranggay_label,
+                'baranggay_name' => $baranggay_name,
+                'baranggay_location' => $baranggay_location,
+                'baranggay_contact_number' => $baranggay_contact,
+                'baranggay_email_address' => $baranggay_email,
             ]);
 
             if($updatedBaranggay){

@@ -106,19 +106,15 @@
     display: flex;
 }
 
-.main-content .disaster-form{
-    flex: 0.4;
+.main-content > div{
+    margin: 2rem;
 }
 
-.main-content .disaster-table{
-    flex: 2;
-}
-
-.main-content .disaster-form form .form{
+.main-content .evacuation-form form .form{
     transition: 0.3s ease;
 }
 
-.main-content .disaster-form form.secActive .form.disaster{
+.main-content .evacuation-form form.secActive .form.first{
     opacity: 0;
     pointer-events: none;
     transform: translateX(-100%);
@@ -144,16 +140,16 @@
         transition: all 1s ease;
     }
     
-    .content .main-content .disaster-form{
+    .content .main-content .evacuation-form{
         padding: 0 !important;
         border: none;
     }
 
-    .content .main-content .disaster-form .fields{
+    .content .main-content .evacuation-form .fields{
         display: contents !important;
     }
 
-    .content .main-content .disaster-table{
+    .content .main-content .evacuation-table{
         margin: 0 !important;
         padding: 1.5rem !important;
     }

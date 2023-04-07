@@ -37,7 +37,15 @@ class CdrrmoController extends Controller
         return view('CDRRMO.baranggay.baranggay', $baranggayList);
     }
 
+    public function evacuationManage(){
+        $evacuation = new EvacuationCenterController();
+        $evacuation = $evacuation->evacuationCenterList();
+
+        return view('CDRRMO.evacuation.evacuation', $evacuation);
+    }
+
     public function evacuationCenter(){
+
         $initialMarkers = [
             [
                 'position' => [
@@ -73,10 +81,11 @@ class CdrrmoController extends Controller
     }
 
     public function statistics(){
-        $male = DB::table('typhoon')->pluck('male');
-        $female = DB::table('typhoon')->pluck('female');
+        // $male = DB::table('typhoon')->pluck('male');
+        // $female = DB::table('typhoon')->pluck('female');
 
-        return view('CDRRMO.statistics', compact('male', 'female'));
+        //, compact('male', 'female')
+        return view('CDRRMO.statistics');
     }
 
     public function reportAccident(){

@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.content.headPackage')
-        <link rel="stylesheet" href="{{ asset('assets/css/disaster.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/evacuation.css') }}">
         <title>{{ config('app.name') }}</title>
     </head>
     <body class="bg-gray-400">
@@ -15,27 +15,43 @@
             <div class="content">
                 <div class="dashboard-logo pb-4">
                     <i class="bi bi-tropical-storm text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
-                    <span class="text-2xl font-bold tracking-wider mx-2">DISASTER INFORMATION</span>
+                    <span class="text-2xl font-bold tracking-wider mx-2">EVACUATION CENTER INFORMATION</span>
                     <hr class="mt-4">
                 </div>
 
                 <div class="main-content bg-slate-50 p-4">
-                    <div class="disaster-form p-5 mx-4 border-r-2">
-                        <header class="text-xl font-semibold">Disaster Information</header>
+                    <div class="evacuation-form p-3 mx-2 border-r-2">
+                        <header class="text-xl font-semibold">Evacuation Information</header>
                         <hr>
-                        <form action="{{ route('Cregisterdisaster') }}" method="GET">
+                        <form action="{{ route('Cregisterevacuation') }}" method="GET">
                             @csrf
-                            <div class="form first">
+                            <div class="form evacuation my-3">
                                 <div class="details personal">
-                                    <div class="fields flex items-center justify-between flex-wrap">
-                                        <div class="flex flex-col my-3">
-                                            <label for="disaster_name">Disaster Name</label>
-                                            <input type="text" name="disaster_name" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Enter Disaster Type">
+                                    <div class="fields">
+                                        <div class="flex flex-col">
+                                            <label for="evacuation_name">Evacuation Name</label>
+                                            <input type="text" name="evacuation_name" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Name">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="details personal">
+                                    <div class="fields">
+                                        <div class="flex flex-col">
+                                            <label for="evacuation_contact">Evacuation Contact</label>
+                                            <input type="text" name="evacuation_contact" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Contact">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="details personal">
+                                    <div class="fields">
+                                        <div class="flex flex-col">
+                                            <label for="evacuation_location">Evacuation Location</label>
+                                            <input type="text" name="evacuation_location" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Location">
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="disaster-button">
+                            <div class="evacuation-button">
                                 <a href="{{ route('Cdashboard') }}">
                                     <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Cancel</button>
                                 </a>
@@ -44,38 +60,42 @@
                         </form>
                     </div>
                     <div class="disaster-table w-full relative">
-                        <header class="text-2xl font-semibold">Disaster Table</header>
+                        <header class="text-2xl font-semibold">Evacuation Table</header>
                         <hr>
                         <table class="table mt-2">
                             <thead>
                                 <tr class="table-row">
-                                    <th>Disaster Name</th>
+                                    <th>Evacuation Name</th>
+                                    <th>Evacuation Contact</th>
+                                    <th>Evacuation Location</th>
                                     <th class="text-right">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($disaster as $disasterList)
+                                @foreach ($evacuation as $evacuationList)
                                 <tr>
-                                    <td class="py-3">{{ $disasterList->disaster_name }}</td>
+                                    <td class="py-3">{{ $evacuationList->evacuation_name }}</td>
+                                    <td class="py-3">{{ $evacuationList->evacuation_contact }}</td>
+                                    <td class="py-3">{{ $evacuationList->evacuation_location }}</td>
                                     <td class="text-right">
-                                        <a href="#edit{{ $disasterList->disaster_id }}" data-bs-toggle="modal">
+                                        <a href="#edit{{ $evacuationList->evacuation_id }}" data-bs-toggle="modal">
                                             <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
                                                 <i class="bi bi-pencil mr-2"></i>Edit
                                             </button>
                                         </a>
-                                        <a href="{{ route('Cremovedisaster', $disasterList->disaster_id) }}">
+                                        <a href="{{ route('Cremoveevacuation', $evacuationList->evacuation_id) }}">
                                             <button type="button" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
                                                 <i class="bi bi-trash mr-2"></i>Delete
                                             </button>
                                         </a>
                                     </td>
                                 </tr>
-                                @include('CDRRMO.disaster.updateDisaster')
+                                @include('CDRRMO.evacuation.updateEvacuation')
                                 @endforeach
                             </tbody>
                         </table>
                         <div class="absolute bottom-0 left-0">
-                            {{ $disaster->links() }}
+                            {{ $evacuation->links() }}
                         </div>
                     </div>
                 </div>

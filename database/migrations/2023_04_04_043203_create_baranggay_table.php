@@ -9,8 +9,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('baranggay', function (Blueprint $table) {
-            $table->id("baranggay_id");
-            $table->string("baranggay_label")->nullable();
+            $table->id("baranggay_id")->unsigned();
+            $table->string("baranggay_name")->nullable();
+            $table->string("baranggay_location")->nullable();
+            $table->string("baranggay_contact_number")->nullable();
+            $table->string("baranggay_email_address")->nullable();
         });
     }
 
