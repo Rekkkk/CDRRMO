@@ -14,98 +14,35 @@
             <x-messages />
 
             <div class="main-content">
-
                 <div class="dashboard-logo pb-4">
                     <i class="bi bi-book text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
                     <span class="text-2xl font-bold tracking-wider mx-2">Guidelines</span>
                     <hr class="mt-4">
                 </div>
 
-                <div class="content-item text-center">
+                @auth
+                <div class="guidelines-btn w-full py-2 flex justify-end">
+                    <a href="#add" data-bs-toggle="modal">
+                        <button type="submit" class="bg-slate-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200">
+                            <i class="bi bi-file-earmark-plus-fill mr-2"></i></i> Add Guidelines
+                        </button>
+                    </a>
+                    @include('CDRRMO.guidelines.addGuidelines')
+                </div>
+                @endauth
+
+                <div class="content-item text-center mt-4">
                     <div class="row gap-4 justify-center items-center">
-                        @auth
+                        @foreach ($guidelines as $guidelinesItem)
                         <div class="col-lg-2 mb-4">
                             <a class="guidelines-item" href="{{ route('Cguide') }}">
                                 <div class="widget relative w-full h-full">
                                     <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                    <p>E-LIGTAS Typhoon Guidelines</p>
+                                    <p>{{ $guidelinesItem->guidelines_description }}</p>
                                 </div>
                             </a>
                         </div>
-                        <div class="col-lg-2 mb-4">
-                            <a class="guidelines-item" href="{{ route('Cguide') }}">
-                                <div class="widget relative w-full h-full">
-                                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                    <p>E-LIGTAS Road Accident Guidelines</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-2 mb-4">
-                            <a class="guidelines-item" href="{{ route('Cguide') }}">
-                                <div class="widget relative w-full h-full">
-                                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                    <p>E-LIGTAS Earthquake Guidelines</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-2 mb-4">
-                            <a class="guidelines-item" href="{{ route('Cguide') }}">
-                                <div class="widget relative w-full h-full">
-                                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                    <p>E-LIGTAS Flooding Guidelines</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-2 mb-4">
-                            <a class="guidelines-item" href="{{ route('Cguide') }}">
-                                <div class="widget relative w-full h-full">
-                                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                    <p>E-LIGTAS Typhoon Guidelines</p>
-                                </div>
-                            </a>
-                        </div>
-                        @else
-                        <div class="col-lg-2 mb-4">
-                            <a class="guidelines-item" href="{{ route('Gguide') }}">
-                                <div class="widget relative w-full h-full">
-                                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                    <p>E-LIGTAS Typhoon Guidelines</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-2 mb-4">
-                            <a class="guidelines-item" href="{{ route('Gguide') }}">
-                                <div class="widget relative w-full h-full">
-                                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                    <p>E-LIGTAS Road Accident Guidelines</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-2 mb-4">
-                            <a class="guidelines-item" href="{{ route('Gguide') }}">
-                                <div class="widget relative w-full h-full">
-                                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                    <p>E-LIGTAS Earthquake Guidelines</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-2 mb-4">
-                            <a class="guidelines-item" href="{{ route('Gguide') }}">
-                                <div class="widget relative w-full h-full">
-                                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                    <p>E-LIGTAS Flooding Guidelines</p>
-                                </div>
-                            </a>
-                        </div>
-                        <div class="col-lg-2 mb-4">
-                            <a class="guidelines-item" href="{{ route('Gguide') }}">
-                                <div class="widget relative w-full h-full">
-                                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                    <p>E-LIGTAS Typhoon Guidelines</p>
-                                </div>
-                            </a>
-                        </div>
-                        @endauth
+                        @endforeach
                     </div>
                 </div>
             </div>

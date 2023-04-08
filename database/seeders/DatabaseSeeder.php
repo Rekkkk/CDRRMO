@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
         $this->call(GuidelinesSeeder::class);
         $this->call(BaranggaySeeder::class);
         $this->call(EvacuationCenterSeeder::class);
+        $this->call(GuideSeeder::class);
 
         DB::table('users')->insert([
             'admin_email' => ('CDRRMO123@gmail.com'),

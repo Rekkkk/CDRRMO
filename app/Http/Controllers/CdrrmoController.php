@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 
 class CdrrmoController extends Controller
 {
@@ -27,8 +26,18 @@ class CdrrmoController extends Controller
     }
 
     public function eligtasGuidelines(){
-        return view('CDRRMO.guidelines.eligtasGuidelines');
+        $guidelinesList = new GuidelinesController();
+        $guidelinesList = $guidelinesList->guidelines();
+
+        return view('CDRRMO.guidelines.eligtasGuidelines', $guidelinesList);
     }
+
+    public function eligtasGuide(){
+        $guideList = new GuidelinesController();
+        $guideList = $guideList->guide();
+
+        return view('CDRRMO.guidelines.guidelines' , $guideList);
+    } 
 
     public function baranggay(){
         $baranggayList = new BaranggayController();

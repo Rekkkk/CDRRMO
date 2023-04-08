@@ -17,11 +17,12 @@
     --color-darkblue: #0E1624;
 }
 
+
 .wrapper .header-section{
     box-shadow: 0 2px 10px 5px var(--color-shadow);
 }
 
-.wrapper .header-section .container-fluid{
+.wrapper .header-section .container{
     background: var(--color-darkred)
 }
 
@@ -119,6 +120,7 @@
 }
 
 @media only screen and (max-width: 900px) {
+
     .wrapper .header-section .container-fluid span{
         position: absolute;
         opacity: 0;

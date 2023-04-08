@@ -7,12 +7,16 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('Caguidelines') }}" method="POST">
+                <form action="{{ route('Caguide') }}" method="POST">
                     @method('GET')
                     @csrf
                     <div class="mb-3">
-                        <label for="guideline_description" class="flex items-center justify-center">Guidelines Description</label>
-                        <input type="text" name="guidelines_description" class="form-control" autocomplete="off" placeholder="Enter Guideline Description">
+                        <label for="guide_description" class="flex items-center justify-center">Guide Description</label>
+                        <input type="text" name="guide_description" class="form-control" autocomplete="off" placeholder="Enter Guide Description">
+                    </div>
+                    <div class="mb-3">
+                        <label for="guide_content" class="flex items-center justify-center">Guide Content</label>
+                        <textarea name="guide_content" class="form-control" autocomplete="off" placeholder="Enter Guide Content" rows="5"></textarea>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200" data-bs-dismiss="modal">Close</button>

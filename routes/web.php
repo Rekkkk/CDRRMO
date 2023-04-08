@@ -35,8 +35,8 @@ Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function(){
 Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
 
     Route::controller(GuidelinesController::class)->group(function (){
-        Route::get('/eligtasGuidelines/guidelines', 'guidelines')->name('Cguide');
-        Route::get('/eligtasGuidelines/guidelines/addGuidelines', 'addGuidelines')->name('Caguide');
+        Route::get('/eligtasGuidelines/guide/addGuide', 'addGuide')->name('Caguide');
+        Route::get('/eligtasGuidelines/guidelines/addGuidelines', 'addGuidelines')->name('Caguidelines');
         Route::get('/eligtasGuidelines/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cupdateguide');
         Route::get('/eligtasGuidelines/guidelines/removeGuidelines/{guidelines_id}', 'removeGuidelines')->name('Cremoveguide');
     });
@@ -64,6 +64,7 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
         Route::get('/addData', 'addData')->name('CaddData');
         Route::get('/disaster', 'disaster')->name('Cdisaster');
         Route::get('/eligtasGuidelines', 'eligtasGuidelines')->name('Cguidelines');
+        Route::get('/eligtasGuidelines/guide', 'eligtasGuide')->name('Cguide');
         Route::get('/baranggay', 'baranggay')->name('Cbaranggay');
         Route::get('/evacuationManage', 'evacuationManage')->name('Cevacuationmanage');
         Route::get('/evacuationCenter', 'evacuationCenter')->name('Cevacuation');

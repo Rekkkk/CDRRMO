@@ -32,7 +32,7 @@
     </li>
     <li>
         <a href="{{ route('Cevacuationmanage') }}">
-            <i class="bi bi-house-gear-fill text-white"></i>
+            <i class="bi bi-house-add text-white"></i>
             <span class="links_name">Manage Evacuation Center</span>
         </a>
     </li>

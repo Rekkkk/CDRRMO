@@ -5,19 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Guidelines extends Model
+class Guide extends Model
 {
     use HasFactory;
 
-    protected $table = 'guidelines';
+    protected $table = 'guide';
 
-    protected $primaryKey = 'guidelines_id';
+    protected $primaryKey = 'guide_id';
 
     protected $guarded = [];
 
     protected $fillable = [
-        'guidelines_id',
-        'guidelines_description',
+        'guide_id',
+        'guide_description',
+        'guide_content',
     ];
 
     public $timestamps = true;
