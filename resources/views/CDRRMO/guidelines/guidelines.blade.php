@@ -25,29 +25,29 @@
                         <i class="bi bi-bag-plus-fill mr-2"></i> Add Guidelines
                     </button>
                 </a>
-                @include('CDRRMO.guidelines.addGuidelines')
+                @include('CDRRMO.guidelines.addGuide')
             </div>
             @endauth
            
             <div class="main-content">
-                @foreach ($guidelines as $guidelinesItem)
+                @foreach ($guide as $guideItem)
                 <div class="guideline-container w-full">
                     <div class="guideline-content">
                         <div class="label">
-                            {{ $guidelinesItem->guidelines_description }}
+                            {{ $guideItem->guide_description }}
                         </div>
                         <div class="content">
                             <p class="mb-2">
-                                {{ $guidelinesItem->guidelines_content }}
+                                {{ $guideItem->guide_content }}
                             </p>
                             @auth
                             <div class="action-btn w-full py-2 flex justify-start">
-                                <a href="#edit{{ $guidelinesItem->guidelines_id }}" data-bs-toggle="modal">
+                                <a href="#edit{{ $guideItem->guide_id }}" data-bs-toggle="modal">
                                     <button type="submit" class="bg-slate-700 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200" >
                                         <i class="bi bi-pencil text-sm mr-2"></i>Edit
                                     </button>
                                 </a>
-                                <a href="{{ route('Cremoveguide', $guidelinesItem->guidelines_id) }}">
+                                <a href="{{ route('Cremoveguide', $guideItem->guide_id) }}">
                                     <button type="submit" class="bg-red-700 ml-2 p-2 py-2 text-white rounded shadow-lg hover:bg-red-900 transition duration-200" >
                                         <i class="bi bi-trash mr-2"></i>Delete
                                     </button>
@@ -57,7 +57,7 @@
                         </div>
                     </div>
                 </div>
-                @include('CDRRMO.guidelines.updateGuidelines')
+                {{-- @include('CDRRMO.guidelines.updateGuidelines') --}}
                 @endforeach
             </div>
         </div>

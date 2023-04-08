@@ -12,8 +12,31 @@ class GuidelinesSeeder extends Seeder
     public function run(): void
     {
         DB::table('guidelines')->insert([
-            'guidelines_description' => ('TESTING PHASE'),
-            'guidelines_content' => ('TESTING PHASE GUIDELINES SECTION IN CABUYAO CITY DISASTER RISK REDUCTION MANAGEMENT OFFICE USING E-LIGTAS SYSTEM'),
+            'guidelines_description' => ('E-LIGTAS TYPHOON GUIDELINES'),
+            'created_at' => Date::now(),
+            'updated_at' => Date::now(),
+        ]);
+
+        DB::table('guidelines')->insert([
+            'guidelines_description' => ('E-LIGTAS ROAD ACCIDENT GUIDELINES'),
+            'created_at' => Date::now(),
+            'updated_at' => Date::now(),
+        ]);
+
+        DB::table('guidelines')->insert([
+            'guidelines_description' => ('E-LIGTAS EARTHQUAKE GUIDELINES'),
+            'created_at' => Date::now(),
+            'updated_at' => Date::now(),
+        ]);
+
+        DB::table('guidelines')->insert([
+            'guidelines_description' => ('E-LIGTAS FLOODING GUIDELINES'),
+            'created_at' => Date::now(),
+            'updated_at' => Date::now(),
+        ]);
+
+        DB::table('guidelines')->insert([
+            'guidelines_description' => ('E-LIGTAS KILL ACCIDENT GUIDELINES'),
             'created_at' => Date::now(),
             'updated_at' => Date::now(),
         ]);
