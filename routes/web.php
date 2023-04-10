@@ -36,9 +36,12 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
 
     Route::controller(GuidelinesController::class)->group(function (){
         Route::get('/eligtasGuidelines/guide/addGuide', 'addGuide')->name('Caguide');
+        Route::get('/eligtasGuidelines/guidelines/updateGuide/{guide_id}', 'updateGuide')->name('Cupdateguide');
+        Route::get('/eligtasGuidelines/guidelines/removeGuide/{guide_id}', 'removeGuide')->name('Cremoveguide');
+        
         Route::get('/eligtasGuidelines/guidelines/addGuidelines', 'addGuidelines')->name('Caguidelines');
-        Route::get('/eligtasGuidelines/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cupdateguide');
-        Route::get('/eligtasGuidelines/guidelines/removeGuidelines/{guidelines_id}', 'removeGuidelines')->name('Cremoveguide');
+        Route::get('/eligtasGuidelines/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cupdateguidelines');
+        Route::get('/eligtasGuidelines/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cremoveguidelines');
     });
 
     Route::controller(EvacuationCenterController::class)->group(function (){

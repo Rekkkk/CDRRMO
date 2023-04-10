@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.content.headPackage')
-        <link rel="stylesheet" href="{{ asset('assets/css/guidelines.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/guide.css') }}">
         <title>{{ config('app.name') }}</title>
     </head>
     <body class="bg-gray-400">
@@ -13,16 +13,16 @@
 
             <x-messages />
 
-            <h1 class="text-center bg-slate-700 w-full mt-2 text-white mb-2 text-4xl p-3 font-bold">"E-LIGTAS Guidelines"</h1>
+            <h1 class="text-center bg-slate-700 w-full mt-2 text-white mb-2 text-4xl p-3 font-bold">"E-LIGTAS Guides"</h1>
             
             @auth
-            <div class="guidelines-btn w-full py-2 flex justify-end">
+            <div class="guide-btn w-full py-2 flex justify-end">
                 <button type="submit" class="bg-slate-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200" >
                     <i class="bi bi-pencil mr-2"></i> Edit Quiz
                 </button>
                 <a href="#add" data-bs-toggle="modal">
                     <button type="submit" class="bg-red-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-red-900 transition duration-200" >
-                        <i class="bi bi-bag-plus-fill mr-2"></i> Add Guidelines
+                        <i class="bi bi-bag-plus-fill mr-2"></i> Add Guide
                     </button>
                 </a>
                 @include('CDRRMO.guidelines.addGuide')
@@ -31,8 +31,8 @@
            
             <div class="main-content">
                 @foreach ($guide as $guideItem)
-                <div class="guideline-container w-full">
-                    <div class="guideline-content">
+                <div class="guide-container w-full">
+                    <div class="guide-content">
                         <div class="label">
                             {{ $guideItem->guide_description }}
                         </div>
@@ -57,12 +57,12 @@
                         </div>
                     </div>
                 </div>
-                {{-- @include('CDRRMO.guidelines.updateGuidelines') --}}
+                @include('CDRRMO.guidelines.updateGuide')
                 @endforeach
             </div>
         </div>
         <script>
-            const accordion = document.getElementsByClassName('guideline-content');
+            const accordion = document.getElementsByClassName('guide-content');
 
             for(i = 0; i < accordion.length; i++){
                 accordion[i].addEventListener('click', function(){

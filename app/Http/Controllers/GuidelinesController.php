@@ -45,6 +45,49 @@ class GuidelinesController extends Controller
         return redirect('cdrrmo/eligtasGuidelines/guide');
     }
 
+    public function updateGuide(Request $request, $guide_id){
+
+        $validatedGuideline = Validator::make($request->all(), [
+            'guide_description' => 'required',
+            'guide_content' => 'required',
+        ]);
+
+        if($validatedGuideline->passes()){
+
+            $guide_description = $request->input('guide_description');
+            $guide_content = $request->input('guide_content');
+
+            $updatedGuide = Guide::where('guide_id', $guide_id)->update([
+                'guide_description' => $guide_description,
+                'guide_content' => $guide_content,
+            ]);
+
+            if($updatedGuide){
+                Alert::success('Guide Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+                return redirect('cdrrmo/eligtasGuidelines/guide');
+            }
+            else{
+                Alert::error('Failed to Update Guide', 'Cabuyao City Disaster Risk Reduction Management Office');
+                return redirect('cdrrmo/eligtasGuidelines/guide');
+            }
+        }
+
+        return redirect('cdrrmo/eligtasGuidelines/guide');
+    }
+
+    public function removeGuide($guide_id){
+        $deletedGuide = DB::table('guide')->where('guide_id', $guide_id)->delete();
+
+        if($deletedGuide){
+            Alert::success('Guide Deleted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+            return redirect('cdrrmo/eligtasGuidelines/guide');
+        }
+        else{
+            Alert::error('Failed to Deleted Guide', 'Cabuyao City Disaster Risk Reduction Management Office');
+            return redirect('cdrrmo/eligtasGuidelines/guide');
+        }
+    }
+
     public function addGuidelines(Request $request){
 
         $validatedGuideline = Validator::make($request->all(), [
@@ -63,49 +106,6 @@ class GuidelinesController extends Controller
 
         Alert::error('Failed to Post Guidelines', 'Cabuyao City Disaster Risk Reduction Management Office');
         return redirect('cdrrmo/eligtasGuidelines');
-    }
-
-    public function updateGuidelines(Request $request, $guideline_id){
-
-        $validatedGuideline = Validator::make($request->all(), [
-            'guidelines_description' => 'required',
-            'guidelines_content' => 'required',
-        ]);
-
-        if($validatedGuideline->passes()){
-
-            $guidelines_description = $request->input('guidelines_description');
-            $guidelines_content = $request->input('guidelines_content');
-
-            $updatedGuidelines = Guidelines::where('guidelines_id', $guideline_id)->update([
-                'guidelines_description' => $guidelines_description,
-                'guidelines_content' => $guidelines_content,
-            ]);
-
-            if($updatedGuidelines){
-                Alert::success('Guidelines Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-                return redirect('cdrrmo/eligtasGuidelines/guidelines');
-            }
-            else{
-                Alert::error('Failed to Update Guidelines', 'Cabuyao City Disaster Risk Reduction Management Office');
-                return redirect('cdrrmo/eligtasGuidelines/guidelines');
-            }
-        }
-
-        return redirect('cdrrmo/eligtasGuidelines/guidelines');
-    }
-
-    public function removeGuidelines($guideline_id){
-        $deletedGuideline = DB::table('guidelines')->where('guidelines_id', $guideline_id)->delete();
-
-        if($deletedGuideline){
-            Alert::success('Guideline  Deleted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-            return redirect('cdrrmo/eligtasGuidelines/guidelines');
-        }
-        else{
-            Alert::error('Failed to Deleted Guideline', 'Cabuyao City Disaster Risk Reduction Management Office');
-            return redirect('cdrrmo/eligtasGuidelines/guidelines');
-        }
     }
 
 }

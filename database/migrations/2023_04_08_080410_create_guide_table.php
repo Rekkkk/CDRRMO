@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id("guide_id");
             $table->string("guide_description")->nullable();
             $table->longText("guide_content")->nullable();
-            $table->integer("guidelines_id")->nullable();
+            $table->unsignedBigInteger("guidelines_id")->nullable();
             $table->foreign('guidelines_id')->references('guidelines_id')->on('guidelines')->nullable();
             $table->timestamps();
         });
