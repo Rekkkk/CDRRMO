@@ -36,7 +36,7 @@ class CdrrmoController extends Controller
         $guideList = new GuidelinesController();
         $guideList = $guideList->guide();
 
-        return view('CDRRMO.guidelines.guidelines' , $guideList);
+        return view('CDRRMO.guidelines.guide' , $guideList);
     } 
 
     public function baranggay(){
