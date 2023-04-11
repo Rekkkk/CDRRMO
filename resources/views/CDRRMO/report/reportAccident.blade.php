@@ -2,7 +2,7 @@
 <html lang="en">
     <head>
         @include('partials.content.headPackage')
-        <link rel="stylesheet" href="{{ asset('assets/css/dashboard.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/report-css/report.css') }}">
         <title>{{ config('app.name') }}</title>
     </head>
     <body class="bg-gray-400">

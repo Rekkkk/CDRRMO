@@ -34,37 +34,45 @@ Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function(){
 
 Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
 
-    Route::controller(GuidelinesController::class)->group(function (){
-        Route::get('/eligtasGuidelines/guide/addGuide', 'addGuide')->name('Caguide');
-        Route::get('/eligtasGuidelines/guidelines/updateGuide/{guide_id}', 'updateGuide')->name('Cupdateguide');
-        Route::get('/eligtasGuidelines/guidelines/removeGuide/{guide_id}', 'removeGuide')->name('Cremoveguide');
-        
-        Route::get('/eligtasGuidelines/guidelines/addGuidelines', 'addGuidelines')->name('Caguidelines');
-        Route::get('/eligtasGuidelines/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cupdateguidelines');
-        Route::get('/eligtasGuidelines/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cremoveguidelines');
+    Route::group(['prefix' => 'eligtasGuidelines'], function(){
+        Route::controller(GuidelinesController::class)->group(function (){
+            Route::get('/guide/addGuide', 'addGuide')->name('Caguide');
+            Route::get('/guide/updateGuide/{guide_id}', 'updateGuide')->name('Cupdateguide');
+            Route::get('/guide/removeGuide/{guide_id}', 'removeGuide')->name('Cremoveguide');
+            
+            Route::get('/guidelines/addGuidelines', 'addGuidelines')->name('Caguidelines');
+            Route::get('/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cupdateguidelines');
+            Route::get('/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cremoveguidelines');
+        });
     });
 
-    Route::controller(EvacuationCenterController::class)->group(function (){
-        Route::get('/evacuation/registerEvacuation', 'registerEvacuation')->name('Cregisterevacuation');
-        Route::get('/evacuation/updateEvacuation/{evacuation_id}', 'updateEvacuation')->name('Cupdateevacuation');
-        Route::get('/evacuation/removeEvacuation/{evacuation_id}', 'deleteEvacuation')->name('Cremoveevacuation');
+    Route::group(['prefix' => 'evacuation'], function(){
+        Route::controller(EvacuationCenterController::class)->group(function (){
+            Route::get('/registerEvacuation', 'registerEvacuation')->name('Cregisterevacuation');
+            Route::get('/updateEvacuation/{evacuation_id}', 'updateEvacuation')->name('Cupdateevacuation');
+            Route::get('/removeEvacuation/{evacuation_id}', 'deleteEvacuation')->name('Cremoveevacuation');
+        });
     });
 
-    Route::controller(DisasterController::class)->group(function (){
-        Route::get('/disaster/registerDisaster', 'registerDisaster')->name('Cregisterdisaster');
-        Route::get('/disaster/updateDisaster/{disaster_id}', 'updateDisaster')->name('Cupdatedisaster');
-        Route::get('/disaster/removeDisaster/{disaster_id}', 'deleteDisaster')->name('Cremovedisaster');
+    Route::group(['prefix' => 'disaster'], function(){
+        Route::controller(DisasterController::class)->group(function (){
+            Route::get('/registerDisaster', 'registerDisaster')->name('Cregisterdisaster');
+            Route::get('/updateDisaster/{disaster_id}', 'updateDisaster')->name('Cupdatedisaster');
+            Route::get('/removeDisaster/{disaster_id}', 'deleteDisaster')->name('Cremovedisaster');
+        });
     });
 
-    Route::controller(BaranggayController::class)->group(function (){
-        Route::get('/disaster/registerBaranggay', 'registerBaranggay')->name('Cregisterbaranggay');
-        Route::get('/disaster/updateBaranggay/{baranggay_id}', 'updateBaranggay')->name('Cupdatebaranggay');
-        Route::get('/disaster/removeBaranggay/{baranggay_id}', 'deleteBaranggay')->name('Cremovebaranggay');
+    Route::group(['prefix' => 'baranggay'], function(){
+        Route::controller(BaranggayController::class)->group(function (){
+            Route::get('/registerBaranggay', 'registerBaranggay')->name('Cregisterbaranggay');
+            Route::get('/updateBaranggay/{baranggay_id}', 'updateBaranggay')->name('Cupdatebaranggay');
+            Route::get('/removeBaranggay/{baranggay_id}', 'deleteBaranggay')->name('Cremovebaranggay');
+        });
     });
 
     Route::controller(CdrrmoController::class)->group(function (){
         Route::get('/dashboard', 'dashboard')->name('Cdashboard');
-        Route::get('/addData', 'addData')->name('CaddData');
+        Route::get('/addResident', 'addResident')->name('CaddResident');
         Route::get('/disaster', 'disaster')->name('Cdisaster');
         Route::get('/eligtasGuidelines', 'eligtasGuidelines')->name('Cguidelines');
         Route::get('/eligtasGuidelines/guide', 'eligtasGuide')->name('Cguide');

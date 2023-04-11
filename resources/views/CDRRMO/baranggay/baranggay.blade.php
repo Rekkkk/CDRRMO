@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.content.headPackage')
-        <link rel="stylesheet" href="{{ asset('assets/css/baranggay.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/baranggay-css/baranggay.css') }}">
         <title>{{ config('app.name') }}</title>
     </head>
     <body class="bg-gray-400">
@@ -20,12 +20,12 @@
                     <hr class="mt-4">
                 </div>
                 <div class="main-content bg-slate-50 p-4">
-                    <div class="disaster-form p-3 mx-2 border-r-2">
+                    <div class="baranggay-form p-3 mx-2 border-r-2">
                         <header class="text-xl font-semibold">Baranggay Information</header>
                         <hr>
                         <form action="{{ route('Cregisterbaranggay') }}" method="GET">
                             @csrf
-                            <div class="form disaster my-3">
+                            <div class="form baranggay my-3">
                                 <div class="details personal">
                                     <div class="fields">
                                         <div class="flex flex-col">
@@ -67,7 +67,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="disaster-table w-full relative">
+                    <div class="baranggay-table w-full relative">
                         <header class="text-2xl font-semibold">Baranggay Table</header>
                         <hr>
                         <table class="table mt-2">
