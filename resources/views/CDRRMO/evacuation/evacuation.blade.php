@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.content.headPackage')
-        <link rel="stylesheet" href="{{ asset('assets/css/evacuation.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/evacuation-css/evacuation.css') }}">
         <title>{{ config('app.name') }}</title>
     </head>
     <body class="bg-gray-400">
@@ -12,6 +12,7 @@
             @include('partials.content.sidebar')
 
             <x-messages />
+
             <div class="content">
                 <div class="dashboard-logo pb-4">
                     <i class="bi bi-tropical-storm text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
@@ -59,7 +60,7 @@
                             </div>
                         </form>
                     </div>
-                    <div class="disaster-table w-full relative">
+                    <div class="evacuation-table w-full relative">
                         <header class="text-2xl font-semibold">Evacuation Table</header>
                         <hr>
                         <table class="table mt-2">

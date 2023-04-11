@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.content.headPackage')
-        <link rel="stylesheet" href="{{ asset('assets/css/statistics.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/statistics/statistics.css') }}">
         <script src="https://code.jquery.com/jquery-3.6.3.min.js" integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
         <script src="https://code.highcharts.com/highcharts.js"></script>
         <title>{{ config('app.name') }}</title>

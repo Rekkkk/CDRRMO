@@ -9,22 +9,21 @@ class GuessController extends Controller
     }
 
     public function guessEligtasGuidelines(){
-        return view('/CDRRMO/guidelines/eligtasGuidelines');
+        $guidelinesList = new GuidelinesController();
+        $guidelinesList = $guidelinesList->guidelines();
+
+        return view('CDRRMO.guidelines.eligtasGuidelines', $guidelinesList);
     }
 
     public function guessEvacuationCenter(){
-        return view('/CDRRMO/evacuationCenter');
+        return view('CDRRMO.evacuation.evacuationCenter');
     }
 
     public function guessHotlineNumbers(){
-        return view('/CDRRMO/hotlineNumbers');
-    }
-
-    public function guessStatistics(){
-        return view('/CDRRMO/statistics');
+        return view('CDRRMO.hotlineNumbers.hotlineNumbers');
     }
 
     public function guessAbout(){
-        return view('/CDRRMO/about');
+        return view('CDRRMO.about.about');
     }
 }

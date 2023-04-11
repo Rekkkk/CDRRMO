@@ -7,7 +7,7 @@
         </a>
     </li>
     <li>
-        <a href="{{ route('CaddData') }}">
+        <a href="{{ route('CaddResident') }}">
             <i class="bi bi-person-plus text-white"></i>
             <span class="links_name">Add Resident</span>
         </a>

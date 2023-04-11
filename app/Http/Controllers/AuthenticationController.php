@@ -8,7 +8,7 @@ class AuthenticationController extends Controller
 {
 
     public function landingPage(){
-        return view('/auth/authUser');
+        return view('auth.authUser');
     }
     
     public function authUser(Request $request){

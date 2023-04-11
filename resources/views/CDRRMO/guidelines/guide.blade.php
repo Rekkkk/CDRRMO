@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.content.headPackage')
-        <link rel="stylesheet" href="{{ asset('assets/css/guide.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/guidelines-css/guide.css') }}">
         <title>{{ config('app.name') }}</title>
     </head>
     <body class="bg-gray-400">

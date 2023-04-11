@@ -12,17 +12,8 @@ class CdrrmoController extends Controller
         return view('CDRRMO.dashboard');
     }
 
-    public function addData(){
-        // Alert::success('Data Successfully Added!', 'Cabuyao City Disaster Risk Reduction Management Office');
-        
-        return view('CDRRMO.addData');
-    }
-
-    public function disaster(){
-        $disasterList = new DisasterController();
-        $disasterList = $disasterList->disasterList();
-
-        return view('CDRRMO.disaster.disaster', $disasterList);
+    public function addResident(){
+        return view('CDRRMO.addResident.addResident');
     }
 
     public function eligtasGuidelines(){
@@ -37,7 +28,14 @@ class CdrrmoController extends Controller
         $guideList = $guideList->guide();
 
         return view('CDRRMO.guidelines.guide' , $guideList);
-    } 
+    }
+
+    public function disaster(){
+        $disasterList = new DisasterController();
+        $disasterList = $disasterList->disasterList();
+
+        return view('CDRRMO.disaster.disaster', $disasterList);
+    }
 
     public function baranggay(){
         $baranggayList = new BaranggayController();
@@ -82,27 +80,23 @@ class CdrrmoController extends Controller
             ]
         ];
 
-        return view('CDRRMO.evacuationCenter', compact('initialMarkers'));
-    }
-
-    public function hotlineNumbers(){
-        return view('CDRRMO.hotlineNumbers');
+        return view('CDRRMO.evacuation.evacuationCenter', compact('initialMarkers'));
     }
 
     public function statistics(){
-        // $male = DB::table('typhoon')->pluck('male');
-        // $female = DB::table('typhoon')->pluck('female');
-
-        //, compact('male', 'female')
-        return view('CDRRMO.statistics');
+        return view('CDRRMO.statistics.statistics');
     }
 
     public function reportAccident(){
-        return view('CDRRMO.reportAccident');
+        return view('CDRRMO.report.reportAccident');
+    }
+
+    public function hotlineNumbers(){
+        return view('CDRRMO.hotlineNumbers.hotlineNumbers');
     }
 
     public function about(){
-        return view('CDRRMO.about');
+        return view('CDRRMO.about.about');
     }
 
     public function logout(Request $request){
