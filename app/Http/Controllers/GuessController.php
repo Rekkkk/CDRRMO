@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EvacuationCenter;
+
 class GuessController extends Controller
 {
     public function dashboard(){
@@ -16,7 +18,9 @@ class GuessController extends Controller
     }
 
     public function guessEvacuationCenter(){
-        return view('CDRRMO.evacuation.evacuationCenter');
+        $evacuation = EvacuationCenter::all();
+
+        return view('CDRRMO.evacuation.evacuationCenter', ['evacuation' => $evacuation]);
     }
 
     public function guessReportAccident(){

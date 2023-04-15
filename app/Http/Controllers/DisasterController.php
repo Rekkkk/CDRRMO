@@ -65,7 +65,7 @@ class DisasterController extends Controller
         return redirect('cdrrmo/disaster');
     }
 
-    public function deleteDisaster($disaster_id){
+    public function removeDisaster($disaster_id){
     
         $deletedDisaster = DB::table('disaster')->where('disaster_id', $disaster_id)->delete();
 

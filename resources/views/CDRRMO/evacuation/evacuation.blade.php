@@ -24,7 +24,7 @@
                     <div class="evacuation-form p-3 mx-2 border-r-2">
                         <header class="text-xl font-semibold">Evacuation Information</header>
                         <hr>
-                        <form action="{{ route('Cregisterevacuation') }}" method="GET">
+                        <form action="{{ route('Cregisterevacuation') }}" method="POST">
                             @csrf
                             <div class="form evacuation my-3">
                                 <div class="details personal">
@@ -69,29 +69,32 @@
                                     <th>Evacuation Name</th>
                                     <th>Evacuation Contact</th>
                                     <th>Evacuation Location</th>
-                                    <th class="text-right">Action</th>
+                                    <th class="text-left">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($evacuation as $evacuationList)
                                 <tr>
-                                    <td class="py-3">{{ $evacuationList->evacuation_name }}</td>
-                                    <td class="py-3">{{ $evacuationList->evacuation_contact }}</td>
-                                    <td class="py-3">{{ $evacuationList->evacuation_location }}</td>
-                                    <td class="text-right">
+                                    <td class="w-2/5">{{ $evacuationList->evacuation_name }}</td>
+                                    <td>{{ $evacuationList->evacuation_contact }}</td>
+                                    <td>{{ $evacuationList->evacuation_location }}</td>
+                                    <td class="flex flex-row gap-2">
                                         <a href="#edit{{ $evacuationList->evacuation_id }}" data-bs-toggle="modal">
-                                            <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
+                                            <button type="submit" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
                                                 <i class="bi bi-pencil mr-2"></i>Edit
                                             </button>
                                         </a>
-                                        <a href="{{ route('Cremoveevacuation', $evacuationList->evacuation_id) }}">
-                                            <button type="button" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
+                                        @include('CDRRMO.evacuation.updateEvacuation')
+                                    
+                                        <form action="{{ route('Cremoveevacuation', $evacuationList->evacuation_id) }}" method="POST">
+                                            @method('delete')
+                                            @csrf
+                                            <button type="submit" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
                                                 <i class="bi bi-trash mr-2"></i>Delete
                                             </button>
-                                        </a>
+                                        </form>
                                     </td>
                                 </tr>
-                                @include('CDRRMO.evacuation.updateEvacuation')
                                 @endforeach
                             </tbody>
                         </table>
