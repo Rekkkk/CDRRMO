@@ -79,7 +79,7 @@ class BaranggayController extends Controller
         return redirect('cdrrmo/baranggay');
     }
 
-    public function deleteBaranggay($baranggay_id){
+    public function removeBaranggay($baranggay_id){
     
         $deletedBaranggay = DB::table('baranggay')->where('baranggay_id', $baranggay_id)->delete();
 

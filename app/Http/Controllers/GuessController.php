@@ -17,6 +17,13 @@ class GuessController extends Controller
         return view('CDRRMO.guidelines.eligtasGuidelines', $guidelinesList);
     }
 
+    public function guessEligtasGuide($guideline_id){
+        $guidelinesList = new GuidelinesController();
+        $guidelinesList = $guidelinesList->guide($guideline_id);
+
+        return view('CDRRMO.guidelines.guide', $guidelinesList);
+    }
+
     public function guessEvacuationCenter(){
         $evacuation = EvacuationCenter::all();
 

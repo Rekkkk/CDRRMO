@@ -24,11 +24,12 @@ class CdrrmoController extends Controller
         return view('CDRRMO.guidelines.eligtasGuidelines', $guidelinesList);
     }
 
-    public function eligtasGuide(){
+    public function eligtasGuide($guideline_id){
+        
         $guideList = new GuidelinesController();
-        $guideList = $guideList->guide();
+        $guideList = $guideList->guide($guideline_id);
 
-        return view('CDRRMO.guidelines.guide' , $guideList);
+        return view('CDRRMO.guidelines.guide' , $guideList , compact('guideline_id'));
     }
 
     public function disaster(){
