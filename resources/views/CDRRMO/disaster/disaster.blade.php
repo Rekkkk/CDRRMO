@@ -23,7 +23,7 @@
                     <div class="disaster-form p-5 mx-4 border-r-2">
                         <header class="text-xl font-semibold">Disaster Information</header>
                         <hr>
-                        <form action="{{ route('Cregisterdisaster') }}" method="GET">
+                        <form action="{{ route('Cregisterdisaster') }}" method="POST">
                             @csrf
                             <div class="form first">
                                 <div class="details personal">
@@ -50,24 +50,27 @@
                             <thead>
                                 <tr class="table-row">
                                     <th>Disaster Name</th>
-                                    <th class="text-right">Action</th>
+                                    <th class="text-left">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($disaster as $disasterList)
                                 <tr>
-                                    <td class="py-3">{{ $disasterList->disaster_name }}</td>
-                                    <td class="text-right">
+                                    <td class="py-3 w-3/5">{{ $disasterList->disaster_name }}</td>
+                                    <td class="flex flex-row gap-2">
                                         <a href="#edit{{ $disasterList->disaster_id }}" data-bs-toggle="modal">
                                             <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
                                                 <i class="bi bi-pencil mr-2"></i>Edit
                                             </button>
                                         </a>
-                                        <a href="{{ route('Cremovedisaster', $disasterList->disaster_id) }}">
-                                            <button type="button" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
+                                    
+                                        <form action="{{ route('Cremovedisaster', $disasterList->disaster_id) }}" method="POST">
+                                            @method('delete')
+                                            @csrf
+                                            <button type="submit" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
                                                 <i class="bi bi-trash mr-2"></i>Delete
                                             </button>
-                                        </a>
+                                        </form>
                                     </td>
                                 </tr>
                                 @include('CDRRMO.disaster.updateDisaster')

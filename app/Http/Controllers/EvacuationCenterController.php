@@ -72,7 +72,7 @@ class EvacuationCenterController extends Controller
         return redirect('cdrrmo/evacuationManage');
     }
 
-    public function deleteEvacuation($evacuation_id){
+    public function removeEvacuation($evacuation_id){
     
         $deletedEvacuation = DB::table('evacuation_center')->where('evacuation_id', $evacuation_id)->delete();
 

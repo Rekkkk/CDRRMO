@@ -8,7 +8,6 @@
             </div>
             <div class="modal-body">
                 <form action="{{ route('Caguidelines') }}" method="POST">
-                    @method('GET')
                     @csrf
                     <div class="mb-3">
                         <label for="guideline_description" class="flex items-center justify-center">Guidelines Description</label>

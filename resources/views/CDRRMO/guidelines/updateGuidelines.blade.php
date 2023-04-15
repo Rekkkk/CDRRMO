@@ -7,7 +7,8 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('Cupdateguidelines', $guidelinesItem->guidelines_id) }}" method="GET">
+                <form action="{{ route('Cupdateguidelines', $guidelinesItem->guidelines_id) }}" method="POST">
+                    @method('PUT')
                     @csrf
                     <div class="mb-3">
                         <label for="guideline_description" class="flex items-center justify-center">Guideline Desctription</label>
