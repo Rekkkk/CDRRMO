@@ -32,7 +32,7 @@
             <div class="main-content">
                 @foreach ($guide as $guideItem)
                 <div class="guide-container w-full">
-                    <div class="guide-content">
+                    <div class="guide-content mb-2">
                         <div class="label">
                             {{ $guideItem->guide_description }}
                         </div>

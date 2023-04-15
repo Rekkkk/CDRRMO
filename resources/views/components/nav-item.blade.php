@@ -92,6 +92,12 @@
         </a>
     </li>
     <li>
+        <a href="{{ route('Greport') }}">
+            <i class="bi bi-megaphone text-white"></i>
+            <span class="links_name">Report Accident</span>
+        </a>
+    </li>
+    <li>
         <a href="{{ route('GNumbers') }}">
             <i class="bi bi-telephone text-white"></i>
             <span class="links_name">Hotline Numbers</span>

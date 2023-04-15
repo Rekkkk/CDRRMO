@@ -19,6 +19,10 @@ class GuessController extends Controller
         return view('CDRRMO.evacuation.evacuationCenter');
     }
 
+    public function guessReportAccident(){
+        return view('CDRRMO.report.reportAccident');
+    }
+
     public function guessHotlineNumbers(){
         return view('CDRRMO.hotlineNumbers.hotlineNumbers');
     }

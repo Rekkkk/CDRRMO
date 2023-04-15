@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Disaster;
 use Illuminate\Support\Facades\DB;
@@ -26,7 +27,7 @@ class DisasterController extends Controller
         if($validatedDisaster->passes()) {
 
             Disaster::create([
-                'disaster_name' => $request->disaster_name,
+                'disaster_name' => Str::ucfirst($request->disaster_name),
             ]);
 
             Alert::success('Disaster Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
@@ -48,7 +49,7 @@ class DisasterController extends Controller
             $disaster_label = $request->input('disaster_name');
 
             $updatedDisaster = Disaster::where('disaster_id', $disaster_id)->update([
-                'disaster_name' => $disaster_label,
+                'disaster_name' => Str::ucfirst($disaster_label),
             ]);
 
             if($updatedDisaster){

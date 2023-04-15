@@ -26,6 +26,7 @@ Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function(){
         Route::get('/dashboard', 'dashboard')->name('Gdashboard');
         Route::get('/eligtasGuidelines', 'guessEligtasGuidelines')->name('Gguidelines');
         Route::get('/evacuationCenter', 'guessEvacuationCenter')->name('GEvacuation');
+        Route::get('/reportAccident', 'guessReportAccident')->name('Greport');
         Route::get('/hotlineNumbers', 'guessHotlineNumbers')->name('GNumbers');
         Route::get('/statistics', 'guessStatistics')->name('Gstatistics');
         Route::get('/about', 'guessAbout')->name('Gabout');
@@ -42,7 +43,7 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
             
             Route::get('/guidelines/addGuidelines', 'addGuidelines')->name('Caguidelines');
             Route::get('/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cupdateguidelines');
-            Route::get('/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cremoveguidelines');
+            Route::get('/guidelines/removeGuidelines/{guidelines_id}', 'removeGuidelines')->name('Cremoveguidelines');
         });
     });
 
