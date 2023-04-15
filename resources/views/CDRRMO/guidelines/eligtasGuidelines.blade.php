@@ -34,7 +34,16 @@
                 <div class="content-item text-center mt-4">
                     <div class="row gap-4 justify-center items-center">
                         @foreach ($guidelines as $guidelinesItem)
-                        <div class="col-lg-2 mb-4">
+                        <div class="col-lg-2 mb-4 relative">
+                            @auth
+                            <a href="{{ route('Cremoveguidelines', $guidelinesItem->guidelines_id) }}" class="absolute right-0 ">
+                                <i class="bi bi-x-lg cursor-pointer p-2.5 bg-red-700 text-white rounded-full shadow-lg hover:bg-red-900 transition duration-200"></i>
+                            </a>
+                            <a href="#edit{{ $guidelinesItem->guidelines_id }}" data-bs-toggle="modal" class="absolute left-4 top-3">
+                                <i class="bi bi-pencil cursor-pointer p-2 bg-slate-600 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200"></i>
+                            </a>
+                            @include('CDRRMO.guidelines.updateGuidelines')
+                            @endauth
                             <a class="guidelines-item" href="{{ route('Cguide') }}">
                                 <div class="widget relative w-full h-full">
                                     <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">

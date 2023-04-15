@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use App\Models\Guide;
 use App\Models\Guidelines;
 use Illuminate\Http\Request;
@@ -33,8 +34,8 @@ class GuidelinesController extends Controller
         if($validatedGuideline->passes()) {
 
             Guide::create([
-                'guide_description' => $request->guide_description,
-                'guide_content' => $request->guide_content,
+                'guide_description' => Str::upper($request->guide_description),
+                'guide_content' => Str::upper($request->guide_content),
             ]);
 
             Alert::success('Guide Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
@@ -47,19 +48,19 @@ class GuidelinesController extends Controller
 
     public function updateGuide(Request $request, $guide_id){
 
-        $validatedGuideline = Validator::make($request->all(), [
+        $validatedGuide = Validator::make($request->all(), [
             'guide_description' => 'required',
             'guide_content' => 'required',
         ]);
 
-        if($validatedGuideline->passes()){
+        if($validatedGuide->passes()){
 
             $guide_description = $request->input('guide_description');
             $guide_content = $request->input('guide_content');
 
             $updatedGuide = Guide::where('guide_id', $guide_id)->update([
-                'guide_description' => $guide_description,
-                'guide_content' => $guide_content,
+                'guide_description' => Str::upper($guide_description),
+                'guide_content' => Str::upper($guide_content),
             ]);
 
             if($updatedGuide){
@@ -97,7 +98,7 @@ class GuidelinesController extends Controller
         if($validatedGuideline->passes()) {
 
             Guidelines::create([
-                'guidelines_description' => $request->guidelines_description,
+                'guidelines_description' => Str::upper("E-LIGTAS $request->guidelines_description"),
             ]);
 
             Alert::success('Guidelines Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
@@ -106,6 +107,46 @@ class GuidelinesController extends Controller
 
         Alert::error('Failed to Post Guidelines', 'Cabuyao City Disaster Risk Reduction Management Office');
         return redirect('cdrrmo/eligtasGuidelines');
+    }
+
+    public function updateGuidelines(Request $request, $guidelines_id){
+
+        $validatedGuideline = Validator::make($request->all(), [
+            'guideline_description' => 'required',
+        ]);
+
+        if($validatedGuideline->passes()){
+
+            $guideline_description = $request->input('guideline_description');
+
+            $updatedGuidelines = Guidelines::where('guidelines_id', $guidelines_id)->update([
+                'guidelines_description' => Str::upper($guideline_description),
+            ]);
+
+            if($updatedGuidelines){
+                Alert::success('Guideline Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+                return redirect('cdrrmo/eligtasGuidelines');
+            }
+            else{
+                Alert::error('Failed to Update Guideline', 'Cabuyao City Disaster Risk Reduction Management Office');
+                return redirect('cdrrmo/eligtasGuidelines');
+            }
+        }
+
+        return redirect('cdrrmo/eligtasGuidelines');
+    }
+
+    public function removeGuidelines($guideline_id){
+        $deletedGuideline = DB::table('guidelines')->where('guidelines_id', $guideline_id)->delete();
+
+        if($deletedGuideline){
+            Alert::success('Guideline Deleted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+            return redirect('cdrrmo/eligtasGuidelines');
+        }
+        else{
+            Alert::error('Failed to Deleted Guideline', 'Cabuyao City Disaster Risk Reduction Management Office');
+            return redirect('cdrrmo/eligtasGuidelines');
+        }
     }
 
 }

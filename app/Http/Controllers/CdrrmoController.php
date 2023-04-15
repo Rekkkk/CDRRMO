@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\EvacuationCenter;
 use Illuminate\Http\Request;
 
 class CdrrmoController extends Controller
@@ -53,6 +54,8 @@ class CdrrmoController extends Controller
 
     public function evacuationCenter(){
 
+        $evacuation = EvacuationCenter::all();
+
         $initialMarkers = [
             [
                 'position' => [
@@ -80,7 +83,7 @@ class CdrrmoController extends Controller
             ]
         ];
 
-        return view('CDRRMO.evacuation.evacuationCenter', compact('initialMarkers'));
+        return view('CDRRMO.evacuation.evacuationCenter', ['evacuation' => $evacuation, 'initialMarkers' => $initialMarkers] );
     }
 
     public function statistics(){
