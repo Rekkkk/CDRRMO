@@ -43,13 +43,22 @@
                                 <i class="bi bi-pencil cursor-pointer p-2 bg-slate-600 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200"></i>
                             </a>
                             @include('CDRRMO.guidelines.updateGuidelines')
-                            @endauth
+                            
                             <a class="guidelines-item" href="{{ route('Cguide', $guidelinesItem->guidelines_id) }}">
                                 <div class="widget relative w-full h-full">
                                     <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
                                     <p>{{ $guidelinesItem->guidelines_description }}</p>
                                 </div>
                             </a>
+                            @endauth
+                            @guest
+                            <a class="guidelines-item" href="{{ route('Gguide', $guidelinesItem->guidelines_id) }}">
+                                <div class="widget relative w-full h-full">
+                                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
+                                    <p>{{ $guidelinesItem->guidelines_description }}</p>
+                                </div>
+                            </a>
+                            @endguest
                         </div>
                         @endforeach
                     </div>

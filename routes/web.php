@@ -18,13 +18,11 @@ Route::controller(AuthenticationController::class)->group(function (){
 });
 
 Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function(){
-    Route::controller(GuidelinesController::class)->group(function (){
-        Route::get('/eligtasGuidelines/guidelines', 'guidelines')->name('Gguide');
-    });
 
     Route::controller(GuessController::class)->group(function (){
         Route::get('/dashboard', 'dashboard')->name('Gdashboard');
         Route::get('/eligtasGuidelines', 'guessEligtasGuidelines')->name('Gguidelines');
+        Route::get('/eligtasGuidelines/guidelines/{guideline_id}', 'guessEligtasGuide')->name('Gguide');
         Route::get('/evacuationCenter', 'guessEvacuationCenter')->name('GEvacuation');
         Route::get('/reportAccident', 'guessReportAccident')->name('Greport');
         Route::get('/hotlineNumbers', 'guessHotlineNumbers')->name('GNumbers');
