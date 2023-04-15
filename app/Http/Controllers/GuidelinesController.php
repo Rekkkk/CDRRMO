@@ -12,8 +12,8 @@ use RealRashid\SweetAlert\Facades\Alert;
 
 class GuidelinesController extends Controller
 {
-    public function guide(){
-        $guide = array("guide" => DB::table('guide')->orderBy('guide_id', 'asc')->simplePaginate(5));
+    public function guide($guideline_id){
+        $guide = array("guide" => DB::table('guide')->where('guidelines_id', $guideline_id)->orderBy('guide_id', 'asc')->simplePaginate(5));
         
         return $guide;
     }
@@ -24,7 +24,7 @@ class GuidelinesController extends Controller
         return $guidelines;
     }
 
-    public function addGuide(Request $request){
+    public function addGuide(Request $request, $guideline_id){
 
         $validatedGuideline = Validator::make($request->all(), [
             'guide_description' => 'required',
@@ -36,14 +36,15 @@ class GuidelinesController extends Controller
             Guide::create([
                 'guide_description' => Str::upper($request->guide_description),
                 'guide_content' => Str::upper($request->guide_content),
+                'guidelines_id' => $guideline_id,
             ]);
 
             Alert::success('Guide Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-            return redirect('cdrrmo/eligtasGuidelines/guide');
+            return redirect('cdrrmo/eligtasGuidelines/guide/' . $guideline_id);
         }
 
         Alert::error('Failed to Post Guide', 'Cabuyao City Disaster Risk Reduction Management Office');
-        return redirect('cdrrmo/eligtasGuidelines/guide');
+        return redirect('cdrrmo/eligtasGuidelines/guide/' . $guideline_id);
     }
 
     public function updateGuide(Request $request, $guide_id){
@@ -57,35 +58,39 @@ class GuidelinesController extends Controller
 
             $guide_description = $request->input('guide_description');
             $guide_content = $request->input('guide_content');
+            $guidelines_id = $request->input('guidelines_id');
 
             $updatedGuide = Guide::where('guide_id', $guide_id)->update([
                 'guide_description' => Str::upper($guide_description),
                 'guide_content' => Str::upper($guide_content),
             ]);
 
+            
             if($updatedGuide){
                 Alert::success('Guide Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-                return redirect('cdrrmo/eligtasGuidelines/guide');
+                return redirect('cdrrmo/eligtasGuidelines/guide/'. $guidelines_id);
             }
             else{
                 Alert::error('Failed to Update Guide', 'Cabuyao City Disaster Risk Reduction Management Office');
-                return redirect('cdrrmo/eligtasGuidelines/guide');
+                return redirect('cdrrmo/eligtasGuidelines/guide/' . $guidelines_id);
             }
         }
 
-        return redirect('cdrrmo/eligtasGuidelines/guide');
+        return redirect('cdrrmo/eligtasGuidelines/guide/');
     }
 
     public function removeGuide($guide_id){
+        $guide = DB::table('guide')->where('guide_id', $guide_id)->get();
+        $guideline_id = $guide->first()->guidelines_id;
         $deletedGuide = DB::table('guide')->where('guide_id', $guide_id)->delete();
-
+        
         if($deletedGuide){
             Alert::success('Guide Deleted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-            return redirect('cdrrmo/eligtasGuidelines/guide');
+            return redirect('cdrrmo/eligtasGuidelines/guide/' . $guideline_id);
         }
         else{
             Alert::error('Failed to Deleted Guide', 'Cabuyao City Disaster Risk Reduction Management Office');
-            return redirect('cdrrmo/eligtasGuidelines/guide');
+            return redirect('cdrrmo/eligtasGuidelines/guide/' . $guideline_id);
         }
     }
 

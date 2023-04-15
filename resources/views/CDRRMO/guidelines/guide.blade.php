@@ -20,7 +20,7 @@
                 <button type="submit" class="bg-slate-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200" >
                     <i class="bi bi-pencil mr-2"></i> Edit Quiz
                 </button>
-                <a href="#add" data-bs-toggle="modal">
+                <a href="#add{{ $guideline_id }}" data-bs-toggle="modal">
                     <button type="submit" class="bg-red-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-red-900 transition duration-200" >
                         <i class="bi bi-bag-plus-fill mr-2"></i> Add Guide
                     </button>

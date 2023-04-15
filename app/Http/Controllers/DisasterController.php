@@ -27,7 +27,7 @@ class DisasterController extends Controller
         if($validatedDisaster->passes()) {
 
             Disaster::create([
-                'disaster_name' => Str::ucfirst($request->disaster_name),
+                'disaster_name' => Str::of($request->disaster_name)->title(),
             ]);
 
             Alert::success('Disaster Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');

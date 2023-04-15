@@ -44,7 +44,7 @@
                             </a>
                             @include('CDRRMO.guidelines.updateGuidelines')
                             @endauth
-                            <a class="guidelines-item" href="{{ route('Cguide') }}">
+                            <a class="guidelines-item" href="{{ route('Cguide', $guidelinesItem->guidelines_id) }}">
                                 <div class="widget relative w-full h-full">
                                     <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
                                     <p>{{ $guidelinesItem->guidelines_description }}</p>
