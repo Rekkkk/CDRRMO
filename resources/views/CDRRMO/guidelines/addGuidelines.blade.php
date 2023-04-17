@@ -8,11 +8,10 @@
             </div>
             <div class="modal-body">
                 <form action="{{ route('Caguidelines') }}" method="POST">
-                    @method('GET')
                     @csrf
                     <div class="mb-3">
                         <label for="guideline_description" class="flex items-center justify-center">Guidelines Description</label>
-                        <input type="text" name="guidelines_description" class="form-control" autocomplete="off" placeholder="Enter Guideline Description">
+                        <input type="text" name="guidelines_description" class="form-control" autocomplete="off" placeholder="ex. typhooon guidlines">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200" data-bs-dismiss="modal">Close</button>

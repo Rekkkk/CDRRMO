@@ -7,8 +7,10 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('Cupdateguide', $guideItem->guide_id) }}" method="GET">
+                <form action="{{ route('Cupdateguide', $guideItem->guide_id) }}" method="POST">
+                    @method('PUT')
                     @csrf
+                    <input type="text" name="guidelines_id" value="{{ $guideItem->guidelines_id }}" hidden>
                     <div class="mb-3">
                         <label for="guide_description" class="flex items-center justify-center">Guide Desctription</label>
                         <input type="text" name="guide_description" value="{{ $guideItem->guide_description }}" class="form-control" autocomplete="off">

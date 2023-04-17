@@ -23,7 +23,7 @@
                     <div class="baranggay-form p-3 mx-2 border-r-2">
                         <header class="text-xl font-semibold">Baranggay Information</header>
                         <hr>
-                        <form action="{{ route('Cregisterbaranggay') }}" method="GET">
+                        <form action="{{ route('Cregisterbaranggay') }}" method="POST">
                             @csrf
                             <div class="form baranggay my-3">
                                 <div class="details personal">
@@ -77,7 +77,7 @@
                                     <th>Location</th>
                                     <th>Contact Number</th>
                                     <th>Email Address</th>
-                                    <th class="text-right">Action</th>
+                                    <th class="text-left">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -87,18 +87,21 @@
                                     <td class="w-2/5">{{ $baranggayList->baranggay_location }}</td>
                                     <td class="">{{ $baranggayList->baranggay_contact_number }}</td>
                                     <td class="">{{ $baranggayList->baranggay_email_address }}</td>
-                                    <td class="text-right">
+                                    <td class="flex flex-row gap-2">
                                         <a href="#edit{{ $baranggayList->baranggay_id }}" data-bs-toggle="modal">
-                                            <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
+                                            <button type="submit" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
                                                 <i class="bi bi-pencil mr-2"></i>Edit
                                             </button>
                                         </a>
-                                        <a href="{{ route('Cremovebaranggay', $baranggayList->baranggay_id) }}">
-                                            <button type="button" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
+                                        @include('CDRRMO.baranggay.updateBaranggay')
+                                    
+                                        <form action="{{ route('Cremovebaranggay', $baranggayList->baranggay_id) }}" method="POST">
+                                            @method('delete')
+                                            @csrf
+                                            <button type="submit" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
                                                 <i class="bi bi-trash mr-2"></i>Delete
                                             </button>
-                                        </a>
-                                        @include('CDRRMO.baranggay.updateBaranggay')
+                                        </form>
                                     </td>
                                 </tr>
                                 @endforeach

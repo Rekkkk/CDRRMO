@@ -7,7 +7,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('Cupdatedisaster', $disasterList->disaster_id) }}" method="GET">
+                <form action="{{ route('Cupdatedisaster', $disasterList->disaster_id) }}" method="POST">
+                    @method('PUT')
+                    @csrf
                     <div class="mb-3">
                         <label for="disaster_name" class="flex items-center justify-center">Disaster Label</label>
                         <input type="text" name="disaster_name" value="{{ $disasterList->disaster_name }}" class="form-control" autocomplete="off">

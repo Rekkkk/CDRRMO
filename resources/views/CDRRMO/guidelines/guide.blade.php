@@ -15,24 +15,29 @@
 
             <h1 class="text-center bg-slate-700 w-full mt-2 text-white mb-2 text-4xl p-3 font-bold">"E-LIGTAS Guides"</h1>
             
-            @auth
             <div class="guide-btn w-full py-2 flex justify-end">
+                @guest
+                <button type="button" class="bg-slate-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200" >
+                    <i class="bi bi-pencil mr-2"></i> Take Quiz
+                </button>
+                @endguest
+                @auth
                 <button type="submit" class="bg-slate-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200" >
                     <i class="bi bi-pencil mr-2"></i> Edit Quiz
                 </button>
-                <a href="#add" data-bs-toggle="modal">
+                <a href="#add{{ $guideline_id }}" data-bs-toggle="modal">
                     <button type="submit" class="bg-red-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-red-900 transition duration-200" >
                         <i class="bi bi-bag-plus-fill mr-2"></i> Add Guide
                     </button>
                 </a>
                 @include('CDRRMO.guidelines.addGuide')
+                @endauth
             </div>
-            @endauth
            
             <div class="main-content">
                 @foreach ($guide as $guideItem)
                 <div class="guide-container w-full">
-                    <div class="guide-content">
+                    <div class="guide-content mb-2">
                         <div class="label">
                             {{ $guideItem->guide_description }}
                         </div>

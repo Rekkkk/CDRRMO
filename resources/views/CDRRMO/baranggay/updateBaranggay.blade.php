@@ -7,7 +7,9 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('Cupdatebaranggay', $baranggayList->baranggay_id) }}" method="GET">
+                <form action="{{ route('Cupdatebaranggay', $baranggayList->baranggay_id) }}" method="POST">
+                    @method('PUT')
+                    @csrf
                     <div class="mb-3">
                         <label for="baranggay_name" class="flex items-center justify-center">Baranggay Name</label>
                         <input type="text" name="baranggay_name" value="{{  $baranggayList->baranggay_name }}" class="form-control" autocomplete="off">

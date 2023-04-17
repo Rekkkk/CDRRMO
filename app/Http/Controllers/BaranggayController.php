@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Baranggay;
 use Illuminate\Support\Facades\DB;
@@ -28,8 +29,8 @@ class BaranggayController extends Controller
         if($validatedBaranggay->passes()) {
 
             Baranggay::create([
-                'baranggay_name' => $request->baranggay_name,
-                'baranggay_location' => $request->baranggay_location,
+                'baranggay_name' => Str::ucfirst($request->baranggay_name),
+                'baranggay_location' => Str::ucfirst($request->baranggay_location),
                 'baranggay_contact_number' => $request->baranggay_contact,
                 'baranggay_email_address' => $request->baranggay_email,
             ]);
@@ -59,8 +60,8 @@ class BaranggayController extends Controller
             $baranggay_email = $request->input('baranggay_email');
 
             $updatedBaranggay = Baranggay::where('baranggay_id', $baranggay_id)->update([
-                'baranggay_name' => $baranggay_name,
-                'baranggay_location' => $baranggay_location,
+                'baranggay_name' => Str::ucfirst($baranggay_name),
+                'baranggay_location' => Str::ucfirst($baranggay_location),
                 'baranggay_contact_number' => $baranggay_contact,
                 'baranggay_email_address' => $baranggay_email,
             ]);
@@ -78,7 +79,7 @@ class BaranggayController extends Controller
         return redirect('cdrrmo/baranggay');
     }
 
-    public function deleteBaranggay($baranggay_id){
+    public function removeBaranggay($baranggay_id){
     
         $deletedBaranggay = DB::table('baranggay')->where('baranggay_id', $baranggay_id)->delete();
 

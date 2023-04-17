@@ -40,46 +40,24 @@
                             <tr>
                                 <th scope="col">#</th>
                                 <th scope="col">Evacuation Center Name</th>
+                                <th scope="col">Contact</th>
                                 <th scope="col">Location</th>
-                                <th scope="col">Action</th>
                             </tr>
                         </thead>
                         <tbody>
+                            @foreach ($evacuation as $evacuationList)
                             <tr>
-                                <th scope="row">1</th>
-                                <td>Evacuation Center Example 1</td>
-                                <td>Pulo</td>
+                                <th>{{ $evacuationList->evacuation_id }}</th>
+                                <td>{{ $evacuationList->evacuation_name }}</td>
+                                <td>{{ $evacuationList->evacuation_contact }}</td>
+                                <td>{{ $evacuationList->evacuation_location }}</td>
                                 <td>
-                                    @auth
-                                    <a href="#" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Edit</a>
-                                    @endauth
                                     <a href="#" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate</a>
                                 </td>
                             </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Evacuation Center Example 2</td>
-                                <td>Mamatid</td>
-                                <td>
-                                    @auth
-                                    <a href="#" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Edit</a>
-                                    @endauth
-                                    <a href="#" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate</a>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td>Evacuation Center Example 3</td>
-                                <td>Cabuyao</td>
-                                <td>
-                                    @auth
-                                    <a href="#" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Edit</a>
-                                    @endauth
-                                    <a href="#" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate</a>
-                                </td>
-                            </tr>
+                            @endforeach
                         </tbody>
-                      </table>
+                    </table>
                 </div>
             </div>
         </div>
