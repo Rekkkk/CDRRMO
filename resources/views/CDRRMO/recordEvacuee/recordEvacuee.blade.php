@@ -91,9 +91,9 @@
                                     <label for="barangay">Barangay</label>
                                     <select name="barangay"
                                         class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded w-full ease-linear transition-all duration-150">
-                                        @foreach ($baranggay as $baranggayList)
-                                            <option value="{{ $baranggayList->baranggay_id }}">
-                                                {{ $baranggayList->baranggay_name }}</option>
+                                        @foreach ($baranggayList as $baranggayLists)
+                                            <option value="{{ $baranggayLists->baranggay_id }}">
+                                                {{ $baranggayLists->baranggay_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -103,9 +103,9 @@
                                     <label for="evacuation_center">Evacuation Center</label>
                                     <select name="evacuation_center"
                                         class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded w-full ease-linear transition-all duration-150">
-                                        @foreach ($evacuationCenter as $evacuationCenterList)
-                                            <option value="{{ $evacuationCenterList->evacuation_id }}">
-                                                {{ $evacuationCenterList->evacuation_name }}</option>
+                                        @foreach ($evacuationCenterList as $evacuationCenterLists)
+                                            <option value="{{ $evacuationCenterLists->evacuation_id }}">
+                                                {{ $evacuationCenterLists->evacuation_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
@@ -115,9 +115,9 @@
                                     <label for="disaster">Disaster</label>
                                     <select name="disaster"
                                         class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded w-full ease-linear transition-all duration-150">
-                                        @foreach ($disaster as $disasterList)
-                                            <option value="{{ $disasterList->disaster_id }}">
-                                                {{ $disasterList->disaster_name }}</option>
+                                        @foreach ($disasterList as $disasterLists)
+                                            <option value="{{ $disasterLists->disaster_id }}">
+                                                {{ $disasterLists->disaster_name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
