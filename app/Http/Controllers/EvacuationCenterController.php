@@ -15,7 +15,7 @@ class EvacuationCenterController extends Controller
 
         return $EvacuationList;
     }
-    
+
     public function registerEvacuation(Request $request){
         $validatedEvacuation = Validator::make($request->all(), [
             'evacuation_name' => 'required',
@@ -72,7 +72,6 @@ class EvacuationCenterController extends Controller
     }
 
     public function deleteEvacuation($evacuation_id){
-    
         $deletedEvacuation = DB::table('evacuation_center')->where('evacuation_id', $evacuation_id)->delete();
 
         if($deletedEvacuation){

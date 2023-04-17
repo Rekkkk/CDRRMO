@@ -39,7 +39,7 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
             Route::get('/guide/addGuide', 'addGuide')->name('Caguide');
             Route::get('/guide/updateGuide/{guide_id}', 'updateGuide')->name('Cupdateguide');
             Route::get('/guide/removeGuide/{guide_id}', 'removeGuide')->name('Cremoveguide');
-            
+
             Route::get('/guidelines/addGuidelines', 'addGuidelines')->name('Caguidelines');
             Route::get('/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cupdateguidelines');
             Route::get('/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cremoveguidelines');
@@ -72,7 +72,7 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
 
     Route::controller(CdrrmoController::class)->group(function (){
         Route::get('/dashboard', 'dashboard')->name('Cdashboard');
-        Route::get('/addResident', 'addResident')->name('CaddResident');
+        Route::get('/recordEvacuee', 'recordEvacuee')->name('CrecordEvacuee');
         Route::get('/disaster', 'disaster')->name('Cdisaster');
         Route::get('/eligtasGuidelines', 'eligtasGuidelines')->name('Cguidelines');
         Route::get('/eligtasGuidelines/guide', 'eligtasGuide')->name('Cguide');
