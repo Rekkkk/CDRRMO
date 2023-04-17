@@ -16,7 +16,7 @@ class EvacuationCenterController extends Controller
 
         return $EvacuationList;
     }
-    
+
     public function registerEvacuation(Request $request){
         $validatedEvacuation = Validator::make($request->all(), [
             'evacuation_name' => 'required',

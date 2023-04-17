@@ -71,7 +71,7 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
 
     Route::controller(CdrrmoController::class)->group(function (){
         Route::get('/dashboard', 'dashboard')->name('Cdashboard');
-        Route::get('/addResident', 'addResident')->name('CaddResident');
+        Route::get('/recordEvacuee', 'recordEvacuee')->name('CrecordEvacuee');
         Route::get('/disaster', 'disaster')->name('Cdisaster');
         Route::get('/eligtasGuidelines', 'eligtasGuidelines')->name('Cguidelines');
         Route::get('/eligtasGuidelines/guide/{guidelines_id}', 'eligtasGuide')->name('Cguide');

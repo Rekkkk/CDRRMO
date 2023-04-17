@@ -7,9 +7,9 @@
         </a>
     </li>
     <li>
-        <a href="{{ route('CaddResident') }}">
+        <a href="{{ route('CrecordEvacuee') }}">
             <i class="bi bi-person-plus text-white"></i>
-            <span class="links_name">Add Resident</span>
+            <span class="links_name">Record Evacuee</span>
         </a>
     </li>
     <li>

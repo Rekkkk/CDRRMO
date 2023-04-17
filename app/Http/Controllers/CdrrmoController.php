@@ -13,8 +13,14 @@ class CdrrmoController extends Controller
         return view('CDRRMO.dashboard');
     }
 
-    public function addResident(){
-        return view('CDRRMO.addResident.addResident');
+    public function recordEvacuee(){
+        $recordEvacueeController = new RecordEvacueeController();
+
+        $baranggayList = $recordEvacueeController->baranggayList();
+        $evacuationCenterList = $recordEvacueeController->evacuationCenterList();
+        $disasterList = $recordEvacueeController->disasterList();
+
+        return view('CDRRMO.recordEvacuee.recordEvacuee', $baranggayList, $disasterList, $evacuationCenterList);
     }
 
     public function eligtasGuidelines(){
