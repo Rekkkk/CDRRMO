@@ -3,16 +3,16 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Baranggay;
+use App\Models\Barangay;
 use App\Models\Disaster;
 use App\Models\EvacuationCenter;
 
 class RecordEvacueeController extends Controller
 {
-    public function baranggayList(){
-        $baranggayLists = Baranggay::all()->sortBy('baranggay_name');
+    public function barangayList(){
+        $barangayLists = Barangay::all()->sortBy('barangay_name');
 
-        return $baranggayLists;
+        return $barangayLists;
     }
 
     public function evacuationCenterList(){

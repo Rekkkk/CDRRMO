@@ -16,11 +16,11 @@ class CdrrmoController extends Controller
     public function recordEvacuee(){
         $recordEvacueeController = new RecordEvacueeController();
 
-        $baranggayList = $recordEvacueeController->baranggayList();
+        $barangayList = $recordEvacueeController->barangayList();
         $evacuationCenterList = $recordEvacueeController->evacuationCenterList();
         $disasterList = $recordEvacueeController->disasterList();
 
-        return view('CDRRMO.recordEvacuee.recordEvacuee', compact('baranggayList','evacuationCenterList','disasterList'));
+        return view('CDRRMO.recordEvacuee.recordEvacuee', compact('barangayList','evacuationCenterList','disasterList'));
     }
 
     public function eligtasGuidelines(){
@@ -45,11 +45,11 @@ class CdrrmoController extends Controller
         return view('CDRRMO.disaster.disaster', $disasterList);
     }
 
-    public function baranggay(){
-        $baranggayList = new BaranggayController();
-        $baranggayList = $baranggayList->baranggayList();
+    public function barangay(){
+        $barangayList = new BarangayController();
+        $barangayList = $barangayList->barangayList();
 
-        return view('CDRRMO.baranggay.baranggay', $baranggayList);
+        return view('CDRRMO.barangay.barangay', $barangayList);
     }
 
     public function evacuationManage(){
