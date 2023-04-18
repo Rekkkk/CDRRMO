@@ -15,7 +15,7 @@ class DatabaseSeeder extends Seeder
 
         $this->call(DisasterSeeder::class);
         $this->call(GuidelinesSeeder::class);
-        $this->call(BaranggaySeeder::class);
+        $this->call(BarangaySeeder::class);
         $this->call(EvacuationCenterSeeder::class);
         $this->call(GuideSeeder::class);
 

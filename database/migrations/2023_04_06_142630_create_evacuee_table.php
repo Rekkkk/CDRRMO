@@ -17,8 +17,8 @@ return new class extends Migration
             $table->integer('evacuee_age')->nullable();
             $table->string('evacuee_gender')->nullable();
             $table->string('evacuee_address')->nullable();
-            $table->unsignedBigInteger('baranggay_id')->nullable();
-            $table->foreign('baranggay_id')->references('baranggay_id')->on('baranggay')->nullable();
+            $table->unsignedBigInteger('barangay_id')->nullable();
+            $table->foreign('barangay_id')->references('barangay_id')->on('barangay')->nullable();
             $table->unsignedBigInteger('disaster_id')->nullable();
             $table->foreign('disaster_id')->references('disaster_id')->on('disaster')->nullable();
             $table->unsignedBigInteger('evacuation_assigned')->nullable();
