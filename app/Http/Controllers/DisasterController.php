@@ -5,30 +5,36 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\Disaster;
-use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 
 class DisasterController extends Controller
 {
+    private $disaster;
+
+    public function __construct() {
+        $this->disaster = new Disaster;
+    }
 
     public function disasterList(){
-        $disasterList = array("disaster" => DB::table('disaster')->orderBy('disaster_id', 'asc')->simplePaginate(3));
-
-        return $disasterList;
+        $disaster = $this->disaster->displayDisasterObject();
+        
+        return compact('disaster');
     }
 
     public function registerDisaster(Request $request){
-    
+
         $validatedDisaster = Validator::make($request->all(), [
             'disaster_name' => 'required',
         ]);
-
+        
         if($validatedDisaster->passes()) {
-
-            Disaster::create([
+            
+            $disasterData = [
                 'disaster_name' => Str::of(trim($request->disaster_name))->title(),
-            ]);
+            ];
+
+            $this->disaster->registerDisasterObject($disasterData);
 
             Alert::success('Disaster Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
             return redirect('cdrrmo/disaster');
@@ -44,36 +50,23 @@ class DisasterController extends Controller
             'disaster_name' => 'required',
         ]);
 
-        if($validatedDisaster->passes()){
+        if($validatedDisaster){
 
-            $updatedDisaster = Disaster::where('disaster_id', $disaster_id)->update([
-                'disaster_name' => Str::ucfirst(trim($request->input('disaster_name'))),
-            ]);
+            $this->disaster->updateDisasterObject($request, $disaster_id);
 
-            if($updatedDisaster){
-                Alert::success('Disaster Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-                return redirect('cdrrmo/disaster');
-            }
-            else{
-                Alert::error('Failed to Update Disaster', 'Cabuyao City Disaster Risk Reduction Management Office');
-                return redirect('cdrrmo/disaster');
-            }
+            Alert::success('Disaster Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+            return redirect('cdrrmo/disaster');
         }
 
+        Alert::error('Failed to Update Disaster', 'Cabuyao City Disaster Risk Reduction Management Office');
         return redirect('cdrrmo/disaster');
     }
 
     public function removeDisaster($disaster_id){
     
-        $deletedDisaster = DB::table('disaster')->where('disaster_id', $disaster_id)->delete();
+        $this->disaster->removeDisasterObject($disaster_id);
 
-        if($deletedDisaster){
-            Alert::success('Disaster Deleted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-            return redirect('cdrrmo/disaster');
-        }
-        else{
-            Alert::error('Failed to Deleted Disaster', 'Cabuyao City Disaster Risk Reduction Management Office');
-            return redirect('cdrrmo/disaster');
-        }
+        Alert::success('Disaster Deleted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+        return redirect('cdrrmo/disaster');
     }
 }
