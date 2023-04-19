@@ -13,9 +13,9 @@ use Illuminate\Support\Facades\Validator;
 
 class RecordEvacueeController extends Controller
 {
-    public function baranggayList()
+    public function barangayList()
     {
-        $barangayLists = Barangay::all()->sortBy('baranggay_name');
+        $barangayLists = Barangay::all()->sortBy('barangay_name');
 
         return $barangayLists;
     }
