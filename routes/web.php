@@ -7,6 +7,7 @@ use App\Http\Controllers\GuidelinesController;
 use App\Http\Controllers\GuessController;
 use App\Http\Controllers\DisasterController;
 use App\Http\Controllers\EvacuationCenterController;
+use App\Http\Controllers\RecordEvacueeController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthenticationController::class)->group(function (){
@@ -38,7 +39,7 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
             Route::post('/guide/addGuide{guideline_id}', 'addGuide')->name('Caguide');
             Route::put('/guide/updateGuide/{guide_id}', 'updateGuide')->name('Cupdateguide');
             Route::get('/guide/removeGuide/{guide_id}', 'removeGuide')->name('Cremoveguide');
-            
+
             Route::post('/guidelines/addGuidelines', 'addGuidelines')->name('Caguidelines');
             Route::put('/guidelines/updateGuidelines/{guidelines_id}', 'updateGuidelines')->name('Cupdateguidelines');
             Route::get('/guidelines/removeGuidelines/{guidelines_id}', 'removeGuidelines')->name('Cremoveguidelines');
@@ -66,6 +67,12 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
             Route::post('/registerBaranggay', 'registerBaranggay')->name('Cregisterbaranggay');
             Route::put('/updateBaranggay/{baranggay_id}', 'updateBaranggay')->name('Cupdatebaranggay');
             Route::delete('/removeBaranggay/{baranggay_id}', 'removeBaranggay')->name('Cremovebaranggay');
+        });
+    });
+
+    Route::group(['prefix' => 'recordEvacuee'], function(){
+        Route::controller(RecordEvacueeController::class)->group(function (){
+            Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('CrecordEvacueeInfo');
         });
     });
 

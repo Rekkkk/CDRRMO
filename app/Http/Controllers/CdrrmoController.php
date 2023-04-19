@@ -20,7 +20,7 @@ class CdrrmoController extends Controller
         $evacuationCenterList = $recordEvacueeController->evacuationCenterList();
         $disasterList = $recordEvacueeController->disasterList();
 
-        return view('CDRRMO.recordEvacuee.recordEvacuee', $baranggayList, $disasterList, $evacuationCenterList);
+        return view('CDRRMO.recordEvacuee.recordEvacuee', compact('baranggayList','evacuationCenterList','disasterList'));
     }
 
     public function eligtasGuidelines(){
@@ -31,7 +31,7 @@ class CdrrmoController extends Controller
     }
 
     public function eligtasGuide($guideline_id){
-        
+
         $guideList = new GuidelinesController();
         $guideList = $guideList->guide($guideline_id);
 
