@@ -103,9 +103,6 @@
     animation: transitionIn 0.75s;
 }
 
-.main-content .content-items{
-    padding: 10px 10px;
-}
 
 @keyframes transitionIn{
     from{

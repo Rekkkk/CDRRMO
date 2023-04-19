@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\BaranggayController;
+use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\CdrrmoController;
 use App\Http\Controllers\GuidelinesController;
 use App\Http\Controllers\GuessController;
@@ -19,6 +19,13 @@ Route::controller(AuthenticationController::class)->group(function (){
 });
 
 Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function(){
+
+    Route::group(['prefix' => 'reportAccident'], function(){
+        Route::controller(ReportController::class)->group(function (){
+            Route::get('/viewReport', 'displayGReport')->name('GdisplayReport');
+            Route::post('/addReport', 'addReport')->name('GaddReport');
+        });
+    });
 
     Route::controller(GuessController::class)->group(function (){
         Route::get('/dashboard', 'dashboard')->name('Gdashboard');
@@ -62,11 +69,20 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
         });
     });
 
-    Route::group(['prefix' => 'baranggay'], function(){
-        Route::controller(BaranggayController::class)->group(function (){
-            Route::post('/registerBaranggay', 'registerBaranggay')->name('Cregisterbaranggay');
-            Route::put('/updateBaranggay/{baranggay_id}', 'updateBaranggay')->name('Cupdatebaranggay');
-            Route::delete('/removeBaranggay/{baranggay_id}', 'removeBaranggay')->name('Cremovebaranggay');
+    Route::group(['prefix' => 'barangay'], function(){
+        Route::controller(BarangayController::class)->group(function (){
+            Route::post('/registerBarangay', 'registerBarangay')->name('Cregisterbarangay');
+            Route::put('/updateBarangay/{barangay_id}', 'updateBarangay')->name('Cupdatebarangay');
+            Route::delete('/removeBarangay/{barangay_id}', 'removeBarangay')->name('Cremovebarangay');
+        });
+    });
+
+    Route::group(['prefix' => 'reportAccident'], function(){
+        Route::controller(ReportController::class)->group(function (){
+            Route::post('/addReport', 'addReport')->name('CaddReport');
+            Route::get('/viewReport', 'displayCReport')->name('CdisplayReport');
+            Route::post('/approveReport/{report_id}', 'approveReport')->name('CapproveReport');
+            Route::delete('/removeReport/{report_id}', 'removeReport')->name('CremoveReport');
         });
     });
 
@@ -82,7 +98,7 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
         Route::get('/disaster', 'disaster')->name('Cdisaster');
         Route::get('/eligtasGuidelines', 'eligtasGuidelines')->name('Cguidelines');
         Route::get('/eligtasGuidelines/guide/{guidelines_id}', 'eligtasGuide')->name('Cguide');
-        Route::get('/baranggay', 'baranggay')->name('Cbaranggay');
+        Route::get('/barangay', 'barangay')->name('Cbarangay');
         Route::get('/evacuationManage', 'evacuationManage')->name('Cevacuationmanage');
         Route::get('/evacuationCenter', 'evacuationCenter')->name('Cevacuation');
         Route::get('/hotlineNumbers', 'hotlineNumbers')->name('CNumbers');

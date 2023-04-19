@@ -25,7 +25,7 @@
         </a>
     </li>
     <li>
-        <a href="{{ route('Cbaranggay') }}">
+        <a href="{{ route('Cbarangay') }}">
             <i class="bi bi-hospital text-white"></i>
             <span class="links_name">Baranggay Information</span>
         </a>
@@ -49,7 +49,7 @@
         </a>
     </li>
     <li>
-        <a href="{{ route('Creport') }}">
+        <a href="{{ route('CdisplayReport') }}">
             <i class="bi bi-megaphone text-white"></i>
             <span class="links_name">Report Accident</span>
         </a>

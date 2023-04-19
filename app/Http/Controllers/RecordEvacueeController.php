@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\Baranggay;
+use App\Models\Barangay;
 use App\Models\Disaster;
 use App\Models\EvacuationCenter;
 use App\Models\Evacuee;
@@ -15,9 +15,9 @@ class RecordEvacueeController extends Controller
 {
     public function baranggayList()
     {
-        $baranggayLists = Baranggay::all()->sortBy('baranggay_name');
+        $barangayLists = Barangay::all()->sortBy('baranggay_name');
 
-        return $baranggayLists;
+        return $barangayLists;
     }
 
     public function evacuationCenterList()
