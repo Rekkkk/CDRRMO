@@ -49,14 +49,10 @@ class EvacuationCenterController extends Controller
 
         if($validatedEvacuation->passes()){
 
-            $evacuation_name = Str::ucfirst($request->input('evacuation_name'));
-            $evacuation_contact = $request->input('evacuation_contact');
-            $evacuation_location = Str::ucfirst($request->input('evacuation_location'));
-
             $updatedEvacuation = EvacuationCenter::where('evacuation_id', $evacuation_id)->update([
-                'evacuation_name' => $evacuation_name,
-                'evacuation_contact' => $evacuation_contact,
-                'evacuation_location' => $evacuation_location,
+                'evacuation_name' => Str::ucfirst(trim($request->input('evacuation_name'))),
+                'evacuation_contact' => trim($request->input('evacuation_contact')),
+                'evacuation_location' => Str::ucfirst(trim($request->input('evacuation_location'))),
             ]);
 
             if($updatedEvacuation){
