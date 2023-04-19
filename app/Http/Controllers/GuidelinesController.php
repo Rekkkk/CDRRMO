@@ -34,8 +34,8 @@ class GuidelinesController extends Controller
         if($validatedGuideline->passes()) {
 
             Guide::create([
-                'guide_description' => Str::upper($request->guide_description),
-                'guide_content' => Str::upper($request->guide_content),
+                'guide_description' => Str::upper(trim($request->guide_description)),
+                'guide_content' => Str::upper(trim($request->guide_content)),
                 'guidelines_id' => $guideline_id,
             ]);
 
@@ -56,23 +56,19 @@ class GuidelinesController extends Controller
 
         if($validatedGuide->passes()){
 
-            $guide_description = $request->input('guide_description');
-            $guide_content = $request->input('guide_content');
-            $guidelines_id = $request->input('guidelines_id');
-
             $updatedGuide = Guide::where('guide_id', $guide_id)->update([
-                'guide_description' => Str::upper($guide_description),
-                'guide_content' => Str::upper($guide_content),
+                'guide_description' => Str::upper(trim($request->input('guide_description'))),
+                'guide_content' => Str::upper(trim($request->input('guide_content'))),
             ]);
 
             
             if($updatedGuide){
                 Alert::success('Guide Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-                return redirect('cdrrmo/eligtasGuidelines/guide/'. $guidelines_id);
+                return redirect('cdrrmo/eligtasGuidelines/guide/'. $request->input('guidelines_id'));
             }
             else{
                 Alert::error('Failed to Update Guide', 'Cabuyao City Disaster Risk Reduction Management Office');
-                return redirect('cdrrmo/eligtasGuidelines/guide/' . $guidelines_id);
+                return redirect('cdrrmo/eligtasGuidelines/guide/' . $request->input('guidelines_id'));
             }
         }
 
@@ -81,16 +77,15 @@ class GuidelinesController extends Controller
 
     public function removeGuide($guide_id){
         $guide = DB::table('guide')->where('guide_id', $guide_id)->get();
-        $guideline_id = $guide->first()->guidelines_id;
         $deletedGuide = DB::table('guide')->where('guide_id', $guide_id)->delete();
         
         if($deletedGuide){
             Alert::success('Guide Deleted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-            return redirect('cdrrmo/eligtasGuidelines/guide/' . $guideline_id);
+            return redirect('cdrrmo/eligtasGuidelines/guide/' . $guide->first()->guidelines_id);
         }
         else{
             Alert::error('Failed to Deleted Guide', 'Cabuyao City Disaster Risk Reduction Management Office');
-            return redirect('cdrrmo/eligtasGuidelines/guide/' . $guideline_id);
+            return redirect('cdrrmo/eligtasGuidelines/guide/' . $guide->first()->guidelines_id);
         }
     }
 
@@ -103,7 +98,7 @@ class GuidelinesController extends Controller
         if($validatedGuideline->passes()) {
 
             Guidelines::create([
-                'guidelines_description' => Str::upper("E-LIGTAS $request->guidelines_description"),
+                'guidelines_description' => Str::upper(trim("E-LIGTAS $request->guidelines_description")),
             ]);
 
             Alert::success('Guidelines Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
@@ -122,10 +117,8 @@ class GuidelinesController extends Controller
 
         if($validatedGuideline->passes()){
 
-            $guideline_description = $request->input('guideline_description');
-
             $updatedGuidelines = Guidelines::where('guidelines_id', $guidelines_id)->update([
-                'guidelines_description' => Str::upper($guideline_description),
+                'guidelines_description' => Str::upper(trim($request->input('guideline_description'))),
             ]);
 
             if($updatedGuidelines){

@@ -29,10 +29,10 @@ class BarangayController extends Controller
         if($validatedBarangay->passes()) {
 
             Barangay::create([
-                'barangay_name' => Str::ucfirst($request->barangay_name),
-                'barangay_location' => Str::ucfirst($request->barangay_location),
-                'barangay_contact_number' => $request->barangay_contact,
-                'barangay_email_address' => $request->barangay_email,
+                'barangay_name' => Str::ucfirst(trim($request->barangay_name)),
+                'barangay_location' => Str::ucfirst(trim($request->barangay_location)),
+                'barangay_contact_number' => trim($request->barangay_contact),
+                'barangay_email_address' => trim($request->barangay_email),
             ]);
 
             Alert::success('Barangay Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
@@ -54,16 +54,11 @@ class BarangayController extends Controller
 
         if($validatedBarangay->passes()){
 
-            $barangay_name = $request->input('baranggay_name');
-            $barangay_location = $request->input('baranggay_location');
-            $barangay_contact = $request->input('baranggay_contact');
-            $barangay_email = $request->input('baranggay_email');
-
             $updatedBarangay = Barangay::where('baranggay_id', $barangay_id)->update([
-                'barangay_name' => Str::ucfirst($barangay_name),
-                'barangay_location' => Str::ucfirst($barangay_location),
-                'barangay_contact_number' => $barangay_contact,
-                'barangay_email_address' => $barangay_email,
+                'barangay_name' => Str::ucfirs(trim($request->input('baranggay_name'))),
+                'barangay_location' => Str::ucfirst(trim($request->input('baranggay_location'))),
+                'barangay_contact_number' => trim($request->input('baranggay_contact')),
+                'barangay_email_address' => trim($request->input('baranggay_email')),
             ]);
 
             if($updatedBarangay){

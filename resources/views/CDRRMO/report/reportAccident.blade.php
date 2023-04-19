@@ -61,12 +61,12 @@
                                         <input type="text" id="report_location" name="report_location" class="form-control" placeholder="Enter Incident Location" autocomplete="off">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="Contact" class="flex items-center justify-center">Concern Resident Contact</label>
-                                        <input type="text" id="contact" name="contact" class="form-control" placeholder="Enter Concern Resident Contact" autocomplete="off">
+                                        <label for="Contact" class="flex items-center justify-center">Contact Number</label>
+                                        <input type="text" id="contact" name="contact" class="form-control" placeholder="Enter Contact Number" autocomplete="off">
                                     </div>
                                     <div class="mb-3">
-                                        <label for="email" class="flex items-center justify-center">Concern Resident Email</label>
-                                        <input type="text" id="email" name="email" class="form-control" placeholder="Enter Concern Resident Email" autocomplete="off">
+                                        <label for="email" class="flex items-center justify-center">Email Address</label>
+                                        <input type="text" id="email" name="email" class="form-control" placeholder="Enter Email Address" autocomplete="off">
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200" data-bs-dismiss="modal">Close</button>

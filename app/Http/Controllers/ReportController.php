@@ -61,10 +61,10 @@ class ReportController extends Controller
 
              ReportAccident::updateOrCreate(['report_id' => $request->report_id],
                 [
-                    'report_description' => Str::ucFirst($request->report_description), 
-                    'report_location' => Str::of($request->report_location)->title(), 
-                    'contact' => $request->contact, 
-                    'email' => $request->email,
+                    'report_description' => Str::ucFirst(trim($request->report_description)), 
+                    'report_location' => Str::of(trim($request->report_location))->title(), 
+                    'contact' => trim($request->contact), 
+                    'email' => trim($request->email),
                     'status' => 'On Process'
                 ],
             );
