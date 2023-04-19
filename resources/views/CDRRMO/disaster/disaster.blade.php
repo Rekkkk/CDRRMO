@@ -77,9 +77,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="absolute bottom-0 left-0">
-                            {{ $disaster->links() }}
-                        </div>
                     </div>
                 </div>
             </div>
