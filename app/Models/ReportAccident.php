@@ -21,6 +21,7 @@ class ReportAccident extends Model
         'report_location',
         'contact',
         'email',
+        'status',
     ];
 
     public $timestamps = true;

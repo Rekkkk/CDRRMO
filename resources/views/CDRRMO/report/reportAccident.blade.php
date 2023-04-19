@@ -24,16 +24,17 @@
                 </div>
 
                 <div class="report-table bg-slate-100 p-4 rounded">
-                    <header class="text-2xl font-semibold">Report Table</header>
-                    <table class="table  data-table display nowrap" style="width:100%">
+                    <header class="text-2xl font-semibold">Pending Report</header>
+                    <table class="table data-table display nowrap" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Report ID</th>
+                                <th class="w-px">Report ID</th>
                                 <th>Report Description</th>
                                 <th>Location</th>
                                 <th>Contact</th>
                                 <th>Email</th>
-                                <th>Action</th>
+                                <th class="w-4">Status</th>
+                                <th class="w-4">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -49,6 +50,7 @@
                             </div>
                             <div class="modal-body">
                                 <form id="reportForm" name="reportForm" class="form-horizontal">
+                                    @csrf
                                     <input type="hidden" name="report_id" id="report_id">
                                     <div class="mb-3">
                                         <label for="report_description" class="flex items-center justify-center">Report Description</label>
@@ -79,7 +81,7 @@
 
             <div class="report-button">
                 <div class="report-form absolute bottom-7 right-5">
-                    <a class="bg-slate-700 hover:bg-slate-900 p-3 fs-4 rounded-full" href="javascript:void(0)" id="createReport">
+                    <a class="bg-slate-800 hover:bg-slate-900 p-3 fs-4 rounded-full" href="javascript:void(0)" id="createReport">
                         <i class="bi bi-megaphone text-white"></i>
                     </a>
                 </div>
@@ -116,6 +118,7 @@
                         {data: 'report_location', name: 'report_location'},
                         {data: 'contact', name: 'contact'},
                         {data: 'email', name: 'email'},
+                        {data: 'status', name: 'status'},
                         {data: 'action', name: 'action', orderable: false, searchable: false},
                     ]
                 });
@@ -128,23 +131,8 @@
                     $('#ajaxModel').modal('show');
                 });
 
-                // $('body').on('click', '.updateReport', function () {
-                //     var report_id = $(this).data('id');
-                //     $.get("{{ route('CdisplayReport') }}" +'/' + report_id +'/edit', function (data) {
-                //         $('#modalHeading').html("{{ config('app.name') }}");
-                //         $('#saveBtn').val("edit-report");
-                //         $('#ajaxModel').modal('show');
-                //         $('#report_id').val(data.report_id);
-                //         $('#report_description').val(data.report_description);
-                //         $('#report_location').val(data.report_location);
-                //         $('#contact').val(data.contact);
-                //         $('#email').val(data.email);
-                //     })
-                //  });
-
                 $('#saveBtn').click(function (e) {
                     e.preventDefault();
-                    $(this).html('Save');
 
                     Swal.fire({
                         title: 'Do you want to report this accident?',
@@ -169,6 +157,7 @@
                                     $('#reportForm').trigger("reset");
                                     $('#ajaxModel').modal('hide');
                                     table.draw();
+                                    approvedTable.draw();
                                 },
 
                                 error: function (data) {
@@ -180,14 +169,54 @@
                             Swal.fire(
                                 "{{ config('app.name') }}", 
                                 'Report Accident is not already reported!', 
-                                'info')
+                                'info'
+                            )
+                        }
+                    })
+                });
+
+                $('body').on('click', '.approveReport', function () {
+                    var report_id = $(this).data('id');
+
+                    Swal.fire({
+                        title: 'Do you want to approve this report?',
+                        showDenyButton: true,
+                        showCancelButton: true,
+                        confirmButtonText: 'Approve',
+                        denyButtonText: `Don't Approve`,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            Swal.fire(
+                                "{{ config('app.name') }}", 
+                                'Successfully Approved Reported!', 
+                                'success',
+                            );
+                            $.ajax({
+                                type: "POST",
+                                url: "{{ route('CapproveReport', ':report_id') }}".replace(':report_id', report_id),
+
+                                success: function (data) {
+                                    table.draw();
+                                    approvedTable.draw();
+                                },
+
+                                error: function (data) {
+                                    console.log('Error:', data);
+                                }
+                            });
+                        } else if (result.isDenied) {
+                            Swal.fire(
+                                "{{ config('app.name') }}", 
+                                'Report Accident is not already approved!', 
+                                'info'
+                            )
                         }
                     })
                 });
 
                 $('body').on('click', '.removeReport', function () {
                     var report_id = $(this).data("id");
-                    
+
                     Swal.fire({
                         title: 'Are you sure?',
                         text: "You won't be able to undo this!",
@@ -209,18 +238,27 @@
                                 success: function (data) {
                                     table.draw();
                                 },
+
                                 error: function (data) {
                                     console.log('Error:', data);
                                 }
+
                             });
                         }
                     });
+
+                    $('body').on('click', '.removeApprovedReport', function () {
+                        var report_id = $(this).data("id");
+
+                        alert(report_id);
+                    });
                 });
+
             });
         </script>
         @endauth
 
-        @guest
+        {{-- @guest
         <script type="text/javascript">
             $(document).ready(function() {
                 $.ajaxSetup({
@@ -243,6 +281,7 @@
                         {data: 'report_location', name: 'report_location'},
                         {data: 'contact', name: 'contact'},
                         {data: 'email', name: 'email'},
+                        {data: 'status', name: 'status'},
                         {data: 'action', name: 'action', orderable: false, searchable: false},
                     ]
                 });
@@ -299,6 +338,6 @@
                 });
             });
         </script>
-        @endguest
+        @endguest --}}
     </body>
 </html>

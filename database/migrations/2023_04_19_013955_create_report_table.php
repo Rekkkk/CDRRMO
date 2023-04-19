@@ -15,6 +15,7 @@ return new class extends Migration
             $table->string('report_location')->nullable();
             $table->string('contact')->nullable();
             $table->string('email')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }
