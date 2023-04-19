@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\BaranggayController;
+use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\CdrrmoController;
 use App\Http\Controllers\GuidelinesController;
 use App\Http\Controllers\GuessController;
@@ -79,8 +79,9 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth'], function(){
 
     Route::group(['prefix' => 'reportAccident'], function(){
         Route::controller(ReportController::class)->group(function (){
-            Route::get('/viewReport', 'displayCReport')->name('CdisplayReport');
             Route::post('/addReport', 'addReport')->name('CaddReport');
+            Route::get('/viewReport', 'displayCReport')->name('CdisplayReport');
+            Route::post('/approveReport/{report_id}', 'approveReport')->name('CapproveReport');
             Route::delete('/removeReport/{report_id}', 'removeReport')->name('CremoveReport');
         });
     });
