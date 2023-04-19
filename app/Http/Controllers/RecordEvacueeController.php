@@ -58,7 +58,7 @@ class RecordEvacueeController extends Controller
                 'evacuee_age' => $request->age,
                 'evacuee_gender' => $request->gender,
                 'evacuee_address' => $request->address,
-                'baranggay_id' => $request->baranggay,
+                'barangay_id' => $request->barangay,
                 'disaster_id' => $request->disaster,
                 'evacuation_assigned' => $request->evacuation_center,
             ]);
