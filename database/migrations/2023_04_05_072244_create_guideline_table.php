@@ -8,15 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('guidelines', function (Blueprint $table) {
-            $table->id("guidelines_id");
-            $table->string("guidelines_description")->nullable();
+        Schema::create('guideline', function (Blueprint $table) {
+            $table->id("guideline_id");
+            $table->string("guideline_description")->nullable();
             $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('guidelines');
+        Schema::dropIfExists('guideline');
     }
 };

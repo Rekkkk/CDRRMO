@@ -19,7 +19,7 @@ class Guide extends Model
         'guide_id',
         'guide_description',
         'guide_content',
-        'guidelines_id',
+        'guideline_id',
     ];
 
     public $timestamps = true;

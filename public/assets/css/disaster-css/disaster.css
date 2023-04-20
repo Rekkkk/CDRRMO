@@ -114,7 +114,7 @@
     transition: 0.3s ease;
 }
 
-.main-content .disaster-form form.secActive .form.first{
+.main-content .disaster-form form.secActive .form.disaster{
     opacity: 0;
     pointer-events: none;
     transform: translateX(-100%);

@@ -24,7 +24,7 @@
                 </div>
 
                 <div class="report-table bg-slate-100 p-4 rounded">
-                    <header class="text-2xl font-semibold">Pending Report</header>
+                    <header class="text-2xl font-semibold">Pending Accident Report</header>
                     <table class="table data-table display nowrap" style="width:100%">
                         <thead>
                             <tr>

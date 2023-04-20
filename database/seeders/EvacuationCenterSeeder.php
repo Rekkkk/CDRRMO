@@ -11,21 +11,21 @@ class EvacuationCenterSeeder extends Seeder
     public function run(): void
     {
         DB::table('evacuation_center')->insert([
-            'evacuation_name' => ('Evacuation 1'),
-            'evacuation_contact' => ('12345678910'),
-            'evacuation_location' => ('Mamatid'),
+            'evacuation_center_name' => ('Evacuation Center 1'),
+            'evacuation_center_contact' => ('12345678910'),
+            'evacuation_center_location' => ('Mamatid'),
         ]);
 
         DB::table('evacuation_center')->insert([
-            'evacuation_name' => ('Evacuation 2'),
-            'evacuation_contact' => ('12345678910'),
-            'evacuation_location' => ('Banay Banay'),
+            'evacuation_center_name' => ('Evacuation Center 2'),
+            'evacuation_center_contact' => ('12345678910'),
+            'evacuation_center_location' => ('Banay Banay'),
         ]);
 
         DB::table('evacuation_center')->insert([
-            'evacuation_name' => ('Evacuation 3'),
-            'evacuation_contact' => ('12345678910'),
-            'evacuation_location' => ('Cabuyao Bayan'),
+            'evacuation_center_name' => ('Evacuation Center 3'),
+            'evacuation_center_contact' => ('12345678910'),
+            'evacuation_center_location' => ('Cabuyao Bayan'),
         ]);
     }
 }

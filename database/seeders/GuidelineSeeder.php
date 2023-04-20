@@ -7,36 +7,36 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 
-class GuidelinesSeeder extends Seeder
+class GuidelineSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('guidelines')->insert([
-            'guidelines_description' => ('E-LIGTAS TYPHOON GUIDELINES'),
+        DB::table('guideline')->insert([
+            'guideline_description' => ('E-LIGTAS TYPHOON GUIDELINE'),
             'created_at' => Date::now(),
             'updated_at' => Date::now(),
         ]);
 
-        DB::table('guidelines')->insert([
-            'guidelines_description' => ('E-LIGTAS ROAD ACCIDENT GUIDELINES'),
+        DB::table('guideline')->insert([
+            'guideline_description' => ('E-LIGTAS ROAD ACCIDENT GUIDELINE'),
             'created_at' => Date::now(),
             'updated_at' => Date::now(),
         ]);
 
-        DB::table('guidelines')->insert([
-            'guidelines_description' => ('E-LIGTAS EARTHQUAKE GUIDELINES'),
+        DB::table('guideline')->insert([
+            'guideline_description' => ('E-LIGTAS EARTHQUAKE GUIDELINE'),
             'created_at' => Date::now(),
             'updated_at' => Date::now(),
         ]);
 
-        DB::table('guidelines')->insert([
-            'guidelines_description' => ('E-LIGTAS FLOODING GUIDELINES'),
+        DB::table('guideline')->insert([
+            'guideline_description' => ('E-LIGTAS FLOODING GUIDELINE'),
             'created_at' => Date::now(),
             'updated_at' => Date::now(),
         ]);
 
-        DB::table('guidelines')->insert([
-            'guidelines_description' => ('E-LIGTAS KILL ACCIDENT GUIDELINES'),
+        DB::table('guideline')->insert([
+            'guideline_description' => ('E-LIGTAS KILL ACCIDENT GUIDELINE'),
             'created_at' => Date::now(),
             'updated_at' => Date::now(),
         ]);

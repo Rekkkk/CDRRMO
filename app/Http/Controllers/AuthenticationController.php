@@ -4,11 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
-class AuthenticationController extends Controller
-{
+class AuthenticationController extends Controller{
 
     public function landingPage(){
-        return view('auth.authUser');
+        return view('authentication.authUser');
     }
     
     public function authUser(Request $request){
@@ -18,9 +17,11 @@ class AuthenticationController extends Controller
         ]);
        
         if(auth()->attempt($validated)){
+
             $request->session()->regenerate();
             
             return redirect('/cdrrmo/dashboard')->with('message', 'Welcome to Admin Panel');
+
         }
 
         return back()->with('message', 'Incorrect Admin Panel Password!');

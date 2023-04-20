@@ -38,24 +38,30 @@
                     <table class="table bg-slate-50">
                         <thead>
                             <tr>
-                                <th scope="col">#</th>
+                                <th scope="col">Evacuation Center Id</th>
                                 <th scope="col">Evacuation Center Name</th>
-                                <th scope="col">Contact</th>
-                                <th scope="col">Location</th>
+                                <th scope="col">Evacuation Center Contact Number</th>
+                                <th scope="col">Evacuation Center Location</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach ($evacuation as $evacuationList)
+                        @forelse ($evacuationCenter as $evacuationCenterList)
                             <tr>
-                                <th>{{ $evacuationList->evacuation_id }}</th>
-                                <td>{{ $evacuationList->evacuation_name }}</td>
-                                <td>{{ $evacuationList->evacuation_contact }}</td>
-                                <td>{{ $evacuationList->evacuation_location }}</td>
+                                <th>{{ $evacuationCenterList->evacuation_center_id }}</th>
+                                <td>{{ $evacuationCenterList->evacuation_center_name }}</td>
+                                <td>{{ $evacuationCenterList->evacuation_center_contact }}</td>
+                                <td>{{ $evacuationCenterList->evacuation_center_location }}</td>
                                 <td>
                                     <a href="#" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate</a>
                                 </td>
                             </tr>
-                            @endforeach
+                        @empty
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-center" colspan="4">
+                                    No Evacuation Center Record Found.
+                                </td>
+                            </tr>
+                        @endforelse
                         </tbody>
                     </table>
                 </div>

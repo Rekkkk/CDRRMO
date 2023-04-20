@@ -31,18 +31,18 @@ class Disaster extends Model
         return $this->create($disaster);
     }
 
-    public function updateDisasterObject($request, $disaster_id){
+    public function updateDisasterObject($request, $disasterId){
 
         $disasterData = [
             'disaster_name' => Str::ucfirst(trim($request->input('disaster_name'))),
         ];
 
-        $disaster = $this->find($disaster_id);
+        $disaster = $this->find($disasterId);
         $disaster->update($disasterData);
     }
 
     public function removeDisasterObject($disaster){
-        $disaster = $this->find($disaster)->first();
+        $disaster = $this->find($disaster);
         $disaster->delete();
     }
 }

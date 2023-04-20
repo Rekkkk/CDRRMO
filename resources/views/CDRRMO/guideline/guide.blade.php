@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.content.headPackage')
-        <link rel="stylesheet" href="{{ asset('assets/css/guidelines-css/guide.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/guideline-css/guide.css') }}">
         <title>{{ config('app.name') }}</title>
     </head>
     <body class="bg-gray-400">
@@ -13,7 +13,7 @@
 
             <x-messages />
 
-            <h1 class="text-center bg-slate-700 w-full mt-2 text-white mb-2 text-4xl p-3 font-bold">"E-LIGTAS Guides"</h1>
+            <h1 class="text-center bg-slate-700 w-full mt-2 text-white mb-2 text-4xl p-3 font-bold">"E-LIGTAS Guide"</h1>
             
             <div class="guide-btn w-full py-2 flex justify-end">
                 @guest
@@ -30,7 +30,7 @@
                         <i class="bi bi-bag-plus-fill mr-2"></i> Add Guide
                     </button>
                 </a>
-                @include('CDRRMO.guidelines.addGuide')
+                @include('CDRRMO.guideline.addGuide')
                 @endauth
             </div>
            
@@ -62,7 +62,7 @@
                         </div>
                     </div>
                 </div>
-                @include('CDRRMO.guidelines.updateGuide')
+                @include('CDRRMO.guideline.updateGuide')
                 @endforeach
             </div>
         </div>

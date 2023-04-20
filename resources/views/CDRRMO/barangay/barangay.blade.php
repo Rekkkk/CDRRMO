@@ -26,36 +26,43 @@
                         <form action="{{ route('Cregisterbarangay') }}" method="POST">
                             @csrf
                             <div class="form barangay my-3">
-                                <div class="details personal">
-                                    <div class="fields">
-                                        <div class="flex flex-col">
-                                            <label for="barangay_name">Barangay Name</label>
-                                            <input type="text" name="barangay_name" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Barangay Name">
-                                        </div>
+                                <div class="fields">
+                                    <div class="flex flex-col">
+                                        <label for="barangay_name">Barangay Name</label>
+                                        <input type="text" name="barangay_name" value="{{ !empty(old('barangay_name')) ? old('barangay_name') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Barangay Name">
+                                    @if ($errors->has('barangay_name'))
+                                        <span class="text-red-500 text-xs italic">{{ $errors->first('barangay_name') }}</span>
+                                    @endif
                                     </div>
                                 </div>
-                                <div class="details personal">
-                                    <div class="fields">
-                                        <div class="flex flex-col">
-                                            <label for="barangay_location">Barangay Location</label>
-                                            <input type="text" name="barangay_location" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Barangay Location">
-                                        </div>
+
+                                <div class="fields">
+                                    <div class="flex flex-col">
+                                        <label for="barangay_location">Barangay Location</label>
+                                        <input type="text" name="barangay_location" value="{{ !empty(old('barangay_location')) ? old('barangay_location') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Barangay Location">
+                                    @if ($errors->has('barangay_location'))
+                                        <span class="text-red-500 text-xs italic">{{ $errors->first('barangay_location') }}</span>
+                                    @endif
                                     </div>
                                 </div>
-                                <div class="details personal">
-                                    <div class="fields">
-                                        <div class="flex flex-col">
-                                            <label for="barangay_contact">Barangay Contact Number</label>
-                                            <input type="text" name="barangay_contact" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Barangay Contact Number">
-                                        </div>
+                                
+                                <div class="fields">
+                                    <div class="flex flex-col">
+                                        <label for="barangay_contact">Barangay Contact Number</label>
+                                        <input type="text" name="barangay_contact" value="{{ !empty(old('barangay_contact')) ? old('barangay_contact') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Barangay Contact Number">
+                                    @if ($errors->has('barangay_contact'))
+                                        <span class="text-red-500 text-xs italic">{{ $errors->first('barangay_contact') }}</span>
+                                    @endif
                                     </div>
                                 </div>
-                                <div class="details personal">
-                                    <div class="fields">
-                                        <div class="flex flex-col">
-                                            <label for="barangay_email">Barangay Email Address</label>
-                                            <input type="text" name="barangay_email" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Barangay Email Address">
-                                        </div>
+                                
+                                <div class="fields">
+                                    <div class="flex flex-col">
+                                        <label for="barangay_email">Barangay Email Address</label>
+                                        <input type="text" name="barangay_email" value="{{ !empty(old('barangay_email')) ? old('barangay_email') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Barangay Email Address">
+                                    @if ($errors->has('barangay_email'))
+                                        <span class="text-red-500 text-xs italic">{{ $errors->first('barangay_email') }}</span>
+                                    @endif
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +88,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($barangay as $barangayList)
+                                @forelse ($barangay as $barangayList)
                                 <tr>
                                     <td class="">{{ $barangayList->barangay_name }}</td>
                                     <td class="w-2/5">{{ $barangayList->barangay_location }}</td>
@@ -104,7 +111,13 @@
                                         </form>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-center" colspan="5">
+                                        No Barangay Record Found.
+                                    </td>
+                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                         <div class="absolute bottom-0 left-0">

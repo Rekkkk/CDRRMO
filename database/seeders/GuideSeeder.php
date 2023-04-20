@@ -14,7 +14,7 @@ class GuideSeeder extends Seeder
         DB::table('guide')->insert([
             'guide_description' => ('TESTING PHASE'),
             'guide_content' => ('TESTING PHASE GUIDELINES SECTION IN CABUYAO CITY DISASTER RISK REDUCTION MANAGEMENT OFFICE USING E-LIGTAS SYSTEM'),
-            'guidelines_id' => 1,
+            'guideline_id' => 1,
             'created_at' => Date::now(),
             'updated_at' => Date::now(),
         ]);
