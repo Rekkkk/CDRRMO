@@ -24,10 +24,14 @@ class Evacuee extends Model
         'evacuee_age',
         'evacuee_gender',
         'evacuee_address',
-        'baranggay_id',
+        'barangay_id',
         'disaster_id',
         'evacuation_assigned',
     ];
 
     public $timestamps = false;
+
+    public function recordEvacueeObject($evacuee){
+        return $this->create($evacuee);
+    }
 }

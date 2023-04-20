@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ReportAccident;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ReportAccident;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
-use Illuminate\Support\Str;
 
-class ReportController extends Controller
-{
+class ReportAccidentController extends Controller{
     public function displayCReport(Request $request){
    
         $report = ReportAccident::latest()->get();
@@ -27,7 +26,7 @@ class ReportController extends Controller
                     ->make(true);
         }
       
-        return view('CDRRMO.report.reportAccident', compact('report'));
+        return view('CDRRMO.reportAccident.reportAccident', compact('report'));
     }
 
     public function displayGReport(Request $request){
@@ -45,19 +44,19 @@ class ReportController extends Controller
                 ->make(true);
         }
       
-        return view('CDRRMO.report.reportAccident',compact('report'));
+        return view('CDRRMO.reportAccident.reportAccident',compact('report'));
     }
 
     public function addReport(Request $request){
 
-        $validatedGuideline = Validator::make($request->all(), [
+        $validatedAccidentReport = Validator::make($request->all(), [
             'report_description' => 'required',
             'report_location' => 'required',
             'contact' => 'required',
             'email' => 'required',
         ]);
 
-        if($validatedGuideline->passes()) {
+        if($validatedAccidentReport->passes()) {
 
              ReportAccident::updateOrCreate(['report_id' => $request->report_id],
                 [
@@ -73,17 +72,17 @@ class ReportController extends Controller
         return response()->json();
     }
 
-    public function approveReport($report_id){
+    public function approveReport($reportId){
 
-        ReportAccident::where('report_id', $report_id)->update([
+        ReportAccident::where('report_id', $reportId)->update([
             'status' => 'Approved',
         ]);
 
         return response()->json();
     }
 
-    public function removeReport($report_id){
-        ReportAccident::find($report_id)->delete();
+    public function removeReport($reportId){
+        ReportAccident::find($reportId)->delete();
        
         return response()->json();
     }

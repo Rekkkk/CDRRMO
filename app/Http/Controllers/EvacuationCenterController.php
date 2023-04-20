@@ -3,82 +3,85 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Support\Str;
-use App\Models\EvacuationCenter;
 use Illuminate\Http\Request;
+use App\Models\EvacuationCenter;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 
-class EvacuationCenterController extends Controller
-{
+class EvacuationCenterController extends Controller{
+    private $evacuationCenter;
+
+    function __construct(){
+        $this->evacuationCenter = new EvacuationCenter;
+    }
+
     public function evacuationCenterList(){
-        $EvacuationList = array("evacuation" => DB::table('evacuation_center')->orderBy('evacuation_id', 'asc')->simplePaginate(4));
+        $EvacuationCenterList = array("evacuationCenter" => DB::table('evacuation_center')->orderBy('evacuation_center_id', 'asc')->simplePaginate(4));
 
-        return $EvacuationList;
+        return $EvacuationCenterList;
     }
 
-    public function registerEvacuation(Request $request){
-        $validatedEvacuation = Validator::make($request->all(), [
-            'evacuation_name' => 'required',
-            'evacuation_contact' => 'required',
-            'evacuation_location' => 'required',
+    public function registerEvacuationCenter(Request $request){
+        $validatedEvacuationCenter = Validator::make($request->all(), [
+            'evacuation_center_name' => 'required',
+            'evacuation_center_contact' => 'required',
+            'evacuation_center_location' => 'required',
         ]);
 
-        if($validatedEvacuation->passes()) {
+        if($validatedEvacuationCenter->passes()) {
 
-            EvacuationCenter::create([
-                'evacuation_name' => Str::ucfirst($request->evacuation_name),
-                'evacuation_contact' => $request->evacuation_contact,
-                'evacuation_location' => Str::ucfirst($request->evacuation_location),
-            ]);
+            $evacuationCenterData = [
+                'evacuation_center_name' => Str::ucfirst($request->evacuation_center_name),
+                'evacuation_center_contact' => $request->evacuation_center_contact,
+                'evacuation_center_location' => Str::ucfirst($request->evacuation_center_location),
+            ];
 
-            Alert::success('Evacuation Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-            return redirect('cdrrmo/evacuationManage');
+            try{
+                $this->evacuationCenter->registerEvacuationCenterObject($evacuationCenterData);
+                Alert::success('Evacuation Center Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+            }catch(\Exception $e){
+                Alert::error('Failed to Register Evacuation Center', 'Cabuyao City Disaster Risk Reduction Management Office');
+            }
+            
+            return back();
         }
 
-        Alert::error('Failed to Register Evacuation', 'Cabuyao City Disaster Risk Reduction Management Office');
-        return redirect('cdrrmo/evacuationManage');
+        Alert::error('Failed to Register Evacuation Center', 'Cabuyao City Disaster Risk Reduction Management Office');
+        return back();
     }
 
-    public function updateEvacuation(Request $request, $evacuation_id){
-        $validatedEvacuation = Validator::make($request->all(), [
-            'evacuation_name' => 'required',
-            'evacuation_contact' => 'required',
-            'evacuation_location' => 'required',
+    public function updateEvacuationCenter(Request $request, $evacuationId){
+        $validatedEvacuationCenter = Validator::make($request->all(), [
+            'evacuation_center_name' => 'required',
+            'evacuation_center_contact' => 'required',
+            'evacuation_center_location' => 'required',
         ]);
 
-        if($validatedEvacuation->passes()){
+        if($validatedEvacuationCenter->passes()){
 
-            $updatedEvacuation = EvacuationCenter::where('evacuation_id', $evacuation_id)->update([
-                'evacuation_name' => Str::ucfirst(trim($request->input('evacuation_name'))),
-                'evacuation_contact' => trim($request->input('evacuation_contact')),
-                'evacuation_location' => Str::ucfirst(trim($request->input('evacuation_location'))),
-            ]);
+            try{
+                $this->evacuationCenter->updateEvacuationCenterObject($request, $evacuationId);
+                Alert::success('Evacuation Center Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+            }catch(\Exception $e){
+                Alert::error('Failed to Update Evacuation Center', 'Cabuyao City Disaster Risk Reduction Management Office');
+            }
 
-            if($updatedEvacuation){
-                Alert::success('Evacuation Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-                return redirect('cdrrmo/evacuationManage');
-            }
-            else{
-                Alert::error('Failed to Update Evacuation', 'Cabuyao City Disaster Risk Reduction Management Office');
-                return redirect('cdrrmo/evacuationManage');
-            }
+            return back();
         }
 
-        return redirect('cdrrmo/evacuationManage');
+        return back();
     }
 
-    public function removeEvacuation($evacuation_id){
+    public function removeEvacuationCenter($evacuationId){
     
-        $deletedEvacuation = DB::table('evacuation_center')->where('evacuation_id', $evacuation_id)->delete();
+        try{
+            $this->evacuationCenter->removeEvacuationCenterObject($evacuationId);
+            Alert::success('Evacuation Center Deleted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+        }catch(\Exception $e){
+            Alert::error('Failed to Deleted Evacuation Center', 'Cabuyao City Disaster Risk Reduction Management Office');
+        }
 
-        if($deletedEvacuation){
-            Alert::success('Evacuation Deleted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-            return redirect('cdrrmo/evacuationManage');
-        }
-        else{
-            Alert::error('Failed to Deleted Evacuation', 'Cabuyao City Disaster Risk Reduction Management Office');
-            return redirect('cdrrmo/evacuationManage');
-        }
+        return back();
     }
 }

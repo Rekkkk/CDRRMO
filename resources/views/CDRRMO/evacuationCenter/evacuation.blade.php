@@ -22,33 +22,29 @@
 
                 <div class="main-content bg-slate-50 p-4">
                     <div class="evacuation-form p-3 mx-2 border-r-2">
-                        <header class="text-xl font-semibold">Evacuation Information</header>
+                        <header class="text-xl font-semibold">Evacuation Center Information</header>
                         <hr>
                         <form action="{{ route('Cregisterevacuation') }}" method="POST">
                             @csrf
                             <div class="form evacuation my-3">
-                                <div class="details personal">
-                                    <div class="fields">
-                                        <div class="flex flex-col">
-                                            <label for="evacuation_name">Evacuation Name</label>
-                                            <input type="text" name="evacuation_name" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Name">
-                                        </div>
+                                <div class="fields">
+                                    <div class="flex flex-col">
+                                        <label for="evacuation_center_name">Evacuation Center Name</label>
+                                        <input type="text" name="evacuation_center_name" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Center Name">
                                     </div>
                                 </div>
-                                <div class="details personal">
-                                    <div class="fields">
-                                        <div class="flex flex-col">
-                                            <label for="evacuation_contact">Evacuation Contact</label>
-                                            <input type="text" name="evacuation_contact" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Contact">
-                                        </div>
+                               
+                                <div class="fields">
+                                    <div class="flex flex-col">
+                                        <label for="evacuation_center_contact">Evacuation Center Contact</label>
+                                        <input type="text" name="evacuation_center_contact" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Center Contact">
                                     </div>
                                 </div>
-                                <div class="details personal">
-                                    <div class="fields">
-                                        <div class="flex flex-col">
-                                            <label for="evacuation_location">Evacuation Location</label>
-                                            <input type="text" name="evacuation_location" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Location">
-                                        </div>
+                                
+                                <div class="fields">
+                                    <div class="flex flex-col">
+                                        <label for="evacuation_center_location">Evacuation Center Location</label>
+                                        <input type="text" name="evacuation_center_location" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Center Location">
                                     </div>
                                 </div>
                             </div>
@@ -61,32 +57,32 @@
                         </form>
                     </div>
                     <div class="evacuation-table w-full relative">
-                        <header class="text-2xl font-semibold">Evacuation Table</header>
+                        <header class="text-2xl font-semibold">Evacuation Center Table</header>
                         <hr>
                         <table class="table mt-2">
                             <thead>
                                 <tr class="table-row">
-                                    <th>Evacuation Name</th>
-                                    <th>Evacuation Contact</th>
-                                    <th>Evacuation Location</th>
+                                    <th>Evacuation Center Name</th>
+                                    <th>Evacuation Center Contact</th>
+                                    <th>Evacuation Center Location</th>
                                     <th class="text-left">Action</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($evacuation as $evacuationList)
+                                @forelse ($evacuationCenter as $evacuationCenterList)
                                 <tr>
-                                    <td class="w-2/5">{{ $evacuationList->evacuation_name }}</td>
-                                    <td>{{ $evacuationList->evacuation_contact }}</td>
-                                    <td>{{ $evacuationList->evacuation_location }}</td>
+                                    <td class="w-2/5">{{ $evacuationCenterList->evacuation_center_name }}</td>
+                                    <td>{{ $evacuationCenterList->evacuation_center_contact }}</td>
+                                    <td>{{ $evacuationCenterList->evacuation_center_location }}</td>
                                     <td class="flex flex-row gap-2">
-                                        <a href="#edit{{ $evacuationList->evacuation_id }}" data-bs-toggle="modal">
+                                        <a href="#edit{{ $evacuationCenterList->evacuation_center_id }}" data-bs-toggle="modal">
                                             <button type="submit" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
                                                 <i class="bi bi-pencil mr-2"></i>Edit
                                             </button>
                                         </a>
-                                        @include('CDRRMO.evacuation.updateEvacuation')
+                                        @include('CDRRMO.evacuationCenter.updateEvacuationCenter')
                                     
-                                        <form action="{{ route('Cremoveevacuation', $evacuationList->evacuation_id) }}" method="POST">
+                                        <form action="{{ route('Cremoveevacuation', $evacuationCenterList->evacuation_center_id) }}" method="POST">
                                             @method('delete')
                                             @csrf
                                             <button type="submit" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
@@ -95,11 +91,17 @@
                                         </form>
                                     </td>
                                 </tr>
-                                @endforeach
+                                @empty
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-center" colspan="4">
+                                        No Evacuation Center Record Found.
+                                    </td>
+                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                         <div class="absolute bottom-0 left-0">
-                            {{ $evacuation->links() }}
+                            {{ $evacuationCenter->links() }}
                         </div>
                     </div>
                 </div>

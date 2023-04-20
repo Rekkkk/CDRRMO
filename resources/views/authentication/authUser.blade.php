@@ -1,7 +1,15 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
-        @include('partials.content.headPackage')
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <script src="https://cdn.tailwindcss.com"></script>
+        <script src="//unpkg.com/alpinejs" defer></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+        <link rel="shortcut icon" href="{{ asset('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
         <link rel="stylesheet" href="{{ asset('assets/css/landingPage.css') }}">
         <title>{{ config('app.name') }}</title>
     </head>
@@ -15,12 +23,12 @@
                     </div>
                 </div>
             </header>
-              <main class="main-content py-60 mx-3">
+            <main class="main-content py-60 mx-3">
                 <div class="content-container max-w-lg mx-auto p-6 my-10 rounded-lg shadow-2xl bg-slate-800 ">
                     <header class="header-content">
                         <section class="py-4">
                             <h3 class="font-bold text-3xl text-white mb-2">Welcome to E-LIGTAS</h3>
-                            <span class="text-white font-light">We care Resident's</span>
+                            <span class="text-white font-light">We care Cabuyao Resident's</span>
                         </section>
                     </header>
                     <div class="content-body">
@@ -37,7 +45,7 @@
                             Continue to Admin Panel
                         </button>
 
-                        <div class="modal fade" id="adminMode" tabindex="-1" aria-hidden="true">
+                        <div class="modal fade" id="adminMode" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header bg-red-900">
@@ -69,7 +77,6 @@
 
         <x-errorMessage />
 
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
 
     </body>

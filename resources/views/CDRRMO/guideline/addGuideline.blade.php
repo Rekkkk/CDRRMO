@@ -7,15 +7,15 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="{{ route('Caguidelines') }}" method="POST">
+                <form action="{{ route('Caguideline') }}" method="POST">
                     @csrf
                     <div class="mb-3">
-                        <label for="guideline_description" class="flex items-center justify-center">Guidelines Description</label>
-                        <input type="text" name="guidelines_description" class="form-control" autocomplete="off" placeholder="ex. typhooon guidlines">
+                        <label for="guideline_description" class="flex items-center justify-center">Guideline Description</label>
+                        <input type="text" name="guideline_description" class="form-control" autocomplete="off" placeholder="ex. typhooon guideline">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200" data-bs-dismiss="modal">Close</button>
-                        <button type="submit" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Publish Guidelines</button>
+                        <button type="submit" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Publish Guideline</button>
                     </div>
                 </form>
             </div>

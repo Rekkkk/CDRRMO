@@ -26,7 +26,7 @@
                 <header class="text-xl font-semibold ">Evacuee Information</header>
                 <hr class="mb-3">
                 <div class="flex-auto px-1 lg:px-5 pb-0 pt-0">
-                    <form action="{{ route('CrecordEvacueeInfo') }}" method="POST">
+                    <form action="{{ route('Crecordevacueeinfo') }}" method="POST">
                         @csrf
                         <div class="flex flex-wrap">
                             <div class="w-full lg:w-6/12 px-4">

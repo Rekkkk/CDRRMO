@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
     <head>
         @include('partials.content.headPackage')
-        <link rel="stylesheet" href="{{ asset('assets/css/guidelines-css/guidelines.css') }}">
+        <link rel="stylesheet" href="{{ asset('assets/css/guideline-css/guideline.css') }}">
         <title>{{ config('app.name') }}</title>
     </head>
     <body class="bg-gray-400">
@@ -16,7 +16,7 @@
             <div class="main-content">
                 <div class="dashboard-logo pb-4">
                     <i class="bi bi-book text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
-                    <span class="text-2xl font-bold tracking-wider mx-2">Guidelines</span>
+                    <span class="text-2xl font-bold tracking-wider mx-2">Guideline</span>
                     <hr class="mt-4">
                 </div>
 
@@ -24,43 +24,52 @@
                 <div class="guidelines-btn w-full py-2 flex justify-end">
                     <a href="#add" data-bs-toggle="modal">
                         <button type="submit" class="bg-slate-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200">
-                            <i class="bi bi-file-earmark-plus-fill mr-2"></i></i> Add Guidelines
+                            <i class="bi bi-file-earmark-plus-fill mr-2"></i></i> Add Guideline
                         </button>
                     </a>
-                    @include('CDRRMO.guidelines.addGuidelines')
+                    @include('CDRRMO.guideline.addGuideline')
                 </div>
                 @endauth
 
                 <div class="content-item text-center mt-4">
                     <div class="row gap-4 justify-center items-center">
-                        @foreach ($guidelines as $guidelinesItem)
+                        @forelse ($guideline as $guidelineItem)
                         <div class="col-lg-2 mb-4 relative">
-                            @auth
-                            <a href="{{ route('Cremoveguidelines', $guidelinesItem->guidelines_id) }}" class="absolute right-0 ">
+                        @auth
+                            <a href="{{ route('Cremoveguideline', $guidelineItem->guideline_id) }}" class="absolute right-0 ">
                                 <i class="bi bi-x-lg cursor-pointer p-2.5 bg-red-700 text-white rounded-full shadow-lg hover:bg-red-900 transition duration-200"></i>
                             </a>
-                            <a href="#edit{{ $guidelinesItem->guidelines_id }}" data-bs-toggle="modal" class="absolute left-4 top-3">
+                            <a href="#edit{{ $guidelineItem->guideline_id }}" data-bs-toggle="modal" class="absolute left-4 top-3">
                                 <i class="bi bi-pencil cursor-pointer p-2 bg-slate-600 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200"></i>
                             </a>
-                            @include('CDRRMO.guidelines.updateGuidelines')
+                        @include('CDRRMO.guideline.updateGuideline')
                             
-                            <a class="guidelines-item" href="{{ route('Cguide', $guidelinesItem->guidelines_id) }}">
+                            <a class="guidelines-item" href="{{ route('Cguide', $guidelineItem->guideline_id) }}">
                                 <div class="widget relative w-full h-full">
                                     <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                    <p>{{ $guidelinesItem->guidelines_description }}</p>
+                                    <p>{{ $guidelineItem->guideline_description }}</p>
                                 </div>
                             </a>
-                            @endauth
-                            @guest
-                            <a class="guidelines-item" href="{{ route('Gguide', $guidelinesItem->guidelines_id) }}">
+                        
+                        @endauth
+                        @guest
+                            <a class="guidelines-item" href="{{ route('Gguide', $guidelineItem->guideline_id) }}">
                                 <div class="widget relative w-full h-full">
                                     <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                    <p>{{ $guidelinesItem->guidelines_description }}</p>
+                                    <p>{{ $guidelineItem->guideline_description }}</p>
                                 </div>
                             </a>
-                            @endguest
+                        @endguest
+                        @empty
+                            <div class="empty-record bg-slate-900 p-5 rounded text-white">
+                                <div class="image-container flex justify-center items-center">
+                                    <img src="{{ asset('assets/img/emptyRecord.svg') }}" alt="image" style="width:300px;">
+                                </div>
+                                <h1 class="fs-2 text-red-700 font-bold mt-10">{{ config('app.name') }}</h1>
+                                <span class="font-semibold">No Record Found!</span>
+                            </div>
                         </div>
-                        @endforeach
+                        @endforelse
                     </div>
                 </div>
             </div>

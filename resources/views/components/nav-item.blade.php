@@ -7,15 +7,15 @@
         </a>
     </li>
     <li>
-        <a href="{{ route('CrecordEvacuee') }}">
+        <a href="{{ route('Crecordevacuee') }}">
             <i class="bi bi-person-plus text-white"></i>
             <span class="links_name">Record Evacuee</span>
         </a>
     </li>
     <li>
-        <a href="{{ route('Cguidelines') }}">
+        <a href="{{ route('Cguideline') }}">
             <i class="bi bi-book text-white"></i>
-            <span class="links_name">E-LIGTAS Guidelines</span>
+            <span class="links_name">E-LIGTAS Guideline</span>
         </a>
     </li>
     <li>
@@ -72,7 +72,8 @@
             <span class="links_name">Logout</span>
         </a>
     </li>
-    @else
+    @endauth
+    @guest
     <li>
         <a href="{{ route('Gdashboard') }}">
             <i class="fbi bi-tv text-white"></i>
@@ -80,13 +81,13 @@
         </a>
     </li>
     <li>
-        <a href="{{ route('Gguidelines') }}">
+        <a href="{{ route('Gguideline') }}">
             <i class="bi bi-book text-white"></i>
             <span class="links_name">E-LIGTAS Guidelines</span>
         </a>
     </li>
     <li>
-        <a href="{{ route('GEvacuation') }}">
+        <a href="{{ route('Gevacuationcenter') }}">
             <i class="bi bi-house text-white"></i>
             <span class="links_name">CDRRMO Evacuation Center</span>
         </a>
@@ -98,7 +99,7 @@
         </a>
     </li>
     <li>
-        <a href="{{ route('GNumbers') }}">
+        <a href="{{ route('Ghotlinenumber') }}">
             <i class="bi bi-telephone text-white"></i>
             <span class="links_name">Hotline Numbers</span>
         </a>
@@ -115,5 +116,5 @@
             <span class="links_name">Login</span>
         </a>
     </li>
-    @endauth
+    @endguest
 </ul>

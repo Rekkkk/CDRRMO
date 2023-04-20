@@ -25,13 +25,14 @@
                         <hr>
                         <form action="{{ route('Cregisterdisaster') }}" method="POST">
                             @csrf
-                            <div class="form first">
-                                <div class="details personal">
-                                    <div class="fields flex items-center justify-between flex-wrap">
-                                        <div class="flex flex-col my-3">
-                                            <label for="disaster_name">Disaster Name</label>
-                                            <input type="text" name="disaster_name" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Enter Disaster Type">
-                                        </div>
+                            <div class="form disaster">
+                                <div class="fields flex items-center justify-between flex-wrap">
+                                    <div class="flex flex-col my-3">
+                                        <label for="disaster_name">Disaster Name</label>
+                                        <input type="text" name="disaster_name" value="{{ !empty(old('disaster_name')) ? old('disaster_name') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Enter Disaster Type">
+                                    @if ($errors->has('disaster_name'))
+                                        <span class="text-red-500 text-xs italic">{{ $errors->first('disaster_name') }}</span>
+                                    @endif
                                     </div>
                                 </div>
                             </div>
@@ -54,7 +55,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($disaster as $disasterList)
+                                @forelse ($disaster as $disasterList)
                                 <tr>
                                     <td class="py-3 w-3/5">{{ $disasterList->disaster_name }}</td>
                                     <td class="flex flex-row gap-2">
@@ -74,7 +75,13 @@
                                     </td>
                                 </tr>
                                 @include('CDRRMO.disaster.updateDisaster')
-                                @endforeach
+                                @empty
+                                <tr>
+                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-center" colspan="2">
+                                        No Disaster Record Found.
+                                    </td>
+                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>

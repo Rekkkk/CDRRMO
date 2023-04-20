@@ -22,7 +22,7 @@ return new class extends Migration
             $table->unsignedBigInteger('disaster_id')->nullable();
             $table->foreign('disaster_id')->references('disaster_id')->on('disaster')->nullable();
             $table->unsignedBigInteger('evacuation_assigned')->nullable();
-            $table->foreign('evacuation_assigned')->references('evacuation_id')->on('evacuation_center')->nullable();
+            $table->foreign('evacuation_assigned')->references('evacuation_center_id')->on('evacuation_center')->nullable();
         });
     }
 
