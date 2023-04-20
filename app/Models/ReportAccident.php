@@ -25,4 +25,13 @@ class ReportAccident extends Model
     ];
 
     public $timestamps = true;
+
+    public function registerAccidentReportObject($accidentReport){
+        return $this->create($accidentReport);
+    }
+
+    public function removeAccidentReportObject($accidentReportId){
+        $accidentReport = $this->find($accidentReportId);
+        $accidentReport->delete();
+    }
 }

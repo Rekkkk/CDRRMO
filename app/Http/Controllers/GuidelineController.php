@@ -36,7 +36,7 @@ class GuidelineController extends Controller{
         if($validatedGuideline->passes()) {
 
             Guideline::create([
-                'guideline_description' => Str::upper(trim("E-LIGTAS $request->guideline_description")),
+                'guideline_description' => Str::upper(trim("E-LIGTAS $request->guideline_description Guideline")),
             ]);
 
             Alert::success('Guideline Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');

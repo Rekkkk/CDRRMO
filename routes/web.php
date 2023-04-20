@@ -22,9 +22,9 @@ Route::controller(AuthenticationController::class)->group(function (){
 Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function(){
 
     Route::group(['prefix' => 'reportAccident'], function(){
-        Route::controller(ReportController::class)->group(function (){
-            Route::get('/viewReport', 'displayGReport')->name('GdisplayReport');
-            Route::post('/addReport', 'addReport')->name('GaddReport');
+        Route::controller(ReportAccidentController::class)->group(function (){
+            Route::get('/viewReport', 'displayGReport')->name('Gdisplayaccidentreport');
+            Route::post('/addReport', 'addAccidentReport')->name('Gaddaccidentreport');
         });
     });
 
@@ -80,10 +80,10 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth', 'ensure.token'], fun
 
     Route::group(['prefix' => 'reportAccident'], function(){
         Route::controller(ReportAccidentController::class)->group(function (){
-            Route::post('/addReport', 'addReport')->name('CaddReport');
-            Route::get('/viewReport', 'displayCReport')->name('CdisplayReport');
-            Route::post('/approveReport/{reportId}', 'approveReport')->name('CapproveReport');
-            Route::delete('/removeReport/{reportId}', 'removeReport')->name('CremoveReport');
+            Route::get('/viewReport', 'displayCReport')->name('Cdisplayaccidentreport');
+            Route::post('/addReport', 'addAccidentReport')->name('Caddaccidentreport');
+            Route::post('/approveReport/{reportId}', 'approveAccidentReport')->name('Capproveaccidentreport');
+            Route::delete('/removeReport/{reportId}', 'removeAccidentReport')->name('Cremoveaccidentreport');
         });
     });
 
@@ -98,7 +98,7 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth', 'ensure.token'], fun
         Route::get('/recordEvacuee', 'recordEvacuee')->name('Crecordevacuee');
         Route::get('/disaster', 'disaster')->name('Cdisaster');
         Route::get('/eligtasGuideline', 'eligtasGuideline')->name('Cguideline');
-        Route::get('/eligtasGuideline/guide/{guideline_id}', 'eligtasGuide')->name('Cguide');
+        Route::get('/eligtasGuideline/guide/{guidelineId}', 'eligtasGuide')->name('Cguide');
         Route::get('/barangay', 'barangay')->name('Cbarangay');
         Route::get('/evacuationManage', 'evacuationManage')->name('Cevacuationmanage');
         Route::get('/evacuationCenter', 'evacuationCenter')->name('Cevacuation');

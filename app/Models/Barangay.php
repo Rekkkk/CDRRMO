@@ -30,16 +30,16 @@ class Barangay extends Model
         return $this->create($barangay);
     }
 
-    public function updateBarangayObject($request, $barangay_id){
+    public function updateBarangayObject($request, $barangayId){
         $barangayData = [
-            'barangay_name' => Str::ucfirs(trim($request->input('baranggay_name'))),
-            'barangay_location' => Str::ucfirst(trim($request->input('baranggay_location'))),
-            'barangay_contact_number' => trim($request->input('baranggay_contact')),
-            'barangay_email_address' => trim($request->input('baranggay_email')),
+            'barangay_name' => Str::ucfirst(trim($request->input('barangay_name'))),
+            'barangay_location' => Str::ucfirst(trim($request->input('barangay_location'))),
+            'barangay_contact_number' => trim($request->input('barangay_contact')),
+            'barangay_email_address' => trim($request->input('barangay_email')),
         ];
 
-        $disaster = $this->find($barangay_id);
-        $disaster->update($barangayData);
+        $barangay = $this->find($barangayId);
+        $barangay->update($barangayData);
     }
 
     public function removeBarangayObject($barangay){
