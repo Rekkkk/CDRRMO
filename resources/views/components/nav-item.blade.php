@@ -49,7 +49,7 @@
         </a>
     </li>
     <li>
-        <a href="{{ route('CdisplayReport') }}">
+        <a href="{{ route('Cdisplayaccidentreport') }}">
             <i class="bi bi-megaphone text-white"></i>
             <span class="links_name">Report Accident</span>
         </a>

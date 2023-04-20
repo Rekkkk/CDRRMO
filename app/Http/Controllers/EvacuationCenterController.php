@@ -25,7 +25,7 @@ class EvacuationCenterController extends Controller{
     public function registerEvacuationCenter(Request $request){
         $validatedEvacuationCenter = Validator::make($request->all(), [
             'evacuation_center_name' => 'required',
-            'evacuation_center_contact' => 'required',
+            'evacuation_center_contact' => 'required|numeric|digits:11',
             'evacuation_center_location' => 'required',
         ]);
 
@@ -48,7 +48,7 @@ class EvacuationCenterController extends Controller{
         }
 
         Alert::error('Failed to Register Evacuation Center', 'Cabuyao City Disaster Risk Reduction Management Office');
-        return back();
+        return back()->withErrors($validatedEvacuationCenter)->withInput();
     }
 
     public function updateEvacuationCenter(Request $request, $evacuationId){
