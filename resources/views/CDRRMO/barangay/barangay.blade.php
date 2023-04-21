@@ -30,9 +30,9 @@
                                     <div class="flex flex-col">
                                         <label for="barangay_name">Barangay Name</label>
                                         <input type="text" name="barangay_name" value="{{ !empty(old('barangay_name')) ? old('barangay_name') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Barangay Name">
-                                    @if ($errors->has('barangay_name'))
+                                    @error('barangay_name')
                                         <span class="text-red-500 text-xs italic">{{ $errors->first('barangay_name') }}</span>
-                                    @endif
+                                    @enderror
                                     </div>
                                 </div>
 
@@ -40,9 +40,9 @@
                                     <div class="flex flex-col">
                                         <label for="barangay_location">Barangay Location</label>
                                         <input type="text" name="barangay_location" value="{{ !empty(old('barangay_location')) ? old('barangay_location') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Barangay Location">
-                                    @if ($errors->has('barangay_location'))
+                                    @error('barangay_location')
                                         <span class="text-red-500 text-xs italic">{{ $errors->first('barangay_location') }}</span>
-                                    @endif
+                                    @enderror
                                     </div>
                                 </div>
                                 
@@ -50,9 +50,9 @@
                                     <div class="flex flex-col">
                                         <label for="barangay_contact">Barangay Contact Number</label>
                                         <input type="text" name="barangay_contact" value="{{ !empty(old('barangay_contact')) ? old('barangay_contact') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Barangay Contact Number">
-                                    @if ($errors->has('barangay_contact'))
+                                    @error('barangay_contact')
                                         <span class="text-red-500 text-xs italic">{{ $errors->first('barangay_contact') }}</span>
-                                    @endif
+                                    @enderror
                                     </div>
                                 </div>
                                 
@@ -60,9 +60,9 @@
                                     <div class="flex flex-col">
                                         <label for="barangay_email">Barangay Email Address</label>
                                         <input type="text" name="barangay_email" value="{{ !empty(old('barangay_email')) ? old('barangay_email') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Barangay Email Address">
-                                    @if ($errors->has('barangay_email'))
+                                    @error('barangay_email')
                                         <span class="text-red-500 text-xs italic">{{ $errors->first('barangay_email') }}</span>
-                                    @endif
+                                    @enderror
                                     </div>
                                 </div>
                             </div>

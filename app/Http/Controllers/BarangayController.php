@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BarangayRequest;
 use App\Models\Barangay;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Validator;
 
 class BarangayController extends Controller{
     private $barangay;
@@ -22,58 +21,32 @@ class BarangayController extends Controller{
         return $barangayList;
     }
 
-    public function registerBarangay(Request $request){
-        $validatedBarangay = Validator::make($request->all(), [
-            'barangay_name' => 'required',
-            'barangay_location' => 'required',
-            'barangay_contact' => 'required|numeric|digits:11',
-            'barangay_email' => 'required|email:rfc,dns',
-        ]);
+    public function registerBarangay(BarangayRequest $request){
+        $barangayData = [
+            'barangay_name' => Str::ucfirst(trim($request->barangay_name)),
+            'barangay_location' => Str::ucfirst(trim($request->barangay_location)),
+            'barangay_contact_number' => trim($request->barangay_contact),
+            'barangay_email_address' => trim($request->barangay_email),
+        ];
 
-        if($validatedBarangay->passes()) {
-
-            $barangayData = [
-                'barangay_name' => Str::ucfirst(trim($request->barangay_name)),
-                'barangay_location' => Str::ucfirst(trim($request->barangay_location)),
-                'barangay_contact_number' => trim($request->barangay_contact),
-                'barangay_email_address' => trim($request->barangay_email),
-            ];
-
-            try{
-                $this->barangay->registerBarangayObject($barangayData);
-                Alert::success('Barangay Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-            }catch(\Exception $e){
-                Alert::error('Failed to Register Barangay', 'Cabuyao City Disaster Risk Reduction Management Office');
-            }
-            
-            return back()->withErrors($validatedBarangay)->withInput();
+        try{
+            $this->barangay->registerBarangayObject($barangayData);
+            Alert::success('Barangay Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+        }catch(\Exception $e){
+            Alert::error('Failed to Register Barangay', 'Cabuyao City Disaster Risk Reduction Management Office');
         }
-
-        Alert::error('Failed to Register Barangay', 'Cabuyao City Disaster Risk Reduction Management Office');
-        return back()->withErrors($validatedBarangay)->withInput();
+            
+        return back();
     }
 
-    public function updateBarangay(Request $request, $barangayId){
-        $validatedBarangay = Validator::make($request->all(), [
-            'barangay_name' => 'required',
-            'barangay_location' => 'required',
-            'barangay_contact' => 'required|numeric|digits:11',
-            'barangay_email' => 'required|email:rfc,dns',
-        ]);
-
-        if($validatedBarangay->passes()){
-
-            try{
-                $this->barangay->updateBarangayObject($request, $barangayId);
-                Alert::success('Barangay Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-            }catch(\Exception $e){
-                Alert::error('Failed to Update Barangay', 'Cabuyao City Disaster Risk Reduction Management Office');
-            }
-
-            return back();
+    public function updateBarangay(BarangayRequest $request, $barangayId){
+        try{
+            $this->barangay->updateBarangayObject($request, $barangayId);
+            Alert::success('Barangay Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+        }catch(\Exception $e){
+            Alert::error('Failed to Update Barangay', 'Cabuyao City Disaster Risk Reduction Management Office');
         }
 
-        Alert::error('Failed to Update Barangay', 'Cabuyao City Disaster Risk Reduction Management Office');
         return back();
     }
 

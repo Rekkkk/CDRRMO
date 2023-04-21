@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\DisasterRequest;
 use App\Models\Disaster;
 use Illuminate\Support\Str;
-use Illuminate\Http\Request;
 use RealRashid\SweetAlert\Facades\Alert;
-use Illuminate\Support\Facades\Validator;
 
 class DisasterController extends Controller{
     private $disaster;
@@ -21,49 +20,29 @@ class DisasterController extends Controller{
         return compact('disaster');
     }
 
-    public function registerDisaster(Request $request){
-        $validatedDisaster = Validator::make($request->all(), [
-            'disaster_name' => 'required',
-        ]);
-        
-        if($validatedDisaster->passes()) {
-            
-            $disasterData = [
-                'disaster_name' => Str::of(trim($request->disaster_name))->title(),
-            ];
+    public function registerDisaster(DisasterRequest $request){
+        $disasterData = [
+            'disaster_name' => Str::of(trim($request->disaster_name))->title(),
+        ];
 
-            try{
-                $this->disaster->registerDisasterObject($disasterData);
-                Alert::success('Disaster Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-            }catch(\Exception $e){
-                Alert::error('Failed to Register Disaster', 'Cabuyao City Disaster Risk Reduction Management Office');
-            }
-            
-            return back();
+        try{
+            $this->disaster->registerDisasterObject($disasterData);
+            Alert::success('Disaster Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+        }catch(\Exception $e){
+            Alert::error('Failed to Register Disaster', 'Cabuyao City Disaster Risk Reduction Management Office');
         }
-
-        Alert::error('Failed to Register Disaster', 'Cabuyao City Disaster Risk Reduction Management Office');
-        return back()->withErrors($validatedDisaster)->withInput();
+            
+        return back();
     }
 
-    public function updateDisaster(Request $request, $disasterId){
-        $validatedDisaster = Validator::make($request->all(), [
-            'disaster_name' => 'required',
-        ]);
-
-        if($validatedDisaster){
-
-            try{
-                $this->disaster->updateDisasterObject($request, $disasterId);
-                Alert::success('Disaster Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-            }catch(\Exception $e){
-                Alert::error('Failed to Update Disaster', 'Cabuyao City Disaster Risk Reduction Management Office');
-            }
-           
-            return back();
+    public function updateDisaster(DisasterRequest $request, $disasterId){
+        try{
+            $this->disaster->updateDisasterObject($request, $disasterId);
+            Alert::success('Disaster Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+        }catch(\Exception $e){
+            Alert::error('Failed to Update Disaster', 'Cabuyao City Disaster Risk Reduction Management Office');
         }
-
-        Alert::error('Failed to Update Disaster', 'Cabuyao City Disaster Risk Reduction Management Office');
+           
         return back();
     }
 

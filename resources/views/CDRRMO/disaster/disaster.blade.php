@@ -30,9 +30,9 @@
                                     <div class="flex flex-col my-3">
                                         <label for="disaster_name">Disaster Name</label>
                                         <input type="text" name="disaster_name" value="{{ !empty(old('disaster_name')) ? old('disaster_name') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Enter Disaster Type">
-                                    @if ($errors->has('disaster_name'))
+                                    @error('disaster_name')
                                         <span class="text-red-500 text-xs italic">{{ $errors->first('disaster_name') }}</span>
-                                    @endif
+                                    @enderror
                                     </div>
                                 </div>
                             </div>
@@ -40,7 +40,7 @@
                                 <a href="{{ route('Cdashboard') }}">
                                     <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Cancel</button>
                                 </a>
-                                <button type="submit" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Save</button>
+                                <button type="submit" id="createDisaster" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Save</button>
                             </div>
                         </form>
                     </div>
