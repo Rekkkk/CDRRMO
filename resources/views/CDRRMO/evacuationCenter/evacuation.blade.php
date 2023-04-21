@@ -30,21 +30,30 @@
                                 <div class="fields">
                                     <div class="flex flex-col">
                                         <label for="evacuation_center_name">Evacuation Center Name</label>
-                                        <input type="text" name="evacuation_center_name" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Center Name">
+                                        <input type="text" name="evacuation_center_name" value="{{ !empty(old('evacuation_center_name')) ? old('evacuation_center_name') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Center Name">
+                                    @error('evacuation_center_name')
+                                        <span class="text-red-500 text-xs italic">{{ $errors->first('evacuation_center_name') }}</span>
+                                    @enderror
                                     </div>
                                 </div>
                                
                                 <div class="fields">
                                     <div class="flex flex-col">
                                         <label for="evacuation_center_contact">Evacuation Center Contact</label>
-                                        <input type="text" name="evacuation_center_contact" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Center Contact">
+                                        <input type="text" name="evacuation_center_contact" value="{{ !empty(old('evacuation_center_contact')) ? old('evacuation_center_contact') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Center Contact">
+                                    @error('evacuation_center_contact')
+                                        <span class="text-red-500 text-xs italic">{{ $errors->first('evacuation_center_contact') }}</span>
+                                    @enderror
                                     </div>
                                 </div>
                                 
                                 <div class="fields">
                                     <div class="flex flex-col">
                                         <label for="evacuation_center_location">Evacuation Center Location</label>
-                                        <input type="text" name="evacuation_center_location" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Center Location">
+                                        <input type="text" name="evacuation_center_location" value="{{ !empty(old('evacuation_center_location')) ? old('evacuation_center_location') : null }}" class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded" autocomplete="off" placeholder="Evacuation Center Location">
+                                    @error('evacuation_center_location')
+                                        <span class="text-red-500 text-xs italic">{{ $errors->first('evacuation_center_location') }}</span>
+                                    @enderror
                                     </div>
                                 </div>
                             </div>
