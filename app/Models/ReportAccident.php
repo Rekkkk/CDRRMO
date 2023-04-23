@@ -16,7 +16,6 @@ class ReportAccident extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'report_id',
         'report_description',
         'report_location',
         'contact',

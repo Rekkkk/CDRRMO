@@ -17,7 +17,6 @@ class Guide extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'guide_id',
         'guide_description',
         'guide_content',
         'guideline_id',
@@ -38,7 +37,7 @@ class Guide extends Model
         $guide = $this->find($guideId);
         $guide->update($guideData);
     }
-    
+
     public function removeGuideObject($guideId){
         $guide = $this->find($guideId);
         $guide->delete();

@@ -16,10 +16,10 @@ class Evacuee extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'evacuee_id',
         'evacuee_first_name',
         'evacuee_middle_name',
         'evacuee_last_name',
+        'evacuee_suffix',
         'evacuee_contact_number',
         'evacuee_age',
         'evacuee_gender',

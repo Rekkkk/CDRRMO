@@ -17,7 +17,6 @@ class Disaster extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'disaster_id',
         'disaster_name',
     ];
 
