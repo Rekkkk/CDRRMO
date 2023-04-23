@@ -43,6 +43,4 @@ class Guide extends Model
         $guide = $this->find($guideId);
         $guide->delete();
     }
-
-    
 }
