@@ -147,9 +147,9 @@
                                         class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded w-full ease-linear transition-all duration-150">
                                         <option value="">Select Evacuation Assigned</option>
                                         @foreach ($evacuationCenters as $evacuationCenter)
-                                            <option value="{{ $evacuationCenter->evacuation_id }}"
-                                                @if (old('evacuation_center') == $evacuationCenter->evacuation_id) selected @endif>
-                                                {{ $evacuationCenter->evacuation_name }}</option>
+                                            <option value="{{ $evacuationCenter->evacuation_center_id }}"
+                                                @if (old('evacuation_center') == $evacuationCenter->evacuation_center_id) selected @endif>
+                                                {{ $evacuationCenter->evacuation_center_name }}</option>
                                         @endforeach
                                     </select>
                                     @if ($errors->has('evacuation_center'))
@@ -179,7 +179,7 @@
                             <div class="w-full px-4 ">
                                 <div class="relative w-full ">
                                     <button type="submit"
-                                        class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200 float-right mb-3">Save</button>
+                                        class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:bg-red-800 transition duration-200 float-right mb-3">Submit</button>
                                 </div>
                             </div>
 
