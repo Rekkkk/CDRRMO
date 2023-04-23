@@ -1,5 +1,4 @@
 <?php
-
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,9 +9,12 @@ return new class extends Migration
     {
         Schema::create('evacuation_center', function (Blueprint $table) {
             $table->id('evacuation_center_id');
-            $table->string('evacuation_center_name')->nullable();
-            $table->string('evacuation_center_contact')->nullable();
-            $table->string('evacuation_center_location')->nullable();
+            $table->string('evacuation_center_name');
+            $table->string('evacuation_center_address');
+            $table->unsignedBigInteger('barangay_id');
+            $table->foreign('barangay_id')->references('barangay_id')->on('barangay')->onDelete('cascade');
+            $table->string('latitude');
+            $table->string('longitude');
         });
     }
 

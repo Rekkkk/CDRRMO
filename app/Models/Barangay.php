@@ -17,7 +17,6 @@ class Barangay extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'barangay_id',
         'barangay_name',
         'barangay_location',
         'barangay_contact_number',

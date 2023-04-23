@@ -11,19 +11,15 @@ class DisasterSeeder extends Seeder
     public function run(): void
     {
         DB::table('disaster')->insert([
-            'disaster_name' => ('Typhoon'),
+            'disaster_type' => ('Typhoon'),
         ]);
 
         DB::table('disaster')->insert([
-            'disaster_name' => ('Earthquake'),
+            'disaster_type' => ('Earthquake'),
         ]);
 
         DB::table('disaster')->insert([
-            'disaster_name' => ('Road Accident'),
-        ]);
-
-        DB::table('disaster')->insert([
-            'disaster_name' => ('Kill Accident'),
+            'disaster_type' => ('Road Accident'),
         ]);
     }
 }

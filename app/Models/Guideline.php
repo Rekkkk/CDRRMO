@@ -17,7 +17,6 @@ class Guideline extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'guideline_id',
         'guideline_description',
     ];
 
