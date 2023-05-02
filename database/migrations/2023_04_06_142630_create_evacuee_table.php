@@ -17,12 +17,9 @@ return new class extends Migration
             $table->integer('evacuee_age');
             $table->string('evacuee_gender');
             $table->string('evacuee_address');
-            $table->unsignedBigInteger('barangay_id');
-            $table->foreign('barangay_id')->references('barangay_id')->on('barangay')->onDelete('cascade');
-            $table->unsignedBigInteger('disaster_id');
-            $table->foreign('disaster_id')->references('disaster_id')->on('disaster')->onDelete('cascade');
-            $table->unsignedBigInteger('evacuation_assigned');
-            $table->foreign('evacuation_assigned')->references('evacuation_center_id')->on('evacuation_center')->onDelete('cascade');
+            $table->foreignId('barangay_id')->references('barangay_id')->on('barangay')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('disaster_id')->references('disaster_id')->on('disaster')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('evacuation_assigned')->references('evacuation_center_id')->on('evacuation_center')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

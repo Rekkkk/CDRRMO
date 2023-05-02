@@ -11,11 +11,12 @@ return new class extends Migration
     {
         Schema::create('report', function (Blueprint $table) {
             $table->id('report_id');
-            $table->string('report_description')->nullable();
-            $table->string('report_location')->nullable();
-            $table->string('contact')->nullable();
-            $table->string('email')->nullable();
-            $table->string('status')->nullable();
+            $table->string('report_description');
+            $table->string('report_location');
+            $table->string('report_photo', 300);
+            $table->string('contact');
+            $table->string('email');
+            $table->string('status');
             $table->timestamps();
         });
     }

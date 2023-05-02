@@ -17,7 +17,7 @@ class Disaster extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'disaster_name',
+        'disaster_type',
     ];
 
     public $timestamps = false;
@@ -33,7 +33,7 @@ class Disaster extends Model
     public function updateDisasterObject($request, $disasterId){
 
         $disasterData = [
-            'disaster_name' => Str::ucfirst(trim($request->input('disaster_name'))),
+            'disaster_type' => Str::ucfirst(trim($request->input('disaster_type'))),
         ];
 
         $disaster = $this->find($disasterId);

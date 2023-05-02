@@ -10,9 +10,9 @@ return new class extends Migration
         Schema::create('evacuation_center', function (Blueprint $table) {
             $table->id('evacuation_center_id');
             $table->string('evacuation_center_name');
+            $table->string('evacuation_center_contact');
             $table->string('evacuation_center_address');
-            $table->unsignedBigInteger('barangay_id');
-            $table->foreign('barangay_id')->references('barangay_id')->on('barangay')->onDelete('cascade');
+            $table->foreignId('barangay_id')->references('barangay_id')->on('barangay')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('latitude');
             $table->string('longitude');
         });

@@ -22,7 +22,7 @@ class DisasterController extends Controller{
 
     public function registerDisaster(DisasterRequest $request){
         $disasterData = [
-            'disaster_name' => Str::of(trim($request->disaster_name))->title(),
+            'disaster_type' => Str::of(trim($request->disaster_type))->title(),
         ];
 
         try{

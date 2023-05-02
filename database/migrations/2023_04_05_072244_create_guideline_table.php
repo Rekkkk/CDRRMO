@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('guideline', function (Blueprint $table) {
             $table->id("guideline_id");
-            $table->string("guideline_description")->nullable();
+            $table->string("guideline_description");
             $table->timestamps();
         });
     }
