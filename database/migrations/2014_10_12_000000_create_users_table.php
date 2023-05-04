@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('admin_email')->unique();
             $table->string('password');
-            $table->timestamps();
+            $table->date('created_at');
         });
     }
 

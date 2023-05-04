@@ -1,58 +1,69 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
-    <head>
-        @include('partials.content.headPackage')
-        <link rel="stylesheet" href="{{ asset('assets/css/evacuation-css/evacuationCenter.css') }}">
-        <title>{{ config('app.name') }}</title>
-    </head>
-    <body class="bg-gray-400">
-        <div class="wrapper">
-            
-            @include('partials.content.header')
-            @include('partials.content.sidebar')
-            
-            <div class="main-content">
 
-                <div class="dashboard-logo pb-4">
-                    <i class="bi bi-house text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
-                    <span class="text-2xl font-bold tracking-wider mx-2">EVACUATION CENTER</span>
-                    <hr class="mt-4">
-                </div>
+<head>
+    @include('partials.content.headPackage')
+    <link rel="stylesheet" href="{{ asset('assets/css/evacuation-css/evacuationCenter.css') }}">
+    <title>{{ config('app.name') }}</title>
+</head>
 
-                <div class="content-item">
-                    <div class="content-header text-center text-white">
-                        <div class="text-2xl p-2 w-full h-full">
-                            <span>{{ config('app.name') }}</span><br>
-                            <span>"E-LIGTAS"</span>
-                        </div>
-                    </div>
-                    <div class="map-section">
-                        <div class="w-full" id="map" style="height:600px;"></div>
+<body class="bg-gray-400">
+    <div class="wrapper">
+
+        @include('partials.content.header')
+        @include('partials.content.sidebar')
+
+        <div class="main-content">
+
+            <div class="dashboard-logo pb-4">
+                <i class="bi bi-house text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
+                <span class="text-2xl font-bold tracking-wider mx-2">EVACUATION CENTER</span>
+                <hr class="mt-4">
+            </div>
+
+            <div class="content-item">
+                <div class="content-header text-center text-white">
+                    <div class="text-2xl p-2 w-full h-full">
+                        <span>{{ config('app.name') }}</span><br>
+                        <span>"E-LIGTAS"</span>
                     </div>
                 </div>
-                <div class="map-btn">
-                    <button type="button" class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate Nearest Evacuation</button>
-                    <button type="button" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate Current Location</button>
+                <div class="map-section">
+                    <div class="w-full" id="map" style="height:600px;"></div>
                 </div>
-                <div class="evacuation-table mt-5">
-                    <table class="table bg-slate-50">
-                        <thead>
-                            <tr>
-                                <th scope="col">Evacuation Center Id</th>
-                                <th scope="col">Evacuation Center Name</th>
-                                <th scope="col">Evacuation Center Contact Number</th>
-                                <th scope="col">Evacuation Center Location</th>
-                            </tr>
-                        </thead>
-                        <tbody>
+            </div>
+            <div class="map-btn">
+                <button type="button"
+                    class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate
+                    Nearest Evacuation</button>
+                <button type="button"
+                    class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate
+                    Current Location</button>
+            </div>
+            <div class="evacuation-table mt-5">
+                <table class="table bg-slate-50">
+                    <thead>
+                        <tr>
+                            <th scope="col">Evacuation Center Id</th>
+                            <th scope="col">Evacuation Center Name</th>
+                            <th scope="col">Evacuation Center Contact</th>
+                            <th scope="col">Evacuation Center Address</th>
+                            <th scope="col">Latitude</th>
+                            <th scope="col" colspan="2">Longitude</th>
+                        </tr>
+                    </thead>
+                    <tbody>
                         @forelse ($evacuationCenter as $evacuationCenterList)
                             <tr>
                                 <th>{{ $evacuationCenterList->evacuation_center_id }}</th>
                                 <td>{{ $evacuationCenterList->evacuation_center_name }}</td>
                                 <td>{{ $evacuationCenterList->evacuation_center_contact }}</td>
-                                <td>{{ $evacuationCenterList->evacuation_center_location }}</td>
+                                <td>{{ $evacuationCenterList->evacuation_center_address }}</td>
+                                <td>{{ $evacuationCenterList->latitude }}</td>
+                                <td>{{ $evacuationCenterList->longitude }}</td>
                                 <td>
-                                    <a href="#" class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate</a>
+                                    <a href="#"
+                                        class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate</a>
                                 </td>
                             </tr>
                         @empty
@@ -62,20 +73,23 @@
                                 </td>
                             </tr>
                         @endforelse
-                        </tbody>
-                    </table>
-                </div>
+                    </tbody>
+                </table>
             </div>
         </div>
+    </div>
 
-        @auth
+    @auth
         <script async src="https://maps.googleapis.com/maps/api/js?key=...&callback=initMap"></script>
         <script>
             let map, activeInfoWindow, markers = [];
 
             function initMap() {
                 map = new google.maps.Map(document.getElementById("map"), {
-                    center: { lat: 14.242311, lng: 121.12772},
+                    center: {
+                        lat: 14.242311,
+                        lng: 121.12772
+                    },
                     zoom: 15
                 });
 
@@ -104,7 +118,7 @@
                         content: `<b>${markerData.position.lat}, ${markerData.position.lng}</b>`,
                     });
                     marker.addListener("click", (event) => {
-                        if(activeInfoWindow) {
+                        if (activeInfoWindow) {
                             activeInfoWindow.close();
                         }
                         infowindow.open({
@@ -139,10 +153,14 @@
                 console.log(event.latLng.lng());
             }
         </script>
-        @endauth
-        <script src="{{ asset('assets/js/landingPage.js') }}"></script>
-        <script src="https://code.jquery.com/jquery-3.6.4.min.js" integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
-    
-    </body>
+    @endauth
+    <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    </script>
+
+</body>
+
 </html>

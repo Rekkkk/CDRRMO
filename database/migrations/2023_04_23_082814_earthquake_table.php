@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id("earthquake_id");
             $table->string("magnitude");
             $table->foreignId('disaster_id')->references('disaster_id')->on('disaster')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->timestamp('created_at')->useCurrent();
+            $table->date('created_at');
         });
     }
 

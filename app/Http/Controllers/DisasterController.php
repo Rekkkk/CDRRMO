@@ -20,20 +20,21 @@ class DisasterController extends Controller{
         return compact('disaster');
     }
 
-    public function registerDisaster(DisasterRequest $request){
-        $disasterData = [
-            'disaster_type' => Str::of(trim($request->disaster_type))->title(),
-        ];
+    // public function registerDisaster(DisasterRequest $request){
+        
+    //     $disasterData = [
+    //         'disaster_type' => Str::of(trim($request->disaster_type))->title(),
+    //     ];
 
-        try{
-            $this->disaster->registerDisasterObject($disasterData);
-            Alert::success('Disaster Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-        }catch(\Exception $e){
-            Alert::error('Failed to Register Disaster', 'Cabuyao City Disaster Risk Reduction Management Office');
-        }
+    //     try{
+    //         $this->disaster->registerDisasterObject($disasterData);
+    //         Alert::success('Disaster Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+    //     }catch(\Exception $e){
+    //         Alert::error('Failed to Register Disaster', 'Cabuyao City Disaster Risk Reduction Management Office');
+    //     }
             
-        return back();
-    }
+    //     return back();
+    // }
 
     public function updateDisaster(DisasterRequest $request, $disasterId){
         try{

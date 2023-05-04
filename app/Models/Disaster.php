@@ -26,9 +26,9 @@ class Disaster extends Model
         return $this->all()->sortBy('disaster_id');
     }
 
-    public function registerDisasterObject($disaster){
-        return $this->create($disaster);
-    }
+    // public function registerDisasterObject($disaster){
+    //     return $this->create($disaster);
+    // }
 
     public function updateDisasterObject($request, $disasterId){
 

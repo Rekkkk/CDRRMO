@@ -14,7 +14,7 @@ class DisasterRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'disaster_name' => 'required',
+            'disaster_type' => 'required',
         ];
     }
 }
