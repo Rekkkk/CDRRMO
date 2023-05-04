@@ -17,12 +17,15 @@ class DatabaseSeeder extends Seeder
         $this->call(BarangaySeeder::class);
         $this->call(EvacuationCenterSeeder::class);
         $this->call(GuideSeeder::class);
+        $this->call(EarthquakeSeeder::class);
+        $this->call(TyphoonSeeder::class);
+        $this->call(RoadAccidentSeeder::class);
+        $this->call(FloodingSeeder::class);
 
         DB::table('users')->insert([
             'admin_email' => ('CDRRMO123@gmail.com'),
             'password' => Hash::make('CDRRMO_Admin_Panel'),
             'created_at' => Date::now(),
-            'updated_at' => Date::now(),
         ]);
     }
 }

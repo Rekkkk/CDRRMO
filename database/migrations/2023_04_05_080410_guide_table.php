@@ -10,10 +10,9 @@ return new class extends Migration
     {
         Schema::create('guide', function (Blueprint $table) {
             $table->id("guide_id");
-            $table->string("guide_description")->nullable();
-            $table->longText("guide_content")->nullable();
-            $table->unsignedBigInteger("guideline_id")->nullable();
-            $table->foreign('guideline_id')->references('guideline_id')->on('guideline')->nullable();
+            $table->string("guide_description");
+            $table->longText("guide_content");
+            $table->foreignId('guideline_id')->references('guideline_id')->on('guideline')->cascadeOnDelete()->cascadeOnUpdate();
             $table->timestamps();
         });
     }

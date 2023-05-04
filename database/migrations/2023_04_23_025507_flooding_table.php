@@ -8,10 +8,9 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('road_accident', function (Blueprint $table) {
-            $table->id("road_accident_id");
-            $table->string("casualties")->nullable();
-            $table->string("injuries")->nullable();
+        Schema::create('flooding', function (Blueprint $table) {
+            $table->id('flooding_id');
+            $table->string('flooded_location');
             $table->foreignId('disaster_id')->references('disaster_id')->on('disaster')->cascadeOnDelete()->cascadeOnUpdate();
             $table->date('created_at');
         });
@@ -19,6 +18,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('road_accident');
+        Schema::dropIfExists('flooding');
     }
 };

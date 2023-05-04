@@ -21,5 +21,9 @@ class DisasterSeeder extends Seeder
         DB::table('disaster')->insert([
             'disaster_type' => ('Road Accident'),
         ]);
+
+        DB::table('disaster')->insert([
+            'disaster_type' => ('Flooding'),
+        ]);
     }
 }

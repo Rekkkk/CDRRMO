@@ -17,6 +17,7 @@ class RecordEvacueeRequest extends FormRequest
             'first_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
             'middle_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
             'last_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
+            'suffix' => 'required',
             'contact_number' => 'required|numeric|digits:11',
             'age' => 'required|numeric',
             'gender' => 'required',

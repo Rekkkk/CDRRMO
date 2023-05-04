@@ -12,6 +12,7 @@ class EvacuationCenterSeeder extends Seeder
     {
         DB::table('evacuation_center')->insert([
             'evacuation_center_name' => ('Banay-Banay Elementary School'),
+            'evacuation_center_contact' => ('09124321233'),
             'evacuation_center_address' => ('Banay-Banay'),
             'barangay_id' => ('1'),
             'latitude' => ('14.123456'),
@@ -20,6 +21,7 @@ class EvacuationCenterSeeder extends Seeder
 
         DB::table('evacuation_center')->insert([
             'evacuation_center_name' => ('Butong Elementary School'),
+            'evacuation_center_contact' => ('09124321233'),
             'evacuation_center_address' => ('Butong'),
             'barangay_id' => ('3'),
             'latitude' => ('43.324322'),
@@ -28,6 +30,7 @@ class EvacuationCenterSeeder extends Seeder
 
         DB::table('evacuation_center')->insert([
             'evacuation_center_name' => ('Gulod Elementary School'),
+            'evacuation_center_contact' => ('09124321233'),
             'evacuation_center_address' => ('Gulod'),
             'barangay_id' => ('4'),
             'latitude' => ('12.123456'),

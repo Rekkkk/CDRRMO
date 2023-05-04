@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\DB;
 
 class Evacuee extends Model
 {
@@ -31,7 +32,8 @@ class Evacuee extends Model
 
     public $timestamps = false;
 
-    public function recordEvacueeObject($evacuee){
+    public function recordEvacueeObject($evacuee)
+    {
         return $this->create($evacuee);
     }
 }

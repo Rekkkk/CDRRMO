@@ -126,6 +126,11 @@
     width: 40px;
 }
 
+.chart{
+    opacity: 0;
+    display: none;
+}
+
 @keyframes transitionIn{
     from{
         opacity: 0;

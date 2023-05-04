@@ -16,7 +16,7 @@ class EvacuationCenterController extends Controller{
     }
 
     public function evacuationCenterList(){
-        $EvacuationCenterList = array("evacuationCenter" => DB::table('evacuation_center')->orderBy('evacuation_center_id', 'asc')->simplePaginate(4));
+        $EvacuationCenterList = array("evacuationCenter" => DB::table('evacuation_center')->orderBy('evacuation_center_id', 'asc')->simplePaginate(5));
 
         return $EvacuationCenterList;
     }
@@ -25,7 +25,7 @@ class EvacuationCenterController extends Controller{
         $evacuationCenterData = [
             'evacuation_center_name' => Str::ucfirst($request->evacuation_center_name),
             'evacuation_center_contact' => $request->evacuation_center_contact,
-            'evacuation_center_location' => Str::ucfirst($request->evacuation_center_location),
+            'evacuation_center_address' => Str::ucfirst($request->evacuation_center_address),
         ];
 
         try{

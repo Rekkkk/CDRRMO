@@ -19,7 +19,10 @@ class EvacuationCenter extends Model
     protected $fillable = [
         'evacuation_center_name',
         'evacuation_center_contact',
-        'evacuation_center_location',
+        'evacuation_center_address',
+        'barangay_id',
+        'latitute',
+        'longtitude',
     ];
 
     public $timestamps = false;
@@ -32,7 +35,7 @@ class EvacuationCenter extends Model
         $evacuationCenterData = [
             'evacuation_center_name' => Str::ucfirst(trim($request->input('evacuation_center_name'))),
             'evacuation_center_contact' => trim($request->input('evacuation_center_contact')),
-            'evacuation_center_location' => Str::ucfirst(trim($request->input('evacuation_center_location'))),
+            'evacuation_center_address' => Str::ucfirst(trim($request->input('evacuation_center_address'))),
         ];
 
         $evacuationCenter = $this->find($evacuationCenterId);
