@@ -4,7 +4,6 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Str;
 
 class Barangay extends Model
 {
@@ -29,14 +28,7 @@ class Barangay extends Model
         return $this->create($barangay);
     }
 
-    public function updateBarangayObject($request, $barangayId){
-        $barangayData = [
-            'barangay_name' => Str::ucfirst(trim($request->input('barangay_name'))),
-            'barangay_location' => Str::ucfirst(trim($request->input('barangay_location'))),
-            'barangay_contact_number' => trim($request->input('barangay_contact')),
-            'barangay_email_address' => trim($request->input('barangay_email')),
-        ];
-
+    public function updateBarangayObject($barangayData, $barangayId){
         $barangay = $this->find($barangayId);
         $barangay->update($barangayData);
     }

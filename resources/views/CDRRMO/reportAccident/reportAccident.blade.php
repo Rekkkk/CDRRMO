@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     @include('partials.content.headPackage')
@@ -83,6 +83,13 @@
                                     <input type="text" id="email" name="email" class="form-control"
                                         placeholder="Enter Email Address" autocomplete="off">
                                     <span class="text-danger error-text email_error"></span>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="report_photo" class="flex items-center justify-center">Report
+                                        Photo</label>
+                                    <input type="file" id="report_photo" name="report_photo" class="form-control"
+                                        placeholder="Enter Incident Location" autocomplete="off">
+                                    <span class="text-danger error-text report_location_error"></span>
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button"
@@ -308,12 +315,6 @@
 
                             });
                         }
-                    });
-
-                    $('body').on('click', '.removeApprovedReport', function() {
-                        var report_id = $(this).data("id");
-
-                        alert(report_id);
                     });
                 });
 

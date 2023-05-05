@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\DisasterRequest;
 use App\Models\Disaster;
-use Illuminate\Support\Str;
 use RealRashid\SweetAlert\Facades\Alert;
 
 class DisasterController extends Controller{

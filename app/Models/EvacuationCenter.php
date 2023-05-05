@@ -21,8 +21,8 @@ class EvacuationCenter extends Model
         'evacuation_center_contact',
         'evacuation_center_address',
         'barangay_id',
-        'latitute',
-        'longtitude',
+        'latitude',
+        'longitude',
     ];
 
     public $timestamps = false;
@@ -31,13 +31,7 @@ class EvacuationCenter extends Model
         return $this->create($evacuationCenter);
     }
 
-    public function updateEvacuationCenterObject($request, $evacuationCenterId){
-        $evacuationCenterData = [
-            'evacuation_center_name' => Str::ucfirst(trim($request->input('evacuation_center_name'))),
-            'evacuation_center_contact' => trim($request->input('evacuation_center_contact')),
-            'evacuation_center_address' => Str::ucfirst(trim($request->input('evacuation_center_address'))),
-        ];
-
+    public function updateEvacuationCenterObject($evacuationCenterData, $evacuationCenterId){
         $evacuationCenter = $this->find($evacuationCenterId);
         $evacuationCenter->update($evacuationCenterData);
     }

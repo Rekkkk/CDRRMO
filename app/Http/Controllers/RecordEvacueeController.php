@@ -38,7 +38,6 @@ class RecordEvacueeController extends Controller{
     }
 
     public function recordEvacueeInfo(Request $request){
-        
         $validatedEvacueeForm = Validator::make($request->all(), [
             'first_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
             'middle_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
@@ -79,7 +78,6 @@ class RecordEvacueeController extends Controller{
             return response()->json(['condition' => 1]);
         }
         
-           
         return response()->json(['condition' => 0, 'error' => $validatedEvacueeForm->errors()->toArray()]);
     }
 }
