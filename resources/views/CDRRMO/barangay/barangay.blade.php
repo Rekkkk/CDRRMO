@@ -3,6 +3,9 @@
 
 <head>
     @include('partials.content.headPackage')
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
     <link rel="stylesheet" href="{{ asset('assets/css/barangay-css/barangay.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
@@ -16,16 +19,18 @@
         <x-messages />
 
         <div class="content">
+
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-hospital text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">BARANGAY INFORMATION</span>
                 <hr class="mt-4">
             </div>
+
             <div class="main-content bg-slate-50 p-4">
                 <div class="barangay-form p-3 mx-2 border-r-2">
                     <header class="text-xl font-semibold">Barangay Information</header>
                     <hr>
-                    <form action="{{ route('Cregisterbarangay') }}" method="POST">
+                    <form id="addBarangayForm" name="addBarangayForm">
                         @csrf
                         <div class="form barangay my-3">
                             <div class="fields">
@@ -33,12 +38,9 @@
                                     <label for="barangay_name">Barangay Name</label>
                                     <input type="text" name="barangay_name"
                                         value="{{ !empty(old('barangay_name')) ? old('barangay_name') : null }}"
-                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Barangay Name">
-                                    @error('barangay_name')
-                                        <span
-                                            class="text-red-500 text-xs italic">{{ $errors->first('barangay_name') }}</span>
-                                    @enderror
+                                    <span class="text-danger italic text-xs error-text barangay_name_error"></span>
                                 </div>
                             </div>
 
@@ -47,12 +49,9 @@
                                     <label for="barangay_location">Barangay Location</label>
                                     <input type="text" name="barangay_location"
                                         value="{{ !empty(old('barangay_location')) ? old('barangay_location') : null }}"
-                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Barangay Location">
-                                    @error('barangay_location')
-                                        <span
-                                            class="text-red-500 text-xs italic">{{ $errors->first('barangay_location') }}</span>
-                                    @enderror
+                                    <span class="text-danger italic text-xs error-text barangay_location_error"></span>
                                 </div>
                             </div>
 
@@ -61,12 +60,9 @@
                                     <label for="barangay_contact">Barangay Contact Number</label>
                                     <input type="text" name="barangay_contact"
                                         value="{{ !empty(old('barangay_contact')) ? old('barangay_contact') : null }}"
-                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Barangay Contact Number">
-                                    @error('barangay_contact')
-                                        <span
-                                            class="text-red-500 text-xs italic">{{ $errors->first('barangay_contact') }}</span>
-                                    @enderror
+                                    <span class="text-danger italic text-xs error-text barangay_contact_error"></span>
                                 </div>
                             </div>
 
@@ -75,12 +71,9 @@
                                     <label for="barangay_email">Barangay Email Address</label>
                                     <input type="text" name="barangay_email"
                                         value="{{ !empty(old('barangay_email')) ? old('barangay_email') : null }}"
-                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Barangay Email Address">
-                                    @error('barangay_email')
-                                        <span
-                                            class="text-red-500 text-xs italic">{{ $errors->first('barangay_email') }}</span>
-                                    @enderror
+                                    <span class="text-danger italic text-xs error-text barangay_email_error"></span>
                                 </div>
                             </div>
                         </div>
@@ -89,73 +82,243 @@
                                 <button type="button"
                                     class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Cancel</button>
                             </a>
-                            <button type="submit"
-                                class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Save</button>
+                            <button id="addBarangay"
+                                class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Submit</button>
                         </div>
                     </form>
                 </div>
-                <div class="barangay-table w-full relative">
-                    <header class="text-2xl font-semibold">Barangay Table</header>
-                    <hr>
-                    <table class="table mt-2">
+
+                <div class="barangay-table bg-slate-100">
+                    <header class="text-2xl font-semibold py-3">Barangay Table</header>
+                    <table class="table data-table display nowrap" style="width:100%">
                         <thead>
-                            <tr class="table-row">
+                            <tr>
                                 <th>Barangay Name</th>
                                 <th>Location</th>
                                 <th>Contact Number</th>
                                 <th>Email Address</th>
-                                <th></th>
+                                <th class="w-4">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($barangay as $barangayList)
-                                <tr>
-                                    <td class="">{{ $barangayList->barangay_name }}</td>
-                                    <td class="w-2/5">{{ $barangayList->barangay_location }}</td>
-                                    <td class="">{{ $barangayList->barangay_contact_number }}</td>
-                                    <td class="">{{ $barangayList->barangay_email_address }}</td>
-                                    <td class="flex gap-2 justify-end">
-                                        <a href="#edit{{ $barangayList->barangay_id }}" data-bs-toggle="modal">
-                                            <button type="submit"
-                                                class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
-                                                <i class="bi bi-pencil mr-2"></i>Edit
-                                            </button>
-                                        </a>
-                                        @include('CDRRMO.barangay.updateBarangay')
-
-                                        <form action="{{ route('Cremovebarangay', $barangayList->barangay_id) }}"
-                                            method="POST">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit"
-                                                class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
-                                                <i class="bi bi-trash mr-2"></i>Delete
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                            @empty
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-center" colspan="5">
-                                        No Barangay Record Found.
-                                    </td>
-                                </tr>
-                            @endforelse
                         </tbody>
                     </table>
-                    <div class="absolute bottom-0 left-0">
-                        {{ $barangay->links() }}
-                    </div>
                 </div>
             </div>
+
+            @include('CDRRMO.barangay.updateBarangay')
+
         </div>
     </div>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    </script>
+
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            var barangayTable = $('.data-table').DataTable({
+                rowReorder: {
+                    selector: 'td:nth-child(2)'
+                },
+                responsive: true,
+                processing: false,
+                serverSide: true,
+                ajax: "{{ route('Cdisplaybarangay') }}",
+                columns: [{
+                        data: 'barangay_name',
+                        name: 'barangay_name'
+                    },
+                    {
+                        data: 'barangay_location',
+                        name: 'barangay_location'
+                    },
+                    {
+                        data: 'barangay_contact_number',
+                        name: 'barangay_contact_number'
+                    },
+                    {
+                        data: 'barangay_email_address',
+                        name: 'barangay_email_address'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
+
+            $('#addBarangay').click(function(e) {
+                e.preventDefault();
+
+                Swal.fire({
+                    title: 'Do you really want to submit this?',
+                    showDenyButton: true,
+                    showLoaderOnConfirm: true,
+                    icon: 'info',
+                    confirmButtonText: 'Yes, submit it.',
+                    confirmButtonColor: '#334155',
+                    denyButtonText: `Double Check`,
+                    denyButtonColor: '#b91c1c',
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            data: $('#addBarangayForm').serialize(),
+                            url: "{{ route('Cregisterbarangay') }}",
+                            type: "POST",
+                            dataType: 'json',
+                            beforeSend: function(response) {
+                                $(document).find('span.error-text').text('');
+                            },
+                            success: function(response) {
+                                if (response.status == 0) {
+                                    $.each(response.error, function(prefix, val) {
+                                        $('span.' + prefix + '_error').text(val[
+                                            0]);
+                                    });
+                                    Swal.fire(
+                                        "{{ config('app.name') }}",
+                                        'Some Fields Are Required, Fill It Up!',
+                                        'error',
+                                    );
+                                } else {
+                                    Swal.fire(
+                                        "{{ config('app.name') }}",
+                                        'Barangay Added Successfully!',
+                                        'success',
+                                    );
+                                    $('#addBarangayForm')[0].reset();
+                                    barangayTable.draw();
+                                }
+                            },
+
+                            error: function(response) {
+                                console.log('Error:', response);
+                                Swal.fire(
+                                    "{{ config('app.name') }}",
+                                    'Ooppss.. Something went wrong.',
+                                    'error',
+                                );
+                            }
+                        });
+                    }
+                })
+            });
+
+            $(document).on('click', '.updateBarangay', function(e) {
+                e.preventDefault();
+                var barangay_id = $(this).data("id");
+
+                $.ajax({
+                    url: "{{ route('Cdisplaydetails', ':barangay_id') }}"
+                        .replace(':barangay_id', barangay_id),
+                    dataType: "json",
+                    success: function(response) {
+                        $('#name').val(response.result.barangay_name);
+                        $('#location').val(response.result.barangay_location);
+                        $('#contact').val(response.result.barangay_contact_number);
+                        $('#email').val(response.result.barangay_email_address);
+                        $('#barangayId').val(barangay_id);
+                        $('#editBarangay').modal('show');
+                    },
+                    error: function(response) {
+                        var errors = response.responseJSON;
+                    }
+                })
+            });
+
+            $(document).on('click', '#editbarangay', function(e) {
+                e.preventDefault();
+                var barangay_id = $('#barangayId').val();
+
+                $.ajax({
+                    url: "{{ route('Cupdatebarangay', ':barangay_id') }}"
+                        .replace(':barangay_id', barangay_id),
+                    method: 'put',
+                    data: $('#editBarangayForm').serialize(),
+                    dataType: "json",
+                    beforeSend: function(response) {
+                        $(document).find('span.error-text').text('');
+                    },
+                    success: function(response) {
+                        if (response.status == 0) {
+                            $.each(response.error, function(prefix, val) {
+                                $('span.' + prefix + '_error').text(val[0]);
+                            });
+                            Swal.fire(
+                                "{{ config('app.name') }}",
+                                'Failed to Update Barangay!',
+                                'error',
+                            );
+                        } else {
+                            Swal.fire(
+                                "{{ config('app.name') }}",
+                                'Barangay Updated Successfully!',
+                                'success',
+                            );
+                            $('#editBarangayForm')[0].reset();
+                            $('#editBarangay').modal('hide');
+                            barangayTable.draw();
+                        }
+                    },
+                    error: function(response) {
+                        Swal.fire(
+                            "{{ config('app.name') }}",
+                            'Failed to Update Barangay!',
+                            'error',
+                        );
+                    }
+                })
+            });
+
+            $('body').on('click', '.removeBarangay', function() {
+                var barangay_id = $(this).data("id");
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to undo this!",
+                    icon: 'info',
+                    showLoaderOnConfirm: true,
+                    showCancelButton: true,
+                    confirmButtonColor: '#334155',
+                    cancelButtonColor: '#b91c1c',
+                    confirmButtonText: 'Yes, delete it.'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ route('Cremovebarangay', ':barangay_id') }}"
+                                .replace(':barangay_id', barangay_id),
+                            success: function(response) {
+                                Swal.fire(
+                                    "{{ config('app.name') }}!",
+                                    'Barangay has been deleted.',
+                                    'success'
+                                )
+                                barangayTable.draw();
+                            },
+
+                            error: function(response) {
+                                console.log('Error:', response);
+                            }
+                        });
+                    }
+                });
+            });
+        });
     </script>
 
 </body>

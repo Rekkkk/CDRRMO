@@ -56,6 +56,8 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth', 'ensure.token'], fun
 
     Route::group(['prefix' => 'evacuationCenter'], function(){
         Route::controller(EvacuationCenterController::class)->group(function (){
+            Route::get('/viewEvacuationCenter', 'evacuationCenterList')->name('Cdisplayevacuationcenter');
+            Route::get('/evacuationCenterDetails/{evacuationId}', 'getEvacuationCenterDetails')->name('Cdisplayevacuationdetails');
             Route::post('/registerEvacuation', 'registerEvacuationCenter')->name('Cregisterevacuation');
             Route::put('/updateEvacuation/{evacuationId}', 'updateEvacuationCenter')->name('Cupdateevacuation');
             Route::delete('/removeEvacuation/{evacuationId}', 'removeEvacuationCenter')->name('Cremoveevacuation');
@@ -72,6 +74,8 @@ Route::group(['prefix' => 'cdrrmo', 'middleware' => 'auth', 'ensure.token'], fun
 
     Route::group(['prefix' => 'barangay'], function(){
         Route::controller(BarangayController::class)->group(function (){
+            Route::get('/viewbarangay', 'barangayList')->name('Cdisplaybarangay');
+            Route::get('/barangayDetails/{barangayId}', 'getBarangayDetails')->name('Cdisplaydetails');
             Route::post('/registerBarangay', 'registerBarangay')->name('Cregisterbarangay');
             Route::put('/updateBarangay/{barangayId}', 'updateBarangay')->name('Cupdatebarangay');
             Route::delete('/removeBarangay/{barangayId}', 'removeBarangay')->name('Cremovebarangay');

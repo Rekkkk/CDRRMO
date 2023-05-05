@@ -25,13 +25,13 @@
             </a>
         </li>
         <li>
-            <a href="{{ route('Cbarangay') }}">
+            <a href="{{ route('Cdisplaybarangay') }}">
                 <i class="bi bi-hospital text-white"></i>
                 <span class="links_name">Baranggay Information</span>
             </a>
         </li>
         <li>
-            <a href="{{ route('Cevacuationmanage') }}">
+            <a href="{{ route('Cdisplayevacuationcenter') }}">
                 <i class="bi bi-house-add text-white"></i>
                 <span class="links_name">Manage Evacuation Center</span>
             </a>

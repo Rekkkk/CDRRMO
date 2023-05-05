@@ -12,7 +12,7 @@ return new class extends Migration
             $table->string('evacuation_center_name');
             $table->string('evacuation_center_contact');
             $table->string('evacuation_center_address');
-            $table->foreignId('barangay_id')->references('barangay_id')->on('barangay')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('barangay_id')->references('barangay_id')->on('barangay')->cascadeOnDelete()->cascadeOnUpdate()->nullable();
             $table->string('latitude');
             $table->string('longitude');
         });

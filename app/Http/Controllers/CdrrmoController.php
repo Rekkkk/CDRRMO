@@ -50,18 +50,12 @@ class CdrrmoController extends Controller
 
     public function barangay()
     {
-        $barangayList = new BarangayController();
-        $barangayList = $barangayList->barangayList();
-
-        return view('cdrrmo.barangay.barangay', $barangayList);
+        return view('cdrrmo.barangay.barangay');
     }
 
     public function evacuationManage()
     {
-        $evacuation = new EvacuationCenterController();
-        $evacuation = $evacuation->evacuationCenterList();
-
-        return view('cdrrmo.evacuationCenter.evacuation', $evacuation);
+        return view('cdrrmo.evacuationCenter.evacuation');
     }
 
     public function evacuationCenter()

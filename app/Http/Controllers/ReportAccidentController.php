@@ -53,6 +53,7 @@ class ReportAccidentController extends Controller{
             'report_location' => 'required',
             'contact' => 'required|numeric|digits_between:11,15',
             'email' => 'required|email',
+            'report_photo' => 'required',
         ]);
 
         if($validatedAccidentReport->passes()) {
@@ -60,6 +61,7 @@ class ReportAccidentController extends Controller{
             $reportAccident = [
                 'report_description' => Str::ucFirst(trim($request->report_description)),
                 'report_location' => Str::of(trim($request->report_location))->title(),
+                'report_photo' => $request->report_photo,
                 'contact' => trim($request->contact),
                 'email' => trim($request->email),
                 'status' => 'On Process'

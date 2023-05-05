@@ -18,6 +18,7 @@ class ReportAccident extends Model
     protected $fillable = [
         'report_description',
         'report_location',
+        'report_photo',
         'contact',
         'email',
         'status',
