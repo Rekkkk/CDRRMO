@@ -10,8 +10,9 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('admin_email')->unique();
+            $table->string('email')->unique();
             $table->string('password');
+            $table->tinyInteger('user_role');
             $table->date('created_at');
         });
     }

@@ -10,18 +10,7 @@ class CdrrmoController extends Controller
 {
     public function dashboard()
     {
-        return view('cdrrmo.dashboard');
-    }
-
-    public function recordEvacuee()
-    {
-        $recordEvacueeController = new RecordEvacueeController();
-
-        $barangays = $recordEvacueeController->barangayList();
-        $evacuationCenters = $recordEvacueeController->evacuationCenterList();
-        $disasters = $recordEvacueeController->disasterList();
-
-        return view('cdrrmo.recordEvacuee.recordEvacuee', compact('barangays', 'evacuationCenters', 'disasters'));
+        return view('userpage.dashboard');
     }
 
     public function eligtasGuideline()
@@ -29,7 +18,7 @@ class CdrrmoController extends Controller
         $guidelinesList = new GuidelineController();
         $guidelinesList = $guidelinesList->guideline();
 
-        return view('cdrrmo.guideline.eligtasGuideline', $guidelinesList);
+        return view('userpage.guideline.eligtasGuideline', $guidelinesList);
     }
 
     public function eligtasGuide($guidelineId)
@@ -37,7 +26,7 @@ class CdrrmoController extends Controller
         $guideList = new GuidelineController();
         $guideList = $guideList->guide($guidelineId);
 
-        return view('cdrrmo.guideline.guide', $guideList, compact('guidelineId'));
+        return view('userpage.guideline.guide', $guideList, compact('guidelineId'));
     }
 
     public function disaster()
@@ -45,17 +34,17 @@ class CdrrmoController extends Controller
         $disasterList = new DisasterController();
         $disasterList = $disasterList->disasterList();
 
-        return view('cdrrmo.disaster.disaster', $disasterList);
+        return view('userpage.disaster.disaster', $disasterList);
     }
 
     public function barangay()
     {
-        return view('cdrrmo.barangay.barangay');
+        return view('userpage.barangay.barangay');
     }
 
     public function evacuationManage()
     {
-        return view('cdrrmo.evacuationCenter.evacuation');
+        return view('userpage.evacuationCenter.evacuation');
     }
 
     public function evacuationCenter()
@@ -89,7 +78,7 @@ class CdrrmoController extends Controller
             ]
         ];
 
-        return view('cdrrmo.evacuationCenter.evacuationCenter', ['evacuationCenter' => $evacuationCenter, 'initialMarkers' => $initialMarkers]);
+        return view('userpage.evacuationCenter.evacuationCenter', ['evacuationCenter' => $evacuationCenter, 'initialMarkers' => $initialMarkers]);
     }
 
     public function statistics()
@@ -103,22 +92,22 @@ class CdrrmoController extends Controller
         $floodingMaleData = DB::table('evacuee')->select('evacuee_gender')->where('disaster_id', '4')->where('evacuee_gender', 'Male')->get();
         $floodingFemaleData = DB::table('evacuee')->select('evacuee_gender')->where('disaster_id', '4')->where('evacuee_gender', 'Female')->get();
         
-        return view('cdrrmo.statistics.statistics', compact('typhoonMaleData', 'typhoonFemaleData', 'earthquakeMaleData', 'earthquakeFemaleData', 'roadAccidentMaleData', 'roadAccidentFemaleData', 'floodingMaleData', 'floodingFemaleData'));
+        return view('userpage.statistics.statistics', compact('typhoonMaleData', 'typhoonFemaleData', 'earthquakeMaleData', 'earthquakeFemaleData', 'roadAccidentMaleData', 'roadAccidentFemaleData', 'floodingMaleData', 'floodingFemaleData'));
     }
 
     public function reportAccident()
     {
-        return view('cdrrmo.reportAccident.reportAccident');
+        return view('userpage.reportAccident.reportAccident');
     }
 
     public function hotlineNumbers()
     {
-        return view('cdrrmo.hotlineNumbers.hotlineNumbers');
+        return view('userpage.hotlineNumbers.hotlineNumbers');
     }
 
     public function about()
     {
-        return view('cdrrmo.about.about');
+        return view('userpage.about.about');
     }
 
     public function logout(Request $request)

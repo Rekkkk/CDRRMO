@@ -22,22 +22,22 @@
                 <hr class="mt-4">
             </div>
 
-            @auth
+            @if(Auth::check() && Auth::user()->user_role == '1')
                 <div class="guidelines-btn w-full py-2 flex justify-end">
                     <a class="bg-slate-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200"
                         id="createGuidelineBtn" href="javascript:void(0)">
                         <i class="bi bi-file-earmark-plus-fill mr-2"></i></i>Add Guideline
                     </a>
-                    @include('cdrrmo.guideline.addGuideline')
+                    @include('userpage.guideline.addGuideline')
                 </div>
-            @endauth
+            @endif
 
             <div class="content-item text-center mt-4" id="guidelineWidget">
                 <div class="row gap-4 justify-center items-center">
                     @forelse ($guideline as $guidelineItem)
                         <div class="col-lg-2 mb-4 relative">
-                            @auth
-                                <a href="{{ route('Cremoveguideline', $guidelineItem->guideline_id) }}"
+                            @if(Auth::check() && Auth::user()->user_role == '1')
+                                <a href="{{ route('remove.guideline.cdrrmo', $guidelineItem->guideline_id) }}"
                                     class="absolute right-0">
                                     <i
                                         class="bi bi-x-lg cursor-pointer p-2.5 bg-red-700 text-white rounded-full shadow-lg hover:bg-red-900 transition duration-200"></i>
@@ -47,16 +47,16 @@
                                     <i
                                         class="bi bi-pencil cursor-pointer p-2 bg-slate-600 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200"></i>
                                 </a>
-                                @include('cdrrmo.guideline.updateGuideline')
-                                <a class="guidelines-item" href="{{ route('Cguide', $guidelineItem->guideline_id) }}">
+                                @include('userpage.guideline.updateGuideline')
+                                <a class="guidelines-item" href="{{ route('guide.cdrrmo', $guidelineItem->guideline_id) }}">
                                     <div class="widget relative w-full h-full">
                                         <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
                                         <p>{{ $guidelineItem->guideline_description }}</p>
                                     </div>
                                 </a>
-                            @endauth
+                            @endif
                             @guest
-                                <a class="guidelines-item" href="{{ route('Gguide', $guidelineItem->guideline_id) }}">
+                                <a class="guidelines-item" href="{{ route('guide.resident', $guidelineItem->guideline_id) }}">
                                     <div class="widget relative w-full h-full">
                                         <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
                                         <p>{{ $guidelineItem->guideline_description }}</p>
@@ -113,7 +113,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             data: $('#createGuidelineForm').serialize(),
-                            url: "{{ route('Caguideline') }}",
+                            url: "{{ route('add.guideline.cdrrmo') }}",
                             type: "POST",
                             dataType: 'json',
                             beforeSend: function(data) {

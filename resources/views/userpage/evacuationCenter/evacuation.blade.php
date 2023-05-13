@@ -3,10 +3,10 @@
 
 <head>
     @include('partials.content.headPackage')
+    <link rel="stylesheet" href="{{ asset('assets/css/evacuation-css/evacuation.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/css/barangay-css/barangay.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
 
@@ -19,84 +19,112 @@
         <x-messages />
 
         <div class="content">
-
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-hospital text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
-                <span class="text-2xl font-bold tracking-wider mx-2">BARANGAY INFORMATION</span>
+                <i class="bi bi-tropical-storm text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
+                <span class="text-2xl font-bold tracking-wider mx-2">EVACUATION CENTER INFORMATION</span>
                 <hr class="mt-4">
             </div>
 
             <div class="main-content bg-slate-50 p-4">
-                <div class="barangay-form p-3 mx-2 border-r-2">
-                    <header class="text-xl font-semibold">Barangay Information</header>
+                <div class="evacuation-form p-3 mx-2 border-r-2">
+                    <header class="text-xl font-semibold">Evacuation Center Information</header>
                     <hr>
-                    <form id="addBarangayForm" name="addBarangayForm">
+                    <form id="addEvacuationCenterForm" name="addEvacuationCenterForm">
                         @csrf
-                        <div class="form barangay my-3">
+                        <div class="form evacuation my-3">
                             <div class="fields">
                                 <div class="flex flex-col">
-                                    <label for="barangay_name">Barangay Name</label>
-                                    <input type="text" name="barangay_name"
-                                        value="{{ !empty(old('barangay_name')) ? old('barangay_name') : null }}"
-                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Barangay Name">
-                                    <span class="text-danger italic text-xs error-text barangay_name_error"></span>
+                                    <label for="evacuation_center_name">Evacuation Center Name</label>
+                                    <input type="text" name="evacuation_center_name"
+                                        value="{{ !empty(old('evacuation_center_name')) ? old('evacuation_center_name') : null }}"
+                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        autocomplete="off" placeholder="Evacuation Center Name">
+                                    <span
+                                        class="text-danger italic text-xs error-text evacuation_center_name_error"></span>
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="flex flex-col">
-                                    <label for="barangay_location">Barangay Location</label>
-                                    <input type="text" name="barangay_location"
-                                        value="{{ !empty(old('barangay_location')) ? old('barangay_location') : null }}"
-                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Barangay Location">
-                                    <span class="text-danger italic text-xs error-text barangay_location_error"></span>
+                                    <label for="evacuation_center_contact">Evacuation Center Contact</label>
+                                    <input type="text" name="evacuation_center_contact"
+                                        value="{{ !empty(old('evacuation_center_contact')) ? old('evacuation_center_contact') : null }}"
+                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        autocomplete="off" placeholder="Evacuation Center Contact">
+                                    <span
+                                        class="text-danger italic text-xs error-text evacuation_center_contact_error"></span>
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="flex flex-col">
-                                    <label for="barangay_contact">Barangay Contact Number</label>
-                                    <input type="text" name="barangay_contact"
-                                        value="{{ !empty(old('barangay_contact')) ? old('barangay_contact') : null }}"
-                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Barangay Contact Number">
-                                    <span class="text-danger italic text-xs error-text barangay_contact_error"></span>
+                                    <label for="evacuation_center_address">Evacuation Center Address</label>
+                                    <input type="text" name="evacuation_center_address"
+                                        value="{{ !empty(old('evacuation_center_address')) ? old('evacuation_center_address') : null }}"
+                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        autocomplete="off" placeholder="Evacuation Center Address">
+                                    <span
+                                        class="text-danger italic text-xs error-text evacuation_center_address_error"></span>
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="flex flex-col">
-                                    <label for="barangay_email">Barangay Email Address</label>
-                                    <input type="text" name="barangay_email"
-                                        value="{{ !empty(old('barangay_email')) ? old('barangay_email') : null }}"
-                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Barangay Email Address">
-                                    <span class="text-danger italic text-xs error-text barangay_email_error"></span>
+                                    <label for="barangay_id">Barangay Id</label>
+                                    <input type="text" name="barangay_id"
+                                        value="{{ !empty(old('barangay_id')) ? old('barangay_id') : null }}"
+                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        autocomplete="off" placeholder="Evacuation Center Address">
+                                    <span
+                                        class="text-danger italic text-xs error-text barangay_id_error"></span>
+                                </div>
+                            </div>
+
+                            <div class="fields">
+                                <div class="flex flex-col">
+                                    <label for="latitude">Latitude</label>
+                                    <input type="text" name="latitude"
+                                        value="{{ !empty(old('latitude')) ? old('latitude') : null }}"
+                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        autocomplete="off" placeholder="Evacuation Center Address">
+                                    <span
+                                        class="text-danger italic text-xs error-text latitude_error"></span>
+                                </div>
+                            </div>
+
+                            <div class="fields">
+                                <div class="flex flex-col">
+                                    <label for="longitude">Longitude</label>
+                                    <input type="text" name="longitude"
+                                        value="{{ !empty(old('longitude')) ? old('longitude') : null }}"
+                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        autocomplete="off" placeholder="Evacuation Center Address">
+                                    <span
+                                        class="text-danger italic text-xs error-text longitude_error"></span>
                                 </div>
                             </div>
                         </div>
-                        <div class="barangay-button">
-                            <a href="{{ route('Cdashboard') }}">
+                        <div class="evacuation-button">
+                            <a href="{{ route('dashboard.cdrrmo') }}">
                                 <button type="button"
                                     class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Cancel</button>
                             </a>
-                            <button id="addBarangay"
+                            <button id="addEvacuationCenter"
                                 class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Submit</button>
                         </div>
                     </form>
                 </div>
-
-                <div class="barangay-table bg-slate-100">
-                    <header class="text-2xl font-semibold py-3">Barangay Table</header>
+                <div class="evacuation-table w-full relative">
+                    <header class="text-2xl font-semibold">Evacuation Center Table</header>
+                    <hr>
                     <table class="table data-table display nowrap" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Barangay Name</th>
-                                <th>Location</th>
-                                <th>Contact Number</th>
-                                <th>Email Address</th>
+                                <th>Evacuation Center Name</th>
+                                <th>Evacuation Center Contact</th>
+                                <th>Evacuation Center Address</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
                                 <th class="w-4">Action</th>
                             </tr>
                         </thead>
@@ -106,8 +134,7 @@
                 </div>
             </div>
 
-            @include('CDRRMO.barangay.updateBarangay')
-
+            @include('userpage.evacuationCenter.updateEvacuationCenter')
         </div>
     </div>
 
@@ -119,7 +146,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
-
     <script type="text/javascript">
         $(document).ready(function() {
             $.ajaxSetup({
@@ -128,29 +154,33 @@
                 }
             });
 
-            var barangayTable = $('.data-table').DataTable({
+            var evacuationCenterTable = $('.data-table').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(2)'
                 },
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('Cdisplaybarangay') }}",
+                ajax: "{{ route('evacuation.center.cdrrmo') }}",
                 columns: [{
-                        data: 'barangay_name',
-                        name: 'barangay_name'
+                        data: 'evacuation_center_name',
+                        name: 'evacuation_center_name'
                     },
                     {
-                        data: 'barangay_location',
-                        name: 'barangay_location'
+                        data: 'evacuation_center_contact',
+                        name: 'evacuation_center_contact'
                     },
                     {
-                        data: 'barangay_contact_number',
-                        name: 'barangay_contact_number'
+                        data: 'evacuation_center_address',
+                        name: 'evacuation_center_address'
                     },
                     {
-                        data: 'barangay_email_address',
-                        name: 'barangay_email_address'
+                        data: 'latitude',
+                        name: 'latitude'
+                    },
+                    {
+                        data: 'longitude',
+                        name: 'longitude'
                     },
                     {
                         data: 'action',
@@ -161,7 +191,7 @@
                 ]
             });
 
-            $('#addBarangay').click(function(e) {
+            $('#addEvacuationCenter ').click(function(e) {
                 e.preventDefault();
 
                 Swal.fire({
@@ -176,8 +206,8 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            data: $('#addBarangayForm').serialize(),
-                            url: "{{ route('Cregisterbarangay') }}",
+                            data: $('#addEvacuationCenterForm').serialize(),
+                            url: "{{ route('register.evacuation.center.cdrrmo') }}",
                             type: "POST",
                             dataType: 'json',
                             beforeSend: function(response) {
@@ -197,11 +227,11 @@
                                 } else {
                                     Swal.fire(
                                         "{{ config('app.name') }}",
-                                        'Barangay Added Successfully!',
+                                        'Evacuation Center Added Successfully!',
                                         'success',
                                     );
-                                    $('#addBarangayForm')[0].reset();
-                                    barangayTable.draw();
+                                    $('#addEvacuationCenterForm')[0].reset();
+                                    evacuationCenterTable.draw();
                                 }
                             },
 
@@ -218,21 +248,23 @@
                 })
             });
 
-            $(document).on('click', '.updateBarangay', function(e) {
+            $(document).on('click', '.updateEvacuationCenter', function(e) {
                 e.preventDefault();
-                var barangay_id = $(this).data("id");
+                var evacuation_center_id = $(this).data("id");
 
                 $.ajax({
-                    url: "{{ route('Cdisplaydetails', ':barangay_id') }}"
-                        .replace(':barangay_id', barangay_id),
+                    url: "{{ route('evacuation.center.detail.cdrrmo', ':evacuation_center_id') }}"
+                        .replace(':evacuation_center_id', evacuation_center_id),
                     dataType: "json",
                     success: function(response) {
-                        $('#name').val(response.result.barangay_name);
-                        $('#location').val(response.result.barangay_location);
-                        $('#contact').val(response.result.barangay_contact_number);
-                        $('#email').val(response.result.barangay_email_address);
-                        $('#barangayId').val(barangay_id);
-                        $('#editBarangay').modal('show');
+                        $('#evacuation_name').val(response.result.evacuation_center_name);
+                        $('#evacuation_contact').val(response.result.evacuation_center_contact);
+                        $('#evacuation_address').val(response.result.evacuation_center_address);
+                        $('#barangay_evacuation_id').val(response.result.barangay_id);
+                        $('#evacuation_latitude').val(response.result.latitude);
+                        $('#evacuation_longitude').val(response.result.longitude);
+                        $('#evacuationCenterId').val(evacuation_center_id);
+                        $('#editEvacuationCenter').modal('show');
                     },
                     error: function(response) {
                         var errors = response.responseJSON;
@@ -240,15 +272,15 @@
                 })
             });
 
-            $(document).on('click', '#editbarangay', function(e) {
+            $(document).on('click', '#editEvacuationCenterBtn', function(e) {
                 e.preventDefault();
-                var barangay_id = $('#barangayId').val();
+                var evacuation_center_id = $('#evacuationCenterId').val();
 
                 $.ajax({
-                    url: "{{ route('Cupdatebarangay', ':barangay_id') }}"
-                        .replace(':barangay_id', barangay_id),
+                    url: "{{ route('update.evacuation.center.cdrrmo', ':evacuation_center_id') }}"
+                        .replace(':evacuation_center_id', evacuation_center_id),
                     method: 'put',
-                    data: $('#editBarangayForm').serialize(),
+                    data: $('#editEvacuationForm').serialize(),
                     dataType: "json",
                     beforeSend: function(response) {
                         $(document).find('span.error-text').text('');
@@ -266,12 +298,12 @@
                         } else {
                             Swal.fire(
                                 "{{ config('app.name') }}",
-                                'Barangay Updated Successfully!',
+                                'Evacuation Center Updated Successfully!',
                                 'success',
                             );
-                            $('#editBarangayForm')[0].reset();
-                            $('#editBarangay').modal('hide');
-                            barangayTable.draw();
+                            $('#editEvacuationForm')[0].reset();
+                            $('#editEvacuationCenter').modal('hide');
+                            evacuationCenterTable.draw();
                         }
                     },
                     error: function(response) {
@@ -284,8 +316,8 @@
                 })
             });
 
-            $('body').on('click', '.removeBarangay', function() {
-                var barangay_id = $(this).data("id");
+            $('body').on('click', '.removeEvacuationCenter', function() {
+                var evacuation_center_id = $(this).data("id");
 
                 Swal.fire({
                     title: 'Are you sure?',
@@ -300,15 +332,15 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: "{{ route('Cremovebarangay', ':barangay_id') }}"
-                                .replace(':barangay_id', barangay_id),
+                            url: "{{ route('remove.evacuation.center.cdrrmo', ':evacuation_center_id') }}"
+                                .replace(':evacuation_center_id', evacuation_center_id),
                             success: function(response) {
                                 Swal.fire(
                                     "{{ config('app.name') }}!",
-                                    'Barangay has been deleted.',
+                                    'Evacuation Center has been deleted.',
                                     'success'
                                 )
-                                barangayTable.draw();
+                                evacuationCenterTable.draw();
                             },
 
                             error: function(response) {

@@ -50,7 +50,7 @@
             </div>
 
             <figure class="pie-chart-container">
-                <div id="Typhoon" class="chart mb-5 "></div>
+                <div id="Typhoon" class="chart mb-5"></div>
                 <div id="Earthquake" class="chart mb-3"></div>
                 <div id="Road Accident" class="chart mb-3"></div>
                 <div id="Flooding" class="chart mb-3"></div>
@@ -147,7 +147,8 @@
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false,
-                    type: 'pie'
+                    type: 'pie',
+                    backgroundColor: null,
                 },
                 title: {
                     text: 'Earthquake',
@@ -190,7 +191,8 @@
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false,
-                    type: 'pie'
+                    type: 'pie',
+                    backgroundColor: null,
                 },
                 title: {
                     text: 'Road Accident',
@@ -233,7 +235,8 @@
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
                     plotShadow: false,
-                    type: 'pie'
+                    type: 'pie',
+                    backgroundColor: null,
                 },
                 title: {
                     text: 'Flooding',

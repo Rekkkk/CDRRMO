@@ -24,7 +24,7 @@
                     <i class="bi bi-pencil mr-2"></i> Take Quiz
                 </button>
             @endguest
-            @auth
+            @if(Auth::check() && Auth::user()->user_role == '1')
                 <button type="submit"
                     class="bg-slate-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200">
                     <i class="bi bi-pencil mr-2"></i> Edit Quiz
@@ -34,8 +34,8 @@
                     <i class="bi bi-bag-plus-fill mr-2"></i> Add Guide
                 </a>
                 <input type="hidden" class="guideline_id" value="{{ $guidelineId }}">
-                @include('CDRRMO.guideline.addGuide')
-            @endauth
+                @include('userpage.guideline.addGuide')
+            @endif
         </div>
 
         <div class="main-content">
@@ -50,7 +50,7 @@
                             <p class="mb-2">
                                 {{ $guideItem->guide_content }}
                             </p>
-                            @auth
+                            @if(Auth::check() && Auth::user()->user_role == '1')
                                 <div class="action-btn w-full py-2 flex justify-start">
                                     <a href="#edit{{ $guideItem->guide_id }}" data-bs-toggle="modal">
                                         <button type="submit"
@@ -58,18 +58,18 @@
                                             <i class="bi bi-pencil text-sm mr-2"></i>Edit
                                         </button>
                                     </a>
-                                    <a href="{{ route('Cremoveguide', $guideItem->guide_id) }}">
+                                    <a href="{{ route('remove.guide.cdrrmo', $guideItem->guide_id) }}">
                                         <button type="submit"
                                             class="bg-red-700 ml-2 p-2 py-2 text-white rounded shadow-lg hover:bg-red-900 transition duration-200">
                                             <i class="bi bi-trash mr-2"></i>Delete
                                         </button>
                                     </a>
                                 </div>
-                            @endauth
+                            @endif
                         </div>
                     </div>
                 </div>
-                @include('CDRRMO.guideline.updateGuide')
+                @include('userpage.guideline.updateGuide')
             @endforeach
         </div>
     </div>
@@ -120,7 +120,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             data: $('#createGuideForm').serialize(),
-                            url: "{{ route('Caguide', ':guideline_id') }}".replace(
+                            url: "{{ route('add.guide.cdrrmo', ':guideline_id') }}".replace(
                                 ':guideline_id', guideline_id),
                             type: "POST",
                             dataType: 'json',

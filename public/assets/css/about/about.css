@@ -26,49 +26,37 @@
 }
 
 /* Side Bar Section */
-.sidebar{
+.sidebar {
     z-index: 1;
+    position: fixed;
+    left: 0;
+    top: 0;
+    transition: all 0.5s ease;
     background: var(--color-darkblue);
-    transition: all 0.5s ease;
+}
+.sidebar-header {
+    display: -webkit-box;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: -webkit-flex;
+    -webkit-align-items: center;
+    -moz-align-items: center;
+    -ms-align-items: center;
+    align-items: center;
+    -webkit-justify-content: space-between;
+    -moz-justify-content: space-between;
+    -ms-justify-content: space-between;
+    justify-content: space-between;
+    -ms-flex-pack: space-between;
+    padding: 13px 12px;
+    height: 80px
 }
 
-.wrapper .page-wrap .sidebar .sidebar-heading{
-    height: 5rem;
-}
-
-.sidebar .nav_list{
-    height: 100%;
-}
-
-.sidebar.active{
-    width: 320px;
-}
-
-.sidebar.active .sidebar-heading #btn-sidebar{
-    left: 90%;
-}
-
-.sidebar .links_name{
-    color: var(--color-text);
-    opacity: 0;
-    pointer-events: none;
-}
-
-.sidebar.active .links_name{
-    opacity: 1;
-    pointer-events: auto;
-    transition: all 1.5s ease;
-}
-
-.sidebar #btn-sidebar{
-    left: 50%;
-    top: 6px;
-    padding-top: 10px;
-    height: 50%;
-    width: 50px;
-    line-height: 50px;
-    transform: translateX(-50%);
-    transition: all 0.5s ease;
+.sidebar-content {
+    position: relative;
+    height: -webkit-calc(100vh - 80px);
+    overflow: auto;
+    z-index: 4
 }
 
 .sidebar ul li{
@@ -76,6 +64,19 @@
     height: 50px;
     width: 100%;
     line-height: 50px;
+}
+
+.sidebar .links_name{
+    color: var(--color-text);
+    opacity: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+
+.sidebar.active .links_name{
+    opacity: 1;
+    pointer-events: auto;
+    transition: all 1.5s ease;
 }
 
 .sidebar ul li a{
@@ -94,6 +95,22 @@
     min-width: 75px;
     border-radius: 12px;
     line-height: 50px;
+}
+.sidebar .nav_list{
+    height: 100%;
+}
+
+.sidebar.active{
+    width: 320px;
+}
+
+.sidebar #btn-sidebar{
+    transform: translateX(-45%);
+}
+
+.sidebar.active #btn-sidebar{
+    width: 50px;
+    transform: translateX(0%);
 }
 
 /* Main Content */
@@ -152,7 +169,7 @@
 @media only screen and (max-width: 1100px) {
     .main-content{
         display: grid;
-        padding: 0 0 0 5rem;
+        padding: 0 0 0 0 !important;
         transition: all 1s ease;
     }
 

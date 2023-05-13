@@ -36,18 +36,45 @@
                         <span class="text-2xl font-bold">Location</span>
                     </div>
                     <div class="mt-8">
-                        <span class="font-bold">
-                            <i class="bi bi-geo-alt-fill mr-4 text-lg"></i>
-                            Address:
-                            @auth
-                                <i
-                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-700 text-white rounded shadow-lg hover:bg-red-900 transition duration-200"></i>
-                            @endauth
-                        </span>
+                        <i class="bi bi-geo-alt-fill mr-4 text-lg"></i>
+                        Address:
+                        @if (Auth::check() && Auth::user()->user_role == '1')
+                            <i class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-700 text-white rounded shadow-lg hover:bg-red-900 transition duration-200"
+                                id="editAddressModal"></i>
+
+                            <div class="modal fade" id="editAddressForm" data-bs-backdrop="static"
+                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
+                                aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header bg-red-900">
+                                            <h1 class="modal-title fs-5 text-center text-white">
+                                                {{ config('app.name') }}
+                                            </h1>
+                                        </div>
+                                        <div class="modal-body">
+                                            <label for="address" class="text-black">Address</label>
+                                            <input type="text" id="address" value="" class="form-control"
+                                                placeholder="Enter Address" autocomplete="off">
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button"
+                                                class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
+                                                data-bs-dismiss="modal">Close</button>
+                                            <button type="button" id="editAddressBtn"
+                                                class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
+                                                Update
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        @endif
                         <hr class="mt-3 clear-both">
                         <a
                             href="https://www.google.com/maps/place/Retail+Plaza+City+of+Cabuyao/@14.2772989,121.1214,17z/data=!3m1!4b1!4m6!3m5!1s0x3397d8604aa8f17d:0x4e0371b3a9d5540e!8m2!3d14.2772937!4d121.1235887!16s%2Fg%2F11bxg2qw2w">
-                            <p class="my-3">2nd Floor, Cabuyao Retail Plaza 4025 Cabuyao, Philippines</p>
+                            <p class="my-3" value="" id="addressData">2nd Floor, Cabuyao Retail Plaza 4025 Cabuyao, Philippines
+                            </p>
                         </a>
                     </div>
                 </div>
@@ -107,10 +134,39 @@
     </div>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    </script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            $('#editAddressModal').on('click', function() {
+                var address = $('#addressData').text();
+                $('#address').val(address.trim());
+                $('#editAddressForm').modal('show');
+            })
+        })
+
+        $('#editAddressBtn').on('click', function() {
+            Swal.fire({
+                title: 'Do you really want to update this?',
+                showDenyButton: true,
+                icon: 'info',
+                confirmButtonText: 'Yes, update it.',
+                confirmButtonColor: '#334155',
+                denyButtonText: `Double Check`,
+                denyButtonColor: '#b91c1c',
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    var updateAddress = $('#address').val().trim();
+                    //$('#addressData').text(updateAddress);
+                    document.getElementById("addressData").textContent = updateAddress;
+                    $('#editAddressForm').modal('hide');
+                }
+            })
+        })
     </script>
 
 </body>

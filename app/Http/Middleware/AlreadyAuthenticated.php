@@ -12,8 +12,8 @@ class AlreadyAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (Auth::check()) 
-            return redirect()->route('Cdashboard')->with('message', 'Request Can`t Perform.');
-        
+            return back()->with('message', 'Request Can`t Perform.');
+            
         return $next($request);
     }
 }
