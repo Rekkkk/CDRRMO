@@ -33,12 +33,14 @@
                 </div>
             </div>
             <div class="map-btn">
-                <button type="button"
-                    class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate
-                    Nearest Evacuation</button>
-                <button type="button"
-                    class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate
-                    Current Location</button>
+                @guest
+                    <button type="button"
+                        class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate
+                        Nearest Evacuation</button>
+                    <button type="button"
+                        class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate
+                        Current Location</button>
+                @endguest
             </div>
             <div class="evacuation-table mt-5">
                 <table class="table bg-slate-50">
@@ -61,10 +63,12 @@
                                 <td>{{ $evacuationCenterList->evacuation_center_address }}</td>
                                 <td>{{ $evacuationCenterList->latitude }}</td>
                                 <td>{{ $evacuationCenterList->longitude }}</td>
-                                <td>
-                                    <a href="#"
-                                        class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate</a>
-                                </td>
+                                @guest
+                                    <td>
+                                        <a href="#"
+                                            class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Locate</a>
+                                    </td>
+                                @endguest
                             </tr>
                         @empty
                             <tr>
@@ -79,7 +83,7 @@
         </div>
     </div>
 
-    @auth
+    @if (Auth::check() && Auth::user()->user_role == '1')
         <script async src="https://maps.googleapis.com/maps/api/js?key=...&callback=initMap"></script>
         <script>
             let map, activeInfoWindow, markers = [];
@@ -153,7 +157,7 @@
                 console.log(event.latLng.lng());
             }
         </script>
-    @endauth
+    @endif
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>

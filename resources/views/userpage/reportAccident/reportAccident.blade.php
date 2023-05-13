@@ -8,6 +8,17 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
     <title>{{ config('app.name') }}</title>
+    <style>
+        .bar {
+            background-color: #b11111
+        }
+
+        .percent {
+            position: absolute;
+            left: 50%;
+            color: black;
+        }
+    </style>
 </head>
 
 <body class="bg-gray-400">
@@ -36,84 +47,90 @@
                             <th>Contact</th>
                             <th>Email Address</th>
                             <th class="w-4">Status</th>
-                            @auth
+                            @if (Auth::check() && Auth::user()->user_role == '1')
                                 <th class="w-4">Action</th>
-                            @endauth
+                            @endif
                         </tr>
                     </thead>
                     <tbody>
                     </tbody>
                 </table>
-            </div>
 
-            <div class="modal fade" id="createAccidentReportModal" aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header bg-red-900 text-white">
-                            <h1 class="modal-title fs-5 text-center text-white">{{ config('app.name') }}</h1>
-                        </div>
-                        <div class="modal-body">
-                            <form id="reportForm" name="reportForm" class="form-horizontal">
-                                @csrf
-                                <input type="hidden" name="report_id" id="report_id">
-                                <div class="mb-3">
-                                    <label for="report_description" class="flex items-center justify-center">Report
-                                        Description</label>
-                                    <input type="text" id="report_description" name="report_description"
-                                        class="form-control" placeholder="Enter Incident Description"
-                                        autocomplete="off">
-                                    <span class="text-danger error-text report_description_error"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="report_location" class="flex items-center justify-center">Report
-                                        Location</label>
-                                    <input type="text" id="report_location" name="report_location"
-                                        class="form-control" placeholder="Enter Incident Location" autocomplete="off">
-                                    <span class="text-danger error-text report_location_error"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="Contact" class="flex items-center justify-center">Contact
-                                        Number</label>
-                                    <input type="text" id="contact" name="contact" class="form-control"
-                                        placeholder="Enter Contact Number" autocomplete="off">
-                                    <span class="text-danger error-text contact_error"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="email" class="flex items-center justify-center">Email Address</label>
-                                    <input type="text" id="email" name="email" class="form-control"
-                                        placeholder="Enter Email Address" autocomplete="off">
-                                    <span class="text-danger error-text email_error"></span>
-                                </div>
-                                <div class="mb-3">
-                                    <label for="report_photo" class="flex items-center justify-center">Report
-                                        Photo</label>
-                                    <input type="file" id="report_photo" name="report_photo" class="form-control"
-                                        placeholder="Enter Incident Location" autocomplete="off">
-                                    <span class="text-danger error-text report_location_error"></span>
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button"
-                                        class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
-                                        data-bs-dismiss="modal">Close</button>
-                                    <button id="saveBtn"
-                                        class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Report
-                                        Accident</button>
-                                </div>
-                            </form>
+            </div>
+            @guest
+                <div class="modal fade" id="createAccidentReportModal" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header bg-red-900 text-white">
+                                <h1 class="modal-title fs-5 text-center text-white">{{ config('app.name') }}</h1>
+                            </div>
+                            <div class="modal-body">
+                                <form action="{{ route('report.accident.cdrrmo') }}" method="POST" id="reportForm"
+                                    name="reportForm" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="hidden" name="report_id" id="report_id">
+                                    <div class="mb-3">
+                                        <label for="report_description" class="flex items-center justify-center">Report
+                                            Description</label>
+                                        <input type="text" id="report_description" name="report_description"
+                                            class="form-control" placeholder="Enter Incident Description"
+                                            autocomplete="off">
+                                        <span class="text-danger error-text report_description_error"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="report_location" class="flex items-center justify-center">Report
+                                            Location</label>
+                                        <input type="text" id="report_location" name="report_location"
+                                            class="form-control" placeholder="Enter Incident Location" autocomplete="off">
+                                        <span class="text-danger error-text report_location_error"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="contact" class="flex items-center justify-center">Contact
+                                            Number</label>
+                                        <input type="text" id="contact" name="contact" class="form-control"
+                                            placeholder="Enter Contact Number" autocomplete="off">
+                                        <span class="text-danger error-text contact_error"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="email" class="flex items-center justify-center">Email
+                                            Address</label>
+                                        <input type="text" id="email" name="email" class="form-control"
+                                            placeholder="Enter Email Address" autocomplete="off">
+                                        <span class="text-danger error-text email_error"></span>
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="report_photo" class="flex items-center justify-center">Report
+                                            Photo</label>
+                                        <input type="file" id="report_photo" name="report_photo" class="form-control"
+                                            placeholder="Enter Incident Location" autocomplete="off">
+                                        <span class="text-danger error-text report_photo_error"></span>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button"
+                                            class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
+                                            data-bs-dismiss="modal">Close</button>
+                                        <button type="submit"
+                                            class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Report
+                                            Accident</button>
+                                    </div>
+                                </form>
+
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+            @endguest
         </div>
-
-        <div class="report-button">
-            <div class="report-form absolute bottom-7 right-5">
-                <a class="bg-slate-800 hover:bg-slate-900 p-3 fs-4 rounded-full" href="javascript:void(0)"
-                    id="createReport">
-                    <i class="bi bi-megaphone text-white"></i>
-                </a>
+        @guest
+            <div class="report-button">
+                <div class="report-form absolute bottom-7 right-5">
+                    <a class="bg-slate-800 hover:bg-slate-900 p-3 fs-4 rounded-full" href="javascript:void(0)"
+                        id="createReport">
+                        <i class="bi bi-megaphone text-white"></i>
+                    </a>
+                </div>
             </div>
-        </div>
+        @endguest
     </div>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
@@ -125,7 +142,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
 
-    @auth
+    @if (Auth::check() && Auth::user()->user_role == '1')
         <script type="text/javascript">
             $(document).ready(function() {
                 $.ajaxSetup({
@@ -141,7 +158,7 @@
                     responsive: true,
                     processing: false,
                     serverSide: true,
-                    ajax: "{{ route('Cdisplayaccidentreport') }}",
+                    ajax: "{{ route('accident.report.cdrrmo') }}",
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex'
@@ -175,84 +192,16 @@
                     ]
                 });
 
-                $('#createReport').click(function() {
-                    $('#report_id').val('');
-                    $('#reportForm').trigger("reset");
-                    $('#createAccidentReportModal').modal('show');
-                });
-
-                $('#saveBtn').click(function(e) {
-                    e.preventDefault();
-
-                    Swal.fire({
-                        title: 'Do you want to report this accident?',
-                        showDenyButton: true,
-                        showLoaderOnConfirm: true,
-                        confirmButtonText: 'Report',
-                        confirmButtonColor: '#0E1624',
-                        denyButtonText: `Double Check`,
-                        denyButtonColor: '#850000',
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                data: $('#reportForm').serialize(),
-                                url: "{{ route('Caddaccidentreport') }}",
-                                type: "POST",
-                                dataType: 'json',
-                                beforeSend: function(data) {
-                                    $(document).find('span.error-text').text('');
-                                },
-                                success: function(data) {
-                                    if (data.condition == 0) {
-                                        $.each(data.error, function(prefix, val) {
-                                            $('span.' + prefix + '_error').text(val[
-                                                0]);
-                                        });
-                                        Swal.fire(
-                                            "{{ config('app.name') }}",
-                                            'Failed to Reported Accident, Thanks for your concern!',
-                                            'error',
-                                        );
-                                    } else {
-                                        Swal.fire(
-                                            "{{ config('app.name') }}",
-                                            'Successfully Reported, Thanks for your concern!',
-                                            'success',
-                                        );
-                                        $('#reportForm')[0].reset();
-                                        $('#createAccidentReportModal').modal('hide');
-                                        table.draw();
-                                    }
-                                },
-
-                                error: function(data) {
-                                    console.log('Error:', data);
-                                    Swal.fire(
-                                        "{{ config('app.name') }}",
-                                        'Failed to Report Accident, Thanks for your concern!',
-                                        'error',
-                                    );
-                                }
-                            });
-                        } else if (result.isDenied) {
-                            Swal.fire(
-                                "{{ config('app.name') }}",
-                                'Accident is not already reported!',
-                                'info'
-                            )
-                        }
-                    })
-                });
-
                 $('body').on('click', '.approveAccidentReport', function() {
                     var report_id = $(this).data('id');
 
                     Swal.fire({
                         title: 'Do you want to approve this report?',
                         showDenyButton: true,
-                        showCancelButton: true,
-                        confirmButtonText: 'Approve',
+                        confirmButtonText: 'Yes, approve it.',
+                        confirmButtonColor: '#334155',
                         denyButtonText: `Don't Approve`,
+                        denyButtonColor: '#b91c1c',
                     }).then((result) => {
                         if (result.isConfirmed) {
                             Swal.fire(
@@ -262,7 +211,7 @@
                             );
                             $.ajax({
                                 type: "POST",
-                                url: "{{ route('Capproveaccidentreport', ':report_id') }}"
+                                url: "{{ route('approve.accident.report.cdrrmo', ':report_id') }}"
                                     .replace(':report_id', report_id),
 
                                 success: function(data) {
@@ -291,19 +240,19 @@
                         text: "You won't be able to undo this!",
                         icon: 'warning',
                         showCancelButton: true,
-                        confirmButtonColor: '#3085d6',
-                        cancelButtonColor: '#d33',
+                        confirmButtonColor: '#334155',
+                        cancelButtonColor: '#b91c1c',
                         confirmButtonText: 'Yes, delete report!'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             Swal.fire(
-                                'Deleted!',
+                                "{{ config('app.name') }}",
                                 'Report has been deleted.',
                                 'success'
                             )
                             $.ajax({
                                 type: "DELETE",
-                                url: "{{ route('Cremoveaccidentreport', ':report_id') }}"
+                                url: "{{ route('remove.accident.report.cdrrmo', ':report_id') }}"
                                     .replace(':report_id', report_id),
                                 success: function(data) {
                                     table.draw();
@@ -320,7 +269,7 @@
 
             });
         </script>
-    @endauth
+    @endif
 
     @guest
         <script type="text/javascript">
@@ -338,7 +287,7 @@
                     responsive: true,
                     processing: false,
                     serverSide: true,
-                    ajax: "{{ route('Gdisplayaccidentreport') }}",
+                    ajax: "{{ route('accident.report.resident') }}",
                     columns: [{
                             data: 'DT_RowIndex',
                             name: 'DT_RowIndex'
@@ -374,22 +323,36 @@
                     $('#createAccidentReportModal').modal('show');
                 });
 
-                $('#saveBtn').click(function(e) {
+                $('#report_photo').change(function() {
+                    let reader = new FileReader();
+
+                    reader.onload = (e) => {
+                        $('#preview-image').attr('src', e.target.result);
+                    }
+
+                    reader.readAsDataURL(this.files[0]);
+
+                });
+
+                $('#reportForm').submit(function(e) {
                     e.preventDefault();
+                    let formData = new FormData(this);
 
                     Swal.fire({
                         title: 'Do you want to report this accident?',
                         showDenyButton: true,
-                        showCancelButton: true,
-                        confirmButtonText: 'Report',
-                        denyButtonText: `Don't Report`,
+                        confirmButtonText: 'Yes, report it.',
+                        confirmButtonColor: '#334155',
+                        denyButtonText: `Double Check`,
+                        denyButtonColor: '#b91c1c',
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
-                                data: $('#reportForm').serialize(),
-                                url: "{{ route('Gaddaccidentreport') }}",
-                                type: "POST",
-                                dataType: 'json',
+                                type: 'POST',
+                                url: "{{ route('report.accident.resident') }}",
+                                data: formData,
+                                contentType: false,
+                                processData: false,
                                 beforeSend: function(data) {
                                     $(document).find('span.error-text').text('');
                                 },
@@ -415,7 +378,6 @@
                                         table.draw();
                                     }
                                 },
-
                                 error: function(data) {
                                     console.log('Error:', data);
                                     Swal.fire(
@@ -425,12 +387,6 @@
                                     );
                                 }
                             });
-                        } else if (result.isDenied) {
-                            Swal.fire(
-                                "{{ config('app.name') }}",
-                                'Accident is not already reported!',
-                                'info'
-                            )
                         }
                     })
                 });

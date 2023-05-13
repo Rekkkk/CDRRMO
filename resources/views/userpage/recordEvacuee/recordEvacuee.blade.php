@@ -251,7 +251,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             data: $('#Typhoon').serialize(),
-                            url: "{{ route('Crecordevacueeinfo') }}",
+                            url: "{{ route('record.evacuee.cswd') }}",
                             type: "POST",
                             dataType: 'json',
                             beforeSend: function(data) {
@@ -282,7 +282,7 @@
                                 console.log('Error:', data);
                                 Swal.fire(
                                     "{{ config('app.name') }}",
-                                    'Failed to Register Evacuee, Thank You!',
+                                    'Failed to Register Evacuee, Tdasdashank You!',
                                     'error',
                                 );
                             }

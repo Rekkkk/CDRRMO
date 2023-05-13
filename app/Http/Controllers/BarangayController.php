@@ -35,7 +35,7 @@ class BarangayController extends Controller
                 ->make(true);
         }
 
-        return view('cdrrmo.barangay.barangay', compact('barangayList'));
+        return view('userpage.barangay.barangay', compact('barangayList'));
     }
 
     public function registerBarangay(Request $request)

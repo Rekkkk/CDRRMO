@@ -11,33 +11,39 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use RealRashid\SweetAlert\Facades\Alert;
 
-class RecordEvacueeController extends Controller{
+class RecordEvacueeController extends Controller
+{
 
     private $evacuee;
 
-    function __construct(){
+    function __construct()
+    {
         $this->evacuee = new Evacuee;
     }
 
-    public function barangayList(){
+    public function barangayList()
+    {
         $barangayLists = Barangay::all()->sortBy('barangay_name');
 
         return $barangayLists;
     }
 
-    public function evacuationCenterList(){
+    public function evacuationCenterList()
+    {
         $evacuationCenterLists = EvacuationCenter::all()->sortBy('evacuation_center_name');
 
         return $evacuationCenterLists;
     }
 
-    public function disasterList(){
+    public function disasterList()
+    {
         $disasterLists = Disaster::all()->sortBy('disaster_name');
 
         return $disasterLists;
     }
 
-    public function recordEvacueeInfo(Request $request){
+    public function recordEvacueeInfo(Request $request)
+    {
         $validatedEvacueeForm = Validator::make($request->all(), [
             'first_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
             'middle_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
@@ -52,7 +58,7 @@ class RecordEvacueeController extends Controller{
             'disaster' => 'required',
         ]);
 
-        if($validatedEvacueeForm->passes()) {
+        if ($validatedEvacueeForm->passes()) {
 
             $evacueeObject = [
                 'evacuee_first_name' => Str::ucfirst(trim($request->first_name)),
@@ -68,16 +74,16 @@ class RecordEvacueeController extends Controller{
                 'evacuation_assigned' => $request->evacuation_center,
             ];
 
-            try{
+            try {
                 $this->evacuee->recordEvacueeObject($evacueeObject);
                 Alert::success('Evacuee Information Recorded Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
-            }catch(\Exception $e){
+            } catch (\Exception $e) {
                 Alert::error('Failed to Record Evacuee Information', 'Cabuyao City Disaster Risk Reduction Management Office');
             }
-            
+
             return response()->json(['condition' => 1]);
         }
-        
+
         return response()->json(['condition' => 0, 'error' => $validatedEvacueeForm->errors()->toArray()]);
     }
 }

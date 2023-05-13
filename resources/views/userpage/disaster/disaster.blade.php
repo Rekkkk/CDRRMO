@@ -25,7 +25,7 @@
                 {{-- <div class="disaster-form p-5 mx-4 border-r-2">
                     <header class="text-xl font-semibold">Disaster Information</header>
                     <hr>
-                    <form action="{{ route('Cregisterdisaster') }}" method="POST">
+                    <form action="{{ route('register.disaster.cdrrmo') }}" method="POST">
                         @csrf
                         <div class="form disaster">
                             <div class="fields flex items-center justify-between flex-wrap">
@@ -74,7 +74,7 @@
                                             </button>
                                         </a>
 
-                                        <form action="{{ route('Cremovedisaster', $disasterList->disaster_id) }}"
+                                        <form action="{{ route('remove.disaster.cdrrmo', $disasterList->disaster_id) }}"
                                             method="POST">
                                             @method('delete')
                                             @csrf
@@ -85,7 +85,7 @@
                                         </form>
                                     </td>
                                 </tr>
-                                @include('CDRRMO.disaster.updateDisaster')
+                                @include('userpage.disaster.updateDisaster')
                             @empty
                                 <tr>
                                     <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-center" colspan="2">

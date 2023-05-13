@@ -17,70 +17,73 @@
 </head>
 
 <body class="bg-slate-900">
-    <div class="wrapper">
-        <header class="header-section h-20 w-full bg-slate-50">
-            <div class="container-fluid bg-red-900 relative w-full h-full">
-                <div class="w-full h-full relative">
-                    <img class="w-22 float-right h-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                    <span class="float-right h-full text-xl text-white py-2.5">Cabuyao City Disaster Risk<br>Reduction
-                        and Management Office</span>
-                </div>
+    <header class="header-section h-20 w-full bg-slate-50">
+        <div class="container-fluid bg-red-900 relative w-full h-full">
+            <div class="w-full h-full relative">
+                <img class="w-22 m-auto h-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
             </div>
-        </header>
-        <main class="main-content py-60 mx-3">
-            <div class="content-container max-w-lg mx-auto p-6 my-10 rounded-lg shadow-2xl bg-slate-800 ">
-                <header class="header-content">
-                    <section class="py-4">
-                        <h3 class="font-bold text-3xl text-white mb-2">Welcome to E-LIGTAS</h3>
-                        <span class="text-white font-light">We care Cabuyao Resident's</span>
-                    </section>
-                </header>
-                <div class="content-body">
-                    <form action="{{ route('Gdashboard') }}" method="POST" class="cursor-pointer mb-3">
-                        @method('GET')
-                        @csrf
-                        <button type="submit" class="btn w-full py-2 bg-red-800 text-white hover:bg-red-900">
-                            <i class="bi bi-person float-left"></i>
-                            Continue as Resident
-                        </button>
-                    </form>
-                    <button type="button" class="btn w-full py-2 bg-green-800 text-white hover:bg-green-900"
-                        data-bs-toggle="modal" data-bs-target="#adminMode">
-                        <i class="bi bi-person-lock float-left"></i>
-                        Continue to Admin Panel
-                    </button>
-
-                    <div class="modal fade" id="adminMode" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-                        <div class="modal-dialog">
-                            <div class="modal-content">
-                                <div class="modal-header bg-red-900">
-                                    <h1 class="modal-title fs-5 text-center text-white">{{ config('app.name') }}</h1>
-                                </div>
-                                <form action="{{ route('login') }}" method="POST" class="bg-slate-100 rounded-lg">
-                                    @csrf
-                                    <div class="modal-body">
-                                        <div class="mb-3">
-                                            <label for="id">Admin Number</label>
-                                            <input type="text" name="id" class="form-control"
-                                                autocomplete="off">
-                                        </div>
-                                        <div class="mb-3 relative">
-                                            <label for="password">Admin Password</label>
-                                            <input type="password" name="password" id="password" class="form-control"
-                                                autocomplete="off">
-                                        </div>
-                                    </div>
-                                    <div class="modal-footer justify-center">
-                                        <button type="submit"
-                                            class="bg-green-800 text-white p-2 py-2 rounded shadow-lg hover:bg-green-900 transition duration-200">Authenticate</button>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
+        </div>
+    </header>
+    <div class="wrapper">
+        <div class="main-content relative m-auto">
+            <div class="login-section d-flex justify-between gap-4">
+                <div class="desc">
+                    <h1 class="text-white py-2 text-4xl font-semibold">{{ config('app.name') }}</h1>
+                    <div class="pt-4">
+                        <span class="text-slate-400 text-lg">E-LIGTAS help you to locate evacuation center and to share
+                            knowledge on disaster
+                            preparedness.</span>
                     </div>
                 </div>
+                <div class="form-section bg-slate-100 drop-shadow-2xl rounded">
+                    <form action="{{ route('login') }}" method="POST" class="px-3">
+                        @csrf
+                        <div class="my-3">
+                            <input type="text" name="email" class="form-control p-3" value="{{ !empty(old('age')) ? old('age') : null }}" autocomplete="off"
+                                placeholder="Email address">
+                            @error('email')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+                        <div class="my-3">
+                            <input type="password" name="password" id="password" class="form-control p-3"
+                                autocomplete="off" placeholder="Password">
+                            @error('password')
+                                <span class="text-red-500 text-sm">{{ $message }}</span>
+                            @enderror
+                        </div>
+
+                        <div class="login-btn">
+                            <button type="submit"
+                                class="font-bold text-lg w-full bg-slate-800 text-white p-3 rounded shadow-lg hover:bg-slate-900 transition duration-200">Log
+                                in</button>
+                        </div>
+                    </form>
+                    <form action="{{ route('dashboard.resident') }}" method="POST" class="cursor-pointer py-2 px-3">
+                        @method('GET')
+                        @csrf
+                        <button type="submit"
+                            class="font-bold text-lg w-full bg-red-800 text-white p-3 rounded shadow-lg hover:bg-red-900 transition duration-200">
+                            Continue as resident
+                        </button>
+                    </form>
+                    <div class="forgot-password d-flex justify-center text-center mt-6 text-sky-600">
+                        <a href="">Forgotten password?</a>
+                    </div>
+                    <hr class="my-10 mx-4">
+                </div>
             </div>
-        </main>
+        </div>
+
+    </div>
+
+    <div class="bottom-section text-white">
+        <div class="footer">
+            <div class="bottom-desc m-auto">
+                <hr>
+                <span class="text-slate-400 text-sm">CDRRMO @ 2023</span>
+            </div>
+        </div>
     </div>
 
     <x-errorMessage />

@@ -9,20 +9,20 @@ return new class extends Migration
 
     public function up(): void
     {
-        Schema::create('report', function (Blueprint $table) {
-            $table->id('report_id');
-            $table->string('report_description');
-            $table->string('report_location');
-            $table->string('report_photo');
+        Schema::create('cdrrmo', function (Blueprint $table) {
+            $table->string('address');
+            $table->string('facebook');
+            $table->string('twitter');
+            $table->string('youtube');
+            $table->string('instagram');
             $table->string('contact');
+            $table->string('messenger');
             $table->string('email');
-            $table->string('status');
-            $table->timestamps();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('report');
+        Schema::dropIfExists('cdrrmo');
     }
 };

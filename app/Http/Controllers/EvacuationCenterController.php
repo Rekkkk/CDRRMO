@@ -36,7 +36,7 @@ class EvacuationCenterController extends Controller
                 ->make(true);
         }
 
-        return view('cdrrmo.evacuationCenter.evacuation', compact('evacuationCenterList'));
+        return view('userpage.evacuationCenter.evacuation', compact('evacuationCenterList'));
     }
 
     public function registerEvacuationCenter(Request $request)

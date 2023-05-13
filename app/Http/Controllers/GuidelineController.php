@@ -59,7 +59,9 @@ class GuidelineController extends Controller{
             }catch(\Exception $e){
                 Alert::error('Failed to Add Guideline', 'Cabuyao City Disaster Risk Reduction Management Office');
             }
+
             
+            Alert::success('Guideline Successfully Updated', 'Cabuyao City Disaster Risk Reduction Management Office');
             return back();
         }
 

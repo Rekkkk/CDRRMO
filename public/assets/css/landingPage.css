@@ -1,33 +1,58 @@
 @import url('https://fonts.googleapis.com/css2?family=Montserrat&display=swap');
 
-*{
+* {
     margin: 0;
     padding: 0;
     font-family: 'Montserrat', sans-serif;
+    transition: .5s ease;
+    scroll-behavior: smooth;
 }
 
-.wrapper .main-content .content-container{
-    border: 2px solid rgba(255, 255, 255, 0.1);
-    box-shadow: 0 0 40px rgba(8, 7, 16, 0.6);
+.wrapper {
+    padding-top: 72px;
+    padding-bottom: 120px;
 }
 
-.wrapper .main-content .content-body .bi{
-    top: 19%;
-    right: 3%;
-    transition: 0.5s;
-    font-size: 1.1rem;
+.wrapper .main-content {
+    padding: 20px 0;
+    width: 980px;
 }
 
-@media only screen and (max-width: 600px) {
+.wrapper .main-content .login-section .desc {
+    width: 500px;
+}
 
-    .wrapper .header-section .container-fluid span{
-        position: absolute;
-        opacity: 0;
+.wrapper .main-content .form-section {
+    height: 456px;
+    width: 396px;
+}
+
+.bottom-section .footer {
+    padding-top: 20px;
+}
+
+.bottom-section .footer .bottom-desc {
+    padding: 0 2rem;
+}
+
+@media only screen and (max-width: 1000px) {
+
+    .wrapper .main-content {
+        text-align: center;
+        width: auto;
     }
 
-    .wrapper .header-section .container-fluid img{
-        margin: 0px auto;
-        float: none;
-        transition: all 1.5s ease;
+    .wrapper .main-content .login-section .desc {
+        width: 100%;
+        padding: 0 2rem;
+        text-align: center;
+    }
+
+    .wrapper .main-content .login-section {
+        display: contents !important;
+    }
+
+    .wrapper .main-content .form-section {
+        margin: 0 auto !important;
     }
 }

@@ -1,4 +1,4 @@
-@auth
+@if(Auth::user()->user_role == '1')
     <div class="modal fade" id="editBarangay" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -51,4 +51,4 @@
             </div>
         </div>
     </div>
-@endauth
+@endif
