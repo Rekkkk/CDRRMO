@@ -3,7 +3,10 @@
 
 <head>
     @include('partials.content.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/disaster-css/disaster.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
     <title>{{ config('app.name') }}</title>
 </head>
 
@@ -14,14 +17,14 @@
         @include('partials.content.sidebar')
 
         <x-messages />
-        <div class="content">
+        <div class="content-container pt-8 pr-8 pl-28">
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-tropical-storm text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">DISASTER INFORMATION</span>
                 <hr class="mt-4">
             </div>
 
-            <div class="main-content bg-slate-50 p-4">
+            <div class="disaster-content flex bg-slate-50 p-4">
                 {{-- <div class="disaster-form p-5 mx-4 border-r-2">
                     <header class="text-xl font-semibold">Disaster Information</header>
                     <hr>
@@ -53,58 +56,166 @@
                     </form>
                 </div> --}}
                 <div class="disaster-table w-full relative">
-                    <header class="text-2xl font-semibold">Disaster Table</header>
-                    <hr>
-                    <table class="table mt-2">
+                    <header class="text-2xl font-semibold pb-3">Disaster Table</header>
+                    <table class="table data-table display nowrap" style="width:100%">
                         <thead>
                             <tr class="table-row">
                                 <th>Disaster Type</th>
-                                <th></th>
+                                <th class="w-4">Action</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @forelse ($disaster as $disasterList)
-                                <tr>
-                                    <td class="py-3 w-3/5">{{ $disasterList->disaster_type }}</td>
-                                    <td class="flex gap-2 justify-end">
-                                        <a href="#edit{{ $disasterList->disaster_id }}" data-bs-toggle="modal">
-                                            <button type="button"
-                                                class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
-                                                <i class="bi bi-pencil mr-2"></i>Edit
-                                            </button>
-                                        </a>
-
-                                        <form action="{{ route('remove.disaster.cdrrmo', $disasterList->disaster_id) }}"
-                                            method="POST">
-                                            @method('delete')
-                                            @csrf
-                                            <button type="submit"
-                                                class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
-                                                <i class="bi bi-trash mr-2"></i>Delete
-                                            </button>
-                                        </form>
-                                    </td>
-                                </tr>
-                                @include('userpage.disaster.updateDisaster')
-                            @empty
-                                <tr>
-                                    <td class="px-6 py-4 whitespace-nowrap text-gray-500 text-center" colspan="2">
-                                        No Disaster Record Found.
-                                    </td>
-                                </tr>
-                            @endforelse
                         </tbody>
                     </table>
+                    @include('userpage.disaster.updateDisaster')
                 </div>
             </div>
         </div>
     </div>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
+    </script>
+    <script>
+        $(document).ready(function() {
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+
+            var disasterTable = $('.data-table').DataTable({
+                rowReorder: {
+                    selector: 'td:nth-child(2)'
+                },
+                responsive: true,
+                processing: false,
+                serverSide: true,
+                ajax: "{{ route('disaster.cdrrmo') }}",
+                columns: [{
+                        data: 'disaster_type',
+                        name: 'disaster_type'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        orderable: false,
+                        searchable: false
+                    }
+                ]
+            });
+
+            $(document).on('click', '.updateDisaster', function(e) {
+                var disaster_id = $(this).data("id");
+                e.preventDefault();
+
+                $.ajax({
+                    url: "{{ route('disaster.details.cdrrmo', ':disaster_id') }}"
+                        .replace(':disaster_id', disaster_id),
+                    dataType: "json",
+                    success: function(response) {
+                        $(document).find('span.error-text').text('');
+                        $('#disaster_type').val(response.result.disaster_type);
+                        $('#disasterId').val(disaster_id);
+                        $('#editDisaster').modal('show');
+
+                    },
+                    error: function(response) {
+                        Swal.fire(
+                            "{{ config('app.name') }}",
+                            'Something went Wrong.',
+                            'error'
+                        );
+                    }
+                })
+            });
+
+            $(document).on('click', '#updateDisasterBtn', function(e) {
+                var disaster_id = $('#disasterId').val();
+                e.preventDefault();
+
+                $.ajax({
+                    url: "{{ route('update.disaster.cdrrmo', ':disaster_id') }}"
+                        .replace(':disaster_id', disaster_id),
+                    method: 'put',
+                    data: $('#editDisasterForm').serialize(),
+                    dataType: "json",
+                    beforeSend: function(response) {
+                        $(document).find('span.error-text').text('');
+                    },
+                    success: function(response) {
+                        if (response.status == 0) {
+                            $.each(response.error, function(prefix, val) {
+                                $('span.' + prefix + '_error').text(val[0]);
+                            });
+                            Swal.fire(
+                                "{{ config('app.name') }}",
+                                'Failed to Update Disaster!',
+                                'error'
+                            );
+                        } else {
+                            Swal.fire(
+                                "{{ config('app.name') }}",
+                                'Disaster Updated Successfully.',
+                                'success'
+                            );
+                            $('#editDisasterForm')[0].reset();
+                            $('#editDisaster').modal('hide');
+                            disasterTable.draw();
+                        }
+                    },
+                    error: function(response) {
+                        Swal.fire(
+                            "{{ config('app.name') }}",
+                            'Failed to Update Disaster.',
+                            'error'
+                        );
+                    }
+                })
+            });
+
+            $('body').on('click', '.removeDisaster', function() {
+                var disaster_id = $(this).data("id");
+
+                Swal.fire({
+                    title: 'Are you sure?',
+                    text: "You won't be able to undo this!",
+                    icon: 'info',
+                    showLoaderOnConfirm: true,
+                    showCancelButton: true,
+                    confirmButtonColor: '#334155',
+                    cancelButtonColor: '#b91c1c',
+                    confirmButtonText: 'Yes, delete it.'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ route('remove.disaster.cdrrmo', ':disaster_id') }}"
+                                .replace(':disaster_id', disaster_id),
+                            success: function(response) {
+                                Swal.fire(
+                                    "{{ config('app.name') }}!",
+                                    'Disaster has been deleted.',
+                                    'success'
+                                )
+                                disasterTable.draw();
+                            },
+
+                            error: function(response) {
+                                "{{ config('app.name') }}!",
+                                'Failed to delete Disaster.',
+                                'error'
+                            }
+                        });
+                    }
+                });
+            });
+        });
     </script>
 
 </body>

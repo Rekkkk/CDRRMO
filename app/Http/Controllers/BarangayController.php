@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ActivityUserLog;
 use App\Models\Barangay;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -44,7 +47,7 @@ class BarangayController extends Controller
             'barangay_name' => 'required',
             'barangay_location' => 'required',
             'barangay_contact' => 'required|numeric|digits:11',
-            'barangay_email' => 'required|email:rfc,dns',
+            'barangay_email' => 'required|email:rfc,dns'
         ]);
 
         if ($validatedBarangay->passes()) {
@@ -53,14 +56,26 @@ class BarangayController extends Controller
                 'barangay_name' => Str::ucfirst(trim($request->barangay_name)),
                 'barangay_location' => Str::ucfirst(trim($request->barangay_location)),
                 'barangay_contact_number' => trim($request->barangay_contact),
-                'barangay_email_address' => trim($request->barangay_email),
+                'barangay_email_address' => trim($request->barangay_email)
             ];
 
             try {
                 $this->barangay->registerBarangayObject($barangayData);
-                Alert::success('Barangay Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+                Alert::success(config('app.name'), 'Barangay Registered Successfully');
+
+                $currentDate = Carbon::now();
+                $todayDate = $currentDate->toDayDateTimeString();
+
+                ActivityUserLog::create([
+                    'user_id' => Auth::user()->id,
+                    'email' => Auth::user()->email,
+                    'user_role' => Auth::user()->user_role,
+                    'role_name' => Auth::user()->role_name,
+                    'activity' => 'Registering Barangay',
+                    'date_time' => $todayDate,
+                ]);
             } catch (\Exception $e) {
-                Alert::error('Failed to Register Barangay', 'Cabuyao City Disaster Risk Reduction Management Office');
+                Alert::error(config('app.name'), 'Failed to Register Barangay');
             }
 
             return response()->json(['status' => 1]);
@@ -75,7 +90,7 @@ class BarangayController extends Controller
             'name' => 'required',
             'location' => 'required',
             'contact' => 'required|numeric|digits:11',
-            'email' => 'required|email:rfc,dns',
+            'email' => 'required|email:rfc,dns'
         ]);
 
         if ($validatedBarangay->passes()) {
@@ -84,14 +99,26 @@ class BarangayController extends Controller
                 'barangay_name' => Str::ucfirst(trim($request->input('name'))),
                 'barangay_location' => Str::ucfirst(trim($request->input('location'))),
                 'barangay_contact_number' => trim($request->input('contact')),
-                'barangay_email_address' => trim($request->input('email')),
+                'barangay_email_address' => trim($request->input('email'))
             ];
 
             try {
                 $this->barangay->updateBarangayObject($barangayData, $barangayId);
-                Alert::success('Barangay Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+                Alert::success(config('app.name'), 'Barangay Updated Successfully.');
+
+                $currentDate = Carbon::now();
+                $todayDate = $currentDate->toDayDateTimeString();
+
+                ActivityUserLog::create([
+                    'user_id' => Auth::user()->id,
+                    'email' => Auth::user()->email,
+                    'user_role' => Auth::user()->user_role,
+                    'role_name' => Auth::user()->role_name,
+                    'activity' => 'Updating Barangay',
+                    'date_time' => $todayDate,
+                ]);
             } catch (\Exception $e) {
-                Alert::error('Failed to Update Barangay', 'Cabuyao City Disaster Risk Reduction Management Office');
+                Alert::error(config('app.name'), 'Failed to Update Barangay.');
             }
             return response()->json(['status' => 1]);
         }
@@ -101,8 +128,7 @@ class BarangayController extends Controller
 
     public function getBarangayDetails($id)
     {
-        if(request()->ajax())
-        {
+        if (request()->ajax()) {
             $data = Barangay::find($id);
             return response()->json(['result' => $data]);
         }
@@ -112,9 +138,21 @@ class BarangayController extends Controller
     {
         try {
             $this->barangay->removeBarangayObject($barangayId);
-            Alert::success('Barangay Deleted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+            Alert::success(config('app.name'), 'Barangay Deleted Successfully.');
+
+            $currentDate = Carbon::now();
+            $todayDate = $currentDate->toDayDateTimeString();
+
+            ActivityUserLog::create([
+                'user_id' => Auth::user()->id,
+                'email' => Auth::user()->email,
+                'user_role' => Auth::user()->user_role,
+                'role_name' => Auth::user()->role_name,
+                'activity' => 'Deleting Barangay Information',
+                'date_time' => $todayDate,
+            ]);
         } catch (\Exception $e) {
-            Alert::error('Failed to Delete Barangay', 'Cabuyao City Disaster Risk Reduction Management Office');
+            Alert::error(config('app.name'), 'Failed to Delete Barangay.');
         }
 
         return response()->json();

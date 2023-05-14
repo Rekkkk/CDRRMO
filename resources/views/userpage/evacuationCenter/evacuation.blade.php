@@ -3,7 +3,7 @@
 
 <head>
     @include('partials.content.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/evacuation-css/evacuation.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
@@ -18,14 +18,14 @@
 
         <x-messages />
 
-        <div class="content">
+        <div class="content pt-8 pr-8 pl-28">
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-tropical-storm text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">EVACUATION CENTER INFORMATION</span>
                 <hr class="mt-4">
             </div>
 
-            <div class="main-content bg-slate-50 p-4">
+            <div class="evacuation-content flex bg-slate-50 p-4">
                 <div class="evacuation-form p-3 mx-2 border-r-2">
                     <header class="text-xl font-semibold">Evacuation Center Information</header>
                     <hr>
@@ -75,8 +75,7 @@
                                         value="{{ !empty(old('barangay_id')) ? old('barangay_id') : null }}"
                                         class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Evacuation Center Address">
-                                    <span
-                                        class="text-danger italic text-xs error-text barangay_id_error"></span>
+                                    <span class="text-danger italic text-xs error-text barangay_id_error"></span>
                                 </div>
                             </div>
 
@@ -87,8 +86,7 @@
                                         value="{{ !empty(old('latitude')) ? old('latitude') : null }}"
                                         class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Evacuation Center Address">
-                                    <span
-                                        class="text-danger italic text-xs error-text latitude_error"></span>
+                                    <span class="text-danger italic text-xs error-text latitude_error"></span>
                                 </div>
                             </div>
 
@@ -99,8 +97,7 @@
                                         value="{{ !empty(old('longitude')) ? old('longitude') : null }}"
                                         class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Evacuation Center Address">
-                                    <span
-                                        class="text-danger italic text-xs error-text longitude_error"></span>
+                                    <span class="text-danger italic text-xs error-text longitude_error"></span>
                                 </div>
                             </div>
                         </div>
@@ -187,7 +184,7 @@
                         name: 'action',
                         orderable: false,
                         searchable: false
-                    },
+                    }
                 ]
             });
 
@@ -222,13 +219,13 @@
                                     Swal.fire(
                                         "{{ config('app.name') }}",
                                         'Some Fields Are Required, Fill It Up!',
-                                        'error',
+                                        'error'
                                     );
                                 } else {
                                     Swal.fire(
                                         "{{ config('app.name') }}",
                                         'Evacuation Center Added Successfully!',
-                                        'success',
+                                        'success'
                                     );
                                     $('#addEvacuationCenterForm')[0].reset();
                                     evacuationCenterTable.draw();
@@ -236,11 +233,10 @@
                             },
 
                             error: function(response) {
-                                console.log('Error:', response);
                                 Swal.fire(
                                     "{{ config('app.name') }}",
                                     'Ooppss.. Something went wrong.',
-                                    'error',
+                                    'error'
                                 );
                             }
                         });
@@ -249,8 +245,8 @@
             });
 
             $(document).on('click', '.updateEvacuationCenter', function(e) {
-                e.preventDefault();
                 var evacuation_center_id = $(this).data("id");
+                e.preventDefault();
 
                 $.ajax({
                     url: "{{ route('evacuation.center.detail.cdrrmo', ':evacuation_center_id') }}"
@@ -273,8 +269,8 @@
             });
 
             $(document).on('click', '#editEvacuationCenterBtn', function(e) {
-                e.preventDefault();
                 var evacuation_center_id = $('#evacuationCenterId').val();
+                e.preventDefault();
 
                 $.ajax({
                     url: "{{ route('update.evacuation.center.cdrrmo', ':evacuation_center_id') }}"
@@ -293,13 +289,13 @@
                             Swal.fire(
                                 "{{ config('app.name') }}",
                                 'Failed to Update Barangay!',
-                                'error',
+                                'error'
                             );
                         } else {
                             Swal.fire(
                                 "{{ config('app.name') }}",
                                 'Evacuation Center Updated Successfully!',
-                                'success',
+                                'success'
                             );
                             $('#editEvacuationForm')[0].reset();
                             $('#editEvacuationCenter').modal('hide');
@@ -310,7 +306,7 @@
                         Swal.fire(
                             "{{ config('app.name') }}",
                             'Failed to Update Barangay!',
-                            'error',
+                            'error'
                         );
                     }
                 })
@@ -344,7 +340,9 @@
                             },
 
                             error: function(response) {
-                                console.log('Error:', response);
+                                "{{ config('app.name') }}!",
+                                'Failed to delete Evacuation Center.',
+                                'success'
                             }
                         });
                     }

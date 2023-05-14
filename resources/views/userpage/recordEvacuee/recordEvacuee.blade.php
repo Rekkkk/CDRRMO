@@ -3,7 +3,7 @@
 
 <head>
     @include('partials.content.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/recordEvacuee/recordEvacuee.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
 
@@ -15,26 +15,26 @@
 
         <x-messages />
 
-        <div class="main-content mb-4">
+        <div class="record-content pt-8 pr-8 pl-28 mb-4">
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-person-plus text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">RECORD EVACUEE</span>
                 <hr class="mt-4">
             </div>
 
-            <div class="content-item">
-                <div class="content-header w-full h-full p-3">
+            <div class="content-item mt-8 bg-slate-50 drop-shadow-2xl">
+                <div class="content-header bg-red-900 w-full h-full p-3">
                     <div class="text-center">
-                        <img id="header-logo-right" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                        <span class="item-header relative w-full text-white ">Record Evacuee Form</span>
-                        <img id="header-logo-left" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
+                        <img class="float-right w-8" id="header-logo-right" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
+                        <span class="item-header relative w-full text-white text-xl">Record Evacuee Form</span>
+                        <img class="float-left w-8" id="header-logo-left" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
                     </div>
                 </div>
                 <div class="w-full p-2">
                     <div class="content-body">
 
                         <div class="mb-3">
-                            <select id="disaster" class="form-select p-2 text-center">
+                            <select id="disaster" class="form-select form-disaster-select p-2 text-center">
                                 <option value="">Choose Disaster Type</option>
                                 <option value="Typhoon">Typhoon</option>
                                 <option value="Road Accident">Road Accident</option>
@@ -266,24 +266,23 @@
                                     Swal.fire(
                                         "{{ config('app.name') }}",
                                         'Failed to Register Evacuee, Thank You!',
-                                        'error',
+                                        'error'
                                     );
                                 } else {
                                     Swal.fire(
                                         "{{ config('app.name') }}",
                                         'Successfully Register Evacuee, Thank You!',
-                                        'success',
+                                        'success'
                                     );
                                     $('#Typhoon')[0].reset();
                                 }
                             },
 
                             error: function(data) {
-                                console.log('Error:', data);
                                 Swal.fire(
                                     "{{ config('app.name') }}",
                                     'Failed to Register Evacuee, Tdasdashank You!',
-                                    'error',
+                                    'error'
                                 );
                             }
                         });

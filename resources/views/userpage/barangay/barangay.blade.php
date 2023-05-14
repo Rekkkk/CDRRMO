@@ -3,10 +3,10 @@
 
 <head>
     @include('partials.content.headPackage')
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
-    <link rel="stylesheet" href="{{ asset('assets/css/barangay-css/barangay.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
 
@@ -18,22 +18,20 @@
 
         <x-messages />
 
-        <div class="content">
-
+        <div class="content pt-8 pr-8 pl-28">
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-hospital text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">BARANGAY INFORMATION</span>
                 <hr class="mt-4">
             </div>
-
-            <div class="main-content bg-slate-50 p-4">
+            <div class="main-content flex bg-slate-50 p-4">
                 <div class="barangay-form p-3 mx-2 border-r-2">
                     <header class="text-xl font-semibold">Barangay Information</header>
                     <hr>
                     <form id="addBarangayForm" name="addBarangayForm">
                         @csrf
                         <div class="form barangay my-3">
-                            <div class="fields">
+                            <div class="field">
                                 <div class="flex flex-col">
                                     <label for="barangay_name">Barangay Name</label>
                                     <input type="text" name="barangay_name"
@@ -80,20 +78,19 @@
                         <div class="barangay-button">
                             <a href="{{ route('dashboard.cdrrmo') }}">
                                 <button type="button"
-                                    class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Cancel</button>
+                                    class="bg-slate-700 text-white p-2 rounded hover:bg-slate-900 transition duration-200">Cancel</button>
                             </a>
                             <button id="addBarangay"
-                                class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Submit</button>
+                                class="bg-red-700 text-white p-2 py-2 rounded hover:bg-red-900 transition duration-200">Submit</button>
                         </div>
                     </form>
                 </div>
-
                 <div class="barangay-table bg-slate-100">
                     <header class="text-2xl font-semibold py-3">Barangay Table</header>
                     <table class="table data-table display nowrap" style="width:100%">
                         <thead>
                             <tr>
-                                <th>Barangay Name</th>
+                                <th class="w-px">Barangay Name</th>
                                 <th>Location</th>
                                 <th>Contact Number</th>
                                 <th>Email Address</th>
@@ -104,10 +101,9 @@
                         </tbody>
                     </table>
                 </div>
+
             </div>
-
             @include('userpage.barangay.updateBarangay')
-
         </div>
     </div>
 
@@ -157,7 +153,7 @@
                         name: 'action',
                         orderable: false,
                         searchable: false
-                    },
+                    }
                 ]
             });
 
@@ -192,13 +188,13 @@
                                     Swal.fire(
                                         "{{ config('app.name') }}",
                                         'Some Fields Are Required, Fill It Up!',
-                                        'error',
+                                        'error'
                                     );
                                 } else {
                                     Swal.fire(
                                         "{{ config('app.name') }}",
                                         'Barangay Added Successfully!',
-                                        'success',
+                                        'success'
                                     );
                                     $('#addBarangayForm')[0].reset();
                                     barangayTable.draw();
@@ -206,11 +202,10 @@
                             },
 
                             error: function(response) {
-                                console.log('Error:', response);
                                 Swal.fire(
                                     "{{ config('app.name') }}",
                                     'Ooppss.. Something went wrong.',
-                                    'error',
+                                    'error'
                                 );
                             }
                         });
@@ -261,13 +256,13 @@
                             Swal.fire(
                                 "{{ config('app.name') }}",
                                 'Failed to Update Barangay!',
-                                'error',
+                                'error'
                             );
                         } else {
                             Swal.fire(
                                 "{{ config('app.name') }}",
                                 'Barangay Updated Successfully!',
-                                'success',
+                                'success'
                             );
                             $('#editBarangayForm')[0].reset();
                             $('#editBarangay').modal('hide');
@@ -278,7 +273,7 @@
                         Swal.fire(
                             "{{ config('app.name') }}",
                             'Failed to Update Barangay!',
-                            'error',
+                            'error'
                         );
                     }
                 })
@@ -312,7 +307,9 @@
                             },
 
                             error: function(response) {
-                                console.log('Error:', response);
+                                "{{ config('app.name') }}!",
+                                'Failed to delete Barangay.',
+                                'error'
                             }
                         });
                     }

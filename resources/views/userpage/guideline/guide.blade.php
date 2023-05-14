@@ -3,7 +3,7 @@
 
 <head>
     @include('partials.content.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/guideline-css/guide.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
 
@@ -24,8 +24,8 @@
                     <i class="bi bi-pencil mr-2"></i> Take Quiz
                 </button>
             @endguest
-            @if(Auth::check() && Auth::user()->user_role == '1')
-                <button type="submit"
+            @if (Auth::check() && Auth::user()->user_role == '1')
+                <button type="button"
                     class="bg-slate-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200">
                     <i class="bi bi-pencil mr-2"></i> Edit Quiz
                 </button>
@@ -38,27 +38,27 @@
             @endif
         </div>
 
-        <div class="main-content">
-            @foreach ($guide as $guideItem)
+        <div class="main-content pt-8 pr-8 pl-28">
+            @foreach ($guide as $guide)
                 <div class="guide-container w-full">
-                    <div class="guide-content mb-2">
-                        <div class="label">
-                            {{ $guideItem->guide_description }}
+                    <div class="guide-content relative mx-2.5 my-2 mb-2">
+                        <div class="label relative bg-slate-900 text-white cursor-pointer p-3">
+                            {{ $guide->guide_description }}
 
                         </div>
-                        <div class="content">
+                        <div class="content relative h-0 overflow-hidden bg-neutral-200">
                             <p class="mb-2">
-                                {{ $guideItem->guide_content }}
+                                {{ $guide->guide_content }}
                             </p>
-                            @if(Auth::check() && Auth::user()->user_role == '1')
+                            @if (Auth::check() && Auth::user()->user_role == '1')
                                 <div class="action-btn w-full py-2 flex justify-start">
-                                    <a href="#edit{{ $guideItem->guide_id }}" data-bs-toggle="modal">
+                                    <a href="#edit{{ $guide->guide_id }}" data-bs-toggle="modal">
                                         <button type="submit"
                                             class="bg-slate-700 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200">
                                             <i class="bi bi-pencil text-sm mr-2"></i>Edit
                                         </button>
                                     </a>
-                                    <a href="{{ route('remove.guide.cdrrmo', $guideItem->guide_id) }}">
+                                    <a href="{{ route('remove.guide.cdrrmo', $guide->guide_id) }}">
                                         <button type="submit"
                                             class="bg-red-700 ml-2 p-2 py-2 text-white rounded shadow-lg hover:bg-red-900 transition duration-200">
                                             <i class="bi bi-trash mr-2"></i>Delete
@@ -73,15 +73,6 @@
             @endforeach
         </div>
     </div>
-    <script>
-        const accordion = document.getElementsByClassName('guide-content');
-
-        for (i = 0; i < accordion.length; i++) {
-            accordion[i].addEventListener('click', function() {
-                this.classList.toggle('active')
-            })
-        }
-    </script>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -93,6 +84,15 @@
 
     <script type="text/javascript">
         $(document).ready(function() {
+
+            const accordion = document.getElementsByClassName('guide-content');
+
+            for (i = 0; i < accordion.length; i++) {
+                accordion[i].addEventListener('click', function() {
+                    this.classList.toggle('active')
+                })
+            }
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -115,7 +115,7 @@
                     title: 'Do you want to add this guide?',
                     showDenyButton: true,
                     confirmButtonText: 'Add Guide',
-                    denyButtonText: 'Cancel',
+                    denyButtonText: 'Cancel'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
@@ -136,29 +136,28 @@
                                     Swal.fire(
                                         "{{ config('app.name') }}",
                                         'Failed to Add E-LIGTAS Guide.',
-                                        'error',
+                                        'error'
                                     );
                                 } else {
-                                    $('#createGuideForm')[0].reset();
-                                    $('#createGuideModal').modal('hide');
                                     Swal.fire({
                                         title: "{{ config('app.name') }}",
                                         text: 'E-LIGTAS Guide Successfully Posted.',
-                                        icon: 'success',
+                                        icon: 'success'
                                     }).then((result) => {
                                         if (result.isConfirmed) {
+                                            $('#createGuideForm')[0].reset();
+                                            $('#createGuideModal').modal(
+                                                'hide');
                                             location.reload();
                                         }
                                     });
                                 }
                             },
-
                             error: function(data) {
-                                console.log('Error:', data);
                                 Swal.fire(
                                     "{{ config('app.name') }}",
                                     'Failed to Post E-LIGTAS Guide',
-                                    'error',
+                                    'error'
                                 );
                             }
                         });

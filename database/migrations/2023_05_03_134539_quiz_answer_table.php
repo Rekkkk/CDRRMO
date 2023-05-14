@@ -11,7 +11,6 @@ return new class extends Migration
         Schema::create('quiz_answer', function (Blueprint $table) {
             $table->id('quiz_answer_id');
             $table->foreignId('quiz_answer')->unique();
-            $table->foreignId('quiz_id')->references('quiz_id')->on('quiz')->cascadeOnDelete()->cascadeOnUpdate();
             $table->foreignId('quiz_question_id')->references('quiz_question_id')->on('quiz_question')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }

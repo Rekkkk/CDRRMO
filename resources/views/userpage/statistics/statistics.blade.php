@@ -3,7 +3,7 @@
 
 <head>
     @include('partials.content.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/statistics/statistics.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
 
@@ -18,7 +18,7 @@
 
         <x-messages />
 
-        <div class="main-content">
+        <div class="statistics-content pt-8 pr-8 pl-28">
 
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-graph-up text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
@@ -26,12 +26,12 @@
                 <hr class="mt-4">
             </div>
 
-            <div class="content-item">
-                <div class="content-header w-full h-full p-3">
+            <div class="statistics-board my-8 bg-slate-50 drop-shadow-2xl">
+                <div class="content-header w-full h-full p-3 bg-red-900">
                     <div class="text-center">
-                        <img id="header-logo-right" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                        <span class="item-header relative w-full text-white ">Disaster Data Statistics</span>
-                        <img id="header-logo-left" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
+                        <img class="float-right w-8" id="header-logo-right" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
+                        <span class="item-header relative w-full text-white text-xl">Disaster Data Statistics</span>
+                        <img class="float-left w-8" id="header-logo-left" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
                     </div>
                 </div>
                 <div class="w-full p-2">

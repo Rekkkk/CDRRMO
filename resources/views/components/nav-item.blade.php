@@ -93,6 +93,14 @@
             </a>
         </li>
     @endif
+    @if (Auth::check() && Auth::user()->user_role == '3')
+        <li>
+            <a href="{{ route('logout.developer') }}">
+                <i class="bi bi-box-arrow-in-left text-white"></i>
+                <span class="links_name">Logout</span>
+            </a>
+        </li>
+    @endif
     @guest
         <li>
             <a href="{{ route('dashboard.resident') }}">

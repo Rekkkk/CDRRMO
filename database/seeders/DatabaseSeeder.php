@@ -26,21 +26,24 @@ class DatabaseSeeder extends Seeder
             'email' => ('CDRRMO123@gmail.com'),
             'password' => Hash::make('CDRRMO_Admin_Panel'),
             'user_role' => '1',
-            'created_at' => Date::now(),
-        ]);
-
-        DB::table('users')->insert([
-            'email' => ('francistengteng10@gmail.com'),
-            'password' => Hash::make('tengteng10'),
-            'user_role' => '0',
-            'created_at' => Date::now(),
+            'role_name' => 'Admin',
+            'created_at' => Date::now()
         ]);
 
         DB::table('users')->insert([
             'email' => ('CSWD123@gmail.com'),
             'password' => Hash::make('CSWD123'),
             'user_role' => '2',
-            'created_at' => Date::now(),
+            'role_name' => 'CSWD',
+            'created_at' => Date::now()
+        ]);
+
+        DB::table('users')->insert([
+            'email' => ('developer123@gmail.com'),
+            'password' => Hash::make('developer123'),
+            'user_role' => '3',
+            'role_name' => 'Developer',
+            'created_at' => Date::now()
         ]);
     }
 }

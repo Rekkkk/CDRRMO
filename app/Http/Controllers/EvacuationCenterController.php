@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EvacuationCenterRequest;
+use App\Models\ActivityUserLog;
 use Illuminate\Support\Str;
 use App\Models\EvacuationCenter;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -63,9 +65,21 @@ class EvacuationCenterController extends Controller
 
             try {
                 $this->evacuationCenter->registerEvacuationCenterObject($evacuationCenterData);
-                Alert::success('Evacuation Center Registered Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+                Alert::success(config('app.name'), 'Evacuation Center Registered Successfully.');
+
+                $currentDate = Carbon::now();
+                $todayDate = $currentDate->toDayDateTimeString();
+
+                ActivityUserLog::create([
+                    'user_id' => Auth::user()->id,
+                    'email' => Auth::user()->email,
+                    'user_role' => Auth::user()->user_role,
+                    'role_name' => Auth::user()->role_name,
+                    'activity' => 'Registering Evacuation Center Information',
+                    'date_time' => $todayDate,
+                ]);
             } catch (\Exception $e) {
-                Alert::error('Failed to Register Evacuation Center', 'Cabuyao City Disaster Risk Reduction Management Office');
+                Alert::error(config('app.name'), 'Failed to Register Evacuation Center.');
             }
 
             return response()->json(['status' => 1]);
@@ -98,11 +112,23 @@ class EvacuationCenterController extends Controller
 
             try {
                 $this->evacuationCenter->updateEvacuationCenterObject($evacuationCenterData, $evacuationId);
-                Alert::success('Evacuation Center Updated Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
             } catch (\Exception $e) {
-                Alert::error('Failed to Update Evacuation Center', 'Cabuyao City Disaster Risk Reduction Management Office');
+                Alert::error(config('app.name'), 'Failed to Update Evacuation Center.');
             }
 
+            $currentDate = Carbon::now();
+            $todayDate = $currentDate->toDayDateTimeString();
+
+            ActivityUserLog::create([
+                'user_id' => Auth::user()->id,
+                'email' => Auth::user()->email,
+                'user_role' => Auth::user()->user_role,
+                'role_name' => Auth::user()->role_name,
+                'activity' => 'Updating Evacuation Center Information',
+                'date_time' => $todayDate,
+            ]);
+
+            Alert::success(config('app.name'), 'Evacuation Center Updated Successfully.');
             return response()->json(['status' => 1]);
         }
 
@@ -121,9 +147,22 @@ class EvacuationCenterController extends Controller
     {
         try {
             $this->evacuationCenter->removeEvacuationCenterObject($evacuationId);
-            Alert::success('Evacuation Center Deleted Successfully', 'Cabuyao City Disaster Risk Reduction Management Office');
+
+            $currentDate = Carbon::now();
+            $todayDate = $currentDate->toDayDateTimeString();
+
+            ActivityUserLog::create([
+                'user_id' => Auth::user()->id,
+                'email' => Auth::user()->email,
+                'user_role' => Auth::user()->user_role,
+                'role_name' => Auth::user()->role_name,
+                'activity' => 'Deleting Evacuation Center Information',
+                'date_time' => $todayDate,
+            ]);
+
+            Alert::success(config('app.name'), 'Evacuation Center Deleted Successfully.');
         } catch (\Exception $e) {
-            Alert::error('Failed to Deleted Evacuation Center', 'Cabuyao City Disaster Risk Reduction Management Office');
+            Alert::error(config('app.name'), 'Failed to Deleted Evacuation Center.');
         }
 
         return response()->json();

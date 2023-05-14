@@ -21,7 +21,7 @@ class ReportAccident extends Model
         'report_photo',
         'contact',
         'email',
-        'status',
+        'status'
     ];
 
     public $timestamps = true;
