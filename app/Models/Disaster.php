@@ -17,7 +17,7 @@ class Disaster extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'disaster_type',
+        'disaster_type'
     ];
 
     public $timestamps = false;
@@ -26,18 +26,9 @@ class Disaster extends Model
         return $this->all()->sortBy('disaster_id');
     }
 
-    // public function registerDisasterObject($disaster){
-    //     return $this->create($disaster);
-    // }
-
-    public function updateDisasterObject($request, $disasterId){
-
-        $disasterData = [
-            'disaster_type' => Str::ucfirst(trim($request->input('disaster_type'))),
-        ];
-
-        $disaster = $this->find($disasterId);
-        $disaster->update($disasterData);
+    public function updateDisasterObject($disasterData, $disasterId){
+        $barangay = $this->find($disasterId);
+        $barangay->update($disasterData);
     }
 
     public function removeDisasterObject($disaster){

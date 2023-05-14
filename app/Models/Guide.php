@@ -19,7 +19,7 @@ class Guide extends Model
     protected $fillable = [
         'guide_description',
         'guide_content',
-        'guideline_id',
+        'guideline_id'
     ];
 
     public $timestamps = true;
@@ -30,8 +30,8 @@ class Guide extends Model
 
     public function updateGuideObject($request, $guideId){
         $guideData = [
-            'guide_description' => Str::upper(trim($request->input('guide_description'))),
-            'guide_content' => Str::upper(trim($request->input('guide_content'))),
+            'guide_description' => Str::of(trim($request->input('guide_description')))->title(),
+            'guide_content' => Str::of(trim($request->input('guide_content')))->title()
         ];
 
         $guide = $this->find($guideId);

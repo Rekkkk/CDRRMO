@@ -8,8 +8,8 @@ use App\Http\Controllers\GuidelineController;
 use App\Http\Controllers\ResidentController;
 use App\Http\Controllers\DisasterController;
 use App\Http\Controllers\EvacuationCenterController;
-use App\Http\Controllers\RecordEvacueeController;
 use App\Http\Controllers\ReportAccidentController;
+use App\Http\Controllers\DeveloperController;
 use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthenticationController::class)->group(function () {
@@ -69,6 +69,7 @@ Route::group(['middleware' => 'auth', 'check.role'], function () {
         Route::group(['prefix' => 'disaster'], function () {
             Route::controller(DisasterController::class)->group(function () {
                 Route::post('/registerDisaster', 'registerDisaster')->name('register.disaster.cdrrmo');
+                Route::get('/disasterDetails/{disasterId}', 'getDisasterDetails')->name('disaster.details.cdrrmo');
                 Route::put('/updateDisaster/{disasterId}', 'updateDisaster')->name('update.disaster.cdrrmo');
                 Route::delete('/removeDisaster/{disasterId}', 'removeDisaster')->name('remove.disaster.cdrrmo');
             });
@@ -92,12 +93,12 @@ Route::group(['middleware' => 'auth', 'check.role'], function () {
                 Route::delete('/removeReport/{reportId}', 'removeAccidentReport')->name('remove.accident.report.cdrrmo');
             });
         });
-
+        
         Route::controller(CdrrmoController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
             Route::get('/disaster', 'disaster')->name('disaster.cdrrmo');
             Route::get('/eligtasGuideline', 'eligtasGuideline')->name('guideline.cdrrmo');
-            Route::get('/eligtasGuideline/guide/{guidelineId}', 'eligtasGuide')->name('guide.cdrrmo');
+            Route::get('/eligtasGuideline/guide/{guidelineId}', 'guide')->name('guide.cdrrmo');
             Route::get('/barangay', 'barangay')->name('barangay.information.cdrrmo');
             Route::get('/evacuationManage', 'evacuationManage')->name('manage.evacuation.cdrrmo');
             Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator.cdrrmo');
@@ -111,17 +112,20 @@ Route::group(['middleware' => 'auth', 'check.role'], function () {
 
     Route::group(['prefix' => 'cswd'], function () {
 
-        Route::group(['prefix' => 'recordEvacuee'], function () {
-            Route::controller(RecordEvacueeController::class)->group(function () {
-                Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('record.evacuee.cswd');
-            });
-        });
-
         Route::controller(CswdController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cswd');
             Route::get('/recordEvacuee', 'recordEvacuee')->name('display.record.evacuee.cswd');
+            Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('record.evacuee.cswd');
             Route::get('/statistics', 'statistics')->name('statistics.cswd');
             Route::get('/logout', 'logout')->name('logout.cswd');
+        });
+    });
+
+    Route::group(['prefix' => 'developer'], function () {
+       
+        Route::controller(DeveloperController::class)->group(function () {
+            Route::get('/dashboard', 'dashboard')->name('dashboard.developer');
+            Route::get('/logout', 'logout')->name('logout.developer');
         });
     });
 });

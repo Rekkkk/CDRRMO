@@ -19,7 +19,7 @@ class Barangay extends Model
         'barangay_name',
         'barangay_location',
         'barangay_contact_number',
-        'barangay_email_address',
+        'barangay_email_address'
     ];
 
     public $timestamps = false;

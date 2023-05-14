@@ -3,22 +3,11 @@
 
 <head>
     @include('partials.content.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/report-css/report.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
     <title>{{ config('app.name') }}</title>
-    <style>
-        .bar {
-            background-color: #b11111
-        }
-
-        .percent {
-            position: absolute;
-            left: 50%;
-            color: black;
-        }
-    </style>
 </head>
 
 <body class="bg-gray-400">
@@ -29,7 +18,7 @@
 
         <x-messages />
 
-        <div class="main-content">
+        <div class="main-content pt-8 pr-8 pl-28">
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-megaphone text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">REPORT ACCIDENT</span>
@@ -55,7 +44,6 @@
                     <tbody>
                     </tbody>
                 </table>
-
             </div>
             @guest
                 <div class="modal fade" id="createAccidentReportModal" aria-hidden="true">
@@ -204,21 +192,25 @@
                         denyButtonColor: '#b91c1c',
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            Swal.fire(
-                                "{{ config('app.name') }}",
-                                'Successfully Approved Reported!',
-                                'success',
-                            );
                             $.ajax({
                                 type: "POST",
                                 url: "{{ route('approve.accident.report.cdrrmo', ':report_id') }}"
                                     .replace(':report_id', report_id),
-
                                 success: function(data) {
+                                    Swal.fire(
+                                        "{{ config('app.name') }}",
+                                        'Successfully Approved Reported!',
+                                        'success'
+                                    );
                                     table.draw();
                                 },
 
                                 error: function(data) {
+                                    Swal.fire(
+                                        "{{ config('app.name') }}",
+                                        'Failed to approve Accident Report.',
+                                        'error'
+                                    );
                                     console.log('Error:', data);
                                 }
                             });
@@ -245,28 +237,28 @@
                         confirmButtonText: 'Yes, delete report!'
                     }).then((result) => {
                         if (result.isConfirmed) {
-                            Swal.fire(
-                                "{{ config('app.name') }}",
-                                'Report has been deleted.',
-                                'success'
-                            )
                             $.ajax({
                                 type: "DELETE",
                                 url: "{{ route('remove.accident.report.cdrrmo', ':report_id') }}"
                                     .replace(':report_id', report_id),
                                 success: function(data) {
+                                    Swal.fire(
+                                        "{{ config('app.name') }}",
+                                        'Accident Report has been deleted.',
+                                        'success'
+                                    )
                                     table.draw();
                                 },
 
                                 error: function(data) {
-                                    console.log('Error:', data);
+                                    "{{ config('app.name') }}",
+                                    'Failed to delete Accident Report.',
+                                    'error'
                                 }
-
                             });
                         }
                     });
                 });
-
             });
         </script>
     @endif
@@ -335,8 +327,8 @@
                 });
 
                 $('#reportForm').submit(function(e) {
-                    e.preventDefault();
                     let formData = new FormData(this);
+                    e.preventDefault();
 
                     Swal.fire({
                         title: 'Do you want to report this accident?',
@@ -365,13 +357,13 @@
                                         Swal.fire(
                                             "{{ config('app.name') }}",
                                             'Failed to Reported Accident, Thanks for your concern!',
-                                            'error',
+                                            'error'
                                         );
                                     } else {
                                         Swal.fire(
                                             "{{ config('app.name') }}",
                                             'Successfully Reported, Thanks for your concern!',
-                                            'success',
+                                            'success'
                                         );
                                         $('#reportForm')[0].reset();
                                         $('#createAccidentReportModal').modal('hide');
@@ -379,11 +371,10 @@
                                     }
                                 },
                                 error: function(data) {
-                                    console.log('Error:', data);
                                     Swal.fire(
                                         "{{ config('app.name') }}",
                                         'Failed to Report Accident, Thanks for your concern!',
-                                        'error',
+                                        'error'
                                     );
                                 }
                             });

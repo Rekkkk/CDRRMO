@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->tinyInteger('user_role');
+            $table->string('role_name');
             $table->date('created_at');
         });
     }

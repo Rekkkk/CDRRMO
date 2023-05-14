@@ -22,7 +22,7 @@ class EvacuationCenter extends Model
         'evacuation_center_address',
         'barangay_id',
         'latitude',
-        'longitude',
+        'longitude'
     ];
 
     public $timestamps = false;

@@ -3,7 +3,7 @@
 
 <head>
     @include('partials.content.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/evacuation-css/evacuationCenter.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
 
@@ -13,7 +13,7 @@
         @include('partials.content.header')
         @include('partials.content.sidebar')
 
-        <div class="main-content">
+        <div class="locator-container pt-8 pr-8 pl-28">
 
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-house text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
@@ -21,8 +21,8 @@
                 <hr class="mt-4">
             </div>
 
-            <div class="content-item">
-                <div class="content-header text-center text-white">
+            <div class="locator-content my-8 drop-shadow-2xl">
+                <div class="locator-header text-center text-white h-22 bg-red-900">
                     <div class="text-2xl p-2 w-full h-full">
                         <span>{{ config('app.name') }}</span><br>
                         <span>"E-LIGTAS"</span>
@@ -83,81 +83,80 @@
         </div>
     </div>
 
-    @if (Auth::check() && Auth::user()->user_role == '1')
-        <script async src="https://maps.googleapis.com/maps/api/js?key=...&callback=initMap"></script>
-        <script>
-            let map, activeInfoWindow, markers = [];
+    <script async src="https://maps.googleapis.com/maps/api/js?key=...&callback=initMap"></script>
+    <script>
+        let map, activeInfoWindow, markers = [];
 
-            function initMap() {
-                map = new google.maps.Map(document.getElementById("map"), {
-                    center: {
-                        lat: 14.242311,
-                        lng: 121.12772
-                    },
-                    zoom: 15
+        function initMap() {
+            map = new google.maps.Map(document.getElementById("map"), {
+                center: {
+                    lat: 14.242311,
+                    lng: 121.12772
+                },
+                zoom: 15
+            });
+
+            map.addListener("click", function(event) {
+                mapClicked(event);
+            });
+
+            initMarkers();
+        }
+
+        function initMarkers() {
+            const initialMarkers = <?php echo json_encode($initialMarkers); ?>;
+
+            for (let index = 0; index < initialMarkers.length; index++) {
+
+                const markerData = initialMarkers[index];
+                const marker = new google.maps.Marker({
+                    position: markerData.position,
+                    label: markerData.label,
+                    draggable: markerData.draggable,
+                    map
                 });
+                markers.push(marker);
 
-                map.addListener("click", function(event) {
-                    mapClicked(event);
+                const infowindow = new google.maps.InfoWindow({
+                    content: `<b>${markerData.position.lat}, ${markerData.position.lng}</b>`,
                 });
-
-                initMarkers();
-            }
-
-            function initMarkers() {
-                const initialMarkers = <?php echo json_encode($initialMarkers); ?>;
-
-                for (let index = 0; index < initialMarkers.length; index++) {
-
-                    const markerData = initialMarkers[index];
-                    const marker = new google.maps.Marker({
-                        position: markerData.position,
-                        label: markerData.label,
-                        draggable: markerData.draggable,
+                marker.addListener("click", (event) => {
+                    if (activeInfoWindow) {
+                        activeInfoWindow.close();
+                    }
+                    infowindow.open({
+                        anchor: marker,
+                        shouldFocus: false,
                         map
                     });
-                    markers.push(marker);
+                    activeInfoWindow = infowindow;
+                    markerClicked(marker, index);
+                });
 
-                    const infowindow = new google.maps.InfoWindow({
-                        content: `<b>${markerData.position.lat}, ${markerData.position.lng}</b>`,
-                    });
-                    marker.addListener("click", (event) => {
-                        if (activeInfoWindow) {
-                            activeInfoWindow.close();
-                        }
-                        infowindow.open({
-                            anchor: marker,
-                            shouldFocus: false,
-                            map
-                        });
-                        activeInfoWindow = infowindow;
-                        markerClicked(marker, index);
-                    });
-
-                    marker.addListener("dragend", (event) => {
-                        markerDragEnd(event, index);
-                    });
-                }
+                marker.addListener("dragend", (event) => {
+                    markerDragEnd(event, index);
+                });
             }
+        }
 
-            function mapClicked(event) {
-                console.log(map);
-                console.log(event.latLng.lat(), event.latLng.lng());
-            }
+        function mapClicked(event) {
+            console.log(map);
+            console.log(event.latLng.lat(), event.latLng.lng());
+        }
 
-            function markerClicked(marker, index) {
-                console.log(map);
-                console.log(marker.position.lat());
-                console.log(marker.position.lng());
-            }
+        function markerClicked(marker, index) {
+            console.log(map);
+            console.log(marker.position.lat());
+            console.log(marker.position.lng());
+        }
 
-            function markerDragEnd(event, index) {
-                console.log(map);
-                console.log(event.latLng.lat());
-                console.log(event.latLng.lng());
-            }
-        </script>
-    @endif
+        function markerDragEnd(event, index) {
+            console.log(map);
+            console.log(event.latLng.lat());
+            console.log(event.latLng.lng());
+        }
+    </script>
+
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"
         integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>

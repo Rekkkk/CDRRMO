@@ -27,7 +27,7 @@ class Evacuee extends Model
         'evacuee_address',
         'barangay_id',
         'disaster_id',
-        'evacuation_assigned',
+        'evacuation_assigned'
     ];
 
     public $timestamps = false;

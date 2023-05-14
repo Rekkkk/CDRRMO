@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Support\Str;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Support\Facades\Crypt;
 
 class Guideline extends Model
 {
@@ -17,7 +18,7 @@ class Guideline extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'guideline_description',
+        'guideline_description'
     ];
 
     public $timestamps = true;
@@ -33,7 +34,7 @@ class Guideline extends Model
     public function updateGuidelineObject($request, $guidelineId){
 
         $guidelineData = [
-            'guideline_description' => Str::upper(trim($request->input('guideline_description'))),
+            'guideline_description' => Str::upper(trim($request->input('guideline_description')))
         ];
 
         $guideline = $this->find($guidelineId);

@@ -3,7 +3,7 @@
 
 <head>
     @include('partials.content.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/hotlineNumber/hotline.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
 
@@ -15,7 +15,7 @@
 
         <x-messages />
 
-        <div class="content">
+        <div class="content pt-8 pr-8 pl-28">
 
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-telephone text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
@@ -23,8 +23,8 @@
                 <hr class="mt-4">
             </div>
 
-            <div class="main-content">
-                <div class="location-section f bg-slate-600 p-6 text-white">
+            <div class="hotline-content flex">
+                <div class="location-section drop-shadow-2xl bg-slate-600 p-6 text-white">
                     <div class="text-center">
                         <span class="text-2xl font-bold">Hotline Numbers</span>
                     </div>

@@ -11,7 +11,7 @@
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
     <link rel="shortcut icon" href="{{ asset('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
-    <link rel="stylesheet" href="{{ asset('assets/css/about/about.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
 
@@ -23,15 +23,15 @@
 
         <x-messages />
 
-        <div class="content">
+        <div class="content pt-8 pr-8 pl-28">
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-info-circle text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">ABOUT</span>
                 <hr class="mt-4">
             </div>
 
-            <div class="main-content">
-                <div class="location-section bg-slate-600 p-6 text-white">
+            <div class="about-content flex">
+                <div class="location-section drop-shadow-2xl bg-slate-600 p-6 text-white">
                     <div class="text-center">
                         <span class="text-2xl font-bold">Location</span>
                     </div>
@@ -80,7 +80,7 @@
                 </div>
 
                 <div class="right-side flex-1 flex flex-col">
-                    <div class="social-section bg-slate-600 mb-4 text-white">
+                    <div class="social-section drop-shadow-2xl bg-slate-600 mb-4 text-white">
                         <div class="text-center py-4">
                             <span class="text-lg font-bold">Social</span>
                         </div>
@@ -110,7 +110,7 @@
                         </a>
                     </div>
 
-                    <div class="telephone-section flex-1 bg-slate-600 text-white">
+                    <div class="telephone-section drop-shadow-2xl flex-1 bg-slate-600 text-white">
                         <div class="text-center py-4 font-bold">
                             <span class="text-lg">Contact</span>
                         </div>

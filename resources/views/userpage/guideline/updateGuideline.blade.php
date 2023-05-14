@@ -1,4 +1,4 @@
-@if(Auth::check() && Auth::user()->user_role == '1')
+@if (Auth::check() && Auth::user()->user_role == '1')
     <div class="modal fade" id="edit{{ $guidelineItem->guideline_id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -14,7 +14,8 @@
                             <label for="guideline_description" class="flex items-center justify-center">Guideline
                                 Desctription</label>
                             <input type="text" name="guideline_description"
-                                value="{{ $guidelineItem->guideline_description }}" class="form-control" autocomplete="off">
+                                value="{{ $guidelineItem->guideline_description }}" class="form-control"
+                                autocomplete="off">
                         </div>
                         <div class="modal-footer">
                             <button type="button"

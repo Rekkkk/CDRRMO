@@ -1,4 +1,4 @@
-@if(Auth::check() && Auth::user()->user_role == '1')
+@if (Auth::check() && Auth::user()->user_role == '1')
     <div class="modal fade" id="createGuidelineModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
