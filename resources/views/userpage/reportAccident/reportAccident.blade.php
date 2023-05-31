@@ -57,6 +57,7 @@
                                     name="reportForm" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="report_id" id="report_id">
+
                                     <div class="mb-3">
                                         <label for="report_description" class="flex items-center justify-center">Report
                                             Description</label>
@@ -184,7 +185,7 @@
                     var report_id = $(this).data('id');
 
                     Swal.fire({
-                        title: 'Do you want to approve this report?',
+                        title: 'Would you like to approve this report?',
                         showDenyButton: true,
                         confirmButtonText: 'Yes, approve it.',
                         confirmButtonColor: '#334155',
@@ -197,29 +198,25 @@
                                 url: "{{ route('approve.accident.report.cdrrmo', ':report_id') }}"
                                     .replace(':report_id', report_id),
                                 success: function(data) {
-                                    Swal.fire(
-                                        "{{ config('app.name') }}",
-                                        'Successfully Approved Reported!',
-                                        'success'
-                                    );
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: "{{ config('app.name') }}",
+                                        text: 'Successfully Approved Reported.',
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#334155',
+                                    });
                                     table.draw();
                                 },
-
-                                error: function(data) {
-                                    Swal.fire(
-                                        "{{ config('app.name') }}",
-                                        'Failed to approve Accident Report.',
-                                        'error'
-                                    );
-                                    console.log('Error:', data);
+                                error: function(response) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        confirmButtonText: 'Understood',
+                                        confirmButtonColor: '#334155',
+                                        title: "{{ config('app.name') }}",
+                                        text: 'Something went wrong, try again later.'
+                                    });
                                 }
                             });
-                        } else if (result.isDenied) {
-                            Swal.fire(
-                                "{{ config('app.name') }}",
-                                'Accident is not already approved!',
-                                'info'
-                            )
                         }
                     })
                 });
@@ -228,13 +225,13 @@
                     var report_id = $(this).data("id");
 
                     Swal.fire({
+                        icon: 'warning',
                         title: 'Are you sure?',
                         text: "You won't be able to undo this!",
-                        icon: 'warning',
                         showCancelButton: true,
                         confirmButtonColor: '#334155',
                         cancelButtonColor: '#b91c1c',
-                        confirmButtonText: 'Yes, delete report!'
+                        confirmButtonText: 'Yes, delete it.'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
@@ -242,18 +239,23 @@
                                 url: "{{ route('remove.accident.report.cdrrmo', ':report_id') }}"
                                     .replace(':report_id', report_id),
                                 success: function(data) {
-                                    Swal.fire(
-                                        "{{ config('app.name') }}",
-                                        'Accident Report has been deleted.',
-                                        'success'
-                                    )
+                                    Swal.fire({
+                                        icon: 'success',
+                                        title: "{{ config('app.name') }}",
+                                        text: 'Accident Report has been removed.',
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#334155',
+                                    });
                                     table.draw();
                                 },
-
-                                error: function(data) {
-                                    "{{ config('app.name') }}",
-                                    'Failed to delete Accident Report.',
-                                    'error'
+                                error: function(response) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        confirmButtonText: 'Understood',
+                                        confirmButtonColor: '#334155',
+                                        title: "{{ config('app.name') }}",
+                                        text: 'Something went wrong, try again later.'
+                                    });
                                 }
                             });
                         }
@@ -331,7 +333,8 @@
                     e.preventDefault();
 
                     Swal.fire({
-                        title: 'Do you want to report this accident?',
+                        icon: 'question',
+                        title: 'Would you like to report this accident?',
                         showDenyButton: true,
                         confirmButtonText: 'Yes, report it.',
                         confirmButtonColor: '#334155',
@@ -349,33 +352,47 @@
                                     $(document).find('span.error-text').text('');
                                 },
                                 success: function(data) {
-                                    if (data.condition == 0) {
+                                    if (data.condition == 1) {
                                         $.each(data.error, function(prefix, val) {
                                             $('span.' + prefix + '_error').text(val[
                                                 0]);
                                         });
+                                        Swal.fire({
+                                            icon: 'error',
+                                            title: "{{ config('app.name') }}",
+                                            text: 'Failed to Reported Accident, Thanks for your concern.',
+                                            confirmButtonText: 'OK',
+                                            confirmButtonColor: '#334155',
+                                        });
+                                    } else if (data.condition == 2) {
                                         Swal.fire(
                                             "{{ config('app.name') }}",
-                                            'Failed to Reported Accident, Thanks for your concern!',
+                                            data.block_time,
                                             'error'
                                         );
+                                        $('#reportForm')[0].reset();
+                                        $('#createAccidentReportModal').modal('hide');
                                     } else {
-                                        Swal.fire(
-                                            "{{ config('app.name') }}",
-                                            'Successfully Reported, Thanks for your concern!',
-                                            'success'
-                                        );
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: "{{ config('app.name') }}",
+                                            text: 'Successfully Reported, Thanks for your concern.',
+                                            confirmButtonText: 'OK',
+                                            confirmButtonColor: '#334155',
+                                        });
                                         $('#reportForm')[0].reset();
                                         $('#createAccidentReportModal').modal('hide');
                                         table.draw();
                                     }
                                 },
-                                error: function(data) {
-                                    Swal.fire(
-                                        "{{ config('app.name') }}",
-                                        'Failed to Report Accident, Thanks for your concern!',
-                                        'error'
-                                    );
+                                error: function(response) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        confirmButtonText: 'Understood',
+                                        confirmButtonColor: '#334155',
+                                        title: "{{ config('app.name') }}",
+                                        text: 'Something went wrong, try again later.'
+                                    });
                                 }
                             });
                         }

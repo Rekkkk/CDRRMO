@@ -14,6 +14,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::controller(AuthenticationController::class)->group(function () {
     Route::post('/', 'authUser')->name('login');
+    Route::get('/logout', 'logout')->name('logout.user');
 
     Route::group(['middleware' => 'check.login'], function () {
         Route::view('/', 'authentication/authUser')->name('home');
@@ -32,7 +33,7 @@ Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function () {
     Route::controller(ResidentController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard.resident');
         Route::get('/eligtasGuideline', 'residentEligtasGuideline')->name('guideline.resident');
-        Route::get('/eligtasGuideline/guideline/{guidelineId}', 'guestEligtasGuide')->name('guide.resident');
+        Route::get('/eligtasGuideline/guideline/{guidelineId}', 'residentEligtasGuide')->name('guide.resident');
         Route::get('/evacuationCenter', 'residentEvacuationCenter')->name('evacuation.center.resident');
         Route::get('/reportAccident', 'residentReportAccident')->name('display.report.accident.resident');
         Route::get('/hotlineNumber', 'residentHotlineNumber')->name('hotline.number.resident');
@@ -41,7 +42,7 @@ Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function () {
     });
 });
 
-Route::group(['middleware' => 'auth', 'check.role'], function () {
+Route::group(['middleware' => 'auth'], function () {
 
     Route::group(['prefix' => 'cdrrmo'], function () {
         Route::group(['prefix' => 'eligtasGuideline'], function () {
@@ -99,6 +100,7 @@ Route::group(['middleware' => 'auth', 'check.role'], function () {
             Route::get('/disaster', 'disaster')->name('disaster.cdrrmo');
             Route::get('/eligtasGuideline', 'eligtasGuideline')->name('guideline.cdrrmo');
             Route::get('/eligtasGuideline/guide/{guidelineId}', 'guide')->name('guide.cdrrmo');
+            Route::get('/eligtasGuideline/quizMaker/{guidelineId}', 'quizMaker')->name('quiz.cdrrmo');
             Route::get('/barangay', 'barangay')->name('barangay.information.cdrrmo');
             Route::get('/evacuationManage', 'evacuationManage')->name('manage.evacuation.cdrrmo');
             Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator.cdrrmo');
@@ -106,7 +108,6 @@ Route::group(['middleware' => 'auth', 'check.role'], function () {
             Route::get('/statistics', 'statistics')->name('statistics.cdrrmo');
             Route::get('/reportAccident', 'reportAccident')->name('display.report.accident.cdrrmo');
             Route::get('/about', 'about')->name('about.cdrrmo');
-            Route::get('/logout', 'logout')->name('logout.cdrrmo');
         });
     });
 
@@ -117,7 +118,6 @@ Route::group(['middleware' => 'auth', 'check.role'], function () {
             Route::get('/recordEvacuee', 'recordEvacuee')->name('display.record.evacuee.cswd');
             Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('record.evacuee.cswd');
             Route::get('/statistics', 'statistics')->name('statistics.cswd');
-            Route::get('/logout', 'logout')->name('logout.cswd');
         });
     });
 
@@ -125,7 +125,6 @@ Route::group(['middleware' => 'auth', 'check.role'], function () {
        
         Route::controller(DeveloperController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.developer');
-            Route::get('/logout', 'logout')->name('logout.developer');
         });
     });
 });

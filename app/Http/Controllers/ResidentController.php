@@ -2,15 +2,20 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\EvacuationCenter;
-use App\Models\Evacuee;
-use App\Models\Guide;
 use App\Models\Quiz;
+use App\Models\Guide;
+use App\Models\Evacuee;
+use App\Models\Guideline;
+use App\Models\EvacuationCenter;
 use Illuminate\Support\Facades\Crypt;
 
 class ResidentController extends Controller
 {
     private $guideline;
+
+    public function __construct(){
+        $this->guideline = new Guideline;
+    }
 
     public function dashboard()
     {

@@ -23,10 +23,10 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button"
-                                class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
+                                class="bg-slate-700 text-white p-2 rounded shadow-lg hover:shadow-xl"
                                 data-bs-dismiss="modal">Close</button>
                             <button id="submitGuideBtn"
-                                class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Publish
+                                class="bg-red-700 text-white p-2 rounded shadow-lg hover:shadow-xl">Post
                                 Guide</button>
                         </div>
                     </form>

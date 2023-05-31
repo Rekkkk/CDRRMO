@@ -2,14 +2,14 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActivityUserLog;
-use App\Models\Disaster;
 use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Disaster;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Http\Request;
+use App\Models\ActivityUserLog;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
 
 class DisasterController extends Controller
 {
@@ -62,7 +62,6 @@ class DisasterController extends Controller
                 $todayDate = $currentDate->toDayDateTimeString();
 
                 ActivityUserLog::create([
-                    'user_id' => Auth::user()->id,
                     'email' => Auth::user()->email,
                     'user_role' => Auth::user()->user_role,
                     'role_name' => Auth::user()->role_name,
@@ -85,23 +84,17 @@ class DisasterController extends Controller
     {
         try {
             $this->disaster->removeDisasterObject($disasterId);
-            $currentDate = Carbon::now();
-            $todayDate = $currentDate->toDayDateTimeString();
 
             ActivityUserLog::create([
-                'user_id' => Auth::user()->id,
                 'email' => Auth::user()->email,
                 'user_role' => Auth::user()->user_role,
                 'role_name' => Auth::user()->role_name,
                 'activity' => 'Deleting Disaster Information',
-                'date_time' => $todayDate,
+                'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
-            Alert::success(config('app.name'), 'Disaster Deleted Successfully.');
         } catch (\Exception $e) {
-            Alert::error(config('app.name'), 'Failed to Deleted Disaster.');
+            return response()->json(['condition' => 0]);
         }
-
-
 
         return response()->json();
     }

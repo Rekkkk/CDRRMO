@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActivityUserLog;
-use Illuminate\Support\Str;
-use App\Models\EvacuationCenter;
 use Carbon\Carbon;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
+use App\Models\EvacuationCenter;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
 
 class EvacuationCenterController extends Controller
 {
@@ -67,16 +67,12 @@ class EvacuationCenterController extends Controller
                 $this->evacuationCenter->registerEvacuationCenterObject($evacuationCenterData);
                 Alert::success(config('app.name'), 'Evacuation Center Registered Successfully.');
 
-                $currentDate = Carbon::now();
-                $todayDate = $currentDate->toDayDateTimeString();
-
                 ActivityUserLog::create([
-                    'user_id' => Auth::user()->id,
                     'email' => Auth::user()->email,
                     'user_role' => Auth::user()->user_role,
                     'role_name' => Auth::user()->role_name,
                     'activity' => 'Registering Evacuation Center Information',
-                    'date_time' => $todayDate,
+                    'date_time' => Carbon::now()->toDayDateTimeString()
                 ]);
             } catch (\Exception $e) {
                 Alert::error(config('app.name'), 'Failed to Register Evacuation Center.');
@@ -116,16 +112,12 @@ class EvacuationCenterController extends Controller
                 Alert::error(config('app.name'), 'Failed to Update Evacuation Center.');
             }
 
-            $currentDate = Carbon::now();
-            $todayDate = $currentDate->toDayDateTimeString();
-
             ActivityUserLog::create([
-                'user_id' => Auth::user()->id,
                 'email' => Auth::user()->email,
                 'user_role' => Auth::user()->user_role,
                 'role_name' => Auth::user()->role_name,
                 'activity' => 'Updating Evacuation Center Information',
-                'date_time' => $todayDate,
+                'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
 
             Alert::success(config('app.name'), 'Evacuation Center Updated Successfully.');
@@ -148,16 +140,12 @@ class EvacuationCenterController extends Controller
         try {
             $this->evacuationCenter->removeEvacuationCenterObject($evacuationId);
 
-            $currentDate = Carbon::now();
-            $todayDate = $currentDate->toDayDateTimeString();
-
             ActivityUserLog::create([
-                'user_id' => Auth::user()->id,
                 'email' => Auth::user()->email,
                 'user_role' => Auth::user()->user_role,
                 'role_name' => Auth::user()->role_name,
                 'activity' => 'Deleting Evacuation Center Information',
-                'date_time' => $todayDate,
+                'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
 
             Alert::success(config('app.name'), 'Evacuation Center Deleted Successfully.');
