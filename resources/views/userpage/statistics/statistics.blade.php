@@ -21,13 +21,13 @@
         <div class="statistics-content pt-8 pr-8 pl-28">
 
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-graph-up text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
+                <i class="bi bi-graph-up text-2xl p-2 bg-slate-900 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">DISASTER STATICSTICS</span>
                 <hr class="mt-4">
             </div>
 
             <div class="statistics-board my-8 bg-slate-50 drop-shadow-2xl">
-                <div class="content-header w-full h-full p-3 bg-red-900">
+                <div class="content-header p-3 bg-red-900">
                     <div class="text-center">
                         <img class="float-right w-8" id="header-logo-right" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
                         <span class="item-header relative w-full text-white text-xl">Disaster Data Statistics</span>

@@ -25,7 +25,7 @@
 
         <div class="content pt-8 pr-8 pl-28">
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-info-circle text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
+                <i class="bi bi-info-circle text-2xl p-2 bg-slate-900 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">ABOUT</span>
                 <hr class="mt-4">
             </div>
@@ -39,7 +39,7 @@
                         <i class="bi bi-geo-alt-fill mr-4 text-lg"></i>
                         Address:
                         @if (Auth::check() && Auth::user()->user_role == '1')
-                            <i class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-700 text-white rounded shadow-lg hover:bg-red-900 transition duration-200"
+                            <i class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-700 text-white rounded shadow-lg hover:bg-red-900"
                                 id="editAddressModal"></i>
 
                             <div class="modal fade" id="editAddressForm" data-bs-backdrop="static"
@@ -59,10 +59,10 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button"
-                                                class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
+                                                class="bg-slate-700 text-white p-2 rounded shadow-lg hover:shadow-xl"
                                                 data-bs-dismiss="modal">Close</button>
                                             <button type="button" id="editAddressBtn"
-                                                class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">
+                                                class="bg-red-700 text-white p-2 rounded shadow-lg hover:shadow-xl">
                                                 Update
                                             </button>
                                         </div>
@@ -79,7 +79,7 @@
                     </div>
                 </div>
 
-                <div class="right-side flex-1 flex flex-col">
+                <div class="right-side flex flex-1 flex-col">
                     <div class="social-section drop-shadow-2xl bg-slate-600 mb-4 text-white">
                         <div class="text-center py-4">
                             <span class="text-lg font-bold">Social</span>
@@ -124,6 +124,7 @@
                                 <i class="bi bi-messenger mr-4 text-lg"></i> CDRRMO CABUYAO
                             </p>
                         </a>
+                        <hr>
                         <p class="p-4">
                             <i class="bi bi-envelope-at mr-4 text-lg"></i> cdrrmocabuyao@gmail.com
                         </p>
@@ -142,18 +143,18 @@
     </script>
     <script type="text/javascript">
         $(document).ready(function() {
-            $('#editAddressModal').on('click', function() {
-                var address = $('#addressData').text();
-                $('#address').val(address.trim());
-                $('#editAddressForm').modal('show');
-            })
+            // $('#editAddressModal').on('click', function() {
+            //     var address = $('#addressData').text();
+            //     $('#address').val(address.trim());
+            //     $('#editAddressForm').modal('show');
+            // })
         })
 
         $('#editAddressBtn').on('click', function() {
             Swal.fire({
+                icon: 'info',
                 title: 'Do you really want to update this?',
                 showDenyButton: true,
-                icon: 'info',
                 confirmButtonText: 'Yes, update it.',
                 confirmButtonColor: '#334155',
                 denyButtonText: `Double Check`,

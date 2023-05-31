@@ -3,6 +3,8 @@
 namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+
+use App\Models\User;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +24,7 @@ class DatabaseSeeder extends Seeder
         $this->call(RoadAccidentSeeder::class);
         $this->call(FloodingSeeder::class);
 
-        DB::table('users')->insert([
+        User::insert([
             'email' => ('CDRRMO123@gmail.com'),
             'password' => Hash::make('CDRRMO_Admin_Panel'),
             'user_role' => '1',
@@ -30,7 +32,7 @@ class DatabaseSeeder extends Seeder
             'created_at' => Date::now()
         ]);
 
-        DB::table('users')->insert([
+        User::insert([
             'email' => ('CSWD123@gmail.com'),
             'password' => Hash::make('CSWD123'),
             'user_role' => '2',
@@ -38,7 +40,7 @@ class DatabaseSeeder extends Seeder
             'created_at' => Date::now()
         ]);
 
-        DB::table('users')->insert([
+        User::insert([
             'email' => ('developer123@gmail.com'),
             'password' => Hash::make('developer123'),
             'user_role' => '3',

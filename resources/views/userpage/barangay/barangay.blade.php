@@ -20,7 +20,7 @@
 
         <div class="content pt-8 pr-8 pl-28">
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-hospital text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
+                <i class="bi bi-hospital text-2xl p-2 bg-slate-900 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">BARANGAY INFORMATION</span>
                 <hr class="mt-4">
             </div>
@@ -75,13 +75,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="barangay-button">
+                        <div class="barangay-button text-white">
                             <a href="{{ route('dashboard.cdrrmo') }}">
                                 <button type="button"
-                                    class="bg-slate-700 text-white p-2 rounded hover:bg-slate-900 transition duration-200">Cancel</button>
+                                    class="bg-slate-700  p-2 rounded hover:bg-slate-900">Cancel</button>
                             </a>
                             <button id="addBarangay"
-                                class="bg-red-700 text-white p-2 py-2 rounded hover:bg-red-900 transition duration-200">Submit</button>
+                                class="bg-red-700 p-2 rounded hover:bg-red-900">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -161,10 +161,10 @@
                 e.preventDefault();
 
                 Swal.fire({
-                    title: 'Do you really want to submit this?',
+                    icon: 'question',
+                    title: 'Would you like to submit this barangay?',
                     showDenyButton: true,
                     showLoaderOnConfirm: true,
-                    icon: 'info',
                     confirmButtonText: 'Yes, submit it.',
                     confirmButtonColor: '#334155',
                     denyButtonText: `Double Check`,
@@ -185,28 +185,33 @@
                                         $('span.' + prefix + '_error').text(val[
                                             0]);
                                     });
-                                    Swal.fire(
-                                        "{{ config('app.name') }}",
-                                        'Some Fields Are Required, Fill It Up!',
-                                        'error'
-                                    );
+                                    Swal.fire({
+                                        icon: 'error',
+                                        confirmButtonText: 'Understood',
+                                        confirmButtonColor: '#334155',
+                                        title: "{{ config('app.name') }}",
+                                        text: 'Failed to submit barangay.'
+                                    });
                                 } else {
-                                    Swal.fire(
-                                        "{{ config('app.name') }}",
-                                        'Barangay Added Successfully!',
-                                        'success'
-                                    );
+                                    Swal.fire({
+                                        icon: 'success',
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#334155',
+                                        title: "{{ config('app.name') }}",
+                                        text: 'Barangay Submitted Successfully.'
+                                    });
                                     $('#addBarangayForm')[0].reset();
                                     barangayTable.draw();
                                 }
                             },
-
-                            error: function(response) {
-                                Swal.fire(
-                                    "{{ config('app.name') }}",
-                                    'Ooppss.. Something went wrong.',
-                                    'error'
-                                );
+                            error: function(data) {
+                                Swal.fire({
+                                    icon: 'error',
+                                    confirmButtonText: 'Understood',
+                                    confirmButtonColor: '#334155',
+                                    title: "{{ config('app.name') }}",
+                                    text: 'Something went wrong, try again later.'
+                                });
                             }
                         });
                     }
@@ -253,28 +258,34 @@
                             $.each(response.error, function(prefix, val) {
                                 $('span.' + prefix + '_error').text(val[0]);
                             });
-                            Swal.fire(
-                                "{{ config('app.name') }}",
-                                'Failed to Update Barangay!',
-                                'error'
-                            );
+                            Swal.fire({
+                                icon: 'error',
+                                confirmButtonText: 'Understood',
+                                confirmButtonColor: '#334155',
+                                title: "{{ config('app.name') }}",
+                                text: 'Failed to Update Barangay.'
+                            });
                         } else {
-                            Swal.fire(
-                                "{{ config('app.name') }}",
-                                'Barangay Updated Successfully!',
-                                'success'
-                            );
+                            Swal.fire({
+                                icon: 'success',
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#334155',
+                                title: "{{ config('app.name') }}",
+                                text: 'Barangay Updated Successfully.'
+                            });
                             $('#editBarangayForm')[0].reset();
                             $('#editBarangay').modal('hide');
                             barangayTable.draw();
                         }
                     },
-                    error: function(response) {
-                        Swal.fire(
-                            "{{ config('app.name') }}",
-                            'Failed to Update Barangay!',
-                            'error'
-                        );
+                    error: function(data) {
+                        Swal.fire({
+                            icon: 'error',
+                            confirmButtonText: 'Understood',
+                            confirmButtonColor: '#334155',
+                            title: "{{ config('app.name') }}",
+                            text: 'Something went wrong, try again later.'
+                        });
                     }
                 })
             });
@@ -286,7 +297,6 @@
                     title: 'Are you sure?',
                     text: "You won't be able to undo this!",
                     icon: 'info',
-                    showLoaderOnConfirm: true,
                     showCancelButton: true,
                     confirmButtonColor: '#334155',
                     cancelButtonColor: '#b91c1c',
@@ -298,18 +308,23 @@
                             url: "{{ route('remove.barangay.cdrrmo', ':barangay_id') }}"
                                 .replace(':barangay_id', barangay_id),
                             success: function(response) {
-                                Swal.fire(
-                                    "{{ config('app.name') }}!",
-                                    'Barangay has been deleted.',
-                                    'success'
-                                )
+                                Swal.fire({
+                                    icon: 'success',
+                                    confirmButtonText: 'OK',
+                                    confirmButtonColor: '#334155',
+                                    title: "{{ config('app.name') }}",
+                                    text: 'Barangay has been deleted.'
+                                });
                                 barangayTable.draw();
                             },
-
                             error: function(response) {
-                                "{{ config('app.name') }}!",
-                                'Failed to delete Barangay.',
-                                'error'
+                                Swal.fire({
+                                    icon: 'error',
+                                    confirmButtonText: 'Understood',
+                                    confirmButtonColor: '#334155',
+                                    title: "{{ config('app.name') }}",
+                                    text: 'Something went wrong, try again later.'
+                                });
                             }
                         });
                     }

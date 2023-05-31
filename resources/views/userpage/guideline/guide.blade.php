@@ -15,23 +15,29 @@
 
         <x-messages />
 
-        <h1 class="text-center bg-slate-700 w-full mt-2 text-white mb-2 text-4xl p-3 font-bold">"E-LIGTAS Guide"</h1>
+        <h1 class="text-center bg-slate-700 my-2 text-white text-4xl p-3 font-bold">"E-LIGTAS Guide"</h1>
 
-        <div class="guide-btn w-full py-2 flex justify-end">
+        <div class="guide-btn py-2 flex justify-end">
             @guest
-                <button type="button"
-                    class="bg-slate-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200">
+                <button type="button" class="bg-slate-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-slate-900">
                     <i class="bi bi-pencil mr-2"></i> Take Quiz
                 </button>
             @endguest
             @if (Auth::check() && Auth::user()->user_role == '1')
-                <button type="button"
-                    class="bg-slate-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200">
-                    <i class="bi bi-pencil mr-2"></i> Edit Quiz
-                </button>
+                @if ($quiz)
+                    <a href="javascript:void(0)"
+                        class="bg-slate-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-slate-900">
+                        <i class="bi bi-pencil mr-2"></i> Edit Quiz
+                    </a>
+                @else
+                    <a href="{{ route('quiz.cdrrmo', $guidelineId) }}"
+                        class="bg-slate-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-slate-900">
+                        <i class="bi bi-pencil mr-2"></i> Add Quiz
+                    </a>
+                @endif
                 <a href="javascript:void(0)" id="createGuideBtn"
-                    class="bg-red-700 mx-2 p-2 py-2 text-white rounded shadow-lg hover:bg-red-900 transition duration-200">
-                    <i class="bi bi-bag-plus-fill mr-2"></i> Add Guide
+                    class="bg-red-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-red-900">
+                    <i class="bi bi-bag-plus-fill mr-2"></i> Post Guide
                 </a>
                 <input type="hidden" class="guideline_id" value="{{ $guidelineId }}">
                 @include('userpage.guideline.addGuide')
@@ -40,28 +46,27 @@
 
         <div class="main-content pt-8 pr-8 pl-28">
             @foreach ($guide as $guide)
-                <div class="guide-container w-full">
-                    <div class="guide-content relative mx-2.5 my-2 mb-2">
+                <div class="guide-container">
+                    <div class="guide-content relative mx-2.5 my-2">
                         <div class="label relative bg-slate-900 text-white cursor-pointer p-3">
                             {{ $guide->guide_description }}
-
                         </div>
                         <div class="content relative h-0 overflow-hidden bg-neutral-200">
                             <p class="mb-2">
                                 {{ $guide->guide_content }}
                             </p>
                             @if (Auth::check() && Auth::user()->user_role == '1')
-                                <div class="action-btn w-full py-2 flex justify-start">
+                                <div class="action-btn py-2 flex justify-start">
                                     <a href="#edit{{ $guide->guide_id }}" data-bs-toggle="modal">
                                         <button type="submit"
-                                            class="bg-slate-700 p-2 py-2 text-white rounded shadow-lg hover:bg-slate-900 transition duration-200">
+                                            class="bg-slate-700 p-2 text-white rounded shadow-lg hover:bg-slate-900">
                                             <i class="bi bi-pencil text-sm mr-2"></i>Edit
                                         </button>
                                     </a>
                                     <a href="{{ route('remove.guide.cdrrmo', $guide->guide_id) }}">
                                         <button type="submit"
-                                            class="bg-red-700 ml-2 p-2 py-2 text-white rounded shadow-lg hover:bg-red-900 transition duration-200">
-                                            <i class="bi bi-trash mr-2"></i>Delete
+                                            class="bg-red-700 ml-2 p-2 text-white rounded shadow-lg hover:bg-red-900">
+                                            <i class="bi bi-trash mr-2"></i>Remove
                                         </button>
                                     </a>
                                 </div>
@@ -93,14 +98,7 @@
                 })
             }
 
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
             $('#createGuideBtn').click(function() {
-
                 $('#create_guide_id').val('');
                 $('#guideline_id').val('');
                 $('#createGuideForm').trigger("reset");
@@ -112,16 +110,19 @@
                 e.preventDefault();
 
                 Swal.fire({
-                    title: 'Do you want to add this guide?',
+                    icon: 'question',
+                    title: 'Would you like to post this guide?',
                     showDenyButton: true,
-                    confirmButtonText: 'Add Guide',
-                    denyButtonText: 'Cancel'
+                    confirmButtonText: 'Yes, post it.',
+                    confirmButtonColor: '#334155',
+                    denyButtonText: 'Double Check'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
                             data: $('#createGuideForm').serialize(),
-                            url: "{{ route('add.guide.cdrrmo', ':guideline_id') }}".replace(
-                                ':guideline_id', guideline_id),
+                            url: "{{ route('add.guide.cdrrmo', ':guideline_id') }}"
+                                .replace(
+                                    ':guideline_id', guideline_id),
                             type: "POST",
                             dataType: 'json',
                             beforeSend: function(data) {
@@ -133,16 +134,20 @@
                                         $('span.' + prefix + '_error').text(val[
                                             0]);
                                     });
-                                    Swal.fire(
-                                        "{{ config('app.name') }}",
-                                        'Failed to Add E-LIGTAS Guide.',
-                                        'error'
-                                    );
+                                    Swal.fire({
+                                        icon: 'error',
+                                        confirmButtonText: 'Understood',
+                                        confirmButtonColor: '#334155',
+                                        title: "{{ config('app.name') }}",
+                                        text: 'Failed to Post E-LIGTAS Guide.'
+                                    });
                                 } else {
                                     Swal.fire({
+                                        icon: 'success',
                                         title: "{{ config('app.name') }}",
                                         text: 'E-LIGTAS Guide Successfully Posted.',
-                                        icon: 'success'
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#334155',
                                     }).then((result) => {
                                         if (result.isConfirmed) {
                                             $('#createGuideForm')[0].reset();
@@ -154,19 +159,15 @@
                                 }
                             },
                             error: function(data) {
-                                Swal.fire(
-                                    "{{ config('app.name') }}",
-                                    'Failed to Post E-LIGTAS Guide',
-                                    'error'
-                                );
+                                Swal.fire({
+                                    icon: 'error',
+                                    confirmButtonText: 'Understood',
+                                    confirmButtonColor: '#334155',
+                                    title: "{{ config('app.name') }}",
+                                    text: 'Something went wrong, try again later.'
+                                });
                             }
                         });
-                    } else if (result.isDenied) {
-                        Swal.fire(
-                            "{{ config('app.name') }}",
-                            'E-LIGTAS Guide is not already posted!',
-                            'info'
-                        )
                     }
                 })
             });

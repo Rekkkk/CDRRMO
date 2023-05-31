@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class ActivityUserLog extends Model
 {
@@ -16,7 +18,6 @@ class ActivityUserLog extends Model
     protected $guarded = [];
 
     protected $fillable = [
-        'user_id',
         'email',
         'user_role',
         'role_name',
@@ -24,5 +25,19 @@ class ActivityUserLog extends Model
         'date_time'
     ];
 
-    public $timestamps = true;
+    public $timestamps = false;
+
+    public function generateLog($activity)
+    {
+
+        $activityLog = [
+            'email' => Auth::user()->email,
+            'user_role' => Auth::user()->user_role,
+            'role_name' => Auth::user()->role_name,
+            'activity' => $activity,
+            'date_time' => Carbon::now()->toDayDateTimeString()
+        ];
+
+        $this->create($activityLog);
+    }
 }

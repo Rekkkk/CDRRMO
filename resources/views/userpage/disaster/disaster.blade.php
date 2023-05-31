@@ -83,6 +83,7 @@
     </script>
     <script>
         $(document).ready(function() {
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -153,44 +154,48 @@
                             $.each(response.error, function(prefix, val) {
                                 $('span.' + prefix + '_error').text(val[0]);
                             });
-                            Swal.fire(
-                                "{{ config('app.name') }}",
-                                'Failed to Update Disaster!',
-                                'error'
-                            );
+                            Swal.fire({
+                                icon: 'error',
+                                confirmButtonText: 'Understood',
+                                confirmButtonColor: '#334155',
+                                title: "{{ config('app.name') }}",
+                                text: 'Failed to Update Disaster.'
+                            });
                         } else {
-                            Swal.fire(
-                                "{{ config('app.name') }}",
-                                'Disaster Updated Successfully.',
-                                'success'
-                            );
+                            Swal.fire({
+                                icon: 'success',
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#334155',
+                                title: "{{ config('app.name') }}",
+                                text: 'Disaster Updated Successfully.'
+                            });
                             $('#editDisasterForm')[0].reset();
                             $('#editDisaster').modal('hide');
                             disasterTable.draw();
                         }
                     },
                     error: function(response) {
-                        Swal.fire(
-                            "{{ config('app.name') }}",
-                            'Failed to Update Disaster.',
-                            'error'
-                        );
+                        Swal.fire({
+                            icon: 'error',
+                            confirmButtonText: 'Understood',
+                            confirmButtonColor: '#334155',
+                            title: "{{ config('app.name') }}",
+                            text: 'Something went wrong, try again later.'
+                        });
                     }
                 })
             });
 
             $('body').on('click', '.removeDisaster', function() {
                 var disaster_id = $(this).data("id");
-
                 Swal.fire({
+                    icon: 'question',
                     title: 'Are you sure?',
                     text: "You won't be able to undo this!",
-                    icon: 'info',
-                    showLoaderOnConfirm: true,
                     showCancelButton: true,
                     confirmButtonColor: '#334155',
                     cancelButtonColor: '#b91c1c',
-                    confirmButtonText: 'Yes, delete it.'
+                    confirmButtonText: 'Yes, remove it.'
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
@@ -198,18 +203,23 @@
                             url: "{{ route('remove.disaster.cdrrmo', ':disaster_id') }}"
                                 .replace(':disaster_id', disaster_id),
                             success: function(response) {
-                                Swal.fire(
-                                    "{{ config('app.name') }}!",
-                                    'Disaster has been deleted.',
-                                    'success'
-                                )
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: "{{ config('app.name') }}",
+                                    text: 'Disaster has been removed.',
+                                    confirmButtonText: 'OK',
+                                    confirmButtonColor: '#334155',
+                                });
                                 disasterTable.draw();
                             },
-
                             error: function(response) {
-                                "{{ config('app.name') }}!",
-                                'Failed to delete Disaster.',
-                                'error'
+                                Swal.fire({
+                                    icon: 'error',
+                                    confirmButtonText: 'Understood',
+                                    confirmButtonColor: '#334155',
+                                    title: "{{ config('app.name') }}",
+                                    text: 'Failed to remove disaster.'
+                                });
                             }
                         });
                     }

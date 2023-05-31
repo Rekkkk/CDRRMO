@@ -20,7 +20,7 @@
 
         <div class="content pt-8 pr-8 pl-28">
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-tropical-storm text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
+                <i class="bi bi-tropical-storm text-2xl p-2 bg-slate-900 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">EVACUATION CENTER INFORMATION</span>
                 <hr class="mt-4">
             </div>
@@ -37,7 +37,7 @@
                                     <label for="evacuation_center_name">Evacuation Center Name</label>
                                     <input type="text" name="evacuation_center_name"
                                         value="{{ !empty(old('evacuation_center_name')) ? old('evacuation_center_name') : null }}"
-                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Evacuation Center Name">
                                     <span
                                         class="text-danger italic text-xs error-text evacuation_center_name_error"></span>
@@ -49,7 +49,7 @@
                                     <label for="evacuation_center_contact">Evacuation Center Contact</label>
                                     <input type="text" name="evacuation_center_contact"
                                         value="{{ !empty(old('evacuation_center_contact')) ? old('evacuation_center_contact') : null }}"
-                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Evacuation Center Contact">
                                     <span
                                         class="text-danger italic text-xs error-text evacuation_center_contact_error"></span>
@@ -61,7 +61,7 @@
                                     <label for="evacuation_center_address">Evacuation Center Address</label>
                                     <input type="text" name="evacuation_center_address"
                                         value="{{ !empty(old('evacuation_center_address')) ? old('evacuation_center_address') : null }}"
-                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Evacuation Center Address">
                                     <span
                                         class="text-danger italic text-xs error-text evacuation_center_address_error"></span>
@@ -73,7 +73,7 @@
                                     <label for="barangay_id">Barangay Id</label>
                                     <input type="text" name="barangay_id"
                                         value="{{ !empty(old('barangay_id')) ? old('barangay_id') : null }}"
-                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Evacuation Center Address">
                                     <span class="text-danger italic text-xs error-text barangay_id_error"></span>
                                 </div>
@@ -84,7 +84,7 @@
                                     <label for="latitude">Latitude</label>
                                     <input type="text" name="latitude"
                                         value="{{ !empty(old('latitude')) ? old('latitude') : null }}"
-                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Evacuation Center Address">
                                     <span class="text-danger italic text-xs error-text latitude_error"></span>
                                 </div>
@@ -95,7 +95,7 @@
                                     <label for="longitude">Longitude</label>
                                     <input type="text" name="longitude"
                                         value="{{ !empty(old('longitude')) ? old('longitude') : null }}"
-                                        class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
+                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Evacuation Center Address">
                                     <span class="text-danger italic text-xs error-text longitude_error"></span>
                                 </div>
@@ -104,10 +104,10 @@
                         <div class="evacuation-button">
                             <a href="{{ route('dashboard.cdrrmo') }}">
                                 <button type="button"
-                                    class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Cancel</button>
+                                    class="bg-slate-700 text-white p-2 rounded shadow-lg hover:bg-slate-900">Cancel</button>
                             </a>
                             <button id="addEvacuationCenter"
-                                class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Submit</button>
+                                class="bg-red-700 text-white p-2 rounded shadow-lg hover:bg-red-900">Submit</button>
                         </div>
                     </form>
                 </div>
@@ -192,10 +192,9 @@
                 e.preventDefault();
 
                 Swal.fire({
-                    title: 'Do you really want to submit this?',
+                    icon: 'question',
+                    title: 'Would you like to submit this evacuation center?',
                     showDenyButton: true,
-                    showLoaderOnConfirm: true,
-                    icon: 'info',
                     confirmButtonText: 'Yes, submit it.',
                     confirmButtonColor: '#334155',
                     denyButtonText: `Double Check`,
@@ -216,28 +215,33 @@
                                         $('span.' + prefix + '_error').text(val[
                                             0]);
                                     });
-                                    Swal.fire(
-                                        "{{ config('app.name') }}",
-                                        'Some Fields Are Required, Fill It Up!',
-                                        'error'
-                                    );
+                                    Swal.fire({
+                                        icon: 'error',
+                                        title: "{{ config('app.name') }}",
+                                        text: 'Failed to submit evacuation center.',
+                                        confirmButtonText: 'Understood',
+                                        confirmButtonColor: '#334155'
+                                    });
                                 } else {
-                                    Swal.fire(
-                                        "{{ config('app.name') }}",
-                                        'Evacuation Center Added Successfully!',
-                                        'success'
-                                    );
+                                    Swal.fire({
+                                        icon: 'success',
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#334155',
+                                        title: "{{ config('app.name') }}",
+                                        text: 'Evacuation Center Added Successfully.'
+                                    });
                                     $('#addEvacuationCenterForm')[0].reset();
                                     evacuationCenterTable.draw();
                                 }
                             },
-
                             error: function(response) {
-                                Swal.fire(
-                                    "{{ config('app.name') }}",
-                                    'Ooppss.. Something went wrong.',
-                                    'error'
-                                );
+                                Swal.fire({
+                                    icon: 'error',
+                                    confirmButtonText: 'Understood',
+                                    confirmButtonColor: '#334155',
+                                    title: "{{ config('app.name') }}",
+                                    text: 'Something went wrong, try again later.'
+                                });
                             }
                         });
                     }
@@ -275,7 +279,7 @@
                 $.ajax({
                     url: "{{ route('update.evacuation.center.cdrrmo', ':evacuation_center_id') }}"
                         .replace(':evacuation_center_id', evacuation_center_id),
-                    method: 'put',
+                    method: 'PUT',
                     data: $('#editEvacuationForm').serialize(),
                     dataType: "json",
                     beforeSend: function(response) {
@@ -286,28 +290,34 @@
                             $.each(response.error, function(prefix, val) {
                                 $('span.' + prefix + '_error').text(val[0]);
                             });
-                            Swal.fire(
-                                "{{ config('app.name') }}",
-                                'Failed to Update Barangay!',
-                                'error'
-                            );
+                            Swal.fire({
+                                icon: 'error',
+                                title: "{{ config('app.name') }}",
+                                text: 'Failed to Update Barangay!',
+                                confirmButtonText: 'Understood',
+                                confirmButtonColor: '#334155'
+                            });
                         } else {
-                            Swal.fire(
-                                "{{ config('app.name') }}",
-                                'Evacuation Center Updated Successfully!',
-                                'success'
-                            );
+                            Swal.fire({
+                                icon: 'success',
+                                confirmButtonText: 'OK',
+                                confirmButtonColor: '#334155',
+                                title: "{{ config('app.name') }}",
+                                text: 'Evacuation Center Updated Successfully.'
+                            });
                             $('#editEvacuationForm')[0].reset();
                             $('#editEvacuationCenter').modal('hide');
                             evacuationCenterTable.draw();
                         }
                     },
                     error: function(response) {
-                        Swal.fire(
-                            "{{ config('app.name') }}",
-                            'Failed to Update Barangay!',
-                            'error'
-                        );
+                        Swal.fire({
+                            icon: 'error',
+                            confirmButtonText: 'Understood',
+                            confirmButtonColor: '#334155',
+                            title: "{{ config('app.name') }}",
+                            text: 'Something went wrong, try again later.'
+                        });
                     }
                 })
             });
@@ -316,10 +326,9 @@
                 var evacuation_center_id = $(this).data("id");
 
                 Swal.fire({
+                    icon: 'question',
                     title: 'Are you sure?',
                     text: "You won't be able to undo this!",
-                    icon: 'info',
-                    showLoaderOnConfirm: true,
                     showCancelButton: true,
                     confirmButtonColor: '#334155',
                     cancelButtonColor: '#b91c1c',
@@ -331,18 +340,23 @@
                             url: "{{ route('remove.evacuation.center.cdrrmo', ':evacuation_center_id') }}"
                                 .replace(':evacuation_center_id', evacuation_center_id),
                             success: function(response) {
-                                Swal.fire(
-                                    "{{ config('app.name') }}!",
-                                    'Evacuation Center has been deleted.',
-                                    'success'
-                                )
+                                Swal.fire({
+                                    icon: 'success',
+                                    confirmButtonText: 'OK',
+                                    confirmButtonColor: '#334155',
+                                    title: "{{ config('app.name') }}",
+                                    text: 'Evacuation Center has been deleted.'
+                                });
                                 evacuationCenterTable.draw();
                             },
-
                             error: function(response) {
-                                "{{ config('app.name') }}!",
-                                'Failed to delete Evacuation Center.',
-                                'success'
+                                Swal.fire({
+                                    icon: 'error',
+                                    confirmButtonText: 'Understood',
+                                    confirmButtonColor: '#334155',
+                                    title: "{{ config('app.name') }}",
+                                    text: 'Something went wrong, try again later.'
+                                });
                             }
                         });
                     }

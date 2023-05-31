@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActivityUserLog;
+use Carbon\Carbon;
+use App\Models\Evacuee;
 use App\Models\Barangay;
 use App\Models\Disaster;
-use App\Models\EvacuationCenter;
-use App\Models\Evacuee;
-use Carbon\Carbon;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
+use App\Models\ActivityUserLog;
+use App\Models\EvacuationCenter;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 
@@ -105,27 +105,5 @@ class CswdController extends Controller
         $floodingFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '4')->where('evacuee_gender', 'Female')->get();
 
         return view('userpage.statistics.statistics', compact('typhoonMaleData', 'typhoonFemaleData', 'earthquakeMaleData', 'earthquakeFemaleData', 'roadAccidentMaleData', 'roadAccidentFemaleData', 'floodingMaleData', 'floodingFemaleData'));
-    }
-
-    public function logout(Request $request)
-    {
-        $currentDate = Carbon::now();
-        $todayDate = $currentDate->toDayDateTimeString();
-
-        ActivityUserLog::create([
-            'user_id' => Auth::user()->id,
-            'email' => Auth::user()->email,
-            'user_role' => Auth::user()->user_role,
-            'role_name' => Auth::user()->role_name,
-            'activity' => 'Logged Out',
-            'date_time' => $todayDate,
-        ]);
-
-        auth()->logout();
-
-        $request->session()->invalidate();
-        $request->session()->regenerateToken();
-
-        return redirect('/')->with('message', 'Successfully Logout CSWD Panel');
     }
 }

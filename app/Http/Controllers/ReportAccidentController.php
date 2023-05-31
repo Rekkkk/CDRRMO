@@ -2,15 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActivityUserLog;
+use Carbon\Carbon;
+use App\Models\ReportLog;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ReportAccident;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
 
 class ReportAccidentController extends Controller
 {
@@ -59,16 +60,16 @@ class ReportAccidentController extends Controller
         $validatedAccidentReport = Validator::make($request->all(), [
             'report_description' => 'required',
             'report_location' => 'required',
-            'report_photo' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'contact' => 'required|numeric|digits_between:11,15',
+            'report_photo' => 'required|image|mimes:jpeg|max:2048',
+            'contact' => 'required|numeric|digits:11',
             'email' => 'required|email'
         ]);
 
         if ($validatedAccidentReport->passes()) {
+            $user_ip = ReportLog::where('user_ip', $request->ip())->exists();
+            $report_time = ReportLog::where('user_ip', $request->ip())->value('report_time');
             $imageName = time() . '.' . $request->report_photo->extension();
-
             $request->report_photo->move(public_path('reports_image'), $imageName);
-
             $reportAccident = [
                 'report_description' => Str::ucFirst(trim($request->report_description)),
                 'report_location' => Str::of(trim($request->report_location))->title(),
@@ -78,28 +79,49 @@ class ReportAccidentController extends Controller
                 'status' => 'On Process'
             ];
 
-            try {
-                $this->reportAccident->registerAccidentReportObject($reportAccident);
-            } catch (\Exception $e) {
-                Alert::success(config('app.name'), 'Failed to Report Accident.');
+            if ($user_ip) {
+                $resident_attempt = ReportLog::where('user_ip', $request->ip())->value('attempt');
+
+                if ($resident_attempt >= 3) {
+                    if ($report_time <= Carbon::now()->toDateTimeString()) {
+                        ReportLog::where('user_ip', $request->ip())->update(['attempt' => 0, 'report_time' => null]);
+                        $resident_attempt = 0;
+                    } else {
+                        return response()->json(['condition' => 2, 'block_time' => "You have been blocked until <font color='red'>$report_time</font>"]);
+                    }
+                }
+
+                try {
+                    $this->reportAccident->registerAccidentReportObject($reportAccident);
+                    ReportLog::where('user_ip', $request->ip())->update(['attempt' => $resident_attempt + 1]);
+                    $attempt = intval(ReportLog::where('user_ip', $request->ip())->value('attempt'));
+
+                    if ($attempt >= 3) {
+                        $remaining_time = Carbon::now()->addDays(3);
+                        ReportLog::where('user_ip', $request->ip())->update(['report_time' => $remaining_time]);
+                    }
+
+                    return response()->json(['condition' => 0]);
+                } catch (\Exception $e) {
+                    return response()->json(['condition' => 1]);
+                }
+            } else {
+                try {
+                    $this->reportAccident->registerAccidentReportObject($reportAccident);
+
+                    ReportLog::create([
+                        'user_ip' => $request->ip(),
+                        'attempt' => 1,
+                    ]);
+
+                    return response()->json(['condition' => 0]);
+                } catch (\Exception $e) {
+                    return response()->json(['condition' => 1]);
+                }
             }
-
-            $currentDate = Carbon::now();
-            $todayDate = $currentDate->toDayDateTimeString();
-
-            ActivityUserLog::create([
-                'user_id' => '0',
-                'email' => trim($request->email),
-                'user_role' => '0',
-                'role_name' => 'Resident',
-                'activity' => 'Registering Accident Report',
-                'date_time' => $todayDate,
-            ]); 
-
-            return response()->json(['condition' => 1]);
         }
 
-        return response()->json(['condition' => 0, 'error' => $validatedAccidentReport->errors()->toArray()]);
+        return response()->json(['condition' => 1, 'error' => $validatedAccidentReport->errors()->toArray()]);
     }
 
     public function approveAccidentReport($reportId)
@@ -109,16 +131,13 @@ class ReportAccidentController extends Controller
             'status' => 'Approved'
         ]);
 
-        $currentDate = Carbon::now();
-        $todayDate = $currentDate->toDayDateTimeString();
-
         ActivityUserLog::create([
             'user_id' => Auth::user()->id,
             'email' => Auth::user()->email,
             'user_role' => Auth::user()->user_role,
             'role_name' => Auth::user()->role_name,
             'activity' => 'Approving Accident Report',
-            'date_time' => $todayDate,
+            'date_time' => Carbon::now()->toDayDateTimeString()
         ]);
 
         return response()->json();
@@ -128,8 +147,6 @@ class ReportAccidentController extends Controller
     {
         try {
             $this->reportAccident->removeAccidentReportObject($reportAccidentId);
-            $currentDate = Carbon::now();
-            $todayDate = $currentDate->toDayDateTimeString();
 
             ActivityUserLog::create([
                 'user_id' => Auth::user()->id,
@@ -137,14 +154,12 @@ class ReportAccidentController extends Controller
                 'user_role' => Auth::user()->user_role,
                 'role_name' => Auth::user()->role_name,
                 'activity' => 'Removing Accident Report',
-                'date_time' => $todayDate,
+                'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
         } catch (\Exception $e) {
             Alert::success(config('app.name'), 'Failed to Report Accident.');
         }
-
-
-
+    
         return response()->json();
     }
 }

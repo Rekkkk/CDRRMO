@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActivityUserLog;
+use Carbon\Carbon;
 use App\Models\Guide;
 use App\Models\Guideline;
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Models\ActivityUserLog;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -15,8 +15,7 @@ use Illuminate\Support\Facades\Validator;
 
 class GuidelineController extends Controller
 {
-    private $guideline;
-    private $guide;
+    private $guideline, $guide;
 
     function __construct()
     {
@@ -42,16 +41,12 @@ class GuidelineController extends Controller
                 Alert::error(config('app.name'), 'Failed to Add Guideline.');
             }
 
-            $currentDate = Carbon::now();
-            $todayDate = $currentDate->toDayDateTimeString();
-
             ActivityUserLog::create([
-                'user_id' => Auth::user()->id,
                 'email' => Auth::user()->email,
                 'user_role' => Auth::user()->user_role,
                 'role_name' => Auth::user()->role_name,
                 'activity' => 'Registering Guideline',
-                'date_time' => $todayDate,
+                'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
 
             return response()->json(['condition' => 1]);
@@ -71,23 +66,20 @@ class GuidelineController extends Controller
 
             try {
                 $this->guideline->updateGuidelineObject($request, $guidelineId);
-                $currentDate = Carbon::now();
-                $todayDate = $currentDate->toDayDateTimeString();
 
                 ActivityUserLog::create([
-                    'user_id' => Auth::user()->id,
                     'email' => Auth::user()->email,
                     'user_role' => Auth::user()->user_role,
                     'role_name' => Auth::user()->role_name,
                     'activity' => 'Updating Guideline',
-                    'date_time' => $todayDate,
+                    'date_time' => Carbon::now()->toDayDateTimeString()
                 ]);
 
                 Alert::success(config('app.name'), 'Guideline Successfully Updated.');
             } catch (\Exception $e) {
                 Alert::error(config('app.name'), 'Failed to Add Guideline.');
             }
-            
+
             return back();
         }
 
@@ -97,19 +89,15 @@ class GuidelineController extends Controller
 
     public function removeGuideline($guidelineId)
     {
-
         try {
-            $this->guideline->removeGuidelineObject($guidelineId);
-            $currentDate = Carbon::now();
-            $todayDate = $currentDate->toDayDateTimeString();
+            $this->guideline->removeGuidelineObject(Crypt::decryptString($guidelineId));
 
             ActivityUserLog::create([
-                'user_id' => Auth::user()->id,
                 'email' => Auth::user()->email,
                 'user_role' => Auth::user()->user_role,
                 'role_name' => Auth::user()->role_name,
                 'activity' => 'Deleting Guideline',
-                'date_time' => $todayDate,
+                'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
 
             Alert::success(config('app.name'), 'Guideline Deleted Successfully.');
@@ -117,13 +105,11 @@ class GuidelineController extends Controller
             Alert::error(config('app.name'), 'Failed to Add Guideline.');
         }
 
-
         return back();
     }
 
     public function addGuide(Request $request, $guidelineId)
     {
-
         $validatedGuide = Validator::make($request->all(), [
             'guide_description' => 'required',
             'guide_content' => 'required'
@@ -142,16 +128,12 @@ class GuidelineController extends Controller
                 Alert::error(config('app.name'), 'Failed to Add Guide.');
             }
 
-            $currentDate = Carbon::now();
-            $todayDate = $currentDate->toDayDateTimeString();
-
             ActivityUserLog::create([
-                'user_id' => Auth::user()->id,
                 'email' => Auth::user()->email,
                 'user_role' => Auth::user()->user_role,
                 'role_name' => Auth::user()->role_name,
                 'activity' => 'Registering Guide',
-                'date_time' => $todayDate,
+                'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
 
             return response()->json(['condition' => 1]);
@@ -168,25 +150,20 @@ class GuidelineController extends Controller
         ]);
 
         if ($validatedGuide->passes()) {
-
             try {
                 $this->guide->updateGuideObject($request, $guideId);
-                $currentDate = Carbon::now();
-                $todayDate = $currentDate->toDayDateTimeString();
 
                 ActivityUserLog::create([
-                    'user_id' => Auth::user()->id,
                     'email' => Auth::user()->email,
                     'user_role' => Auth::user()->user_role,
                     'role_name' => Auth::user()->role_name,
                     'activity' => 'Updating Guide',
-                    'date_time' => $todayDate,
+                    'date_time' => Carbon::now()->toDayDateTimeString()
                 ]);
                 Alert::success(config('app.name'), 'Guide Successfully Updated.');
             } catch (\Exception $e) {
-                Alert::error(config('app.name'), 'Failed to Add Guide.');
+                Alert::error(config('app.name'), 'Failed to Update Guide.');
             }
-
 
             return back();
         }
@@ -195,25 +172,20 @@ class GuidelineController extends Controller
 
     public function removeGuide($guideId)
     {
-
         try {
             $this->guide->removeGuideObject($guideId);
-            $currentDate = Carbon::now();
-            $todayDate = $currentDate->toDayDateTimeString();
 
             ActivityUserLog::create([
-                'user_id' => Auth::user()->id,
                 'email' => Auth::user()->email,
                 'user_role' => Auth::user()->user_role,
                 'role_name' => Auth::user()->role_name,
                 'activity' => 'Removing Guide',
-                'date_time' => $todayDate,
+                'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
-            Alert::success(config('app.name'), 'Guide Deleted Successfully.');
+            Alert::success(config('app.name'), 'Guide Removed Successfully.');
         } catch (\Exception $e) {
-            Alert::error(config('app.name'), 'Failed to Deleted Guide.');
+            Alert::error(config('app.name'), 'Failed to Remove Guide.');
         }
-
 
         return back();
     }

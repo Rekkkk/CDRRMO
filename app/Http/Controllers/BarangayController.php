@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\ActivityUserLog;
-use App\Models\Barangay;
 use Carbon\Carbon;
+use App\Models\Barangay;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Validator;
+use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
+use Illuminate\Support\Facades\Validator;
 
 class BarangayController extends Controller
 {
@@ -40,6 +40,13 @@ class BarangayController extends Controller
 
         return view('userpage.barangay.barangay', compact('barangayList'));
     }
+    public function getBarangayDetails($id)
+    {
+        if (request()->ajax()) {
+            $data = Barangay::find($id);
+            return response()->json(['result' => $data]);
+        }
+    }
 
     public function registerBarangay(Request $request)
     {
@@ -63,16 +70,12 @@ class BarangayController extends Controller
                 $this->barangay->registerBarangayObject($barangayData);
                 Alert::success(config('app.name'), 'Barangay Registered Successfully');
 
-                $currentDate = Carbon::now();
-                $todayDate = $currentDate->toDayDateTimeString();
-
                 ActivityUserLog::create([
-                    'user_id' => Auth::user()->id,
                     'email' => Auth::user()->email,
                     'user_role' => Auth::user()->user_role,
                     'role_name' => Auth::user()->role_name,
                     'activity' => 'Registering Barangay',
-                    'date_time' => $todayDate,
+                    'date_time' => Carbon::now()->toDayDateTimeString()
                 ]);
             } catch (\Exception $e) {
                 Alert::error(config('app.name'), 'Failed to Register Barangay');
@@ -106,16 +109,12 @@ class BarangayController extends Controller
                 $this->barangay->updateBarangayObject($barangayData, $barangayId);
                 Alert::success(config('app.name'), 'Barangay Updated Successfully.');
 
-                $currentDate = Carbon::now();
-                $todayDate = $currentDate->toDayDateTimeString();
-
                 ActivityUserLog::create([
-                    'user_id' => Auth::user()->id,
                     'email' => Auth::user()->email,
                     'user_role' => Auth::user()->user_role,
                     'role_name' => Auth::user()->role_name,
                     'activity' => 'Updating Barangay',
-                    'date_time' => $todayDate,
+                    'date_time' => Carbon::now()->toDayDateTimeString()
                 ]);
             } catch (\Exception $e) {
                 Alert::error(config('app.name'), 'Failed to Update Barangay.');
@@ -126,31 +125,20 @@ class BarangayController extends Controller
         return response()->json(['status' => 0, 'error' => $validatedBarangay->errors()->toArray()]);
     }
 
-    public function getBarangayDetails($id)
-    {
-        if (request()->ajax()) {
-            $data = Barangay::find($id);
-            return response()->json(['result' => $data]);
-        }
-    }
-
     public function removeBarangay($barangayId)
     {
         try {
             $this->barangay->removeBarangayObject($barangayId);
             Alert::success(config('app.name'), 'Barangay Deleted Successfully.');
 
-            $currentDate = Carbon::now();
-            $todayDate = $currentDate->toDayDateTimeString();
-
             ActivityUserLog::create([
-                'user_id' => Auth::user()->id,
                 'email' => Auth::user()->email,
                 'user_role' => Auth::user()->user_role,
                 'role_name' => Auth::user()->role_name,
                 'activity' => 'Deleting Barangay Information',
-                'date_time' => $todayDate,
+                'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
+
         } catch (\Exception $e) {
             Alert::error(config('app.name'), 'Failed to Delete Barangay.');
         }

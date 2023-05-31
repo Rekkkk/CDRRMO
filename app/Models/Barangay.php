@@ -2,8 +2,8 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Barangay extends Model
 {
@@ -24,16 +24,19 @@ class Barangay extends Model
 
     public $timestamps = false;
 
-    public function registerBarangayObject($barangay){
+    public function registerBarangayObject($barangay)
+    {
         return $this->create($barangay);
     }
 
-    public function updateBarangayObject($barangayData, $barangayId){
+    public function updateBarangayObject($barangayData, $barangayId)
+    {
         $barangay = $this->find($barangayId);
         $barangay->update($barangayData);
     }
 
-    public function removeBarangayObject($barangay){
+    public function removeBarangayObject($barangay)
+    {
         $barangay = $this->find($barangay);
         $barangay->delete();
     }

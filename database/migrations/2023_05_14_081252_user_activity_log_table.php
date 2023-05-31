@@ -15,7 +15,6 @@ return new class extends Migration
             $table->string('role_name')->nullable();
             $table->string('activity')->nullable();
             $table->string('date_time')->nullable();
-            $table->timestamps();
         });
     }
 

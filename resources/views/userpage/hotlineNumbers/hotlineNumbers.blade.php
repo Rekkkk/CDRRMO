@@ -18,7 +18,7 @@
         <div class="content pt-8 pr-8 pl-28">
 
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-telephone text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
+                <i class="bi bi-telephone text-2xl p-2 bg-slate-900 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">HOTLINE NUMBERS</span>
                 <hr class="mt-4">
             </div>
@@ -34,7 +34,7 @@
                             Hotline Numbers:
                             @if(Auth::check() && Auth::user()->user_role == '1')
                                 <i
-                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-700 text-white rounded shadow-lg hover:bg-red-900 transition duration-200"></i>
+                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-700 text-white rounded shadow-lg hover:bg-red-900"></i>
                             @endif
                         </span>
                         <hr class="mt-3 clear-both">
@@ -46,7 +46,7 @@
                             Hotline Numbers:
                             @if(Auth::check() && Auth::user()->user_role == '1')
                                 <i
-                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-900 transition duration-200"></i>
+                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-900"></i>
                             @endif
                         </span>
                         <hr class="mt-3 clear-both">
@@ -58,7 +58,7 @@
                             Hotline Numbers:
                             @if(Auth::check() && Auth::user()->user_role == '1')
                                 <i
-                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-900 transition duration-200"></i>
+                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-900"></i>
                             @endif
                         </span>
                         <hr class="mt-3 clear-both">
@@ -70,7 +70,7 @@
                             Hotline Numbers:
                             @if(Auth::check() && Auth::user()->user_role == '1')
                                 <i
-                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-900 transition duration-200"></i>
+                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-900"></i>
                             @endif
                         </span>
                         <hr class="mt-3 clear-both">

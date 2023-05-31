@@ -20,8 +20,8 @@ class User extends Authenticatable
     protected $fillable = [
         'admin_email',
         'user_role',
-        'password'
-        
+        'password',
+        'created_at'
     ];
 
     protected $hidden = [

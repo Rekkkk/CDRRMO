@@ -19,10 +19,10 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="cancelUpdate"
-                                class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
+                                class="bg-slate-700 text-white p-2 rounded shadow-lg hover:shadow-xl"
                                 data-bs-dismiss="modal">Close</button>
                             <button type="button" id="updateDisasterBtn"
-                                class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Update
+                                class="bg-red-700 text-white p-2 rounded shadow-lg hover:shadow-xl">Update
                                 Disaster</button>
                         </div>
                     </form>
