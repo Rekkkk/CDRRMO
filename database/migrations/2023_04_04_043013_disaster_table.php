@@ -10,8 +10,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('disaster', function (Blueprint $table) {
-            $table->id("disaster_id");
-            $table->string("disaster_type");
+            $table->id();
+            $table->string('type');
         });
     }
 

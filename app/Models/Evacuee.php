@@ -11,25 +11,27 @@ class Evacuee extends Model
 
     protected $table = 'evacuee';
 
-    protected $primaryKey = 'evacuee_id';
+    protected $primaryKey = 'id';
 
     protected $guarded = [];
 
     protected $fillable = [
-        'evacuee_first_name',
-        'evacuee_middle_name',
-        'evacuee_last_name',
-        'evacuee_suffix',
-        'evacuee_contact_number',
-        'evacuee_age',
-        'evacuee_gender',
-        'evacuee_address',
-        'barangay_id',
+        'house_hold_number',
+        'name',
+        'sex',
+        'age',
+        '4Ps',
+        'PWD',
+        'pregnant',
+        'lactating',
+        'student',
+        'working',
+        'barangay',
+        'date_entry',
+        'date_out',
         'disaster_id',
         'evacuation_assigned'
     ];
-
-    public $timestamps = false;
 
     public function recordEvacueeObject($evacuee)
     {

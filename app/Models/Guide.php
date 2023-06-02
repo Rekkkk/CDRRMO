@@ -12,17 +12,15 @@ class Guide extends Model
 
     protected $table = 'guide';
 
-    protected $primaryKey = 'guide_id';
+    protected $primaryKey = 'id';
 
     protected $guarded = [];
 
     protected $fillable = [
-        'guide_description',
-        'guide_content',
+        'label',
+        'content',
         'guideline_id'
     ];
-
-    public $timestamps = true;
 
     public function registerGuideObject($guide){
         return $this->create($guide);
@@ -30,8 +28,8 @@ class Guide extends Model
 
     public function updateGuideObject($request, $guideId){
         $guideData = [
-            'guide_description' => Str::of(trim($request->input('guide_description')))->title(),
-            'guide_content' => Str::of(trim($request->input('guide_content')))->title()
+            'label' => Str::of(trim($request->input('guide_description')))->title(),
+            'content' => Str::of(trim($request->input('guide_content')))->title()
         ];
 
         $guide = $this->find($guideId);

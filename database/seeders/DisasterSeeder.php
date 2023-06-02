@@ -2,28 +2,21 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Disaster;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DisasterSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('disaster')->insert([
-            'disaster_type' => ('Typhoon'),
+
+        Disaster::create([
+            'type' => ('Typhoon')
         ]);
 
-        DB::table('disaster')->insert([
-            'disaster_type' => ('Earthquake'),
-        ]);
-
-        DB::table('disaster')->insert([
-            'disaster_type' => ('Road Accident'),
-        ]);
-
-        DB::table('disaster')->insert([
-            'disaster_type' => ('Flooding'),
+        Disaster::create([
+            'type' => ('Flooding')
         ]);
     }
 }

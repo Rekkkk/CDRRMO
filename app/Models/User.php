@@ -18,10 +18,10 @@ class User extends Authenticatable
     protected $guarded = [];
 
     protected $fillable = [
-        'admin_email',
-        'user_role',
+        'email',
         'password',
-        'created_at'
+        'user_role',
+        'role_name'
     ];
 
     protected $hidden = [

@@ -11,13 +11,10 @@ class Typhoon extends Model
 
     protected $table = 'typhoon';
 
-    protected $primaryKey = 'typhoon_id';
-
-    public $timestamps = false;
+    protected $primaryKey = 'id';
 
     protected $fillable = [
-        'typhoon_name',
-        'typhoon_category',
+        'name',
         'disaster_id'
     ];
 }

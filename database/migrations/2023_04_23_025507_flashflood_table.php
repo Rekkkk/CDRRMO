@@ -8,14 +8,15 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('quiz', function (Blueprint $table) {
+        Schema::create('flashflood', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('guideline_id')->references('id')->on('guideline')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('location');
+            $table->foreignId('disaster_id')->references('id')->on('disaster')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('quiz');
+        Schema::dropIfExists('flashflood');
     }
 };

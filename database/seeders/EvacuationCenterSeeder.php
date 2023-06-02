@@ -2,39 +2,37 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\EvacuationCenter;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class EvacuationCenterSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('evacuation_center')->insert([
-            'evacuation_center_name' => ('Banay-Banay Elementary School'),
-            'evacuation_center_contact' => ('09124321233'),
-            'evacuation_center_address' => ('Banay-Banay'),
-            'barangay_id' => ('1'),
-            'latitude' => ('14.123456'),
-            'longitude' => ('121.123456'),
+
+        EvacuationCenter::create([
+            'name' => 'Butong Elementary School',
+            'barangay_name' => 'Butong',
+            'latitude' => '123.1233',
+            'longitude' => '123.1233',
+            'status' => 'Active'
         ]);
 
-        DB::table('evacuation_center')->insert([
-            'evacuation_center_name' => ('Butong Elementary School'),
-            'evacuation_center_contact' => ('09124321233'),
-            'evacuation_center_address' => ('Butong'),
-            'barangay_id' => ('3'),
-            'latitude' => ('43.324322'),
-            'longitude' => ('-1.123456'),
+        EvacuationCenter::create([
+            'name' => 'Banay-Banay Elementary School',
+            'barangay_name' => 'Banay-Banay',
+            'latitude' => '123.1233',
+            'longitude' => '123.1233',
+            'status' => 'Active'
         ]);
 
-        DB::table('evacuation_center')->insert([
-            'evacuation_center_name' => ('Gulod Elementary School'),
-            'evacuation_center_contact' => ('09124321233'),
-            'evacuation_center_address' => ('Gulod'),
-            'barangay_id' => ('4'),
-            'latitude' => ('12.123456'),
-            'longitude' => ('8.123456'),
+        EvacuationCenter::create([
+            'name' => 'Marinig Elementary School',
+            'barangay_name' => 'Marinig',
+            'latitude' => '123.1233',
+            'longitude' => '123.1233',
+            'status' => 'Active'
         ]);
     }
 }

@@ -63,8 +63,8 @@
                                 <a class="guidelines-item"
                                     href="{{ route('guide.resident', Crypt::encryptString($guidelineItem->guideline_id)) }}">
                                     <div class="relative bg-slate-50 drop-shadow-xl overflow-hidden">
-                                        <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                        <p class="absolute h-3/6 top-2/4 text-white bg-slate-900">
+                                        <img class="w-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
+                                        <p class="absolute w-full h-3/6 top-2/4 text-white bg-slate-900">
                                             {{ $guidelineItem->guideline_description }}</p>
                                     </div>
                                 </a>

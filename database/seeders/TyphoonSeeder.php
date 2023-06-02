@@ -2,31 +2,28 @@
 
 namespace Database\Seeders;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
+use App\Models\Typhoon;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\Date;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class TyphoonSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('typhoon')->insert([
-            'typhoon_name' => ('Typhoon Rolly'),
+
+        Typhoon::create([
+            'name' => ('Typhoon Rolly'),
             'disaster_id' => ('1'),
-            'created_at' => Date::now(),
         ]);
 
-        DB::table('typhoon')->insert([
-            'typhoon_name' => ('Typhoon Ulysses'),
+        Typhoon::create([
+            'name' => ('Typhoon Ulysses'),
             'disaster_id' => ('1'),
-            'created_at' => Date::now(),
         ]);
 
-        DB::table('typhoon')->insert([
-            'typhoon_name' => ('Typhoon Quinta'),
+        Typhoon::create([
+            'name' => ('Typhoon Quinta'),
             'disaster_id' => ('1'),
-            'created_at' => Date::now(),
         ]);
     }
 }

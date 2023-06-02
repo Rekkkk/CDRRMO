@@ -10,7 +10,7 @@ class Quiz extends Model
     use HasFactory;
     protected $table = 'quiz';
 
-    protected $primaryKey = 'quiz_id';
+    protected $primaryKey = 'id';
 
     protected $guarded = [];
 

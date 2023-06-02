@@ -9,9 +9,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('guideline', function (Blueprint $table) {
-            $table->id("guideline_id");
-            $table->string("guideline_description");
-            $table->timestamps();
+            $table->id();
+            $table->string('type');
         });
     }
 

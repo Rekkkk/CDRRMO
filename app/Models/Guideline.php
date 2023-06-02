@@ -12,15 +12,13 @@ class Guideline extends Model
 
     protected $table = 'guideline';
 
-    protected $primaryKey = 'guideline_id';
+    protected $primaryKey = 'id';
 
     protected $guarded = [];
 
     protected $fillable = [
-        'guideline_description'
+        'type'
     ];
-
-    public $timestamps = true;
 
     public function displayGuideline(){
         return $this->all();
@@ -33,7 +31,7 @@ class Guideline extends Model
     public function updateGuidelineObject($request, $guidelineId){
 
         $guidelineData = [
-            'guideline_description' => Str::upper(trim($request->input('guideline_description')))
+            'type' => Str::upper(trim($request->input('guideline_description')))
         ];
 
         $guideline = $this->find($guidelineId);

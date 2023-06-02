@@ -8,8 +8,8 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('accident_report_log', function (Blueprint $table) {
-            $table->id('report_id');
+        Schema::create('report_log', function (Blueprint $table) {
+            $table->id();
             $table->string('user_ip');
             $table->tinyInteger('attempt');
             $table->timestamp('report_time')->nullable();
@@ -19,6 +19,6 @@ return new class extends Migration
     
     public function down(): void
     {
-        Schema::dropIfExists('accident_report_log');
+        Schema::dropIfExists('report_log');
     }
 };
