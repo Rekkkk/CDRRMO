@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\BarangayController;
 use App\Http\Controllers\CdrrmoController;
 use App\Http\Controllers\CswdController;
 use App\Http\Controllers\GuidelineController;
@@ -76,16 +75,6 @@ Route::group(['middleware' => 'auth'], function () {
             });
         });
 
-        Route::group(['prefix' => 'barangay'], function () {
-            Route::controller(BarangayController::class)->group(function () {
-                Route::get('/viewbarangay', 'barangayList')->name('barangay.cdrrmo');
-                Route::get('/barangayDetails/{barangayId}', 'getBarangayDetails')->name('barangay.details.cdrrmo');
-                Route::post('/registerBarangay', 'registerBarangay')->name('register.barangay.cdrrmo');
-                Route::put('/updateBarangay/{barangayId}', 'updateBarangay')->name('update.barangay.cdrrmo');
-                Route::delete('/removeBarangay/{barangayId}', 'removeBarangay')->name('remove.barangay.cdrrmo');
-            });
-        });
-
         Route::group(['prefix' => 'reportAccident'], function () {
             Route::controller(ReportAccidentController::class)->group(function () {
                 Route::get('/viewReport', 'displayCReport')->name('accident.report.cdrrmo');
@@ -101,7 +90,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/eligtasGuideline', 'eligtasGuideline')->name('guideline.cdrrmo');
             Route::get('/eligtasGuideline/guide/{guidelineId}', 'guide')->name('guide.cdrrmo');
             Route::get('/eligtasGuideline/quizMaker/{guidelineId}', 'quizMaker')->name('quiz.cdrrmo');
-            Route::get('/barangay', 'barangay')->name('barangay.information.cdrrmo');
             Route::get('/evacuationManage', 'evacuationManage')->name('manage.evacuation.cdrrmo');
             Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator.cdrrmo');
             Route::get('/hotlineNumbers', 'hotlineNumbers')->name('hotline.number.cdrrmo');

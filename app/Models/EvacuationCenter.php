@@ -11,20 +11,17 @@ class EvacuationCenter extends Model
 
     protected $table = 'evacuation_center';
 
-    protected $primaryKey = 'evacuation_center_id';
+    protected $primaryKey = 'id';
 
     protected $guarded = [];
 
     protected $fillable = [
-        'evacuation_center_name',
-        'evacuation_center_contact',
-        'evacuation_center_address',
-        'barangay_id',
+        'name',
+        'barangay_name',
         'latitude',
-        'longitude'
+        'longitude',
+        'status'
     ];
-
-    public $timestamps = false;
 
     public function registerEvacuationCenterObject($evacuationCenter){
         return $this->create($evacuationCenter);

@@ -6,7 +6,7 @@ use Carbon\Carbon;
 use App\Models\ReportLog;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\ReportAccident;
+use App\Models\Reporting;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Auth;
@@ -20,15 +20,15 @@ class ReportAccidentController extends Controller
 
     function __construct()
     {
-        $this->reportAccident = new ReportAccident;
+        $this->reportAccident = new Reporting;
     }
 
     public function displayCReport(Request $request)
     {
-        $report = ReportAccident::latest()->get();
+        $report = Reporting::latest()->get();
 
         if ($request->ajax()) {
-            $data = ReportAccident::latest()->get();
+            $data = Reporting::latest()->get();
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
@@ -45,10 +45,10 @@ class ReportAccidentController extends Controller
 
     public function displayGReport(Request $request)
     {
-        $report = ReportAccident::latest()->get();
+        $report = Reporting::latest()->get();
 
         if ($request->ajax()) {
-            $data = ReportAccident::latest()->get();
+            $data = Reporting::latest()->get();
             return DataTables::of($data)->addIndexColumn()->make(true);
         }
 
@@ -127,7 +127,7 @@ class ReportAccidentController extends Controller
     public function approveAccidentReport($reportId)
     {
 
-        ReportAccident::where('report_id', $reportId)->update([
+        Reporting::where('report_id', $reportId)->update([
             'status' => 'Approved'
         ]);
 

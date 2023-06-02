@@ -12,9 +12,8 @@ return new class extends Migration
             $table->id();
             $table->string('email')->unique();
             $table->string('password');
-            $table->tinyInteger('user_role');
-            $table->string('role_name');
-            $table->date('created_at');
+            $table->string('user_role');
+            $table->string('position');
         });
     }
 

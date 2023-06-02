@@ -67,12 +67,7 @@ class CdrrmoController extends Controller
 
         return view('userpage.disaster.disaster', compact('disaster'));
     }
-
-    public function barangay()
-    {
-        return view('userpage.barangay.barangay');
-    }
-
+    
     public function evacuationManage()
     {
         return view('userpage.evacuationCenter.evacuation');

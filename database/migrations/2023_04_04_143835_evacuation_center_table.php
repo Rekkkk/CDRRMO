@@ -8,13 +8,12 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('evacuation_center', function (Blueprint $table) {
-            $table->id('evacuation_center_id');
-            $table->string('evacuation_center_name');
-            $table->string('evacuation_center_contact');
-            $table->string('evacuation_center_address');
-            $table->foreignId('barangay_id')->references('barangay_id')->on('barangay')->cascadeOnDelete()->cascadeOnUpdate()->nullable();
+            $table->id();
+            $table->string('name');
+            $table->string('barangay_name');
             $table->string('latitude');
             $table->string('longitude');
+            $table->string('status');
         });
     }
 

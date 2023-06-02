@@ -4,12 +4,9 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Evacuee;
-use App\Models\Barangay;
-use App\Models\Disaster;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
-use App\Models\EvacuationCenter;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
@@ -29,11 +26,7 @@ class CswdController extends Controller
 
     public function recordEvacuee()
     {
-        $barangays = Barangay::all()->sortBy('barangay_name');
-        $evacuationCenters = EvacuationCenter::all()->sortBy('evacuation_center_name');
-        $disasters = Disaster::all()->sortBy('disaster_name');
-
-        return view('userpage.recordEvacuee.recordEvacuee', compact('barangays', 'evacuationCenters', 'disasters'));
+        return view('userpage.recordEvacuee.recordEvacuee');
     }
 
     public function recordEvacueeInfo(Request $request)

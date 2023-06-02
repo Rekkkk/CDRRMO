@@ -11,23 +11,21 @@ class Disaster extends Model
 
     protected $table = 'disaster';
 
-    protected $primaryKey = 'disaster_id';
+    protected $primaryKey = 'id';
 
     protected $guarded = [];
 
     protected $fillable = [
-        'disaster_type'
+        'type'
     ];
 
-    public $timestamps = false;
-
     public function displayDisasterObject(){
-        return $this->all()->sortBy('disaster_id');
+        return $this->all()->sortBy('id');
     }
 
     public function updateDisasterObject($disasterData, $disasterId){
-        $barangay = $this->find($disasterId);
-        $barangay->update($disasterData);
+        $disaster = $this->find($disasterId);
+        $disaster->update($disasterData);
     }
 
     public function removeDisasterObject($disaster){

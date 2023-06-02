@@ -10,14 +10,11 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('report', function (Blueprint $table) {
-            $table->id('report_id');
-            $table->string('report_description');
-            $table->string('report_location');
-            $table->string('report_photo');
-            $table->string('contact');
-            $table->string('email');
-            $table->string('status');
-            $table->timestamps();
+            $table->id();
+            $table->string('description');
+            $table->string('location');
+            $table->string('photo')->nullable();
+            $table->string('status')->default('On Process');
         });
     }
 

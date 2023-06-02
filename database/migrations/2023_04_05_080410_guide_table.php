@@ -9,11 +9,10 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('guide', function (Blueprint $table) {
-            $table->id("guide_id");
-            $table->string("guide_description");
-            $table->longText("guide_content");
-            $table->foreignId('guideline_id')->references('guideline_id')->on('guideline')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->timestamps();
+            $table->id();
+            $table->string('label');
+            $table->longText('content');
+            $table->foreignId('guideline_id')->references('id')->on('guideline')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

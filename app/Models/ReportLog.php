@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class ReportLog extends Model
 {
     use HasFactory;
-    protected $table = 'accident_report_log';
+    protected $table = 'report_log';
 
     protected $primaryKey = 'report_id';
 
@@ -19,6 +19,4 @@ class ReportLog extends Model
         'attempt',
         'report_time',
     ];
-
-    public $timestamps = false;
 }

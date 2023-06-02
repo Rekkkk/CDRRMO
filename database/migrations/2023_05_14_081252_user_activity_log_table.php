@@ -8,19 +8,16 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('user_activity_log', function (Blueprint $table) {
+        Schema::create('activity_log', function (Blueprint $table) {
             $table->id();
-            $table->string('email')->nullable();
-            $table->string('user_role')->nullable();
-            $table->string('role_name')->nullable();
-            $table->string('activity')->nullable();
-            $table->string('date_time')->nullable();
+            $table->foreignId('user_id')->references('id')->on('user')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('activity');
+            $table->string('date_time');
         });
     }
 
-    
     public function down(): void
     {
-        Schema::dropIfExists('user_activity_log');
+        Schema::dropIfExists('activity_log');
     }
 };
