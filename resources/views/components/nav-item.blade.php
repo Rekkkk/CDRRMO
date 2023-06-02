@@ -19,12 +19,6 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('barangay.information.cdrrmo') }}">
-                    <i class="bi bi-hospital text-white"></i>
-                    <span class="links_name">Baranggay Information</span>
-                </a>
-            </li>
-            <li>
                 <a href="{{ route('manage.evacuation.cdrrmo') }}">
                     <i class="bi bi-house-add text-white"></i>
                     <span class="links_name">Manage Evacuation Center</span>

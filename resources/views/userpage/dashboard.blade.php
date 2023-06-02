@@ -15,7 +15,7 @@
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-gray-400">
+<body class="bg-slate-300">
     <div class="wrapper">
         @include('partials.content.header')
         @include('partials.content.sidebar')
@@ -42,39 +42,43 @@
                         </div>
                     </div>
                 </div> --}}
-                <div class="bg-sky-400 drop-shadow-lg max-w-full">
+                <div class="widget bg-green-400 drop-shadow-lg max-w-full">
+                    <div class="widget-logo flex justify-center items-center">
+                        <img class="pt-52" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}">
+                    </div>
                     <div class="content-logo flex justify-between my-3 p-1">
                         <div class="content-description px-2">
-                            <h5 class="font-bold">Male</h5>
-                            <span class="text-4xl">2,021</span>
+                            <h5 class="font-bold text-slate-800">Evacuation Center (Active)</h5>
+                            <span class="text-4xl font-bold">2,021</span>
                         </div>
                         <div class="content-header rounded">
-                            <img src="{{ asset('assets/img/male_person.png') }}" style="width:50px;"
-                                alt="logo">
+                            <img src="{{ asset('assets/img/evacuation.png') }}" style="width:50px;">
                         </div>
                     </div>
-                    <a href=""
-                        class="p-2 flex justify-center bottom-0 gap-2 text-center bg-slate-700 hover:bg-slate-900 text-white">
+                    {{-- <a href=""
+                        class="edit-btn p-2 flex justify-center gap-2 text-center bg-slate-700 hover:bg-slate-900 text-white">
                         <i class="bi bi-pencil-fill"></i>
                         <span>Edit</span>
-                    </a>
+                    </a> --}}
                 </div>
-                <div class="bg-sky-400 drop-shadow-lg max-w-full">
+                <div class="widget bg-red-500 drop-shadow-lg max-w-full">
+                    <div class="widget-logo flex justify-center items-center">
+                        <img class="pt-52" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}">
+                    </div>
                     <div class="content-logo flex justify-between my-3 p-1">
                         <div class="content-description px-2">
-                            <h5 class="font-bold">Female</h5>
-                            <span class="text-4xl">2,021</span>
+                            <h5 class="font-bold">Evacuation Center (Inactive)</h5>
+                            <span class="text-4xl font-bold">2,021</span>
                         </div>
                         <div class="content-header rounded">
-                            <img src="{{ asset('assets/img/female_person.png') }}" style="width:50px;"
-                                alt="logo">
+                            <img src="{{ asset('assets/img/evacuation.png') }}" style="width:50px;">
                         </div>
                     </div>
-                    <a href=""
-                        class="p-2 flex justify-center bottom-0 gap-2 text-center bg-slate-700 hover:bg-slate-900 text-white">
+                    {{-- <a href=""
+                        class="edit-btn p-2 flex justify-center gap-2 text-center bg-slate-700 hover:bg-slate-900 text-white">
                         <i class="bi bi-pencil-fill"></i>
                         <span>Edit</span>
-                    </a>
+                    </a> --}}
                 </div>
                 {{-- <div class="bg-slate-50 p-2.5 drop-shadow-lg border-t-4 border-red-800">
                     <div class="content-logo">
