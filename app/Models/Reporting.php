@@ -22,8 +22,19 @@ class Reporting extends Model
         'status'
     ];
 
+    public $timestamps = false;
+
     public function registerAccidentReportObject($accidentReport){
         return $this->create($accidentReport);
+    }
+
+    public function approveAccidentReportObject($accidentReportId){
+        $approvedReport = [
+            'status' => 'Approved'
+        ];
+
+        $accidentReport = $this->find($accidentReportId);
+        $accidentReport->update($approvedReport);
     }
 
     public function removeAccidentReportObject($accidentReportId){

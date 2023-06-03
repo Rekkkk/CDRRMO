@@ -8,11 +8,11 @@
             <x-nav-item />
         </div>
         <div class="user-footer-section absolute bottom-0 text-white">
-            @if (Auth::check() && Auth::user()->user_role == '1')
+            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
                 CDRRMO
-            @elseif(Auth::check() && Auth::user()->user_role == '2')
+            @elseif(Auth::check() && Auth::user()->user_role == 'CSWD')
                 CSWD
-            @elseif(Auth::check() && Auth::user()->user_role == '3')
+            @elseif(Auth::check() && Auth::user()->user_role == 'Developer')
                 Developer
             @else
                 Cabuyao Resident

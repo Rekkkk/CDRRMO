@@ -12,7 +12,7 @@ return new class extends Migration
             $table->integer('house_hold_number');
             $table->string('name');
             $table->string('sex');
-            $table->string('age');
+            $table->integer('age');
             $table->boolean('4Ps');
             $table->boolean('PWD');
             $table->boolean('pregnant');
@@ -20,10 +20,10 @@ return new class extends Migration
             $table->boolean('student');
             $table->boolean('working');
             $table->string('barangay');
-            $table->timestamp('date_entry');
-            $table->timestamp('date_out');
-            $table->foreignId('disaster_id')->references('disaster_id')->on('disaster')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('evacuation_assigned')->references('evacuation_center_id')->on('evacuation_center')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('date_entry')->nullable();
+            $table->string('date_out')->nullable();
+            $table->foreignId('disaster_id')->references('id')->on('disaster')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('evacuation_assigned')->references('id')->on('evacuation_center')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

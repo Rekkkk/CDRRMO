@@ -11,7 +11,7 @@ class EvacuationCenterSeeder extends Seeder
     public function run(): void
     {
 
-        EvacuationCenter::create([
+        EvacuationCenter::insert([
             'name' => 'Butong Elementary School',
             'barangay_name' => 'Butong',
             'latitude' => '123.1233',
@@ -19,7 +19,7 @@ class EvacuationCenterSeeder extends Seeder
             'status' => 'Active'
         ]);
 
-        EvacuationCenter::create([
+        EvacuationCenter::insert([
             'name' => 'Banay-Banay Elementary School',
             'barangay_name' => 'Banay-Banay',
             'latitude' => '123.1233',
@@ -27,7 +27,7 @@ class EvacuationCenterSeeder extends Seeder
             'status' => 'Active'
         ]);
 
-        EvacuationCenter::create([
+        EvacuationCenter::insert([
             'name' => 'Marinig Elementary School',
             'barangay_name' => 'Marinig',
             'latitude' => '123.1233',

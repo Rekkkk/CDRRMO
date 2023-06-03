@@ -12,7 +12,7 @@ class Cdrrmo
     public function handle(Request $request, Closure $next): Response
     {
         // 1 = CDRRMO, 2 = CSWD
-        if (Auth::user()->user_role == 1 || Auth::user()->user_role == 2)
+        if (Auth::user()->user_role == 'CDRRMO' || Auth::user()->user_role == 'CSWD' || Auth::user()->user_role == 'Developer')
             return $next($request);
 
         else

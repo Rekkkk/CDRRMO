@@ -11,17 +11,17 @@ class TyphoonSeeder extends Seeder
     public function run(): void
     {
 
-        Typhoon::create([
+        Typhoon::insert([
             'name' => ('Typhoon Rolly'),
             'disaster_id' => ('1'),
         ]);
 
-        Typhoon::create([
+        Typhoon::insert([
             'name' => ('Typhoon Ulysses'),
             'disaster_id' => ('1'),
         ]);
 
-        Typhoon::create([
+        Typhoon::insert([
             'name' => ('Typhoon Quinta'),
             'disaster_id' => ('1'),
         ]);

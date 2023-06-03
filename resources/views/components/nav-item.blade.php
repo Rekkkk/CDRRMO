@@ -1,5 +1,5 @@
     <ul class="nav_list">
-        @if (Auth::check() && Auth::user()->user_role == '1')
+        @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
             <li>
                 <a href="{{ route('dashboard.cdrrmo') }}">
                     <i class="bi bi-speedometer2 text-white"></i>
@@ -61,7 +61,7 @@
                 </a>
             </li>
         @endif
-        @if (Auth::check() && Auth::user()->user_role == '2')
+        @if (Auth::check() && Auth::user()->user_role == 'CSWD')
             <li>
                 <a href="{{ route('dashboard.cswd') }}">
                     <i class="bi bi-speedometer2 text-white"></i>
@@ -87,7 +87,7 @@
                 </a>
             </li>
         @endif
-        @if (Auth::check() && Auth::user()->user_role == '3')
+        @if (Auth::check() && Auth::user()->user_role == 'Developer')
             <li>
                 <a href="{{ route('logout.user') }}">
                     <i class="bi bi-box-arrow-in-left text-white"></i>
@@ -96,12 +96,6 @@
             </li>
         @endif
         @guest
-            <li>
-                <a href="{{ route('dashboard.resident') }}">
-                    <i class="fbi bi-tv text-white"></i>
-                    <span class="links_name">Dashboard</span>
-                </a>
-            </li>
             <li>
                 <a href="{{ route('guideline.resident') }}">
                     <i class="bi bi-book text-white"></i>
@@ -124,12 +118,6 @@
                 <a href="{{ route('hotline.number.resident') }}">
                     <i class="bi bi-telephone text-white"></i>
                     <span class="links_name">Hotline Numbers</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('statistics.resident') }}">
-                    <i class="bi bi-graph-up text-white"></i>
-                    <span class="links_name">Data Statistics</span>
                 </a>
             </li>
             <li>

@@ -34,11 +34,11 @@ class AuthenticationController extends Controller
             $userRole = auth()->user()->user_role;
             $this->logActivity->generateLog('Logged In');
 
-            if ($userRole == 1) {
+            if ($userRole == 'CDRRMO') {
                 return redirect('/cdrrmo/dashboard')->with('message', 'Welcome to CDRRMO Panel.');
-            } else if ($userRole == 2) {
+            } else if ($userRole == 'CSWD') {
                 return redirect('/cswd/dashboard')->with('message', 'Welcome to CSWD Panel.');
-            } else if ($userRole == 3) {
+            } else if ($userRole == 'Developer') {
                 return redirect('/developer/dashboard')->with('message', 'Welcome to Developer Panel.');
             }
         }
@@ -48,7 +48,7 @@ class AuthenticationController extends Controller
 
     public function logout(Request $request)
     {
-        $role_name = auth()->user()->role_name;
+        $role_name = auth()->user()->user_role;
         $this->logActivity->generateLog('Logged Out');
 
         auth()->logout();

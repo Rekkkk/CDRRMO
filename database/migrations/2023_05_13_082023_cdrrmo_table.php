@@ -10,6 +10,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('cdrrmo', function (Blueprint $table) {
+            $table->id();
             $table->string('address');
             $table->string('facebook');
             $table->string('twitter');

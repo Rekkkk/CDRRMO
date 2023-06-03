@@ -19,6 +19,8 @@ class Disaster extends Model
         'type'
     ];
 
+    public $timestamps = false;
+
     public function displayDisasterObject(){
         return $this->all()->sortBy('id');
     }

@@ -99,8 +99,8 @@
                 serverSide: true,
                 ajax: "{{ route('disaster.cdrrmo') }}",
                 columns: [{
-                        data: 'disaster_type',
-                        name: 'disaster_type'
+                        data: 'type',
+                        name: 'type'
                     },
                     {
                         data: 'action',
@@ -121,7 +121,7 @@
                     dataType: "json",
                     success: function(response) {
                         $(document).find('span.error-text').text('');
-                        $('#disaster_type').val(response.result.disaster_type);
+                        $('#type').val(response.result.type);
                         $('#disasterId').val(disaster_id);
                         $('#editDisaster').modal('show');
 
@@ -145,7 +145,7 @@
                         .replace(':disaster_id', disaster_id),
                     method: 'put',
                     data: $('#editDisasterForm').serialize(),
-                    dataType: "json",
+                    dataType: 'json',
                     beforeSend: function(response) {
                         $(document).find('span.error-text').text('');
                     },

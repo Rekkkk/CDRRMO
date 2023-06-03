@@ -8,7 +8,6 @@ use App\Models\Guideline;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Crypt;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
@@ -26,13 +25,12 @@ class GuidelineController extends Controller
     public function addGuideline(Request $request)
     {
         $validatedGuideline = Validator::make($request->all(), [
-            'guideline_description' => 'required'
+            'type' => 'required'
         ]);
 
         if ($validatedGuideline->passes()) {
-
             $guidelineData = [
-                'guideline_description' => Str::upper(trim("E-LIGTAS $request->guideline_description Guideline"))
+                'type' => Str::upper(trim("$request->type Guideline"))
             ];
 
             try {
@@ -42,9 +40,7 @@ class GuidelineController extends Controller
             }
 
             ActivityUserLog::create([
-                'email' => Auth::user()->email,
-                'user_role' => Auth::user()->user_role,
-                'role_name' => Auth::user()->role_name,
+                'user_id' => auth()->user()->id,
                 'activity' => 'Registering Guideline',
                 'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
@@ -59,18 +55,15 @@ class GuidelineController extends Controller
     {
 
         $validatedGuideline = Validator::make($request->all(), [
-            'guideline_description' => 'required'
+            'type' => 'required'
         ]);
 
         if ($validatedGuideline->passes()) {
-
             try {
                 $this->guideline->updateGuidelineObject($request, $guidelineId);
 
                 ActivityUserLog::create([
-                    'email' => Auth::user()->email,
-                    'user_role' => Auth::user()->user_role,
-                    'role_name' => Auth::user()->role_name,
+                    'user_id' => auth()->user()->id,
                     'activity' => 'Updating Guideline',
                     'date_time' => Carbon::now()->toDayDateTimeString()
                 ]);
@@ -93,9 +86,7 @@ class GuidelineController extends Controller
             $this->guideline->removeGuidelineObject(Crypt::decryptString($guidelineId));
 
             ActivityUserLog::create([
-                'email' => Auth::user()->email,
-                'user_role' => Auth::user()->user_role,
-                'role_name' => Auth::user()->role_name,
+                'user_id' => auth()->user()->id,
                 'activity' => 'Deleting Guideline',
                 'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
@@ -111,15 +102,15 @@ class GuidelineController extends Controller
     public function addGuide(Request $request, $guidelineId)
     {
         $validatedGuide = Validator::make($request->all(), [
-            'guide_description' => 'required',
-            'guide_content' => 'required'
+            'label' => 'required',
+            'content' => 'required'
         ]);
 
         if ($validatedGuide->passes()) {
             $guideData = [
-                'guide_description' => Str::of(trim($request->guide_description))->title(),
-                'guide_content' => Str::ucFirst(trim($request->guide_content)),
-                'guideline_id' => Crypt::decryptString($guidelineId),
+                'label' => Str::of(trim($request->label))->title(),
+                'content' => Str::ucFirst(trim($request->content)),
+                'guideline_id' => Crypt::decryptString($guidelineId)
             ];
 
             try {
@@ -129,9 +120,7 @@ class GuidelineController extends Controller
             }
 
             ActivityUserLog::create([
-                'email' => Auth::user()->email,
-                'user_role' => Auth::user()->user_role,
-                'role_name' => Auth::user()->role_name,
+                'user_id' => auth()->user()->id,
                 'activity' => 'Registering Guide',
                 'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
@@ -145,8 +134,8 @@ class GuidelineController extends Controller
     public function updateGuide(Request $request, $guideId)
     {
         $validatedGuide = Validator::make($request->all(), [
-            'guide_description' => 'required',
-            'guide_content' => 'required'
+            'label' => 'required',
+            'content' => 'required'
         ]);
 
         if ($validatedGuide->passes()) {
@@ -154,18 +143,15 @@ class GuidelineController extends Controller
                 $this->guide->updateGuideObject($request, $guideId);
 
                 ActivityUserLog::create([
-                    'email' => Auth::user()->email,
-                    'user_role' => Auth::user()->user_role,
-                    'role_name' => Auth::user()->role_name,
+                    'user_id' => auth()->user()->id,
                     'activity' => 'Updating Guide',
                     'date_time' => Carbon::now()->toDayDateTimeString()
                 ]);
+
                 Alert::success(config('app.name'), 'Guide Successfully Updated.');
             } catch (\Exception $e) {
                 Alert::error(config('app.name'), 'Failed to Update Guide.');
             }
-
-            return back();
         }
         return back();
     }
@@ -176,12 +162,11 @@ class GuidelineController extends Controller
             $this->guide->removeGuideObject($guideId);
 
             ActivityUserLog::create([
-                'email' => Auth::user()->email,
-                'user_role' => Auth::user()->user_role,
-                'role_name' => Auth::user()->role_name,
+                'user_id' =>auth()->user()->id,
                 'activity' => 'Removing Guide',
                 'date_time' => Carbon::now()->toDayDateTimeString()
             ]);
+
             Alert::success(config('app.name'), 'Guide Removed Successfully.');
         } catch (\Exception $e) {
             Alert::error(config('app.name'), 'Failed to Remove Guide.');

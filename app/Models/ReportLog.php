@@ -19,4 +19,6 @@ class ReportLog extends Model
         'attempt',
         'report_time',
     ];
+
+    public $timestamps = false;
 }

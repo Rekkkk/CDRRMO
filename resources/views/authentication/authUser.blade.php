@@ -53,7 +53,7 @@
                                 in</button>
                         </div>
                     </form>
-                    <form action="{{ route('dashboard.resident') }}" method="POST" class="cursor-pointer py-2 px-3">
+                    <form action="{{ route('guideline.resident') }}" method="POST" class="cursor-pointer py-2 px-3">
                         @method('GET')
                         @csrf
                         <button type="submit"

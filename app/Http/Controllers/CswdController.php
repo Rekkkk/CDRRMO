@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Evacuee;
+use App\Models\Disaster;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
+use App\Models\EvacuationCenter;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
@@ -26,61 +28,62 @@ class CswdController extends Controller
 
     public function recordEvacuee()
     {
-        return view('userpage.recordEvacuee.recordEvacuee');
+        $evacuationCenters = EvacuationCenter::all();
+        $disasters = Disaster::all();
+        return view('userpage.recordEvacuee.recordEvacuee', compact('evacuationCenters', 'disasters'));
     }
 
     public function recordEvacueeInfo(Request $request)
     {
         $validatedEvacueeForm = Validator::make($request->all(), [
-            'first_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
-            'middle_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
-            'last_name' => 'required|regex:/^[a-zA-Z\s]+$/u',
-            'suffix' => 'required',
-            'contact_number' => 'required|numeric|digits:11',
-            'age' => 'required|numeric',
-            'gender' => 'required',
-            'address' => 'required',
+            'house_hold_number' => 'required',
+            'name' => 'required',
+            'sex' => 'required',
+            'age' => 'required',
             'barangay' => 'required',
-            'evacuation_center' => 'required',
-            'disaster' => 'required'
+            'disaster' => 'required',
+            'evacuation_assigned' => 'required'
         ]);
 
         if ($validatedEvacueeForm->passes()) {
 
+            $is4Ps = $request->has('fourps') ? 1 : 0;
+            $isPWD = $request->has('pwd') ? 1 : 0;
+            $isPregnant = $request->has('pregnant') ? 1 : 0;
+            $isLactating = $request->has('lactating') ? 1 : 0;
+            $isStudent = $request->has('student') ? 1 : 0;
+            $isWorking = $request->has('working') ? 1 : 0;
+
             $evacueeObject = [
-                'evacuee_first_name' => Str::ucfirst(trim($request->first_name)),
-                'evacuee_middle_name' => Str::ucfirst(trim($request->middle_name)),
-                'evacuee_last_name' => Str::ucfirst(trim($request->last_name)),
-                'evacuee_suffix' => Str::ucfirst(trim($request->suffix)),
-                'evacuee_contact_number' => trim($request->contact_number),
-                'evacuee_age' => trim($request->age),
-                'evacuee_gender' => trim($request->gender),
-                'evacuee_address' => trim($request->address),
-                'barangay_id' => $request->barangay,
+                'house_hold_number' => $request->house_hold_number,
+                'name' => Str::ucfirst(trim($request->name)),
+                'sex' => $request->sex,
+                'age' => $request->age,
+                '4Ps' => $is4Ps,
+                'PWD' => $isPWD,
+                'pregnant' => $isPregnant,
+                'lactating' => $isLactating,
+                'student' => $isStudent,
+                'working' => $isWorking,
+                'barangay' => $request->barangay,
+                'date_entry' => Carbon::now()->toDayDateTimeString(),
                 'disaster_id' => $request->disaster,
-                'evacuation_assigned' => $request->evacuation_center
+                'evacuation_assigned' => $request->evacuation_assigned
             ];
 
             try {
                 $this->evacuee->recordEvacueeObject($evacueeObject);
-            } catch (\Exception $e) {
-                Alert::error(config('app.name'), 'Failed to Record Evacuee Information');
-            }
 
-            $currentDate = Carbon::now();
-            $todayDate = $currentDate->toDayDateTimeString();
-    
-            ActivityUserLog::create([
-                'user_id' => Auth::user()->id,
-                'email' => Auth::user()->email,
-                'user_role' => Auth::user()->user_role,
-                'role_name' => Auth::user()->role_name,
-                'activity' => 'Logged Out',
-                'date_time' => $todayDate,
-            ]);
-            
-            Alert::success(config('app.name'), 'Evacuee Information Recorded Successfully');
-            return response()->json(['condition' => 1]);
+                ActivityUserLog::create([
+                    'user_id' => auth()->user()->id,
+                    'activity' => 'Registering Evacuee',
+                    'date_time' => Carbon::now()->toDayDateTimeString()
+                ]);
+
+                return response()->json(['condition' => 1]);
+            } catch (\Exception $e) {
+                return response()->json(['condition' => 0]);
+            }
         }
 
         return response()->json(['condition' => 0, 'error' => $validatedEvacueeForm->errors()->toArray()]);
@@ -88,14 +91,14 @@ class CswdController extends Controller
 
     public function statistics()
     {
-        $typhoonMaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '1')->where('evacuee_gender', 'Male')->get();
-        $typhoonFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '1')->where('evacuee_gender', 'Female')->get();
-        $earthquakeMaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '2')->where('evacuee_gender', 'Male')->get();
-        $earthquakeFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '2')->where('evacuee_gender', 'Female')->get();
-        $roadAccidentMaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '3')->where('evacuee_gender', 'Male')->get();
-        $roadAccidentFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '3')->where('evacuee_gender', 'Female')->get();
-        $floodingMaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '4')->where('evacuee_gender', 'Male')->get();
-        $floodingFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '4')->where('evacuee_gender', 'Female')->get();
+        $typhoonMaleData = Evacuee::select('sex')->where('disaster_id', '1')->where('sex', 'Male')->get();
+        $typhoonFemaleData = Evacuee::select('sex')->where('disaster_id', '1')->where('sex', 'Female')->get();
+        $earthquakeMaleData = Evacuee::select('sex')->where('disaster_id', '2')->where('sex', 'Male')->get();
+        $earthquakeFemaleData = Evacuee::select('sex')->where('disaster_id', '2')->where('sex', 'Female')->get();
+        $roadAccidentMaleData = Evacuee::select('sex')->where('disaster_id', '3')->where('sex', 'Male')->get();
+        $roadAccidentFemaleData = Evacuee::select('sex')->where('disaster_id', '3')->where('sex', 'Female')->get();
+        $floodingMaleData = Evacuee::select('sex')->where('disaster_id', '4')->where('sex', 'Male')->get();
+        $floodingFemaleData = Evacuee::select('sex')->where('disaster_id', '4')->where('sex', 'Female')->get();
 
         return view('userpage.statistics.statistics', compact('typhoonMaleData', 'typhoonFemaleData', 'earthquakeMaleData', 'earthquakeFemaleData', 'roadAccidentMaleData', 'roadAccidentFemaleData', 'floodingMaleData', 'floodingFemaleData'));
     }

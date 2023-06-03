@@ -32,8 +32,8 @@ class ReportAccidentController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $approved = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->report_id . '" data-original-title="Approve" class="approve bg-slate-700 hover:bg-slate-900 py-1.5 btn-sm mr-2 text-white approveAccidentReport">Approve</a>';
-                    $btn = $approved . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->report_id . '" data-original-title="Delete" class="bg-red-700 hover:bg-red-900 py-1.5 btn-sm mr-2 text-white removeAccidentReport">Remove</a>';
+                    $approved = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" class="approve bg-slate-700 hover:bg-slate-900 py-1.5 btn-sm mr-2 text-white approveAccidentReport">Approve</a>';
+                    $btn = $approved . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Delete" class="bg-red-700 hover:bg-red-900 py-1.5 btn-sm mr-2 text-white removeAccidentReport">Remove</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -58,24 +58,20 @@ class ReportAccidentController extends Controller
     public function addAccidentReport(Request $request)
     {
         $validatedAccidentReport = Validator::make($request->all(), [
-            'report_description' => 'required',
-            'report_location' => 'required',
-            'report_photo' => 'required|image|mimes:jpeg|max:2048',
-            'contact' => 'required|numeric|digits:11',
-            'email' => 'required|email'
+            'description' => 'required',
+            'location' => 'required',
+            'photo' => 'required|image|mimes:jpeg|max:2048'
         ]);
 
         if ($validatedAccidentReport->passes()) {
             $user_ip = ReportLog::where('user_ip', $request->ip())->exists();
             $report_time = ReportLog::where('user_ip', $request->ip())->value('report_time');
-            $imageName = time() . '.' . $request->report_photo->extension();
-            $request->report_photo->move(public_path('reports_image'), $imageName);
+            $imageName = time() . '.' . $request->photo->extension();
+            $request->photo->move(public_path('reports_image'), $imageName);
             $reportAccident = [
-                'report_description' => Str::ucFirst(trim($request->report_description)),
-                'report_location' => Str::of(trim($request->report_location))->title(),
-                'report_photo' => $imageName,
-                'contact' => trim($request->contact),
-                'email' => trim($request->email),
+                'description' => Str::ucFirst(trim($request->description)),
+                'location' => Str::of(trim($request->location))->title(),
+                'photo' => $imageName,
                 'status' => 'On Process'
             ];
 
@@ -126,19 +122,18 @@ class ReportAccidentController extends Controller
 
     public function approveAccidentReport($reportId)
     {
+        try {
+            $this->reportAccident->approveAccidentReportObject($reportId);
 
-        Reporting::where('report_id', $reportId)->update([
-            'status' => 'Approved'
-        ]);
+            ActivityUserLog::create([
+                'user_id' => auth()->user()->id,
+                'activity' => 'Approving Accident Report',
+                'date_time' => Carbon::now()->toDayDateTimeString()
+            ]);
 
-        ActivityUserLog::create([
-            'user_id' => Auth::user()->id,
-            'email' => Auth::user()->email,
-            'user_role' => Auth::user()->user_role,
-            'role_name' => Auth::user()->role_name,
-            'activity' => 'Approving Accident Report',
-            'date_time' => Carbon::now()->toDayDateTimeString()
-        ]);
+        } catch (\Exception $e) {
+            Alert::success(config('app.name'), 'Failed to Report Accident.');
+        }
 
         return response()->json();
     }
@@ -149,10 +144,7 @@ class ReportAccidentController extends Controller
             $this->reportAccident->removeAccidentReportObject($reportAccidentId);
 
             ActivityUserLog::create([
-                'user_id' => Auth::user()->id,
-                'email' => Auth::user()->email,
-                'user_role' => Auth::user()->user_role,
-                'role_name' => Auth::user()->role_name,
+                'user_id' => auth()->user()->id,
                 'activity' => 'Removing Accident Report',
                 'date_time' => Carbon::now()->toDayDateTimeString()
             ]);

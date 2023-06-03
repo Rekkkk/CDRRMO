@@ -11,12 +11,6 @@ use Illuminate\Support\Facades\Crypt;
 
 class ResidentController extends Controller
 {
-    private $guideline;
-
-    public function __construct(){
-        $this->guideline = new Guideline;
-    }
-
     public function dashboard()
     {
         return view('/userpage/dashboard');
@@ -24,14 +18,14 @@ class ResidentController extends Controller
 
     public function residentEligtasGuideline()
     {
-        $guideline = $this->guideline->displayGuideline();
+        $guideline = Guideline::all();
 
         return view('userpage.guideline.eligtasGuideline', compact('guideline'));
     }
 
     public function residentEligtasGuide($guidelineId)
     {
-        $guide = Guide::where('guideline_id', Crypt::decryptString($guidelineId))->orderBy('guide_id', 'asc')->get();
+        $guide = Guide::where('guideline_id', Crypt::decryptString($guidelineId))->orderBy('id', 'asc')->get();
 
         $quiz = Quiz::where('guideline_id', $guidelineId)->get();
 
@@ -70,20 +64,6 @@ class ResidentController extends Controller
         ];
 
         return view('userpage.evacuationCenter.evacuationCenter', ['evacuationCenter' => $evacuationCenter, 'initialMarkers' => $initialMarkers]);
-    }
-
-    public function residentStatistics()
-    {
-        $typhoonMaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '1')->where('evacuee_gender', 'Male')->get();
-        $typhoonFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '1')->where('evacuee_gender', 'Female')->get();
-        $earthquakeMaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '2')->where('evacuee_gender', 'Male')->get();
-        $earthquakeFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '2')->where('evacuee_gender', 'Female')->get();
-        $roadAccidentMaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '3')->where('evacuee_gender', 'Male')->get();
-        $roadAccidentFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '3')->where('evacuee_gender', 'Female')->get();
-        $floodingMaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '4')->where('evacuee_gender', 'Male')->get();
-        $floodingFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '4')->where('evacuee_gender', 'Female')->get();
-
-        return view('userpage.statistics.statistics', compact('typhoonMaleData', 'typhoonFemaleData', 'earthquakeMaleData', 'earthquakeFemaleData', 'roadAccidentMaleData', 'roadAccidentFemaleData', 'floodingMaleData', 'floodingFemaleData'));
     }
 
     public function residentReportAccident()

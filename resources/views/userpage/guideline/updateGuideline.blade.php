@@ -1,5 +1,5 @@
-@if (Auth::check() && Auth::user()->user_role == '1')
-    <div class="modal fade" id="edit{{ $guidelineItem->guideline_id }}" tabindex="-1" aria-hidden="true">
+@if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+    <div class="modal fade" id="edit{{ $guidelineItem->id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-red-900">
@@ -7,14 +7,14 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="{{ route('update.guideline.cdrrmo', $guidelineItem->guideline_id) }}" method="POST">
+                    <form action="{{ route('update.guideline.cdrrmo', $guidelineItem->id) }}" method="POST">
                         @method('PUT')
                         @csrf
                         <div class="mb-3">
-                            <label for="guideline_description" class="flex items-center justify-center">Guideline
+                            <label for="type" class="flex items-center justify-center">Guideline
                                 Desctription</label>
-                            <input type="text" name="guideline_description"
-                                value="{{ $guidelineItem->guideline_description }}" class="form-control"
+                            <input type="text" name="type"
+                                value="{{ $guidelineItem->type }}" class="form-control"
                                 autocomplete="off">
                         </div>
                         <div class="modal-footer">
