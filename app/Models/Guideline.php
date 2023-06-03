@@ -20,9 +20,7 @@ class Guideline extends Model
         'type'
     ];
 
-    public function displayGuideline(){
-        return $this->all();
-    }
+    public $timestamps = false;
 
     public function registerGuidelineObject($guideline){
         return $this->create($guideline);
@@ -31,7 +29,7 @@ class Guideline extends Model
     public function updateGuidelineObject($request, $guidelineId){
 
         $guidelineData = [
-            'type' => Str::upper(trim($request->input('guideline_description')))
+            'type' => Str::upper(trim($request->input('type')))
         ];
 
         $guideline = $this->find($guidelineId);

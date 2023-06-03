@@ -1,4 +1,4 @@
-@if (Auth::user()->user_role == '1')
+@if (Auth::user()->user_role == 'CDRRMO')
     <div class="modal fade" id="editEvacuationCenter" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -10,50 +10,39 @@
                     <div class="modal-body">
                         @csrf
                         <div class="mb-3">
-                            <label for="evacuation_name" class="flex items-center justify-center">Evacuation
+                            <label for="name" class="flex items-center justify-center">Evacuation
                                 Name</label>
-                            <input type="text" name="evacuation_name" id="evacuation_name" class="form-control"
+                            <input type="text" name="name" id="name" class="form-control" autocomplete="off">
+                            <span class="text-danger error-text name_error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="barangay_name" class="flex items-center justify-center">
+                                Barangay Name</label>
+                            <input type="text" name="barangay_name" id="barangay_name" class="form-control"
                                 autocomplete="off">
-                            <span class="text-danger error-text evacuation_name_error"></span>
+                            <span class="text-danger error-text barangay_name_error"></span>
                         </div>
                         <div class="mb-3">
-                            <label for="evacuation_contact" class="flex items-center justify-center">Evacuation
-                                Contact</label>
-                            <input type="text" name="evacuation_contact" id="evacuation_contact" class="form-control"
-                                autocomplete="off">
-                            <span class="text-danger error-text evacuation_contact_error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="evacuation_address" class="flex items-center justify-center">Evacuation
-                                Address</label>
-                            <input type="text" name="evacuation_address" id="evacuation_address" class="form-control"
-                                autocomplete="off">
-                            <span class="text-danger error-text evacuation_address_error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="barangay_evacuation_id" class="flex items-center justify-center">
-                                Barangay_id</label>
-                            <input type="text" name="barangay_evacuation_id" id="barangay_evacuation_id"
-                                class="form-control" autocomplete="off">
-                            <span class="text-danger error-text barangay_evacuation_id_error"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label for="evacuation_latitude" class="flex items-center justify-center">Evacuation
+                            <label for="latitude" class="flex items-center justify-center">Evacuation
                                 Latitude</label>
-                            <input type="text" name="evacuation_latitude" id="evacuation_latitude"
-                                class="form-control" autocomplete="off">
-                            <span class="text-danger error-text evacuation_latitude_error"></span>
+                            <input type="text" name="latitude" id="latitude" class="form-control"
+                                autocomplete="off">
+                            <span class="text-danger error-text latitude_error"></span>
                         </div>
                         <div class="mb-3">
-                            <label for="evacuation_longitude" class="flex items-center justify-center">Evacuation
+                            <label for="longitude" class="flex items-center justify-center">Evacuation
                                 Logitude</label>
-                            <input type="text" name="evacuation_longitude" id="evacuation_longitude"
-                                class="form-control" autocomplete="off">
-                            <span class="text-danger error-text evacuation_longitude_error"></span>
+                            <input type="text" name="longitude" id="longitude" class="form-control"
+                                autocomplete="off">
+                            <span class="text-danger error-text longitude_error"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label for="status" class="flex items-center justify-center">Status</label>
+                            <input type="text" name="status" id="status" class="form-control" autocomplete="off">
+                            <span class="text-danger error-text status_error"></span>
                         </div>
                         <div class="modal-footer text-white">
-                            <button type="button"
-                                class="bg-slate-700 p-2 rounded shadow-lg hover:shadow-xl"
+                            <button type="button" class="bg-slate-700 p-2 rounded shadow-lg hover:shadow-xl"
                                 data-bs-dismiss="modal">Close</button>
                             <button type="button" id="editEvacuationCenterBtn"
                                 class="bg-red-700 p-2 rounded shadow-lg hover:shadow-xl">Update

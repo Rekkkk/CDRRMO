@@ -10,7 +10,7 @@ class GuideSeeder extends Seeder
 {
     public function run(): void
     {
-        Guide::create([
+        Guide::insert([
             'label' => ('TESTING PHASE'),
             'content' => ('TESTING PHASE GUIDELINES SECTION IN CABUYAO CITY DISASTER RISK REDUCTION MANAGEMENT OFFICE USING E-LIGTAS SYSTEM'),
             'guideline_id' => 1,

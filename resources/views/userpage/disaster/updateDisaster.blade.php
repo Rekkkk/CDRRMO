@@ -1,4 +1,4 @@
-@if (Auth::user()->user_role == '1')
+@if (Auth::user()->user_role == 'CDRRMO')
     <div class="modal fade" id="editDisaster" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -12,10 +12,10 @@
                         <input type="text" name="disasterId" id="disasterId" hidden>
                         @csrf
                         <div class="mb-3">
-                            <label for="disaster_type" class="flex items-center justify-center">Disaster Type</label>
-                            <input type="text" name="disaster_type" id="disaster_type" class="form-control"
+                            <label for="type" class="flex items-center justify-center">Disaster Type</label>
+                            <input type="text" name="type" id="type" class="form-control"
                                 autocomplete="off">
-                            <span class="text-danger error-text disaster_type_error"></span>
+                            <span class="text-danger error-text type_error"></span>
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="cancelUpdate"

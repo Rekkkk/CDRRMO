@@ -10,7 +10,7 @@ return new class extends Migration
     {
         Schema::create('activity_log', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->references('id')->on('user')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('user_id')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
             $table->string('activity');
             $table->string('date_time');
         });

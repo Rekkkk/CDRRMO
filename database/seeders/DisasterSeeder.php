@@ -11,11 +11,11 @@ class DisasterSeeder extends Seeder
     public function run(): void
     {
 
-        Disaster::create([
+        Disaster::insert([
             'type' => ('Typhoon')
         ]);
 
-        Disaster::create([
+        Disaster::insert([
             'type' => ('Flooding')
         ]);
     }

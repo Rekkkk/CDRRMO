@@ -7,8 +7,6 @@ use App\Models\Disaster;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
-use Illuminate\Support\Facades\Auth;
-use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 
 class DisasterController extends Controller
@@ -47,31 +45,24 @@ class DisasterController extends Controller
     public function updateDisaster(Request $request, $disasterId)
     {
         $validatedDisaster = Validator::make($request->all(), [
-            'disaster_type' => 'required',
+            'type' => 'required',
         ]);
 
         if ($validatedDisaster->passes()) {
-
             $disasterData = [
-                'disaster_type' => Str::ucfirst(trim($request->input('disaster_type')))
+                'type' => Str::ucfirst(trim($request->type))
             ];
 
             try {
                 $this->disaster->updateDisasterObject($disasterData, $disasterId);
-                $currentDate = Carbon::now();
-                $todayDate = $currentDate->toDayDateTimeString();
 
                 ActivityUserLog::create([
-                    'email' => Auth::user()->email,
-                    'user_role' => Auth::user()->user_role,
-                    'role_name' => Auth::user()->role_name,
+                    'user_id' => auth()->user()->id,
                     'activity' => 'Updating Disaster Information',
-                    'date_time' => $todayDate,
+                    'date_time' =>  Carbon::now()->toDayDateTimeString()
                 ]);
-
-                Alert::success(config('app.name'), 'Disaster Updated Successfully.');
             } catch (\Exception $e) {
-                Alert::error(config('app.name'), 'Failed to Update Disaster.');
+                //
             }
 
             return response()->json(['status' => 1]);
@@ -86,9 +77,7 @@ class DisasterController extends Controller
             $this->disaster->removeDisasterObject($disasterId);
 
             ActivityUserLog::create([
-                'email' => Auth::user()->email,
-                'user_role' => Auth::user()->user_role,
-                'role_name' => Auth::user()->role_name,
+                'user_id' => auth()->user()->id,
                 'activity' => 'Deleting Disaster Information',
                 'date_time' => Carbon::now()->toDayDateTimeString()
             ]);

@@ -33,10 +33,9 @@
                             <th class="w-px">Report ID</th>
                             <th>Report Description</th>
                             <th>Accident Location</th>
-                            <th>Contact</th>
-                            <th>Email Address</th>
+                            <th>Actual Photo</th>
                             <th class="w-4">Status</th>
-                            @if (Auth::check() && Auth::user()->user_role == '1')
+                            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
                                 <th class="w-4">Action</th>
                             @endif
                         </tr>
@@ -59,40 +58,26 @@
                                     <input type="hidden" name="report_id" id="report_id">
 
                                     <div class="mb-3">
-                                        <label for="report_description" class="flex items-center justify-center">Report
+                                        <label for="description" class="flex items-center justify-center">Report
                                             Description</label>
-                                        <input type="text" id="report_description" name="report_description"
+                                        <input type="text" id="description" name="description"
                                             class="form-control" placeholder="Enter Incident Description"
                                             autocomplete="off">
-                                        <span class="text-danger error-text report_description_error"></span>
+                                        <span class="text-danger error-text description_error"></span>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="report_location" class="flex items-center justify-center">Report
+                                        <label for="location" class="flex items-center justify-center">Report
                                             Location</label>
-                                        <input type="text" id="report_location" name="report_location"
+                                        <input type="text" id="location" name="location"
                                             class="form-control" placeholder="Enter Incident Location" autocomplete="off">
-                                        <span class="text-danger error-text report_location_error"></span>
+                                        <span class="text-danger error-text location_error"></span>
                                     </div>
                                     <div class="mb-3">
-                                        <label for="contact" class="flex items-center justify-center">Contact
-                                            Number</label>
-                                        <input type="text" id="contact" name="contact" class="form-control"
-                                            placeholder="Enter Contact Number" autocomplete="off">
-                                        <span class="text-danger error-text contact_error"></span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="email" class="flex items-center justify-center">Email
-                                            Address</label>
-                                        <input type="text" id="email" name="email" class="form-control"
-                                            placeholder="Enter Email Address" autocomplete="off">
-                                        <span class="text-danger error-text email_error"></span>
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="report_photo" class="flex items-center justify-center">Report
+                                        <label for="photo" class="flex items-center justify-center">Report
                                             Photo</label>
-                                        <input type="file" id="report_photo" name="report_photo" class="form-control"
+                                        <input type="file" id="photo" name="photo" class="form-control"
                                             placeholder="Enter Incident Location" autocomplete="off">
-                                        <span class="text-danger error-text report_photo_error"></span>
+                                        <span class="text-danger error-text photo_error"></span>
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button"
@@ -131,7 +116,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
 
-    @if (Auth::check() && Auth::user()->user_role == '1')
+    @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
         <script type="text/javascript">
             $(document).ready(function() {
                 $.ajaxSetup({
@@ -153,20 +138,16 @@
                             name: 'DT_RowIndex'
                         },
                         {
-                            data: 'report_description',
-                            name: 'report_description'
+                            data: 'description',
+                            name: 'description'
                         },
                         {
-                            data: 'report_location',
-                            name: 'report_location'
+                            data: 'location',
+                            name: 'location'
                         },
                         {
-                            data: 'contact',
-                            name: 'contact'
-                        },
-                        {
-                            data: 'email',
-                            name: 'email'
+                            data: 'photo',
+                            name: 'photo'
                         },
                         {
                             data: 'status',
@@ -231,7 +212,7 @@
                         showCancelButton: true,
                         confirmButtonColor: '#334155',
                         cancelButtonColor: '#b91c1c',
-                        confirmButtonText: 'Yes, delete it.'
+                        confirmButtonText: 'Yes, remove it.'
                     }).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
@@ -287,20 +268,16 @@
                             name: 'DT_RowIndex'
                         },
                         {
-                            data: 'report_description',
-                            name: 'report_description'
+                            data: 'description',
+                            name: 'description'
                         },
                         {
-                            data: 'report_location',
-                            name: 'report_location'
+                            data: 'location',
+                            name: 'location'
                         },
                         {
-                            data: 'contact',
-                            name: 'contact'
-                        },
-                        {
-                            data: 'email',
-                            name: 'email'
+                            data: 'photo',
+                            name: 'photo'
                         },
                         {
                             data: 'status',

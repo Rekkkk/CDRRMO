@@ -1,4 +1,4 @@
-@if (Auth::check() && Auth::user()->user_role == '1')
+@if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
     <div class="modal fade" id="createGuidelineModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -10,11 +10,11 @@
                         @csrf
                         <input type="hidden" name="create_guideline_id" id="create_guideline_id">
                         <div class="mb-3">
-                            <label for="guideline_description" class="flex items-center justify-center">Guideline
+                            <label for="type" class="flex items-center justify-center">Guideline
                                 Description</label>
-                            <input type="text" name="guideline_description" class="form-control" autocomplete="off"
+                            <input type="text" name="type" class="form-control" autocomplete="off"
                                 placeholder="Enter Guideline">
-                            <span class="text-danger error-text guideline_description_error"></span>
+                            <span class="text-danger error-text type_error"></span>
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="bg-slate-700 text-white p-2 rounded shadow-lg hover:shadow-xl"

@@ -46,23 +46,21 @@
                 <table class="table bg-slate-50">
                     <thead>
                         <tr>
-                            <th scope="col">Evacuation Center Id</th>
                             <th scope="col">Evacuation Center Name</th>
-                            <th scope="col">Evacuation Center Contact</th>
-                            <th scope="col">Evacuation Center Address</th>
+                            <th scope="col">Barangay Name</th>
                             <th scope="col">Latitude</th>
-                            <th scope="col" colspan="2">Longitude</th>
+                            <th scope="col">Longitude</th>
+                            <th scope="col" colspan="2">Status</th>
                         </tr>
                     </thead>
                     <tbody>
                         @forelse ($evacuationCenter as $evacuationCenterList)
                             <tr>
-                                <th>{{ $evacuationCenterList->evacuation_center_id }}</th>
-                                <td>{{ $evacuationCenterList->evacuation_center_name }}</td>
-                                <td>{{ $evacuationCenterList->evacuation_center_contact }}</td>
-                                <td>{{ $evacuationCenterList->evacuation_center_address }}</td>
+                                <td>{{ $evacuationCenterList->name }}</td>
+                                <td>{{ $evacuationCenterList->barangay_name }}</td>
                                 <td>{{ $evacuationCenterList->latitude }}</td>
                                 <td>{{ $evacuationCenterList->longitude }}</td>
+                                <td>{{ $evacuationCenterList->status }}</td>
                                 @guest
                                     <td>
                                         <a href="#"

@@ -34,48 +34,23 @@
                         <div class="form evacuation my-3">
                             <div class="fields">
                                 <div class="flex flex-col">
-                                    <label for="evacuation_center_name">Evacuation Center Name</label>
-                                    <input type="text" name="evacuation_center_name"
-                                        value="{{ !empty(old('evacuation_center_name')) ? old('evacuation_center_name') : null }}"
+                                    <label for="name">Evacuation Center Name</label>
+                                    <input type="text" name="name"
+                                        value="{{ !empty(old('name')) ? old('name') : null }}"
                                         class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
                                         autocomplete="off" placeholder="Evacuation Center Name">
-                                    <span
-                                        class="text-danger italic text-xs error-text evacuation_center_name_error"></span>
+                                    <span class="text-danger italic text-xs error-text name_error"></span>
                                 </div>
                             </div>
 
                             <div class="fields">
                                 <div class="flex flex-col">
-                                    <label for="evacuation_center_contact">Evacuation Center Contact</label>
-                                    <input type="text" name="evacuation_center_contact"
-                                        value="{{ !empty(old('evacuation_center_contact')) ? old('evacuation_center_contact') : null }}"
+                                    <label for="barangay_name">Barangay Name</label>
+                                    <input type="text" name="barangay_name"
+                                        value="{{ !empty(old('barangay_name')) ? old('barangay_name') : null }}"
                                         class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Evacuation Center Contact">
-                                    <span
-                                        class="text-danger italic text-xs error-text evacuation_center_contact_error"></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="flex flex-col">
-                                    <label for="evacuation_center_address">Evacuation Center Address</label>
-                                    <input type="text" name="evacuation_center_address"
-                                        value="{{ !empty(old('evacuation_center_address')) ? old('evacuation_center_address') : null }}"
-                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Evacuation Center Address">
-                                    <span
-                                        class="text-danger italic text-xs error-text evacuation_center_address_error"></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="flex flex-col">
-                                    <label for="barangay_id">Barangay Id</label>
-                                    <input type="text" name="barangay_id"
-                                        value="{{ !empty(old('barangay_id')) ? old('barangay_id') : null }}"
-                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Evacuation Center Address">
-                                    <span class="text-danger italic text-xs error-text barangay_id_error"></span>
+                                        autocomplete="off" placeholder="Barangay Name">
+                                    <span class="text-danger italic text-xs error-text barangay_name_error"></span>
                                 </div>
                             </div>
 
@@ -85,7 +60,7 @@
                                     <input type="text" name="latitude"
                                         value="{{ !empty(old('latitude')) ? old('latitude') : null }}"
                                         class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Evacuation Center Address">
+                                        autocomplete="off" placeholder="Evacuation Latitude">
                                     <span class="text-danger italic text-xs error-text latitude_error"></span>
                                 </div>
                             </div>
@@ -96,7 +71,7 @@
                                     <input type="text" name="longitude"
                                         value="{{ !empty(old('longitude')) ? old('longitude') : null }}"
                                         class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Evacuation Center Address">
+                                        autocomplete="off" placeholder="Evacuation Longitude">
                                     <span class="text-danger italic text-xs error-text longitude_error"></span>
                                 </div>
                             </div>
@@ -118,10 +93,10 @@
                         <thead>
                             <tr>
                                 <th>Evacuation Center Name</th>
-                                <th>Evacuation Center Contact</th>
-                                <th>Evacuation Center Address</th>
+                                <th>Barangay_id</th>
                                 <th>Latitude</th>
                                 <th>Longitude</th>
+                                <th>Status</th>
                                 <th class="w-4">Action</th>
                             </tr>
                         </thead>
@@ -160,16 +135,12 @@
                 serverSide: true,
                 ajax: "{{ route('evacuation.center.cdrrmo') }}",
                 columns: [{
-                        data: 'evacuation_center_name',
-                        name: 'evacuation_center_name'
+                        data: 'name',
+                        name: 'name'
                     },
                     {
-                        data: 'evacuation_center_contact',
-                        name: 'evacuation_center_contact'
-                    },
-                    {
-                        data: 'evacuation_center_address',
-                        name: 'evacuation_center_address'
+                        data: 'barangay_name',
+                        name: 'barangay_name'
                     },
                     {
                         data: 'latitude',
@@ -178,6 +149,10 @@
                     {
                         data: 'longitude',
                         name: 'longitude'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status'
                     },
                     {
                         data: 'action',
@@ -257,12 +232,11 @@
                         .replace(':evacuation_center_id', evacuation_center_id),
                     dataType: "json",
                     success: function(response) {
-                        $('#evacuation_name').val(response.result.evacuation_center_name);
-                        $('#evacuation_contact').val(response.result.evacuation_center_contact);
-                        $('#evacuation_address').val(response.result.evacuation_center_address);
-                        $('#barangay_evacuation_id').val(response.result.barangay_id);
-                        $('#evacuation_latitude').val(response.result.latitude);
-                        $('#evacuation_longitude').val(response.result.longitude);
+                        $('#name').val(response.result.name);
+                        $('#barangay_name').val(response.result.barangay_name);
+                        $('#latitude').val(response.result.latitude);
+                        $('#longitude').val(response.result.longitude);
+                        $('#status').val(response.result.status);
                         $('#evacuationCenterId').val(evacuation_center_id);
                         $('#editEvacuationCenter').modal('show');
                     },
@@ -293,7 +267,7 @@
                             Swal.fire({
                                 icon: 'error',
                                 title: "{{ config('app.name') }}",
-                                text: 'Failed to Update Barangay!',
+                                text: 'Failed to Update Barangay.',
                                 confirmButtonText: 'Understood',
                                 confirmButtonColor: '#334155'
                             });
@@ -340,14 +314,24 @@
                             url: "{{ route('remove.evacuation.center.cdrrmo', ':evacuation_center_id') }}"
                                 .replace(':evacuation_center_id', evacuation_center_id),
                             success: function(response) {
-                                Swal.fire({
-                                    icon: 'success',
-                                    confirmButtonText: 'OK',
-                                    confirmButtonColor: '#334155',
-                                    title: "{{ config('app.name') }}",
-                                    text: 'Evacuation Center has been deleted.'
-                                });
-                                evacuationCenterTable.draw();
+                                if (response.status == 0) {
+                                    Swal.fire({
+                                        icon: 'error',
+                                        confirmButtonText: 'Understood',
+                                        confirmButtonColor: '#334155',
+                                        title: "{{ config('app.name') }}",
+                                        text: 'Failed to Remove Evacuation Center.'
+                                    });
+                                } else {
+                                    Swal.fire({
+                                        icon: 'success',
+                                        confirmButtonText: 'OK',
+                                        confirmButtonColor: '#334155',
+                                        title: "{{ config('app.name') }}",
+                                        text: 'Evacuation Center has been deleted.'
+                                    });
+                                    evacuationCenterTable.draw();
+                                }
                             },
                             error: function(response) {
                                 Swal.fire({

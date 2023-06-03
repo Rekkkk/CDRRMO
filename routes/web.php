@@ -30,7 +30,6 @@ Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function () {
     });
 
     Route::controller(ResidentController::class)->group(function () {
-        Route::get('/dashboard', 'dashboard')->name('dashboard.resident');
         Route::get('/eligtasGuideline', 'residentEligtasGuideline')->name('guideline.resident');
         Route::get('/eligtasGuideline/guideline/{guidelineId}', 'residentEligtasGuide')->name('guide.resident');
         Route::get('/evacuationCenter', 'residentEvacuationCenter')->name('evacuation.center.resident');

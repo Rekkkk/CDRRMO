@@ -23,6 +23,8 @@ class ActivityUserLog extends Model
         'date_time'
     ];
 
+    public $timestamps = false;
+
     public function generateLog($activity)
     {
         $activityLog = [

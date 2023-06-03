@@ -14,13 +14,6 @@ use Illuminate\Support\Facades\Crypt;
 
 class CdrrmoController extends Controller
 {
-    private $guideline;
-
-    function __construct()
-    {
-        $this->guideline = new Guideline;
-    }
-
     public function dashboard()
     {
         return view('userpage.dashboard');
@@ -28,14 +21,14 @@ class CdrrmoController extends Controller
 
     public function eligtasGuideline()
     {
-        $guideline = $this->guideline->displayGuideline();
+        $guideline = Guideline::all();
 
         return view('userpage.guideline.eligtasGuideline', compact('guideline'));
     }
 
     public function guide($guidelineId)
     {
-        $guide = Guide::where('guideline_id', Crypt::decryptString($guidelineId))->oldest()->get();
+        $guide = Guide::where('guideline_id', Crypt::decryptString($guidelineId))->get();
 
         $quiz = Quiz::where('guideline_id' , $guidelineId)->exists();
 
@@ -57,8 +50,8 @@ class CdrrmoController extends Controller
             return DataTables::of($data)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $editBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->disaster_id . '" data-original-title="Edit" class="bg-slate-700 hover:bg-slate-900 py-1.5 btn-sm mr-2 text-white updateDisaster">Edit</a>';
-                    $btn = $editBtn . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->disaster_id . '" data-original-title="Remove" class="bg-red-700 hover:bg-red-900 py-1.5 btn-sm mr-2 text-white removeDisaster">Remove</a>';
+                    $editBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="bg-slate-700 hover:bg-slate-900 py-1.5 btn-sm mr-2 text-white updateDisaster">Edit</a>';
+                    $btn = $editBtn . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="bg-red-700 hover:bg-red-900 py-1.5 btn-sm mr-2 text-white removeDisaster">Remove</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -109,14 +102,14 @@ class CdrrmoController extends Controller
 
     public function statistics()
     {
-        $typhoonMaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '1')->where('evacuee_gender', 'Male')->get();
-        $typhoonFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '1')->where('evacuee_gender', 'Female')->get();
-        $earthquakeMaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '2')->where('evacuee_gender', 'Male')->get();
-        $earthquakeFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '2')->where('evacuee_gender', 'Female')->get();
-        $roadAccidentMaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '3')->where('evacuee_gender', 'Male')->get();
-        $roadAccidentFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '3')->where('evacuee_gender', 'Female')->get();
-        $floodingMaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '4')->where('evacuee_gender', 'Male')->get();
-        $floodingFemaleData = Evacuee::select('evacuee_gender')->where('disaster_id', '4')->where('evacuee_gender', 'Female')->get();
+        $typhoonMaleData = Evacuee::select('sex')->where('disaster_id', '1')->where('sex', 'Male')->get();
+        $typhoonFemaleData = Evacuee::select('sex')->where('disaster_id', '1')->where('sex', 'Female')->get();
+        $earthquakeMaleData = Evacuee::select('sex')->where('disaster_id', '2')->where('sex', 'Male')->get();
+        $earthquakeFemaleData = Evacuee::select('sex')->where('disaster_id', '2')->where('sex', 'Female')->get();
+        $roadAccidentMaleData = Evacuee::select('sex')->where('disaster_id', '3')->where('sex', 'Male')->get();
+        $roadAccidentFemaleData = Evacuee::select('sex')->where('disaster_id', '3')->where('sex', 'Female')->get();
+        $floodingMaleData = Evacuee::select('sex')->where('disaster_id', '4')->where('sex', 'Male')->get();
+        $floodingFemaleData = Evacuee::select('sex')->where('disaster_id', '4')->where('sex', 'Female')->get();
 
         return view('userpage.statistics.statistics', compact('typhoonMaleData', 'typhoonFemaleData', 'earthquakeMaleData', 'earthquakeFemaleData', 'roadAccidentMaleData', 'roadAccidentFemaleData', 'floodingMaleData', 'floodingFemaleData'));
     }

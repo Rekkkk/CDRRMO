@@ -33,8 +33,9 @@ class Evacuee extends Model
         'evacuation_assigned'
     ];
 
+
     public function recordEvacueeObject($evacuee)
     {
-        return $this->create($evacuee);
+        return $this->insert($evacuee);
     }
 }

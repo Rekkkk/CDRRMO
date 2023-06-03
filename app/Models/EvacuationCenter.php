@@ -23,8 +23,10 @@ class EvacuationCenter extends Model
         'status'
     ];
 
+    public $timestamps = false;
+
     public function registerEvacuationCenterObject($evacuationCenter){
-        return $this->create($evacuationCenter);
+        return $this->insert($evacuationCenter);
     }
 
     public function updateEvacuationCenterObject($evacuationCenterData, $evacuationCenterId){

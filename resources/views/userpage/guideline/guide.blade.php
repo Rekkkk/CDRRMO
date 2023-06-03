@@ -23,7 +23,7 @@
                     <i class="bi bi-pencil mr-2"></i> Take Quiz
                 </button>
             @endguest
-            @if (Auth::check() && Auth::user()->user_role == '1')
+            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
                 @if ($quiz)
                     <a href="javascript:void(0)"
                         class="bg-slate-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-slate-900">
@@ -49,21 +49,21 @@
                 <div class="guide-container">
                     <div class="guide-content relative mx-2.5 my-2">
                         <div class="label relative bg-slate-900 text-white cursor-pointer p-3">
-                            {{ $guide->guide_description }}
+                            {{ $guide->label }}
                         </div>
                         <div class="content relative h-0 overflow-hidden bg-neutral-200">
                             <p class="mb-2">
-                                {{ $guide->guide_content }}
+                                {{ $guide->content }}
                             </p>
-                            @if (Auth::check() && Auth::user()->user_role == '1')
+                            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
                                 <div class="action-btn py-2 flex justify-start">
-                                    <a href="#edit{{ $guide->guide_id }}" data-bs-toggle="modal">
+                                    <a href="#edit{{ $guide->id }}" data-bs-toggle="modal">
                                         <button type="submit"
                                             class="bg-slate-700 p-2 text-white rounded shadow-lg hover:bg-slate-900">
                                             <i class="bi bi-pencil text-sm mr-2"></i>Edit
                                         </button>
                                     </a>
-                                    <a href="{{ route('remove.guide.cdrrmo', $guide->guide_id) }}">
+                                    <a href="{{ route('remove.guide.cdrrmo', $guide->id) }}">
                                         <button type="submit"
                                             class="bg-red-700 ml-2 p-2 text-white rounded shadow-lg hover:bg-red-900">
                                             <i class="bi bi-trash mr-2"></i>Remove

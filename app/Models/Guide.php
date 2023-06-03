@@ -22,14 +22,16 @@ class Guide extends Model
         'guideline_id'
     ];
 
+    public $timestamps = false;
+
     public function registerGuideObject($guide){
-        return $this->create($guide);
+        return $this->insert($guide);
     }
 
     public function updateGuideObject($request, $guideId){
         $guideData = [
-            'label' => Str::of(trim($request->input('guide_description')))->title(),
-            'content' => Str::of(trim($request->input('guide_content')))->title()
+            'label' => Str::of(trim($request->input('label')))->title(),
+            'content' => Str::ucfirst(trim($request->input('content')))
         ];
 
         $guide = $this->find($guideId);
