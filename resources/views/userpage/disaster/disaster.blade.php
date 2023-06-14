@@ -10,7 +10,7 @@
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-gray-400">
+<body>
     <div class="wrapper">
         @include('sweetalert::alert')
         @include('partials.content.header')
@@ -24,11 +24,11 @@
                 <hr class="mt-4">
             </div>
 
-            <div class="disaster-content flex bg-slate-50 p-4">
+            <div class="disaster-content flex bg-slate-50 shadow-lg p-4">
                 {{-- <div class="disaster-form p-5 mx-4 border-r-2">
                     <header class="text-xl font-semibold">Disaster Information</header>
                     <hr>
-                    <form action="{{ route('register.disaster.cdrrmo') }}" method="POST">
+                    <form action="{{ route('register.disaster.cswd') }}" method="POST">
                         @csrf
                         <div class="form disaster">
                             <div class="fields flex items-center justify-between flex-wrap">
@@ -97,7 +97,7 @@
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('disaster.cdrrmo') }}",
+                ajax: "{{ route('disaster.cswd') }}",
                 columns: [{
                         data: 'type',
                         name: 'type'
@@ -116,7 +116,7 @@
                 e.preventDefault();
 
                 $.ajax({
-                    url: "{{ route('disaster.details.cdrrmo', ':disaster_id') }}"
+                    url: "{{ route('disaster.details.cswd', ':disaster_id') }}"
                         .replace(':disaster_id', disaster_id),
                     dataType: "json",
                     success: function(response) {
@@ -141,7 +141,7 @@
                 e.preventDefault();
 
                 $.ajax({
-                    url: "{{ route('update.disaster.cdrrmo', ':disaster_id') }}"
+                    url: "{{ route('update.disaster.cswd', ':disaster_id') }}"
                         .replace(':disaster_id', disaster_id),
                     method: 'put',
                     data: $('#editDisasterForm').serialize(),
@@ -200,7 +200,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: "{{ route('remove.disaster.cdrrmo', ':disaster_id') }}"
+                            url: "{{ route('remove.disaster.cswd', ':disaster_id') }}"
                                 .replace(':disaster_id', disaster_id),
                             success: function(response) {
                                 Swal.fire({

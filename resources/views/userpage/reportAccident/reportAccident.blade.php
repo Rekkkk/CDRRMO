@@ -10,7 +10,7 @@
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-gray-400">
+<body>
     <div class="wrapper">
         @include('sweetalert::alert')
         @include('partials.content.header')
@@ -25,7 +25,7 @@
                 <hr class="mt-4">
             </div>
 
-            <div class="report-table bg-slate-100 p-4 rounded">
+            <div class="report-table bg-slate-50 shadow-lg p-4 rounded">
                 <header class="text-2xl font-semibold">Pending Accident Report</header>
                 <table class="table data-table display nowrap" style="width:100%">
                     <thead>
@@ -98,7 +98,7 @@
         @guest
             <div class="report-button">
                 <div class="report-form absolute bottom-7 right-5">
-                    <a class="bg-slate-800 hover:bg-slate-900 p-3 fs-4 rounded-full" href="javascript:void(0)"
+                    <a class="bg-slate-700 hover:bg-slate-800 p-3 fs-4 rounded-full" href="javascript:void(0)"
                         id="createReport">
                         <i class="bi bi-megaphone text-white"></i>
                     </a>

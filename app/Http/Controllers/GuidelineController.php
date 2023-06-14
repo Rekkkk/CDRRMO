@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Guide;
 use App\Models\Guideline;
 use Illuminate\Support\Str;
@@ -14,12 +13,13 @@ use Illuminate\Support\Facades\Validator;
 
 class GuidelineController extends Controller
 {
-    private $guideline, $guide;
+    private $guideline, $guide, $logActivity;
 
     function __construct()
     {
-        $this->guideline = new Guideline;
         $this->guide = new Guide;
+        $this->guideline = new Guideline;
+        $this->logActivity = new ActivityUserLog;
     }
 
     public function addGuideline(Request $request)
@@ -35,17 +35,12 @@ class GuidelineController extends Controller
 
             try {
                 $this->guideline->registerGuidelineObject($guidelineData);
+                $this->logActivity->generateLog('Registering Guideline');
+
+                return response()->json(['condition' => 1]);
             } catch (\Exception $e) {
-                Alert::error(config('app.name'), 'Failed to Add Guideline.');
+                return response()->json(['condition' => 0]);
             }
-
-            ActivityUserLog::create([
-                'user_id' => auth()->user()->id,
-                'activity' => 'Registering Guideline',
-                'date_time' => Carbon::now()->toDayDateTimeString()
-            ]);
-
-            return response()->json(['condition' => 1]);
         }
 
         return response()->json(['condition' => 0, 'error' => $validatedGuideline->errors()->toArray()]);
@@ -53,7 +48,6 @@ class GuidelineController extends Controller
 
     public function updateGuideline(Request $request, $guidelineId)
     {
-
         $validatedGuideline = Validator::make($request->all(), [
             'type' => 'required'
         ]);
@@ -61,12 +55,7 @@ class GuidelineController extends Controller
         if ($validatedGuideline->passes()) {
             try {
                 $this->guideline->updateGuidelineObject($request, $guidelineId);
-
-                ActivityUserLog::create([
-                    'user_id' => auth()->user()->id,
-                    'activity' => 'Updating Guideline',
-                    'date_time' => Carbon::now()->toDayDateTimeString()
-                ]);
+                $this->logActivity->generateLog('Updating Guideline');
 
                 Alert::success(config('app.name'), 'Guideline Successfully Updated.');
             } catch (\Exception $e) {
@@ -84,12 +73,7 @@ class GuidelineController extends Controller
     {
         try {
             $this->guideline->removeGuidelineObject(Crypt::decryptString($guidelineId));
-
-            ActivityUserLog::create([
-                'user_id' => auth()->user()->id,
-                'activity' => 'Deleting Guideline',
-                'date_time' => Carbon::now()->toDayDateTimeString()
-            ]);
+            $this->logActivity->generateLog('Deleting Guideline');
 
             Alert::success(config('app.name'), 'Guideline Deleted Successfully.');
         } catch (\Exception $e) {
@@ -115,17 +99,12 @@ class GuidelineController extends Controller
 
             try {
                 $this->guide->registerGuideObject($guideData);
+                $this->logActivity->generateLog('Registering Guide');
+    
+                return response()->json(['condition' => 1]);
             } catch (\Exception $e) {
-                Alert::error(config('app.name'), 'Failed to Add Guide.');
+                return response()->json(['condition' => 0]);
             }
-
-            ActivityUserLog::create([
-                'user_id' => auth()->user()->id,
-                'activity' => 'Registering Guide',
-                'date_time' => Carbon::now()->toDayDateTimeString()
-            ]);
-
-            return response()->json(['condition' => 1]);
         }
 
         return response()->json(['condition' => 0, 'error' => $validatedGuide->errors()->toArray()]);
@@ -141,12 +120,7 @@ class GuidelineController extends Controller
         if ($validatedGuide->passes()) {
             try {
                 $this->guide->updateGuideObject($request, $guideId);
-
-                ActivityUserLog::create([
-                    'user_id' => auth()->user()->id,
-                    'activity' => 'Updating Guide',
-                    'date_time' => Carbon::now()->toDayDateTimeString()
-                ]);
+                $this->logActivity->generateLog('Updating Guide');
 
                 Alert::success(config('app.name'), 'Guide Successfully Updated.');
             } catch (\Exception $e) {
@@ -160,12 +134,7 @@ class GuidelineController extends Controller
     {
         try {
             $this->guide->removeGuideObject($guideId);
-
-            ActivityUserLog::create([
-                'user_id' =>auth()->user()->id,
-                'activity' => 'Removing Guide',
-                'date_time' => Carbon::now()->toDayDateTimeString()
-            ]);
+            $this->logActivity->generateLog('Removing Guide');
 
             Alert::success(config('app.name'), 'Guide Removed Successfully.');
         } catch (\Exception $e) {

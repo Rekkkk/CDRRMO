@@ -10,15 +10,14 @@
     <script src="//unpkg.com/alpinejs" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    </script>
     <link rel="shortcut icon" href="{{ asset('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-slate-900">
+<body class="bg-slate-800">
     <header class="h-20 w-full">
-        <div class="relative bg-red-900 h-full">
+        <div class="relative bg-red-700 h-full">
             <img class="w-22 m-auto h-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
         </div>
     </header>
@@ -29,8 +28,7 @@
                     <h1 class="text-white py-2 text-4xl font-semibold">{{ config('app.name') }}</h1>
                     <div class="pt-4">
                         <span class="text-slate-400 text-lg">E-LIGTAS help you to locate evacuation center and to share
-                            knowledge on disaster
-                            preparedness.</span>
+                            knowledge about disaster preparedness.</span>
                     </div>
                 </div>
                 <div class="login-form-section w-96 h-3/4 bg-slate-100 drop-shadow-2xl rounded">
@@ -38,26 +36,26 @@
                         @csrf
                         <div class="my-3">
                             <input type="email" name="email" class="form-control p-3"
-                                value="{{ !empty(old('email')) ? old('email') : null }}" placeholder="Email address"
+                                value="{{ !empty(old('email')) ? old('email') : null }}" placeholder="Email Address"
                                 required>
                         </div>
                         <div class="my-3 relative">
                             <input type="password" name="password" id="password" class="form-control p-3"
-                                autocomplete="off" placeholder="Password" style="padding-right: 3rem;">
-                            <i class="bi bi-eye-slash absolute top-0 right-0 cursor-pointer text-2xl" id="show-password"
+                                autocomplete="off" placeholder="Password">
+                            <i class="bi bi-eye-slash absolute top-0 right-0 cursor-pointer text-2xl " id="show-password"
                                 style="margin: 0.8rem;"></i>
                         </div>
                         <div class="login-btn">
                             <button type="submit"
-                                class="font-bold text-lg w-full bg-slate-800 text-white p-3 rounded shadow-lg hover:bg-slate-900">Log
+                                class="font-bold cursor-pointer text-lg w-full bg-slate-700 text-white p-3 rounded shadow-lg hover:bg-slate-800">Log
                                 in</button>
                         </div>
                     </form>
-                    <form action="{{ route('guideline.resident') }}" method="POST" class="cursor-pointer py-2 px-3">
+                    <form action="{{ route('guideline.resident') }}" method="POST" class="py-2 px-3">
                         @method('GET')
                         @csrf
                         <button type="submit"
-                            class="font-bold text-lg w-full bg-red-800 text-white p-3 rounded shadow-lg hover:bg-red-900">
+                            class="font-bold cursor-pointer text-lg w-full bg-red-700 text-white p-3 rounded shadow-lg hover:bg-red-800">
                             Continue as resident
                         </button>
                     </form>

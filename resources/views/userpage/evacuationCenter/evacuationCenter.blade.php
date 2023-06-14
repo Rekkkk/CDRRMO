@@ -7,7 +7,7 @@
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-gray-400">
+<body>
     <div class="wrapper">
 
         @include('partials.content.header')

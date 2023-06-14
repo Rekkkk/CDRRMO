@@ -21,10 +21,6 @@ class Disaster extends Model
 
     public $timestamps = false;
 
-    public function displayDisasterObject(){
-        return $this->all()->sortBy('id');
-    }
-
     public function updateDisasterObject($disasterData, $disasterId){
         $disaster = $this->find($disasterId);
         $disaster->update($disasterData);

@@ -4,23 +4,23 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\ReportLog;
+use App\Models\Reporting;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Models\Reporting;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 
 class ReportAccidentController extends Controller
 {
 
-    private $reportAccident;
+    private $reportAccident, $logActivity;
 
     function __construct()
     {
         $this->reportAccident = new Reporting;
+        $this->logActivity = new ActivityUserLog;
     }
 
     public function displayCReport(Request $request)
@@ -28,8 +28,7 @@ class ReportAccidentController extends Controller
         $report = Reporting::latest()->get();
 
         if ($request->ajax()) {
-            $data = Reporting::latest()->get();
-            return DataTables::of($data)
+            return DataTables::of($report)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $approved = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" class="approve bg-slate-700 hover:bg-slate-900 py-1.5 btn-sm mr-2 text-white approveAccidentReport">Approve</a>';
@@ -48,8 +47,7 @@ class ReportAccidentController extends Controller
         $report = Reporting::latest()->get();
 
         if ($request->ajax()) {
-            $data = Reporting::latest()->get();
-            return DataTables::of($data)->addIndexColumn()->make(true);
+            return DataTables::of($report)->addIndexColumn()->make(true);
         }
 
         return view('userpage.reportAccident.reportAccident', compact('report'));
@@ -124,13 +122,7 @@ class ReportAccidentController extends Controller
     {
         try {
             $this->reportAccident->approveAccidentReportObject($reportId);
-
-            ActivityUserLog::create([
-                'user_id' => auth()->user()->id,
-                'activity' => 'Approving Accident Report',
-                'date_time' => Carbon::now()->toDayDateTimeString()
-            ]);
-
+            $this->logActivity->generateLog('Approving Accident Report');
         } catch (\Exception $e) {
             Alert::success(config('app.name'), 'Failed to Report Accident.');
         }
@@ -142,12 +134,7 @@ class ReportAccidentController extends Controller
     {
         try {
             $this->reportAccident->removeAccidentReportObject($reportAccidentId);
-
-            ActivityUserLog::create([
-                'user_id' => auth()->user()->id,
-                'activity' => 'Removing Accident Report',
-                'date_time' => Carbon::now()->toDayDateTimeString()
-            ]);
+            $this->logActivity->generateLog('Removing Accident Report');
         } catch (\Exception $e) {
             Alert::success(config('app.name'), 'Failed to Report Accident.');
         }

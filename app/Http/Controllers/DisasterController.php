@@ -11,11 +11,12 @@ use Illuminate\Support\Facades\Validator;
 
 class DisasterController extends Controller
 {
-    private $disaster;
+    private $disaster, $logActivity;
 
     function __construct()
     {
         $this->disaster = new Disaster;
+        $this->logActivity = new ActivityUserLog;
     }
 
     // public function registerDisaster(DisasterRequest $request){
@@ -55,17 +56,12 @@ class DisasterController extends Controller
 
             try {
                 $this->disaster->updateDisasterObject($disasterData, $disasterId);
+                $this->logActivity->generateLog('Updating Disaster Information');
 
-                ActivityUserLog::create([
-                    'user_id' => auth()->user()->id,
-                    'activity' => 'Updating Disaster Information',
-                    'date_time' =>  Carbon::now()->toDayDateTimeString()
-                ]);
+                return response()->json(['status' => 1]);
             } catch (\Exception $e) {
-                //
+                return response()->json(['status' => 0]);
             }
-
-            return response()->json(['status' => 1]);
         }
 
         return response()->json(['status' => 0, 'error' => $validatedDisaster->errors()->toArray()]);
@@ -75,16 +71,11 @@ class DisasterController extends Controller
     {
         try {
             $this->disaster->removeDisasterObject($disasterId);
+            $this->logActivity->generateLog('Deleting Disaster Information');
 
-            ActivityUserLog::create([
-                'user_id' => auth()->user()->id,
-                'activity' => 'Deleting Disaster Information',
-                'date_time' => Carbon::now()->toDayDateTimeString()
-            ]);
+            return response()->json();
         } catch (\Exception $e) {
             return response()->json(['condition' => 0]);
         }
-
-        return response()->json();
     }
 }

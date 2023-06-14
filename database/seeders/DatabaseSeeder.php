@@ -20,27 +20,6 @@ class DatabaseSeeder extends Seeder
         $this->call(FlashFloodSeeder::class);
 
         User::insert([
-            'email' => ('francis123@gmail.com'),
-            'password' => Hash::make('francis123'),
-            'user_role' => 'Developer',
-            'position' => 'Junior'
-        ]);
-        
-        User::insert([
-            'email' => ('margallo123@gmail.com'),
-            'password' => Hash::make('margallo123'),
-            'user_role' => 'Developer',
-            'position' => 'Junior'
-        ]);
-
-        User::insert([
-            'email' => ('perez123@gmail.com'),
-            'password' => Hash::make('perez123'),
-            'user_role' => 'Developer',
-            'position' => 'Junior'
-        ]);
-
-        User::insert([
             'email' => ('CDRRMO123@gmail.com'),
             'password' => Hash::make('CDRRMO_Admin_Panel'),
             'user_role' => 'CDRRMO',

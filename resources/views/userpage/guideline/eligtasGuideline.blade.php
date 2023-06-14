@@ -7,7 +7,7 @@
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-gray-400">
+<body>
     <div class="wrapper">
         @include('sweetalert::alert')
         @include('partials.content.header')
@@ -22,11 +22,11 @@
                 <hr class="mt-4">
             </div>
 
-            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO' || Auth::check() && Auth::user()->user_role == 'CSWD')
                 <div class="guidelines-btn py-2 flex justify-end">
                     <a class="bg-slate-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-slate-900"
                         id="createGuidelineBtn" href="javascript:void(0)">
-                        <i class="bi bi-file-earmark-plus-fill mr-2"></i></i>Publish Guideline
+                        <i class="bi bi-file-earmark-plus-fill mr-2"></i></i>Create Guideline
                     </a>
                     @include('userpage.guideline.addGuideline')
                 </div>
@@ -36,7 +36,7 @@
                 <div class="row gap-4 justify-center items-center">
                     @forelse ($guideline as $guidelineItem)
                         <div class="col-lg-2 mb-4 relative">
-                            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+                            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO' || Auth::check() && Auth::user()->user_role == 'CSWD')
                                 <a href="{{ route('remove.guideline.cdrrmo', Crypt::encryptString($guidelineItem->id)) }}"
                                     class="absolute right-0">
                                     <i
@@ -50,7 +50,7 @@
                                 @include('userpage.guideline.updateGuideline')
 
                                 <a class="guidelines-item"
-                                    href="{{ route('guide.cdrrmo', Crypt::encryptString($guidelineItem->id)) }}">
+                                    href="{{ route('guide.cswd', Crypt::encryptString($guidelineItem->id)) }}">
                                     <div class="relative bg-slate-50 drop-shadow-xl -z-50 overflow-hidden">
                                         <img class="w-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}"
                                             alt="logo">
@@ -62,7 +62,7 @@
                             @guest
                                 <a class="guidelines-item"
                                     href="{{ route('guide.resident', Crypt::encryptString($guidelineItem->id)) }}">
-                                    <div class="relative bg-slate-50 drop-shadow-xl overflow-hidden">
+                                    <div class="relative bg-slate-50 shadow-lg overflow-hidden">
                                         <img class="w-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
                                         <p class="absolute w-full h-3/6 top-2/4 text-white bg-slate-900">
                                             {{ $guidelineItem->type }}</p>

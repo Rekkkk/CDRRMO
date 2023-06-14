@@ -15,7 +15,7 @@
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-gray-400">
+<body>
     <div class="wrapper">
 
         @include('partials.content.header')
@@ -31,7 +31,7 @@
             </div>
 
             <div class="about-content flex">
-                <div class="location-section drop-shadow-2xl bg-slate-600 p-6 text-white">
+                <div class="location-section shadow-2xl bg-slate-600 p-6 text-white">
                     <div class="text-center">
                         <span class="text-2xl font-bold">Location</span>
                     </div>

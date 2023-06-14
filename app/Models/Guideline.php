@@ -22,6 +22,9 @@ class Guideline extends Model
 
     public $timestamps = false;
 
+    public function retrieveAll(){
+        return $this->all();
+    }
     public function registerGuidelineObject($guideline){
         return $this->create($guideline);
     }

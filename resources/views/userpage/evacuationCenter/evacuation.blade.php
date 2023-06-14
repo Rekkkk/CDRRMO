@@ -10,7 +10,7 @@
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-gray-400">
+<body>
     <div class="wrapper">
         @include('sweetalert::alert')
         @include('partials.content.header')
@@ -25,7 +25,7 @@
                 <hr class="mt-4">
             </div>
 
-            <div class="evacuation-content flex bg-slate-50 p-4">
+            <div class="evacuation-content flex bg-slate-50 shadow-lg p-4">
                 <div class="evacuation-form p-3 mx-2 border-r-2">
                     <header class="text-xl font-semibold">Evacuation Center Information</header>
                     <hr>
@@ -77,7 +77,7 @@
                             </div>
                         </div>
                         <div class="evacuation-button">
-                            <a href="{{ route('dashboard.cdrrmo') }}">
+                            <a href="{{ route('dashboard.cswd') }}">
                                 <button type="button"
                                     class="bg-slate-700 text-white p-2 rounded shadow-lg hover:bg-slate-900">Cancel</button>
                             </a>
@@ -93,7 +93,7 @@
                         <thead>
                             <tr>
                                 <th>Evacuation Center Name</th>
-                                <th>Barangay_id</th>
+                                <th>Barangay</th>
                                 <th>Latitude</th>
                                 <th>Longitude</th>
                                 <th>Status</th>
@@ -133,7 +133,7 @@
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('evacuation.center.cdrrmo') }}",
+                ajax: "{{ route('evacuation.center.cswd') }}",
                 columns: [{
                         data: 'name',
                         name: 'name'
@@ -178,7 +178,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             data: $('#addEvacuationCenterForm').serialize(),
-                            url: "{{ route('register.evacuation.center.cdrrmo') }}",
+                            url: "{{ route('register.evacuation.center.cswd') }}",
                             type: "POST",
                             dataType: 'json',
                             beforeSend: function(response) {
@@ -228,7 +228,7 @@
                 e.preventDefault();
 
                 $.ajax({
-                    url: "{{ route('evacuation.center.detail.cdrrmo', ':evacuation_center_id') }}"
+                    url: "{{ route('evacuation.center.detail.cswd', ':evacuation_center_id') }}"
                         .replace(':evacuation_center_id', evacuation_center_id),
                     dataType: "json",
                     success: function(response) {
@@ -251,7 +251,7 @@
                 e.preventDefault();
 
                 $.ajax({
-                    url: "{{ route('update.evacuation.center.cdrrmo', ':evacuation_center_id') }}"
+                    url: "{{ route('update.evacuation.center.cswd', ':evacuation_center_id') }}"
                         .replace(':evacuation_center_id', evacuation_center_id),
                     method: 'PUT',
                     data: $('#editEvacuationForm').serialize(),
@@ -311,7 +311,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: "{{ route('remove.evacuation.center.cdrrmo', ':evacuation_center_id') }}"
+                            url: "{{ route('remove.evacuation.center.cswd', ':evacuation_center_id') }}"
                                 .replace(':evacuation_center_id', evacuation_center_id),
                             success: function(response) {
                                 if (response.status == 0) {
