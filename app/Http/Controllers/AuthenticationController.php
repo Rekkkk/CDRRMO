@@ -21,10 +21,10 @@ class AuthenticationController extends Controller
     public function authUser(Request $request)
     {
         $credentials = $request->only('email', 'password');
-        
-        if (auth()->attempt($credentials)) 
+
+        if (auth()->attempt($credentials))
             return $this->checkUserRole();
-            
+
         return back()->withInput()->with('message', 'Incorrect Password!');
     }
 
@@ -34,13 +34,12 @@ class AuthenticationController extends Controller
             $userRole = auth()->user()->user_role;
             $this->logActivity->generateLog('Logged In');
 
-            if ($userRole == 'CDRRMO') {
+            if ($userRole == 'CDRRMO')
                 return redirect('/cdrrmo/dashboard')->with('message', 'Welcome to CDRRMO Panel.');
-            } else if ($userRole == 'CSWD') {
+            else if ($userRole == 'CSWD')
                 return redirect('/cswd/dashboard')->with('message', 'Welcome to CSWD Panel.');
-            } else if ($userRole == 'Developer') {
+            else if ($userRole == 'Developer')
                 return redirect('/developer/dashboard')->with('message', 'Welcome to Developer Panel.');
-            }
         }
 
         return back();
@@ -56,6 +55,6 @@ class AuthenticationController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/')->with('message', 'Successfully Logout ' . $role_name . ' Panel.');
+        return redirect('/')->with('message', 'Successfully Logged out ' . $role_name . ' Panel.');
     }
 }

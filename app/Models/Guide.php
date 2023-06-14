@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -23,6 +24,10 @@ class Guide extends Model
     ];
 
     public $timestamps = false;
+
+    public function retreiveAllGuide($guidelineId){
+        return $this->where('guideline_id', Crypt::decryptString($guidelineId))->get();
+    }
 
     public function registerGuideObject($guide){
         return $this->insert($guide);

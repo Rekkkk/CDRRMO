@@ -2,23 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use App\Models\EvacuationCenter;
-use Illuminate\Support\Facades\Auth;
-use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 
 class EvacuationCenterController extends Controller
 {
-    private $evacuationCenter;
+    private $evacuationCenter, $logActivity;
 
     function __construct()
     {
         $this->evacuationCenter = new EvacuationCenter;
+        $this->logActivity = new ActivityUserLog;
     }
 
     public function evacuationCenterList(Request $request)
@@ -62,12 +60,7 @@ class EvacuationCenterController extends Controller
 
             try {
                 $this->evacuationCenter->registerEvacuationCenterObject($evacuationCenterData);
-
-                ActivityUserLog::create([
-                    'user_id' => auth()->user()->id,
-                    'activity' => 'Registering Evacuation Center Information',
-                    'date_time' => Carbon::now()->toDayDateTimeString()
-                ]);
+                $this->logActivity->generateLog('Registering Evacuation Center Information');
 
                 return response()->json(['status' => 1]);
             } catch (\Exception $e) {
@@ -99,12 +92,7 @@ class EvacuationCenterController extends Controller
 
             try {
                 $this->evacuationCenter->updateEvacuationCenterObject($evacuationCenterData, $evacuationId);
-
-                ActivityUserLog::create([
-                    'user_id' => auth()->user()->id,
-                    'activity' => 'Updating Evacuation Center Information',
-                    'date_time' => Carbon::now()->toDayDateTimeString()
-                ]);
+                $this->logActivity->generateLog('Updating Evacuation Center Information');
 
                 return response()->json(['status' => 1]);
             } catch (\Exception $e) {
@@ -127,12 +115,8 @@ class EvacuationCenterController extends Controller
     {
         try {
             $this->evacuationCenter->removeEvacuationCenterObject($evacuationId);
-
-            ActivityUserLog::create([
-                'user_id' => auth()->user()->id,
-                'activity' => 'Removing Evacuation Center Information',
-                'date_time' => Carbon::now()->toDayDateTimeString()
-            ]);
+            $this->logActivity->generateLog('Removing Evacuation Center Information');
+            
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
             return response()->json(['status' => 0]);

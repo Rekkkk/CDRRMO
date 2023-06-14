@@ -6,11 +6,10 @@
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <script src="https://code.jquery.com/jquery-3.6.3.min.js"
         integrity="sha256-pvPw+upLPUjgMXY0G+8O0xUf+/Im1MZjXxxgOcBQBXU=" crossorigin="anonymous"></script>
-
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-gray-400">
+<body>
     <div class="wrapper">
 
         @include('partials.content.header')
@@ -49,12 +48,15 @@
                 </div>
             </div>
 
-            <figure class="pie-chart-container">
-                <div id="Typhoon" class="chart mb-5"></div>
-                <div id="Earthquake" class="chart mb-3"></div>
-                <div id="Road Accident" class="chart mb-3"></div>
-                <div id="Flooding" class="chart mb-3"></div>
-            </figure>
+            <div class="graph-section flex">
+                <figure class="pie-chart-container">
+                    <div id="Typhoon" class="chart mb-5"></div>
+                    <div id="Earthquake" class="chart mb-3"></div>
+                    <div id="RoadAccident" class="chart mb-3"></div>
+                    <div id="Flooding" class="chart mb-3"></div>
+                </figure>
+            </div>
+            
         </div>
     </div>
 

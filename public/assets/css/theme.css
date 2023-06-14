@@ -10,16 +10,19 @@
     font-family: 'Montserrat', sans-serif;
 }
 
+body {
+    background: var(--color-background);
+}
+
 html {
     scroll-behavior: smooth;
 }
 
 :root {
     --color-text: #fff;
-    --color-shadow: #868686a9;
-    --color-bg: #D9D9D9;
-    --color-darkred: #850000;
-    --color-darkblue: #0E1624;
+    --color-background: #ecf0f1;
+    --color-darkred: #b91c1c;
+    --color-darkblue: #2c3e50;
 }
 
 /* Side Bar Section */
@@ -29,7 +32,6 @@ html {
     left: 0;
     top: 0;
     transition: all 0.5s ease;
-    background: var(--color-darkblue);
 }
 
 .sidebar-header {
@@ -70,7 +72,8 @@ html {
     overflow: hidden;
 }
 
-.sidebar.active .links_name {
+.sidebar.active .links_name,
+.sidebar:hover .links_name {
     opacity: 1;
     pointer-events: auto;
     transition: all 1.5s ease;
@@ -98,25 +101,45 @@ html {
     height: 100%;
 }
 
-.sidebar.active {
+.sidebar.active
+ {
+    width: 320px;
+}
+
+.sidebar:hover{
     width: 320px;
 }
 
 .user-footer-section {
-    opacity: 0;
+    display: none;
+    transition: all 0.4s ease;
 }
 
-.sidebar.active .user-footer-section {
-    opacity: 1;
+.sidebar.active .user-footer-section,
+.sidebar:hover .user-footer-section {
+    display: block;
 }
 
 .sidebar #btn-sidebar {
-    transform: translateX(-45%);
+    opacity: 0;
+    width: 50px;
+    transform: translateY(0);
+    transition: all 0.4s ease;
 }
 
 .sidebar.active #btn-sidebar {
+    opacity: 1;
     width: 50px;
-    transform: translateX(0%);
+    transform: translateY(5px);
+}
+
+.sidebar:hover #btn-sidebar{
+    opacity: 1;
+}
+
+#btn-sidebar-mobile,
+#btn-sidebar-close {
+    display: none;
 }
 
 .widget {
@@ -134,12 +157,14 @@ html {
     opacity: 0.2;
 }
 
-.edit-btn:hover i,
-.edit-btn:hover span {
-    transition: ease-in-out;
-    transition-duration: 150ms;
-    transform: translateY(1px);
-    transform: scale(1.1);
+.pie-chart-container {
+    display: flex;
+    justify-content: flex-start;
+}
+
+#Typhoon,
+#Flooding {
+    width: 500px;
 }
 
 /* Guide Section */
@@ -172,26 +197,6 @@ html {
     transform: translateX(-100%);
 }
 
-/* Record Evacuee Section */
-.record-content .content-item {
-    color: var(--color-black);
-}
-
-.record-content form {
-    opacity: 0;
-    display: none;
-}
-
-/* Statistics Section */
-.statistics-content .statistics-board {
-    color: var(--color-black);
-}
-
-.chart {
-    opacity: 0;
-    display: none;
-}
-
 /* Report Accident Section */
 .evacuation-content>div {
     margin: 2rem;
@@ -213,7 +218,6 @@ html {
 }
 
 /* Hotline Number Section */
-
 .hotline-content>div {
     margin: 2rem;
 }
@@ -227,7 +231,7 @@ html {
 
     .wrapper .header-section .container-fluid span {
         position: absolute;
-        opacity: 0;
+        display: none;
         transition: all 0.1s ease;
     }
 
@@ -241,8 +245,29 @@ html {
     }
 }
 
-/* Authentication Section */
 @media only screen and (max-width: 1000px) {
+    .main-content {
+        padding: 2rem 2rem 0 2rem !important;
+    }
+
+    .sidebar {
+        width: 0 !important;
+    }
+
+    #btn-sidebar,
+    .sidebar #btn-sidebar-close {
+        display: none;
+    }
+
+    #btn-sidebar-mobile,
+    .sidebar.active #btn-sidebar-close {
+        display: block;
+    }
+
+    .sidebar.active {
+        width: 320px !important;
+    }
+
     .login-container .login-section {
         text-align: center;
         width: auto;

@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -28,7 +27,7 @@ class ActivityUserLog extends Model
     public function generateLog($activity)
     {
         $activityLog = [
-            'user_id' => Auth::user()->id,
+            'user_id' => auth()->user()->id,
             'activity' => $activity,
             'date_time' => Carbon::now()->toDayDateTimeString()
         ];

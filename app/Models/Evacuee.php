@@ -33,6 +33,23 @@ class Evacuee extends Model
         'evacuation_assigned'
     ];
 
+    public function countEvacueeOnEvacuation()
+    {
+      return $this->whereNull('date_out')->count();
+    }
+
+    public function countEvacueeReturned(){
+        return $this->whereNotNull('date_out')->count();
+    }
+
+    public function countEvacuee($disasterId, $sex)
+    {
+        return $this->where('disaster_id', $disasterId)->where('sex', $sex)->count();
+    }
+
+    public function countEvacueeWithDisablities($disasterId){
+        return $this->selectRaw('SUM(`4Ps`) AS `4Ps`, SUM(`PWD`) AS `PWD`, SUM(`pregnant`) AS `pregnant`, SUM(`lactating`) AS `lactating`, SUM(`student`) AS `student`, SUM(`working`) AS `working`')->where('disaster_id', $disasterId)->get();
+    }
 
     public function recordEvacueeObject($evacuee)
     {

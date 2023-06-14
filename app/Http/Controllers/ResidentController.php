@@ -2,15 +2,17 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Quiz;
 use App\Models\Guide;
-use App\Models\Evacuee;
 use App\Models\Guideline;
 use App\Models\EvacuationCenter;
-use Illuminate\Support\Facades\Crypt;
 
 class ResidentController extends Controller
 {
+    private $guide;
+    
+    public function __construct(){
+        $this->guide = new Guide;
+    }
     public function dashboard()
     {
         return view('/userpage/dashboard');
@@ -25,11 +27,9 @@ class ResidentController extends Controller
 
     public function residentEligtasGuide($guidelineId)
     {
-        $guide = Guide::where('guideline_id', Crypt::decryptString($guidelineId))->orderBy('id', 'asc')->get();
+        $guide = $this->guide->retreiveAllGuide($guidelineId);
 
-        $quiz = Quiz::where('guideline_id', $guidelineId)->get();
-
-        return view('userpage.guideline.guide', compact('guide', 'quiz'))->with('guidelineId', $guidelineId);
+        return view('userpage.guideline.guide', compact('guide'))->with('guidelineId', $guidelineId);
     }
 
     public function residentEvacuationCenter()

@@ -7,7 +7,7 @@
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-gray-400">
+<body>
     <div class="wrapper">
         @include('sweetalert::alert')
         @include('partials.content.header')
@@ -17,13 +17,13 @@
 
         <div class="record-content pt-8 pr-8 pl-28 mb-4">
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-person-plus text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
+                <i class="bi bi-person-plus text-2xl px-2 bg-slate-700 text-white rounded py-2"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">RECORD EVACUEE</span>
                 <hr class="mt-4">
             </div>
 
             <div class="content-item mt-8 bg-slate-50 drop-shadow-2xl">
-                <div class="content-header bg-red-900 w-full h-full p-3">
+                <div class="content-header bg-red-700 w-full h-full p-3">
                     <div class="text-center">
                         <img class="float-right w-8" id="header-logo-right"
                             src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
@@ -34,19 +34,8 @@
                 </div>
                 <div class="w-full p-2">
                     <div class="content-body">
-                        
 
-                        <div class="mb-3">
-                            <select id="disaster" class="form-select form-disaster-select p-2 text-center">
-                                <option value="">Choose Disaster Type</option>
-                                <option value="Typhoon">Typhoon</option>
-                                <option value="Road Accident">Road Accident</option>
-                                <option value="Earthquake">Earthquake</option>
-                                <option value="Flooding">Flooding</option>
-                            </select>
-                        </div>
-
-                        <form id="Typhoon">
+                        <form id="TyphoonForm">
                             <div class="bg-slate-50 p-4 pb-2 rounded">
                             <div class="flex-auto px-1 lg:px-5 pb-0 pt-0">
                                 <header class="text-xl font-semibold ">Evacuee Information</header>
@@ -235,27 +224,6 @@
             integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
         </script>
         <script>
-            const charts = ["Typhoon", "Road Accident", "Earthquake", "Flooding"];
-
-            document.getElementById('disaster').addEventListener('change', (event) => {
-
-                const selectForm = event.target.value;
-
-                charts.forEach((formId) => {
-
-                    const form = document.getElementById(formId);
-
-                    if (selectForm == formId) {
-                        form.style.opacity = 1;
-                        form.style.display = "contents";
-                    } else {
-                        form.style.opacity = 0;
-                        form.style.display = "none";
-                    }
-
-                });
-            });
-
             $('#saveEvacuee').click(function(e) {
                 e.preventDefault();
 
@@ -271,7 +239,7 @@
                 }).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            data: $('#Typhoon').serialize(),
+                            data: $('#TyphoonForm').serialize(),
                             url: "{{ route('record.evacuee.cswd') }}",
                             type: "POST",
                             dataType: 'json',

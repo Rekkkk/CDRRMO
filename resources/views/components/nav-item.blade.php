@@ -13,30 +13,6 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('disaster.cdrrmo') }}">
-                    <i class="bi bi-tropical-storm text-white"></i>
-                    <span class="links_name">Disaster Identification</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('manage.evacuation.cdrrmo') }}">
-                    <i class="bi bi-house-add text-white"></i>
-                    <span class="links_name">Manage Evacuation Center</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('evacuation.center.locator.cdrrmo') }}">
-                    <i class="bi bi-house text-white"></i>
-                    <span class="links_name">Evacuation Center Locator</span>
-                </a>
-            </li>
-            <li>
-                <a href="{{ route('statistics.cdrrmo') }}">
-                    <i class="bi bi-graph-up text-white"></i>
-                    <span class="links_name">Data Statistics</span>
-                </a>
-            </li>
-            <li>
                 <a href="{{ route('display.report.accident.cdrrmo') }}">
                     <i class="bi bi-megaphone text-white"></i>
                     <span class="links_name">Report Accident</span>
@@ -75,19 +51,29 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('statistics.cswd') }}">
-                    <i class="bi bi-graph-up text-white"></i>
-                    <span class="links_name">Data Statistics</span>
+                <a href="{{ route('guideline.cswd') }}">
+                    <i class="bi bi-book text-white"></i>
+                    <span class="links_name">E-LIGTAS Guideline</span>
                 </a>
             </li>
             <li>
-                <a href="{{ route('logout.user') }}">
-                    <i class="bi bi-box-arrow-in-left text-white"></i>
-                    <span class="links_name">Logout</span>
+                <a href="{{ route('disaster.cswd') }}">
+                    <i class="bi bi-tropical-storm text-white"></i>
+                    <span class="links_name">Disaster Identification</span>
                 </a>
             </li>
-        @endif
-        @if (Auth::check() && Auth::user()->user_role == 'Developer')
+            <li>
+                <a href="{{ route('manage.evacuation.cswd') }}">
+                    <i class="bi bi-house-add text-white"></i>
+                    <span class="links_name">Manage Evacuation Center</span>
+                </a>
+            </li>
+            <li>
+                <a href="{{ route('evacuation.center.locator.cswd') }}">
+                    <i class="bi bi-house text-white"></i>
+                    <span class="links_name">Evacuation Center Locator</span>
+                </a>
+            </li>
             <li>
                 <a href="{{ route('logout.user') }}">
                     <i class="bi bi-box-arrow-in-left text-white"></i>

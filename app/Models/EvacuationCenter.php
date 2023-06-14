@@ -25,6 +25,15 @@ class EvacuationCenter extends Model
 
     public $timestamps = false;
 
+
+    public function isActive(){
+        return $this->where('status', 'Active')->count();
+    }
+
+    public function isInactive(){
+        return $this->where('status', 'Inactive')->count();
+    }
+
     public function registerEvacuationCenterObject($evacuationCenter){
         return $this->insert($evacuationCenter);
     }

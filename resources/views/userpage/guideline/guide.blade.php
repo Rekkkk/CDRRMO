@@ -7,7 +7,7 @@
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-gray-400">
+<body>
     <div class="wrapper">
         @include('sweetalert::alert')
         @include('partials.content.header')
@@ -15,29 +15,13 @@
 
         <x-messages />
 
-        <h1 class="text-center bg-slate-700 my-2 text-white text-4xl p-3 font-bold">"E-LIGTAS Guide"</h1>
+        <h1 class="text-center bg-slate-700 my-2 text-white text-4xl p-3 font-bold">E-Ligtas Guides</h1>
 
         <div class="guide-btn py-2 flex justify-end">
-            @guest
-                <button type="button" class="bg-slate-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-slate-900">
-                    <i class="bi bi-pencil mr-2"></i> Take Quiz
-                </button>
-            @endguest
-            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
-                @if ($quiz)
-                    <a href="javascript:void(0)"
-                        class="bg-slate-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-slate-900">
-                        <i class="bi bi-pencil mr-2"></i> Edit Quiz
-                    </a>
-                @else
-                    <a href="{{ route('quiz.cdrrmo', $guidelineId) }}"
-                        class="bg-slate-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-slate-900">
-                        <i class="bi bi-pencil mr-2"></i> Add Quiz
-                    </a>
-                @endif
+            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO' || Auth::check() && Auth::user()->user_role == 'CSWD')
                 <a href="javascript:void(0)" id="createGuideBtn"
-                    class="bg-red-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-red-900">
-                    <i class="bi bi-bag-plus-fill mr-2"></i> Post Guide
+                    class="bg-red-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-red-800">
+                    <i class="bi bi-plus-lg mr-2"></i> Create Guide
                 </a>
                 <input type="hidden" class="guideline_id" value="{{ $guidelineId }}">
                 @include('userpage.guideline.addGuide')
@@ -48,14 +32,14 @@
             @foreach ($guide as $guide)
                 <div class="guide-container">
                     <div class="guide-content relative mx-2.5 my-2">
-                        <div class="label relative bg-slate-900 text-white cursor-pointer p-3">
+                        <div class="label relative bg-slate-700 text-white cursor-pointer p-3">
                             {{ $guide->label }}
                         </div>
                         <div class="content relative h-0 overflow-hidden bg-neutral-200">
                             <p class="mb-2">
                                 {{ $guide->content }}
                             </p>
-                            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+                            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO' || Auth::check() && Auth::user()->user_role == 'CSWD')
                                 <div class="action-btn py-2 flex justify-start">
                                     <a href="#edit{{ $guide->id }}" data-bs-toggle="modal">
                                         <button type="submit"
