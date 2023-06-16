@@ -30,12 +30,6 @@
                     <span class="links_name">About</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('logout.user') }}">
-                    <i class="bi bi-box-arrow-in-left text-white"></i>
-                    <span class="links_name">Logout</span>
-                </a>
-            </li>
         @endif
         @if (Auth::check() && Auth::user()->user_role == 'CSWD')
             <li>
