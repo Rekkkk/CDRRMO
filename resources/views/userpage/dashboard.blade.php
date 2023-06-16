@@ -23,14 +23,15 @@
         <x-messages />
 
         <div class="main-content pt-8 pr-8 pl-28">
-
-            <div class="dashboard-logo pb-4">
+            <div class="dashboard-logo relative pb-4 mb-4">
                 <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">DASHBOARD</span>
-                <hr class="mt-4">
+               
+                <hr class="mt-3"> <button class="float-right bg-green-700 hover:bg-green-800 px-2 py-1 mt-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100"><i
+                    class="bi bi-printer pr-2"></i>Generate Report Data</button> 
             </div>
 
-            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-5 mb-5">
+            <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                 <div class="widget bg-green-400 drop-shadow-lg rounded max-w-full">
                     <div class="widget-logo flex justify-center items-center">
                         <img class="pt-52" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}">
@@ -41,7 +42,7 @@
                             <span class="text-4xl font-bold">{{ $activeEvacuation }}</span>
                         </div>
                         <div class="content-header rounded">
-                            <img src="{{ asset('assets/img/evacuation.png') }}" style="width:50px;">
+                            <img src="{{ asset('assets/img/evacuation.png') }}" style="width:3rem;">
                         </div>
                     </div>
                 </div>
@@ -55,7 +56,7 @@
                             <span class="text-4xl font-bold">{{ $inActiveEvacuation }} </span>
                         </div>
                         <div class="content-header rounded">
-                            <img src="{{ asset('assets/img/evacuation.png') }}" style="width:50px;">
+                            <img src="{{ asset('assets/img/evacuation.png') }}" style="width:3rem;">
                         </div>
                     </div>
                 </div>
@@ -69,7 +70,7 @@
                             <span class="text-4xl font-bold">{{ $inEvacuationCenter }}</span>
                         </div>
                         <div class="content-header rounded">
-                            <img src="{{ asset('assets/img/family.png') }}" style="width:50px;">
+                            <img src="{{ asset('assets/img/family.png') }}" style="width:3rem;">
                         </div>
                     </div>
                 </div>
@@ -83,13 +84,13 @@
                             <span class="text-4xl font-bold">{{ $isReturned }}</span>
                         </div>
                         <div class="content-header rounded">
-                            <img src="{{ asset('assets/img/family.png') }}" style="width:50px;">
+                            <img src="{{ asset('assets/img/family.png') }}" style="width:3rem;">
                         </div>
                     </div>
                 </div>
             </div>
 
-            <figure class="pie-chart-container mb-3">
+            <figure class="pie-chart-container mb-3 mt-5">
                 <div id="Typhoon" class="bg-slate-50 rounded shadow-lg mr-3"></div>
                 <div id="TyphoonBarGraph" class="bg-slate-200 rounded shadow-lg flex-1"></div>
             </figure>
@@ -205,7 +206,7 @@
                     type: 'pie'
                 },
                 title: {
-                    text: 'Flooding',
+                    text: 'Flooding'
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'

@@ -23,7 +23,7 @@
 
         <x-messages />
 
-        <div class="content pt-8 pr-8 pl-28">
+        <div class="main-content pt-8 pr-8 pl-28">
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-info-circle text-2xl p-2 bg-slate-900 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">ABOUT</span>

@@ -1,13 +1,19 @@
 <header class="header-section bg-red-700 drop-shadow-lg h-20 w-full">
-    <div class="container-fluid relative flex justify-between h-full">
-        <div class="mobile-header py-4 h-full">
+    <div class="container-fluid py-4 relative flex justify-between h-full">
+        <div class="mobile-header h-full">
             <button type="button" class="bi bi-list text-white cursor-pointer text-3xl" id="btn-sidebar-mobile"></button>
         </div>
-        <div class="relative h-full">
-            <img class="w-22 float-right h-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-            <span class="float-right h-full text-xl text-white py-2.5">Cabuyao City Disaster Risk<br>Reduction and Management
-                Office</span>
+        <div class="flex justify-center items-center ">
+            <div class="dropdown px-2">
+                <button class="text-white text-sm bi bi-caret-down-fill" role="button" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                </button>
+    
+                <ul class="dropdown-menu">
+                    <li><a class="dropdown-item text-sm" href=""><i class="bi bi-person pr-2"></i>My Profile</a></li>
+                    <li><a class="dropdown-item text-sm" href="{{ route('logout.user') }}"><i class="bi bi-box-arrow-in-left pr-2"></i>Logout</a></li>
+                </ul>
+            </div>
         </div>
-        
     </div>
 </header>

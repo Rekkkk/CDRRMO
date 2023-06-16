@@ -22,50 +22,53 @@
                 <hr class="mt-4">
             </div>
 
-            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO' || Auth::check() && Auth::user()->user_role == 'CSWD')
+            @if ((Auth::check() && Auth::user()->user_role == 'CDRRMO') || (Auth::check() && Auth::user()->user_role == 'CSWD'))
                 <div class="guidelines-btn py-2 flex justify-end">
                     <a class="bg-slate-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-slate-900"
                         id="createGuidelineBtn" href="javascript:void(0)">
-                        <i class="bi bi-file-earmark-plus-fill mr-2"></i></i>Create Guideline
+                        <i class="bi bi-file-earmark-plus-fill mr-2"></i>Create Guideline
                     </a>
                     @include('userpage.guideline.addGuideline')
                 </div>
             @endif
 
-            <div class="content-item text-center mt-4" id="guidelineWidget">
-                <div class="row gap-4 justify-center items-center">
+            <div class="content-item text-center mt-4 p-8">
+                <div class="grid lg:grid-cols-5 md:grid-cols-2 sm:grid-cols-1 gap-6">
                     @forelse ($guideline as $guidelineItem)
-                        <div class="col-lg-2 mb-4 relative">
-                            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO' || Auth::check() && Auth::user()->user_role == 'CSWD')
+                        <div class="relative transition duration-300 hover:scale-95">
+                            @if ((Auth::check() && Auth::user()->user_role == 'CDRRMO') || (Auth::check() && Auth::user()->user_role == 'CSWD'))
                                 <a href="{{ route('remove.guideline.cdrrmo', Crypt::encryptString($guidelineItem->id)) }}"
-                                    class="absolute right-0">
-                                    <i
-                                        class="bi bi-x-lg cursor-pointer p-2.5 bg-red-700 text-white rounded-full shadow-lg hover:bg-red-900"></i>
+                                    class="absolute top-2 right-0">
+                                    <i class="bi bi-x-lg cursor-pointer p-2.5 text-xl"></i>
                                 </a>
                                 <a href="#edit{{ $guidelineItem->id }}" data-bs-toggle="modal"
-                                    class="absolute left-4 top-3">
+                                    class="absolute left-2 top-3">
                                     <i
-                                        class="bi bi-pencil cursor-pointer p-2 bg-slate-700 text-white rounded shadow-lg hover:bg-slate-900"></i>
+                                        class="bi bi-pencil cursor-pointer p-2 bg-slate-700 text-white rounded shadow-lg hover:bg-slate-800"></i>
                                 </a>
                                 @include('userpage.guideline.updateGuideline')
 
                                 <a class="guidelines-item"
                                     href="{{ route('guide.cswd', Crypt::encryptString($guidelineItem->id)) }}">
-                                    <div class="relative bg-slate-50 drop-shadow-xl -z-50 overflow-hidden">
+                                    <div class="relative bg-slate-50 drop-shadow-2xl -z-50 overflow-hidden">
                                         <img class="w-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}"
                                             alt="logo">
-                                        <p class="absolute w-full h-3/6 top-2/4 text-white bg-slate-900">
-                                            {{ $guidelineItem->type }}</p>
+                                        <div
+                                            class="absolute w-full h-3/6 top-2/4 text-white bg-slate-700 flex items-center justify-center">
+                                            <p>{{ $guidelineItem->type }}</p>
+                                        </div>
                                     </div>
                                 </a>
                             @endif
                             @guest
                                 <a class="guidelines-item"
                                     href="{{ route('guide.resident', Crypt::encryptString($guidelineItem->id)) }}">
-                                    <div class="relative bg-slate-50 shadow-lg overflow-hidden">
+                                    <div class="relative bg-slate-50 drop-shadow-2xl -z-50 overflow-hidden">
                                         <img class="w-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
-                                        <p class="absolute w-full h-3/6 top-2/4 text-white bg-slate-900">
-                                            {{ $guidelineItem->type }}</p>
+                                        <div
+                                            class="absolute w-full h-3/6 top-2/4 text-white bg-slate-900 flex items-center justify-center">
+                                            <p>{{ $guidelineItem->type }}</p>
+                                        </div>
                                     </div>
                                 </a>
                             @endguest
@@ -91,7 +94,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
-    @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+    @if (Auth::check() && Auth::user()->user_role == 'CDRRMO' || (Auth::check() && Auth::user()->user_role == 'CSWD'))
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#createGuidelineBtn').click(function() {

@@ -19,7 +19,7 @@ html {
 }
 
 :root {
-    --color-text: #fff;
+    --color-text: #ffffff;
     --color-background: #ecf0f1;
     --color-darkred: #b91c1c;
     --color-darkblue: #2c3e50;
@@ -28,10 +28,9 @@ html {
 /* Side Bar Section */
 .sidebar {
     z-index: 1;
-    position: fixed;
     left: 0;
     top: 0;
-    transition: all 0.5s ease;
+    transition: 0.3s ease;
 }
 
 .sidebar-header {
@@ -55,7 +54,7 @@ html {
     position: relative;
     height: -webkit-calc(100vh - 80px);
     overflow: auto;
-    z-index: 4
+    z-index: 4;
 }
 
 .sidebar ul li {
@@ -76,13 +75,11 @@ html {
 .sidebar:hover .links_name {
     opacity: 1;
     pointer-events: auto;
-    transition: all 1.5s ease;
 }
 
 .sidebar ul li a {
     display: flex;
     align-items: center;
-    transition: all 0.4s ease;
     white-space: nowrap;
 }
 
@@ -101,22 +98,17 @@ html {
     height: 100%;
 }
 
-.sidebar.active
- {
+.sidebar.active,
+.sidebar:hover {
     width: 320px;
 }
 
-.sidebar:hover{
-    width: 320px;
-}
-
-.user-footer-section {
+.user-details {
     display: none;
-    transition: all 0.4s ease;
 }
 
-.sidebar.active .user-footer-section,
-.sidebar:hover .user-footer-section {
+.sidebar.active .user-details,
+.sidebar:hover .user-details {
     display: block;
 }
 
@@ -124,7 +116,7 @@ html {
     opacity: 0;
     width: 50px;
     transform: translateY(0);
-    transition: all 0.4s ease;
+    transition: 0.4s ease;
 }
 
 .sidebar.active #btn-sidebar {
@@ -133,7 +125,7 @@ html {
     transform: translateY(5px);
 }
 
-.sidebar:hover #btn-sidebar{
+.sidebar:hover #btn-sidebar {
     opacity: 1;
 }
 
@@ -230,9 +222,8 @@ html {
 @media only screen and (max-width: 900px) {
 
     .wrapper .header-section .container-fluid span {
-        position: absolute;
         display: none;
-        transition: all 0.1s ease;
+        transition: all 0.4s ease;
     }
 
     .wrapper .header-section .container-fluid img {
@@ -268,9 +259,19 @@ html {
         width: 320px !important;
     }
 
+    #Typhoon,
+    #Flooding {
+        width: 100%;
+    }
+
+    #TyphoonBarGraph,
+    #FloodingBarGraph {
+        display: none !important;
+    }
+
     .login-container .login-section {
         text-align: center;
-        width: auto;
+        width: 100% !important;
     }
 
     .login-container .login-section .login-content .header-desc {
@@ -301,11 +302,7 @@ html {
         display: contents !important;
     }
 
-    .content .evacuation-content .evacuation-table {
-        margin: 0 !important;
-        padding: 1.5rem !important;
-    }
-
+    .content .evacuation-content .evacuation-table,
     .content .disaster-content .disaster-table {
         margin: 0 !important;
         padding: 1.5rem !important;
@@ -313,11 +310,6 @@ html {
 }
 
 @media only screen and (max-width: 1300px) {
-
-    #header-logo-right,
-    #header-logo-left {
-        display: none;
-    }
 
     .content .main-content,
     .about-content,
