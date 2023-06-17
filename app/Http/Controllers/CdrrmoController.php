@@ -89,16 +89,16 @@ class CdrrmoController extends Controller
 
     public function reportAccident()
     {
-        return view('userpage.reportAccident.reportAccident');
+        return view('userpage.reportAccident');
     }
 
     public function hotlineNumbers()
     {
-        return view('userpage.hotlineNumbers.hotlineNumbers');
+        return view('userpage.hotlineNumbers');
     }
 
     public function about()
     {
-        return view('userpage.about.about');
+        return view('userpage.about');
     }
 }

@@ -85,7 +85,7 @@ class CswdController extends Controller
     {
         $evacuationCenters = EvacuationCenter::all();
         $disasters = Disaster::all();
-        return view('userpage.recordEvacuee.recordEvacuee', compact('evacuationCenters', 'disasters'));
+        return view('userpage.recordEvacuee', compact('evacuationCenters', 'disasters'));
     }
     public function recordEvacueeInfo(Request $request)
     {

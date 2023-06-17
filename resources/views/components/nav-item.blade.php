@@ -15,7 +15,7 @@
             <li>
                 <a href="{{ route('display.report.accident.cdrrmo') }}">
                     <i class="bi bi-megaphone text-white"></i>
-                    <span class="links_name">Report Accident</span>
+                    <span class="links_name">Report Iccident</span>
                 </a>
             </li>
             <li>
@@ -68,12 +68,6 @@
                     <span class="links_name">Evacuation Center Locator</span>
                 </a>
             </li>
-            <li>
-                <a href="{{ route('logout.user') }}">
-                    <i class="bi bi-box-arrow-in-left text-white"></i>
-                    <span class="links_name">Logout</span>
-                </a>
-            </li>
         @endif
         @guest
             <li>
@@ -91,7 +85,7 @@
             <li>
                 <a href="{{ route('display.report.accident.resident') }}">
                     <i class="bi bi-megaphone text-white"></i>
-                    <span class="links_name">Report Accident</span>
+                    <span class="links_name">Report Iccident</span>
                 </a>
             </li>
             <li>

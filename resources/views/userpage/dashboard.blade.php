@@ -11,30 +11,33 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="shortcut icon" href="{{ asset('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('assets/img/cdrrmo-logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
 
 <body>
     <div class="wrapper">
-        @include('partials.content.header')
-        @include('partials.content.sidebar')
+        @include('partials.header')
+        @include('partials.sidebar')
         <x-messages />
 
         <div class="main-content pt-8 pr-8 pl-28">
-            <div class="dashboard-logo relative pb-4 mb-4">
+            <div class="dashboard-logo relative mb-14">
                 <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">DASHBOARD</span>
-               
-                <hr class="mt-3"> <button class="float-right bg-green-700 hover:bg-green-800 px-2 py-1 mt-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100"><i
-                    class="bi bi-printer pr-2"></i>Generate Report Data</button> 
+                <hr class="mt-3">
+                <button
+                    class="float-right bg-green-700 hover:bg-green-800 p-2 mt-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-95 duration-100">
+                    <i class="bi bi-printer pr-2"></i>
+                    Generate Report Data
+                </button>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                 <div class="widget bg-green-400 drop-shadow-lg rounded max-w-full">
                     <div class="widget-logo flex justify-center items-center">
-                        <img class="pt-52" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}">
+                        <img class="pt-52" src="{{ asset('assets/img/cdrrmo-logo.png') }}">
                     </div>
                     <div class="content-logo flex justify-between my-3 p-1">
                         <div class="content-description px-2">
@@ -48,7 +51,7 @@
                 </div>
                 <div class="widget bg-red-400 drop-shadow-lg rounded max-w-full">
                     <div class="widget-logo flex justify-center items-center">
-                        <img class="pt-52" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}">
+                        <img class="pt-52" src="{{ asset('assets/img/cdrrmo-logo.png') }}">
                     </div>
                     <div class="content-logo flex justify-between my-3 p-1">
                         <div class="content-description px-2">
@@ -62,7 +65,7 @@
                 </div>
                 <div class="widget bg-yellow-300 drop-shadow-lg rounded max-w-full">
                     <div class="widget-logo flex justify-center items-center">
-                        <img class="pt-52" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}">
+                        <img class="pt-52" src="{{ asset('assets/img/cdrrmo-logo.png') }}">
                     </div>
                     <div class="content-logo flex justify-between my-3 p-1">
                         <div class="content-description px-2">
@@ -76,7 +79,7 @@
                 </div>
                 <div class="widget bg-blue-300 drop-shadow-lg rounded max-w-full">
                     <div class="widget-logo flex justify-center items-center">
-                        <img class="pt-52" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}">
+                        <img class="pt-52" src="{{ asset('assets/img/cdrrmo-logo.png') }}">
                     </div>
                     <div class="content-logo flex justify-between my-3 p-1">
                         <div class="content-description px-2">
@@ -132,7 +135,7 @@
                     data: [{
                         name: 'Male',
                         y: {{ Js::from($typhoonMaleData) }},
-                        color: '#c0392b'
+                        color: '#dc2626'
                     }, {
                         name: 'Female',
                         y: {{ Js::from($typhoonFemaleData) }},
@@ -164,40 +167,41 @@
                     series: {
                         stacking: 'normal',
                         dataLabels: {
-                            enabled: true
+                            enabled: true,
+                            formatter: function() {
+                                if (this.y != 0) {
+                                    return this.y;
+                                } else {
+                                    return null;
+                                }
+                            }
                         }
                     }
                 },
                 series: [{
                     name: '4Ps',
                     data: [{{ Js::from($typhoon_4Ps) }}, '', '', '', '', ''],
-                    color: '#e74c3c',
-                    linkedTo: ':previous'
+                    color: '#e74c3c'
                 }, {
                     name: 'PWD',
                     data: ['', {{ Js::from($typhoon_PWD) }}, '', '', '', ''],
-                    color: '#3498db',
-                    linkedTo: ':previous'
+                    color: '#3498db'
                 }, {
                     name: 'Pregnant',
                     data: ['', '', {{ Js::from($typhoon_pregnant) }}, '', '', ''],
-                    color: '#2ecc71',
-                    linkedTo: ':previous'
+                    color: '#2ecc71'
                 }, {
                     name: 'Lactating',
                     data: ['', '', '', {{ Js::from($typhoon_lactating) }}, '', ''],
-                    color: '#1abc9c',
-                    linkedTo: ':previous'
+                    color: '#1abc9c'
                 }, {
                     name: 'Student',
                     data: ['', '', '', '', {{ Js::from($typhoon_student) }}, ''],
-                    color: '#e67e22',
-                    linkedTo: ':previous'
+                    color: '#e67e22'
                 }, {
                     name: 'Working',
                     data: ['', '', '', '', '', {{ Js::from($typhoon_working) }}],
-                    color: '#9b59b6',
-                    linkedTo: ':previous'
+                    color: '#9b59b6'
                 }]
             });
 
@@ -206,7 +210,7 @@
                     type: 'pie'
                 },
                 title: {
-                    text: 'Flooding'
+                    text: 'Flashflood'
                 },
                 tooltip: {
                     pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
@@ -222,7 +226,7 @@
                     data: [{
                         name: 'Male',
                         y: {{ Js::from($floodingMaleData) }},
-                        color: '#c0392b'
+                        color: '#dc2626'
                     }, {
                         name: 'Female',
                         y: {{ Js::from($floodingFemaleData) }},
@@ -236,7 +240,7 @@
                     type: 'bar'
                 },
                 title: {
-                    text: 'Flash Flood Evacuee Statistics'
+                    text: 'Flashflood Evacuee Statistics'
                 },
                 xAxis: {
                     categories: ['4Ps', 'PWD', 'Pregnant', 'Lactating', 'Student', 'Working']
@@ -254,40 +258,41 @@
                     series: {
                         stacking: 'normal',
                         dataLabels: {
-                            enabled: true
+                            enabled: true,
+                            formatter: function() {
+                                if (this.y != 0) {
+                                    return this.y;
+                                } else {
+                                    return null;
+                                }
+                            }
                         }
                     }
                 },
                 series: [{
                     name: '4Ps',
                     data: [{{ Js::from($flooding_4Ps) }}, '', '', '', '', ''],
-                    color: '#e74c3c',
-                    linkedTo: ':previous'
+                    color: '#e74c3c'
                 }, {
                     name: 'PWD',
                     data: ['', {{ Js::from($flooding_PWD) }}, '', '', '', ''],
-                    color: '#3498db',
-                    linkedTo: ':previous'
+                    color: '#3498db'
                 }, {
                     name: 'Pregnant',
                     data: ['', '', {{ Js::from($flooding_pregnant) }}, '', '', ''],
-                    color: '#2ecc71',
-                    linkedTo: ':previous'
+                    color: '#2ecc71'
                 }, {
                     name: 'Lactating',
                     data: ['', '', '', {{ Js::from($flooding_lactating) }}, '', ''],
-                    color: '#1abc9c',
-                    linkedTo: ':previous'
+                    color: '#1abc9c'
                 }, {
                     name: 'Student',
                     data: ['', '', '', '', {{ Js::from($flooding_student) }}, ''],
-                    color: '#e67e22',
-                    linkedTo: ':previous'
+                    color: '#e67e22'
                 }, {
                     name: 'Working',
                     data: ['', '', '', '', '', {{ Js::from($flooding_working) }}],
-                    color: '#9b59b6',
-                    linkedTo: ':previous'
+                    color: '#9b59b6'
                 }]
             });
         });

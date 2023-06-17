@@ -39,7 +39,7 @@ class ReportAccidentController extends Controller
                 ->make(true);
         }
 
-        return view('userpage.reportAccident.reportAccident', compact('report'));
+        return view('userpage.reportAccident', compact('report'));
     }
 
     public function displayGReport(Request $request)
@@ -50,7 +50,7 @@ class ReportAccidentController extends Controller
             return DataTables::of($report)->addIndexColumn()->make(true);
         }
 
-        return view('userpage.reportAccident.reportAccident', compact('report'));
+        return view('userpage.reportAccident', compact('report'));
     }
 
     public function addAccidentReport(Request $request)

@@ -3,6 +3,7 @@
         <div class="mobile-header h-full">
             <button type="button" class="bi bi-list text-white cursor-pointer text-3xl" id="btn-sidebar-mobile"></button>
         </div>
+        @if ((Auth::check() && Auth::user()->user_role == 'CDRRMO') || (Auth::check() && Auth::user()->user_role == 'CSWD'))
         <div class="flex justify-center items-center ">
             <div class="dropdown px-2">
                 <button class="text-white text-sm bi bi-caret-down-fill" role="button" data-bs-toggle="dropdown"
@@ -15,5 +16,6 @@
                 </ul>
             </div>
         </div>
+        @endif
     </div>
 </header>

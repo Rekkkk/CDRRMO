@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    @include('partials.content.headPackage')
+    @include('partials.headPackage')
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
@@ -10,13 +10,13 @@
 <body>
     <div class="wrapper">
         @include('sweetalert::alert')
-        @include('partials.content.header')
-        @include('partials.content.sidebar')
+        @include('partials.header')
+        @include('partials.sidebar')
 
         <x-messages />
 
         <div class="main-content pt-8 pr-8 pl-28">
-            <div class="dashboard-logo pb-4">
+            <div class="dashboard-logo">
                 <i class="bi bi-book text-2xl p-2 bg-slate-900 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">E-LIGTAS Guideline</span>
                 <hr class="mt-4">
@@ -24,7 +24,7 @@
 
             @if ((Auth::check() && Auth::user()->user_role == 'CDRRMO') || (Auth::check() && Auth::user()->user_role == 'CSWD'))
                 <div class="guidelines-btn py-2 flex justify-end">
-                    <a class="bg-slate-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-slate-900"
+                    <a class="bg-green-700 hover:bg-green-800 p-2 mt-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-95 duration-100"
                         id="createGuidelineBtn" href="javascript:void(0)">
                         <i class="bi bi-file-earmark-plus-fill mr-2"></i>Create Guideline
                     </a>
@@ -32,26 +32,26 @@
                 </div>
             @endif
 
-            <div class="content-item text-center mt-4 p-8">
+            <div class="content-item text-center p-8">
                 <div class="grid lg:grid-cols-5 md:grid-cols-2 sm:grid-cols-1 gap-6">
                     @forelse ($guideline as $guidelineItem)
                         <div class="relative transition duration-300 hover:scale-95">
                             @if ((Auth::check() && Auth::user()->user_role == 'CDRRMO') || (Auth::check() && Auth::user()->user_role == 'CSWD'))
                                 <a href="{{ route('remove.guideline.cdrrmo', Crypt::encryptString($guidelineItem->id)) }}"
                                     class="absolute top-2 right-0">
-                                    <i class="bi bi-x-lg cursor-pointer p-2.5 text-xl"></i>
+                                    <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
                                 </a>
                                 <a href="#edit{{ $guidelineItem->id }}" data-bs-toggle="modal"
                                     class="absolute left-2 top-3">
                                     <i
-                                        class="bi bi-pencil cursor-pointer p-2 bg-slate-700 text-white rounded shadow-lg hover:bg-slate-800"></i>
+                                        class="bi bi-pencil cursor-pointer p-2 bg-yellow-400 rounded drop-shadow-lg hover:bg-yellow-500"></i>
                                 </a>
                                 @include('userpage.guideline.updateGuideline')
 
                                 <a class="guidelines-item"
                                     href="{{ route('guide.cswd', Crypt::encryptString($guidelineItem->id)) }}">
-                                    <div class="relative bg-slate-50 drop-shadow-2xl -z-50 overflow-hidden">
-                                        <img class="w-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}"
+                                    <div class="relative bg-slate-50 drop-shadow-2xl -z-50 overflow-hidden rounded">
+                                        <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}"
                                             alt="logo">
                                         <div
                                             class="absolute w-full h-3/6 top-2/4 text-white bg-slate-700 flex items-center justify-center">
@@ -63,10 +63,10 @@
                             @guest
                                 <a class="guidelines-item"
                                     href="{{ route('guide.resident', Crypt::encryptString($guidelineItem->id)) }}">
-                                    <div class="relative bg-slate-50 drop-shadow-2xl -z-50 overflow-hidden">
-                                        <img class="w-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
+                                    <div class="relative bg-slate-50 drop-shadow-2xl -z-50 overflow-hidden rounded">
+                                        <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
                                         <div
-                                            class="absolute w-full h-3/6 top-2/4 text-white bg-slate-900 flex items-center justify-center">
+                                            class="absolute w-full h-3/6 top-2/4 text-white bg-slate-700 flex items-center justify-center">
                                             <p>{{ $guidelineItem->type }}</p>
                                         </div>
                                     </div>
@@ -94,7 +94,7 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
-    @if (Auth::check() && Auth::user()->user_role == 'CDRRMO' || (Auth::check() && Auth::user()->user_role == 'CSWD'))
+    @if ((Auth::check() && Auth::user()->user_role == 'CDRRMO') || (Auth::check() && Auth::user()->user_role == 'CSWD'))
         <script type="text/javascript">
             $(document).ready(function() {
                 $('#createGuidelineBtn').click(function() {
