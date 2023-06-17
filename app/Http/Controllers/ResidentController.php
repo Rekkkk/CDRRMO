@@ -68,16 +68,16 @@ class ResidentController extends Controller
 
     public function residentReportAccident()
     {
-        return view('userpage.reportAccident.reportAccident');
+        return view('userpage.reportAccident');
     }
 
     public function residentHotlineNumber()
     {
-        return view('userpage.hotlineNumbers.hotlineNumbers');
+        return view('userpage.hotlineNumbers');
     }
 
     public function residentAbout()
     {
-        return view('userpage.about.about');
+        return view('userpage.about');
     }
 }

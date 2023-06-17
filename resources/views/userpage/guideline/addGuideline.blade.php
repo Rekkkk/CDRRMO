@@ -2,7 +2,7 @@
     <div class="modal fade" id="createGuidelineModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div class="modal-header bg-red-900">
+                <div class="modal-header bg-red-700">
                     <h1 class="modal-title fs-5 text-center text-white">{{ config('app.name') }}</h1>
                 </div>
                 <div class="modal-body">
@@ -17,10 +17,10 @@
                             <span class="text-danger error-text type_error"></span>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="bg-slate-700 text-white p-2 rounded shadow-lg hover:shadow-xl"
+                            <button type="button" class="bg-slate-600 text-white p-2 rounded shadow-lg hover:bg-slate-700"
                                 data-bs-dismiss="modal">Close</button>
                             <button id="submitGuidelineBtn"
-                                class="bg-red-700 text-white p-2 rounded shadow-lg hover:shadow-xl">Publish
+                                class="bg-red-600 text-white p-2 rounded shadow-lg hover:bg-red-700">Publish
                                 Guideline</button>
                         </div>
                     </form>

@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    @include('partials.content.headPackage')
+    @include('partials.headPackage')
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
@@ -10,8 +10,8 @@
 <body>
     <div class="wrapper">
 
-        @include('partials.content.header')
-        @include('partials.content.sidebar')
+        @include('partials.header')
+        @include('partials.sidebar')
 
         <div class="locator-container pt-8 pr-8 pl-28">
 

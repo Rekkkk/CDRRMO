@@ -10,15 +10,15 @@
     <script src="//unpkg.com/alpinejs" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="shortcut icon" href="{{ asset('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('assets/img/cdrrmo-logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
 
-<body class="bg-slate-800">
+<body class="bg-slate-700">
     <header class="h-20 w-full">
-        <div class="relative bg-red-700 h-full">
-            <img class="w-22 m-auto h-full" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="logo">
+        <div class="relative bg-red-700 h-full drop-drop-shadow-lg">
+            {{-- <img class="w-22 m-auto h-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo"> --}}
         </div>
     </header>
     <div class="login-container pb-28 pt-16">
@@ -42,12 +42,12 @@
                         <div class="my-3 relative">
                             <input type="password" name="password" id="password" class="form-control p-3"
                                 autocomplete="off" placeholder="Password">
-                            <i class="bi bi-eye-slash absolute top-0 right-0 cursor-pointer text-2xl " id="show-password"
-                                style="margin: 0.8rem;"></i>
+                            <i class="bi bi-eye-slash absolute top-0 right-0 cursor-pointer text-2xl "
+                                id="show-password" style="margin: 0.8rem;"></i>
                         </div>
                         <div class="login-btn">
                             <button type="submit"
-                                class="font-bold cursor-pointer text-lg w-full bg-slate-700 text-white p-3 rounded shadow-lg hover:bg-slate-800">Log
+                                class="font-bold cursor-pointer text-lg w-full bg-slate-700 text-white p-3 rounded drop-shadow-lg hover:bg-slate-800">Log
                                 in</button>
                         </div>
                     </form>
@@ -55,11 +55,11 @@
                         @method('GET')
                         @csrf
                         <button type="submit"
-                            class="font-bold cursor-pointer text-lg w-full bg-red-700 text-white p-3 rounded shadow-lg hover:bg-red-800">
+                            class="font-bold cursor-pointer text-lg w-full bg-red-600 text-white p-3 rounded drop-shadow-lg hover:bg-red-700">
                             Continue as resident
                         </button>
                     </form>
-                    <div class="forgot-password flex justify-center text-center mt-6 text-sky-600">
+                    <div class="flex justify-center text-center mt-6 text-sky-600">
                         <a href="">Forgotten password?</a>
                     </div>
                     <hr class="my-10 mx-4">
@@ -68,12 +68,10 @@
         </div>
     </div>
 
-    <div class="login-footer-container text-white">
-        <div class="pt-5">
-            <div class="px-8 m-auto">
-                <hr>
-                <span id="year" class="text-slate-400 text-sm"></span>
-            </div>
+    <div class="text-white pt-5">
+        <div class="px-8 m-auto">
+            <hr>
+            <span id="year" class="text-slate-400 text-sm"></span>
         </div>
     </div>
 

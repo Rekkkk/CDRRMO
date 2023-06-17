@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    @include('partials.content.headPackage')
+    @include('partials.headPackage')
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
@@ -10,17 +10,17 @@
 <body>
     <div class="wrapper">
         @include('sweetalert::alert')
-        @include('partials.content.header')
-        @include('partials.content.sidebar')
+        @include('partials.header')
+        @include('partials.sidebar')
 
         <x-messages />
 
-        <h1 class="text-center bg-slate-700 my-2 text-white text-4xl p-3 font-bold">E-Ligtas Guides</h1>
+        <h1 class="text-center bg-slate-600 my-2 text-white text-4xl p-3 font-bold">E-Ligtas Guides</h1>
 
-        <div class="guide-btn py-2 flex justify-end">
+        <div class="guide-btn flex justify-end">
             @if (Auth::check() && Auth::user()->user_role == 'CDRRMO' || Auth::check() && Auth::user()->user_role == 'CSWD')
                 <a href="javascript:void(0)" id="createGuideBtn"
-                    class="bg-red-700 mx-2 p-2 text-white rounded shadow-lg hover:bg-red-800">
+                    class="bg-green-700 hover:bg-green-800 p-2 m-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-95 duration-100">
                     <i class="bi bi-plus-lg mr-2"></i> Create Guide
                 </a>
                 <input type="hidden" class="guideline_id" value="{{ $guidelineId }}">
@@ -32,10 +32,10 @@
             @foreach ($guide as $guide)
                 <div class="guide-container">
                     <div class="guide-content relative mx-2.5 my-2">
-                        <div class="label relative bg-slate-700 text-white cursor-pointer p-3">
+                        <div class="label relative bg-slate-600 text-white cursor-pointer p-3">
                             {{ $guide->label }}
                         </div>
-                        <div class="content relative h-0 overflow-hidden bg-neutral-200">
+                        <div class="content relative h-0 overflow-hidden drop-shadow-lg bg-slate-50">
                             <p class="mb-2">
                                 {{ $guide->content }}
                             </p>
@@ -43,13 +43,13 @@
                                 <div class="action-btn py-2 flex justify-start">
                                     <a href="#edit{{ $guide->id }}" data-bs-toggle="modal">
                                         <button type="submit"
-                                            class="bg-slate-700 p-2 text-white rounded shadow-lg hover:bg-slate-900">
+                                            class="bg-slate-600 p-2 text-white rounded drop-shadow-lg hover:bg-slate-700">
                                             <i class="bi bi-pencil text-sm mr-2"></i>Edit
                                         </button>
                                     </a>
                                     <a href="{{ route('remove.guide.cdrrmo', $guide->id) }}">
                                         <button type="submit"
-                                            class="bg-red-700 ml-2 p-2 text-white rounded shadow-lg hover:bg-red-900">
+                                            class="bg-red-600 ml-2 p-2 text-white rounded drop-shadow-lg hover:bg-red-700">
                                             <i class="bi bi-trash mr-2"></i>Remove
                                         </button>
                                     </a>

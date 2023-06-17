@@ -2,7 +2,7 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    @include('partials.content.headPackage')
+    @include('partials.headPackage')
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
@@ -10,8 +10,8 @@
 <body>
     <div class="wrapper">
         @include('sweetalert::alert')
-        @include('partials.content.header')
-        @include('partials.content.sidebar')
+        @include('partials.header')
+        @include('partials.sidebar')
 
         <x-messages />
 

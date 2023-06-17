@@ -9,8 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
-    <link rel="shortcut icon" href="{{ asset('assets/img/CDRRMO-LOGO.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('assets/img/cdrrmo-logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
@@ -18,20 +17,20 @@
 <body>
     <div class="wrapper">
 
-        @include('partials.content.header')
-        @include('partials.content.sidebar')
+        @include('partials.header')
+        @include('partials.sidebar')
 
         <x-messages />
 
         <div class="main-content pt-8 pr-8 pl-28">
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-info-circle text-2xl p-2 bg-slate-900 text-white rounded"></i>
+                <i class="bi bi-info-circle text-2xl p-2 bg-slate-700 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">ABOUT</span>
                 <hr class="mt-4">
             </div>
 
             <div class="about-content flex">
-                <div class="location-section shadow-2xl bg-slate-600 p-6 text-white">
+                <div class="location-section drop-shadow-lg bg-slate-600 p-6 text-white">
                     <div class="text-center">
                         <span class="text-2xl font-bold">Location</span>
                     </div>
@@ -39,7 +38,7 @@
                         <i class="bi bi-geo-alt-fill mr-4 text-lg"></i>
                         Address:
                         @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
-                            <i class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-700 text-white rounded shadow-lg hover:bg-red-900"
+                            <i class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded drop-shadow-lg hover:bg-red-700"
                                 id="editAddressModal"></i>
 
                             <div class="modal fade" id="editAddressForm" data-bs-backdrop="static"
@@ -59,10 +58,10 @@
                                         </div>
                                         <div class="modal-footer">
                                             <button type="button"
-                                                class="bg-slate-700 text-white p-2 rounded shadow-lg hover:shadow-xl"
+                                                class="bg-slate-700 text-white p-2 rounded drop-shadow-lg hover:bg-slate-800"
                                                 data-bs-dismiss="modal">Close</button>
                                             <button type="button" id="editAddressBtn"
-                                                class="bg-red-700 text-white p-2 rounded shadow-lg hover:shadow-xl">
+                                                class="bg-red-600 text-white p-2 rounded drop-shadow-lg hover:bg-red-700">
                                                 Update
                                             </button>
                                         </div>
