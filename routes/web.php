@@ -104,14 +104,6 @@ Route::group(['middleware' => 'auth'], function () {
             });
         });
 
-        Route::group(['prefix' => 'evacuee'], function () {
-            Route::controller(DisasterController::class)->group(function () {
-                Route::get('/disasterDetails/{disasterId}', 'getDisasterDetails')->name('disaster.details.cswd');
-                Route::put('/updateDisaster/{disasterId}', 'updateDisaster')->name('update.disaster.cswd');
-                Route::delete('/removeDisaster/{disasterId}', 'removeDisaster')->name('remove.disaster.cswd');
-            });
-        });
-
         Route::controller(CswdController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cswd');
             Route::get('/recordEvacuee', 'recordEvacuee')->name('display.record.evacuee.cswd');
