@@ -15,6 +15,7 @@
         @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
+        {{-- @vite(['resources/js/app.js']) --}}
 
         <x-messages />
 
@@ -25,9 +26,11 @@
                 <hr class="mt-4">
             </div>
 
+            <div id="result"></div>
+
             <div class="report-table bg-slate-50 shadow-lg p-4 rounded">
                 <header class="text-2xl font-semibold">Pending Accident Report</header>
-                <table class="table data-table display nowrap" style="width:100%">
+                <table class="table data-table display nowrap" style="width:100%" id="report-table">
                     <thead>
                         <tr>
                             <th class="w-px">Report ID</th>
@@ -56,20 +59,18 @@
                                     name="reportForm" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="report_id" id="report_id">
-
                                     <div class="mb-3">
                                         <label for="description" class="flex items-center justify-center">Report
                                             Description</label>
-                                        <input type="text" id="description" name="description"
-                                            class="form-control" placeholder="Enter Incident Description"
-                                            autocomplete="off">
+                                        <input type="text" id="description" name="description" class="form-control"
+                                            placeholder="Enter Incident Description" autocomplete="off">
                                         <span class="text-danger error-text description_error"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label for="location" class="flex items-center justify-center">Report
                                             Location</label>
-                                        <input type="text" id="location" name="location"
-                                            class="form-control" placeholder="Enter Incident Location" autocomplete="off">
+                                        <input type="text" id="location" name="location" class="form-control"
+                                            placeholder="Enter Incident Location" autocomplete="off">
                                         <span class="text-danger error-text location_error"></span>
                                     </div>
                                     <div class="mb-3">
@@ -81,10 +82,10 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button"
-                                            class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
+                                            class="bg-slate-700 text-white p-2 rounded shadow-lg hover:shadow-xl transition duration-200"
                                             data-bs-dismiss="modal">Close</button>
                                         <button type="submit"
-                                            class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Report
+                                            class="bg-red-700 text-white p-2 rounded shadow-lg hover:shadow-xl transition duration-200">Report
                                             Accident</button>
                                     </div>
                                 </form>
@@ -242,6 +243,10 @@
                         }
                     });
                 });
+
+                Echo.channel('report-incident').listen('ReportIncident', (e) => {
+                    table.draw();
+                })
             });
         </script>
     @endif
@@ -375,6 +380,10 @@
                         }
                     })
                 });
+
+                Echo.channel('report-incident').listen('ReportIncident', (e) => {
+                    table.draw();
+                })
             });
         </script>
     @endguest

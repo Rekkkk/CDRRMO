@@ -30,43 +30,44 @@
                 </div>
                 <div class="w-full p-2">
                     <div class="content-body">
-
                         <form id="TyphoonForm">
                             <div class="bg-slate-50 p-4 pb-2 rounded">
-                            <div class="flex-auto px-1 lg:px-5">
-                                <header class="text-xl font-semibold ">Evacuee Information</header>
-                                <hr class="mb-3">
-                                @csrf
-                                <div class="flex flex-wrap">
-                                    <div class="w-full lg:w-6/12 px-4">
-                                        <div class="relative w-full mb-3">
-                                            <label for="barangay">Barangay</label>
-                                            <select name="barangay"
-                                                class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150">
-                                                <option value="">Select Barangay</option>
-                                                <option value="Baclaran">Baclaran</option>
-                                                <option value="Banay-Banay">Banay-Banay</option>
-                                                <option value="Banlic">Banlic</option>
-                                                <option value="Bigaa">Bigaa</option>
-                                                <option value="Butong">Butong</option>
-                                                <option value="Casile">Casile</option>
-                                                <option value="Diezmo">Diezmo</option>
-                                                <option value="Gulod">Gulod</option>
-                                                <option value="Mamatid">Mamatid</option>
-                                                <option value="Marinig">Marinig</option>
-                                                <option value="Niugan">Niugan</option>
-                                                <option value="Pittland">Pittland</option>
-                                                <option value="Pulo">Pulo</option>
-                                                <option value="Sala">Sala</option>
-                                                <option value="San Isidro">San Isidro</option>
-                                                <option value="Barangay I Poblacion">Barangay I Poblacion</option>
-                                                <option value="Barangay II Poblacion">Barangay II Poblacion</option>
-                                                <option value="Barangay III Poblacion">Barangay III Poblacion</option>
-                                            </select>
-                                            <span class="text-red-500 text-xs italic error-text barangay_error"></span>
+                                <div class="flex-auto px-1 lg:px-5">
+                                    <header class="text-xl font-semibold ">Evacuee Information</header>
+                                    <hr class="mb-3">
+                                    @csrf
+                                    <div class="flex flex-wrap">
+                                        <div class="w-full lg:w-6/12 px-4">
+                                            <div class="relative w-full mb-3">
+                                                <label for="barangay">Barangay</label>
+                                                <select name="barangay"
+                                                    class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150">
+                                                    <option value="">Select Barangay</option>
+                                                    <option value="Baclaran">Baclaran</option>
+                                                    <option value="Banay-Banay">Banay-Banay</option>
+                                                    <option value="Banlic">Banlic</option>
+                                                    <option value="Bigaa">Bigaa</option>
+                                                    <option value="Butong">Butong</option>
+                                                    <option value="Casile">Casile</option>
+                                                    <option value="Diezmo">Diezmo</option>
+                                                    <option value="Gulod">Gulod</option>
+                                                    <option value="Mamatid">Mamatid</option>
+                                                    <option value="Marinig">Marinig</option>
+                                                    <option value="Niugan">Niugan</option>
+                                                    <option value="Pittland">Pittland</option>
+                                                    <option value="Pulo">Pulo</option>
+                                                    <option value="Sala">Sala</option>
+                                                    <option value="San Isidro">San Isidro</option>
+                                                    <option value="Barangay I Poblacion">Barangay I Poblacion</option>
+                                                    <option value="Barangay II Poblacion">Barangay II Poblacion</option>
+                                                    <option value="Barangay III Poblacion">Barangay III Poblacion
+                                                    </option>
+                                                </select>
+                                                <span
+                                                    class="text-red-500 text-xs italic error-text barangay_error"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    {{-- <div class="w-full lg:w-6/12 px-4">
+                                        {{-- <div class="w-full lg:w-6/12 px-4">
                                         <div class="relative w-full mb-3">
                                             <label for="house_hold_number">Camp. Manager</label>
                                             <input type="text" name="house_hold_number"
@@ -76,22 +77,23 @@
                                             <span class="text-red-500 text-xs italic error-text name_error"></span>
                                         </div>
                                     </div> --}}
-                                    <div class="w-full lg:w-6/12 px-4">
-                                        <div class="relative w-full mb-3">
-                                            <label for="disaster">Disaster</label>
-                                            <select name="disaster"
-                                                class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150">
-                                                <option value="">Select Disaster</option>
-                                                @foreach ($disasters as $disaster)
-                                                    <option value="{{ $disaster->id }}"
-                                                        @if (old('disaster') == $disaster->id) selected @endif>
-                                                        {{ $disaster->type }}</option>
-                                                @endforeach
-                                            </select>
-                                            <span class="text-red-500 text-xs italic error-text disaster_error"></span>
+                                        <div class="w-full lg:w-6/12 px-4">
+                                            <div class="relative w-full mb-3">
+                                                <label for="disaster">Disaster</label>
+                                                <select name="disaster"
+                                                    class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150">
+                                                    <option value="">Select Disaster</option>
+                                                    @foreach ($disasters as $disaster)
+                                                        <option value="{{ $disaster->id }}"
+                                                            @if (old('disaster') == $disaster->id) selected @endif>
+                                                            {{ $disaster->type }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <span
+                                                    class="text-red-500 text-xs italic error-text disaster_error"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    {{-- <div class="w-full lg:w-6/12 px-4">
+                                        {{-- <div class="w-full lg:w-6/12 px-4">
                                         <div class="relative w-full mb-3">
                                             <label for="house_hold_number">Asst. Camp. Manager</label>
                                             <input type="text" name="house_hold_number"
@@ -101,111 +103,112 @@
                                             <span class="text-red-500 text-xs italic error-text name_error"></span>
                                         </div>
                                     </div> --}}
-                                    <div class="w-full lg:w-1/12 px-4">
-                                        <div class="relative w-full mb-3">
-                                            <label for="house_hold_number">HH#</label>
-                                            <input type="number" name="house_hold_number"
-                                                class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150"
-                                                autocomplete="off" placeholder="HH#"
-                                                value="{{ !empty(old('house_hold_number')) ? old('house_hold_number') : null }}">
-                                            <span class="text-red-500 text-xs italic error-text house_hold_number_error"></span>
-                                        </div>
-                                    </div>
-                                    <div class="w-full lg:w-11/12 px-4">
-                                        <div class="relative w-full mb-3">
-                                            <label for="name">Name</label>
-                                            <input type="text" name="name"
-                                                class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150"
-                                                autocomplete="off" placeholder="Enter Full Name"
-                                                value="{{ !empty(old('name')) ? old('name') : null }}">
-                                            <span class="text-red-500 text-xs italic error-text name_error"></span>
-                                        </div>
-                                    </div>
-                                    <div class="w-full lg:w-6/12 px-4">
-                                        <div class="relative w-full mb-3">
-                                            <label for="sex">Sex</label>
-                                            <select name="sex"
-                                                class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150">
-                                                <option value="">Select Sex</option>
-                                                <option value="Male"
-                                                    @if (old('sex') == 'Male') selected @endif>Male
-                                                </option>
-                                                <option value="Female"
-                                                    @if (old('sex') == 'Female') selected @endif>Female
-                                                </option>
-                                            </select>
-                                            <span class="text-red-500 text-xs italic error-text sex_error"></span>
-                                        </div>
-                                    </div>
-                                    <div class="w-full lg:w-6/12 px-4">
-                                        <div class="relative w-full mb-3">
-                                            <label for="age">Age</label>
-                                            <input type="number" name="age"
-                                                class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150"
-                                                autocomplete="off" placeholder="Enter Age"
-                                                value="{{ !empty(old('age')) ? old('age') : null }}">
-                                            <span class="text-red-500 text-xs italic error-text age_error"></span>
-                                        </div>
-                                    </div>
-                                    <div class="w-full px-4">
-                                        <div class="relative flex justify-between items-center mb-3">
-                                            <div class="flex items-center gap-2">
-                                                <input type="checkbox" id="fourps" name="fourps"
-                                                    class="w-5 h-5">
-                                                <label for="">4ps</label>
-                                            </div>
-                                            <div class="flex items-center gap-2">
-                                                <input type="checkbox" id="pwd" name="pwd"
-                                                    class="w-5 h-5">
-                                                <label for="">PWD</label>
-                                            </div>
-                                            <div class="flex items-center gap-2">
-                                                <input type="checkbox" id="pregnant" name="pregnant"
-                                                    class="w-5 h-5">
-                                                <label for="">Pregnant</label>
-                                            </div>
-                                            <div class="flex items-center gap-2">
-                                                <input type="checkbox" id="lactating" name="lactating"
-                                                    class="w-5 h-5">
-                                                <label for="">Lactating</label>
-                                            </div>
-                                            <div class="flex items-center gap-2">
-                                                <input type="checkbox" id="student" name="student"
-                                                    class="w-5 h-5">
-                                                <label for="">Student</label>
-                                            </div>
-                                            <div class="flex items-center gap-2">
-                                                <input type="checkbox" id="working" name="working"
-                                                    class="w-5 h-5">
-                                                <label for="">Working</label>
+                                        <div class="w-full lg:w-1/12 px-4">
+                                            <div class="relative w-full mb-3">
+                                                <label for="house_hold_number">HH#</label>
+                                                <input type="number" name="house_hold_number"
+                                                    class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150"
+                                                    autocomplete="off" placeholder="HH#"
+                                                    value="{{ !empty(old('house_hold_number')) ? old('house_hold_number') : null }}">
+                                                <span
+                                                    class="text-red-500 text-xs italic error-text house_hold_number_error"></span>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="w-full px-4">
-                                        <div class="relative w-full mb-3">
-                                            <label for="evacuation_assigned">Evacuation Assigned</label>
-                                            <select name="evacuation_assigned"
-                                                class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150">
-                                                <option value="">Select Evacuation Assigned</option>
-                                                @foreach ($evacuationCenters as $evacuationCenter)
-                                                    <option value="{{ $evacuationCenter->id }}"
-                                                        @if (old('evacuation_assigned') == $evacuationCenter->id) selected @endif>
-                                                        {{ $evacuationCenter->name }}</option>
-                                                @endforeach
-                                            </select>
-                                            <span
-                                                class="text-red-500 text-xs italic error-text evacuation_assigned_error"></span>
+                                        <div class="w-full lg:w-11/12 px-4">
+                                            <div class="relative w-full mb-3">
+                                                <label for="name">Name</label>
+                                                <input type="text" name="name"
+                                                    class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150"
+                                                    autocomplete="off" placeholder="Enter Full Name"
+                                                    value="{{ !empty(old('name')) ? old('name') : null }}">
+                                                <span class="text-red-500 text-xs italic error-text name_error"></span>
+                                            </div>
                                         </div>
-                                    </div>
-                                    <div class="w-full px-4 ">
-                                        <div class="relative w-full ">
-                                            <button id="saveEvacuee"
-                                                class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:bg-red-800 transition duration-200 float-right mb-3">Submit</button>
+                                        <div class="w-full lg:w-6/12 px-4">
+                                            <div class="relative w-full mb-3">
+                                                <label for="sex">Sex</label>
+                                                <select name="sex"
+                                                    class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150">
+                                                    <option value="">Select Sex</option>
+                                                    <option value="Male"
+                                                        @if (old('sex') == 'Male') selected @endif>Male
+                                                    </option>
+                                                    <option value="Female"
+                                                        @if (old('sex') == 'Female') selected @endif>Female
+                                                    </option>
+                                                </select>
+                                                <span class="text-red-500 text-xs italic error-text sex_error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="w-full lg:w-6/12 px-4">
+                                            <div class="relative w-full mb-3">
+                                                <label for="age">Age</label>
+                                                <input type="number" name="age"
+                                                    class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150"
+                                                    autocomplete="off" placeholder="Enter Age"
+                                                    value="{{ !empty(old('age')) ? old('age') : null }}">
+                                                <span class="text-red-500 text-xs italic error-text age_error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="w-full px-4">
+                                            <div class="relative flex justify-between items-center mb-3">
+                                                <div class="flex items-center gap-2">
+                                                    <input type="checkbox" id="fourps" name="fourps"
+                                                        class="w-5 h-5">
+                                                    <label for="">4ps</label>
+                                                </div>
+                                                <div class="flex items-center gap-2">
+                                                    <input type="checkbox" id="pwd" name="pwd"
+                                                        class="w-5 h-5">
+                                                    <label for="">PWD</label>
+                                                </div>
+                                                <div class="flex items-center gap-2">
+                                                    <input type="checkbox" id="pregnant" name="pregnant"
+                                                        class="w-5 h-5">
+                                                    <label for="">Pregnant</label>
+                                                </div>
+                                                <div class="flex items-center gap-2">
+                                                    <input type="checkbox" id="lactating" name="lactating"
+                                                        class="w-5 h-5">
+                                                    <label for="">Lactating</label>
+                                                </div>
+                                                <div class="flex items-center gap-2">
+                                                    <input type="checkbox" id="student" name="student"
+                                                        class="w-5 h-5">
+                                                    <label for="">Student</label>
+                                                </div>
+                                                <div class="flex items-center gap-2">
+                                                    <input type="checkbox" id="working" name="working"
+                                                        class="w-5 h-5">
+                                                    <label for="">Working</label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="w-full px-4">
+                                            <div class="relative w-full mb-3">
+                                                <label for="evacuation_assigned">Evacuation Assigned</label>
+                                                <select name="evacuation_assigned"
+                                                    class="border-2 border-slate-400 px-3 my-2 h-11 text-slate-600 text-sm font-normal rounded w-full ease-linear transition-all duration-150">
+                                                    <option value="">Select Evacuation Assigned</option>
+                                                    @foreach ($evacuationCenters as $evacuationCenter)
+                                                        <option value="{{ $evacuationCenter->id }}"
+                                                            @if (old('evacuation_assigned') == $evacuationCenter->id) selected @endif>
+                                                            {{ $evacuationCenter->name }}</option>
+                                                    @endforeach
+                                                </select>
+                                                <span
+                                                    class="text-red-500 text-xs italic error-text evacuation_assigned_error"></span>
+                                            </div>
+                                        </div>
+                                        <div class="w-full px-4 ">
+                                            <div class="relative w-full ">
+                                                <button id="saveEvacuee"
+                                                    class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:bg-red-800 transition duration-200 float-right mb-3">Submit</button>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
                         </form>
                     </div>
                 </div>
@@ -259,7 +262,7 @@
                                         'Successfully Register Evacuee, Thank You!',
                                         'success'
                                     );
-                                    $('#Typhoon')[0].reset();
+                                    $('#TyphoonForm')[0].reset();
                                 }
                             },
                             error: function(data) {

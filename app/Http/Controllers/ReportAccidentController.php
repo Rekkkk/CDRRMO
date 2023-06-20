@@ -7,6 +7,7 @@ use App\Models\ReportLog;
 use App\Models\Reporting;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Events\ReportIncident;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -15,10 +16,11 @@ use Illuminate\Support\Facades\Validator;
 class ReportAccidentController extends Controller
 {
 
-    private $reportAccident, $logActivity;
+    private $reportAccident, $logActivity, $report;
 
     function __construct()
     {
+        $this->report = new ReportIncident;
         $this->reportAccident = new Reporting;
         $this->logActivity = new ActivityUserLog;
     }
@@ -95,6 +97,8 @@ class ReportAccidentController extends Controller
                         ReportLog::where('user_ip', $request->ip())->update(['report_time' => $remaining_time]);
                     }
 
+                    event(new ReportIncident());
+
                     return response()->json(['condition' => 0]);
                 } catch (\Exception $e) {
                     return response()->json(['condition' => 1]);
@@ -108,6 +112,8 @@ class ReportAccidentController extends Controller
                         'attempt' => 1,
                     ]);
 
+                    event(new ReportIncident());
+
                     return response()->json(['condition' => 0]);
                 } catch (\Exception $e) {
                     return response()->json(['condition' => 1]);
@@ -118,10 +124,11 @@ class ReportAccidentController extends Controller
         return response()->json(['condition' => 1, 'error' => $validatedAccidentReport->errors()->toArray()]);
     }
 
-    public function approveAccidentReport($reportId)
+    public function approveAccidentReport($reportAccidentId)
     {
         try {
-            $this->reportAccident->approveAccidentReportObject($reportId);
+            $this->report->approveStatus($reportAccidentId);
+            event(new ReportIncident());
             $this->logActivity->generateLog('Approving Accident Report');
         } catch (\Exception $e) {
             Alert::success(config('app.name'), 'Failed to Report Accident.');
@@ -133,7 +140,8 @@ class ReportAccidentController extends Controller
     public function removeAccidentReport($reportAccidentId)
     {
         try {
-            $this->reportAccident->removeAccidentReportObject($reportAccidentId);
+            $this->report->declineStatus($reportAccidentId);
+            event(new ReportIncident());
             $this->logActivity->generateLog('Removing Accident Report');
         } catch (\Exception $e) {
             Alert::success(config('app.name'), 'Failed to Report Accident.');

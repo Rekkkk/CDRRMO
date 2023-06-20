@@ -9,9 +9,9 @@ use App\Models\Disaster;
 use App\Models\Guideline;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Events\ActiveEvacuees;
 use App\Models\ActivityUserLog;
 use App\Models\EvacuationCenter;
-use Illuminate\Support\Facades\Crypt;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
 
@@ -21,9 +21,9 @@ class CswdController extends Controller
 
     function __construct()
     {
+        $this->guide = new Guide();
         $this->evacuee = new Evacuee;
         $this->guideline = new Guideline();
-        $this->guide = new Guide();
         $this->evacuation = new EvacuationCenter;
     }
     public function dashboard()
@@ -133,6 +133,10 @@ class CswdController extends Controller
                     'activity' => 'Registering Evacuee',
                     'date_time' => Carbon::now()->toDayDateTimeString()
                 ]);
+
+                $inEvacuationCenter = $this->evacuee->countEvacueeOnEvacuation();
+
+                event(new ActiveEvacuees($inEvacuationCenter));
 
                 return response()->json(['condition' => 1]);
             } catch (\Exception $e) {
