@@ -20,7 +20,7 @@
         <div class="guide-btn flex justify-end">
             @if (Auth::check() && Auth::user()->user_role == 'CDRRMO' || Auth::check() && Auth::user()->user_role == 'CSWD')
                 <a href="javascript:void(0)" id="createGuideBtn"
-                    class="bg-green-700 hover:bg-green-800 p-2 m-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-95 duration-100">
+                    class="bg-green-700 hover:bg-green-800 p-2 m-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100">
                     <i class="bi bi-plus-lg mr-2"></i> Create Guide
                 </a>
                 <input type="hidden" class="guideline_id" value="{{ $guidelineId }}">

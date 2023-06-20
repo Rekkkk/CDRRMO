@@ -32,7 +32,7 @@ class Evacuee extends Model
         'disaster_id',
         'evacuation_assigned'
     ];
-
+    
     public function countEvacueeOnEvacuation()
     {
       return $this->whereNull('date_out')->count();

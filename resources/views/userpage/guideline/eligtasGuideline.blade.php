@@ -24,7 +24,7 @@
 
             @if ((Auth::check() && Auth::user()->user_role == 'CDRRMO') || (Auth::check() && Auth::user()->user_role == 'CSWD'))
                 <div class="guidelines-btn py-2 flex justify-end">
-                    <a class="bg-green-700 hover:bg-green-800 p-2 mt-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-95 duration-100"
+                    <a class="bg-green-700 hover:bg-green-800 p-2 mt-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100"
                         id="createGuidelineBtn" href="javascript:void(0)">
                         <i class="bi bi-file-earmark-plus-fill mr-2"></i>Create Guideline
                     </a>
