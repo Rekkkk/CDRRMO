@@ -38,7 +38,7 @@
                             <th>Accident Location</th>
                             <th>Actual Photo</th>
                             <th class="w-4">Status</th>
-                            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
                                 <th class="w-4">Action</th>
                             @endif
                         </tr>
@@ -117,7 +117,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
 
-    @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+    @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
         <script type="text/javascript">
             $(document).ready(function() {
                 $.ajaxSetup({

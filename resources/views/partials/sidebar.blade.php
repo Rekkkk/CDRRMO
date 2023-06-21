@@ -8,9 +8,9 @@
         <div class="user-details py-2 bg-slate-800">
             <div class="truncate flex justify-center items-center text-white tracking-wide font-bold gap-4">
                 <img class="w-12" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="Logo">
-                @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+                @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
                     <span>CDRRMO Panel</span>
-                @elseif(Auth::check() && Auth::user()->user_role == 'CSWD')
+                @elseif(auth()->check() && auth()->user()->user_role == 'CSWD')
                     <span>CSWD Panel</span>
                 @else
                     <span>Cabuyao Resident</span>

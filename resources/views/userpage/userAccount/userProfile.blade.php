@@ -37,14 +37,14 @@
                                 class="bg-red-700 w-full rounded-t-lg text-white py-3 px-2 text-lg font-semibold tracking-wide">User
                                 Role</label><br>
                             <div class="flex justify-between bg-slate-50">
-                                <div class="py-3 px-2 font-bold">{{ Auth::user()->user_role }}</div>
+                                <div class="py-3 px-2 font-bold">{{ auth()->user()->user_role }}</div>
                             </div>
                         </div>
                         <div class="w-full px-4 mb-12 drop-shadow-xl">
                             <label for="user_position"
                                 class="bg-red-700 w-full rounded-t-lg text-white py-3 px-2 text-lg font-semibold tracking-wide">Position</label><br>
                             <div class="flex justify-between bg-slate-50">
-                                <div class="py-3 px-2 font-bold">{{ Auth::user()->position }}</div>
+                                <div class="py-3 px-2 font-bold">{{ auth()->user()->position }}</div>
                             </div>
                         </div>
                         <div class="w-full px-4 drop-shadow-xl">
@@ -52,7 +52,7 @@
                                 class="bg-red-700 w-full rounded-t-lg text-white py-3 px-2 text-lg font-semibold tracking-wide">Email
                                 Address</label><br>
                             <div class="flex justify-between bg-slate-50">
-                                <div class="py-3 px-2 font-bold">{{ Auth::user()->email }}</div>
+                                <div class="py-3 px-2 font-bold">{{ auth()->user()->email }}</div>
                             </div>
                         </div>
                     </form>
@@ -67,81 +67,83 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
-    <script>
-        $(document).ready(function() {
-            $('#editProfileBtn').click(function() {
-                $('#accountForm')[0].reset();
-                $('#accountId').val('{{ Auth::user()->id }}');
-                $('#user_role').val('{{ Auth::user()->user_role }}');
-                $('#position').val('{{ Auth::user()->position }}');
-                $('#email').val('{{ Auth::user()->email }}');
-                $('#editAccountModal').modal('show');
-            });
+    @if (auth()->check())
+        <script>
+            $(document).ready(function() {
+                $('#editProfileBtn').click(function() {
+                    $('#accountForm')[0].reset();
+                    $('#accountId').val('{{ auth()->user()->id }}');
+                    $('#user_role').val('{{ auth()->user()->user_role }}');
+                    $('#position').val('{{ auth()->user()->position }}');
+                    $('#email').val('{{ auth()->user()->email }}');
+                    $('#editAccountModal').modal('show');
+                });
 
-            $('#saveProfileDetails').click(function(e) {
-                var accountid = $('#accountId').val();
-                e.preventDefault();
+                $('#saveProfileDetails').click(function(e) {
+                    var accountid = $('#accountId').val();
+                    e.preventDefault();
 
-                Swal.fire({
-                    icon: 'question',
-                    title: 'Would you like to save your profile details?',
-                    showDenyButton: true,
-                    confirmButtonText: 'Yes, save it.',
-                    confirmButtonColor: '#334155',
-                    denyButtonText: 'Double Check'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: "{{ route('update.account.cdrrmo', ':accountid') }}"
-                                .replace(':accountid', accountid),
-                            method: 'put',
-                            data: $('#accountForm').serialize(),
-                            dataType: 'json',
-                            beforeSend: function(data) {
-                                $(document).find('span.error-text').text('');
-                            },
-                            success: function(data) {
-                                if (data.condition == 0) {
-                                    $.each(data.error, function(prefix, val) {
-                                        $('span.' + prefix + '_error').text(val[
-                                            0]);
-                                    });
+                    Swal.fire({
+                        icon: 'question',
+                        title: 'Would you like to save your profile details?',
+                        showDenyButton: true,
+                        confirmButtonText: 'Yes, save it.',
+                        confirmButtonColor: '#334155',
+                        denyButtonText: 'Double Check'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                url: "{{ route('update.account.cdrrmo', ':accountid') }}"
+                                    .replace(':accountid', accountid),
+                                method: 'put',
+                                data: $('#accountForm').serialize(),
+                                dataType: 'json',
+                                beforeSend: function(data) {
+                                    $(document).find('span.error-text').text('');
+                                },
+                                success: function(data) {
+                                    if (data.condition == 0) {
+                                        $.each(data.error, function(prefix, val) {
+                                            $('span.' + prefix + '_error').text(val[
+                                                0]);
+                                        });
+                                        Swal.fire({
+                                            icon: 'error',
+                                            confirmButtonText: 'Understood',
+                                            confirmButtonColor: '#334155',
+                                            title: "{{ config('app.name') }}",
+                                            text: 'Failed to Edit Account Details.'
+                                        });
+                                    } else {
+                                        $('#accountForm')[0].reset();
+                                        $('#editAccountModal').modal('hide');
+                                        Swal.fire({
+                                            title: "{{ config('app.name') }}",
+                                            text: 'Account Details Successfully Updated.',
+                                            icon: 'success'
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                location.reload();
+                                            }
+                                        });
+                                    }
+                                },
+                                error: function(data) {
                                     Swal.fire({
                                         icon: 'error',
                                         confirmButtonText: 'Understood',
                                         confirmButtonColor: '#334155',
                                         title: "{{ config('app.name') }}",
-                                        text: 'Failed to Edit Account Details.'
-                                    });
-                                } else {
-                                    $('#accountForm')[0].reset();
-                                    $('#editAccountModal').modal('hide');
-                                    Swal.fire({
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Account Details Successfully Updated.',
-                                        icon: 'success'
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            location.reload();
-                                        }
+                                        text: 'Something went wrong, try again later.'
                                     });
                                 }
-                            },
-                            error: function(data) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    confirmButtonText: 'Understood',
-                                    confirmButtonColor: '#334155',
-                                    title: "{{ config('app.name') }}",
-                                    text: 'Something went wrong, try again later.'
-                                });
-                            }
-                        });
-                    }
+                            });
+                        }
+                    });
                 });
             });
-        });
-    </script>
+        </script>
+    @endif
 </body>
 
 </html>

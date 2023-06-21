@@ -1,5 +1,5 @@
     <ul class="nav_list">
-        @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+        @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
             <li>
                 <a href="{{ route('dashboard.cdrrmo') }}">
                     <i class="bi bi-speedometer2 text-white"></i>
@@ -18,7 +18,7 @@
                     <span class="links_name">Report Iccident</span>
                 </a>
             </li>
-            @if (Auth::user()->position == 'Secretary')
+            @if (auth()->user()->position == 'Secretary')
                 <li>
                     <a href="{{ route('display.user.accounts') }}">
                         <i class="bi bi-people text-white"></i>
@@ -39,7 +39,7 @@
                 </a>
             </li>
         @endif
-        @if (Auth::check() && Auth::user()->user_role == 'CSWD')
+        @if (auth()->check() && auth()->user()->user_role == 'CSWD')
             <li>
                 <a href="{{ route('dashboard.cswd') }}">
                     <i class="bi bi-speedometer2 text-white"></i>
@@ -76,7 +76,7 @@
                     <span class="links_name">Evacuation Center Locator</span>
                 </a>
             </li>
-            @if (Auth::user()->position == 'President')
+            @if (auth()->user()->position == 'President')
                 <li>
                     <a href="{{ route('display.cswd.accounts') }}">
                         <i class="bi bi-people text-white"></i>

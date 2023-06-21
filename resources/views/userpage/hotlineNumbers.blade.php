@@ -32,7 +32,7 @@
                         <span class="font-bold">
                             <i class="bi bi-hospital mr-4 text-lg"></i>
                             Hotline Numbers:
-                            @if(Auth::check() && Auth::user()->user_role == '1')
+                            @if(auth()->check() && auth()->user()->user_role == '1')
                                 <i
                                     class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-700 text-white rounded shadow-lg hover:bg-red-900"></i>
                             @endif
@@ -44,7 +44,7 @@
                         <span class="font-bold">
                             <i class="bi bi-fire mr-4 text-lg"></i>
                             Hotline Numbers:
-                            @if(Auth::check() && Auth::user()->user_role == '1')
+                            @if(auth()->check() && auth()->user()->user_role == '1')
                                 <i
                                     class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-900"></i>
                             @endif
@@ -56,7 +56,7 @@
                         <span class="font-bold">
                             <i class="bi bi-droplet mr-4 text-lg"></i>
                             Hotline Numbers:
-                            @if(Auth::check() && Auth::user()->user_role == '1')
+                            @if(auth()->check() && auth()->user()->user_role == '1')
                                 <i
                                     class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-900"></i>
                             @endif
@@ -68,7 +68,7 @@
                         <span class="font-bold">
                             <i class="bi bi-tree mr-4 text-lg"></i>
                             Hotline Numbers:
-                            @if(Auth::check() && Auth::user()->user_role == '1')
+                            @if(auth()->check() && auth()->user()->user_role == '1')
                                 <i
                                     class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-900"></i>
                             @endif

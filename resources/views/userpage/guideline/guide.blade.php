@@ -18,7 +18,7 @@
         <h1 class="text-center bg-slate-600 my-2 text-white text-4xl p-3 font-bold">E-Ligtas Guides</h1>
 
         <div class="guide-btn flex justify-end">
-            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO' || Auth::check() && Auth::user()->user_role == 'CSWD')
+            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO' || auth()->check() && auth()->user()->user_role == 'CSWD')
                 <a href="javascript:void(0)" id="createGuideBtn"
                     class="bg-green-700 hover:bg-green-800 p-2 m-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100">
                     <i class="bi bi-plus-lg mr-2"></i> Create Guide
@@ -39,7 +39,7 @@
                             <p class="mb-2">
                                 {{ $guide->content }}
                             </p>
-                            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO' || Auth::check() && Auth::user()->user_role == 'CSWD')
+                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO' || auth()->check() && auth()->user()->user_role == 'CSWD')
                                 <div class="action-btn py-2 flex justify-start">
                                     <a href="#edit{{ $guide->id }}" data-bs-toggle="modal">
                                         <button type="submit"
@@ -70,93 +70,93 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
+    @if (auth()->check())
+        <script type="text/javascript">
+            $(document).ready(function() {
+                const accordion = document.getElementsByClassName('guide-content');
 
-    <script type="text/javascript">
-        $(document).ready(function() {
+                for (i = 0; i < accordion.length; i++) {
+                    accordion[i].addEventListener('click', function() {
+                        this.classList.toggle('active')
+                    })
+                }
 
-            const accordion = document.getElementsByClassName('guide-content');
+                $('#createGuideBtn').click(function() {
+                    $('#create_guide_id').val('');
+                    $('#guideline_id').val('');
+                    $('#createGuideForm').trigger("reset");
+                    $('#createGuideModal').modal('show');
+                });
 
-            for (i = 0; i < accordion.length; i++) {
-                accordion[i].addEventListener('click', function() {
-                    this.classList.toggle('active')
-                })
-            }
+                $('#submitGuideBtn').click(function(e) {
+                    var guideline_id = $('.guideline_id').val();
+                    e.preventDefault();
 
-            $('#createGuideBtn').click(function() {
-                $('#create_guide_id').val('');
-                $('#guideline_id').val('');
-                $('#createGuideForm').trigger("reset");
-                $('#createGuideModal').modal('show');
-            });
-
-            $('#submitGuideBtn').click(function(e) {
-                var guideline_id = $('.guideline_id').val();
-                e.preventDefault();
-
-                Swal.fire({
-                    icon: 'question',
-                    title: 'Would you like to post this guide?',
-                    showDenyButton: true,
-                    confirmButtonText: 'Yes, post it.',
-                    confirmButtonColor: '#334155',
-                    denyButtonText: 'Double Check'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            data: $('#createGuideForm').serialize(),
-                            url: "{{ route('add.guide.cdrrmo', ':guideline_id') }}"
-                                .replace(
-                                    ':guideline_id', guideline_id),
-                            type: "POST",
-                            dataType: 'json',
-                            beforeSend: function(data) {
-                                $(document).find('span.error-text').text('');
-                            },
-                            success: function(data) {
-                                if (data.condition == 0) {
-                                    $.each(data.error, function(prefix, val) {
-                                        $('span.' + prefix + '_error').text(val[
-                                            0]);
-                                    });
+                    Swal.fire({
+                        icon: 'question',
+                        title: 'Would you like to post this guide?',
+                        showDenyButton: true,
+                        confirmButtonText: 'Yes, post it.',
+                        confirmButtonColor: '#334155',
+                        denyButtonText: 'Double Check'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                data: $('#createGuideForm').serialize(),
+                                url: "{{ route('add.guide.cdrrmo', ':guideline_id') }}"
+                                    .replace(
+                                        ':guideline_id', guideline_id),
+                                type: "POST",
+                                dataType: 'json',
+                                beforeSend: function(data) {
+                                    $(document).find('span.error-text').text('');
+                                },
+                                success: function(data) {
+                                    if (data.condition == 0) {
+                                        $.each(data.error, function(prefix, val) {
+                                            $('span.' + prefix + '_error').text(val[
+                                                0]);
+                                        });
+                                        Swal.fire({
+                                            icon: 'error',
+                                            confirmButtonText: 'Understood',
+                                            confirmButtonColor: '#334155',
+                                            title: "{{ config('app.name') }}",
+                                            text: 'Failed to Post E-LIGTAS Guide.'
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            icon: 'success',
+                                            title: "{{ config('app.name') }}",
+                                            text: 'E-LIGTAS Guide Successfully Posted.',
+                                            confirmButtonText: 'OK',
+                                            confirmButtonColor: '#334155',
+                                        }).then((result) => {
+                                            if (result.isConfirmed) {
+                                                $('#createGuideForm')[0].reset();
+                                                $('#createGuideModal').modal(
+                                                    'hide');
+                                                location.reload();
+                                            }
+                                        });
+                                    }
+                                },
+                                error: function(data) {
                                     Swal.fire({
                                         icon: 'error',
                                         confirmButtonText: 'Understood',
                                         confirmButtonColor: '#334155',
                                         title: "{{ config('app.name') }}",
-                                        text: 'Failed to Post E-LIGTAS Guide.'
-                                    });
-                                } else {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'E-LIGTAS Guide Successfully Posted.',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#334155',
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            $('#createGuideForm')[0].reset();
-                                            $('#createGuideModal').modal(
-                                                'hide');
-                                            location.reload();
-                                        }
+                                        text: 'Something went wrong, try again later.'
                                     });
                                 }
-                            },
-                            error: function(data) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    confirmButtonText: 'Understood',
-                                    confirmButtonColor: '#334155',
-                                    title: "{{ config('app.name') }}",
-                                    text: 'Something went wrong, try again later.'
-                                });
-                            }
-                        });
-                    }
-                })
+                            });
+                        }
+                    })
+                });
             });
-        });
-    </script>
+        </script>
+    @endif
 </body>
 
 </html>

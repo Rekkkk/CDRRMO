@@ -8,7 +8,7 @@
                 <form id="accountForm">
                     @csrf
                     <input type="text" name="accountId" id="accountId" hidden>
-                    @if (Auth::user()->position == 'President')
+                    @if (auth()->user()->position == 'President')
                         <div class="mb-3">
                             <label for="user_role" class="flex items-center justify-center">User Role</label>
                             <input type="text" name="user_role" class="form-control" autocomplete="off"

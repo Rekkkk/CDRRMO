@@ -151,7 +151,7 @@ class CswdController extends Controller
 
     public function eligtasGuideline()
     {
-        $guideline = $this->guideline->all();
+        $guideline = $this->guideline->where('author', 2);
 
         return view('userpage.guideline.eligtasGuideline', compact('guideline'));
     }
