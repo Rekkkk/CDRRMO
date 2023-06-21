@@ -19,7 +19,7 @@ class Typhoon extends Model
         'status'
     ];
 
-    public function retrieveAll()
+    public function retrieveAllActiveTyphoon()
     {
         return $this->all();
     }

@@ -19,8 +19,8 @@ class Flashflood extends Model
         'status'
     ];
 
-    public function retrieveAll()
+    public function retrieveAllActiveFlashflood()
     {
-        return $this->all();
+        return $this->all()->where('status', 'Rising');
     }
 }
