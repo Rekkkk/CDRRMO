@@ -1,4 +1,4 @@
-@if(Auth::check() && Auth::user()->user_role == 'CDRRMO')
+@if (auth()->check())
     <div class="modal fade" id="edit{{ $guide->id }}" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -14,16 +14,15 @@
                         <div class="mb-3">
                             <label for="label" class="flex items-center justify-center">Guide
                                 Desctription</label>
-                            <input type="text" name="label" value="{{ $guide->label }}"
-                                class="form-control" autocomplete="off">
+                            <input type="text" name="label" value="{{ $guide->label }}" class="form-control"
+                                autocomplete="off">
                         </div>
                         <div class="mb-3">
                             <label for="content" class="flex items-center justify-center">Guide Content</label>
                             <textarea name="content" class="form-control" autocomplete="off" placeholder="Enter Guide Content" rows="5">{{ $guide->content }}</textarea>
                         </div>
                         <div class="modal-footer">
-                            <button type="button"
-                                class="bg-slate-700 text-white p-2 rounded shadow-lg hover:shadow-xl"
+                            <button type="button" class="bg-slate-700 text-white p-2 rounded shadow-lg hover:shadow-xl"
                                 data-bs-dismiss="modal">Close</button>
                             <button type="submit"
                                 class="bg-red-700 text-white p-2 rounded shadow-lg hover:shadow-xl">Update

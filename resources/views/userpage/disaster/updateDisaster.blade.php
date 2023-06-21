@@ -1,4 +1,4 @@
-@if (Auth::user()->user_role == 'CDRRMO')
+@if (auth()->user()->user_role == 'CDRRMO')
     <div class="modal fade" id="editDisaster" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

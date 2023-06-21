@@ -37,7 +37,7 @@
                     <div class="mt-8">
                         <i class="bi bi-geo-alt-fill mr-4 text-lg"></i>
                         Address:
-                        @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+                        @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
                             <i class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded drop-shadow-lg hover:bg-red-700"
                                 id="editAddressModal"></i>
 

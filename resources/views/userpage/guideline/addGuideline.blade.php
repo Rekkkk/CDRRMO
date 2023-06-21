@@ -1,4 +1,4 @@
-@if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+@if (auth()->check())
     <div class="modal fade" id="createGuidelineModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -17,7 +17,8 @@
                             <span class="text-danger error-text type_error"></span>
                         </div>
                         <div class="modal-footer">
-                            <button type="button" class="bg-slate-600 text-white p-2 rounded shadow-lg hover:bg-slate-700"
+                            <button type="button"
+                                class="bg-slate-600 text-white p-2 rounded shadow-lg hover:bg-slate-700"
                                 data-bs-dismiss="modal">Close</button>
                             <button id="submitGuidelineBtn"
                                 class="bg-red-600 text-white p-2 rounded shadow-lg hover:bg-red-700">Publish

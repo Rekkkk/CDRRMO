@@ -14,7 +14,8 @@ class Guideline extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'type'
+        'type',
+        'author'
     ];
 
     public $timestamps = false;

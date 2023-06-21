@@ -30,7 +30,8 @@ class GuidelineController extends Controller
 
         if ($validatedGuideline->passes()) {
             $guidelineData = [
-                'type' => Str::upper(trim("$request->type Guideline"))
+                'type' => Str::upper(trim("$request->type Guideline")),
+                'author' => auth()->user()->id
             ];
 
             try {
