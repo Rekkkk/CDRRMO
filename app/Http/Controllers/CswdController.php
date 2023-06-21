@@ -13,23 +13,25 @@ use App\Events\ActiveEvacuees;
 use App\Models\ActivityUserLog;
 use App\Models\EvacuationCenter;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
 class CswdController extends Controller
 {
-    private $evacuee, $evacuation, $guideline, $guide;
+    private $evacuee, $evacuationCenter, $guideline, $guide, $disaster;
 
     function __construct()
     {
-        $this->guide = new Guide();
+        $this->guide = new Guide;
         $this->evacuee = new Evacuee;
-        $this->guideline = new Guideline();
-        $this->evacuation = new EvacuationCenter;
+        $this->disaster = new Disaster;
+        $this->guideline = new Guideline;
+        $this->evacuationCenter = new EvacuationCenter;
     }
     public function dashboard()
     {
-        $activeEvacuation = $this->evacuation->isActive();
-        $inActiveEvacuation = $this->evacuation->isInactive();
+        $activeEvacuation = $this->evacuationCenter->isActive();
+        $inActiveEvacuation = $this->evacuationCenter->isInactive();
 
         $inEvacuationCenter = $this->evacuee->countEvacueeOnEvacuation();
         $isReturned = $this->evacuee->countEvacueeReturned();
@@ -83,8 +85,8 @@ class CswdController extends Controller
 
     public function recordEvacuee()
     {
-        $evacuationCenters = EvacuationCenter::all();
-        $disasters = Disaster::all();
+        $evacuationCenters = $this->evacuationCenter->all();
+        $disasters = $this->disaster->all();
         return view('userpage.recordEvacuee', compact('evacuationCenters', 'disasters'));
     }
     public function recordEvacueeInfo(Request $request)
@@ -149,21 +151,21 @@ class CswdController extends Controller
 
     public function eligtasGuideline()
     {
-        $guideline = $this->guideline->retrieveAll();
+        $guideline = $this->guideline->all();
 
         return view('userpage.guideline.eligtasGuideline', compact('guideline'));
     }
 
     public function guide($guidelineId)
     {
-        $guide = $this->guide->retreiveAllGuide($guidelineId);
+        $guide = $this->guide->where('guideline_id', Crypt::decryptString($guidelineId))->get();
 
         return view('userpage.guideline.guide', compact('guide', 'guidelineId'));
     }
 
     public function evacuationCenter()
     {
-        $evacuationCenter = EvacuationCenter::all();
+        $evacuationCenter = $this->evacuationCenter->all();
 
         $initialMarkers = [
             [
@@ -202,7 +204,7 @@ class CswdController extends Controller
 
     public function disaster(Request $request)
     {
-        $disaster = Disaster::all();
+        $disaster = $this->disaster->all();
 
         if ($request->ajax()) {
             return DataTables::of($disaster)

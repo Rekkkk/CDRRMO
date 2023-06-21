@@ -21,7 +21,7 @@
 
         <div class="main-content pt-8 pr-8 pl-28">
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-megaphone text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
+                <i class="bi bi-megaphone text-2xl px-2 bg-slate-600 text-white rounded py-2"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">REPORT ACCIDENT</span>
                 <hr class="mt-4">
             </div>

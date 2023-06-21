@@ -218,6 +218,17 @@ html {
     flex: 3;
 }
 
+.user-profile-container{
+    height: 60rem;
+}
+
+#profile{
+    position: relative;
+    margin-top: 20px;
+    background-attachment: fixed;
+    background-size: cover;
+}
+
 /* Dashboard Section */
 @media only screen and (max-width: 900px) {
 

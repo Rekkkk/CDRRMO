@@ -124,7 +124,6 @@
                         $('#type').val(response.result.type);
                         $('#disasterId').val(disaster_id);
                         $('#editDisaster').modal('show');
-
                     },
                     error: function(response) {
                         Swal.fire(

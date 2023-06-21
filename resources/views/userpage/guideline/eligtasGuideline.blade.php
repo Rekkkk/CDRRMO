@@ -31,11 +31,10 @@
                     @include('userpage.guideline.addGuideline')
                 </div>
             @endif
-
             <div class="content-item text-center p-8">
                 <div class="grid lg:grid-cols-5 md:grid-cols-2 sm:grid-cols-1 gap-6">
                     @forelse ($guideline as $guidelineItem)
-                        <div class="relative transition duration-300 hover:scale-95">
+                        <div class="relative">
                             @if ((Auth::check() && Auth::user()->user_role == 'CDRRMO') || (Auth::check() && Auth::user()->user_role == 'CSWD'))
                                 <a href="{{ route('remove.guideline.cdrrmo', Crypt::encryptString($guidelineItem->id)) }}"
                                     class="absolute top-2 right-0">

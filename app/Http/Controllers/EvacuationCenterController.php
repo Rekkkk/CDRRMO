@@ -15,17 +15,16 @@ class EvacuationCenterController extends Controller
 
     function __construct()
     {
-        $this->evacuationCenter = new EvacuationCenter;
         $this->logActivity = new ActivityUserLog;
+        $this->evacuationCenter = new EvacuationCenter;
     }
 
     public function evacuationCenterList(Request $request)
     {
-        $evacuationCenterList = EvacuationCenter::all();
+        $evacuationCenterList = $this->evacuationCenter->all();
 
         if ($request->ajax()) {
-            $data = EvacuationCenter::all();
-            return DataTables::of($data)
+            return DataTables::of($evacuationCenterList)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $editBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="bg-slate-700 hover:bg-slate-900 py-1.5 btn-sm mr-2 text-white updateEvacuationCenter">Edit</a>';
@@ -59,7 +58,7 @@ class EvacuationCenterController extends Controller
             ];
 
             try {
-                $this->evacuationCenter->registerEvacuationCenterObject($evacuationCenterData);
+                $this->evacuationCenter->create($evacuationCenterData);
                 $this->logActivity->generateLog('Registering Evacuation Center Information');
 
                 return response()->json(['status' => 1]);
@@ -91,7 +90,7 @@ class EvacuationCenterController extends Controller
             ];
 
             try {
-                $this->evacuationCenter->updateEvacuationCenterObject($evacuationCenterData, $evacuationId);
+                $this->evacuationCenter->where('id', $evacuationId)->update($evacuationCenterData);
                 $this->logActivity->generateLog('Updating Evacuation Center Information');
 
                 return response()->json(['status' => 1]);
@@ -106,7 +105,7 @@ class EvacuationCenterController extends Controller
     public function getEvacuationCenterDetails($id)
     {
         if (request()->ajax()) {
-            $data = EvacuationCenter::find($id);
+            $data = $this->evacuationCenter->find($id);
             return response()->json(['result' => $data]);
         }
     }
@@ -114,7 +113,7 @@ class EvacuationCenterController extends Controller
     public function removeEvacuationCenter($evacuationId)
     {
         try {
-            $this->evacuationCenter->removeEvacuationCenterObject($evacuationId);
+            $this->evacuationCenter->where('id', $evacuationId)->delete();
             $this->logActivity->generateLog('Removing Evacuation Center Information');
             
             return response()->json(['status' => 1]);

@@ -34,7 +34,7 @@ class GuidelineController extends Controller
             ];
 
             try {
-                $this->guideline->registerGuidelineObject($guidelineData);
+                $this->guideline->create($guidelineData);
                 $this->logActivity->generateLog('Registering Guideline');
 
                 return response()->json(['condition' => 1]);
@@ -53,8 +53,12 @@ class GuidelineController extends Controller
         ]);
 
         if ($validatedGuideline->passes()) {
+            $guidelineData = [
+                'type' => Str::upper(trim($request->input('type')))
+            ];
+
             try {
-                $this->guideline->updateGuidelineObject($request, $guidelineId);
+                $this->guideline->where('id', $guidelineId)->update($guidelineData);
                 $this->logActivity->generateLog('Updating Guideline');
 
                 Alert::success(config('app.name'), 'Guideline Successfully Updated.');
@@ -72,7 +76,7 @@ class GuidelineController extends Controller
     public function removeGuideline($guidelineId)
     {
         try {
-            $this->guideline->removeGuidelineObject(Crypt::decryptString($guidelineId));
+            $this->guideline->where('id', Crypt::decryptString($guidelineId))->delete();
             $this->logActivity->generateLog('Deleting Guideline');
 
             Alert::success(config('app.name'), 'Guideline Deleted Successfully.');
@@ -98,7 +102,7 @@ class GuidelineController extends Controller
             ];
 
             try {
-                $this->guide->registerGuideObject($guideData);
+                $this->guide->create($guideData);
                 $this->logActivity->generateLog('Registering Guide');
     
                 return response()->json(['condition' => 1]);
@@ -118,8 +122,13 @@ class GuidelineController extends Controller
         ]);
 
         if ($validatedGuide->passes()) {
+            $guideData = [
+                'label' => Str::of(trim($request->input('label')))->title(),
+                'content' => Str::ucfirst(trim($request->input('content')))
+            ];
+
             try {
-                $this->guide->updateGuideObject($request, $guideId);
+                $this->guide->where('id', $guideId)->update($guideData);
                 $this->logActivity->generateLog('Updating Guide');
 
                 Alert::success(config('app.name'), 'Guide Successfully Updated.');
@@ -133,7 +142,7 @@ class GuidelineController extends Controller
     public function removeGuide($guideId)
     {
         try {
-            $this->guide->removeGuideObject($guideId);
+            $this->guide->where('id', $guideId)->delete();
             $this->logActivity->generateLog('Removing Guide');
 
             Alert::success(config('app.name'), 'Guide Removed Successfully.');

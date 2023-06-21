@@ -16,10 +16,11 @@ use Illuminate\Support\Facades\Validator;
 class ReportAccidentController extends Controller
 {
 
-    private $reportAccident, $logActivity, $report;
+    private $reportAccident, $logActivity, $report, $reportLog;
 
     function __construct()
     {
+        $this->reportLog = new ReportLog;
         $this->report = new ReportIncident;
         $this->reportAccident = new Reporting;
         $this->logActivity = new ActivityUserLog;
@@ -27,7 +28,7 @@ class ReportAccidentController extends Controller
 
     public function displayCReport(Request $request)
     {
-        $report = Reporting::latest()->get();
+        $report = $this->reportAccident->latest()->get();
 
         if ($request->ajax()) {
             return DataTables::of($report)
@@ -46,7 +47,7 @@ class ReportAccidentController extends Controller
 
     public function displayGReport(Request $request)
     {
-        $report = Reporting::latest()->get();
+        $report = $this->reportAccident->latest()->get();
 
         if ($request->ajax()) {
             return DataTables::of($report)->addIndexColumn()->make(true);
@@ -64,8 +65,8 @@ class ReportAccidentController extends Controller
         ]);
 
         if ($validatedAccidentReport->passes()) {
-            $user_ip = ReportLog::where('user_ip', $request->ip())->exists();
-            $report_time = ReportLog::where('user_ip', $request->ip())->value('report_time');
+            $user_ip = $this->reportLog->where('user_ip', $request->ip())->exists();
+            $report_time = $this->reportLog->where('user_ip', $request->ip())->value('report_time');
             $imageName = time() . '.' . $request->photo->extension();
             $request->photo->move(public_path('reports_image'), $imageName);
             $reportAccident = [
@@ -76,11 +77,11 @@ class ReportAccidentController extends Controller
             ];
 
             if ($user_ip) {
-                $resident_attempt = ReportLog::where('user_ip', $request->ip())->value('attempt');
+                $resident_attempt = $this->reportLog->where('user_ip', $request->ip())->value('attempt');
 
                 if ($resident_attempt >= 3) {
                     if ($report_time <= Carbon::now()->toDateTimeString()) {
-                        ReportLog::where('user_ip', $request->ip())->update(['attempt' => 0, 'report_time' => null]);
+                        $this->reportLog->where('user_ip', $request->ip())->update(['attempt' => 0, 'report_time' => null]);
                         $resident_attempt = 0;
                     } else {
                         return response()->json(['condition' => 2, 'block_time' => "You have been blocked until <font color='red'>$report_time</font>"]);
@@ -88,13 +89,13 @@ class ReportAccidentController extends Controller
                 }
 
                 try {
-                    $this->reportAccident->registerAccidentReportObject($reportAccident);
-                    ReportLog::where('user_ip', $request->ip())->update(['attempt' => $resident_attempt + 1]);
-                    $attempt = intval(ReportLog::where('user_ip', $request->ip())->value('attempt'));
+                    $this->reportAccident->create($reportAccident);
+                    $this->reportLog->where('user_ip', $request->ip())->update(['attempt' => $resident_attempt + 1]);
+                    $attempt = intval($this->reportLog->where('user_ip', $request->ip())->value('attempt'));
 
                     if ($attempt >= 3) {
                         $remaining_time = Carbon::now()->addDays(3);
-                        ReportLog::where('user_ip', $request->ip())->update(['report_time' => $remaining_time]);
+                        $this->reportLog->where('user_ip', $request->ip())->update(['report_time' => $remaining_time]);
                     }
 
                     event(new ReportIncident());
@@ -105,9 +106,9 @@ class ReportAccidentController extends Controller
                 }
             } else {
                 try {
-                    $this->reportAccident->registerAccidentReportObject($reportAccident);
+                    $this->reportAccident->create($reportAccident);
 
-                    ReportLog::create([
+                    $this->reportLog->create([
                         'user_ip' => $request->ip(),
                         'attempt' => 1,
                     ]);
