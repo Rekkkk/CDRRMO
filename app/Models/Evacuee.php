@@ -33,6 +33,10 @@ class Evacuee extends Model
         'evacuation_assigned'
     ];
 
+    public function retrieveAll(){
+        return $this->all();
+    }
+
     public function countEvacueeOnEvacuation()
     {
       return $this->whereNull('date_out')->count();
