@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('flashflood', function (Blueprint $table) {
             $table->id();
             $table->string('location');
+            $table->string('status')->default('Rising');
             $table->foreignId('disaster_id')->references('id')->on('disaster')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
