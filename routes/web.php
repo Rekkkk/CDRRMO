@@ -9,6 +9,7 @@ use App\Http\Controllers\GuidelineController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ReportAccidentController;
 use App\Http\Controllers\EvacuationCenterController;
+use App\Http\Controllers\UserAccountsController;
 
 Route::controller(AuthenticationController::class)->group(function () {
     Route::post('/', 'authUser')->name('login');
@@ -61,6 +62,14 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::delete('/removeReport/{reportId}', 'removeAccidentReport')->name('remove.accident.report.cdrrmo');
             });
         });
+
+        Route::group(['prefix' => 'userProfile'], function () {
+            Route::controller(UserAccountsController::class)->group(function () {
+                Route::put('/editAccount/{userId}', 'updateUserAccount')->name('update.account.cdrrmo');
+                Route::get('/userProfile', 'userProfile')->name('display.user.profile.cdrrmo');
+                Route::get('/userAccounts', 'userAccounts')->name('display.user.accounts');
+            });
+        });
         
         Route::controller(CdrrmoController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
@@ -101,6 +110,14 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::get('/disasterDetails/{disasterId}', 'getDisasterDetails')->name('disaster.details.cswd');
                 Route::put('/updateDisaster/{disasterId}', 'updateDisaster')->name('update.disaster.cswd');
                 Route::delete('/removeDisaster/{disasterId}', 'removeDisaster')->name('remove.disaster.cswd');
+            });
+        });
+
+        Route::group(['prefix' => 'userProfile'], function () {
+            Route::controller(UserAccountsController::class)->group(function () {
+                Route::put('/editAccount/{userId}', 'updateUserAccount')->name('update.account.cswd');
+                Route::get('/userProfile', 'userProfile')->name('display.user.profile.cswd');
+                Route::get('/cswdAccounts', 'cswdAccounts')->name('display.cswd.accounts');
             });
         });
 

@@ -38,8 +38,6 @@ class AuthenticationController extends Controller
                 return redirect('/cdrrmo/dashboard')->with('message', 'Welcome to CDRRMO Panel.');
             else if ($userRole == 'CSWD')
                 return redirect('/cswd/dashboard')->with('message', 'Welcome to CSWD Panel.');
-            else if ($userRole == 'Developer')
-                return redirect('/developer/dashboard')->with('message', 'Welcome to Developer Panel.');
         }
 
         return back();

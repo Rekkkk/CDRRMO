@@ -6,6 +6,7 @@ use App\Models\Guide;
 use App\Models\Evacuee;
 use App\Models\Guideline;
 use App\Models\EvacuationCenter;
+use Illuminate\Support\Facades\Crypt;
 
 class CdrrmoController extends Controller
 {
@@ -13,10 +14,10 @@ class CdrrmoController extends Controller
 
     public function __construct()
     {
-        $this->evacuee = new Evacuee;
-        $this->evacuation = new EvacuationCenter;
-        $this->guideline = new Guideline;
         $this->guide = new Guide;
+        $this->evacuee = new Evacuee;
+        $this->guideline = new Guideline;
+        $this->evacuation = new EvacuationCenter;
     }
     public function dashboard()
     {
@@ -75,14 +76,14 @@ class CdrrmoController extends Controller
 
     public function eligtasGuideline()
     {
-        $guideline = $this->guideline->retrieveAll();
+        $guideline = $this->guideline->all();
 
         return view('userpage.guideline.eligtasGuideline', compact('guideline'));
     }
 
     public function guide($guidelineId)
     {
-        $guide = $this->guide->retreiveAllGuide($guidelineId);
+        $guide = $this->guide->where('guideline_id', Crypt::decryptString($guidelineId))->get();
 
         return view('userpage.guideline.guide', compact('guide', 'guidelineId'));
     }

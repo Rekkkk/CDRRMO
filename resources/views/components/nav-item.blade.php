@@ -18,6 +18,14 @@
                     <span class="links_name">Report Iccident</span>
                 </a>
             </li>
+            @if (Auth::user()->position == 'Secretary')
+                <li>
+                    <a href="{{ route('display.user.accounts') }}">
+                        <i class="bi bi-people text-white"></i>
+                        <span class="links_name">Manage User Accounts</span>
+                    </a>
+                </li>
+            @endif
             <li>
                 <a href="{{ route('hotline.number.cdrrmo') }}">
                     <i class="bi bi-telephone text-white"></i>
@@ -68,6 +76,14 @@
                     <span class="links_name">Evacuation Center Locator</span>
                 </a>
             </li>
+            @if (Auth::user()->position == 'President')
+                <li>
+                    <a href="{{ route('display.cswd.accounts') }}">
+                        <i class="bi bi-people text-white"></i>
+                        <span class="links_name">Manage CSWD Accounts</span>
+                    </a>
+                </li>
+            @endif
         @endif
         @guest
             <li>

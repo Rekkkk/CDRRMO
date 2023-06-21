@@ -9,8 +9,3 @@ Broadcast::channel('active-evacuees', function () {
 Broadcast::channel('report-incident', function () {
     return true;
 });
-
-Broadcast::channel('change-status', function () {
-    return true;
-});
-
