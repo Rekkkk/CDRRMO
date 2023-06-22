@@ -62,14 +62,6 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::delete('/removeReport/{reportId}', 'removeAccidentReport')->name('remove.accident.report.cdrrmo');
             });
         });
-
-        Route::group(['prefix' => 'userProfile'], function () {
-            Route::controller(UserAccountsController::class)->group(function () {
-                Route::put('/editAccount/{userId}', 'updateUserAccount')->name('update.account.cdrrmo');
-                Route::get('/userProfile', 'userProfile')->name('display.user.profile.cdrrmo');
-                Route::get('/userAccounts', 'userAccounts')->name('display.user.accounts');
-            });
-        });
         
         Route::controller(CdrrmoController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
@@ -113,14 +105,6 @@ Route::group(['middleware' => 'auth'], function () {
             });
         });
 
-        Route::group(['prefix' => 'userProfile'], function () {
-            Route::controller(UserAccountsController::class)->group(function () {
-                Route::put('/editAccount/{userId}', 'updateUserAccount')->name('update.account.cswd');
-                Route::get('/userProfile', 'userProfile')->name('display.user.profile.cswd');
-                Route::get('/cswdAccounts', 'cswdAccounts')->name('display.cswd.accounts');
-            });
-        });
-
         Route::controller(CswdController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cswd');
             Route::get('/recordEvacuee', 'recordEvacuee')->name('display.record.evacuee.cswd');
@@ -130,6 +114,20 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/evacuationManage', 'evacuationManage')->name('manage.evacuation.cswd');
             Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator.cswd');
             Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('record.evacuee.cswd');
+        });
+    });
+
+    Route::group(['prefix' => 'userProfile'], function () {
+        Route::controller(UserAccountsController::class)->group(function () {
+            Route::get('/userProfile/{userId}', 'displayUserDetails')->name('user.details');
+            Route::put('/restrictUser/{userId}', 'restrictUserAccount')->name('restrict.account');
+            Route::put('/unRestrictUser/{userId}', 'unRestrictUserAccount')->name('unrestrict.account');
+
+            Route::put('/editAccount/{userId}', 'updateUserAccount')->name('update.account');
+
+            Route::get('/', 'userProfile')->name('display.user.profile');
+
+            Route::get('/userAccounts', 'userAccounts')->name('display.user.accounts');
         });
     });
 });

@@ -21,14 +21,16 @@ class DatabaseSeeder extends Seeder
             'email' => ('CDRRMO123@gmail.com'),
             'password' => Hash::make('CDRRMO_Admin_Panel'),
             'user_role' => 'CDRRMO',
-            'position' => 'Secretary'
+            'position' => 'Secretary',
+            'restricted' => 0
         ]);
 
         User::insert([
             'email' => ('CSWD123@gmail.com'),
             'password' => Hash::make('CSWD123'),
             'user_role' => 'CSWD',
-            'position' => 'Secretary'
+            'position' => 'Secretary',
+            'restricted' => 0
         ]);
     }
 }
