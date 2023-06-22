@@ -11,7 +11,7 @@
                 </button>
     
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item text-sm" href="{{ route('display.user.profile.cdrrmo') }}"><i class="bi bi-perso.profile.n pr-2"></i>My Profile</a></li>
+                    <li><a class="dropdown-item text-sm" href="{{ route('display.user.profile') }}"><i class="bi bi-person pr-2"></i>My Profile</a></li>
                     <li><a class="dropdown-item text-sm" href="{{ route('logout.user') }}"><i class="bi bi-box-arrow-in-left pr-2"></i>Logout</a></li>
                 </ul>
             </div>

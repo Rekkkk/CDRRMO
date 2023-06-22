@@ -76,9 +76,9 @@
                     <span class="links_name">Evacuation Center Locator</span>
                 </a>
             </li>
-            @if (auth()->user()->position == 'President')
+            @if (auth()->user()->position == 'Secretary')
                 <li>
-                    <a href="{{ route('display.cswd.accounts') }}">
+                    <a href="{{ route('display.user.accounts') }}">
                         <i class="bi bi-people text-white"></i>
                         <span class="links_name">Manage CSWD Accounts</span>
                     </a>
