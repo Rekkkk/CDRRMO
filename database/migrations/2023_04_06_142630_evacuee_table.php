@@ -20,9 +20,9 @@ return new class extends Migration
             $table->boolean('student');
             $table->boolean('working');
             $table->string('barangay');
-            $table->string('date_entry')->nullable();
+            $table->string('date_entry');
             $table->string('date_out')->nullable();
-            $table->foreignId('disaster_id')->references('id')->on('disaster')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('disaster');
             $table->foreignId('evacuation_assigned')->references('id')->on('evacuation_center')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }

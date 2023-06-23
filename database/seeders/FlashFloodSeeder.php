@@ -11,8 +11,11 @@ class FlashFloodSeeder extends Seeder
     public function run(): void
     {
         DB::table('flashflood')->insert([
-            'location' => 'Banay-Banay Elementary School',
-            'disaster_id' => 1,
+            'location' => 'Rose St., Brgy. 1',
+            'disaster_id' => 2,
+            'status' => 'Rising',
+            'longitude' => 123.123,
+            'latitude' => 123.123,
         ]);
     }
 }
