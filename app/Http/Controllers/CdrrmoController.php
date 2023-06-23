@@ -6,7 +6,6 @@ use App\Models\Guide;
 use App\Models\Evacuee;
 use App\Models\Guideline;
 use App\Models\EvacuationCenter;
-use Illuminate\Support\Facades\Crypt;
 
 class CdrrmoController extends Controller
 {
@@ -72,20 +71,6 @@ class CdrrmoController extends Controller
             'flooding_student',
             'flooding_working'
         ));
-    }
-
-    public function eligtasGuideline()
-    {
-        $guideline = $this->guideline->where('author', 1)->get();
-
-        return view('userpage.guideline.eligtasGuideline', compact('guideline'));
-    }
-
-    public function guide($guidelineId)
-    {
-        $guide = $this->guide->where('guideline_id', Crypt::decryptString($guidelineId))->get();
-
-        return view('userpage.guideline.guide', compact('guide', 'guidelineId'));
     }
 
     public function reportAccident()

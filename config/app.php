@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Facade;
 
 return [
 
-    'name' => env('APP_NAME', 'Cabuyao City Disaster Risk Reduction Management Office'),
+    'name' => env('APP_NAME', 'E-LIGTAS'),
 
     'env' => env('APP_ENV', 'production'),
 

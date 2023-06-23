@@ -9,7 +9,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="shortcut icon" href="{{ asset('assets/img/cdrrmo-logo.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('assets/img/e-ligtas-logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
@@ -72,7 +72,8 @@
                         <hr class="mt-3 clear-both">
                         <a
                             href="https://www.google.com/maps/place/Retail+Plaza+City+of+Cabuyao/@14.2772989,121.1214,17z/data=!3m1!4b1!4m6!3m5!1s0x3397d8604aa8f17d:0x4e0371b3a9d5540e!8m2!3d14.2772937!4d121.1235887!16s%2Fg%2F11bxg2qw2w">
-                            <p class="my-3" value="" id="addressData">2nd Floor, Cabuyao Retail Plaza 4025 Cabuyao, Philippines
+                            <p class="my-3" value="" id="addressData">2nd Floor, Cabuyao Retail Plaza 4025
+                                Cabuyao, Philippines
                             </p>
                         </a>
                     </div>
