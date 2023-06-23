@@ -12,9 +12,10 @@ class Guideline extends Model
     protected $table = 'guideline';
 
     protected $primaryKey = 'id';
-
+    
     protected $fillable = [
         'type',
+        'organization',
         'author'
     ];
 

@@ -44,10 +44,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'cdrrmo'], function () {
         Route::group(['prefix' => 'eligtasGuideline'], function () {
             Route::controller(GuidelineController::class)->group(function () {
+                Route::get('/', 'eligtasGuideline')->name('guideline.cdrrmo');
                 Route::post('/guide/addGuide{guidelineId}', 'addGuide')->name('add.guide.cdrrmo');
                 Route::put('/guide/updateGuide/{guideId}', 'updateGuide')->name('update.guide.cdrrmo');
                 Route::get('/guide/removeGuide/{guideId}', 'removeGuide')->name('remove.guide.cdrrmo');
 
+                Route::get('/guide/{guidelineId}', 'guide')->name('guide.cdrrmo');
                 Route::post('/guideline/addGuideline', 'addGuideline')->name('add.guideline.cdrrmo');
                 Route::put('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update.guideline.cdrrmo');
                 Route::get('/guideline/removeGuideline/{guidelineId}', 'removeGuideline')->name('remove.guideline.cdrrmo');
@@ -62,11 +64,9 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::delete('/removeReport/{reportId}', 'removeAccidentReport')->name('remove.accident.report.cdrrmo');
             });
         });
-        
+
         Route::controller(CdrrmoController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
-            Route::get('/eligtasGuideline', 'eligtasGuideline')->name('guideline.cdrrmo');
-            Route::get('/eligtasGuideline/guide/{guidelineId}', 'guide')->name('guide.cdrrmo');
             Route::get('/hotlineNumbers', 'hotlineNumbers')->name('hotline.number.cdrrmo');
             Route::get('/reportAccident', 'reportAccident')->name('display.report.accident.cdrrmo');
             Route::get('/about', 'about')->name('about.cdrrmo');
@@ -77,10 +77,12 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['prefix' => 'eligtasGuideline'], function () {
             Route::controller(GuidelineController::class)->group(function () {
+                Route::get('/', 'eligtasGuideline')->name('guideline.cswd');
                 Route::post('/guide/addGuide{guidelineId}', 'addGuide')->name('add.guide.cswd');
                 Route::put('/guide/updateGuide/{guideId}', 'updateGuide')->name('update.guide.cswd');
                 Route::get('/guide/removeGuide/{guideId}', 'removeGuide')->name('remove.guide.cswd');
 
+                Route::get('/eligtasGuideline/guide/{guidelineId}', 'guide')->name('guide.cswd');
                 Route::post('/guideline/addGuideline', 'addGuideline')->name('add.guideline.cswd');
                 Route::put('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update.guideline.cswd');
                 Route::get('/guideline/removeGuideline/{guidelineId}', 'removeGuideline')->name('remove.guideline.cswd');
@@ -108,8 +110,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::controller(CswdController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cswd');
             Route::get('/recordEvacuee', 'recordEvacuee')->name('display.record.evacuee.cswd');
-            Route::get('/eligtasGuideline', 'eligtasGuideline')->name('guideline.cswd');
-            Route::get('/eligtasGuideline/guide/{guidelineId}', 'guide')->name('guide.cswd');
             Route::get('/disaster', 'disaster')->name('disaster.cswd');
             Route::get('/evacuationManage', 'evacuationManage')->name('manage.evacuation.cswd');
             Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator.cswd');
@@ -122,11 +122,8 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/userProfile/{userId}', 'displayUserDetails')->name('user.details');
             Route::put('/restrictUser/{userId}', 'restrictUserAccount')->name('restrict.account');
             Route::put('/unRestrictUser/{userId}', 'unRestrictUserAccount')->name('unrestrict.account');
-
             Route::put('/editAccount/{userId}', 'updateUserAccount')->name('update.account');
-
             Route::get('/', 'userProfile')->name('display.user.profile');
-
             Route::get('/userAccounts', 'userAccounts')->name('display.user.accounts');
         });
     });

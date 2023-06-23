@@ -32,7 +32,7 @@
             @foreach ($guide as $guide)
                 <div class="guide-container">
                     <div class="guide-content relative mx-2.5 my-2">
-                        <div class="label relative bg-slate-600 text-white cursor-pointer p-3">
+                        <div class="label relative bg-slate-600 text-white cursor-pointer p-3 uppercase">
                             {{ $guide->label }}
                         </div>
                         <div class="content relative h-0 overflow-hidden drop-shadow-lg bg-slate-50">
@@ -112,7 +112,7 @@
                                     $(document).find('span.error-text').text('');
                                 },
                                 success: function(data) {
-                                    if (data.condition == 0) {
+                                    if (data.status == 0) {
                                         $.each(data.error, function(prefix, val) {
                                             $('span.' + prefix + '_error').text(val[
                                                 0]);

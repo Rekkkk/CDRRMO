@@ -11,7 +11,8 @@ class ResidentController extends Controller
 {
     private $guide, $guideline, $evacuationCenter;
     
-    public function __construct(){
+    public function __construct()
+    {
         $this->guide = new Guide;
         $this->guideline = new Guideline;
         $this->evacuationCenter = new EvacuationCenter;
@@ -30,7 +31,7 @@ class ResidentController extends Controller
 
     public function residentEligtasGuide($guidelineId)
     {
-        $guide = $this->guide->where('guideline_id', Crypt::decryptString($guidelineId))->get();
+        $guide = $this->guide->find(Crypt::decryptString($guidelineId))->get();
 
         return view('userpage.guideline.guide', compact('guide', 'guidelineId'));
     }

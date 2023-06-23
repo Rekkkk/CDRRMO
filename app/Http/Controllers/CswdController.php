@@ -3,29 +3,24 @@
 namespace App\Http\Controllers;
 
 use Carbon\Carbon;
-use App\Models\Guide;
 use App\Models\Evacuee;
 use App\Models\Disaster;
-use App\Models\Guideline;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Events\ActiveEvacuees;
 use App\Models\ActivityUserLog;
 use App\Models\EvacuationCenter;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
 class CswdController extends Controller
 {
-    private $evacuee, $evacuationCenter, $guideline, $guide, $disaster;
+    private $evacuee, $disaster, $evacuationCenter;
 
     function __construct()
     {
-        $this->guide = new Guide;
         $this->evacuee = new Evacuee;
         $this->disaster = new Disaster;
-        $this->guideline = new Guideline;
         $this->evacuationCenter = new EvacuationCenter;
     }
     public function dashboard()
@@ -147,20 +142,6 @@ class CswdController extends Controller
         }
 
         return response()->json(['condition' => 0, 'error' => $validatedEvacueeForm->errors()->toArray()]);
-    }
-
-    public function eligtasGuideline()
-    {
-        $guideline = $this->guideline->where('author', 2);
-
-        return view('userpage.guideline.eligtasGuideline', compact('guideline'));
-    }
-
-    public function guide($guidelineId)
-    {
-        $guide = $this->guide->where('guideline_id', Crypt::decryptString($guidelineId))->get();
-
-        return view('userpage.guideline.guide', compact('guide', 'guidelineId'));
     }
 
     public function evacuationCenter()

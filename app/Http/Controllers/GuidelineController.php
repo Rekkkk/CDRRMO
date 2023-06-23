@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Validator;
 
 class GuidelineController extends Controller
 {
-    private $guideline, $guide, $logActivity;
+    private $guide, $guideline, $logActivity;
 
     function __construct()
     {
@@ -22,15 +22,29 @@ class GuidelineController extends Controller
         $this->logActivity = new ActivityUserLog;
     }
 
+    public function eligtasGuideline()
+    {
+        $users = auth()->user();
+
+        $organization = $this->guideline->where('organization', $users->user_role);
+
+        $guideline = $organization->when($users->position === "Secretary", function ($query) use ($users) {
+            return $query->where('author', $users->id);
+        })->get();
+
+        return view('userpage.guideline.eligtasGuideline', compact('guideline'));
+    }
+
     public function addGuideline(Request $request)
     {
         $validatedGuideline = Validator::make($request->all(), [
-            'type' => 'required'
+            'type' => 'required|unique:guideline'
         ]);
 
         if ($validatedGuideline->passes()) {
             $guidelineData = [
-                'type' => Str::upper(trim("$request->type Guideline")),
+                'type' => Str::lower(trim("$request->type Guideline")),
+                'organization' => auth()->user()->user_role,
                 'author' => auth()->user()->id
             ];
 
@@ -38,13 +52,13 @@ class GuidelineController extends Controller
                 $this->guideline->create($guidelineData);
                 $this->logActivity->generateLog('Registering Guideline');
 
-                return response()->json(['condition' => 1]);
+                return response()->json(['status' => 1]);
             } catch (\Exception $e) {
-                return response()->json(['condition' => 0]);
+                return response()->json(['status' => 0]);
             }
         }
 
-        return response()->json(['condition' => 0, 'error' => $validatedGuideline->errors()->toArray()]);
+        return response()->json(['status' => 0, 'error' => $validatedGuideline->errors()->toArray()]);
     }
 
     public function updateGuideline(Request $request, $guidelineId)
@@ -55,37 +69,44 @@ class GuidelineController extends Controller
 
         if ($validatedGuideline->passes()) {
             $guidelineData = [
-                'type' => Str::upper(trim($request->input('type')))
+                'type' => Str::lower(trim($request->type))
             ];
 
             try {
-                $this->guideline->where('id', $guidelineId)->update($guidelineData);
+                $this->guideline->find($guidelineId)->update($guidelineData);
                 $this->logActivity->generateLog('Updating Guideline');
 
                 Alert::success(config('app.name'), 'Guideline Successfully Updated.');
             } catch (\Exception $e) {
-                Alert::error(config('app.name'), 'Failed to Add Guideline.');
+                Alert::error(config('app.name'), 'Failed to Update Guideline.');
             }
 
             return back();
         }
 
-        Alert::error(config('app.name'), 'Failed to Add Guideline.');
+        Alert::error(config('app.name'), 'Failed to Update Guideline.');
         return back();
     }
 
     public function removeGuideline($guidelineId)
     {
         try {
-            $this->guideline->where('id', Crypt::decryptString($guidelineId))->delete();
+            $this->guideline->find(Crypt::decryptString($guidelineId))->delete();
             $this->logActivity->generateLog('Deleting Guideline');
 
-            Alert::success(config('app.name'), 'Guideline Deleted Successfully.');
+            Alert::success(config('app.name'), 'Guideline Removed Successfully.');
         } catch (\Exception $e) {
-            Alert::error(config('app.name'), 'Failed to Add Guideline.');
+            Alert::error(config('app.name'), 'Failed to Remove Guideline.');
         }
 
         return back();
+    }
+
+    public function guide($guidelineId)
+    {
+        $guide = $this->guide->where('guideline_id', Crypt::decryptString($guidelineId))->get();
+
+        return view('userpage.guideline.guide', compact('guide', 'guidelineId'));
     }
 
     public function addGuide(Request $request, $guidelineId)
@@ -97,7 +118,7 @@ class GuidelineController extends Controller
 
         if ($validatedGuide->passes()) {
             $guideData = [
-                'label' => Str::of(trim($request->label))->title(),
+                'label' => Str::lower(trim($request->label)),
                 'content' => Str::ucFirst(trim($request->content)),
                 'guideline_id' => Crypt::decryptString($guidelineId)
             ];
@@ -106,13 +127,13 @@ class GuidelineController extends Controller
                 $this->guide->create($guideData);
                 $this->logActivity->generateLog('Registering Guide');
     
-                return response()->json(['condition' => 1]);
+                return response()->json(['status' => 1]);
             } catch (\Exception $e) {
-                return response()->json(['condition' => 0]);
+                return response()->json(['status' => 0]);
             }
         }
 
-        return response()->json(['condition' => 0, 'error' => $validatedGuide->errors()->toArray()]);
+        return response()->json(['status' => 0, 'error' => $validatedGuide->errors()->toArray()]);
     }
 
     public function updateGuide(Request $request, $guideId)
@@ -124,12 +145,12 @@ class GuidelineController extends Controller
 
         if ($validatedGuide->passes()) {
             $guideData = [
-                'label' => Str::of(trim($request->input('label')))->title(),
-                'content' => Str::ucfirst(trim($request->input('content')))
+                'label' => Str::lower(trim($request->label)),
+                'content' => Str::ucfirst(trim($request->content))
             ];
 
             try {
-                $this->guide->where('id', $guideId)->update($guideData);
+                $this->guide->find($guideId)->update($guideData);
                 $this->logActivity->generateLog('Updating Guide');
 
                 Alert::success(config('app.name'), 'Guide Successfully Updated.');
@@ -143,7 +164,7 @@ class GuidelineController extends Controller
     public function removeGuide($guideId)
     {
         try {
-            $this->guide->where('id', $guideId)->delete();
+            $this->guide->find($guideId)->delete();
             $this->logActivity->generateLog('Removing Guide');
 
             Alert::success(config('app.name'), 'Guide Removed Successfully.');
