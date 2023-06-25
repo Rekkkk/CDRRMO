@@ -25,6 +25,11 @@ class Disaster extends Model
         return $this->all();
     }
 
+    public function retrieveSpecificDisaster($id)
+    {
+        return $this->find($id)->get();
+    }
+
     public function updateDisasterObject($disasterData, $disasterId){
         $disaster = $this->find($disasterId);
         $disaster->update($disasterData);

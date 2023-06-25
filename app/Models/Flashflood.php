@@ -9,14 +9,16 @@ class Flashflood extends Model
 {
     use HasFactory;
 
-    protected $table = 'typhoon';
+    protected $table = 'flashflood';
 
     protected $primaryKey = 'id';
 
     protected $fillable = [
         'location',
         'disaster_id',
-        'status'
+        'status',
+        'longitude',
+        'latitude',
     ];
 
     public function retrieveAllActiveFlashflood()
