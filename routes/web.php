@@ -9,6 +9,7 @@ use App\Http\Controllers\GuidelineController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ReportAccidentController;
 use App\Http\Controllers\EvacuationCenterController;
+use App\Http\Controllers\EvacueeController;
 
 Route::controller(AuthenticationController::class)->group(function () {
     Route::post('/', 'authUser')->name('login');
@@ -61,7 +62,7 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::delete('/removeReport/{reportId}', 'removeAccidentReport')->name('remove.accident.report.cdrrmo');
             });
         });
-        
+
         Route::controller(CdrrmoController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
             Route::get('/eligtasGuideline', 'eligtasGuideline')->name('guideline.cdrrmo');
@@ -104,15 +105,23 @@ Route::group(['middleware' => 'auth'], function () {
             });
         });
 
+        Route::group(['prefix' => 'evacuee'], function () {
+            Route::controller(EvacueeController::class)->group(function () {
+                Route::get('/getEvacueeInfo', 'loadEvacueeTable')->name('get.evacuee.info.cswd');
+                Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('record.evacuee.cswd');
+                Route::put('/updateEvacueeInfo{evacueeId}', 'updateEvacueeInfo')->name('update.evacuee.info.cswd');
+                Route::patch('/updateEvacueeDateOut', 'updateEvacueeDateOut')->name('update.evacuee.dateout.cswd');
+            });
+        });
+
         Route::controller(CswdController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cswd');
-            Route::get('/recordEvacuee', 'recordEvacuee')->name('display.record.evacuee.cswd');
+            Route::get('/evacuee', 'manageEvacueeInformation')->name('manage.evacuee.record.cswd');
             Route::get('/eligtasGuideline', 'eligtasGuideline')->name('guideline.cswd');
             Route::get('/eligtasGuideline/guide/{guidelineId}', 'guide')->name('guide.cswd');
             Route::get('/disaster', 'disaster')->name('disaster.cswd');
             Route::get('/evacuationManage', 'evacuationManage')->name('manage.evacuation.cswd');
             Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator.cswd');
-            Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('record.evacuee.cswd');
         });
     });
 });

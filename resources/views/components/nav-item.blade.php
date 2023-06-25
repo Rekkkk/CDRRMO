@@ -39,9 +39,9 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('display.record.evacuee.cswd') }}">
-                    <i class="bi bi-person-plus text-white"></i>
-                    <span class="links_name">Record Evacuee</span>
+                <a href="{{ route('manage.evacuee.record.cswd') }}">
+                    <i class="bi bi-people text-white"></i>
+                    <span class="links_name">Manage Evacuee Information</span>
                 </a>
             </li>
             <li>
