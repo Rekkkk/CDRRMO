@@ -16,7 +16,7 @@ class DisasterSeeder extends Seeder
         ]);
 
         Disaster::insert([
-            'type' => ('Flooding')
+            'type' => ('Flashflood')
         ]);
     }
 }
