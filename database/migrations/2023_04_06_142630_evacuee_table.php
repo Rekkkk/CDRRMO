@@ -10,7 +10,7 @@ return new class extends Migration
         Schema::create('evacuee', function (Blueprint $table) {
             $table->id();
             $table->integer('house_hold_number');
-            $table->string('name');
+            $table->string('full_name');
             $table->string('sex');
             $table->integer('age');
             $table->boolean('4Ps');
@@ -20,10 +20,12 @@ return new class extends Migration
             $table->boolean('student');
             $table->boolean('working');
             $table->string('barangay');
-            $table->string('date_entry')->nullable();
+            $table->string('date_entry');
             $table->string('date_out')->nullable();
-            $table->foreignId('disaster_id')->references('id')->on('disaster')->cascadeOnDelete()->cascadeOnUpdate();
-            $table->foreignId('evacuation_assigned')->references('id')->on('evacuation_center')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('disaster_type');
+            $table->integer('disaster_id');
+            $table->string('disaster_info');
+            $table->string('evacuation_assigned');
         });
     }
 

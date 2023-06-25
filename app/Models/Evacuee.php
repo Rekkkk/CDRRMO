@@ -17,7 +17,7 @@ class Evacuee extends Model
 
     protected $fillable = [
         'house_hold_number',
-        'name',
+        'full_name',
         'sex',
         'age',
         '4Ps',
@@ -29,30 +29,51 @@ class Evacuee extends Model
         'barangay',
         'date_entry',
         'date_out',
+        'disaster_type',
         'disaster_id',
+        'disaster_info',
         'evacuation_assigned'
     ];
-    
-    public function countEvacueeOnEvacuation()
+
+    public $timestamps = false;
+
+    public function retrieveAll()
     {
-      return $this->whereNull('date_out')->count();
+        return $this->all();
     }
 
-    public function countEvacueeReturned(){
+    public function countEvacueeOnEvacuation()
+    {
+        return $this->whereNull('date_out')->count();
+    }
+
+    public function countEvacueeReturned()
+    {
         return $this->whereNotNull('date_out')->count();
     }
 
-    public function countEvacuee($disasterId, $sex)
+    public function countEvacuee($disaster, $sex)
     {
-        return $this->where('disaster_id', $disasterId)->where('sex', $sex)->count();
+        return $this->where('disaster_type', $disaster)->where('sex', $sex)->count();
     }
 
-    public function countEvacueeWithDisablities($disasterId){
-        return $this->selectRaw('SUM(`4Ps`) AS `4Ps`, SUM(`PWD`) AS `PWD`, SUM(`pregnant`) AS `pregnant`, SUM(`lactating`) AS `lactating`, SUM(`student`) AS `student`, SUM(`working`) AS `working`')->where('disaster_id', $disasterId)->get();
+    public function countEvacueeWithDisablities($disaster)
+    {
+        return $this->selectRaw('SUM(`4Ps`) AS `4Ps`, SUM(`PWD`) AS `PWD`, SUM(`pregnant`) AS `pregnant`, SUM(`lactating`) AS `lactating`, SUM(`student`) AS `student`, SUM(`working`) AS `working`')->where('disaster_type', $disaster)->get();
     }
 
-    public function recordEvacueeObject($evacuee)
+    public function recordEvacueeObject($newEvacueeInfo)
     {
-        return $this->insert($evacuee);
+        return $this->insert($newEvacueeInfo);
+    }
+
+    public function updateEvacueeDateOut($id, $dateout)
+    {
+        $this->find($id)->update($dateout);
+    }
+
+    public function updateEvacueeInfo($id, $evacueeInfo)
+    {
+        $this->find($id)->update($evacueeInfo);
     }
 }

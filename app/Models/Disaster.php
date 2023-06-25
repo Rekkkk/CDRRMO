@@ -21,6 +21,15 @@ class Disaster extends Model
 
     public $timestamps = false;
 
+    public function retrieveAllDisaster(){
+        return $this->all();
+    }
+
+    public function retrieveSpecificDisaster($id)
+    {
+        return $this->find($id)->get();
+    }
+
     public function updateDisasterObject($disasterData, $disasterId){
         $disaster = $this->find($disasterId);
         $disaster->update($disasterData);

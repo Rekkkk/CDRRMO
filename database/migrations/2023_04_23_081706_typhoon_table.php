@@ -11,6 +11,7 @@ return new class extends Migration
         Schema::create('typhoon', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->string('status')->default('Active');
             $table->foreignId('disaster_id')->references('id')->on('disaster')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }

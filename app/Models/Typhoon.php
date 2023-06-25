@@ -15,6 +15,12 @@ class Typhoon extends Model
 
     protected $fillable = [
         'name',
-        'disaster_id'
+        'disaster_id',
+        'status'
     ];
+
+    public function retrieveAllActiveTyphoon()
+    {
+        return $this->all();
+    }
 }
