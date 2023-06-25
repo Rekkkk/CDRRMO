@@ -4,15 +4,14 @@ namespace Database\Seeders;
 
 use App\Models\Guide;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class GuideSeeder extends Seeder
 {
     public function run(): void
     {
         Guide::insert([
-            'label' => ('TESTING PHASE'),
-            'content' => ('TESTING PHASE GUIDELINES SECTION IN CABUYAO CITY DISASTER RISK REDUCTION MANAGEMENT OFFICE USING E-LIGTAS SYSTEM'),
+            'label' => ('testing phase'),
+            'content' => ('Testing phase guidelines section in cabuyao city disaster risk reduction management office using e-ligtas system'),
             'guideline_id' => 1,
         ]);
     }

@@ -2,6 +2,10 @@
 
 use Illuminate\Support\Facades\Broadcast;
 
-Broadcast::channel('App.Models.User.{id}', function ($user, $id) {
-    return (int) $user->id === (int) $id;
+Broadcast::channel('active-evacuees', function () {
+    return true;
+});
+
+Broadcast::channel('report-incident', function () {
+    return true;
 });

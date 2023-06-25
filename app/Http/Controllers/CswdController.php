@@ -2,19 +2,21 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Guide;
 use App\Models\Evacuee;
 use App\Models\Disaster;
 use App\Models\Typhoon;
 use App\Models\Flashflood;
 use App\Models\Guideline;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
+use App\Events\ActiveEvacuees;
+use App\Models\ActivityUserLog;
 use App\Models\EvacuationCenter;
 use Yajra\DataTables\DataTables;
 
 class CswdController extends Controller
 {
-    private $disaster, $typhoon, $flashflood, $evacuee, $evacuation, $guideline, $guide;
+    private $disaster, $typhoon, $flashflood, $evacuee, $evacuationCenter, $guideline, $guide;
 
     function __construct()
     {
@@ -22,15 +24,14 @@ class CswdController extends Controller
         $this->typhoon = new Typhoon;
         $this->flashflood = new Flashflood;
         $this->evacuee = new Evacuee;
-        $this->guideline = new Guideline();
-        $this->guide = new Guide();
-        $this->evacuation = new EvacuationCenter;
+        $this->disaster = new Disaster;
+        $this->evacuationCenter = new EvacuationCenter;
     }
-    
+
     public function dashboard()
     {
-        $activeEvacuation = $this->evacuation->isActive();
-        $inActiveEvacuation = $this->evacuation->isInactive();
+        $activeEvacuation = $this->evacuationCenter->isActive();
+        $inActiveEvacuation = $this->evacuationCenter->isInactive();
         $inEvacuationCenter = $this->evacuee->countEvacueeOnEvacuation();
         $isReturned = $this->evacuee->countEvacueeReturned();
         $typhoonMaleData = $this->evacuee->countEvacuee('Typhoon', 'Male');
@@ -77,7 +78,7 @@ class CswdController extends Controller
 
     public function manageEvacueeInformation(Request $request)
     {
-        $evacuationList = $this->evacuation->retrieveAllEvacuation();
+        $evacuationList = $this->evacuationCenter->retrieveAllEvacuation();
         $typhoonList =  $this->typhoon->retrieveAllActiveTyphoon();
         $flashfloodList = $this->flashflood->retrieveAllActiveFlashflood();
         $disasterList = null;

@@ -10,7 +10,7 @@
     <script src="//unpkg.com/alpinejs" defer></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="shortcut icon" href="{{ asset('assets/img/cdrrmo-logo.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('assets/img/e-ligtas-logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <title>{{ config('app.name') }}</title>
 </head>
@@ -25,7 +25,7 @@
         <div class="login-section relative py-4 m-auto w-3/5">
             <div class="login-content flex justify-around">
                 <div class="header-desc w-1/2">
-                    <h1 class="text-white py-2 text-4xl font-semibold">{{ config('app.name') }}</h1>
+                    <h1 class="text-white py-2 text-4xl font-semibold text-6xl">{{ config('app.name') }}</h1>
                     <div class="pt-4">
                         <span class="text-slate-400 text-lg">E-LIGTAS help you to locate evacuation center and to share
                             knowledge about disaster preparedness.</span>
@@ -82,7 +82,7 @@
     </script>
 
     <script>
-        document.getElementById("year").innerHTML = "CDRRMO @ " + new Date().getFullYear();
+        document.getElementById("year").innerHTML = "E-LIGTAS @ " + new Date().getFullYear();
 
         let eyeicon = document.getElementById("show-password"),
             password = document.getElementById("password");

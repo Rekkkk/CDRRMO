@@ -13,8 +13,6 @@ class Reporting extends Model
 
     protected $primaryKey = 'id';
 
-    protected $guarded = [];
-
     protected $fillable = [
         'description',
         'location',
@@ -23,22 +21,4 @@ class Reporting extends Model
     ];
 
     public $timestamps = false;
-
-    public function registerAccidentReportObject($accidentReport){
-        return $this->create($accidentReport);
-    }
-
-    public function approveAccidentReportObject($accidentReportId){
-        $approvedReport = [
-            'status' => 'Approved'
-        ];
-
-        $accidentReport = $this->find($accidentReportId);
-        $accidentReport->update($approvedReport);
-    }
-
-    public function removeAccidentReportObject($accidentReportId){
-        $accidentReport = $this->find($accidentReportId);
-        $accidentReport->delete();
-    }
 }

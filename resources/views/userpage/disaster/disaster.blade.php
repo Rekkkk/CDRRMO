@@ -124,7 +124,6 @@
                         $('#type').val(response.result.type);
                         $('#disasterId').val(disaster_id);
                         $('#editDisaster').modal('show');
-
                     },
                     error: function(response) {
                         Swal.fire(
@@ -203,7 +202,10 @@
                             url: "{{ route('remove.disaster.cswd', ':disaster_id') }}"
                                 .replace(':disaster_id', disaster_id),
                             success: function(response) {
-                                Swal.fire({
+                                if(response.status == 0){
+
+                                }else{
+                                    Swal.fire({
                                     icon: 'success',
                                     title: "{{ config('app.name') }}",
                                     text: 'Disaster has been removed.',
@@ -211,6 +213,8 @@
                                     confirmButtonColor: '#334155',
                                 });
                                 disasterTable.draw();
+                                }
+                                
                             },
                             error: function(response) {
                                 Swal.fire({

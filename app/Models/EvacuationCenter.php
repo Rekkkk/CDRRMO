@@ -13,8 +13,6 @@ class EvacuationCenter extends Model
 
     protected $primaryKey = 'id';
 
-    protected $guarded = [];
-
     protected $fillable = [
         'name',
         'barangay_name',

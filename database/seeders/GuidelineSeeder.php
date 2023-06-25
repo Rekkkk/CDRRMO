@@ -4,26 +4,33 @@ namespace Database\Seeders;
 
 use App\Models\Guideline;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class GuidelineSeeder extends Seeder
 {
     public function run(): void
     {
         Guideline::insert([
-            'type' => ('TYPHOON GUIDELINE'),
+            'type' => ('typhoon guideline'),
+            'organization' => 'CSWD',
+            'author' => 2
         ]);
 
         Guideline::insert([
-            'type' => ('ROAD ACCIDENT GUIDELINE'),
+            'type' => ('road accident guideline'),
+            'organization' => 'CDRRMO',
+            'author' => 1
         ]);
 
         Guideline::insert([
-            'type' => ('EARTHQUAKE GUIDELINE'),
+            'type' => ('earthquake guideline'),
+            'organization' => 'CSWD',
+            'author' => 2
         ]);
 
         Guideline::insert([
-            'type' => ('FLASHFLOOD GUIDELINE'),
+            'type' => ('flashflood guideline'),
+            'organization' => 'CDRRMO',
+            'author' => 1
         ]);
     }
 }

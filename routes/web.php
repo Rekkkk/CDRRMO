@@ -44,10 +44,12 @@ Route::group(['middleware' => 'auth'], function () {
     Route::group(['prefix' => 'cdrrmo'], function () {
         Route::group(['prefix' => 'eligtasGuideline'], function () {
             Route::controller(GuidelineController::class)->group(function () {
+                Route::get('/', 'eligtasGuideline')->name('guideline.cdrrmo');
                 Route::post('/guide/addGuide{guidelineId}', 'addGuide')->name('add.guide.cdrrmo');
                 Route::put('/guide/updateGuide/{guideId}', 'updateGuide')->name('update.guide.cdrrmo');
                 Route::get('/guide/removeGuide/{guideId}', 'removeGuide')->name('remove.guide.cdrrmo');
 
+                Route::get('/guide/{guidelineId}', 'guide')->name('guide.cdrrmo');
                 Route::post('/guideline/addGuideline', 'addGuideline')->name('add.guideline.cdrrmo');
                 Route::put('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update.guideline.cdrrmo');
                 Route::get('/guideline/removeGuideline/{guidelineId}', 'removeGuideline')->name('remove.guideline.cdrrmo');
@@ -62,11 +64,9 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::delete('/removeReport/{reportId}', 'removeAccidentReport')->name('remove.accident.report.cdrrmo');
             });
         });
-
+        
         Route::controller(CdrrmoController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
-            Route::get('/eligtasGuideline', 'eligtasGuideline')->name('guideline.cdrrmo');
-            Route::get('/eligtasGuideline/guide/{guidelineId}', 'guide')->name('guide.cdrrmo');
             Route::get('/hotlineNumbers', 'hotlineNumbers')->name('hotline.number.cdrrmo');
             Route::get('/reportAccident', 'reportAccident')->name('display.report.accident.cdrrmo');
             Route::get('/about', 'about')->name('about.cdrrmo');
@@ -77,10 +77,12 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['prefix' => 'eligtasGuideline'], function () {
             Route::controller(GuidelineController::class)->group(function () {
+                Route::get('/', 'eligtasGuideline')->name('guideline.cswd');
                 Route::post('/guide/addGuide{guidelineId}', 'addGuide')->name('add.guide.cswd');
                 Route::put('/guide/updateGuide/{guideId}', 'updateGuide')->name('update.guide.cswd');
                 Route::get('/guide/removeGuide/{guideId}', 'removeGuide')->name('remove.guide.cswd');
 
+                Route::get('/eligtasGuideline/guide/{guidelineId}', 'guide')->name('guide.cswd');
                 Route::post('/guideline/addGuideline', 'addGuideline')->name('add.guideline.cswd');
                 Route::put('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update.guideline.cswd');
                 Route::get('/guideline/removeGuideline/{guidelineId}', 'removeGuideline')->name('remove.guideline.cswd');

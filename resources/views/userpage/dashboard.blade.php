@@ -11,8 +11,9 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-KK94CHFLLe+nY2dmCWGMq91rCGa5gtU4mk92HdvYe+M/SXH301p5ILy+dN9+nJOZ" crossorigin="anonymous">
-    <link rel="shortcut icon" href="{{ asset('assets/img/cdrrmo-logo.png') }}" type="image/png">
+    <link rel="shortcut icon" href="{{ asset('assets/img/e-ligtas-logo.png') }}" type="image/png">
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
+    {{-- @vite(['resources/js/app.js']) --}}
     <title>{{ config('app.name') }}</title>
 </head>
 
@@ -28,7 +29,7 @@
                 <span class="text-2xl font-bold tracking-wider mx-2">DASHBOARD</span>
                 <hr class="mt-3">
                 <button
-                    class="float-right bg-green-700 hover:bg-green-800 p-2 mt-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-95 duration-100">
+                    class="float-right bg-green-700 hover:bg-green-800 p-2 mt-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100">
                     <i class="bi bi-printer pr-2"></i>
                     Generate Report Data
                 </button>
@@ -70,7 +71,7 @@
                     <div class="content-logo flex justify-between my-3 p-1">
                         <div class="content-description px-2">
                             <h5 class="font-semibold tracking-wide">Evacuee (On Evacuation Center)</h5>
-                            <span class="text-4xl font-bold">{{ $inEvacuationCenter }}</span>
+                            <span class="text-4xl font-bold" id="onEvacuationCenter">{{ $inEvacuationCenter }}</span>
                         </div>
                         <div class="content-header rounded">
                             <img src="{{ asset('assets/img/family.png') }}" style="width:3rem;">
@@ -122,12 +123,7 @@
                     text: 'Typhoon'
                 },
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                },
-                accessibility: {
-                    point: {
-                        valueSuffix: '%'
-                    }
+                    pointFormat: '{series.name}: <b>{point.y}</b>'
                 },
                 series: [{
                     name: 'Evacuee',
@@ -152,13 +148,13 @@
                     text: 'Typhoon Evacuee Statistics'
                 },
                 xAxis: {
-                    categories: ['4Ps', 'PWD', 'Pregnant', 'Lactating', 'Student', 'Working']
+                    categories: ['4Ps', 'PWD', 'Pregnant', 'Lactating', 'Student', 'Working'],
                 },
                 yAxis: {
-                    min: 0,
+                    allowDecimals: false,
                     title: {
                         text: 'Estimated Numbers'
-                    }
+                    },
                 },
                 legend: {
                     reversed: true
@@ -213,12 +209,7 @@
                     text: 'Flashflood'
                 },
                 tooltip: {
-                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-                },
-                accessibility: {
-                    point: {
-                        valueSuffix: '%'
-                    }
+                    pointFormat: '{series.name}: <b>{point.y}</b>'
                 },
                 series: [{
                     name: 'Evacuee',
@@ -246,7 +237,7 @@
                     categories: ['4Ps', 'PWD', 'Pregnant', 'Lactating', 'Student', 'Working']
                 },
                 yAxis: {
-                    min: 0,
+                    allowDecimals: false,
                     title: {
                         text: 'Estimated Numbers'
                     }
@@ -295,6 +286,10 @@
                     color: '#9b59b6'
                 }]
             });
+
+            Echo.channel('active-evacuees').listen('ActiveEvacuees', (e) => {
+                document.getElementById('onEvacuationCenter').innerHTML = e.activeEvacuees;
+            })
         });
     </script>
 </body>

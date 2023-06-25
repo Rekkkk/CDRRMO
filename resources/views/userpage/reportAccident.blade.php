@@ -15,19 +15,22 @@
         @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
+        {{-- @vite(['resources/js/app.js']) --}}
 
         <x-messages />
 
         <div class="main-content pt-8 pr-8 pl-28">
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-megaphone text-2xl px-2 bg-slate-900 text-white rounded py-2"></i>
+                <i class="bi bi-megaphone text-2xl p-2 bg-slate-600 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">REPORT ACCIDENT</span>
                 <hr class="mt-4">
             </div>
 
+            <div id="result"></div>
+
             <div class="report-table bg-slate-50 shadow-lg p-4 rounded">
                 <header class="text-2xl font-semibold">Pending Accident Report</header>
-                <table class="table data-table display nowrap" style="width:100%">
+                <table class="table data-table display nowrap" style="width:100%" id="report-table">
                     <thead>
                         <tr>
                             <th class="w-px">Report ID</th>
@@ -35,7 +38,7 @@
                             <th>Accident Location</th>
                             <th>Actual Photo</th>
                             <th class="w-4">Status</th>
-                            @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
                                 <th class="w-4">Action</th>
                             @endif
                         </tr>
@@ -56,20 +59,18 @@
                                     name="reportForm" enctype="multipart/form-data">
                                     @csrf
                                     <input type="hidden" name="report_id" id="report_id">
-
                                     <div class="mb-3">
                                         <label for="description" class="flex items-center justify-center">Report
                                             Description</label>
-                                        <input type="text" id="description" name="description"
-                                            class="form-control" placeholder="Enter Incident Description"
-                                            autocomplete="off">
+                                        <input type="text" id="description" name="description" class="form-control"
+                                            placeholder="Enter Incident Description" autocomplete="off">
                                         <span class="text-danger error-text description_error"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label for="location" class="flex items-center justify-center">Report
                                             Location</label>
-                                        <input type="text" id="location" name="location"
-                                            class="form-control" placeholder="Enter Incident Location" autocomplete="off">
+                                        <input type="text" id="location" name="location" class="form-control"
+                                            placeholder="Enter Incident Location" autocomplete="off">
                                         <span class="text-danger error-text location_error"></span>
                                     </div>
                                     <div class="mb-3">
@@ -81,14 +82,13 @@
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button"
-                                            class="bg-slate-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200"
+                                            class="bg-slate-700 text-white p-2 rounded shadow-lg hover:shadow-xl transition duration-200"
                                             data-bs-dismiss="modal">Close</button>
                                         <button type="submit"
-                                            class="bg-red-700 text-white p-2 py-2 rounded shadow-lg hover:shadow-xl transition duration-200">Report
+                                            class="bg-red-700 text-white p-2 rounded shadow-lg hover:shadow-xl transition duration-200">Report
                                             Accident</button>
                                     </div>
                                 </form>
-
                             </div>
                         </div>
                     </div>
@@ -116,7 +116,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
 
-    @if (Auth::check() && Auth::user()->user_role == 'CDRRMO')
+    @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
         <script type="text/javascript">
             $(document).ready(function() {
                 $.ajaxSetup({
@@ -242,19 +242,16 @@
                         }
                     });
                 });
+
+                Echo.channel('report-incident').listen('ReportIncident', (e) => {
+                    table.draw();
+                })
             });
         </script>
     @endif
-
     @guest
         <script type="text/javascript">
             $(document).ready(function() {
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
                 var table = $('.data-table').DataTable({
                     rowReorder: {
                         selector: 'td:nth-child(2)'
@@ -375,6 +372,10 @@
                         }
                     })
                 });
+
+                Echo.channel('report-incident').listen('ReportIncident', (e) => {
+                    table.draw();
+                })
             });
         </script>
     @endguest

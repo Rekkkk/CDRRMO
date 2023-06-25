@@ -1,9 +1,9 @@
-@if (Auth::user()->user_role == 'CDRRMO')
-    <div class="modal fade" id="editDisaster" tabindex="-1" aria-labelledby="myModalLabel" aria-hidden="true">
+@if (auth()->user()->user_role == 'CDRRMO')
+    <div class="modal fade" id="editDisaster" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header bg-red-900">
-                    <h1 class="modal-title fs-5 text-center text-white" id="exampleModalLabel">{{ config('app.name') }}
+                    <h1 class="modal-title fs-5 text-center text-white">{{ config('app.name') }}
                     </h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
@@ -19,7 +19,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" id="cancelUpdate"
-                                class="bg-slate-700 text-white p-2 rounded shadow-lg hover:shadow-xl"
+                                class="bg-slate-700 text-white p-2 rounded shadow-lg hover:sheditDisasteradow-xl"
                                 data-bs-dismiss="modal">Close</button>
                             <button type="button" id="updateDisasterBtn"
                                 class="bg-red-700 text-white p-2 rounded shadow-lg hover:shadow-xl">Update

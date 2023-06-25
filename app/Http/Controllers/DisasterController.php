@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Disaster;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;

@@ -4,7 +4,6 @@ namespace Database\Seeders;
 
 use App\Models\Disaster;
 use Illuminate\Database\Seeder;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 class DisasterSeeder extends Seeder
 {

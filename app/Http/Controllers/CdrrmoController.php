@@ -13,10 +13,10 @@ class CdrrmoController extends Controller
 
     public function __construct()
     {
-        $this->evacuee = new Evacuee;
-        $this->evacuation = new EvacuationCenter;
-        $this->guideline = new Guideline;
         $this->guide = new Guide;
+        $this->evacuee = new Evacuee;
+        $this->guideline = new Guideline;
+        $this->evacuation = new EvacuationCenter;
     }
     public function dashboard()
     {
@@ -71,20 +71,6 @@ class CdrrmoController extends Controller
             'flooding_student',
             'flooding_working'
         ));
-    }
-
-    public function eligtasGuideline()
-    {
-        $guideline = $this->guideline->retrieveAll();
-
-        return view('userpage.guideline.eligtasGuideline', compact('guideline'));
-    }
-
-    public function guide($guidelineId)
-    {
-        $guide = $this->guide->retreiveAllGuide($guidelineId);
-
-        return view('userpage.guideline.guide', compact('guide', 'guidelineId'));
     }
 
     public function reportAccident()

@@ -5,13 +5,17 @@ namespace App\Http\Controllers;
 use App\Models\Guide;
 use App\Models\Guideline;
 use App\Models\EvacuationCenter;
+use Illuminate\Support\Facades\Crypt;
 
 class ResidentController extends Controller
 {
-    private $guide;
+    private $guide, $guideline, $evacuationCenter;
     
-    public function __construct(){
+    public function __construct()
+    {
         $this->guide = new Guide;
+        $this->guideline = new Guideline;
+        $this->evacuationCenter = new EvacuationCenter;
     }
     public function dashboard()
     {
@@ -20,21 +24,21 @@ class ResidentController extends Controller
 
     public function residentEligtasGuideline()
     {
-        $guideline = Guideline::all();
+        $guideline = $this->guideline->all();
 
         return view('userpage.guideline.eligtasGuideline', compact('guideline'));
     }
 
     public function residentEligtasGuide($guidelineId)
     {
-        $guide = $this->guide->retreiveAllGuide($guidelineId);
+        $guide = $this->guide->find(Crypt::decryptString($guidelineId))->get();
 
-        return view('userpage.guideline.guide', compact('guide'))->with('guidelineId', $guidelineId);
+        return view('userpage.guideline.guide', compact('guide', 'guidelineId'));
     }
 
     public function residentEvacuationCenter()
     {
-        $evacuationCenter = EvacuationCenter::all();
+        $evacuationCenter = $this->evacuationCenter->all();
 
         $initialMarkers = [
             [
