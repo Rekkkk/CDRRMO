@@ -35,6 +35,18 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
+span.error {
+    color: #EF4444;
+    font-size: 12px;
+    font-family: Montserrat, san-serif;
+    font-style: italic;
+}
+
+.data-table th, .data-table td {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
 :root {
     --color-text: #ffffff;
     --color-background: #ecf0f1;
@@ -196,11 +208,11 @@ input[type="number"] {
 }
 
 /* Disaster Information Section */
-.disaster-content > div {
+.table-container > div {
     margin: 2rem;
 }
 
-.disaster-content .disaster-form form.secActive .form.disaster {
+.table-container .disaster-form form.secActive .form.disaster {
     opacity: 0;
     pointer-events: none;
     transform: translateX(-100%);
@@ -318,7 +330,7 @@ input[type="number"] {
     }
 
     .content .evacuation-content .evacuation-table,
-    .content .disaster-content .disaster-table {
+    .content .table-container {
         margin: 0 !important;
         padding: 1.5rem !important;
     }
