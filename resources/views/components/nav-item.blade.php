@@ -59,12 +59,6 @@
                 </a>
             </li>
             <li>
-                <a href="{{ route('disaster.cswd') }}">
-                    <i class="bi bi-tropical-storm text-white"></i>
-                    <span class="links_name">Disaster Identification</span>
-                </a>
-            </li>
-            <li>
                 <a href="{{ route('manage.evacuation.cswd') }}">
                     <i class="bi bi-house-add text-white"></i>
                     <span class="links_name">Manage Evacuation Center</span>
