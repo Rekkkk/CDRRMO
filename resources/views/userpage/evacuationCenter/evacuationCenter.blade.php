@@ -22,23 +22,22 @@
             </div>
 
             <div class="locator-content my-8 drop-shadow-2xl">
-                <div class="locator-header text-center text-white h-22 bg-red-900">
-                    <div class="text-2xl p-2">
-                        <span>{{ config('app.name') }}</span><br>
-                        <span>"E-LIGTAS"</span>
+                <div class="locator-header text-center text-white h-22 bg-red-700">
+                    <div class="text-2xl py-3">
+                        <span>Cabuyao City Map</span>
                     </div>
                 </div>
                 <div class="map-section">
                     <div class="w-full" id="map" style="height:600px;"></div>
                 </div>
             </div>
-            <div class="map-btn">
+            <div class="map-btn text-white">
                 @guest
                     <button type="button"
-                        class="bg-slate-700 text-white p-2 rounded shadow-lg hover:shadow-xl">Locate
+                        class="bg-slate-600  p-2 rounded drop-shadow-lg hover:bg-slate-700">Locate
                         Nearest Evacuation</button>
                     <button type="button"
-                        class="bg-red-700 text-white p-2 rounded shadow-lg hover:shadow-xl">Locate
+                        class="bg-red-700 p-2 rounded drop-shadow-lg hover:bg-red-800">Locate
                         Current Location</button>
                 @endguest
             </div>
@@ -64,7 +63,7 @@
                                 @guest
                                     <td>
                                         <a href="#"
-                                            class="bg-red-700 text-white p-2 rounded shadow-lg hover:shadow-xl">Locate</a>
+                                            class="bg-red-700 text-white p-2 rounded drop-shadow-lg hover:bg-red-800">Locate</a>
                                     </td>
                                 @endguest
                             </tr>

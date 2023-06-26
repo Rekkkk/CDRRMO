@@ -1,5 +1,5 @@
 <div class="sidebar fixed bg-slate-700 w-20 drop-shadow-lg">
-    <div class="sidebar-header h-20 text-white cursor-pointer pt-3">
+    <div class="sidebar-header h-16 text-white cursor-pointer pt-3">
         <img class="links_name text-2xl pl-4 w-36" src="{{ asset('assets/img/e-ligtas-logo.png') }}" alt="Logo">
         <button type="button" class="bi bi-pin text-2xl" id="btn-sidebar"></button>
         <button type="button" class="bi bi-x text-3xl" id="btn-sidebar-close"></button>
