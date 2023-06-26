@@ -17,17 +17,16 @@
 <body id="login-container">
     <div class="wrapper">
         <div class="header-section w-full drop-shadow-lg"></div>
-
-        <div class="login-section">
-            <div class="login-content">
-                <div class="header-desc">
-                    <h1>{{ config('app.name') }}</h1>
+        <div class="login-section relative m-auto">
+            <div class="login-content flex justify-around">
+                <div class="header-desc py-5">
+                    <h1 class="text-white tracking-wide font-extrabold">{{ config('app.name') }}</h1>
                     <div class="pt-4">
                         <p class="text-slate-400">E-LIGTAS help you to locate evacuation center and to share
                             knowledge about disaster preparedness.</p>
                     </div>
                 </div>
-                <div class="login-form-section h-3/4 bg-slate-100 drop-shadow-2xl rounded">
+                <div class="login-form-section h-3/4 bg-slate-300 drop-shadow-2xl rounded">
                     <form action="{{ route('login') }}" method="POST" class="px-3">
                         @csrf
                         <div class="my-3">
@@ -41,14 +40,14 @@
                             <i class="bi bi-eye-slash absolute cursor-pointer text-2xl " id="show-password"></i>
                         </div>
                         <div class="login-btn">
-                            <button type="submit" class="btn-submit">Login</button>
+                            <button type="submit" class="btn-submit rounded text-white bg-slate-700 w-full font-extrabold hover:bg-slate-800">Login</button>
                         </div>
                     </form>
                     <form action="{{ route('guideline.resident') }}" method="POST" class="py-2 px-3">
                         @method('GET')
                         @csrf
                         <button type="submit"
-                            class="btn-resident">
+                            class="btn-resident rounded text-white bg-red-600 w-full font-extrabold hover:bg-red-700">
                             Continue as resident
                         </button>
                     </form>
@@ -59,7 +58,7 @@
                 </div>
             </div>
         </div>
-        <div class="bottom-section">
+        <div class="bottom-section pb-5 l-0 w-full text-white">
             <hr>
             <p id="year" class="text-slate-400"></p>
         </div>

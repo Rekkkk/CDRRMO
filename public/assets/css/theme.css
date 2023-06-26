@@ -18,46 +18,11 @@ html {
     scroll-behavior: smooth;
 }
 
-select {
-    -moz-appearance: none;
-    -webkit-appearance: none;
-    appearance: none;
-    background-image: none;
-}
-
-input::-webkit-outer-spin-button,
-input::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
-}
-
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-
-span.error {
-    color: #ef4444;
-    font-size: 12px;
-    font-family: Montserrat, san-serif;
-    font-style: italic;
-}
-
-.data-table th,
-.data-table td {
-    text-align: center !important;
-    vertical-align: middle !important;
-}
-
 :root {
     --color-text: #ffffff;
     --color-background: #ecf0f1;
     --color-red: #dc2626;
     --color-gray: #2c3e50;
-
-    --color-red-hover: #b91c1c;
-    --color-gray-hover: #1e293b;
-
-    
 }
 
 .wrapper {
@@ -75,99 +40,15 @@ span.error {
     background: var(--color-red);
 }
 
-.login-section {
-    position: relative;
-    margin: auto;
-    padding: 15% 0;
-}
-
-.login-section h1{
-    font-size: 65px;
-    font-weight: 700;
-    letter-spacing: 4px;
-    color: var(--color-text);
-}
-
-.login-section p{
-    font-size: 20px;
-    line-height: 1.4em;
-    max-width: 800px;
-}
-
-.login-content{
-    display: flex;
-    justify-content: space-around;
-}
-
-.header-desc{
-    padding: 20px 0;
-}
-
-.bottom-section{
-    padding: 0 0 20px;
-    width: 100%;
-    top: 90%;
-    left: 0;
-    color: var(--color-text);
-}
-
-.bottom-section p{
-    font-size: 15px;
-    padding: 5px 0;
-}
-
-#login-container .btn-submit{
-    border-radius: 5px;
-    color: var(--color-text);
-    background: var(--color-gray);
-    width: 100%;
-    padding: 15px;
-    font-size: 20px;
-    font-weight: 800;
-}
-
-#login-container .btn-submit:hover{
-    background: var(--color-gray-hover);
-}
-
-#login-container .btn-resident{
-    border-radius: 5px;
-    color: var(--color-text);
-    background: var(--color-red);
-    width: 100%;
-    padding: 15px;
-    font-size: 20px;
-    font-weight: 800;
-}
-
-#login-container .btn-resident:hover{
-    background: var(--color-red-hover);
-}
-
+/* Main Content Start Here */
 .main-content{
     width: 100%;
     margin: 100px auto 0;
     padding: 0 20px 0 100px;
 }
+/* Main End Content */
 
-.widget-container{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    grid-row-gap: 30px;
-    grid-column-gap: 40px;
-}
-
-.horizontal-line{
-    margin-top: 20px;
-}
-
-.guideline-widget{
-    position: relative;
-    max-width: 300px;
-}
-
-/* Side Bar Section */
+/* Side Bar Section Start Here*/
 .sidebar {
     z-index: 1;
     left: 0;
@@ -215,7 +96,7 @@ span.error {
     opacity: 0;
     pointer-events: none;
     overflow: hidden;
-    font-size: small;
+    font-size: 15px;
 }
 
 .sidebar.active .links_name,
@@ -280,11 +161,60 @@ span.error {
 #btn-sidebar-close {
     display: none;
 }
+/* Side Bar End Section */
 
+/* Authentication Section Start Here */
 #login-container {
     background: var(--color-gray);
 }
 
+.login-section {
+    padding: 15% 0;
+}
+
+.login-section h1{
+    font-size: 65px;
+}
+
+.login-section p{
+    font-size: 20px;
+    line-height: 1.4em;
+    max-width: 800px;
+}
+
+.login-form-section {
+    padding: 20px 10px;
+    width: 100%;
+    max-width: 430px;
+}
+
+.login-form-section .my-3 input {
+    border-radius: 4px;
+    width: 100%;
+    padding: 20px;
+}
+
+.login-form-section .my-3.relative i {
+    top: 17px;
+    right: 15px;
+}
+
+.bottom-section{
+    top: 90%;
+}
+
+.bottom-section p{
+    font-size: 15px;
+    padding: 5px 0;
+}
+
+#login-container .btn-submit, .btn-resident{
+    padding: 15px;
+    font-size: 18px;
+}
+/* Authentication End Section */
+
+/* Dashboard Section Start Here */
 .widget {
     position: relative;
     overflow: hidden;
@@ -309,8 +239,28 @@ span.error {
 #Flooding {
     width: 500px;
 }
+/* Dashboard End Section */
 
-/* Guide Section */
+/* Guideline Section Start Here */
+.widget-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    grid-row-gap: 30px;
+    grid-column-gap: 40px;
+}
+
+.horizontal-line{
+    margin-top: 20px;
+}
+
+.guideline-widget{
+    position: relative;
+    max-width: 300px;
+}
+/* Guideline End Section */
+
+/* Guide Section Start Here*/
 .guide-container .guide-content .label:before {
     content: "+";
     position: absolute;
@@ -328,19 +278,9 @@ span.error {
     height: 150px;
     padding: 10px;
 }
+/* Guide End Section */
 
-/* Disaster Information Section */
-.table-container > div {
-    margin: 2rem;
-}
-
-.table-container .disaster-form form.secActive .form.disaster {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(-100%);
-}
-
-/* Report Accident Section */
+/* Report Accident Section Start Here*/
 .evacuation-content > div {
     margin: 2rem;
 }
@@ -350,8 +290,9 @@ span.error {
     pointer-events: none;
     transform: translateX(-100%);
 }
+/* Report Accident End Section */
 
-/* About Section */
+/* About Section Start Here */
 .about-content > div {
     margin: 2rem;
 }
@@ -359,8 +300,9 @@ span.error {
 .about-content .location-section {
     flex: 3;
 }
+/* About End Section */
 
-/* Hotline Number Section */
+/* Hotline Number Section Start Here */
 .hotline-content > div {
     margin: 2rem;
 }
@@ -368,7 +310,9 @@ span.error {
 .hotline-content .location-section {
     flex: 3;
 }
+/* Hotline Number End Section */
 
+/* User Profile Section Start Here */
 .user-profile-container {
     height: 60rem;
 }
@@ -379,26 +323,41 @@ span.error {
     background-attachment: fixed;
     background-size: cover;
 }
+/* User Profile End Section */
 
-
-.login-form-section {
-    padding: 20px 10px;
-    width: 100%;
-    max-width: 430px;
+/* Recording Evacuee Section Start Here */
+select {
+    -moz-appearance: none;
+    -webkit-appearance: none;
+    appearance: none;
+    background-image: none;
 }
 
-.login-form-section .my-3 input {
-    width: 100%;
-    padding: 20px;
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
 }
 
-.login-form-section .my-3.relative i {
-    top: 17px;
-    right: 15px;
+input[type="number"] {
+    -moz-appearance: textfield;
 }
+
+span.error {
+    color: #ef4444;
+    font-size: 12px;
+    font-family: Montserrat, san-serif;
+    font-style: italic;
+}
+
+.data-table th,
+.data-table td {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+/* Recording Evacuee End Section */
 
 @media only screen and (max-width: 1100px) {
-
     .content .evacuation-content .evacuation-form {
         padding: 0 !important;
         border: none;

@@ -6,17 +6,13 @@ use App\Models\Evacuee;
 use App\Models\Disaster;
 use App\Models\Typhoon;
 use App\Models\Flashflood;
-use App\Models\Guideline;
-use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Events\ActiveEvacuees;
-use App\Models\ActivityUserLog;
 use App\Models\EvacuationCenter;
 use Yajra\DataTables\DataTables;
 
 class CswdController extends Controller
 {
-    private $disaster, $typhoon, $flashflood, $evacuee, $evacuationCenter, $guideline, $guide;
+    private $disaster, $typhoon, $flashflood, $evacuee, $evacuationCenter;
 
     function __construct()
     {
@@ -30,14 +26,17 @@ class CswdController extends Controller
 
     public function dashboard()
     {
-        $activeEvacuation = $this->evacuationCenter->isActive();
-        $inActiveEvacuation = $this->evacuationCenter->isInactive();
-        $inEvacuationCenter = $this->evacuee->countEvacueeOnEvacuation();
-        $isReturned = $this->evacuee->countEvacueeReturned();
+        $activeEvacuation = $this->evacuationCenter->where('status', 'Active')->count();;
+        $inActiveEvacuation = $this->evacuationCenter->where('status', 'Inactive')->count();
+
+        $inEvacuationCenter = $this->evacuee->whereNull('date_out')->count();
+        $isReturned = $this->evacuee->whereNotNull('date_out')->count();
+
         $typhoonMaleData = $this->evacuee->countEvacuee('Typhoon', 'Male');
         $typhoonFemaleData = $this->evacuee->countEvacuee('Typhoon', 'Female');
         $floodingMaleData = $this->evacuee->countEvacuee('Flashflood', 'Male');
         $floodingFemaleData = $this->evacuee->countEvacuee('Flashflood', 'Female');
+
         $typhoonData = $this->evacuee->countEvacueeWithDisablities('Typhoon');
         $typhoon_4Ps = intval($typhoonData[0]->{'4Ps'});
         $typhoon_PWD = intval($typhoonData[0]->PWD);
@@ -45,6 +44,7 @@ class CswdController extends Controller
         $typhoon_lactating = intval($typhoonData[0]->lactating);
         $typhoon_student = intval($typhoonData[0]->student);
         $typhoon_working = intval($typhoonData[0]->working);
+
         $floodingData = $this->evacuee->countEvacueeWithDisablities('Flashflood');
         $flooding_4Ps = intval($floodingData[0]->{'4Ps'});
         $flooding_PWD = intval($floodingData[0]->PWD);
@@ -52,6 +52,7 @@ class CswdController extends Controller
         $flooding_lactating = intval($floodingData[0]->lactating);
         $flooding_student = intval($floodingData[0]->student);
         $flooding_working = intval($floodingData[0]->working);
+
         return view('userpage.dashboard', compact(
             'activeEvacuation',
             'inActiveEvacuation',
@@ -78,35 +79,23 @@ class CswdController extends Controller
 
     public function manageEvacueeInformation(Request $request)
     {
-        $evacuationList = $this->evacuationCenter->retrieveAllEvacuation();
-        $typhoonList =  $this->typhoon->retrieveAllActiveTyphoon();
-        $flashfloodList = $this->flashflood->retrieveAllActiveFlashflood();
+        $evacuationList = $this->evacuationCenter->all();
+        $typhoonList =  $this->typhoon->all();
+        $flashfloodList = $this->flashflood->all()->where('status', 'Rising');
         $disasterList = null;
         if ($typhoonList->isNotEmpty() && $flashfloodList->isNotEmpty()) {
-            $disasterList = $this->disaster->retrieveAllDisaster();
+            $disasterList = $this->disaster->all();
         } else if ($typhoonList->isNotEmpty() && $flashfloodList->isEmpty()) {
-            $disasterList = $this->disaster->retrieveSpecificDisaster(1);
+            $disasterList = $this->disaster->find(1)->get();
         } else if ($flashfloodList->isNotEmpty() && $typhoonList->isEmpty()) {
-            $disasterList = $this->disaster->retrieveSpecificDisaster(2);
+            $disasterList = $this->disaster->find(2)->get();
         }
         return view('userpage.evacuee.evacuee', compact('evacuationList', 'disasterList', 'typhoonList', 'flashfloodList'));
     }
 
-    public function eligtasGuideline()
-    {
-        $guideline = $this->guideline->retrieveAll();
-        return view('userpage.guideline.eligtasGuideline', compact('guideline'));
-    }
-
-    public function guide($guidelineId)
-    {
-        $guide = $this->guide->retreiveAllGuide($guidelineId);
-        return view('userpage.guideline.guide', compact('guide', 'guidelineId'));
-    }
-
     public function evacuationCenter()
     {
-        $evacuationCenter = EvacuationCenter::all();
+        $evacuationCenter = $this->evacuationCenter->all();
         $initialMarkers = [
             [
                 'position' => [
@@ -139,22 +128,5 @@ class CswdController extends Controller
     public function evacuationManage()
     {
         return view('userpage.evacuationCenter.evacuation');
-    }
-
-    public function disaster(Request $request)
-    {
-        $disaster = $this->disaster->retrieveAllDisaster();
-        if ($request->ajax()) {
-            return DataTables::of($disaster)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $editBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="bg-slate-700 hover:bg-slate-900 py-1.5 btn-sm mr-2 text-white updateDisaster">Edit</a>';
-                    $btn = $editBtn . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="bg-red-700 hover:bg-red-900 py-1.5 btn-sm mr-2 text-white removeDisaster">Remove</a>';
-                    return $btn;
-                })
-                ->rawColumns(['action'])
-                ->make(true);
-        }
-        return view('userpage.disaster.disaster', compact('disaster'));
     }
 }

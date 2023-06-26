@@ -90,7 +90,7 @@ class EvacuationCenterController extends Controller
             ];
 
             try {
-                $this->evacuationCenter->where('id', $evacuationId)->update($evacuationCenterData);
+                $this->evacuationCenter->find($evacuationId)->update($evacuationCenterData);
                 $this->logActivity->generateLog('Updating Evacuation Center Information');
 
                 return response()->json(['status' => 1]);
@@ -113,7 +113,7 @@ class EvacuationCenterController extends Controller
     public function removeEvacuationCenter($evacuationId)
     {
         try {
-            $this->evacuationCenter->where('id', $evacuationId)->delete();
+            $this->evacuationCenter->find($evacuationId)->delete();
             $this->logActivity->generateLog('Removing Evacuation Center Information');
             
             return response()->json(['status' => 1]);

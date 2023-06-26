@@ -15,7 +15,7 @@
         @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
-        <div class="main-content pt-8 pr-8 pl-28">
+        <div class="main-content">
             <div class="account-table bg-slate-50 shadow-lg p-4 rounded">
                 <header class="text-2xl font-semibold">User Accounts</header>
                 <table class="table data-table display nowrap" style="width:100%" id="account-table">

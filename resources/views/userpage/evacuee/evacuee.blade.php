@@ -17,7 +17,7 @@
         @include('partials.header')
         @include('partials.sidebar')
         <x-messages />
-        <div class="main-content pt-8 pr-8 pl-28">
+        <div class="main-content">
             <div class="dashboard-logo pb-4">
                 <div class="grid grid-cols-2">
                     <div class="grid col-end-1 mr-4">
@@ -45,7 +45,7 @@
                     </div>
                     @include('userpage.evacuee.evacueeInfoFormModal')
                 </div>
-                <div class="table-container mt-3 mb-2 bg-slate-50 shadow-lg flex rounded-lg">
+                <div class="table-container mt-3 mb-2 p-3 bg-slate-50 shadow-lg flex rounded-lg">
                     <div class="block w-full overflow-auto">
                         <table class="table data-table table-striped table-light align-middle" width="100%">
                             <thead class="thead-light text-justify">
@@ -255,8 +255,10 @@
                     'bg-yellow-500 hover:bg-yellow-600');
                 $('#dateFormFieldsContainer').show();
                 let currentRow = $(this).closest('tr');
+
                 if (evacueeTable.responsive.hasHidden())
                     currentRow = $(this).closest('tr').prev('tr');
+                    
                 let data = evacueeTable.row(currentRow).data();
                 evacueeId = data['id'];
                 $('input[name="houseHoldNumber"]').val(data['house_hold_number']);
@@ -267,6 +269,7 @@
                 dateOutInput.setDate(data['date_out']);
                 $(`option[value="${data['barangay']}"]`).prop('selected', true);
                 $(`option[value="${data['disaster_type']}"]`).prop('selected', true);
+
                 if (data['disaster_type'] == 'Typhoon') {
                     $(`option[value="${data['disaster_type']}"]`).prop('selected', true);
                     $(`option[value="${data['Flashflood']}"]`).prop('selected', false);
@@ -282,6 +285,7 @@
                     $('#flashfloodSelectContainer').show();
                     $('#typhoonSelectContainer').hide();
                 }
+
                 $('input[name="disasterInfo"]').val(data['disaster_info']);
                 $(`option[value="${data['evacuation_assigned']}"]`).prop('selected', true);
                 data['4Ps'] == 'Yes' ?
@@ -309,6 +313,7 @@
 
             $('#disasterType').on('change', function(e) {
                 let disasterType = e.target.value;
+
                 if (disasterType == 'Typhoon') {
                     $('#typhoonSelectContainer').show();
                     $('#flashflood').val('');
@@ -442,6 +447,7 @@
                     hideModal = false,
                     formData = $(form).serialize(),
                     modal = $('#evacueeInfoFormModal');
+
                 if (operation == 'record') {
                     url = "{{ route('record.evacuee.cswd') }}";
                     type = "POST";
@@ -450,6 +456,7 @@
                     type = "PUT";
                     hideModal = true;
                 }
+
                 confirmModal(`Do you want to ${operation} this evacuee info?`).then((result) => {
                     if (result.isConfirmed) {
                         if (operation == 'edit' && defaultFormData == formData) {
