@@ -82,7 +82,7 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::put('/guide/updateGuide/{guideId}', 'updateGuide')->name('update.guide.cswd');
                 Route::get('/guide/removeGuide/{guideId}', 'removeGuide')->name('remove.guide.cswd');
 
-                Route::get('/eligtasGuideline/guide/{guidelineId}', 'guide')->name('guide.cswd');
+                Route::get('/guide/{guidelineId}', 'guide')->name('guide.cswd');
                 Route::post('/guideline/addGuideline', 'addGuideline')->name('add.guideline.cswd');
                 Route::put('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update.guideline.cswd');
                 Route::get('/guideline/removeGuideline/{guidelineId}', 'removeGuideline')->name('remove.guideline.cswd');

@@ -38,7 +38,7 @@ class GuidelineController extends Controller
     public function addGuideline(Request $request)
     {
         $validatedGuideline = Validator::make($request->all(), [
-            'type' => 'required|unique:guideline'
+            'type' => ['required', 'unique:guideline,type']
         ]);
 
         if ($validatedGuideline->passes()) {

@@ -1,4 +1,4 @@
-<header class="header-section bg-red-700 drop-shadow-lg h-20 w-full">
+<header class="header-section bg-red-700 drop-shadow-lg h-16 w-full">
     <div class="container-fluid py-4 relative flex justify-between h-full">
         <div class="mobile-header h-full">
             <button type="button" class="bi bi-list text-white cursor-pointer text-3xl" id="btn-sidebar-mobile"></button>

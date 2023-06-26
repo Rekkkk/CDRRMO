@@ -51,9 +51,124 @@ span.error {
 :root {
     --color-text: #ffffff;
     --color-background: #ecf0f1;
-    --color-darkred: #b91c1c;
-    --color-darkblue: #2c3e50;
+    --color-red: #dc2626;
+    --color-gray: #2c3e50;
+
+    --color-red-hover: #b91c1c;
+    --color-gray-hover: #1e293b;
+
+    
 }
+
+.wrapper {
+    width: 100%;
+    max-width: 1920px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.header-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 70px;
+    background: var(--color-red);
+}
+
+.login-section {
+    position: relative;
+    margin: auto;
+    padding: 15% 0;
+}
+
+.login-section h1{
+    font-size: 65px;
+    font-weight: 700;
+    letter-spacing: 4px;
+    color: var(--color-text);
+}
+
+.login-section p{
+    font-size: 20px;
+    line-height: 1.4em;
+    max-width: 800px;
+}
+
+.login-content{
+    display: flex;
+    justify-content: space-around;
+}
+
+.header-desc{
+    padding: 20px 0;
+}
+
+.bottom-section{
+    padding: 0 0 20px;
+    width: 100%;
+    top: 90%;
+    left: 0;
+    color: var(--color-text);
+}
+
+.bottom-section p{
+    font-size: 15px;
+    padding: 5px 0;
+}
+
+#login-container .btn-submit{
+    border-radius: 5px;
+    color: var(--color-text);
+    background: var(--color-gray);
+    width: 100%;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+#login-container .btn-submit:hover{
+    background: var(--color-gray-hover);
+}
+
+#login-container .btn-resident{
+    border-radius: 5px;
+    color: var(--color-text);
+    background: var(--color-red);
+    width: 100%;
+    padding: 15px;
+    font-size: 20px;
+    font-weight: 800;
+}
+
+#login-container .btn-resident:hover{
+    background: var(--color-red-hover);
+}
+
+.main-content{
+    width: 100%;
+    margin: 100px auto 0;
+    padding: 0 100px;
+}
+
+.widget-container{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    grid-row-gap: 30px;
+    grid-column-gap: 40px;
+}
+
+.horizontal-line{
+    margin-top: 20px;
+    width: calc(100% + 80px);
+}
+
+.guideline-widget{
+    position: relative;
+    max-width: 300px;
+}
+
+
 
 /* Side Bar Section */
 .sidebar {
@@ -86,7 +201,7 @@ span.error {
 
 .sidebar-content {
     position: relative;
-    height: -webkit-calc(100vh - 80px);
+    height: -webkit-calc(120vh - 100px);
     overflow: auto;
     z-index: 4;
 }
@@ -119,7 +234,7 @@ span.error {
 }
 
 .sidebar ul li a:hover {
-    background: var(--color-darkred);
+    background: var(--color-red);
 }
 
 .sidebar ul li i {
@@ -167,6 +282,10 @@ span.error {
 #btn-sidebar-mobile,
 #btn-sidebar-close {
     display: none;
+}
+
+#login-container {
+    background: var(--color-gray);
 }
 
 .widget {
@@ -253,37 +372,85 @@ span.error {
     flex: 3;
 }
 
-.user-profile-container{
+.user-profile-container {
     height: 60rem;
 }
 
-#profile{
+#profile {
     position: relative;
     margin-top: 20px;
     background-attachment: fixed;
     background-size: cover;
 }
 
+
+.login-form-section {
+    padding: 20px 10px;
+    width: 100%;
+    max-width: 430px;
+}
+
+.login-form-section .my-3 input {
+    width: 100%;
+    padding: 20px;
+}
+
+.login-form-section .my-3.relative i {
+    top: 17px;
+    right: 15px;
+}
+
+@media only screen and (max-width: 1100px) {
+
+    .content .evacuation-content .evacuation-form {
+        padding: 0 !important;
+        border: none;
+      
 /* Dashboard Section */
 @media only screen and (max-width: 900px) {
     .wrapper .header-section .container-fluid span {
         display: none;
         transition: all 0.4s ease;
+
     }
 
-    .wrapper .header-section .container-fluid img {
-        margin: 0 auto;
-        float: none !important;
+    .content .evacuation-content .evacuation-form .fields {
+        display: contents !important;
     }
 
-    .locator-container .locator-content .locator-header {
-        line-height: 20px;
+    .content .evacuation-content .evacuation-table,
+    .content .disaster-content .disaster-table {
+        margin: 0 !important;
+        padding: 1.5rem !important;
     }
 }
 
-@media only screen and (max-width: 1000px) {
+@media only screen and (max-width: 1300px) {
+
+    .content .main-content,
+    .about-content,
+    .hotline-content,
+    .evacuation-content {
+        display: flex;
+        flex-direction: column;
+    }
+}
+
+@keyframes transitionIn {
+    from {
+        opacity: 0;
+        transform: rotateX(-10deg);
+    }
+
+    to {
+        opacity: 1;
+        transform: rotateX(0);
+    }
+}
+
+@media only screen and (max-width: 1024px) {
     .main-content {
-        padding: 2rem 2rem 0 2rem !important;
+        padding: 17% 2rem 0 2rem;
     }
 
     .sidebar {
@@ -314,44 +481,55 @@ span.error {
         display: none !important;
     }
 
-    .login-container .login-section {
+    .login-section {
         text-align: center;
         width: 100% !important;
     }
 
-    .login-container .login-section .login-content .header-desc {
-        width: 100%;
-        padding: 0 2rem;
-        text-align: center;
+    .login-section .login-content .header-desc {
+        width: calc(100% - 100px);
+        margin: 0 auto;
     }
 
-    .login-container .login-section .login-content {
+    .login-section .login-content {
         display: contents !important;
     }
 
-    .login-container .login-section .login-form-section {
+    .login-section .login-form-section {
         margin: 0 auto !important;
         margin-top: 2px !important;
-        padding-top: 2px;
     }
 }
+      
 
+/* Dashboard Section */
 @media only screen and (max-width: 1100px) {
     .content .evacuation-content .evacuation-form {
         padding: 0 !important;
         border: none;
     }
 
-    .content .evacuation-content .evacuation-form .fields {
-        display: contents !important;
+
+    .wrapper .header-section .container-fluid span {
+        display: none;
+        transition: all 0.4s ease;
     }
+
+
+    .wrapper .header-section .container-fluid img {
+        margin: 0 auto;
+        float: none !important;
 
     .content .evacuation-content .evacuation-table,
     .content .table-container {
         margin: 0 !important;
         padding: 1.5rem !important;
+
     }
-}
+
+
+    .locator-container .locator-content .locator-header {
+        line-height: 20px;
 
 @media only screen and (max-width: 1300px) {
     .content .main-content,
@@ -360,14 +538,20 @@ span.error {
     .evacuation-content {
         display: flex;
         flex-direction: column;
+
     }
 }
 
-@keyframes transitionIn {
-    from {
-        opacity: 0;
-        transform: rotateX(-10deg);
+/*Mobile*/
+@media only screen and (max-width: 767px) {
+    .login-section .login-content .header-desc {
+        width: 100%;
+        max-width: 600px;
+        padding-bottom: 30px;
     }
+
+
+}
 
     to {
         opacity: 1;
