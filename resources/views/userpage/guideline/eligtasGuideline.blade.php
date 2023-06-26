@@ -88,7 +88,7 @@
                     @if (
                         (auth()->check() && auth()->user()->position == 'President') ||
                             (auth()->check() && auth()->user()->position == 'Secretary'))
-                        <div class="relative h-80 ">
+                        <div class="w-72">
                             <div
                                 class="flex text-slate-600 w-full h-full drop-shadow-2xl items-center justify-center">
                                 <a id="createGuidelineBtn" href="javascript:void(0)" class="transition ease-in-out delay-150 hover:scale-105 duration-100">

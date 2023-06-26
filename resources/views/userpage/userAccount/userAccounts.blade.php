@@ -21,6 +21,7 @@
                 <table class="table data-table display nowrap" style="width:100%" id="account-table">
                     <thead>
                         <tr>
+                            <th></th>
                             <th>Email Address</th>
                             <th>Organization</th>
                             <th>Position</th>
@@ -61,6 +62,11 @@
                 serverSide: true,
                 ajax: "{{ route('display.user.accounts') }}",
                 columns: [{
+                        data: 'id',
+                        name: 'id',
+                        visible: false
+                    },
+                    {
                         data: 'email',
                         name: 'email'
                     },
