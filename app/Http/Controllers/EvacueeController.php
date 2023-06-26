@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Evacuee;
-use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
@@ -37,102 +36,87 @@ class EvacueeController extends Controller
 
     public function recordEvacueeInfo(Request $request)
     {
-        $validatedEvacueeForm = Validator::make($request->all(), [
-            'fullName' => 'required',
-        ]);
+        $disasterId = null;
+        $is4Ps = $request->has('fourps') ? 1 : 0;
+        $isPWD = $request->has('pwd') ? 1 : 0;
+        $isPregnant = $request->has('pregnant') ? 1 : 0;
+        $isLactating = $request->has('lactating') ? 1 : 0;
+        $isStudent = $request->has('student') ? 1 : 0;
+        $isWorking = $request->has('working') ? 1 : 0;
+        $request->disasterType == "Typhoon" ?
+            $disasterId = $request->typhoon :
+            $disasterId = $request->flashflood;
 
-        if ($validatedEvacueeForm->passes()) {
-            $disasterId = null;
-            $is4Ps = $request->has('fourps') ? 1 : 0;
-            $isPWD = $request->has('pwd') ? 1 : 0;
-            $isPregnant = $request->has('pregnant') ? 1 : 0;
-            $isLactating = $request->has('lactating') ? 1 : 0;
-            $isStudent = $request->has('student') ? 1 : 0;
-            $isWorking = $request->has('working') ? 1 : 0;
-            $request->disasterType == "Typhoon" ?
-                $disasterId = $request->typhoon :
-                $disasterId = $request->flashflood;
+        $evacueeInfo = [
+            'house_hold_number' => $request->houseHoldNumber,
+            'full_name' => Str::ucfirst(trim($request->fullName)),
+            'sex' => $request->sex,
+            'age' => $request->age,
+            '4Ps' => $is4Ps,
+            'PWD' => $isPWD,
+            'pregnant' => $isPregnant,
+            'lactating' => $isLactating,
+            'student' => $isStudent,
+            'working' => $isWorking,
+            'barangay' => $request->barangay,
+            'date_entry' => Carbon::now()->toDayDateTimeString(),
+            'disaster_type' => $request->disasterType,
+            'disaster_id' => intval($disasterId),
+            'disaster_info' => $request->disasterInfo,
+            'evacuation_assigned' => $request->evacuationAssigned
+        ];
 
-            $evacueeInfo = [
-                'house_hold_number' => $request->houseHoldNumber,
-                'full_name' => Str::ucfirst(trim($request->fullName)),
-                'sex' => $request->sex,
-                'age' => $request->age,
-                '4Ps' => $is4Ps,
-                'PWD' => $isPWD,
-                'pregnant' => $isPregnant,
-                'lactating' => $isLactating,
-                'student' => $isStudent,
-                'working' => $isWorking,
-                'barangay' => $request->barangay,
-                'date_entry' => Carbon::now()->toDayDateTimeString(),
-                'disaster_type' => $request->disasterType,
-                'disaster_id' => intval($disasterId),
-                'disaster_info' => $request->disasterInfo,
-                'evacuation_assigned' => $request->evacuationAssigned
-            ];
-            
-            try {
-                $this->evacuee->create($evacueeInfo);
-                $this->logActivity->generateLog('Recorded new evacuee information');
-                
-                return response()->json(['condition' => 1]);
-            } catch (\Exception $e) {
-                return response()->json(['condition' => 0]);
-            }
+        try {
+            $this->evacuee->create($evacueeInfo);
+            $this->logActivity->generateLog('Recorded new evacuee information');
+
+            return response()->json(['condition' => 1]);
+        } catch (\Exception $e) {
+            return response()->json(['condition' => 0]);
         }
-        return response()->json(['condition' => 0]);
     }
 
     public function updateEvacueeInfo($evacueeId, Request $request)
     {
-        $validatedEvacueeForm = Validator::make($request->all(), [
-            'fullName' => 'required',
-        ]);
+        $disasterId = null;
+        $is4Ps = $request->has('fourps') ? 1 : 0;
+        $isPWD = $request->has('pwd') ? 1 : 0;
+        $isPregnant = $request->has('pregnant') ? 1 : 0;
+        $isLactating = $request->has('lactating') ? 1 : 0;
+        $isStudent = $request->has('student') ? 1 : 0;
+        $isWorking = $request->has('working') ? 1 : 0;
+        $request->disasterType == "Typhoon" ?
+            $disasterId = $request->typhoon :
+            $disasterId = $request->flashflood;
 
-        if ($validatedEvacueeForm->passes()) {
-            $disasterId = null;
-            $is4Ps = $request->has('fourps') ? 1 : 0;
-            $isPWD = $request->has('pwd') ? 1 : 0;
-            $isPregnant = $request->has('pregnant') ? 1 : 0;
-            $isLactating = $request->has('lactating') ? 1 : 0;
-            $isStudent = $request->has('student') ? 1 : 0;
-            $isWorking = $request->has('working') ? 1 : 0;
-            $request->disasterType == "Typhoon" ?
-                $disasterId = $request->typhoon :
-                $disasterId = $request->flashflood;
+        $evacueeInfo = [
+            'house_hold_number' => $request->houseHoldNumber,
+            'full_name' => Str::ucfirst(trim($request->fullName)),
+            'sex' => $request->sex,
+            'age' => $request->age,
+            '4Ps' => $is4Ps,
+            'PWD' => $isPWD,
+            'pregnant' => $isPregnant,
+            'lactating' => $isLactating,
+            'student' => $isStudent,
+            'working' => $isWorking,
+            'barangay' => $request->barangay,
+            'date_entry' => $request->dateEntry,
+            'date_out' => $request->dateOut,
+            'disaster_type' => $request->disasterType,
+            'disaster_id' => intval($disasterId),
+            'disaster_info' => $request->disasterInfo,
+            'evacuation_assigned' => $request->evacuationAssigned
+        ];
 
-            $evacueeInfo = [
-                'house_hold_number' => $request->houseHoldNumber,
-                'full_name' => Str::ucfirst(trim($request->fullName)),
-                'sex' => $request->sex,
-                'age' => $request->age,
-                '4Ps' => $is4Ps,
-                'PWD' => $isPWD,
-                'pregnant' => $isPregnant,
-                'lactating' => $isLactating,
-                'student' => $isStudent,
-                'working' => $isWorking,
-                'barangay' => $request->barangay,
-                'date_entry' => $request->dateEntry,
-                'date_out' => $request->dateOut,
-                'disaster_type' => $request->disasterType,
-                'disaster_id' => intval($disasterId),
-                'disaster_info' => $request->disasterInfo,
-                'evacuation_assigned' => $request->evacuationAssigned
-            ];
+        try {
+            $this->evacuee->find($evacueeId)->update($evacueeInfo);
+            $this->logActivity->generateLog('Updated an evacuee information');
 
-            try {
-                $this->evacuee->find($evacueeId)->update($evacueeInfo);
-                $this->logActivity->generateLog('Updated an evacuee information');
-
-                return response()->json(['condition' => 1]);
-            } catch (\Exception $e) {
-                return response()->json(['condition' => 0]);
-            }
+            return response()->json(['condition' => 1]);
+        } catch (\Exception $e) {
+            return response()->json(['condition' => 0]);
         }
-
-        return response()->json(['condition' => 0]);
     }
 
     public function updateEvacueeDateOut(Request $request)
@@ -141,7 +125,7 @@ class EvacueeController extends Controller
 
         foreach ($evacueeIds as $evacueeId)
             $this->evacuee->find(intval($evacueeId))->update(['date_out' => Carbon::now()->toDayDateTimeString()]);
-        
+
         $this->logActivity->generateLog('Updated evacuee/s date out');
 
         return response()->json();

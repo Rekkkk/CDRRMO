@@ -17,10 +17,6 @@ class ResidentController extends Controller
         $this->guideline = new Guideline;
         $this->evacuationCenter = new EvacuationCenter;
     }
-    public function dashboard()
-    {
-        return view('/userpage/dashboard');
-    }
 
     public function residentEligtasGuideline()
     {

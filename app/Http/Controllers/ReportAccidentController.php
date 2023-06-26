@@ -34,8 +34,8 @@ class ReportAccidentController extends Controller
             return DataTables::of($report)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $approved = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" class="approve bg-slate-700 hover:bg-slate-900 py-1.5 btn-sm mr-2 text-white approveAccidentReport">Approve</a>';
-                    $btn = $approved . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Delete" class="bg-red-700 hover:bg-red-900 py-1.5 btn-sm mr-2 text-white removeAccidentReport">Remove</a>';
+                    $approved = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" class="approve bg-green-600 hover:bg-green-700 py-1.5 btn-sm mr-2 text-white approveAccidentReport">Approve</a>';
+                    $btn = $approved . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Delete" class="bg-red-600 hover:bg-red-700 py-1.5 btn-sm mr-2 text-white removeAccidentReport">Remove</a>';
                     return $btn;
                 })
                 ->rawColumns(['action'])
@@ -113,7 +113,7 @@ class ReportAccidentController extends Controller
                         'attempt' => 1,
                     ]);
 
-                    event(new ReportIncident());
+                    //event(new ReportIncident());
 
                     return response()->json(['condition' => 0]);
                 } catch (\Exception $e) {

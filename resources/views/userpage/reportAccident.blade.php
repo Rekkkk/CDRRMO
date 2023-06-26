@@ -125,7 +125,7 @@
                     }
                 });
 
-                var table = $('.data-table').DataTable({
+                var report_table = $('.data-table').DataTable({
                     rowReorder: {
                         selector: 'td:nth-child(2)'
                     },
@@ -134,8 +134,9 @@
                     serverSide: true,
                     ajax: "{{ route('accident.report.cdrrmo') }}",
                     columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex'
+                            data: 'id',
+                            name: 'id',
+                            visible: false
                         },
                         {
                             data: 'description',
@@ -147,11 +148,15 @@
                         },
                         {
                             data: 'photo',
-                            name: 'photo'
+                            name: 'photo',
+                            orderable: false,
+                            searchable: false
                         },
                         {
                             data: 'status',
-                            name: 'status'
+                            name: 'status',
+                            orderable: false,
+                            searchable: false
                         },
                         {
                             data: 'action',
@@ -252,7 +257,7 @@
     @guest
         <script type="text/javascript">
             $(document).ready(function() {
-                var table = $('.data-table').DataTable({
+                var report_table = $('.data-table').DataTable({
                     rowReorder: {
                         selector: 'td:nth-child(2)'
                     },
@@ -261,8 +266,9 @@
                     serverSide: true,
                     ajax: "{{ route('accident.report.resident') }}",
                     columns: [{
-                            data: 'DT_RowIndex',
-                            name: 'DT_RowIndex'
+                            data: 'id',
+                            name: 'id',
+                            visible: false
                         },
                         {
                             data: 'description',
@@ -274,7 +280,9 @@
                         },
                         {
                             data: 'photo',
-                            name: 'photo'
+                            name: 'photo',
+                            orderable: false,
+                            searchable: false
                         },
                         {
                             data: 'status',

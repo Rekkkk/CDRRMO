@@ -31,14 +31,14 @@
                 </div>
                 <hr class="mt-4 bg-black">
                 <div class="flex flex-wrap justify-end">
-                    <div>
+                    <div class="text-white text-sm font-semibold">
                         <button id="returnEvacueeBtn"
-                            class="bg-blue-700 hover:bg-blue-800 p-2 mt-3 rounded text-white text-sm font-semibold drop-shadow-xl transition ease-in-out delay-150 hover:scale-95 duration-100">
+                            class="bg-blue-600 hover:bg-blue-700 p-2 mt-3 rounded drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100">
                             <i class="bi bi-person-up fs-6 pr-1"></i>
                             Returning Home
                         </button>
                         <button id="recordEvacueeBtn" data-toggle="modal" data-target="#evacueeInfoFormModal"
-                            class="bg-green-700 hover:bg-green-800 p-2 mt-2 rounded text-white text-sm font-semibold drop-shadow-xl transition ease-in-out delay-150 hover:scale-95 duration-100">
+                            class="bg-green-600 hover:bg-green-700 p-2 mt-2 rounded drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100">
                             <i class="bi bi-person-down fs-6 pr-1"></i>
                             Record Evacuee Info
                         </button>
@@ -234,11 +234,11 @@
             });
 
             $('#recordEvacueeBtn').click(function() {
-                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-700');
+                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
                 $('.modal-title').text('Record Evacuee Information');
                 $('#saveEvacueeInfoBtn').removeClass(
                     'bg-yellow-500 hover:bg-yellow-600').addClass(
-                    'bg-green-700 hover:bg-green-800');
+                    'bg-green-600 hover:bg-green-700');
                 $('#dateFormFieldsContainer').hide();
                 $('#operation').val('record');
                 $('#evacueeInfoFormModal').modal('show');
