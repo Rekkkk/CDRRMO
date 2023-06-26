@@ -64,7 +64,7 @@ Route::group(['middleware' => 'auth'], function () {
                 Route::delete('/removeReport/{reportId}', 'removeAccidentReport')->name('remove.accident.report.cdrrmo');
             });
         });
-        
+
         Route::controller(CdrrmoController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
             Route::get('/hotlineNumbers', 'hotlineNumbers')->name('hotline.number.cdrrmo');
@@ -99,14 +99,6 @@ Route::group(['middleware' => 'auth'], function () {
             });
         });
 
-        Route::group(['prefix' => 'disaster'], function () {
-            Route::controller(DisasterController::class)->group(function () {
-                Route::get('/disasterDetails/{disasterId}', 'getDisasterDetails')->name('disaster.details.cswd');
-                Route::put('/updateDisaster/{disasterId}', 'updateDisaster')->name('update.disaster.cswd');
-                Route::delete('/removeDisaster/{disasterId}', 'removeDisaster')->name('remove.disaster.cswd');
-            });
-        });
-
         Route::group(['prefix' => 'evacuee'], function () {
             Route::controller(EvacueeController::class)->group(function () {
                 Route::get('/getEvacueeInfo', 'loadEvacueeTable')->name('get.evacuee.info.cswd');
@@ -120,7 +112,6 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cswd');
             Route::get('/evacuee', 'manageEvacueeInformation')->name('manage.evacuee.record.cswd');
             Route::get('/eligtasGuideline', 'eligtasGuideline')->name('guideline.cswd');
-            Route::get('/eligtasGuideline/guide/{guidelineId}', 'guide')->name('guide.cswd');
             Route::get('/disaster', 'disaster')->name('disaster.cswd');
             Route::get('/evacuationManage', 'evacuationManage')->name('manage.evacuation.cswd');
             Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator.cswd');
