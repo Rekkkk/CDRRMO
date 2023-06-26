@@ -2,29 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Guide;
 use App\Models\Evacuee;
-use App\Models\Guideline;
 use App\Models\EvacuationCenter;
 
 class CdrrmoController extends Controller
 {
-    private $evacuee, $evacuation, $guideline, $guide;
+    private $evacuee, $evacuation;
 
     public function __construct()
     {
-        $this->guide = new Guide;
         $this->evacuee = new Evacuee;
-        $this->guideline = new Guideline;
         $this->evacuation = new EvacuationCenter;
     }
     public function dashboard()
     {
-        $activeEvacuation = $this->evacuation->isActive();
-        $inActiveEvacuation = $this->evacuation->isInactive();
+        $activeEvacuation = $this->evacuation->where('status', 'Active')->count();
+        $inActiveEvacuation = $this->evacuation->where('status', 'Inactive')->count();
 
-        $inEvacuationCenter = $this->evacuee->countEvacueeOnEvacuation();
-        $isReturned = $this->evacuee->countEvacueeReturned();
+        $inEvacuationCenter = $this->evacuee->whereNull('date_out')->count();
+        $isReturned = $this->evacuee->whereNotNull('date_out')->count();
 
         $typhoonMaleData = $this->evacuee->countEvacuee(1, 'Male');
         $typhoonFemaleData = $this->evacuee->countEvacuee(1, 'Female');

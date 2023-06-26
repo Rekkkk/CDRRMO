@@ -23,7 +23,7 @@
         @include('partials.sidebar')
         <x-messages />
 
-        <div class="main-content pt-8 pr-8 pl-28">
+        <div class="main-content">
             <div class="dashboard-logo relative mb-14">
                 <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">DASHBOARD</span>

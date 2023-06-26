@@ -18,14 +18,4 @@ class Disaster extends Model
     ];
 
     public $timestamps = false;
-
-    public function retrieveAllDisaster()
-    {
-        return $this->all();
-    }
-
-    public function retrieveSpecificDisaster($id)
-    {
-        return $this->find($id)->get();
-    }
 }

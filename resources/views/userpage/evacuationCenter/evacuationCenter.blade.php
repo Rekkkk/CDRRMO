@@ -13,8 +13,7 @@
         @include('partials.header')
         @include('partials.sidebar')
 
-        <div class="main-container">
-
+        <div class="main-content">
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-house text-2xl p-2 bg-slate-900 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">EVACUATION CENTER</span>

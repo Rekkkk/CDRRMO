@@ -12,8 +12,6 @@ class ReportLog extends Model
 
     protected $primaryKey = 'report_id';
 
-    protected $guarded = [];
-
     protected $fillable = [
         'user_ip',
         'attempt',

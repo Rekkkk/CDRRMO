@@ -15,8 +15,6 @@
 
         <x-messages />
 
-        <h1 class="text-center bg-slate-600 my-2 text-white text-4xl p-3 font-bold">E-Ligtas Guides</h1>
-
         <div class="guide-btn flex justify-end">
             @if (auth()->check() && auth()->user()->user_role == 'CDRRMO' || auth()->check() && auth()->user()->user_role == 'CSWD')
                 <a href="javascript:void(0)" id="createGuideBtn"
@@ -28,7 +26,7 @@
             @endif
         </div>
 
-        <div class="main-content pt-8 pr-8 pl-28">
+        <div class="main-content">
             @foreach ($guide as $guide)
                 <div class="guide-container">
                     <div class="guide-content relative mx-2.5 my-2">
@@ -70,7 +68,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
-    @if (auth()->check())
         <script type="text/javascript">
             $(document).ready(function() {
                 const accordion = document.getElementsByClassName('guide-content');
@@ -156,7 +153,6 @@
                 });
             });
         </script>
-    @endif
 </body>
 
 </html>

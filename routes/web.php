@@ -4,12 +4,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CswdController;
 use App\Http\Controllers\CdrrmoController;
 use App\Http\Controllers\ResidentController;
-use App\Http\Controllers\DisasterController;
 use App\Http\Controllers\GuidelineController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ReportAccidentController;
 use App\Http\Controllers\EvacuationCenterController;
 use App\Http\Controllers\EvacueeController;
+use App\Http\Controllers\UserAccountsController;
 
 Route::controller(AuthenticationController::class)->group(function () {
     Route::post('/', 'authUser')->name('login');
@@ -111,10 +111,17 @@ Route::group(['middleware' => 'auth'], function () {
         Route::controller(CswdController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cswd');
             Route::get('/evacuee', 'manageEvacueeInformation')->name('manage.evacuee.record.cswd');
-            Route::get('/eligtasGuideline', 'eligtasGuideline')->name('guideline.cswd');
-            Route::get('/disaster', 'disaster')->name('disaster.cswd');
             Route::get('/evacuationManage', 'evacuationManage')->name('manage.evacuation.cswd');
             Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator.cswd');
         });
+    });
+    
+    Route::controller(UserAccountsController::class)->group(function () {
+        Route::get('/userProfile', 'userProfile')->name('display.user.profile');
+        Route::get('/userDetails/{userId}', 'displayUserDetails')->name('user.details');
+        Route::put('/updateAccount/{userId}', 'updateUserAccount')->name('update.account');
+        Route::get('/userAccount', 'userAccounts')->name('display.user.accounts');
+        Route::put('/restrictUser/{userId}', 'restrictUserAccount')->name('restrict.account');
+        Route::put('/unrestrictUser/{userId}', 'unRestrictUserAccount')->name('unrestrict.account');
     });
 });

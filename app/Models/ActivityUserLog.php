@@ -14,8 +14,6 @@ class ActivityUserLog extends Model
 
     protected $primaryKey = 'id';
 
-    protected $guarded = [];
-
     protected $fillable = [
         'user_id',
         'activity',
