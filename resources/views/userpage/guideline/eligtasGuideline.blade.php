@@ -15,27 +15,17 @@
 
         <x-messages />
 
-        <div class="main-content pt-8 pr-8 pl-28">
+        <div class="main-content">
             <div class="dashboard-logo">
-                <i class="bi bi-book text-2xl p-2 bg-slate-900 text-white rounded"></i>
+                <i class="bi bi-book text-2xl p-2 bg-slate-600 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">E-LIGTAS Guideline</span>
-                <hr class="mt-4">
+                <hr class="horizontal-line">
             </div>
-            @if (
-                (auth()->check() && auth()->user()->position == 'President') ||
-                    (auth()->check() && auth()->user()->position == 'Secretary'))
-                <div class="guidelines-btn py-2 flex justify-end">
-                    <a class="bg-green-700 hover:bg-green-800 p-2 mt-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100"
-                        id="createGuidelineBtn" href="javascript:void(0)">
-                        <i class="bi bi-file-earmark-plus-fill mr-2"></i>Create Guideline
-                    </a>
-                    @include('userpage.guideline.addGuideline')
-                </div>
-            @endif
+
             <div class="content-item text-center p-8">
-                <div class="grid lg:grid-cols-5 md:grid-cols-2 sm:grid-cols-1 gap-6">
+                <div class="widget-container">
                     @foreach ($guideline as $guidelineItem)
-                        <div class="relative">
+                        <div class="guideline-widget">
                             @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
                                 <a href="{{ route('remove.guideline.cdrrmo', Crypt::encryptString($guidelineItem->id)) }}"
                                     class="absolute top-2 right-0">
@@ -87,7 +77,7 @@
                                     <div class="relative bg-slate-50 drop-shadow-2xl -z-50 overflow-hidden rounded">
                                         <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
                                         <div
-                                            class="absolute w-full h-3/6 top-2/4 text-white bg-slate-700 flex items-center justify-center">
+                                            class="absolute w-full h-3/6 top-2/4 text-white bg-slate-700 flex items-center justify-center hover:scale-105">
                                             <p class="uppercase">{{ $guidelineItem->type }}</p>
                                         </div>
                                     </div>
@@ -95,6 +85,19 @@
                             @endguest
                         </div>
                     @endforeach
+                    @if (
+                        (auth()->check() && auth()->user()->position == 'President') ||
+                            (auth()->check() && auth()->user()->position == 'Secretary'))
+                        <div class="relative h-80 ">
+                            <div
+                                class="flex text-slate-600 w-full h-full drop-shadow-2xl items-center justify-center">
+                                <a id="createGuidelineBtn" href="javascript:void(0)" class="transition ease-in-out delay-150 hover:scale-105 duration-100">
+                                    <i class="bi bi-plus-square-fill text-4xl "></i>
+                                </a>
+                            </div>
+                        </div>
+                        @include('userpage.guideline.addGuideline')
+                    @endif
                 </div>
             </div>
         </div>

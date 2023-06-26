@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-red-700">
-                <h1 class="modal-title fs-5 text-center text-white">{{ config('app.name') }}</h1>
+                <h1 class="modal-title fs-5 text-center text-white">Guide Form</h1>
             </div>
             <div class="modal-body">
                 <form id="createGuideForm" name="createGuideForm">
@@ -25,7 +25,7 @@
                             class="bg-slate-600 p-2 rounded drop-shadow-lg hover:bg-slate-700"
                             data-bs-dismiss="modal">Close</button>
                         <button id="submitGuideBtn"
-                            class="bg-red-600 p-2 rounded drop-shadow-lg hover:bg-red-700">Post
+                            class="bg-red-700 p-2 rounded drop-shadow-lg hover:bg-red-800">Post
                             Guide</button>
                     </div>
                 </form>

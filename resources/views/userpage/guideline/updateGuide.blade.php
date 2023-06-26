@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-red-900">
-                <h1 class="modal-title fs-5 text-center text-white">{{ config('app.name') }}</h1>
+                <h1 class="modal-title fs-5 text-center text-white">Guide Form</h1>
             </div>
             <div class="modal-body">
                 <form action="{{ route('update.guide.cdrrmo', $guide->id) }}" method="POST">
