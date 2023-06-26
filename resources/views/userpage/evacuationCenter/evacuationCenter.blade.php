@@ -13,7 +13,7 @@
         @include('partials.header')
         @include('partials.sidebar')
 
-        <div class="locator-container pt-8 pr-8 pl-28">
+        <div class="main-container">
 
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-house text-2xl p-2 bg-slate-900 text-white rounded"></i>

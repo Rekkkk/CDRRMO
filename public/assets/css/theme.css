@@ -147,7 +147,7 @@ span.error {
 .main-content{
     width: 100%;
     margin: 100px auto 0;
-    padding: 0 100px;
+    padding: 0 20px 0 100px;
 }
 
 .widget-container{
@@ -160,15 +160,12 @@ span.error {
 
 .horizontal-line{
     margin-top: 20px;
-    width: calc(100% + 80px);
 }
 
 .guideline-widget{
     position: relative;
     max-width: 300px;
 }
-
-
 
 /* Side Bar Section */
 .sidebar {
@@ -405,6 +402,8 @@ span.error {
     .content .evacuation-content .evacuation-form {
         padding: 0 !important;
         border: none;
+    }
+}
       
 /* Dashboard Section */
 @media only screen and (max-width: 900px) {
@@ -509,7 +508,6 @@ span.error {
         border: none;
     }
 
-
     .wrapper .header-section .container-fluid span {
         display: none;
         transition: all 0.4s ease;
@@ -519,6 +517,7 @@ span.error {
     .wrapper .header-section .container-fluid img {
         margin: 0 auto;
         float: none !important;
+    }
 
     .content .evacuation-content .evacuation-table,
     .content .table-container {
@@ -527,9 +526,10 @@ span.error {
 
     }
 
-
     .locator-container .locator-content .locator-header {
         line-height: 20px;
+    }
+}
 
 @media only screen and (max-width: 1300px) {
     .content .main-content,
@@ -548,13 +548,5 @@ span.error {
         width: 100%;
         max-width: 600px;
         padding-bottom: 30px;
-    }
-
-
-}
-
-    to {
-        opacity: 1;
-        transform: rotateX(0);
     }
 }
