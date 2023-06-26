@@ -2,58 +2,56 @@
 
 namespace App\Http\Controllers;
 
-use Carbon\Carbon;
 use App\Models\Evacuee;
 use App\Models\Disaster;
+use App\Models\Typhoon;
+use App\Models\Flashflood;
+use App\Models\Guideline;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Events\ActiveEvacuees;
 use App\Models\ActivityUserLog;
 use App\Models\EvacuationCenter;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Validator;
 
 class CswdController extends Controller
 {
-    private $evacuee, $disaster, $evacuationCenter;
+    private $disaster, $typhoon, $flashflood, $evacuee, $evacuationCenter, $guideline, $guide;
 
     function __construct()
     {
+        $this->disaster = new Disaster;
+        $this->typhoon = new Typhoon;
+        $this->flashflood = new Flashflood;
         $this->evacuee = new Evacuee;
         $this->disaster = new Disaster;
         $this->evacuationCenter = new EvacuationCenter;
     }
+
     public function dashboard()
     {
         $activeEvacuation = $this->evacuationCenter->isActive();
         $inActiveEvacuation = $this->evacuationCenter->isInactive();
-
         $inEvacuationCenter = $this->evacuee->countEvacueeOnEvacuation();
         $isReturned = $this->evacuee->countEvacueeReturned();
-
-        $typhoonMaleData = $this->evacuee->countEvacuee(1, 'Male');
-        $typhoonFemaleData = $this->evacuee->countEvacuee(1, 'Female');
-        $floodingMaleData = $this->evacuee->countEvacuee(2, 'Male');
-        $floodingFemaleData = $this->evacuee->countEvacuee(2, 'Female');
-
-        $typhoonData = $this->evacuee->countEvacueeWithDisablities(1);
-
+        $typhoonMaleData = $this->evacuee->countEvacuee('Typhoon', 'Male');
+        $typhoonFemaleData = $this->evacuee->countEvacuee('Typhoon', 'Female');
+        $floodingMaleData = $this->evacuee->countEvacuee('Flashflood', 'Male');
+        $floodingFemaleData = $this->evacuee->countEvacuee('Flashflood', 'Female');
+        $typhoonData = $this->evacuee->countEvacueeWithDisablities('Typhoon');
         $typhoon_4Ps = intval($typhoonData[0]->{'4Ps'});
         $typhoon_PWD = intval($typhoonData[0]->PWD);
         $typhoon_pregnant = intval($typhoonData[0]->pregnant);
         $typhoon_lactating = intval($typhoonData[0]->lactating);
         $typhoon_student = intval($typhoonData[0]->student);
         $typhoon_working = intval($typhoonData[0]->working);
-
-        $floodingData = $this->evacuee->countEvacueeWithDisablities(2);
-
+        $floodingData = $this->evacuee->countEvacueeWithDisablities('Flashflood');
         $flooding_4Ps = intval($floodingData[0]->{'4Ps'});
         $flooding_PWD = intval($floodingData[0]->PWD);
         $flooding_pregnant = intval($floodingData[0]->pregnant);
         $flooding_lactating = intval($floodingData[0]->lactating);
         $flooding_student = intval($floodingData[0]->student);
         $flooding_working = intval($floodingData[0]->working);
-
         return view('userpage.dashboard', compact(
             'activeEvacuation',
             'inActiveEvacuation',
@@ -78,76 +76,37 @@ class CswdController extends Controller
         ));
     }
 
-    public function recordEvacuee()
+    public function manageEvacueeInformation(Request $request)
     {
-        $evacuationCenters = $this->evacuationCenter->all();
-        $disasters = $this->disaster->all();
-        return view('userpage.recordEvacuee', compact('evacuationCenters', 'disasters'));
-    }
-    public function recordEvacueeInfo(Request $request)
-    {
-        $validatedEvacueeForm = Validator::make($request->all(), [
-            'house_hold_number' => 'required',
-            'name' => 'required',
-            'sex' => 'required',
-            'age' => 'required',
-            'barangay' => 'required',
-            'disaster' => 'required',
-            'evacuation_assigned' => 'required'
-        ]);
-
-        if ($validatedEvacueeForm->passes()) {
-
-            $is4Ps = $request->has('fourps') ? 1 : 0;
-            $isPWD = $request->has('pwd') ? 1 : 0;
-            $isPregnant = $request->has('pregnant') ? 1 : 0;
-            $isLactating = $request->has('lactating') ? 1 : 0;
-            $isStudent = $request->has('student') ? 1 : 0;
-            $isWorking = $request->has('working') ? 1 : 0;
-
-            $evacueeObject = [
-                'house_hold_number' => $request->house_hold_number,
-                'name' => Str::ucfirst(trim($request->name)),
-                'sex' => $request->sex,
-                'age' => $request->age,
-                '4Ps' => $is4Ps,
-                'PWD' => $isPWD,
-                'pregnant' => $isPregnant,
-                'lactating' => $isLactating,
-                'student' => $isStudent,
-                'working' => $isWorking,
-                'barangay' => $request->barangay,
-                'date_entry' => Carbon::now()->toDayDateTimeString(),
-                'disaster_id' => $request->disaster,
-                'evacuation_assigned' => $request->evacuation_assigned
-            ];
-
-            try {
-                $this->evacuee->recordEvacueeObject($evacueeObject);
-
-                ActivityUserLog::create([
-                    'user_id' => auth()->user()->id,
-                    'activity' => 'Registering Evacuee',
-                    'date_time' => Carbon::now()->toDayDateTimeString()
-                ]);
-
-                $inEvacuationCenter = $this->evacuee->countEvacueeOnEvacuation();
-
-                event(new ActiveEvacuees($inEvacuationCenter));
-
-                return response()->json(['condition' => 1]);
-            } catch (\Exception $e) {
-                return response()->json(['condition' => 0]);
-            }
+        $evacuationList = $this->evacuationCenter->retrieveAllEvacuation();
+        $typhoonList =  $this->typhoon->retrieveAllActiveTyphoon();
+        $flashfloodList = $this->flashflood->retrieveAllActiveFlashflood();
+        $disasterList = null;
+        if ($typhoonList->isNotEmpty() && $flashfloodList->isNotEmpty()) {
+            $disasterList = $this->disaster->retrieveAllDisaster();
+        } else if ($typhoonList->isNotEmpty() && $flashfloodList->isEmpty()) {
+            $disasterList = $this->disaster->retrieveSpecificDisaster(1);
+        } else if ($flashfloodList->isNotEmpty() && $typhoonList->isEmpty()) {
+            $disasterList = $this->disaster->retrieveSpecificDisaster(2);
         }
+        return view('userpage.evacuee.evacuee', compact('evacuationList', 'disasterList', 'typhoonList', 'flashfloodList'));
+    }
 
-        return response()->json(['condition' => 0, 'error' => $validatedEvacueeForm->errors()->toArray()]);
+    public function eligtasGuideline()
+    {
+        $guideline = $this->guideline->retrieveAll();
+        return view('userpage.guideline.eligtasGuideline', compact('guideline'));
+    }
+
+    public function guide($guidelineId)
+    {
+        $guide = $this->guide->retreiveAllGuide($guidelineId);
+        return view('userpage.guideline.guide', compact('guide', 'guidelineId'));
     }
 
     public function evacuationCenter()
     {
-        $evacuationCenter = $this->evacuationCenter->all();
-
+        $evacuationCenter = EvacuationCenter::all();
         $initialMarkers = [
             [
                 'position' => [
@@ -174,7 +133,6 @@ class CswdController extends Controller
                 'draggable' => true
             ]
         ];
-
         return view('userpage.evacuationCenter.evacuationCenter', ['evacuationCenter' => $evacuationCenter, 'initialMarkers' => $initialMarkers]);
     }
 
@@ -185,8 +143,7 @@ class CswdController extends Controller
 
     public function disaster(Request $request)
     {
-        $disaster = $this->disaster->all();
-
+        $disaster = $this->disaster->retrieveAllDisaster();
         if ($request->ajax()) {
             return DataTables::of($disaster)
                 ->addIndexColumn()
@@ -198,7 +155,6 @@ class CswdController extends Controller
                 ->rawColumns(['action'])
                 ->make(true);
         }
-
         return view('userpage.disaster.disaster', compact('disaster'));
     }
 }

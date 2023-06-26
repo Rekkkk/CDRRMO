@@ -23,6 +23,9 @@ class EvacuationCenter extends Model
 
     public $timestamps = false;
 
+    public function retrieveAllEvacuation(){
+        return $this->all();
+    }
 
     public function isActive(){
         return $this->where('status', 'Active')->count();
@@ -30,5 +33,19 @@ class EvacuationCenter extends Model
 
     public function isInactive(){
         return $this->where('status', 'Inactive')->count();
+    }
+
+    public function registerEvacuationCenterObject($evacuationCenter){
+        return $this->insert($evacuationCenter);
+    }
+
+    public function updateEvacuationCenterObject($evacuationCenterData, $evacuationCenterId){
+        $evacuationCenter = $this->find($evacuationCenterId);
+        $evacuationCenter->update($evacuationCenterData);
+    }
+
+    public function removeEvacuationCenterObject($evacuationCenterId){
+        $evacuationCenter = $this->find($evacuationCenterId);
+        $evacuationCenter->delete();
     }
 }
