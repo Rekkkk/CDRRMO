@@ -16,9 +16,7 @@
 
 <body id="login-container">
     <div class="wrapper">
-        <div class="header-section drop-shadow-lg">
-            {{-- <img class="w-22 m-auto h-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo"> --}}
-        </div>
+        <div class="header-section w-full drop-shadow-lg"></div>
 
         <div class="login-section">
             <div class="login-content">
