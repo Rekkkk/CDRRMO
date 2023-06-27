@@ -360,6 +360,10 @@ input::-webkit-inner-spin-button {
     gap: 8px;
 }
 
+.check-box label  {
+    margin-bottom: 0;
+}
+
 #evacueeInfoForm .input-container{
     position: relative;
     width: 100%;
@@ -406,7 +410,7 @@ span.error {
         border: none;
     }
 }
-      
+
 /* Dashboard Section */
 @media only screen and (max-width: 900px) {
     .wrapper .header-section .container-fluid span {
@@ -501,7 +505,7 @@ span.error {
         margin-top: 2px !important;
     }
 }
-      
+
 
 /* Dashboard Section */
 @media only screen and (max-width: 1100px) {
