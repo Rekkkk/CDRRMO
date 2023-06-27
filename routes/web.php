@@ -103,7 +103,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::controller(EvacueeController::class)->group(function () {
                 Route::get('/getEvacueeInfo', 'loadEvacueeTable')->name('get.evacuee.info.cswd');
                 Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('record.evacuee.cswd');
-                Route::put('/updateEvacueeInfo{evacueeId}', 'updateEvacueeInfo')->name('update.evacuee.info.cswd');
+                Route::put('/updateEvacueeInfo/{evacueeId}', 'updateEvacueeInfo')->name('update.evacuee.info.cswd');
                 Route::patch('/updateEvacueeDateOut', 'updateEvacueeDateOut')->name('update.evacuee.dateout.cswd');
             });
         });
@@ -115,7 +115,7 @@ Route::group(['middleware' => 'auth'], function () {
             Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator.cswd');
         });
     });
-    
+
     Route::controller(UserAccountsController::class)->group(function () {
         Route::get('/userProfile', 'userProfile')->name('display.user.profile');
         Route::get('/userDetails/{userId}', 'displayUserDetails')->name('user.details');
