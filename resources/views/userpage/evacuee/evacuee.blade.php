@@ -33,12 +33,12 @@
                 <div class="flex flex-wrap justify-end">
                     <div class="text-white text-sm font-semibold">
                         <button id="returnEvacueeBtn"
-                            class="bg-blue-600 hover:bg-blue-700 p-2 mt-3 rounded drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100">
+                            class="bg-blue-600 hover:bg-blue-700 p-2 mt-3 mr-3 rounded drop-shadow-xl hover:scale-105 duration-100">
                             <i class="bi bi-person-up fs-6 pr-1"></i>
                             Returning Home
                         </button>
                         <button id="recordEvacueeBtn" data-toggle="modal" data-target="#evacueeInfoFormModal"
-                            class="bg-green-600 hover:bg-green-700 p-2 mt-2 rounded drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100">
+                            class="bg-green-600 hover:bg-green-700 p-2 mt-2 rounded drop-shadow-xl hover:scale-105 duration-100">
                             <i class="bi bi-person-down fs-6 pr-1"></i>
                             Record Evacuee Info
                         </button>
@@ -52,7 +52,8 @@
                                 <tr class="table-row">
                                     <th>Id</th>
                                     <th>House Hold #</th>
-                                    <th><input type="checkbox" class="w-4 h-4 accent-blue-600" id="selectAllCheckBox">
+                                    <th><label for="selectAllCheckBox">Select All</label>
+                                        <input type="checkbox" class="w-4 h-4 accent-blue-600" id="selectAllCheckBox">
                                     </th>
                                     <th>Full Name</th>
                                     <th>Sex</th>
@@ -96,14 +97,13 @@
     <script>
         $(document).ready(function() {
             let evacueeTable = $('.data-table').DataTable({
-                order: [
-                    [1, 'asc']
-                ],
+                order: [[1, 'asc']],
                 responsive: true,
                 processing: false,
                 serverSide: true,
                 ajax: "{{ route('get.evacuee.info.cswd') }}",
-                columns: [{
+                columns: [
+                    {
                         data: 'id',
                         name: 'id',
                         visible: false
@@ -206,9 +206,8 @@
                 ],
                 drawCallback: function() {
                     $('#selectAllCheckBox').prop('checked', false);
-                    let api = this.api();
-                    api.rows().every(function() {
-                        let dateOutValue = this.data()['date_out'];
+
+                    this.api().rows().every(function() {
                         let columnName = [
                             '4Ps',
                             'PWD',
@@ -217,15 +216,16 @@
                             'student',
                             'working'
                         ];
+
                         for (let i = 0; i < columnName.length; i++) {
                             this.data()[columnName[i]] == 1 ?
                                 this.data()[columnName[i]] = 'Yes' :
                                 this.data()[columnName[i]] = 'No';
                             $(`td:eq(${i+11})`, this.node()).text(this.data()[columnName[i]]);
                         }
-                        if (dateOutValue !== null) {
-                            let checkbox = $(this.node()).find(
-                                'td:eq(1) input[type="checkbox"]');
+
+                        if (this.data()['date_out'] !== null) {
+                            let checkbox = $(this.node()).find('td:eq(1) input[type="checkbox"]');
                             checkbox.prop('disabled', true);
                             checkbox.hide();
                         }
@@ -234,78 +234,87 @@
             });
 
             $('#recordEvacueeBtn').click(function() {
-                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
+                $('.modal-header').
+                    removeClass('bg-yellow-500').
+                    addClass('bg-green-600');
                 $('.modal-title').text('Record Evacuee Information');
-                $('#saveEvacueeInfoBtn').removeClass(
-                    'bg-yellow-500 hover:bg-yellow-600').addClass(
-                    'bg-green-600 hover:bg-green-700');
+                $('#saveEvacueeInfoBtn').
+                    removeClass('bg-yellow-500 hover:bg-yellow-600').
+                    addClass('bg-green-600 hover:bg-green-700');
                 $('#dateFormFieldsContainer').hide();
+                $('#evacuationSelectContainer').removeClass('hidden');
                 $('#operation').val('record');
                 $('#evacueeInfoFormModal').modal('show');
             });
 
-            let evacueeId,
-                defaultFormData;
+            let evacueeId, defaultFormData;
 
             $(document).on('click', '.editEvacueeBtn', function() {
                 $('.modal-header').removeClass('bg-green-700').addClass('bg-yellow-500');
                 $('.modal-title').text('Edit Evacuee Information');
-                $('#saveEvacueeInfoBtn').removeClass(
-                    'bg-green-700 hover:bg-green-800').addClass(
-                    'bg-yellow-500 hover:bg-yellow-600');
+                $('#saveEvacueeInfoBtn').
+                    removeClass('bg-green-700 hover:bg-green-800').
+                    addClass('bg-yellow-500 hover:bg-yellow-600');
                 $('#dateFormFieldsContainer').show();
+
                 let currentRow = $(this).closest('tr');
 
-                if (evacueeTable.responsive.hasHidden())
-                    currentRow = $(this).closest('tr').prev('tr');
-                    
+                if (evacueeTable.responsive.hasHidden()) {
+                    currentRow = currentRow.prev('tr');
+                }
+
                 let data = evacueeTable.row(currentRow).data();
+
                 evacueeId = data['id'];
                 $('input[name="houseHoldNumber"]').val(data['house_hold_number']);
                 $('input[name="fullName"]').val(data['full_name']);
                 $(`input[name="sex"], option[value="${data['sex']}"]`).prop('selected', true);
                 $('input[name="age"]').val(data['age']);
                 dateEntryInput.setDate(data['date_entry']);
-                dateOutInput.setDate(data['date_out']);
+
+                if (data['date_out'] == null) {
+                    $('#dateOutContainer').hide();
+                    $('#dateEntryContainer').removeClass('lg:w-6/12');
+                    dateOutInput.setDate('');
+                } else {
+                    $('#dateOutContainer').show();
+                    $('#dateEntryContainer').addClass('lg:w-6/12');
+                    dateOutInput.setDate(data['date_out']);
+                }
+
                 $(`option[value="${data['barangay']}"]`).prop('selected', true);
                 $(`option[value="${data['disaster_type']}"]`).prop('selected', true);
+                $(`option[value="${data['disaster_id']}"]`).prop('selected', true);
 
                 if (data['disaster_type'] == 'Typhoon') {
-                    $(`option[value="${data['disaster_type']}"]`).prop('selected', true);
-                    $(`option[value="${data['Flashflood']}"]`).prop('selected', false);
-                    $(`option[value="${data['disaster_id']}"]`).prop('selected', true);
                     $('#flashflood option:selected').prop('selected', false);
-                    $('#typhoonSelectContainer').show();
                     $('#flashfloodSelectContainer').hide();
+                    $('#typhoonSelectContainer').show();
                 } else {
-                    $(`option[value="${data['disaster_type']}"]`).prop('selected', true);
-                    $(`option[value="${data['Flashflood']}"]`).prop('selected', false);
-                    $(`option[value="${data['disaster_id']}"]`).prop('selected', true);
                     $('#typhoon option:selected').prop('selected', false);
-                    $('#flashfloodSelectContainer').show();
                     $('#typhoonSelectContainer').hide();
+                    $('#flashfloodSelectContainer').show();
                 }
 
                 $('input[name="disasterInfo"]').val(data['disaster_info']);
-                $(`option[value="${data['evacuation_assigned']}"]`).prop('selected', true);
-                data['4Ps'] == 'Yes' ?
-                    $('input[name="fourps"]').prop('checked', true) :
-                    $('input[name="fourps"]').prop('checked', false);
-                data['PWD'] == 'Yes' ?
-                    $('input[name="pwd"]').prop('checked', true) :
-                    $('input[name="pwd"]').prop('checked', false);
-                data['pregnant'] == 'Yes' ?
-                    $('input[name="pregnant"]').prop('checked', true) :
-                    $('input[name="pregnant"]').prop('checked', false);
-                data['lactating'] == 'Yes' ?
-                    $('input[name="lactating"]').prop('checked', true) :
-                    $('input[name="lactating"]').prop('checked', false);
-                data['student'] == 'Yes' ?
-                    $('input[name="student"]').prop('checked', true) :
-                    $('input[name="student"]').prop('checked', false);
-                data['working'] == 'Yes' ?
-                    $('input[name="working"]').prop('checked', true) :
-                    $('input[name="working"]').prop('checked', false);
+
+                if ($(`option[value="${data['evacuation_assigned']}"]`).length) {
+                    $('#evacuationSelectContainer').removeClass('hidden');
+                    $(`option[value="${data['evacuation_assigned']}"]`).prop('selected', true);
+                } else {
+                    $('#evacuationSelectContainer').addClass('hidden');
+                    $('input[name="defaultEvacuationAssigned"]').val(data['evacuation_assigned']);
+                }
+
+                dataName = ['4Ps', 'PWD', 'pregnant', 'lactating', 'student', 'working'];
+                checkbox = ['fourps', 'pwd', 'pregnant', 'lactating', 'student', 'working'];
+
+                for (let i = 0; i < dataName.length; i++) {
+                    data[dataName[i]] == 'Yes' ?
+                    $(`input[name="${checkbox[i]}"]`).prop('checked', true) :
+                    $(`input[name="${checkbox[i]}"]`).prop('checked', false);
+                }
+
                 $('#operation').val('edit');
                 $('#evacueeInfoFormModal').modal('show');
                 defaultFormData = $('#evacueeInfoForm').serialize();
@@ -328,6 +337,7 @@
                     $('#flashflood').val('');
                     $('#flashfloodSelectContainer').hide();
                 }
+
                 $('input[name="disasterInfo"]').val('');
             });
 
@@ -341,25 +351,19 @@
                 $('input[name="disasterInfo"]').val(selectedText.trim());
             });
 
-            let dateEntryInput = flatpickr("#dateEntry", {
-                enableTime: true,
-                allowInput: true,
-                timeFormat: "h:i K",
-                dateFormat: "D, M j, Y h:i K",
-                minuteIncrement: 1,
-                secondIncrement: 1,
-                position: "below center",
-            });
+            function datePicker(id) {
+                return flatpickr(id, {
+                    enableTime: true,
+                    allowInput: true,
+                    timeFormat: "h:i K",
+                    dateFormat: "D, M j, Y h:i K",
+                    minuteIncrement: 1,
+                    secondIncrement: 1,
+                    position: "below center",
+                });
+            }
 
-            let dateOutInput = flatpickr("#dateOut", {
-                enableTime: true,
-                allowInput: true,
-                timeFormat: "h:i K",
-                dateFormat: "D, M j, Y h:i K",
-                minuteIncrement: 1,
-                secondIncrement: 1,
-                position: "below center",
-            });
+            let dateEntryInput = datePicker("#dateEntry"), dateOutInput = datePicker("#dateOut");
 
             let validator = $("#evacueeInfoForm").validate({
                 rules: {
@@ -452,7 +456,7 @@
                     url = "{{ route('record.evacuee.cswd') }}";
                     type = "POST";
                 } else {
-                    url = "{{ route('update.evacuee.info.cswd', ':evacueeId') }}".replace(':evacueeId', evacueeId);
+                    url = "{{ route('update.evacuee.info.cswd', 'evacueeId') }}".replace('evacueeId', evacueeId);
                     type = "PUT";
                     hideModal = true;
                 }
@@ -475,20 +479,24 @@
                             type: type,
                             dataType: 'json',
                             success: function(response) {
-                                if (response.condition == 0)
+                                if (response.condition == 0) {
                                     messageModal(
                                         'Warning',
                                         'Please fill up the form correctly.',
                                         'warning',
                                         '#FFDF00',
                                     );
-                                else {
-                                    if (hideModal)
+                                } else {
+                                    if (hideModal) {
                                         modal.modal('hide');
+                                    }
+
                                     evacueeTable.draw();
+
                                     operation == 'record' ?
                                         operation += "ed new" :
                                         operation += "ed the";
+
                                     messageModal(
                                         'Success',
                                         `Successfully ${operation} evacuee info.`,
@@ -497,10 +505,14 @@
                                     );
                                 }
                             },
-                            error: function(status, error) {
+                            error: function(jqXHR, error, data) {
+                                if (hideModal) {
+                                        modal.modal('hide');
+                                }
+
                                 messageModal(
-                                    status,
-                                    error,
+                                    jqXHR.status,
+                                    data,
                                     'error',
                                     '#B91C1C',
                                 );
@@ -517,6 +529,7 @@
 
             $('#selectAllCheckBox').click(function() {
                 let checkBox = $('.data-table tbody tr td input[type="checkbox"]');
+
                 $(this).is(':checked') ?
                     checkBox.each(function() {
                         if (!$(this).is(':disabled'))
@@ -529,19 +542,24 @@
             });
 
             $('#returnEvacueeBtn').on('click', function() {
-                let id = [];
-                let checked = $('.data-table tbody tr td input[type="checkbox"]:checked');
-                if (checked.length > 0)
+                let id = [],
+                    checked = $('.data-table tbody tr td input[type="checkbox"]:checked');
+
+                if (checked.length > 0) {
                     $(checked).each(function() {
                         id.push($(this).val());
                     });
+                }
+
                 if (id.length > 0) {
                     message = "";
+
                     id.length == 1 ?
                         message = "Is this evacuee going back home?" :
                         message = "Are these evacuees going back to their homes?";
+
                     confirmModal(message).then((result) => {
-                        if (result.isConfirmed)
+                        if (result.isConfirmed) {
                             $.ajax({
                                 headers: {
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
@@ -555,6 +573,7 @@
                                 dataType: 'json',
                                 success: function(response) {
                                     evacueeTable.draw();
+
                                     messageModal(
                                         'Success',
                                         'Successfully update the evacuee/s date out.',
@@ -562,23 +581,29 @@
                                         '#3CB043',
                                     );
                                 },
-                                error: function(status, error) {
+                                error: function(jqXHR, error, data) {
+                                    $('#selectAllCheckBox').prop('checked', false);
+
                                     messageModal(
-                                        status,
-                                        error,
+                                        jqXHR.status,
+                                        data,
                                         'error',
                                         '#B91C1C',
                                     );
                                 }
                             });
+                        }
                     });
-                } else
+                } else {
+                    $('#selectAllCheckBox').prop('checked', false);
+
                     messageModal(
                         'Warning',
                         'Please select at least one evacuee.',
                         'warning',
                         '#FFDF00',
                     );
+                }
             });
         });
     </script>

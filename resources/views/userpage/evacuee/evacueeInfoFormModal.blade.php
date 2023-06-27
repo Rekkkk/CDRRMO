@@ -1,4 +1,4 @@
-<div class="modal fade " id="evacueeInfoFormModal" tabindex="-1" role="dialog" aria-hidden="true">
+<div class="modal fade" id="evacueeInfoFormModal" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header justify-center bg-green-600">
@@ -10,8 +10,8 @@
                     <div class="bg-slate-50 pt-3 pb-2 rounded">
                         <div class="flex-auto">
                             <div class="flex flex-wrap">
-                                <div class="input-container hidden">
-                                    <input type="text" id="operation" class="placeholder-opacity-100">
+                                <div class="w-full px-4 mb-3 hidden">
+                                    <input type="text" id="operation">
                                 </div>
                                 <div class="relative w-full mb-3 lg:w-3/12 px-4">
                                     <label>House Hold #</label>
@@ -21,8 +21,7 @@
                                 <div class="relative w-full mb-3 lg:w-9/12 px-4">
                                     <label>Full Name</label>
                                     <input type="text" name="fullName" class="placeholder-opacity-100"
-                                        autocomplete="off" placeholder="Enter Full Name"
-                                        value="{{ !empty(old('fullName')) ? old('fullName') : null }}">
+                                        autocomplete="off" placeholder="Enter Full Name">
                                 </div>
                                 <div class="relative w-full mb-3 lg:w-6/12 px-4">
                                     <label>Sex</label>
@@ -41,14 +40,14 @@
                                     <input type="number" name="age" class="placeholder-opacity-100"
                                         autocomplete="off" placeholder="Enter Age">
                                 </div>
-                                <div class="flex w-full" id="dateFormFieldsContainer">
-                                    <div class="relative w-full mb-3 lg:w-6/12 px-4">
+                                <div class="flex flex-wrap w-full" id="dateFormFieldsContainer">
+                                    <div class="relative w-full mb-3 lg:w-6/12 px-4" id="dateEntryContainer">
                                         <label>Date Entry</label>
                                         <input type="text" name="dateEntry" id="dateEntry"
                                             class="placeholder-opacity-100" autocomplete="off"
                                             placeholder="Select Date Entry">
                                     </div>
-                                    <div class="relative w-full mb-3 lg:w-6/12 px-4">
+                                    <div class="relative w-full mb-3 lg:w-6/12 px-4" id="dateOutContainer">
                                         <label>Date Out</label>
                                         <input type="text" name="dateOut" id="dateOut"
                                             class="placeholder-opacity-100" autocomplete="off"
@@ -91,19 +90,21 @@
                                         @endif
                                     </select>
                                 </div>
-                                <div class="input-container hidden" id="typhoonSelectContainer">
-                                    <select name="typhoon" id="typhoon">
-                                        <option value="">Select Typhoon</option>
-                                        @foreach ($typhoonList as $typhoon)
-                                            <option value="{{ $typhoon->id }}">
-                                                {{ $typhoon->name }}</option>
-                                        @endforeach
-                                    </select>
+                                <div class="w-full px-4 hidden" id="typhoonSelectContainer">
+                                    <div class="relative w-full mb-3">
+                                        <select name="typhoon" id="typhoon">
+                                            <option value="">Select Typhoon</option>
+                                            @foreach ($typhoonList as $typhoon)
+                                                <option value="{{ $typhoon->id }}">
+                                                    {{ $typhoon->name }}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="w-full px-4 hidden" id="flashfloodSelectContainer">
                                     <div class="relative w-full mb-3">
                                         <select name="flashflood" id="flashflood">
-                                            <option value="">Select Flashflood</option>
+                                            <option value="">Select Location</option>
                                             @foreach ($flashfloodList as $flashflood)
                                                 <option value="{{ $flashflood->id }}">
                                                     {{ $flashflood->location }}</option>
@@ -111,10 +112,10 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="input-container hidden">
-                                    <input type="text" name="disasterInfo" class="placeholder-opacity-100">
+                                <div class="w-full px-4 mb-3 hidden">
+                                    <input type="text" name="disasterInfo">
                                 </div>
-                                <div class="input-container">
+                                <div class="w-full px-4 mb-3" id="evacuationSelectContainer">
                                     <label>Evacuation Assigned</label>
                                     <select name="evacuationAssigned">
                                         <option value="">Select Evacuation Assigned</option>
@@ -124,31 +125,40 @@
                                         @endforeach
                                     </select>
                                 </div>
+                                <div class="w-full px-4 mb-3 hidden">
+                                    <input type="text" name="defaultEvacuationAssigned">
+                                </div>
                                 <div class="w-full px-4">
-                                    <div class="flex justify-around flex-wrap items-center mb-3">
-                                        <div class="check-box">
-                                            <input type="checkbox" id="fourps" name="fourps">
-                                            <label>4ps</label>
+                                    <div class="flex justify-around flex-wrap mb-3">
+                                        <div class="check-box px-4">
+                                            <input type="checkbox" id="fourps" name="fourps"
+                                                class="transform scale-125 accent-blue-600">
+                                            <label for="fourps">4ps</label>
                                         </div>
-                                        <div class="check-box">
-                                            <input type="checkbox" id="pwd" name="pwd">
-                                            <label>PWD</label>
+                                        <div class="check-box px-4">
+                                            <input type="checkbox" id="pwd" name="pwd"
+                                                class="transform scale-125 accent-blue-600">
+                                            <label for="pwd">PWD</label>
                                         </div>
-                                        <div class="check-box">
-                                            <input type="checkbox" id="pregnant" name="pregnant">
-                                            <label>Pregnant</label>
+                                        <div class="check-box px-4">
+                                            <input type="checkbox" id="pregnant" name="pregnant"
+                                                class="transform scale-125 accent-blue-600">
+                                            <label for="pregnant">Pregnant</label>
                                         </div>
-                                        <div class="check-box">
-                                            <input type="checkbox" id="lactating" name="lactating">
-                                            <label>Lactating</label>
+                                        <div class="check-box px-4">
+                                            <input type="checkbox" id="lactating" name="lactating"
+                                                class="transform scale-125 accent-blue-600">
+                                            <label for="lactating">Lactating</label>
                                         </div>
-                                        <div class="check-box">
-                                            <input type="checkbox" id="student" name="student">
-                                            <label>Student</label>
+                                        <div class="check-box px-4">
+                                            <input type="checkbox" id="student" name="student"
+                                                class="transform scale-125 accent-blue-600">
+                                            <label for="student">Student</label>
                                         </div>
-                                        <div class="check-box">
-                                            <input type="checkbox" id="working" name="working">
-                                            <label>Working</label>
+                                        <div class="check-box px-4">
+                                            <input type="checkbox" id="working" name="working"
+                                                class="transform scale-125 accent-blue-600">
+                                            <label for="working">Working</label>
                                         </div>
                                     </div>
                                 </div>

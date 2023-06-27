@@ -8,7 +8,6 @@ use App\Models\Typhoon;
 use App\Models\Flashflood;
 use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
-use Yajra\DataTables\DataTables;
 
 class CswdController extends Controller
 {
@@ -20,7 +19,6 @@ class CswdController extends Controller
         $this->typhoon = new Typhoon;
         $this->flashflood = new Flashflood;
         $this->evacuee = new Evacuee;
-        $this->disaster = new Disaster;
         $this->evacuationCenter = new EvacuationCenter;
     }
 
@@ -83,6 +81,7 @@ class CswdController extends Controller
         $typhoonList =  $this->typhoon->all();
         $flashfloodList = $this->flashflood->all()->where('status', 'Rising');
         $disasterList = null;
+
         if ($typhoonList->isNotEmpty() && $flashfloodList->isNotEmpty()) {
             $disasterList = $this->disaster->all();
         } else if ($typhoonList->isNotEmpty() && $flashfloodList->isEmpty()) {
@@ -90,12 +89,14 @@ class CswdController extends Controller
         } else if ($flashfloodList->isNotEmpty() && $typhoonList->isEmpty()) {
             $disasterList = $this->disaster->find(2)->get();
         }
+
         return view('userpage.evacuee.evacuee', compact('evacuationList', 'disasterList', 'typhoonList', 'flashfloodList'));
     }
 
     public function evacuationCenter()
     {
         $evacuationCenter = $this->evacuationCenter->all();
+
         $initialMarkers = [
             [
                 'position' => [
@@ -122,6 +123,7 @@ class CswdController extends Controller
                 'draggable' => true
             ]
         ];
+
         return view('userpage.evacuationCenter.evacuationCenter', ['evacuationCenter' => $evacuationCenter, 'initialMarkers' => $initialMarkers]);
     }
 

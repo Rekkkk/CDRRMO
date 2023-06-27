@@ -8,6 +8,7 @@ use App\Models\Evacuee;
 use Illuminate\Support\Str;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Validator;
 
 class EvacueeController extends Controller
 {
@@ -25,7 +26,10 @@ class EvacueeController extends Controller
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                return '<button data-id="' . $row->id . '" data-toggle="modal" data-target="#evacueeInfoFormModal" class="editEvacueeBtn bg-yellow-500 w-20 text-sm font-semibold hover:bg-yellow-600 py-1.5 btn-sm mr-2 text-white updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Edit</button>';
+                return '<button data-id="' . $row->id . '" data-toggle="modal" data-target="#evacueeInfoFormModal"' .
+                    ' class="editEvacueeBtn bg-yellow-500 w-20 text-sm font-semibold hover:bg-yellow-600 py-1.5 ' .
+                    'btn-sm mr-2 text-white transition ease-in-out delay-150 hover:scale-105 duration-100 ' .
+                    'updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Edit</button>';
             })
             ->addColumn('select', function ($row) {
                 return '<input type="checkbox" class="w-4 h-4 accent-blue-600" value="' . $row->id . '">';
@@ -36,6 +40,11 @@ class EvacueeController extends Controller
 
     public function recordEvacueeInfo(Request $request)
     {
+        $validateFullName = Validator::make($request->all(), ['fullName' => 'required']);
+
+        if (!$validateFullName->passes())
+            return response()->json(['condition' => 0]);
+
         $disasterId = null;
         $is4Ps = $request->has('fourps') ? 1 : 0;
         $isPWD = $request->has('pwd') ? 1 : 0;
@@ -66,28 +75,34 @@ class EvacueeController extends Controller
             'evacuation_assigned' => $request->evacuationAssigned
         ];
 
-        try {
-            $this->evacuee->create($evacueeInfo);
-            $this->logActivity->generateLog('Recorded new evacuee information');
+        $this->evacuee->create($evacueeInfo);
+        $this->logActivity->generateLog('Recorded new evacuee information');
 
-            return response()->json(['condition' => 1]);
-        } catch (\Exception $e) {
-            return response()->json(['condition' => 0]);
-        }
+        return response()->json(['condition' => 1]);
     }
 
     public function updateEvacueeInfo($evacueeId, Request $request)
     {
-        $disasterId = null;
+        $validateFullName = Validator::make($request->all(), ['fullName' => 'required']);
+
+        if (!$validateFullName->passes())
+            return response()->json(['condition' => 0]);
+
+        $disasterId = $evacuationAssigned = null;
         $is4Ps = $request->has('fourps') ? 1 : 0;
         $isPWD = $request->has('pwd') ? 1 : 0;
         $isPregnant = $request->has('pregnant') ? 1 : 0;
         $isLactating = $request->has('lactating') ? 1 : 0;
         $isStudent = $request->has('student') ? 1 : 0;
         $isWorking = $request->has('working') ? 1 : 0;
+
         $request->disasterType == "Typhoon" ?
             $disasterId = $request->typhoon :
             $disasterId = $request->flashflood;
+
+        filled($request->evacuationAssigned) ?
+            $evacuationAssigned = $request->evacuationAssigned :
+            $evacuationAssigned = $request->defaultEvacuationAssigned;
 
         $evacueeInfo = [
             'house_hold_number' => $request->houseHoldNumber,
@@ -102,29 +117,29 @@ class EvacueeController extends Controller
             'working' => $isWorking,
             'barangay' => $request->barangay,
             'date_entry' => $request->dateEntry,
-            'date_out' => $request->dateOut,
+            'date_out',
             'disaster_type' => $request->disasterType,
             'disaster_id' => intval($disasterId),
             'disaster_info' => $request->disasterInfo,
-            'evacuation_assigned' => $request->evacuationAssigned
+            'evacuation_assigned' => $evacuationAssigned
         ];
 
-        try {
-            $this->evacuee->find($evacueeId)->update($evacueeInfo);
-            $this->logActivity->generateLog('Updated an evacuee information');
+        if (filled($request->dateOut))
+            $evacueeInfo['date_out'] = $request->dateOut;
 
-            return response()->json(['condition' => 1]);
-        } catch (\Exception $e) {
-            return response()->json(['condition' => 0]);
-        }
+        $this->evacuee->find($evacueeId)->update($evacueeInfo);
+        $this->logActivity->generateLog('Updated an evacuee information');
+
+        return response()->json(['condition' => 1]);
     }
 
     public function updateEvacueeDateOut(Request $request)
     {
         $evacueeIds = $request->evacueeIds;
+        $dateOut = Carbon::now()->toDayDateTimeString();
 
         foreach ($evacueeIds as $evacueeId)
-            $this->evacuee->find(intval($evacueeId))->update(['date_out' => Carbon::now()->toDayDateTimeString()]);
+            $this->evacuee->find(intval($evacueeId))->update(['date_out' => $dateOut]);
 
         $this->logActivity->generateLog('Updated evacuee/s date out');
 
