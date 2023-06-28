@@ -371,7 +371,12 @@ input::-webkit-inner-spin-button {
     gap: 8px;
 }
 
-#evacueeInfoForm .input-container {
+#evacueeInfoForm .input-container .check-box label  {
+    margin-bottom: 0;
+}
+
+#evacueeInfoForm .input-container{
+
     position: relative;
     width: 100%;
     margin-bottom: 12px;
@@ -521,9 +526,7 @@ span.error {
         font-size: 12px;
         padding: 5px 0;
     }
-
 }
-
 /* Mobile View End Section */
 
 
@@ -537,7 +540,11 @@ span.error {
 }
 
 
+
 /* @media only screen and (max-width: 900px) {
+/* Dashboard Section */
+@media only screen and (max-width: 900px) {
+
     .wrapper .header-section .container-fluid span {
         display: none;
         transition: all 0.4s ease;
@@ -610,8 +617,6 @@ span.error {
     #FloodingBarGraph {
         display: none !important;
     }
-
-
 }
 
 @media only screen and (max-width: 1100px) {
@@ -635,7 +640,6 @@ span.error {
     .content .table-container {
         margin: 0 !important;
         padding: 1.5rem !important;
-
     }
 
     .locator-container .locator-content .locator-header {
@@ -653,4 +657,3 @@ span.error {
         flex-direction: column;
 
     }
-}
