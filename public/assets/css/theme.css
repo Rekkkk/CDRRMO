@@ -41,11 +41,12 @@ html {
 }
 
 /* Main Content Start Here */
-.main-content{
+.main-content {
     width: 100%;
     margin: 100px auto 0;
     padding: 0 20px 0 100px;
 }
+
 /* Main End Content */
 
 /* Side Bar Section Start Here*/
@@ -161,6 +162,7 @@ html {
 #btn-sidebar-close {
     display: none;
 }
+
 /* Side Bar End Section */
 
 /* Authentication Section Start Here */
@@ -172,11 +174,11 @@ html {
     padding: 15% 0;
 }
 
-.login-section h1{
+.login-section h1 {
     font-size: 65px;
 }
 
-.login-section p{
+.login-section p {
     font-size: 20px;
     line-height: 1.4em;
     max-width: 800px;
@@ -195,23 +197,25 @@ html {
 }
 
 .login-form-section .my-3.relative i {
-    top: 17px;
+    top: 14px;
     right: 15px;
 }
 
-.bottom-section{
+.bottom-section {
     top: 90%;
 }
 
-.bottom-section p{
+.bottom-section p {
     font-size: 15px;
     padding: 5px 0;
 }
 
-#login-container .btn-submit, .btn-resident{
+#login-container .btn-submit,
+.btn-resident {
     padding: 15px;
     font-size: 18px;
 }
+
 /* Authentication End Section */
 
 /* Dashboard Section Start Here */
@@ -239,10 +243,11 @@ html {
 #Flooding {
     width: 500px;
 }
+
 /* Dashboard End Section */
 
 /* Guideline Section Start Here */
-.widget-container{
+.widget-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -250,14 +255,15 @@ html {
     grid-column-gap: 40px;
 }
 
-.horizontal-line{
+.horizontal-line {
     margin-top: 20px;
 }
 
-.guideline-widget{
+.guideline-widget {
     position: relative;
     max-width: 300px;
 }
+
 /* Guideline End Section */
 
 /* Guide Section Start Here*/
@@ -278,10 +284,11 @@ html {
     height: 150px;
     padding: 10px;
 }
+
 /* Guide End Section */
 
 /* Report Accident Section Start Here*/
-.evacuation-content > div {
+.evacuation-content>div {
     margin: 2rem;
 }
 
@@ -290,26 +297,29 @@ html {
     pointer-events: none;
     transform: translateX(-100%);
 }
+
 /* Report Accident End Section */
 
 /* About Section Start Here */
-.about-content > div {
+.about-content>div {
     margin: 2rem;
 }
 
 .about-content .location-section {
     flex: 3;
 }
+
 /* About End Section */
 
 /* Hotline Number Section Start Here */
-.hotline-content > div {
+.hotline-content>div {
     margin: 2rem;
 }
 
 .hotline-content .location-section {
     flex: 3;
 }
+
 /* Hotline Number End Section */
 
 /* User Profile Section Start Here */
@@ -323,6 +333,7 @@ html {
     background-attachment: fixed;
     background-size: cover;
 }
+
 /* User Profile End Section */
 
 /* Recording Evacuee Section Start Here */
@@ -339,7 +350,7 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-#evacueeInfoForm input{
+#evacueeInfoForm input {
     width: 100%;
     margin: 8px 0;
     padding: 0 12px;
@@ -354,20 +365,20 @@ input::-webkit-inner-spin-button {
     transition-duration: 150ms;
 }
 
-#evacueeInfoForm .check-box{
+#evacueeInfoForm .check-box {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-#evacueeInfoForm .input-container{
+#evacueeInfoForm .input-container {
     position: relative;
     width: 100%;
     margin-bottom: 12px;
     padding: 0 24px;
 }
 
-#evacueeInfoForm select{
+#evacueeInfoForm select {
     width: 100%;
     margin: 8px 0;
     padding: 0 12px;
@@ -398,7 +409,125 @@ span.error {
     text-align: center !important;
     vertical-align: middle !important;
 }
+
 /* Recording Evacuee End Section */
+
+/* Laptop View Section */
+@media only screen and (max-width: 1024px) {
+    .login-section {
+        text-align: center;
+        width: 100%;
+    }
+
+    .login-section .login-content .header-desc h1 {
+        font-size: 60px;
+    }
+
+    .login-section .login-content .header-desc p {
+        margin: 0 auto;
+        font-size: 18px;
+    }
+
+    .login-section .login-content {
+        display: block;
+    }
+
+    .login-section .login-form-section {
+        margin: 0 auto;
+    }
+}
+
+/* Laptop View End Section */
+
+/* Mobile View Section */
+@media only screen and (max-width: 767px) {
+    .login-section .login-content .header-desc {
+        width: 100%;
+        padding-bottom: 30px;
+    }
+
+    .login-section .login-content .header-desc h1 {
+        font-size: 50px;
+    }
+
+    .login-section .login-content .header-desc p {
+        margin: 0 auto;
+        font-size: 16px;
+    }
+
+    .login-section .login-form-section {
+        margin: 0 auto;
+        max-width: 400px;
+    }
+}
+
+/* Mobile View End Section */
+
+/* Mobile View Section */
+@media only screen and (max-width: 380px) {
+    .login-section {
+        padding: 18% 0 40%;
+    }
+
+    .login-section .login-content .header-desc {
+        width: 100%;
+        padding-bottom: 30px;
+    }
+
+    .login-section .login-content .header-desc h1 {
+        font-size: 40px;
+    }
+
+    .login-section .login-content .header-desc p {
+        margin: 0 auto;
+        font-size: 14px;
+    }
+
+    .login-form-section {
+        padding: 5px 0;
+        width: 100%;
+        max-width: 430px;
+    }
+
+    .login-section .login-form-section {
+        max-width: 400px;
+    }
+
+    .login-form-section .my-3 input,
+    .login-form-section .my-3.relative input {
+        padding: 10px !important;
+        font-size: 12px;
+    }
+
+    .login-form-section .my-3.relative i {
+        top: 5px;
+        right: 10px;
+        font-size: 16px;
+    }
+
+    #login-container .btn-submit,
+    #login-container .btn-resident {
+        padding: 10px;
+        font-size: 13px;
+        font-weight: 500;
+    }
+
+    .login-form-section .flex{
+        font-size: 13px;
+        letter-spacing: 0.5px;
+    }
+
+    .bottom-section p {
+        font-size: 12px;
+        padding: 5px 0;
+    }
+
+}
+
+/* Mobile View End Section */
+
+
+
 
 @media only screen and (max-width: 1100px) {
     .content .evacuation-content .evacuation-form {
@@ -406,9 +535,9 @@ span.error {
         border: none;
     }
 }
-      
-/* Dashboard Section */
-@media only screen and (max-width: 900px) {
+
+
+/* @media only screen and (max-width: 900px) {
     .wrapper .header-section .container-fluid span {
         display: none;
         transition: all 0.4s ease;
@@ -424,9 +553,9 @@ span.error {
         margin: 0 !important;
         padding: 1.5rem !important;
     }
-}
+} */
 
-@media only screen and (max-width: 1300px) {
+/* @media only screen and (max-width: 1300px) {
 
     .content .main-content,
     .about-content,
@@ -447,7 +576,7 @@ span.error {
         opacity: 1;
         transform: rotateX(0);
     }
-}
+} */
 
 @media only screen and (max-width: 1024px) {
     .main-content {
@@ -482,28 +611,9 @@ span.error {
         display: none !important;
     }
 
-    .login-section {
-        text-align: center;
-        width: 100% !important;
-    }
 
-    .login-section .login-content .header-desc {
-        width: calc(100% - 100px);
-        margin: 0 auto;
-    }
-
-    .login-section .login-content {
-        display: contents !important;
-    }
-
-    .login-section .login-form-section {
-        margin: 0 auto !important;
-        margin-top: 2px !important;
-    }
 }
-      
 
-/* Dashboard Section */
 @media only screen and (max-width: 1100px) {
     .content .evacuation-content .evacuation-form {
         padding: 0 !important;
@@ -534,6 +644,7 @@ span.error {
 }
 
 @media only screen and (max-width: 1300px) {
+
     .content .main-content,
     .about-content,
     .hotline-content,
@@ -541,14 +652,5 @@ span.error {
         display: flex;
         flex-direction: column;
 
-    }
-}
-
-/*Mobile*/
-@media only screen and (max-width: 767px) {
-    .login-section .login-content .header-desc {
-        width: 100%;
-        max-width: 600px;
-        padding-bottom: 30px;
     }
 }
