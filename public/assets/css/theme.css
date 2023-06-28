@@ -463,7 +463,7 @@ input::-webkit-inner-spin-button {
     gap: 8px;
 }
 
-#evacueeInfoForm .checkbox-container label {
+#evacueeInfoForm .check-box label  {
     margin-bottom: 0;
 }
 
@@ -758,4 +758,5 @@ span.error {
         flex-direction: column;
 
     }
+
 } */
