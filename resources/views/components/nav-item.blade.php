@@ -18,7 +18,7 @@
                     <span class="links_name">Report Iccident</span>
                 </a>
             </li>
-            @if (auth()->user()->position == 'Secretary')
+            @if (auth()->user()->position == 'President')
                 <li>
                     <a href="{{ route('display.user.accounts') }}">
                         <i class="bi bi-people text-white"></i>

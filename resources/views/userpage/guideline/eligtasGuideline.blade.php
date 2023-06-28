@@ -34,7 +34,7 @@
                                 <a href="#edit{{ $guidelineItem->id }}" data-bs-toggle="modal"
                                     class="absolute left-2 top-3">
                                     <i
-                                        class="bi bi-pencil cursor-pointer p-2 bg-yellow-400 rounded drop-shadow-lg hover:bg-yellow-500"></i>
+                                        class="btn-edit bi bi-pencil p-2"></i>
                                 </a>
                                 @include('userpage.guideline.updateGuideline')
                                 <a class="guidelines-item"
@@ -56,7 +56,7 @@
                                 <a href="#edit{{ $guidelineItem->id }}" data-bs-toggle="modal"
                                     class="absolute left-2 top-3">
                                     <i
-                                        class="bi bi-pencil cursor-pointer p-2 bg-yellow-400 rounded drop-shadow-lg hover:bg-yellow-500"></i>
+                                        class="btn-edit bi bi-pencil p-2"></i>
                                 </a>
                                 @include('userpage.guideline.updateGuideline')
                                 <a class="guidelines-item"

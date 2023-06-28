@@ -17,7 +17,13 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="account-table bg-slate-50 shadow-lg p-4 rounded">
-                <header class="text-2xl font-semibold">User Accounts</header>
+                <div class="flex justify-between">
+                    <header class="text-2xl font-semibold">User Accounts Table</header>
+                    <button class="btn-submit p-2 mb-4" id="createUserAccount">
+                        <i class="bi bi-person-fill-add pr-2"></i>
+                        Create User Account
+                    </button>
+                </div>
                 <table class="table data-table display nowrap" style="width:100%" id="account-table">
                     <thead>
                         <tr>
@@ -25,6 +31,7 @@
                             <th>Email Address</th>
                             <th>Organization</th>
                             <th>Position</th>
+                            <th>Status</th>
                             <th class="w-4">Action</th>
                         </tr>
                     </thead>
@@ -44,19 +51,24 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+        integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+        crossorigin="anonymous"></script>
 
-    <script type="text/javascript">
+    <script>
         $(document).ready(function() {
+            let userId, defaultFormData;
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                 }
             });
 
-            var account_table = $('.data-table').DataTable({
-                rowReorder: {
-                    selector: 'td:nth-child(2)'
-                },
+            let accountTable = $('.data-table').DataTable({
+                order: [
+                    [1, 'asc']
+                ],
                 responsive: true,
                 processing: false,
                 serverSide: true,
@@ -79,6 +91,10 @@
                         name: 'position'
                     },
                     {
+                        data: 'status',
+                        name: 'status'
+                    },
+                    {
                         data: 'action',
                         name: 'action',
                         orderable: false,
@@ -88,193 +104,224 @@
             });
 
             $('body').on('click', '.restrictUserAccount', function() {
-                var user_id = $(this).data('id');
+                userId = $(this).data('id');
 
-                Swal.fire({
-                    title: 'Would you like to restrict this user?',
-                    showDenyButton: true,
-                    confirmButtonText: 'Yes, restrict it.',
-                    confirmButtonColor: '#334155',
-                    denyButtonText: `Don't Restrict`,
-                    denyButtonColor: '#b91c1c',
-                }).then((result) => {
+                confirmModal('Do you want to restrict this user?').then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "PUT",
-                            url: "{{ route('restrict.account', ':user_id') }}"
-                                .replace(':user_id', user_id),
+                            url: "{{ route('restrict.account', ':userId') }}"
+                                .replace(':userId', userId),
                             success: function(data) {
                                 if (data.status == 0) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Failed to restrict user.',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#334155',
-                                    });
+                                    messageModal(
+                                        'Warning',
+                                        'Failed to restrict user details.',
+                                        'warning',
+                                        '#FFDF00'
+                                    );
                                 } else {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Successfully User Restricted.',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#334155',
-                                    });
-                                    account_table.draw();
+                                    messageModal(
+                                        'Success',
+                                        'Successfully User Restricted.',
+                                        'success',
+                                        '#3CB043'
+                                    );
+                                    accountTable.draw();
                                 }
                             },
-                            error: function(response) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    confirmButtonText: 'Understood',
-                                    confirmButtonColor: '#334155',
-                                    title: "{{ config('app.name') }}",
-                                    text: 'Something went wrong, try again later.'
-                                });
-                            }
-                        });
-                    }
-                })
-            });
-
-            $('body').on('click', '.unRestrictUserAccount', function() {
-                var user_id = $(this).data('id');
-
-                Swal.fire({
-                    title: 'Would you like to unrestrict this user?',
-                    showDenyButton: true,
-                    confirmButtonText: 'Yes, unrestrict it.',
-                    confirmButtonColor: '#334155',
-                    denyButtonText: `Don't Unrestrict`,
-                    denyButtonColor: '#b91c1c',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "PUT",
-                            url: "{{ route('unrestrict.account', ':user_id') }}"
-                                .replace(':user_id', user_id),
-                            success: function(data) {
-                                if (data.status == 0) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Failed to unrestrict user.',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#334155',
-                                    });
-                                } else {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Successfully User Unrestricted.',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#334155',
-                                    });
-                                    account_table.draw();
-                                }
-                            },
-                            error: function(response) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    confirmButtonText: 'Understood',
-                                    confirmButtonColor: '#334155',
-                                    title: "{{ config('app.name') }}",
-                                    text: 'Something went wrong, try again later.'
-                                });
-                            }
-                        });
-                    }
-                })
-            });
-
-            $('body').on('click', '.editUserAccount', function(e) {
-                var user_id = $(this).data("id");
-                e.preventDefault();
-
-                $.ajax({
-                    url: "{{ route('user.details', ':user_id') }}"
-                        .replace(':user_id', user_id),
-                    dataType: "json",
-                    success: function(response) {
-                        $(document).find('span.error-text').text('');
-                        $('#accountForm')[0].reset();
-                        $('#accountId').val(user_id);
-                        $('#user_role').val(response.result.user_role);
-                        $('#position').val(response.result.position);
-                        $('#email').val(response.result.email);
-                        $('#editAccountModal').modal('show');
-                    },
-                    error: function(response) {
-                        Swal.fire(
-                            "{{ config('app.name') }}",
-                            'Something went Wrong.',
-                            'error'
-                        );
-                    }
-                })
-            });
-
-            $('#saveProfileDetails').click(function(e) {
-                var user_id = $('#accountId').val();
-                e.preventDefault();
-
-                Swal.fire({
-                    icon: 'question',
-                    title: 'Would you like to save profile details?',
-                    showDenyButton: true,
-                    confirmButtonText: 'Yes, save it.',
-                    confirmButtonColor: '#334155',
-                    denyButtonText: 'Double Check'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            url: "{{ route('update.account', ':user_id') }}"
-                                .replace(':user_id', user_id),
-                            method: 'put',
-                            data: $('#accountForm').serialize(),
-                            dataType: 'json',
-                            beforeSend: function(data) {
-                                $(document).find('span.error-text').text('');
-                            },
-                            success: function(data) {
-                                if (data.condition == 0) {
-                                    $.each(data.error, function(prefix, val) {
-                                        $('span.' + prefix + '_error').text(val[
-                                            0]);
-                                    });
-                                    Swal.fire({
-                                        icon: 'error',
-                                        confirmButtonText: 'Understood',
-                                        confirmButtonColor: '#334155',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Failed to Edit Account Details.'
-                                    });
-                                } else {
-                                    $('#accountForm')[0].reset();
-                                    $('#editAccountModal').modal('hide');
-                                    Swal.fire({
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Account Details Successfully Updated.',
-                                        icon: 'success'
-                                    }).then((result) => {
-                                        if (result.isConfirmed) {
-                                            account_table.draw();
-                                        }
-                                    });
-                                }
-                            },
-                            error: function(data) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    confirmButtonText: 'Understood',
-                                    confirmButtonColor: '#334155',
-                                    title: "{{ config('app.name') }}",
-                                    text: 'Something went wrong, try again later.'
-                                });
+                            error: function() {
+                                messageModal(
+                                    'Warning',
+                                    'Something went wrong, Try again later.',
+                                    'warning',
+                                    '#FFDF00'
+                                );
                             }
                         });
                     }
                 });
+            });
+
+            $('body').on('click', '.unRestrictUserAccount', function() {
+                userId = $(this).data('id');
+
+                confirmModal('Do you want to unrestrict this user?').then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{ route('unrestrict.account', ':userId') }}"
+                                .replace(':userId', userId),
+                            success: function(data) {
+                                if (data.status == 0) {
+                                    messageModal(
+                                        'Warning',
+                                        'Failed to unrestrict user.',
+                                        'warning',
+                                        '#FFDF00'
+                                    );
+                                } else {
+                                    messageModal(
+                                        'Success',
+                                        'Successfully User Unrestricted.',
+                                        'success',
+                                        '#3CB043'
+                                    );
+                                    accountTable.draw();
+                                }
+                            },
+                            error: function(response) {
+                                messageModal(
+                                    'Warning',
+                                    'Something went wrong, Try again later.',
+                                    'warning',
+                                    '#FFDF00'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+
+            $('#createUserAccount').click(function() {
+                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
+                $('.modal-title').text('Create User Account Form');
+                $('#saveProfileDetails').removeClass('btn-edit').addClass('btn-submit');
+                $('#operation').val('create');
+                $('#userAccountModal').modal('show');
+                $('#saveProfileDetails').text('Create');
+            });
+
+            $(document).on('click', '.editUserAccount', function() {
+                $('.modal-header').removeClass('bg-green-700').addClass('bg-yellow-500');
+                $('.modal-title').text('Edit User Account Form');
+                $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit');
+                $('#saveProfileDetails').text('Update');
+
+                let currentRow = $(this).closest('tr');
+
+                if (accountTable.responsive.hasHidden())
+                    currentRow = currentRow.prev('tr');
+
+                let data = accountTable.row(currentRow).data();
+                userId = data['id'];
+                $('#user_role').val(data['user_role']);
+                $('#position').val(data['position']);
+                $('#email').val(data['email']);
+                $('#operation').val('update');
+                $('#userAccountModal').modal('show');
+                defaultFormData = $('#accountForm').serialize();
+            });
+
+            let validator = $("#accountForm").validate({
+                rules: {
+                    user_role: {
+                        required: true
+                    },
+                    position: {
+                        required: true
+                    },
+                    email: {
+                        required: true
+                    }
+                },
+                messages: {
+                    user_role: {
+                        required: 'Please Enter Your Organization.'
+                    },
+                    position: {
+                        required: 'Please Enter Your Position.'
+                    },
+                    email: {
+                        required: 'Please Enter Your Email Address.'
+                    }
+                },
+                errorElement: 'span',
+                submitHandler: formSubmitHandler,
+            });
+
+            function formSubmitHandler(form) {
+                let operation = $('#operation').val(),
+                    url = "",
+                    type = "",
+                    formData = $(form).serialize(),
+                    modal = $('#userAccountModal');
+
+                if (operation == 'create') {
+                    url = "{{ route('create.account') }}";
+                    type = "POST";
+                } else {
+                    url = "{{ route('update.account', 'userId') }}".replace('userId', userId);
+                    type = "PUT";
+                }
+
+                confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
+                    if (result.isConfirmed) {
+                        if (operation == 'update' && defaultFormData == formData) {
+                            modal.modal('hide');
+                            messageModal(
+                                'Info',
+                                'No changes were made.',
+                                'info',
+                                '#B91C1C'
+                            );
+                            return;
+                        }
+                        $.ajax({
+                            data: formData,
+                            url: url,
+                            type: type,
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.status == 0) {
+                                    $.each(response.error, function(prefix, val) {
+                                        $('span.' + prefix + '_error').text(val[0]);
+                                    });
+                                    messageModal(
+                                        'Warning',
+                                        `Failed to ${operation} user details.`,
+                                        'warning',
+                                        '#FFDF00'
+                                    );
+                                } else {
+                                    if (operation == 'create') {
+                                        Swal.fire(
+                                            'Success',
+                                            "Successfully created new user details, Your Password is: <font color='red'>" +
+                                            response.password + "</font>",
+                                            'success'
+                                        )
+                                    } else {
+                                        messageModal(
+                                            'Success',
+                                            `Successfully ${operation}d the user details.`,
+                                            'success',
+                                            '#3CB043'
+                                        );
+                                    }
+
+                                    modal.modal('hide');
+                                    accountTable.draw();
+                                }
+                            },
+                            error: function() {
+                                modal.modal('hide');
+                                messageModal(
+                                    'Warning',
+                                    'Something went wrong, Try again later.',
+                                    'warning',
+                                    '#FFDF00'
+                                );
+                            }
+                        });
+                    }
+                });
+            }
+
+            $('#userAccountModal').on('hidden.bs.modal', function() {
+                validator.resetForm();
+                $(document).find('span.error-text').text('');
+                $('#accountForm').trigger("reset");
             });
         });
     </script>

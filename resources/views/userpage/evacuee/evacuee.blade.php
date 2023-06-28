@@ -29,22 +29,19 @@
                         <span class="text-xl font-bold tracking-wider">EVACUEE INFORMATION</span>
                     </div>
                 </div>
-                <hr class="mt-4 bg-black">
-                <div class="flex flex-wrap justify-end">
-                    <div class="text-white text-sm font-semibold">
-                        <button id="returnEvacueeBtn"
-                            class="bg-blue-600 hover:bg-blue-700 p-2 mt-3 mr-3 rounded drop-shadow-xl hover:scale-105 duration-100">
-                            <i class="bi bi-person-up fs-6 pr-1"></i>
-                            Returning Home
-                        </button>
-                        <button id="recordEvacueeBtn" data-toggle="modal" data-target="#evacueeInfoFormModal"
-                            class="bg-green-600 hover:bg-green-700 p-2 mt-2 rounded drop-shadow-xl hover:scale-105 duration-100">
-                            <i class="bi bi-person-down fs-6 pr-1"></i>
-                            Record Evacuee Info
-                        </button>
-                    </div>
-                    @include('userpage.evacuee.evacueeInfoFormModal')
+                <hr class="mt-4">
+                <div class="flex flex-wrap justify-end text-white text-sm font-semibold gap-3 pt-3">
+                    <button id="returnEvacueeBtn" class="btn-primary p-2">
+                        <i class="bi bi-person-up fs-6 pr-1"></i>
+                        Returning Home
+                    </button>
+                    <button id="recordEvacueeBtn" data-toggle="modal" data-target="#evacueeInfoFormModal"
+                        class="btn-submit p-2">
+                        <i class="bi bi-person-down fs-6 pr-1"></i>
+                        Record Evacuee Info
+                    </button>
                 </div>
+                @include('userpage.evacuee.evacueeInfoFormModal')
                 <div class="table-container mt-3 mb-2 p-3 bg-slate-50 shadow-lg flex rounded-lg">
                     <div class="block w-full overflow-auto">
                         <table class="table data-table table-striped table-light align-middle" width="100%">
@@ -97,13 +94,14 @@
     <script>
         $(document).ready(function() {
             let evacueeTable = $('.data-table').DataTable({
-                order: [[1, 'asc']],
+                order: [
+                    [1, 'asc']
+                ],
                 responsive: true,
                 processing: false,
                 serverSide: true,
                 ajax: "{{ route('get.evacuee.info.cswd') }}",
-                columns: [
-                    {
+                columns: [{
                         data: 'id',
                         name: 'id',
                         visible: false
@@ -204,6 +202,7 @@
                         searchable: false
                     }
                 ],
+
                 drawCallback: function() {
                     $('#selectAllCheckBox').prop('checked', false);
 
@@ -225,7 +224,8 @@
                         }
 
                         if (this.data()['date_out'] !== null) {
-                            let checkbox = $(this.node()).find('td:eq(1) input[type="checkbox"]');
+                            let checkbox = $(this.node()).find(
+                                'td:eq(1) input[type="checkbox"]');
                             checkbox.prop('disabled', true);
                             checkbox.hide();
                         }
@@ -253,8 +253,8 @@
                 $('.modal-header').removeClass('bg-green-700').addClass('bg-yellow-500');
                 $('.modal-title').text('Edit Evacuee Information');
                 $('#saveEvacueeInfoBtn').
-                    removeClass('bg-green-700 hover:bg-green-800').
-                    addClass('bg-yellow-500 hover:bg-yellow-600');
+                removeClass('bg-green-700 hover:bg-green-800').
+                addClass('bg-yellow-500 hover:bg-yellow-600');
                 $('#dateFormFieldsContainer').show();
 
                 let currentRow = $(this).closest('tr');
@@ -311,8 +311,8 @@
 
                 for (let i = 0; i < dataName.length; i++) {
                     data[dataName[i]] == 'Yes' ?
-                    $(`input[name="${checkbox[i]}"]`).prop('checked', true) :
-                    $(`input[name="${checkbox[i]}"]`).prop('checked', false);
+                        $(`input[name="${checkbox[i]}"]`).prop('checked', true) :
+                        $(`input[name="${checkbox[i]}"]`).prop('checked', false);
                 }
 
                 $('#operation').val('edit');
@@ -363,7 +363,8 @@
                 });
             }
 
-            let dateEntryInput = datePicker("#dateEntry"), dateOutInput = datePicker("#dateOut");
+            let dateEntryInput = datePicker("#dateEntry"),
+                dateOutInput = datePicker("#dateOut");
 
             let validator = $("#evacueeInfoForm").validate({
                 rules: {
@@ -507,7 +508,7 @@
                             },
                             error: function(jqXHR, error, data) {
                                 if (hideModal) {
-                                        modal.modal('hide');
+                                    modal.modal('hide');
                                 }
 
                                 messageModal(

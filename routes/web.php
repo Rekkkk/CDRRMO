@@ -117,8 +117,8 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::controller(UserAccountsController::class)->group(function () {
+        Route::post('/createUserAccount', 'createUserAccount')->name('create.account');
         Route::get('/userProfile', 'userProfile')->name('display.user.profile');
-        Route::get('/userDetails/{userId}', 'displayUserDetails')->name('user.details');
         Route::put('/updateAccount/{userId}', 'updateUserAccount')->name('update.account');
         Route::get('/userAccount', 'userAccounts')->name('display.user.accounts');
         Route::put('/restrictUser/{userId}', 'restrictUserAccount')->name('restrict.account');
