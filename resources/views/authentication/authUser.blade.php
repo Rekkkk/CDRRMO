@@ -39,7 +39,7 @@
                             <i class="bi bi-eye-slash absolute cursor-pointer text-2xl " id="show-password"></i>
                         </div>
                         <div class="login-btn">
-                            <button type="submit" class="btn-submit rounded text-white bg-slate-700 w-full font-extrabold hover:bg-slate-800">Login</button>
+                            <button type="submit" class="btn-login rounded text-white bg-slate-700 w-full font-extrabold hover:bg-slate-800">Login</button>
                         </div>
                     </form>
                     <form action="{{ route('guideline.resident') }}" method="POST" class="py-2 px-3">

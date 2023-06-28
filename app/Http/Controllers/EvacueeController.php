@@ -27,9 +27,7 @@ class EvacueeController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 return '<button data-id="' . $row->id . '" data-toggle="modal" data-target="#evacueeInfoFormModal"' .
-                    ' class="editEvacueeBtn bg-yellow-500 w-20 text-sm font-semibold hover:bg-yellow-600 py-1.5 ' .
-                    'btn-sm mr-2 text-white transition ease-in-out delay-150 hover:scale-105 duration-100 ' .
-                    'updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Edit</button>';
+                    ' class="editEvacueeBtn updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Edit</button>';
             })
             ->addColumn('select', function ($row) {
                 return '<input type="checkbox" class="w-4 h-4 accent-blue-600" value="' . $row->id . '">';

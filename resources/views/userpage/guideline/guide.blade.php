@@ -41,13 +41,13 @@
                                 <div class="action-btn py-2 flex justify-start">
                                     <a href="#edit{{ $guide->id }}" data-bs-toggle="modal">
                                         <button type="submit"
-                                            class="bg-slate-600 p-2 text-white rounded drop-shadow-lg hover:bg-slate-700">
+                                            class="btn-edit p-2">
                                             <i class="bi bi-pencil text-sm mr-2"></i>Edit
                                         </button>
                                     </a>
                                     <a href="{{ route('remove.guide.cdrrmo', $guide->id) }}">
                                         <button type="submit"
-                                            class="bg-red-700 ml-2 p-2 text-white rounded drop-shadow-lg hover:bg-red-800">
+                                            class="btn-cancel ml-2 p-2">
                                             <i class="bi bi-trash mr-2"></i>Remove
                                         </button>
                                     </a>

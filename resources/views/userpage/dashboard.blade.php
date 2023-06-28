@@ -29,7 +29,7 @@
                 <span class="text-2xl font-bold tracking-wider mx-2">DASHBOARD</span>
                 <hr class="mt-3">
                 <button
-                    class="float-right bg-green-700 hover:bg-green-800 p-2 mt-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100">
+                    class="btn-submit float-right p-2 mt-2 font-medium">
                     <i class="bi bi-printer pr-2"></i>
                     Generate Report Data
                 </button>

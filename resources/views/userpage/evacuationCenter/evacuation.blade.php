@@ -78,17 +78,16 @@
                         </div>
                         <div class="evacuation-button">
                             <a href="{{ route('dashboard.cswd') }}">
-                                <button type="button"
-                                    class="bg-slate-700 text-white p-2 rounded shadow-lg hover:bg-slate-900">Cancel</button>
+                                <button type="button" class="btn-cancel p-2">Cancel</button>
                             </a>
                             <button id="addEvacuationCenter"
-                                class="bg-red-700 text-white p-2 rounded shadow-lg hover:bg-red-900">Submit</button>
+                                class="btn-submit p-2">Submit</button>
                         </div>
                     </form>
                 </div>
                 <div class="evacuation-table w-full relative">
                     <header class="text-2xl font-semibold">Evacuation Center Table</header>
-                    <hr>
+                    <hr class="my-2">
                     <table class="table data-table display nowrap" style="width:100%">
                         <thead>
                             <tr>

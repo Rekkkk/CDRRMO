@@ -18,11 +18,19 @@ html {
     scroll-behavior: smooth;
 }
 
+hr {
+    background: var(--color-gray);
+}
+
 :root {
     --color-text: #ffffff;
     --color-background: #ecf0f1;
     --color-red: #dc2626;
     --color-gray: #2c3e50;
+
+    --color-green: #16a34a;
+    --color-primary: #2563eb;
+    --color-yellow: #eab308;
 }
 
 .wrapper {
@@ -39,6 +47,90 @@ html {
     height: 70px;
     background: var(--color-red);
 }
+
+/* Button Section Start Here */
+.btn-submit {
+    background: var(--color-green);
+    color: var(--color-text);
+    border-radius: 4px;
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    transition-duration: 100ms;
+}
+
+.btn-submit:hover {
+    background: #15803d;
+    transform: scale(1.05);
+}
+
+.btn-primary {
+    background: var(--color-primary);
+    border-radius: 4px;
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    transition-duration: 100ms;
+}
+
+.btn-primary:hover {
+    background: #1d4ed8;
+    transform: scale(1.05);
+}
+
+.editEvacueeBtn {
+    background: var(--color-yellow);
+    width: 80px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    margin-right: 8px;
+    padding: 6px 0;
+    color: var(--color-text);
+    transition-duration: 100ms;
+    transition-delay: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 4px;
+}
+
+.editEvacueeBtn:hover {
+    background: #ca8a04;
+    transform: scale(1.05);
+}
+
+.btn-edit,
+.guide-content .btn-edit {
+    background: var(--color-yellow);
+    color: var(--color-text);
+    border-radius: 4px;
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    transition-duration: 100ms;
+}
+
+.btn-edit:hover,
+.guide-content .btn-edit:hover {
+    background: #ca8a04;
+    color: var(--color-text);
+    transform: scale(1.05);
+}
+
+.evacuation-button .btn-cancel,
+.removeEvacuationCenter,
+.guide-content .btn-cancel,
+.removeUserAccount {
+    background: var(--color-red);
+    color: var(--color-text);
+    border-radius: 4px;
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    transition-duration: 100ms;
+}
+
+.evacuation-button .btn-cancel:hover,
+.removeEvacuationCenter:hover,
+.guide-content .btn-cancel:hover,
+.removeUserAccount:hover {
+    background: #b91c1c;
+    color: var(--color-text);
+    transform: scale(1.05);
+}
+
+/* Button End Section */
 
 /* Main Content Start Here */
 .main-content {
@@ -210,7 +302,7 @@ html {
     padding: 5px 0;
 }
 
-#login-container .btn-submit,
+#login-container .btn-login,
 .btn-resident {
     padding: 15px;
     font-size: 18px;
@@ -365,17 +457,17 @@ input::-webkit-inner-spin-button {
     transition-duration: 150ms;
 }
 
-#evacueeInfoForm .check-box {
+#evacueeInfoForm .checkbox-container {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-#evacueeInfoForm .input-container .check-box label  {
+#evacueeInfoForm .checkbox-container label {
     margin-bottom: 0;
 }
 
-#evacueeInfoForm .input-container{
+#evacueeInfoForm .input-container {
 
     position: relative;
     width: 100%;
@@ -413,6 +505,10 @@ span.error {
 .data-table td {
     text-align: center !important;
     vertical-align: middle !important;
+}
+
+.checkbox {
+    transform: scale(1.25);
 }
 
 /* Recording Evacuee End Section */
@@ -517,7 +613,7 @@ span.error {
         font-weight: 500;
     }
 
-    .login-form-section .flex{
+    .login-form-section .flex {
         font-size: 13px;
         letter-spacing: 0.5px;
     }
@@ -527,22 +623,27 @@ span.error {
         padding: 5px 0;
     }
 }
+
 /* Mobile View End Section */
 
 
 
 
-@media only screen and (max-width: 1100px) {
+
+
+
+
+
+
+
+/* @media only screen and (max-width: 1100px) {
     .content .evacuation-content .evacuation-form {
         padding: 0 !important;
         border: none;
     }
-}
-
-
+} */
 
 /* @media only screen and (max-width: 900px) {
-/* Dashboard Section */
 @media only screen and (max-width: 900px) {
 
     .wrapper .header-section .container-fluid span {
@@ -585,7 +686,7 @@ span.error {
     }
 } */
 
-@media only screen and (max-width: 1024px) {
+/* @media only screen and (max-width: 1024px) {
     .main-content {
         padding: 17% 2rem 0 2rem;
     }
@@ -657,3 +758,4 @@ span.error {
         flex-direction: column;
 
     }
+} */

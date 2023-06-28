@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class UserAccountsController extends Controller
@@ -22,33 +23,6 @@ class UserAccountsController extends Controller
     public function userProfile()
     {
         return view('userpage.userAccount.userProfile');
-    }
-
-    public function updateUserAccount(Request $request, $userId)
-    {
-        $validatedAccount = Validator::make($request->all(), [
-            'user_role' => 'required',
-            'position' => 'required',
-            'email' => 'required'
-        ]);
-
-        if ($validatedAccount->passes()) {
-            try {
-                DB::table('users')->where('id', $userId)->update([
-                    'user_role' => Str::upper(trim($request->user_role)),
-                    'position' => Str::ucfirst(trim($request->position)),
-                    'email' => trim($request->email)
-                ]);
-
-                $this->logActivity->generateLog('Updating Account Details');
-
-                return response()->json(['status' => 1]);
-            } catch (\Exception $e) {
-                return response()->json(['status' => 0]);
-            }
-        }
-
-        return response()->json(['status' => 0, 'error' => $validatedAccount->errors()->toArray()]);
     }
 
     public function userAccounts(Request $request)
@@ -67,15 +41,16 @@ class UserAccountsController extends Controller
                 ->addColumn('action', function ($row) {
                     $actionBtns = '';
 
-                    if ($row->restricted == 0) {
-                        $restrictBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Restrict" class="restrict bg-red-700 hover:bg-red-800 py-1.5 btn-sm mr-2 text-white restrictUserAccount">Restrict</a>';
+                    if ($row->status == "Active") {
+                        $restrictBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Restrict" class="restrict btn-primary py-1.5 btn-sm mr-2 restrictUserAccount">Restrict</a>';
                         $actionBtns .= $restrictBtn;
                     } else {
-                        $unRestrictBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Unrestrict" class="unRestrict bg-red-700 hover:bg-red-800 py-1.5 btn-sm mr-2 text-white unRestrictUserAccount">Unrestrict</a>';
+                        $unRestrictBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Unrestrict" class="unRestrict btn-primary py-1.5 btn-sm mr-2 unRestrictUserAccount">Unrestrict</a>';
                         $actionBtns .= $unRestrictBtn;
                     }
-
-                    $editBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="bg-yellow-600 hover:bg-yellow-700 py-1.5 btn-sm mr-2 text-white editUserAccount">Edit</a>';
+                    
+                    $removeBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="py-1.5 btn-sm mr-2 removeUserAccount">Remove</a>';
+                    $editBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="bg-yellow-600 hover:bg-yellow-700 py-1.5 btn-sm mr-2 text-white editUserAccount">Edit</a>' . $removeBtn;
                     $resetPasswordBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Reset" class="bg-sky-500 hover:bg-sky-600 py-1.5 btn-sm mr-2 text-white resetPassword">Reset Password</a>';
                     $actionBtns .= $editBtn;
 
@@ -88,21 +63,66 @@ class UserAccountsController extends Controller
         return view('userpage.userAccount.userAccounts', compact('userAccounts'));
     }
 
-    public function displayUserDetails($userId)
+    public function createUserAccount(Request $request)
     {
-        if (request()->ajax()) {
-            $userDetails = DB::table('users')->where('id', $userId)->first();
-            return response()->json(['result' => $userDetails]);
+        $validatedAccount = Validator::make($request->all(), [
+            'email' => 'email|unique:users,email',
+        ]);
+
+        if ($validatedAccount->passes()) {
+            try {
+                $defaultPassword = Str::password(15);
+                User::insert([
+                    'user_role' => $request->user_role,
+                    'position' => $request->position,
+                    'email' => trim($request->email),
+                    'password' =>  Hash::make($defaultPassword),
+                    'status' =>  "Active"
+                ]);
+
+                $this->logActivity->generateLog('Creating Account Details');
+
+                return response()->json(['status' => 1, 'password' => $defaultPassword]);
+            } catch (\Exception $e) {
+                return response()->json(['status' => 0]);
+            }
         }
+
+        return response()->json(['status' => 0, 'error' => $validatedAccount->errors()->toArray()]);
+    }
+
+    public function updateUserAccount(Request $request, $userId)
+    {
+        $validatedAccount = Validator::make($request->all(), [
+            'email' => 'unique:users,email,' . $userId,
+        ]);
+
+        if ($validatedAccount->passes()) {
+            try {
+                DB::table('users')->where('id', $userId)->update([
+                    'user_role' => $request->user_role,
+                    'position' => $request->position,
+                    'email' => trim($request->email),
+                ]);
+                $this->logActivity->generateLog('Updating Account Details');
+
+                return response()->json(['status' => 1]);
+            } catch (\Exception $e) {
+                return response()->json(['status' => 0]);
+            }
+        }
+
+        return response()->json(['status' => 0, 'error' => $validatedAccount->errors()->toArray()]);
     }
 
     public function restrictUserAccount($userId)
     {
         try {
             DB::table('users')->where('id', $userId)->update([
-                'restricted' => 1
+                'status' => 'Restricted'
             ]);
             $this->logActivity->generateLog('Restrict User Account');
+
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
             return response()->json(['status' => 0]);
@@ -113,7 +133,7 @@ class UserAccountsController extends Controller
     {
         try {
             DB::table('users')->where('id', $userId)->update([
-                'restricted' => 0
+                'status' => 'Active'
             ]);
             $this->logActivity->generateLog('Unrestrict User Account');
             return response()->json(['status' => 1]);
@@ -123,6 +143,10 @@ class UserAccountsController extends Controller
     }
 
     public function resetUserPassword(Request $request, $userId)
+    {
+    }
+
+    public function removeUserAccount($userId)
     {
     }
 }

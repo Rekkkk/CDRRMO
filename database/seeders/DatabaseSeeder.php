@@ -14,24 +14,24 @@ class DatabaseSeeder extends Seeder
             'email' => ('CDRRMO123@gmail.com'),
             'password' => Hash::make('CDRRMO_Admin_Panel'),
             'user_role' => 'CDRRMO',
-            'position' => 'Secretary',
-            'restricted' => 0
+            'position' => 'President',
+            'status' => 'Active'
         ]);
 
         User::insert([
             'email' => ('CSWD123@gmail.com'),
             'password' => Hash::make('CSWD123'),
-            'user_role' => 'CSWD',
+            'user_role' => 'CSWDO',
             'position' => 'Secretary',
-            'restricted' => 0
+            'status' => 'Active'
         ]);
 
         User::insert([
             'email' => ('CSWD132@gmail.com'),
             'password' => Hash::make('CSWD1212'),
-            'user_role' => 'CSWD',
+            'user_role' => 'CSWDO',
             'position' => 'President',
-            'restricted' => 0
+            'status' => 'Active'
         ]);
 
         $this->call(DisasterSeeder::class);
