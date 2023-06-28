@@ -130,32 +130,32 @@
                                 </div>
                                 <div class="w-full px-4">
                                     <div class="flex justify-around flex-wrap mb-3">
-                                        <div class="check-box px-4">
+                                        <div class="check-box px-2">
                                             <input type="checkbox" id="fourps" name="fourps"
                                                 class="transform scale-125 accent-blue-600">
                                             <label for="fourps">4ps</label>
                                         </div>
-                                        <div class="check-box px-4">
+                                        <div class="check-box px-2">
                                             <input type="checkbox" id="pwd" name="pwd"
                                                 class="transform scale-125 accent-blue-600">
                                             <label for="pwd">PWD</label>
                                         </div>
-                                        <div class="check-box px-4">
+                                        <div class="check-box px-2">
                                             <input type="checkbox" id="pregnant" name="pregnant"
                                                 class="transform scale-125 accent-blue-600">
                                             <label for="pregnant">Pregnant</label>
                                         </div>
-                                        <div class="check-box px-4">
+                                        <div class="check-box px-2">
                                             <input type="checkbox" id="lactating" name="lactating"
                                                 class="transform scale-125 accent-blue-600">
                                             <label for="lactating">Lactating</label>
                                         </div>
-                                        <div class="check-box px-4">
+                                        <div class="check-box px-2">
                                             <input type="checkbox" id="student" name="student"
                                                 class="transform scale-125 accent-blue-600">
                                             <label for="student">Student</label>
                                         </div>
-                                        <div class="check-box px-4">
+                                        <div class="check-box px-2">
                                             <input type="checkbox" id="working" name="working"
                                                 class="transform scale-125 accent-blue-600">
                                             <label for="working">Working</label>
