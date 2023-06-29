@@ -12,7 +12,7 @@
                 @elseif(auth()->check() && auth()->user()->user_role == 'CSWD')
                     <span>CSWD Panel</span> 
                 @else
-                    <span>Cabuyao Resident</span>
+                    <span class="py-2">Cabuyao Resident</span>
                 @endif
             </div>
         </div>

@@ -7,6 +7,7 @@
             <div class="modal-body">
                 <form id="accountForm">
                     @csrf
+                    <input type="text" id="accountId" hidden>
                     <input type="text" id="operation" hidden>
                     @if (auth()->user()->position == 'President')
                         <div class="mb-3">

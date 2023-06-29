@@ -376,8 +376,12 @@ hr {
 /* Report Accident End Section */
 
 /* About Section Start Here */
+.about-content{
+    display: flex;
+}
+
 .about-content>div {
-    margin: 2rem;
+    margin: 0 16px;
 }
 
 .about-content .location-section {
@@ -387,10 +391,6 @@ hr {
 /* About End Section */
 
 /* Hotline Number Section Start Here */
-.hotline-content>div {
-    margin: 2rem;
-}
-
 .hotline-content .location-section {
     flex: 3;
 }
@@ -399,7 +399,25 @@ hr {
 
 /* User Profile Section Start Here */
 .user-profile-container {
-    height: 60rem;
+    position: relative;
+    background: var(--color-text);
+    height: 100%;
+    margin-bottom: 10px;
+}
+
+.profile-details-label{
+    color: var(--color-text);
+    padding: 8px;
+    font-size: 16px;
+    line-height: 28px;
+    font-weight: 600;
+    letter-spacing: 0.025em;
+}
+.profile-details{
+    background: var(--color-text);
+    padding: 8px 0;
+    font-weight: 700;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 #profile {
@@ -519,6 +537,14 @@ span.error {
     .login-section .login-form-section {
         margin: 0 auto;
     }
+
+    .about-content{
+        display: contents;
+    }
+
+    .about-content>div{
+        margin: 26px 0;
+    }
 }
 
 /* Laptop View End Section */
@@ -622,7 +648,7 @@ span.error {
         font-size: 16px;
     }
 
-    #login-container .btn-submit,
+    #login-container .btn-login,
     #login-container .btn-resident {
         padding: 10px;
         font-size: 13px;

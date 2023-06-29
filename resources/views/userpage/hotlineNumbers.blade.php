@@ -9,32 +9,25 @@
 
 <body>
     <div class="wrapper">
-
         @include('partials.header')
         @include('partials.sidebar')
 
         <x-messages />
 
         <div class="main-content">
-
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-telephone text-2xl p-2 bg-slate-900 text-white rounded"></i>
+                <i class="bi bi-telephone text-2xl p-2 bg-slate-600 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">HOTLINE NUMBERS</span>
                 <hr class="mt-4">
             </div>
-
             <div class="hotline-content flex">
                 <div class="location-section shadow-lg bg-slate-600 p-6 text-white">
-                    <div class="text-center">
-                        <span class="text-2xl font-bold">Hotline Numbers</span>
-                    </div>
                     <div class="mt-8">
                         <span class="font-bold">
                             <i class="bi bi-hospital mr-4 text-lg"></i>
                             Hotline Numbers:
-                            @if(auth()->check() && auth()->user()->user_role == 'CDRRMO')
-                                <i
-                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-700"></i>
+                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
+                                <i class="bi bi-pencil float-right btn-edit cursor-pointer px-2 py-1"></i>
                             @endif
                         </span>
                         <hr class="mt-3 clear-both">
@@ -44,9 +37,8 @@
                         <span class="font-bold">
                             <i class="bi bi-fire mr-4 text-lg"></i>
                             Hotline Numbers:
-                            @if(auth()->check() && auth()->user()->user_role == 'CDRRMO')
-                                <i
-                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-700"></i>
+                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
+                                <i class="bi bi-pencil float-right btn-edit cursor-pointer px-2 py-1"></i>
                             @endif
                         </span>
                         <hr class="mt-3 clear-both">
@@ -56,9 +48,8 @@
                         <span class="font-bold">
                             <i class="bi bi-droplet mr-4 text-lg"></i>
                             Hotline Numbers:
-                            @if(auth()->check() && auth()->user()->user_role == 'CDRRMO')
-                                <i
-                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-700"></i>
+                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
+                                <i class="bi bi-pencil float-right btn-edit cursor-pointer px-2 py-1"></i>
                             @endif
                         </span>
                         <hr class="mt-3 clear-both">
@@ -68,9 +59,8 @@
                         <span class="font-bold">
                             <i class="bi bi-tree mr-4 text-lg"></i>
                             Hotline Numbers:
-                            @if(auth()->check() && auth()->user()->user_role == 'CDRRMO')
-                                <i
-                                    class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded shadow-lg hover:bg-red-700"></i>
+                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
+                                <i class="bi bi-pencil float-right btn-edit cursor-pointer px-2 py-1"></i>
                             @endif
                         </span>
                         <hr class="mt-3 clear-both">
@@ -87,7 +77,6 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
-
 </body>
 
 </html>

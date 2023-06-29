@@ -15,7 +15,7 @@
             <li>
                 <a href="{{ route('display.report.accident.cdrrmo') }}">
                     <i class="bi bi-megaphone text-white"></i>
-                    <span class="links_name">Report Iccident</span>
+                    <span class="links_name">Report Incident</span>
                 </a>
             </li>
             @if (auth()->user()->position == 'President')
