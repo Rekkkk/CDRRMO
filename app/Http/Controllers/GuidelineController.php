@@ -111,29 +111,20 @@ class GuidelineController extends Controller
 
     public function addGuide(Request $request, $guidelineId)
     {
-        $validatedGuide = Validator::make($request->all(), [
-            'label' => 'required',
-            'content' => 'required'
-        ]);
+        $guideData = [
+            'label' => Str::lower(trim($request->label)),
+            'content' => Str::ucFirst(trim($request->content)),
+            'guideline_id' => Crypt::decryptString($guidelineId)
+        ];
 
-        if ($validatedGuide->passes()) {
-            $guideData = [
-                'label' => Str::lower(trim($request->label)),
-                'content' => Str::ucFirst(trim($request->content)),
-                'guideline_id' => Crypt::decryptString($guidelineId)
-            ];
+        try {
+            $this->guide->create($guideData);
+            $this->logActivity->generateLog('Registering Guide');
 
-            try {
-                $this->guide->create($guideData);
-                $this->logActivity->generateLog('Registering Guide');
-    
-                return response()->json(['status' => 1]);
-            } catch (\Exception $e) {
-                return response()->json(['status' => 0]);
-            }
+            return response()->json(['status' => 1]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 0]);
         }
-
-        return response()->json(['status' => 0, 'error' => $validatedGuide->errors()->toArray()]);
     }
 
     public function updateGuide(Request $request, $guideId)

@@ -99,8 +99,8 @@
                 <div id="TyphoonBarGraph" class="bg-slate-200 rounded shadow-lg flex-1"></div>
             </figure>
             <figure class="pie-chart-container mb-3">
-                <div id="Flooding" class="bg-slate-50 rounded shadow-lg mr-3"></div>
-                <div id="FloodingBarGraph" class="bg-slate-200 rounded shadow-lg flex-1"></div>
+                <div id="Flashflood" class="bg-slate-50 rounded shadow-lg mr-3"></div>
+                <div id="FlashfloodBarGraph" class="bg-slate-200 rounded shadow-lg flex-1"></div>
             </figure>
         </div>
     </div>
@@ -201,7 +201,7 @@
                 }]
             });
 
-            Highcharts.chart('Flooding', {
+            Highcharts.chart('Flashflood', {
                 chart: {
                     type: 'pie'
                 },
@@ -226,7 +226,7 @@
                 }]
             });
 
-            Highcharts.chart('FloodingBarGraph', {
+            Highcharts.chart('FlashfloodBarGraph', {
                 chart: {
                     type: 'bar'
                 },
@@ -287,9 +287,9 @@
                 }]
             });
 
-            Echo.channel('active-evacuees').listen('ActiveEvacuees', (e) => {
-                document.getElementById('onEvacuationCenter').innerHTML = e.activeEvacuees;
-            })
+            // Echo.channel('active-evacuees').listen('ActiveEvacuees', (e) => {
+            //     document.getElementById('onEvacuationCenter').innerHTML = e.activeEvacuees;
+            // })
         });
     </script>
 </body>

@@ -15,18 +15,24 @@
 
         <x-messages />
 
-        <div class="guide-btn flex justify-end">
-            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO' || auth()->check() && auth()->user()->user_role == 'CSWD')
-                <a href="javascript:void(0)" id="createGuideBtn"
-                    class="bg-green-700 hover:bg-green-800 p-2 m-2 rounded font-medium text-white drop-shadow-xl transition ease-in-out delay-150 hover:scale-105 duration-100">
-                    <i class="bi bi-plus-lg mr-2"></i> Create Guide
-                </a>
-                <input type="hidden" class="guideline_id" value="{{ $guidelineId }}">
-                @include('userpage.guideline.addGuide')
-            @endif
-        </div>
-
         <div class="main-content">
+            <div class="dashboard-logo relative mb-14">
+                <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                <span class="text-2xl font-bold tracking-wider mx-2">Guides</span>
+                <hr class="mt-3">
+                <div class="guide-btn flex justify-end mt-2">
+                    @if (
+                        (auth()->check() && auth()->user()->user_role == 'CDRRMO') ||
+                            (auth()->check() && auth()->user()->user_role == 'CSWD'))
+                        <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 rounded font-medium">
+                            <i class="bi bi-plus-lg mr-2"></i> Create Guide
+                        </a>
+                        <input type="text" class="guideline_id" value="{{ $guidelineId }}" hidden>
+                        @include('userpage.guideline.addGuide')
+                    @endif
+                </div>
+            </div>
+
             @foreach ($guide as $guide)
                 <div class="guide-container">
                     <div class="guide-content relative mx-2.5 my-2">
@@ -37,17 +43,17 @@
                             <p class="mb-2">
                                 {{ $guide->content }}
                             </p>
-                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO' || auth()->check() && auth()->user()->user_role == 'CSWD')
+                            @if (
+                                (auth()->check() && auth()->user()->user_role == 'CDRRMO') ||
+                                    (auth()->check() && auth()->user()->user_role == 'CSWD'))
                                 <div class="action-btn py-2 flex justify-start">
                                     <a href="#edit{{ $guide->id }}" data-bs-toggle="modal">
-                                        <button type="submit"
-                                            class="btn-edit p-2">
+                                        <button type="submit" class="btn-edit p-2">
                                             <i class="bi bi-pencil text-sm mr-2"></i>Edit
                                         </button>
                                     </a>
                                     <a href="{{ route('remove.guide.cdrrmo', $guide->id) }}">
-                                        <button type="submit"
-                                            class="btn-cancel ml-2 p-2">
+                                        <button type="submit" class="btn-cancel ml-2 p-2">
                                             <i class="bi bi-trash mr-2"></i>Remove
                                         </button>
                                     </a>
@@ -68,91 +74,149 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                const accordion = document.getElementsByClassName('guide-content');
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+        integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+        crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(document).ready(function() {
+            const accordion = document.getElementsByClassName('guide-content');
 
-                for (i = 0; i < accordion.length; i++) {
-                    accordion[i].addEventListener('click', function() {
-                        this.classList.toggle('active')
-                    })
-                }
+            for (i = 0; i < accordion.length; i++) {
+                accordion[i].addEventListener('click', function() {
+                    this.classList.toggle('active')
+                })
+            }
 
-                $('#createGuideBtn').click(function() {
-                    $('#create_guide_id').val('');
-                    $('#guideline_id').val('');
-                    $('#createGuideForm').trigger("reset");
-                    $('#createGuideModal').modal('show');
-                });
+            $('#createGuideBtn').click(function() {
+                $('#create_guide_id').val('');
+                $('#guideline_id').val('');
+                $('#createGuideForm').trigger("reset");
+                $('#createGuideModal').modal('show');
+            });
 
-                $('#submitGuideBtn').click(function(e) {
-                    var guideline_id = $('.guideline_id').val();
-                    e.preventDefault();
+            let validator = $("#createGuideForm").validate({
+                rules: {
+                    label: {
+                        required: true
+                    },
+                    content: {
+                        required: true
+                    }
+                },
+                messages: {
+                    content: {
+                        required: 'Please Enter Guide Label.'
+                    },
+                    content: {
+                        required: 'Please Enter Guide Content.'
+                    }
+                },
+                errorElement: 'span',
+                submitHandler: createGuideForm,
+            });
 
-                    Swal.fire({
-                        icon: 'question',
-                        title: 'Would you like to post this guide?',
-                        showDenyButton: true,
-                        confirmButtonText: 'Yes, post it.',
-                        confirmButtonColor: '#334155',
-                        denyButtonText: 'Double Check'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                data: $('#createGuideForm').serialize(),
-                                url: "{{ route('add.guide.cdrrmo', ':guideline_id') }}"
-                                    .replace(
-                                        ':guideline_id', guideline_id),
-                                type: "POST",
-                                dataType: 'json',
-                                beforeSend: function(data) {
-                                    $(document).find('span.error-text').text('');
-                                },
-                                success: function(data) {
-                                    if (data.status == 0) {
-                                        $.each(data.error, function(prefix, val) {
-                                            $('span.' + prefix + '_error').text(val[
-                                                0]);
-                                        });
-                                        Swal.fire({
-                                            icon: 'error',
-                                            confirmButtonText: 'Understood',
-                                            confirmButtonColor: '#334155',
-                                            title: "{{ config('app.name') }}",
-                                            text: 'Failed to Post E-LIGTAS Guide.'
-                                        });
-                                    } else {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: "{{ config('app.name') }}",
-                                            text: 'E-LIGTAS Guide Successfully Posted.',
-                                            confirmButtonText: 'OK',
-                                            confirmButtonColor: '#334155'
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                $('#createGuideForm')[0].reset();
-                                                $('#createGuideModal').modal(
-                                                    'hide');
-                                                location.reload();
-                                            }
-                                        });
-                                    }
-                                },
-                                error: function(data) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        confirmButtonText: 'Understood',
-                                        confirmButtonColor: '#334155',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Something went wrong, try again later.'
+            function createGuideForm(form) {
+                let guideline_id = $('.guideline_id').val();
+                confirmModal(`Do you want to create this guide?`).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            data: $('#createGuideForm').serialize(),
+                            url: "{{ route('add.guide.cdrrmo', ':guideline_id') }}"
+                                .replace(
+                                    ':guideline_id', guideline_id),
+                            type: "POST",
+                            dataType: 'json',
+                            success: function(data) {
+                                if (data.status == 0) {
+                                    messageModal(
+                                        'Error',
+                                        'Failed to Post E-LIGTAS Guide.',
+                                        'info',
+                                        '#B91C1C'
+                                    );
+                                } else {
+                                    messageModal(
+                                        'Success',
+                                        'E-LIGTAS Guide Successfully Posted.',
+                                        'success',
+                                        '#3CB043'
+                                    ).then((result) => {
+                                        $('#createGuideForm')[0].reset();
+                                        $('#createGuideModal').modal(
+                                            'hide');
+                                        location.reload();
                                     });
                                 }
-                            });
-                        }
-                    })
+                            },
+                            error: function(data) {
+                                messageModal(
+                                    'Error',
+                                    'Something went wrong, try again later.',
+                                    'info',
+                                    '#B91C1C'
+                                );
+                            }
+                        });
+                    }
+                });
+            }
+
+            $('#updateGuideBtn').click(function(e) {
+                var guideId = $('.guide_id').val();
+                e.preventDefault();
+
+                confirmModal('Do you want to update this guide?').then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            data: $('#updateGuideForm').serialize(),
+                            url: "{{ route('update.guide.cdrrmo', ':guideId') }}"
+                                .replace(
+                                    ':guideId', guideId),
+                            type: "PUT",
+                            dataType: 'json',
+                            beforeSend: function(data) {
+                                $(document).find('span.error-text').text('');
+                            },
+                            success: function(data) {
+                                if (data.status == 0) {
+                                    $.each(data.error, function(prefix, val) {
+                                        $('span.' + prefix + '_error').text(val[
+                                            0]);
+                                    });
+                                    messageModal(
+                                        'Error',
+                                        'Failed to Update E-LIGTAS Guide.',
+                                        'info',
+                                        '#B91C1C'
+                                    );
+                                } else {
+                                    messageModal(
+                                        'Success',
+                                        'E-LIGTAS Guide Successfully Updated.',
+                                        'success',
+                                        '#3CB043'
+                                    ).then((result) => {
+                                        $('#createGuideForm')[0].reset();
+                                        $('#createGuideModal').modal(
+                                            'hide');
+                                        location.reload();
+                                    });
+                                }
+                            },
+                            error: function(data) {
+                                messageModal(
+                                    'Error',
+                                    'Something went wrong, try again later.',
+                                    'info',
+                                    '#B91C1C'
+                                );
+                            }
+                        });
+                    }
                 });
             });
-        </script>
+        });
+    </script>
 </body>
 
 </html>

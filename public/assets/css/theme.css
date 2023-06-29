@@ -35,7 +35,6 @@ hr {
 
 .wrapper {
     width: 100%;
-    max-width: 1920px;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -233,22 +232,6 @@ hr {
     display: block;
 }
 
-.sidebar #btn-sidebar {
-    opacity: 0;
-    width: 50px;
-    transform: translateY(0);
-    transition: 0.4s ease;
-}
-
-.sidebar.active #btn-sidebar {
-    opacity: 1;
-    width: 50px;
-    transform: translateY(5px);
-}
-
-.sidebar:hover #btn-sidebar {
-    opacity: 1;
-}
 
 #btn-sidebar-mobile,
 #btn-sidebar-close {
@@ -332,7 +315,7 @@ hr {
 }
 
 #Typhoon,
-#Flooding {
+#Flashflood {
     width: 500px;
 }
 
@@ -463,7 +446,7 @@ input::-webkit-inner-spin-button {
     gap: 8px;
 }
 
-#evacueeInfoForm .check-box label  {
+#evacueeInfoForm .check-box label {
     margin-bottom: 0;
 }
 
@@ -542,6 +525,10 @@ span.error {
 
 /* Mobile View Section */
 @media only screen and (max-width: 767px) {
+    .main-content {
+        padding: 0;
+    }
+
     .login-section .login-content .header-desc {
         width: 100%;
         padding-bottom: 30px;
@@ -559,6 +546,35 @@ span.error {
     .login-section .login-form-section {
         margin: 0 auto;
         max-width: 400px;
+    }
+
+    .sidebar {
+        width: 0 !important;
+    }
+
+    .sidebar #btn-sidebar-close {
+        display: none;
+    }
+
+    #btn-sidebar-mobile,
+    .sidebar.active #btn-sidebar-close {
+        display: block;
+    }
+
+    .sidebar.active {
+        width: 320px !important;
+    }
+
+    .pie-chart-container {
+        display: contents;
+    }
+
+    #Typhoon,
+    #Flashflood,
+    #FlashfloodBarGraph,
+    #TyphoonBarGraph {
+        width: 100%;
+        margin: 20px 0;
     }
 }
 
@@ -691,33 +707,8 @@ span.error {
         padding: 17% 2rem 0 2rem;
     }
 
-    .sidebar {
-        width: 0 !important;
-    }
-
-    #btn-sidebar,
-    .sidebar #btn-sidebar-close {
-        display: none;
-    }
-
-    #btn-sidebar-mobile,
-    .sidebar.active #btn-sidebar-close {
-        display: block;
-    }
-
-    .sidebar.active {
-        width: 320px !important;
-    }
-
-    #Typhoon,
-    #Flooding {
-        width: 100%;
-    }
-
-    #TyphoonBarGraph,
-    #FloodingBarGraph {
-        display: none !important;
-    }
+   
+   
 }
 
 @media only screen and (max-width: 1100px) {
