@@ -51,7 +51,7 @@
                 <div class="modal fade" id="createAccidentReportModal" aria-hidden="true">
                     <div class="modal-dialog">
                         <div class="modal-content">
-                            <div class="modal-header bg-red-700 text-white">
+                            <div class="modal-header bg-green-600 text-white">
                                 <h1 class="modal-title fs-5 text-center text-white">Report Incident Form</h1>
                             </div>
                             <div class="modal-body">
@@ -81,11 +81,8 @@
                                         <span class="text-danger error-text photo_error"></span>
                                     </div>
                                     <div class="modal-footer text-white">
-                                        <button type="button"
-                                            class="bg-slate-700 p-2 rounded shadow-lg hover:bg-slate-800 transition duration-200"
-                                            data-bs-dismiss="modal">Close</button>
                                         <button type="submit"
-                                            class="bg-red-700 p-2 rounded shadow-lg hover:bg-red-800 transition duration-200">Report
+                                            class="bg-green-600 p-2 rounded shadow-lg hover:bg-green-700 transition duration-200">Report
                                             Accident</button>
                                     </div>
                                 </form>

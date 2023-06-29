@@ -24,12 +24,12 @@
 
         <div class="main-content">
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-info-circle text-2xl p-2 bg-slate-700 text-white rounded"></i>
+                <i class="bi bi-info-circle text-2xl p-2 bg-slate-600 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">ABOUT</span>
                 <hr class="mt-4">
             </div>
 
-            <div class="about-content flex">
+            <div class="about-content">
                 <div class="location-section drop-shadow-lg bg-slate-600 p-6 text-white">
                     <div class="text-center">
                         <span class="text-2xl font-bold">Location</span>
@@ -38,7 +38,7 @@
                         <i class="bi bi-geo-alt-fill mr-4 text-lg"></i>
                         Address:
                         @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
-                            <i class="bi bi-pencil float-right cursor-pointer px-2 py-1 bg-red-600 text-white rounded drop-shadow-lg hover:bg-red-700"
+                            <i class="bi bi-pencil float-right cursor-pointer btn-edit px-2 py-1"
                                 id="editAddressModal"></i>
 
                             <div class="modal fade" id="editAddressForm" data-bs-backdrop="static"
@@ -150,24 +150,24 @@
             // })
         })
 
-        $('#editAddressBtn').on('click', function() {
-            Swal.fire({
-                icon: 'info',
-                title: 'Do you really want to update this?',
-                showDenyButton: true,
-                confirmButtonText: 'Yes, update it.',
-                confirmButtonColor: '#334155',
-                denyButtonText: `Double Check`,
-                denyButtonColor: '#b91c1c',
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    var updateAddress = $('#address').val().trim();
-                    //$('#addressData').text(updateAddress);
-                    document.getElementById("addressData").textContent = updateAddress;
-                    $('#editAddressForm').modal('hide');
-                }
-            })
-        })
+        // $('#editAddressBtn').on('click', function() {
+        //     Swal.fire({
+        //         icon: 'info',
+        //         title: 'Do you really want to update this?',
+        //         showDenyButton: true,
+        //         confirmButtonText: 'Yes, update it.',
+        //         confirmButtonColor: '#334155',
+        //         denyButtonText: `Double Check`,
+        //         denyButtonColor: '#b91c1c',
+        //     }).then((result) => {
+        //         if (result.isConfirmed) {
+        //             var updateAddress = $('#address').val().trim();
+        //             //$('#addressData').text(updateAddress);
+        //             document.getElementById("addressData").textContent = updateAddress;
+        //             $('#editAddressForm').modal('hide');
+        //         }
+        //     })
+        // })
     </script>
 
 </body>
