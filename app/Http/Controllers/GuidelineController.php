@@ -26,7 +26,7 @@ class GuidelineController extends Controller
     {
         $users = auth()->user();
 
-        $organization = $this->guideline->where('organization', $users->user_role);
+        $organization = $this->guideline->where('organization', $users->organization);
 
         $guideline = $organization->when($users->position === "Secretary", function ($query) use ($users) {
             return $query->where('author', $users->id);
@@ -44,7 +44,7 @@ class GuidelineController extends Controller
         if ($validatedGuideline->passes()) {
             $guidelineData = [
                 'type' => Str::lower(trim("$request->type Guideline")),
-                'organization' => auth()->user()->user_role,
+                'organization' => auth()->user()->organization,
                 'author' => auth()->user()->id
             ];
 

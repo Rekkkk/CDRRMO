@@ -13,7 +13,7 @@ class DatabaseSeeder extends Seeder
         User::insert([
             'email' => ('CDRRMO123@gmail.com'),
             'password' => Hash::make('CDRRMO_Admin_Panel'),
-            'user_role' => 'CDRRMO',
+            'organization' => 'CDRRMO',
             'position' => 'President',
             'status' => 'Active'
         ]);
@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
         User::insert([
             'email' => ('CSWD123@gmail.com'),
             'password' => Hash::make('CSWD123'),
-            'user_role' => 'CSWDO',
+            'organization' => 'CSWD',
             'position' => 'Secretary',
             'status' => 'Active'
         ]);
@@ -29,7 +29,7 @@ class DatabaseSeeder extends Seeder
         User::insert([
             'email' => ('CSWD132@gmail.com'),
             'password' => Hash::make('CSWD1212'),
-            'user_role' => 'CSWDO',
+            'organization' => 'CSWD',
             'position' => 'President',
             'status' => 'Active'
         ]);

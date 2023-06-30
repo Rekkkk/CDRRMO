@@ -1,5 +1,5 @@
     <ul class="nav_list">
-        @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
+        @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
             <li>
                 <a href="{{ route('dashboard.cdrrmo') }}">
                     <i class="bi bi-speedometer2 text-white"></i>
@@ -39,7 +39,7 @@
                 </a>
             </li>
         @endif
-        @if (auth()->check() && auth()->user()->user_role == 'CSWD')
+        @if (auth()->check() && auth()->user()->organization == 'CSWD')
             <li>
                 <a href="{{ route('dashboard.cswd') }}">
                     <i class="bi bi-speedometer2 text-white"></i>

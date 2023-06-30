@@ -30,7 +30,7 @@ hr {
 
     --color-green: #16a34a;
     --color-primary: #2563eb;
-    --color-yellow: #eab308;
+    --color-yellow: #ca8a04;
 }
 
 .wrapper {
@@ -88,11 +88,6 @@ hr {
     border-radius: 4px;
 }
 
-.editEvacueeBtn:hover {
-    background: #ca8a04;
-    transform: scale(1.05);
-}
-
 .btn-edit,
 .guide-content .btn-edit {
     background: var(--color-yellow);
@@ -104,7 +99,7 @@ hr {
 
 .btn-edit:hover,
 .guide-content .btn-edit:hover {
-    background: #ca8a04;
+    background: #a16207;
     color: var(--color-text);
     transform: scale(1.05);
 }

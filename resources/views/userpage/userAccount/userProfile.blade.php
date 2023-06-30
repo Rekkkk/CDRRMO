@@ -16,7 +16,7 @@
 
         <div class="main-content">
             <div class="user-profile-container rounded shadow-lg mt-4">
-                @include('userpage.userAccount.editAccount')
+                @include('userpage.userAccount.userAccountModal')
                 <div class="mt-20">
                     <div class="flex justify-center items-center pt-4 pb-2">
                         <div class="bg-slate-300 w-60 h-60 rounded-full overflow-hidden border-4 border-indigo-500">
@@ -34,7 +34,7 @@
                     <form id='userProfileForm' class="relative flex-auto">
                         <div class="flex flex-wrap">
                             <div class="relative w-full mb-3 lg:w-2/12 px-4 text-center">
-                                @if (auth()->user()->user_role == 'CDRRMO')
+                                @if (auth()->user()->organization == 'CDRRMO')
                                     <label class="w-full bg-red-700 profile-details-label">Position</label>
                                     <p class="profile-details">{{ auth()->user()->position }}
                                     </p>
@@ -45,19 +45,19 @@
                                 @endif
                             </div>
                             <div class="relative w-full mb-3 lg:w-5/12 px-4 text-center">
-                                @if (auth()->user()->user_role == 'CDRRMO')
+                                @if (auth()->user()->organization == 'CDRRMO')
                                     <label class="w-full bg-red-700 profile-details-label">Organization</label>
                                     <p class="profile-details">Cabuyao Disaster Risk Reduction
-                                        and Management Office ({{ auth()->user()->user_role }})</p>
+                                        and Management Office ({{ auth()->user()->organization }})</p>
                                 @else
                                     <label class="w-full bg-green-600 profile-details-label">Organization</label>
                                     <p class="profile-details">City Social Welfare and
-                                        Development ({{ auth()->user()->user_role }})
+                                        Development ({{ auth()->user()->organization }})
                                     </p>
                                 @endif
                             </div>
                             <div class="relative w-full mb-3 lg:w-5/12 px-4 text-center">
-                                @if (auth()->user()->user_role == 'CDRRMO')
+                                @if (auth()->user()->organization == 'CDRRMO')
                                     <label class="w-full bg-red-700 profile-details-label">Email
                                         Address</label>
                                     <p class="profile-details">{{ auth()->user()->email }}</p>
@@ -94,7 +94,7 @@
                 $('#saveProfileDetails').text('Update');
                 $('#accountForm')[0].reset();
                 $('#accountId').val('{{ auth()->user()->id }}');
-                $('#user_role').val('{{ auth()->user()->user_role }}');
+                $('#organization').val('{{ auth()->user()->organization }}');
                 $('#position').val('{{ auth()->user()->position }}');
                 $('#email').val('{{ auth()->user()->email }}');
                 $('#userAccountModal').modal('show');
@@ -102,7 +102,7 @@
 
             let validator = $("#accountForm").validate({
                 rules: {
-                    user_role: {
+                    organization: {
                         required: true
                     },
                     position: {
@@ -113,7 +113,7 @@
                     }
                 },
                 messages: {
-                    user_role: {
+                    organization: {
                         required: 'Please Enter Your Organization.'
                     },
                     position: {
@@ -159,13 +159,13 @@
                                         'success',
                                         '#3CB043'
                                     ).then(function() {
-                                        $('#editAccountModal').modal('hide');
+                                        $('#userAccountModal').modal('hide');
                                         location.reload();
                                     });
                                 }
                             },
                             error: function() {
-                                $('#editAccountModal').modal('hide');
+                                $('#userAccountModal').modal('hide');
                                 messageModal(
                                     'Warning',
                                     'Something went wrong, Try again later.',

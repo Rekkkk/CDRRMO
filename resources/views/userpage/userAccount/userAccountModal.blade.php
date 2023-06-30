@@ -1,7 +1,7 @@
 <div class="modal fade" id="userAccountModal" tabindex="-1"  aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-green-700">
+            <div class="modal-header bg-green-600">
                 <h1 class="modal-title fs-5 text-center text-white"></h1>
             </div>
             <div class="modal-body">
@@ -11,9 +11,9 @@
                     <input type="text" id="operation" hidden>
                     @if (auth()->user()->position == 'President')
                         <div class="mb-3">
-                            <label for="user_role" class="flex items-center justify-center">User Role</label>
-                            <select type="text" name="user_role" class="form-control" autocomplete="off"
-                                id="user_role" placeholder="Enter User Role">
+                            <label for="organization" class="flex items-center justify-center">Organization</label>
+                            <select type="text" name="organization" class="form-control" autocomplete="off"
+                                id="organization" placeholder="Enter Organization">
                                 <option value="">Select Organization</option>
                                 <option value="CDRRMO">CDRRMO</option>
                                 <option value="CSWD">CSWD</option>
@@ -29,7 +29,7 @@
                             </select>
                         </div>
                     @else
-                        <input type="hidden" name="user_role" class="form-control" id="user_role">
+                        <input type="hidden" name="organization" class="form-control" id="organization">
                         <input type="hidden" name="position" class="form-control" id="position">
                     @endif
                     <div class="mb-3">

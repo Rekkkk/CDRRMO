@@ -26,7 +26,7 @@
                         <span class="font-bold">
                             <i class="bi bi-hospital mr-4 text-lg"></i>
                             Hotline Numbers:
-                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
+                            @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
                                 <i class="bi bi-pencil float-right btn-edit cursor-pointer px-2 py-1"></i>
                             @endif
                         </span>
@@ -37,7 +37,7 @@
                         <span class="font-bold">
                             <i class="bi bi-fire mr-4 text-lg"></i>
                             Hotline Numbers:
-                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
+                            @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
                                 <i class="bi bi-pencil float-right btn-edit cursor-pointer px-2 py-1"></i>
                             @endif
                         </span>
@@ -48,7 +48,7 @@
                         <span class="font-bold">
                             <i class="bi bi-droplet mr-4 text-lg"></i>
                             Hotline Numbers:
-                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
+                            @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
                                 <i class="bi bi-pencil float-right btn-edit cursor-pointer px-2 py-1"></i>
                             @endif
                         </span>
@@ -59,7 +59,7 @@
                         <span class="font-bold">
                             <i class="bi bi-tree mr-4 text-lg"></i>
                             Hotline Numbers:
-                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
+                            @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
                                 <i class="bi bi-pencil float-right btn-edit cursor-pointer px-2 py-1"></i>
                             @endif
                         </span>

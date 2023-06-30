@@ -31,7 +31,7 @@ class AuthenticationController extends Controller
     public function checkUserRole()
     {
         if (auth()->check()) {
-            $userRole = auth()->user()->user_role;
+            $userRole = auth()->user()->organization;
             $this->logActivity->generateLog('Logged In');
 
             if ($userRole == 'CDRRMO')
@@ -45,7 +45,7 @@ class AuthenticationController extends Controller
 
     public function logout(Request $request)
     {
-        $role_name = auth()->user()->user_role;
+        $role_name = auth()->user()->organization;
         $this->logActivity->generateLog('Logged Out');
 
         auth()->logout();
