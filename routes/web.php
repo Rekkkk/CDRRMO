@@ -123,5 +123,6 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/userAccount', 'userAccounts')->name('display.user.accounts');
         Route::put('/restrictUser/{userId}', 'restrictUserAccount')->name('restrict.account');
         Route::put('/unrestrictUser/{userId}', 'unRestrictUserAccount')->name('unrestrict.account');
+        Route::delete('/removeAccount/{userId}', 'removeUserAccount')->name('remove.account');
     });
 });

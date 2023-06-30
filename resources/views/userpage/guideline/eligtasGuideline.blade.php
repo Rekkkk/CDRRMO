@@ -26,7 +26,7 @@
                 <div class="widget-container">
                     @foreach ($guideline as $guidelineItem)
                         <div class="guideline-widget">
-                            @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
+                            @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
                                 <a href="{{ route('remove.guideline.cdrrmo', Crypt::encryptString($guidelineItem->id)) }}"
                                     class="absolute top-2 right-0">
                                     <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
@@ -48,7 +48,7 @@
                                         </div>
                                     </div>
                                 </a>
-                            @elseif (auth()->check() && auth()->user()->user_role == 'CSWD')
+                            @elseif (auth()->check() && auth()->user()->organization == 'CSWD')
                                 <a href="{{ route('remove.guideline.cswd', Crypt::encryptString($guidelineItem->id)) }}"
                                     class="absolute top-2 right-0">
                                     <i class="bi bi-x-lg cursor-pointer p-2.5"></i>

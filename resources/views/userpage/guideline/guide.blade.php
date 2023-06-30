@@ -22,8 +22,8 @@
                 <hr class="mt-3">
                 <div class="guide-btn flex justify-end mt-2">
                     @if (
-                        (auth()->check() && auth()->user()->user_role == 'CDRRMO') ||
-                            (auth()->check() && auth()->user()->user_role == 'CSWD'))
+                        (auth()->check() && auth()->user()->organization == 'CDRRMO') ||
+                            (auth()->check() && auth()->user()->organization == 'CSWD'))
                         <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 rounded font-medium">
                             <i class="bi bi-plus-lg mr-2"></i> Create Guide
                         </a>
@@ -44,8 +44,8 @@
                                 {{ $guide->content }}
                             </p>
                             @if (
-                                (auth()->check() && auth()->user()->user_role == 'CDRRMO') ||
-                                    (auth()->check() && auth()->user()->user_role == 'CSWD'))
+                                (auth()->check() && auth()->user()->organization == 'CDRRMO') ||
+                                    (auth()->check() && auth()->user()->organization == 'CSWD'))
                                 <div class="action-btn py-2 flex justify-start">
                                     <a href="#edit{{ $guide->id }}" data-bs-toggle="modal">
                                         <button type="submit" class="btn-edit p-2">

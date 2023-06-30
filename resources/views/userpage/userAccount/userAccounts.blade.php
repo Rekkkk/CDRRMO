@@ -38,7 +38,7 @@
                     <tbody>
                     </tbody>
                 </table>
-                @include('userpage.userAccount.editAccount')
+                @include('userpage.userAccount.userAccountModal')
             </div>
         </div>
     </div>
@@ -66,9 +66,9 @@
             });
 
             let accountTable = $('.data-table').DataTable({
-                order: [
-                    [1, 'asc']
-                ],
+                rowReorder: {
+                    selector: 'td:nth-child(2)'
+                },
                 responsive: true,
                 processing: false,
                 serverSide: true,
@@ -83,8 +83,8 @@
                         name: 'email'
                     },
                     {
-                        data: 'user_role',
-                        name: 'user_role'
+                        data: 'organization',
+                        name: 'organization'
                     },
                     {
                         data: 'position',
@@ -205,7 +205,7 @@
 
                 let data = accountTable.row(currentRow).data();
                 userId = data['id'];
-                $('#user_role').val(data['user_role']);
+                $('#organization').val(data['organization']);
                 $('#position').val(data['position']);
                 $('#email').val(data['email']);
                 $('#operation').val('update');
@@ -213,9 +213,49 @@
                 defaultFormData = $('#accountForm').serialize();
             });
 
+            $(document).on('click', '.removeUserAccount', function() {
+                userId = $(this).data('id');
+
+                confirmModal('Do you want to remove this user account?').then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ route('remove.account', ':userId') }}"
+                                .replace(':userId', userId),
+                            success: function(response) {
+                                if (response.status == 0) {
+                                    messageModal(
+                                        'Warning',
+                                        'Failed to remove user details.',
+                                        'warning',
+                                        '#FFDF00'
+                                    );
+                                } else {
+                                    Swal.fire(
+                                        'Success',
+                                        'Successfully removed user account.',
+                                        'success'
+                                    );
+
+                                    accountTable.draw();
+                                }
+                            },
+                            error: function() {
+                                messageModal(
+                                    'Warning',
+                                    'Something went wrong, Try again later.',
+                                    'warning',
+                                    '#FFDF00'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+
             let validator = $("#accountForm").validate({
                 rules: {
-                    user_role: {
+                    organization: {
                         required: true
                     },
                     position: {
@@ -226,7 +266,7 @@
                     }
                 },
                 messages: {
-                    user_role: {
+                    organization: {
                         required: 'Please Enter Your Organization.'
                     },
                     position: {
@@ -287,7 +327,7 @@
                                     if (operation == 'create') {
                                         Swal.fire(
                                             'Success',
-                                            "Successfully created new user details, Your Password is: <font color='red'>" +
+                                            `Successfully ${operation}d new user details, Your Password is: <font color='red'>` +
                                             response.password + "</font>",
                                             'success'
                                         )

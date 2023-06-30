@@ -6,10 +6,10 @@
     <div class="sidebar-content">
         <div class="user-details py-2 bg-slate-800">
             <div class="truncate flex justify-center items-center text-white tracking-wide font-bold gap-4">
-                @if (auth()->check() && auth()->user()->user_role == 'CDRRMO')
+                @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
                     <img class="w-12" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="Logo">
                     <span>CDRRMO Panel</span>
-                @elseif(auth()->check() && auth()->user()->user_role == 'CSWD')
+                @elseif(auth()->check() && auth()->user()->organization == 'CSWD')
                     <span>CSWD Panel</span> 
                 @else
                     <span class="py-2">Cabuyao Resident</span>
