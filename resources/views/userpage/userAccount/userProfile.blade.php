@@ -56,7 +56,7 @@
                                     </p>
                                 @endif
                             </div>
-                            <div class="relative w-full mb-3 lg:w-5/12 px-4 text-center">
+                            <div class="relative w-full mb-3 lg:w-3/12 px-4 text-center">
                                 @if (auth()->user()->organization == 'CDRRMO')
                                     <label class="w-full bg-red-700 profile-details-label">Email
                                         Address</label>
@@ -65,6 +65,17 @@
                                     <label class="w-full bg-green-600 profile-details-label">Email
                                         Address</label>
                                     <p class="profile-details">{{ auth()->user()->email }}
+                                    </p>
+                                @endif
+                            </div>
+                            <div class="relative w-full mb-3 lg:w-2/12 px-4 text-center">
+                                @if (auth()->user()->organization == 'CDRRMO')
+                                    <label class="w-full bg-red-700 profile-details-label">Account Status</label>
+                                    <p class="profile-details">{{ auth()->user()->status }}
+                                    </p>
+                                @else
+                                    <label class="w-full bg-green-600 profile-details-label">Account Status</label>
+                                    <p class="profile-details">{{ auth()->user()->status }}
                                     </p>
                                 @endif
                             </div>

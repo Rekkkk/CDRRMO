@@ -15,7 +15,10 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('CDRRMO_Admin_Panel'),
             'organization' => 'CDRRMO',
             'position' => 'President',
-            'status' => 'Active'
+            'status' => 'Active',
+            'isRestrict' => 0,
+            'isSuspend' => 0,
+            'suspendTime' => null
         ]);
 
         User::insert([
@@ -23,7 +26,10 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('CSWD123'),
             'organization' => 'CSWD',
             'position' => 'Secretary',
-            'status' => 'Active'
+            'status' => 'Active',
+            'isRestrict' => 0,
+            'isSuspend' => 0,
+            'suspendTime' => null
         ]);
 
         User::insert([
@@ -31,7 +37,10 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('CSWD1212'),
             'organization' => 'CSWD',
             'position' => 'President',
-            'status' => 'Active'
+            'status' => 'Active',
+            'isRestrict' => 0,
+            'isSuspend' => 0,
+            'suspendTime' => null
         ]);
 
         $this->call(DisasterSeeder::class);

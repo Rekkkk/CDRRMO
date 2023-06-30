@@ -30,7 +30,8 @@ hr {
 
     --color-green: #16a34a;
     --color-primary: #2563eb;
-    --color-yellow: #ca8a04;
+    --color-yellow: #eab308;
+    --color-violet: #8b5cf6;
 }
 
 .wrapper {
@@ -99,7 +100,7 @@ hr {
 
 .btn-edit:hover,
 .guide-content .btn-edit:hover {
-    background: #a16207;
+    background: #ca8a04;
     color: var(--color-text);
     transform: scale(1.05);
 }
@@ -120,6 +121,22 @@ hr {
 .guide-content .btn-cancel:hover,
 .removeUserAccount:hover {
     background: #b91c1c;
+    color: var(--color-text);
+    transform: scale(1.05);
+}
+
+.suspendUserAccount,
+.openUserAccount {
+    background: var(--color-violet);
+    color: var(--color-text);
+    border-radius: 4px;
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    transition-duration: 100ms;
+}
+
+.suspendUserAccount:hover,
+.openUserAccount:hover {
+    background: #9333ea;
     color: var(--color-text);
     transform: scale(1.05);
 }
@@ -371,7 +388,7 @@ hr {
 /* Report Accident End Section */
 
 /* About Section Start Here */
-.about-content{
+.about-content {
     display: flex;
 }
 
@@ -400,7 +417,7 @@ hr {
     margin-bottom: 10px;
 }
 
-.profile-details-label{
+.profile-details-label {
     color: var(--color-text);
     padding: 8px;
     font-size: 16px;
@@ -408,7 +425,8 @@ hr {
     font-weight: 600;
     letter-spacing: 0.025em;
 }
-.profile-details{
+
+.profile-details {
     background: var(--color-text);
     padding: 8px 0;
     font-weight: 700;
@@ -533,11 +551,11 @@ span.error {
         margin: 0 auto;
     }
 
-    .about-content{
+    .about-content {
         display: contents;
     }
 
-    .about-content>div{
+    .about-content>div {
         margin: 26px 0;
     }
 }
