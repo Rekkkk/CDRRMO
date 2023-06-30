@@ -15,6 +15,9 @@ return new class extends Migration
             $table->string('organization');
             $table->string('position');
             $table->string('status');
+            $table->boolean('isRestrict');
+            $table->boolean('isSuspend');
+            $table->timestamp('suspendTime')->nullable();
         });
     }
 

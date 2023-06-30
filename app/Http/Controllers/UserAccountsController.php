@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use App\Mail\UserCredentialsMail;
+use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -37,24 +38,30 @@ class UserAccountsController extends Controller
         else
             $userAccounts = $userAccounts->where('organization', 'CSWD')->whereNotIn('id', [auth()->user()->id]);
 
-
         if ($request->ajax()) {
             return DataTables::of($userAccounts)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
                     $actionBtns = '';
 
-                    if ($row->status == "Active") {
-                        $restrictBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Restrict" class="restrict btn-primary py-1.5 btn-sm mr-2 restrictUserAccount">Restrict</a>';
-                        $actionBtns .= $restrictBtn;
+                    if ($row->isSuspend == 0) {
+                        $suspendBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Suspend" class="py-1.5 btn-sm mr-2 suspendUserAccount">Suspend</a>';
+
+                        if ($row->isRestrict == 0) {
+                            $restrictBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Restrict" class="restrict btn-primary py-1.5 btn-sm mr-2 restrictUserAccount">Restrict</a>';
+                            $actionBtns .= $restrictBtn . $suspendBtn;
+                        } else {
+                            $unRestrictBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Unrestrict" class="unRestrict btn-primary py-1.5 btn-sm mr-2 unRestrictUserAccount">Unrestrict</a>';
+                            $actionBtns .= $unRestrictBtn . $suspendBtn;
+                        }
                     } else {
-                        $unRestrictBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Unrestrict" class="unRestrict btn-primary py-1.5 btn-sm mr-2 unRestrictUserAccount">Unrestrict</a>';
-                        $actionBtns .= $unRestrictBtn;
+                        $openAccountBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="OpenAccount" class="py-1.5 btn-sm mr-2 openUserAccount">Open Account</a>';
+                        $actionBtns .= $openAccountBtn;
                     }
 
                     $removeBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="py-1.5 btn-sm mr-2 removeUserAccount">Remove</a>';
-                    $editBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="btn-edit py-1.5 btn-sm mr-2 editUserAccount">Edit</a>' . $removeBtn;
-                    $actionBtns .= $editBtn;
+                    $editBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="btn-edit py-1.5 btn-sm mr-2 editUserAccount">Edit</a>';
+                    $actionBtns .= $editBtn . $removeBtn;
 
                     return $actionBtns;
                 })
@@ -130,7 +137,8 @@ class UserAccountsController extends Controller
     {
         try {
             DB::table('users')->where('id', $userId)->update([
-                'status' => 'Restricted'
+                'status' => 'Restricted',
+                'isRestrict' => 1
             ]);
             $this->logActivity->generateLog('Restrict User Account');
 
@@ -144,9 +152,54 @@ class UserAccountsController extends Controller
     {
         try {
             DB::table('users')->where('id', $userId)->update([
-                'status' => 'Active'
+                'status' => 'Active',
+                'isRestrict' => 0
             ]);
             $this->logActivity->generateLog('Unrestrict User Account');
+            return response()->json(['status' => 1]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function suspendUserAccount(Request $request, $userId)
+    {
+
+        $validatedSuspensionTime = Validator::make($request->all(), [
+            'suspend' => 'required',
+        ]);
+
+        if ($validatedSuspensionTime->passes()) {
+            $userAccountDetails = [
+                'status' => 'Suspended',
+                'isSuspend' => 1,
+                'suspendTime' => $request->suspend
+            ];
+
+            try {
+                User::find($userId)->update($userAccountDetails);
+                $this->logActivity->generateLog('Suspending User Account');
+
+                return response()->json(['status' => 1]);
+            } catch (\Exception $e) {
+                return response()->json(['status' => 0]);
+            }
+        }
+
+        return response()->json(['status' => 0, 'error' => $validatedSuspensionTime->errors()->toArray()]);
+    }
+
+    public function openUserAccount($userId)
+    {
+        try {
+            DB::table('users')->where('id', $userId)->update([
+                'status' => 'Active',
+                'isRestrict' => 0,
+                'isSuspend' => 0,
+                'suspendTime' => null
+            ]);
+
+            $this->logActivity->generateLog('Opening User Account');
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
             return response()->json(['status' => 0]);

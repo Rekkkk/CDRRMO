@@ -6,6 +6,7 @@
     <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
     <title>{{ config('app.name') }}</title>
 </head>
@@ -45,6 +46,7 @@
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -193,7 +195,7 @@
             });
 
             $(document).on('click', '.editUserAccount', function() {
-                $('.modal-header').removeClass('bg-green-700').addClass('bg-yellow-500');
+                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                 $('.modal-title').text('Edit User Account Form');
                 $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit');
                 $('#saveProfileDetails').text('Update');
@@ -205,6 +207,7 @@
 
                 let data = accountTable.row(currentRow).data();
                 userId = data['id'];
+                $('#suspend-container').hide();
                 $('#organization').val(data['organization']);
                 $('#position').val(data['position']);
                 $('#email').val(data['email']);
@@ -234,6 +237,67 @@
                                     Swal.fire(
                                         'Success',
                                         'Successfully removed user account.',
+                                        'success'
+                                    );
+
+                                    accountTable.draw();
+                                }
+                            },
+                            error: function() {
+                                messageModal(
+                                    'Warning',
+                                    'Something went wrong, Try again later.',
+                                    'warning',
+                                    '#FFDF00'
+                                );
+                            }
+                        });
+                    }
+                });
+            });
+
+            $(document).on('click', '.suspendUserAccount', function() {
+                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
+                $('.modal-title').text('Suspend User Account Form');
+                $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit');
+                $('#saveProfileDetails').text('Suspend');
+
+                let currentRow = $(this).closest('tr');
+
+                if (accountTable.responsive.hasHidden())
+                    currentRow = currentRow.prev('tr');
+
+                let data = accountTable.row(currentRow).data();
+                userId = data['id'];
+                $('#organization').val(data['organization']);
+                $('#position').val(data['position']);
+                $('#email').val(data['email']);
+                $('#operation').val('suspend');
+                $('#userAccountModal').modal('show');
+                defaultFormData = $('#accountForm').serialize();
+            });
+
+            $(document).on('click', '.openUserAccount', function() {
+                userId = $(this).data('id');
+
+                confirmModal('Do you want to open this user account?').then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "PUT",
+                            url: "{{ route('open.account', ':userId') }}"
+                                .replace(':userId', userId),
+                            success: function(response) {
+                                if (response.status == 0) {
+                                    messageModal(
+                                        'Warning',
+                                        'Failed to open user account.',
+                                        'warning',
+                                        '#FFDF00'
+                                    );
+                                } else {
+                                    Swal.fire(
+                                        'Success',
+                                        'Successfully opened user account.',
                                         'success'
                                     );
 
@@ -290,8 +354,11 @@
                 if (operation == 'create') {
                     url = "{{ route('create.account') }}";
                     type = "POST";
-                } else {
+                } else if (operation == 'update') {
                     url = "{{ route('update.account', 'userId') }}".replace('userId', userId);
+                    type = "PUT";
+                } else {
+                    url = "{{ route('suspend.account', 'userId') }}".replace('userId', userId);
                     type = "PUT";
                 }
 
@@ -358,8 +425,24 @@
                 });
             }
 
+            function datePicker(id) {
+                return flatpickr(id, {
+                    enableTime: true,
+                    allowInput: true,
+                    static: false,
+                    timeFormat: "h:i K",
+                    dateFormat: "D, M j, Y h:i K",
+                    minuteIncrement: 1,
+                    secondIncrement: 1,
+                    position: "below center",
+                });
+            }
+
+            let dateSuspendTime = datePicker("#suspend");
+
             $('#userAccountModal').on('hidden.bs.modal', function() {
                 validator.resetForm();
+                $('#suspend-container').show();
                 $(document).find('span.error-text').text('');
                 $('#accountForm').trigger("reset");
             });

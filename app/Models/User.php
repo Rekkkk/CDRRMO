@@ -21,7 +21,10 @@ class User extends Authenticatable
         'position',
         'email',
         'password',
-        'status'
+        'status',
+        'isRestrict',
+        'isSuspend',
+        'suspendTime'
     ];
 
     protected $hidden = [
