@@ -9,19 +9,17 @@
 
 <body>
     <div class="wrapper">
-
         @include('partials.header')
         @include('partials.sidebar')
-
         <div class="main-content">
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-house text-2xl p-2 bg-slate-900 text-white rounded"></i>
-                <span class="text-2xl font-bold tracking-wider mx-2">EVACUATION CENTER</span>
+                <i class="bi bi-house text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                <span class="text-2xl font-bold tracking-wider mx-2">EVACUATION CENTER LOCATOR</span>
                 <hr class="mt-4">
             </div>
 
             <div class="locator-content my-8 drop-shadow-2xl">
-                <div class="locator-header text-center text-white h-22 bg-red-700">
+                <div class="locator-header text-center text-white h-22 bg-red-600">
                     <div class="text-2xl py-3">
                         <span>Cabuyao City Map</span>
                     </div>

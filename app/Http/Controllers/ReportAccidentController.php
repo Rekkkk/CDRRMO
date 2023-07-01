@@ -93,12 +93,12 @@ class ReportAccidentController extends Controller
                     $this->reportLog->where('user_ip', $request->ip())->update(['attempt' => $resident_attempt + 1]);
                     $attempt = intval($this->reportLog->where('user_ip', $request->ip())->value('attempt'));
 
-                    if ($attempt >= 3) {
+                    if ($attempt == 3) {
                         $remaining_time = Carbon::now()->addDays(3);
                         $this->reportLog->where('user_ip', $request->ip())->update(['report_time' => $remaining_time]);
                     }
 
-                    event(new ReportIncident());
+                    //event(new ReportIncident());
 
                     return response()->json(['condition' => 0]);
                 } catch (\Exception $e) {

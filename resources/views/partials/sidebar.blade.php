@@ -22,6 +22,7 @@
                     @endif
                     <span>CSWD Panel</span>
                 @else
+                    <div title="Resident" class="bg-yellow-500 py-2 rounded-full w-4"></div>
                     <span class="py-2">Cabuyao Resident</span>
                 @endif
             </div>
