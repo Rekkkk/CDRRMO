@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Typhoon;
 use App\Models\Evacuee;
 use App\Models\Disaster;
-use App\Models\Typhoon;
 use App\Models\Flashflood;
 use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
@@ -15,10 +15,10 @@ class CswdController extends Controller
 
     function __construct()
     {
-        $this->disaster = new Disaster;
         $this->typhoon = new Typhoon;
-        $this->flashflood = new Flashflood;
         $this->evacuee = new Evacuee;
+        $this->disaster = new Disaster;
+        $this->flashflood = new Flashflood;
         $this->evacuationCenter = new EvacuationCenter;
     }
 

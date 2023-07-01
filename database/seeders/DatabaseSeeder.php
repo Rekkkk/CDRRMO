@@ -17,8 +17,7 @@ class DatabaseSeeder extends Seeder
             'position' => 'President',
             'status' => 'Active',
             'isRestrict' => 0,
-            'isSuspend' => 0,
-            'suspendTime' => null
+            'isSuspend' => 0
         ]);
 
         User::insert([
@@ -28,8 +27,7 @@ class DatabaseSeeder extends Seeder
             'position' => 'Secretary',
             'status' => 'Active',
             'isRestrict' => 0,
-            'isSuspend' => 0,
-            'suspendTime' => null
+            'isSuspend' => 0
         ]);
 
         User::insert([
@@ -39,8 +37,7 @@ class DatabaseSeeder extends Seeder
             'position' => 'President',
             'status' => 'Active',
             'isRestrict' => 0,
-            'isSuspend' => 0,
-            'suspendTime' => null
+            'isSuspend' => 0
         ]);
 
         $this->call(DisasterSeeder::class);

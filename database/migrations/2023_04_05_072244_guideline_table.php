@@ -12,7 +12,7 @@ return new class extends Migration
             $table->id();
             $table->string('type');
             $table->string('organization');
-            $table->foreignId('author')->references('id')->on('users')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->foreignId('author')->references('id')->on('user')->cascadeOnDelete()->cascadeOnUpdate();
         });
     }
 

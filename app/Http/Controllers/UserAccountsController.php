@@ -2,21 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use App\Mail\UserCredentialsMail;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
 
 class UserAccountsController extends Controller
 {
-    private $logActivity, $user;
+    private $user, $logActivity;
 
     public function __construct()
     {
@@ -75,32 +74,31 @@ class UserAccountsController extends Controller
     public function createUserAccount(Request $request)
     {
         $validatedAccount = Validator::make($request->all(), [
-            'email' => 'email|unique:users,email',
+            'email' => 'email|unique:user,email',
         ]);
 
         if ($validatedAccount->passes()) {
             try {
                 $defaultPassword = Str::password(15);
-                User::insert([
+                $this->user->create([
                     'organization' => $request->organization,
                     'position' => $request->position,
                     'email' => trim($request->email),
                     'password' =>  Hash::make($defaultPassword),
-                    'status' =>  "Active"
+                    'status' =>  "Active",
+                    'isRestrict' =>  0,
+                    'isSuspend' =>  0,
                 ]);
-
                 $this->logActivity->generateLog('Creating Account Details');
 
-                $userEmail = [
+                Mail::to(trim($request->email))->send(new UserCredentialsMail([
                     'email' => trim($request->email),
                     'organization' => $request->organization,
                     'position' => Str::upper($request->position),
                     'password' => $defaultPassword
-                ];
+                ]));
 
-                Mail::to(trim($request->email))->send(new UserCredentialsMail($userEmail));
-
-                return response()->json(['status' => 1, 'password' => $defaultPassword]);
+                return response()->json(['status' => 1]);
             } catch (\Exception $e) {
                 return response()->json(['status' => 0]);
             }
@@ -112,15 +110,15 @@ class UserAccountsController extends Controller
     public function updateUserAccount(Request $request, $userId)
     {
         $validatedAccount = Validator::make($request->all(), [
-            'email' => 'unique:users,email,' . $userId,
+            'email' => 'unique:user,email,' . $userId,
         ]);
 
         if ($validatedAccount->passes()) {
             try {
-                DB::table('users')->where('id', $userId)->update([
+                $this->user->find($userId)->update([
                     'organization' => $request->organization,
                     'position' => $request->position,
-                    'email' => trim($request->email),
+                    'email' => trim($request->email)
                 ]);
                 $this->logActivity->generateLog('Updating Account Details');
 
@@ -136,11 +134,12 @@ class UserAccountsController extends Controller
     public function restrictUserAccount($userId)
     {
         try {
-            DB::table('users')->where('id', $userId)->update([
+            $this->user->find($userId)->update([
                 'status' => 'Restricted',
                 'isRestrict' => 1
             ]);
-            $this->logActivity->generateLog('Restrict User Account');
+
+            $this->logActivity->generateLog('Restricting User Account');
 
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
@@ -151,11 +150,14 @@ class UserAccountsController extends Controller
     public function unRestrictUserAccount($userId)
     {
         try {
-            DB::table('users')->where('id', $userId)->update([
+            $unRestrictedAccount = [
                 'status' => 'Active',
                 'isRestrict' => 0
-            ]);
+            ];
+
+            $this->user->find($userId)->update($unRestrictedAccount);
             $this->logActivity->generateLog('Unrestrict User Account');
+
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
             return response()->json(['status' => 0]);
@@ -164,20 +166,17 @@ class UserAccountsController extends Controller
 
     public function suspendUserAccount(Request $request, $userId)
     {
-
         $validatedSuspensionTime = Validator::make($request->all(), [
             'suspend' => 'required',
         ]);
 
         if ($validatedSuspensionTime->passes()) {
-            $userAccountDetails = [
-                'status' => 'Suspended',
-                'isSuspend' => 1,
-                'suspendTime' => $request->suspend
-            ];
-
             try {
-                User::find($userId)->update($userAccountDetails);
+                $this->user->find($userId)->update([
+                    'status' => 'Suspended',
+                    'isSuspend' => 1,
+                    'suspendTime' => Carbon::parse($request->suspend)->format('Y-m-d H:i:s')
+                ]);
                 $this->logActivity->generateLog('Suspending User Account');
 
                 return response()->json(['status' => 1]);
@@ -192,14 +191,14 @@ class UserAccountsController extends Controller
     public function openUserAccount($userId)
     {
         try {
-            DB::table('users')->where('id', $userId)->update([
+            $this->user->find($userId)->update([
                 'status' => 'Active',
                 'isRestrict' => 0,
                 'isSuspend' => 0,
                 'suspendTime' => null
             ]);
-
             $this->logActivity->generateLog('Opening User Account');
+
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
             return response()->json(['status' => 0]);
@@ -213,8 +212,9 @@ class UserAccountsController extends Controller
     public function removeUserAccount($userId)
     {
         try {
-            DB::table('users')->where('id', $userId)->delete();
+            $this->user->find($userId)->delete();
             $this->logActivity->generateLog('Removing User Account');
+
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
             return response()->json(['status' => 0]);

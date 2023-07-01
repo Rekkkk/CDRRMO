@@ -12,7 +12,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
 
-    protected $table = 'users';
+    protected $table = 'user';
 
     protected $primaryKey = 'id';
 
@@ -31,6 +31,8 @@ class User extends Authenticatable
         'password',
         'remember_token'
     ];
+
+    public $timestamps = false;
 
     // protected $casts = [
     //     'email_verified_at' => 'datetime',

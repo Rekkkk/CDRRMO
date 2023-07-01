@@ -42,14 +42,12 @@ class GuidelineController extends Controller
         ]);
 
         if ($validatedGuideline->passes()) {
-            $guidelineData = [
-                'type' => Str::lower(trim("$request->type Guideline")),
-                'organization' => auth()->user()->organization,
-                'author' => auth()->user()->id
-            ];
-
             try {
-                $this->guideline->create($guidelineData);
+                $this->guideline->create([
+                    'type' => Str::lower(trim("$request->type Guideline")),
+                    'organization' => auth()->user()->organization,
+                    'author' => auth()->user()->id
+                ]);
                 $this->logActivity->generateLog('Registering Guideline');
 
                 return response()->json(['status' => 1]);
@@ -68,12 +66,10 @@ class GuidelineController extends Controller
         ]);
 
         if ($validatedGuideline->passes()) {
-            $guidelineData = [
-                'type' => Str::lower(trim($request->type))
-            ];
-
             try {
-                $this->guideline->find($guidelineId)->update($guidelineData);
+                $this->guideline->find($guidelineId)->update([
+                    'type' => Str::lower(trim($request->type))
+                ]);
                 $this->logActivity->generateLog('Updating Guideline');
 
                 Alert::success(config('app.name'), 'Guideline Successfully Updated.');
@@ -111,14 +107,12 @@ class GuidelineController extends Controller
 
     public function addGuide(Request $request, $guidelineId)
     {
-        $guideData = [
-            'label' => Str::lower(trim($request->label)),
-            'content' => Str::ucFirst(trim($request->content)),
-            'guideline_id' => Crypt::decryptString($guidelineId)
-        ];
-
         try {
-            $this->guide->create($guideData);
+            $this->guide->create([
+                'label' => Str::lower(trim($request->label)),
+                'content' => Str::ucFirst(trim($request->content)),
+                'guideline_id' => Crypt::decryptString($guidelineId)
+            ]);
             $this->logActivity->generateLog('Registering Guide');
 
             return response()->json(['status' => 1]);
@@ -135,13 +129,11 @@ class GuidelineController extends Controller
         ]);
 
         if ($validatedGuide->passes()) {
-            $guideData = [
-                'label' => Str::lower(trim($request->label)),
-                'content' => Str::ucfirst(trim($request->content))
-            ];
-
             try {
-                $this->guide->find($guideId)->update($guideData);
+                $this->guide->find($guideId)->update([
+                    'label' => Str::lower(trim($request->label)),
+                    'content' => Str::ucfirst(trim($request->content))
+                ]);
                 $this->logActivity->generateLog('Updating Guide');
 
                 Alert::success(config('app.name'), 'Guide Successfully Updated.');

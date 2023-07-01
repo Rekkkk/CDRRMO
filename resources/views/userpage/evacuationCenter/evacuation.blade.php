@@ -20,77 +20,24 @@
 
         <div class="main-content">
             <div class="dashboard-logo pb-4">
-                <i class="bi bi-tropical-storm text-2xl p-2 bg-slate-900 text-white rounded"></i>
-                <span class="text-2xl font-bold tracking-wider mx-2">EVACUATION CENTER INFORMATION</span>
+                <i class="bi bi-tropical-storm text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                <span class="text-2xl font-bold tracking-wider mx-2">EVACUATION CENTER</span>
                 <hr class="mt-4">
             </div>
 
-            <div class="evacuation-content flex bg-slate-50 shadow-lg p-4">
-                <div class="evacuation-form p-3 mx-2 border-r-2">
-                    <header class="text-xl font-semibold">Evacuation Center Information</header>
-                    <hr>
-                    <form id="addEvacuationCenterForm" name="addEvacuationCenterForm">
-                        @csrf
-                        <div class="form evacuation my-3">
-                            <div class="fields">
-                                <div class="flex flex-col">
-                                    <label for="name">Evacuation Center Name</label>
-                                    <input type="text" name="name"
-                                        value="{{ !empty(old('name')) ? old('name') : null }}"
-                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Evacuation Center Name">
-                                    <span class="text-danger italic text-xs error-text name_error"></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="flex flex-col">
-                                    <label for="barangay_name">Barangay Name</label>
-                                    <input type="text" name="barangay_name"
-                                        value="{{ !empty(old('barangay_name')) ? old('barangay_name') : null }}"
-                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Barangay Name">
-                                    <span class="text-danger italic text-xs error-text barangay_name_error"></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="flex flex-col">
-                                    <label for="latitude">Latitude</label>
-                                    <input type="text" name="latitude"
-                                        value="{{ !empty(old('latitude')) ? old('latitude') : null }}"
-                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Evacuation Latitude">
-                                    <span class="text-danger italic text-xs error-text latitude_error"></span>
-                                </div>
-                            </div>
-
-                            <div class="fields">
-                                <div class="flex flex-col">
-                                    <label for="longitude">Longitude</label>
-                                    <input type="text" name="longitude"
-                                        value="{{ !empty(old('longitude')) ? old('longitude') : null }}"
-                                        class="border-2 border-slate-400 px-3 mb-2 h-11 text-slate-600 outline-none text-sm font-normal rounded"
-                                        autocomplete="off" placeholder="Evacuation Longitude">
-                                    <span class="text-danger italic text-xs error-text longitude_error"></span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="evacuation-button">
-                            <a href="{{ route('dashboard.cswd') }}">
-                                <button type="button" class="btn-cancel p-2">Cancel</button>
-                            </a>
-                            <button id="addEvacuationCenter"
-                                class="btn-submit p-2">Submit</button>
-                        </div>
-                    </form>
-                </div>
+            <div class="evacuation-content flex bg-slate-50 shadow-lg p-2">
                 <div class="evacuation-table w-full relative">
-                    <header class="text-2xl font-semibold">Evacuation Center Table</header>
-                    <hr class="my-2">
+                    <div class="flex justify-between">
+                        <header class="text-2xl font-semibold">Evacuation Center Table</header>
+                        <button class="btn-submit p-2 mb-4" id="addEvacuationCenter">
+                            <i class="bi bi-house-down-fill pr-2"></i>
+                            Add Evacuation Center
+                        </button>
+                    </div>
                     <table class="table data-table display nowrap" style="width:100%">
                         <thead>
                             <tr>
+                                <th></th>
                                 <th>Evacuation Center Name</th>
                                 <th>Barangay</th>
                                 <th>Latitude</th>
@@ -104,8 +51,7 @@
                     </table>
                 </div>
             </div>
-
-            @include('userpage.evacuationCenter.updateEvacuationCenter')
+            @include('userpage.evacuationCenter.evacuationCenterModal')
         </div>
     </div>
 
@@ -117,8 +63,13 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+        integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+        crossorigin="anonymous"></script>
     <script type="text/javascript">
         $(document).ready(function() {
+            let evacuationCenterId, defaultFormData;
+
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -134,6 +85,10 @@
                 serverSide: true,
                 ajax: "{{ route('evacuation.center.cswd') }}",
                 columns: [{
+                        data: 'id',
+                        name: 'id',
+                        visible: false
+                    }, {
                         data: 'name',
                         name: 'name'
                     },
@@ -162,192 +117,199 @@
                 ]
             });
 
-            $('#addEvacuationCenter ').click(function(e) {
-                e.preventDefault();
-
-                Swal.fire({
-                    icon: 'question',
-                    title: 'Would you like to submit this evacuation center?',
-                    showDenyButton: true,
-                    confirmButtonText: 'Yes, submit it.',
-                    confirmButtonColor: '#334155',
-                    denyButtonText: `Double Check`,
-                    denyButtonColor: '#b91c1c',
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            data: $('#addEvacuationCenterForm').serialize(),
-                            url: "{{ route('register.evacuation.center.cswd') }}",
-                            type: "POST",
-                            dataType: 'json',
-                            beforeSend: function(response) {
-                                $(document).find('span.error-text').text('');
-                            },
-                            success: function(response) {
-                                if (response.status == 0) {
-                                    $.each(response.error, function(prefix, val) {
-                                        $('span.' + prefix + '_error').text(val[
-                                            0]);
-                                    });
-                                    Swal.fire({
-                                        icon: 'error',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Failed to submit evacuation center.',
-                                        confirmButtonText: 'Understood',
-                                        confirmButtonColor: '#334155'
-                                    });
-                                } else {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#334155',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Evacuation Center Added Successfully.'
-                                    });
-                                    $('#addEvacuationCenterForm')[0].reset();
-                                    evacuationCenterTable.draw();
-                                }
-                            },
-                            error: function(response) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    confirmButtonText: 'Understood',
-                                    confirmButtonColor: '#334155',
-                                    title: "{{ config('app.name') }}",
-                                    text: 'Something went wrong, try again later.'
-                                });
-                            }
-                        });
-                    }
-                })
+            $('#addEvacuationCenter').click(function() {
+                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
+                $('.modal-title').text('Create Evacuation Center Form');
+                $('#saveEvacuationCenterBtn').removeClass('btn-edit').addClass('btn-submit');
+                $('#operation').val('create');
+                $('#status-container').hide();
+                $('#evacuationCenterModal').modal('show');
+                $('#saveEvacuationCenterBtn').text('Create');
             });
 
             $(document).on('click', '.updateEvacuationCenter', function(e) {
-                var evacuation_center_id = $(this).data("id");
-                e.preventDefault();
+                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
+                $('.modal-title').text('Edit Evacuation Center Form');
+                $('#saveEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-edit');
+                $('#saveEvacuationCenterBtn').text('Update');
 
-                $.ajax({
-                    url: "{{ route('evacuation.center.detail.cswd', ':evacuation_center_id') }}"
-                        .replace(':evacuation_center_id', evacuation_center_id),
-                    dataType: "json",
-                    success: function(response) {
-                        $('#name').val(response.result.name);
-                        $('#barangay_name').val(response.result.barangay_name);
-                        $('#latitude').val(response.result.latitude);
-                        $('#longitude').val(response.result.longitude);
-                        $('#status').val(response.result.status);
-                        $('#evacuationCenterId').val(evacuation_center_id);
-                        $('#editEvacuationCenter').modal('show');
-                    },
-                    error: function(response) {
-                        var errors = response.responseJSON;
-                    }
-                })
+                let currentRow = $(this).closest('tr');
+
+                if (evacuationCenterTable.responsive.hasHidden())
+                    currentRow = currentRow.prev('tr');
+
+                let data = evacuationCenterTable.row(currentRow).data();
+                evacuationCenterId = data['id'];
+                $('#name').val(data['name']);
+                $('#barangay_name').val(data['barangay_name']);
+                $('#latitude').val(data['latitude']);
+                $('#longitude').val(data['longitude']);
+                $('#status').val(data['status']);
+                $('#operation').val('update');
+                $('#evacuationCenterModal').modal('show');
+                defaultFormData = $('#evacuationCenterForm').serialize();
             });
 
-            $(document).on('click', '#editEvacuationCenterBtn', function(e) {
-                var evacuation_center_id = $('#evacuationCenterId').val();
-                e.preventDefault();
+            $(document).on('click', '.removeEvacuationCenter', function() {
+                evacuationCenterId = $(this).data('id');
 
-                $.ajax({
-                    url: "{{ route('update.evacuation.center.cswd', ':evacuation_center_id') }}"
-                        .replace(':evacuation_center_id', evacuation_center_id),
-                    method: 'PUT',
-                    data: $('#editEvacuationForm').serialize(),
-                    dataType: "json",
-                    beforeSend: function(response) {
-                        $(document).find('span.error-text').text('');
-                    },
-                    success: function(response) {
-                        if (response.status == 0) {
-                            $.each(response.error, function(prefix, val) {
-                                $('span.' + prefix + '_error').text(val[0]);
-                            });
-                            Swal.fire({
-                                icon: 'error',
-                                title: "{{ config('app.name') }}",
-                                text: 'Failed to Update Barangay.',
-                                confirmButtonText: 'Understood',
-                                confirmButtonColor: '#334155'
-                            });
-                        } else {
-                            Swal.fire({
-                                icon: 'success',
-                                confirmButtonText: 'OK',
-                                confirmButtonColor: '#334155',
-                                title: "{{ config('app.name') }}",
-                                text: 'Evacuation Center Updated Successfully.'
-                            });
-                            $('#editEvacuationForm')[0].reset();
-                            $('#editEvacuationCenter').modal('hide');
-                            evacuationCenterTable.draw();
-                        }
-                    },
-                    error: function(response) {
-                        Swal.fire({
-                            icon: 'error',
-                            confirmButtonText: 'Understood',
-                            confirmButtonColor: '#334155',
-                            title: "{{ config('app.name') }}",
-                            text: 'Something went wrong, try again later.'
-                        });
-                    }
-                })
-            });
-
-            $('body').on('click', '.removeEvacuationCenter', function() {
-                var evacuation_center_id = $(this).data("id");
-
-                Swal.fire({
-                    icon: 'question',
-                    title: 'Are you sure?',
-                    text: "You won't be able to undo this!",
-                    showCancelButton: true,
-                    confirmButtonColor: '#334155',
-                    cancelButtonColor: '#b91c1c',
-                    confirmButtonText: 'Yes, delete it.'
-                }).then((result) => {
+                confirmModal('Do you want to remove this evacuation center?').then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: "{{ route('remove.evacuation.center.cswd', ':evacuation_center_id') }}"
-                                .replace(':evacuation_center_id', evacuation_center_id),
+                            url: "{{ route('remove.evacuation.center.cswd', ':evacuationCenterId') }}"
+                                .replace(':evacuationCenterId', evacuationCenterId),
                             success: function(response) {
                                 if (response.status == 0) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        confirmButtonText: 'Understood',
-                                        confirmButtonColor: '#334155',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Failed to Remove Evacuation Center.'
-                                    });
+                                    messageModal(
+                                        'Warning',
+                                        'Failed to remove evacuation center.',
+                                        'warning',
+                                        '#FFDF00'
+                                    );
                                 } else {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#334155',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Evacuation Center has been deleted.'
-                                    });
+                                    Swal.fire(
+                                        'Success',
+                                        'Successfully removed evacuation center.',
+                                        'success'
+                                    );
+
                                     evacuationCenterTable.draw();
                                 }
                             },
-                            error: function(response) {
-                                Swal.fire({
-                                    icon: 'error',
-                                    confirmButtonText: 'Understood',
-                                    confirmButtonColor: '#334155',
-                                    title: "{{ config('app.name') }}",
-                                    text: 'Something went wrong, try again later.'
-                                });
+                            error: function() {
+                                messageModal(
+                                    'Warning',
+                                    'Something went wrong, Try again later.',
+                                    'warning',
+                                    '#FFDF00'
+                                );
                             }
                         });
                     }
                 });
             });
+
+            let validator = $("#evacuationCenterForm").validate({
+                rules: {
+                    name: {
+                        required: true
+                    },
+                    barangay_name: {
+                        required: true
+                    },
+                    latitude: {
+                        required: true
+                    },
+                    longitude: {
+                        required: true
+                    }
+                },
+                messages: {
+                    name: {
+                        required: 'Please Enter Evacuation Center Name.'
+                    },
+                    barangay_name: {
+                        required: 'Please Enter Barangay Name.'
+                    },
+                    latitude: {
+                        required: 'Please Enter Latitude.'
+                    },
+                    longitude: {
+                        required: 'Please Enter Longitude.'
+                    }
+                },
+                errorElement: 'span',
+                submitHandler: formSubmitHandler,
+            });
+
+            function formSubmitHandler(form) {
+                let operation = $('#operation').val(),
+                    url = "",
+                    type = "",
+                    formData = $(form).serialize(),
+                    modal = $('#evacuationCenterModal');
+
+                if (operation == 'create') {
+                    url = "{{ route('register.evacuation.center.cswd') }}";
+                    type = "POST";
+                } else {
+                    url = "{{ route('update.evacuation.center.cswd', ':evacuationCenterId') }}"
+                        .replace(':evacuationCenterId', evacuationCenterId),
+                        type = "PUT";
+                }
+
+                confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
+                    if (result.isConfirmed) {
+                        if (operation == 'update' && defaultFormData == formData) {
+                            modal.modal('hide');
+                            messageModal(
+                                'Info',
+                                'No changes were made.',
+                                'info',
+                                '#B91C1C'
+                            );
+                            return;
+                        }
+                        $.ajax({
+                            data: formData,
+                            url: url,
+                            type: type,
+                            dataType: 'json',
+                            success: function(response) {
+                                if (response.status == 0) {
+                                    $.each(response.error, function(prefix, val) {
+                                        $('span.' + prefix + '_error').text(val[0]);
+                                    });
+                                    messageModal(
+                                        'Warning',
+                                        `Failed to ${operation} user details.`,
+                                        'warning',
+                                        '#FFDF00'
+                                    );
+                                } else {
+                                    if (operation == 'create') {
+                                        Swal.fire(
+                                            'Success',
+                                            `Successfully ${operation}d new evacuation center.`,
+                                            'success'
+                                        )
+                                    } else {
+                                        messageModal(
+                                            'Success',
+                                            `Successfully ${operation}d the evacuation center information.`,
+                                            'success',
+                                            '#3CB043'
+                                        );
+                                    }
+
+                                    modal.modal('hide');
+                                    evacuationCenterTable.draw();
+                                }
+                            },
+                            error: function() {
+                                modal.modal('hide');
+                                messageModal(
+                                    'Warning',
+                                    'Something went wrong, Try again later.',
+                                    'warning',
+                                    '#FFDF00'
+                                );
+                            }
+                        });
+                    }
+                });
+            }
+
+            $('#evacuationCenterModal').on('hidden.bs.modal', function() {
+                validator.resetForm();
+                $('#status-container').show();
+                $('#evacuationCenterForm')[0].reset();
+            });
+
+
         });
     </script>
-
 </body>
 
 </html>

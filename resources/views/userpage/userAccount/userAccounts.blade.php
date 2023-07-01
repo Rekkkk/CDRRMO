@@ -269,6 +269,7 @@
 
                 let data = accountTable.row(currentRow).data();
                 userId = data['id'];
+                
                 $('#organization').val(data['organization']);
                 $('#position').val(data['position']);
                 $('#email').val(data['email']);
@@ -394,8 +395,7 @@
                                     if (operation == 'create') {
                                         Swal.fire(
                                             'Success',
-                                            `Successfully ${operation}d new user details, Your Password is: <font color='red'>` +
-                                            response.password + "</font>",
+                                            `Successfully ${operation}d new user account.`,
                                             'success'
                                         )
                                     } else {

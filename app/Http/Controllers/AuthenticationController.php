@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
+use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\DB;
 
 class AuthenticationController extends Controller
 {
-    private $logActivity;
+    private $user, $logActivity;
 
     public function __construct()
     {
+        $this->user = new User;
         $this->logActivity = new ActivityUserLog;
     }
     public function landingPage()
@@ -39,12 +40,11 @@ class AuthenticationController extends Controller
             if (auth()->user()->isSuspend == 1) {
                 if (auth()->user()->suspendTime < Carbon::now()->format('Y-m-d H:i:s')) {
 
-                    DB::table('users')->where('id', auth()->user()->id)->update([
+                    $this->user->find(auth()->user()->id)->update([
                         'status' => 'Active',
                         'isSuspend' => 0,
                         'suspendTime' => null
                     ]);
-
                     $userRole = auth()->user()->organization;
                     $this->logActivity->generateLog('Logged In');
 

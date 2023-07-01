@@ -48,17 +48,14 @@ class EvacuationCenterController extends Controller
         ]);
 
         if ($validatedEvacuationCenter->passes()) {
-
-            $evacuationCenterData = [
-                'name' => Str::ucfirst($request->name),
-                'barangay_name' => $request->barangay_name,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'status' => 'Active'
-            ];
-
             try {
-                $this->evacuationCenter->create($evacuationCenterData);
+                $this->evacuationCenter->create([
+                    'name' => Str::ucfirst($request->name),
+                    'barangay_name' => $request->barangay_name,
+                    'latitude' => $request->latitude,
+                    'longitude' => $request->longitude,
+                    'status' => 'Active'
+                ]);
                 $this->logActivity->generateLog('Registering Evacuation Center Information');
 
                 return response()->json(['status' => 1]);
@@ -80,17 +77,14 @@ class EvacuationCenterController extends Controller
         ]);
 
         if ($validatedEvacuationCenter->passes()) {
-
-            $evacuationCenterData = [
-                'name' => Str::ucfirst(trim($request->name)),
-                'barangay_name' => $request->barangay_name,
-                'latitude' => trim($request->latitude),
-                'longitude' => trim($request->longitude),
-                'status' => $request->status
-            ];
-
             try {
-                $this->evacuationCenter->find($evacuationId)->update($evacuationCenterData);
+                $this->evacuationCenter->find($evacuationId)->update([
+                    'name' => Str::ucfirst(trim($request->name)),
+                    'barangay_name' => $request->barangay_name,
+                    'latitude' => trim($request->latitude),
+                    'longitude' => trim($request->longitude),
+                    'status' => $request->status
+                ]);
                 $this->logActivity->generateLog('Updating Evacuation Center Information');
 
                 return response()->json(['status' => 1]);
@@ -115,7 +109,7 @@ class EvacuationCenterController extends Controller
         try {
             $this->evacuationCenter->find($evacuationId)->delete();
             $this->logActivity->generateLog('Removing Evacuation Center Information');
-            
+
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
             return response()->json(['status' => 0]);
