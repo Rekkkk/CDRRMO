@@ -100,9 +100,10 @@
         $(document).ready(function() {
             $('#editProfileBtn').click(function() {
                 $('.modal-header').removeClass('bg-green-700').addClass('bg-yellow-500');
-                $('.modal-title').text('Edit User Account Form');
+                $('.modal-title').text('Edit Profile Account Form');
                 $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit');
                 $('#saveProfileDetails').text('Update');
+                $('#suspend-container').hide();
                 $('#accountForm')[0].reset();
                 $('#accountId').val('{{ auth()->user()->id }}');
                 $('#organization').val('{{ auth()->user()->organization }}');
@@ -135,7 +136,7 @@
                     }
                 },
                 errorElement: 'span',
-                submitHandler: formSubmitHandler,
+                submitHandler: formSubmitHandler
             });
 
             function formSubmitHandler(form) {

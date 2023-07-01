@@ -21,17 +21,16 @@ class ReportIncident implements ShouldBroadcast
 
     function approveStatus($accidentReportId){
         $this->reportAccident = new Reporting;
-
-        $approvedReport = [
+        $this->reportAccident->find($accidentReportId)->update([
             'status' => 'Approved'
-        ];
-        
-        $this->reportAccident->where($accidentReportId)->update($approvedReport);
+        ]);
     }
 
     function declineStatus($accidentReportId){
         $this->reportAccident = new Reporting;
-        $this->reportAccident->where('id', $accidentReportId)->delete();
+        $this->reportAccident->find($accidentReportId)->update([
+            'status' => 'Declined'
+        ]);
     }
 
     public function broadcastOn()

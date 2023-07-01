@@ -10,7 +10,6 @@ use Illuminate\Http\Request;
 use App\Events\ReportIncident;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
-use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 
 class ReportAccidentController extends Controller
@@ -26,17 +25,20 @@ class ReportAccidentController extends Controller
         $this->logActivity = new ActivityUserLog;
     }
 
-    public function displayCReport(Request $request)
+    public function displayPendingReport(Request $request)
     {
-        $report = $this->reportAccident->latest()->get();
+        $pendingReport = $this->reportAccident->where('status', 'On Process')->get();
 
         if ($request->ajax()) {
-            return DataTables::of($report)
+            return DataTables::of($pendingReport)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $approved = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" class="approve bg-green-600 hover:bg-green-700 py-1.5 btn-sm mr-2 text-white approveAccidentReport">Approve</a>';
-                    $btn = $approved . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Delete" class="bg-red-600 hover:bg-red-700 py-1.5 btn-sm mr-2 text-white removeAccidentReport">Remove</a>';
-                    return $btn;
+                    $actionBtn = '';
+
+                    $approvedBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" id="approveIncidentReport" class="btn-submit py-1.5 btn-sm mr-2 approveIncidentReport">Approve</a>';
+                    $declineBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Decline" class="py-1.5 btn-sm mr-2 declineIncidentReport">Decline</a>';
+
+                    return $actionBtn .= $approvedBtn . $declineBtn;
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -45,12 +47,32 @@ class ReportAccidentController extends Controller
         return view('userpage.reportAccident', compact('report'));
     }
 
-    public function displayGReport(Request $request)
+    public function displayIncidentReport(Request $request)
     {
-        $report = $this->reportAccident->latest()->get();
+        $incidentReport = $this->reportAccident->whereNotIn('status', ["On Process"])->get();
 
         if ($request->ajax()) {
-            return DataTables::of($report)->addIndexColumn()->make(true);
+            return DataTables::of($incidentReport)
+                ->addIndexColumn()
+                ->addColumn('action', function ($row) {
+                    if (auth()->check())
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Decline" class="py-1.5 btn-sm mr-2 removeIncidentReport">Remove</a>';
+
+                    return;
+                })
+                ->rawColumns(['action'])
+                ->make(true);
+        }
+
+        return view('userpage.reportAccident', compact('report'));
+    }
+
+    public function displayGPendingReport(Request $request)
+    {
+        $pendingReport = $this->reportAccident->where('status', 'On Process')->get();
+
+        if ($request->ajax()) {
+            return DataTables::of($pendingReport)->addIndexColumn()->make(true);
         }
 
         return view('userpage.reportAccident', compact('report'));
@@ -129,25 +151,25 @@ class ReportAccidentController extends Controller
     {
         try {
             $this->report->approveStatus($reportAccidentId);
-            event(new ReportIncident());
+            //event(new ReportIncident());
             $this->logActivity->generateLog('Approving Accident Report');
-        } catch (\Exception $e) {
-            Alert::success(config('app.name'), 'Failed to Report Accident.');
-        }
 
-        return response()->json();
+            return response()->json(['status' => 1]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 0]);
+        }
     }
 
-    public function removeAccidentReport($reportAccidentId)
+    public function declineAccidentReport($reportAccidentId)
     {
         try {
             $this->report->declineStatus($reportAccidentId);
-            event(new ReportIncident());
-            $this->logActivity->generateLog('Removing Accident Report');
+            //event(new ReportIncident());
+            $this->logActivity->generateLog('Declining Accident Report');
+
+            return response()->json(['status' => 1]);
         } catch (\Exception $e) {
-            Alert::success(config('app.name'), 'Failed to Report Accident.');
+            return response()->json(['status' => 0]);
         }
-    
-        return response()->json();
     }
 }

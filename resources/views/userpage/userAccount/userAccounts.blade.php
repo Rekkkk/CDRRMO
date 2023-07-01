@@ -25,7 +25,7 @@
                         Create User Account
                     </button>
                 </div>
-                <table class="table data-table display nowrap" style="width:100%" id="account-table">
+                <table class="table accountTable display nowrap" style="width:100%">
                     <thead>
                         <tr>
                             <th></th>
@@ -33,7 +33,7 @@
                             <th>Organization</th>
                             <th>Position</th>
                             <th>Status</th>
-                            <th class="w-4">Action</th>
+                            <th style="width:20%">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -67,7 +67,7 @@
                 }
             });
 
-            let accountTable = $('.data-table').DataTable({
+            let accountTable = $('.accountTable').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(2)'
                 },
@@ -105,84 +105,185 @@
                 ]
             });
 
-            $('body').on('click', '.restrictUserAccount', function() {
-                userId = $(this).data('id');
+            $(document).on('change', '.actionSelect', function() {
+                let selectedAction = $(this).val();
+                let currentRow = $(this).closest('tr');
 
-                confirmModal('Do you want to restrict this user?').then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "PUT",
-                            url: "{{ route('restrict.account', ':userId') }}"
-                                .replace(':userId', userId),
-                            success: function(data) {
-                                if (data.status == 0) {
+                if (accountTable.responsive.hasHidden())
+                    currentRow = currentRow.prev('tr');
+
+                let data = accountTable.row(currentRow).data();
+                userId = data['id'];
+
+                if (selectedAction === 'restrictAccount') {
+                    confirmModal('Do you want to restrict this user?').then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: "PUT",
+                                url: "{{ route('restrict.account', ':userId') }}"
+                                    .replace(':userId', userId),
+                                success: function(response) {
+                                    if (response.status == 0) {
+                                        messageModal(
+                                            'Warning',
+                                            'Failed to restrict user details.',
+                                            'warning',
+                                            '#FFDF00'
+                                        );
+                                    } else {
+                                        messageModal(
+                                            'Success',
+                                            'Successfully User Restricted.',
+                                            'success',
+                                            '#3CB043'
+                                        );
+                                        accountTable.draw();
+                                    }
+                                },
+                                error: function() {
                                     messageModal(
                                         'Warning',
-                                        'Failed to restrict user details.',
+                                        'Something went wrong, Try again later.',
                                         'warning',
                                         '#FFDF00'
                                     );
-                                } else {
-                                    messageModal(
-                                        'Success',
-                                        'Successfully User Restricted.',
-                                        'success',
-                                        '#3CB043'
-                                    );
-                                    accountTable.draw();
                                 }
-                            },
-                            error: function() {
-                                messageModal(
-                                    'Warning',
-                                    'Something went wrong, Try again later.',
-                                    'warning',
-                                    '#FFDF00'
-                                );
-                            }
-                        });
-                    }
-                });
-            });
-
-            $('body').on('click', '.unRestrictUserAccount', function() {
-                userId = $(this).data('id');
-
-                confirmModal('Do you want to unrestrict this user?').then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "PUT",
-                            url: "{{ route('unrestrict.account', ':userId') }}"
-                                .replace(':userId', userId),
-                            success: function(data) {
-                                if (data.status == 0) {
+                            });
+                        }
+                    });
+                } else if (selectedAction === 'unrestrictAccount') {
+                    confirmModal('Do you want to unrestrict this user?').then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: "PUT",
+                                url: "{{ route('unrestrict.account', ':userId') }}"
+                                    .replace(':userId', userId),
+                                success: function(data) {
+                                    if (data.status == 0) {
+                                        messageModal(
+                                            'Warning',
+                                            'Failed to unrestrict user.',
+                                            'warning',
+                                            '#FFDF00'
+                                        );
+                                    } else {
+                                        messageModal(
+                                            'Success',
+                                            'Successfully User Unrestricted.',
+                                            'success',
+                                            '#3CB043'
+                                        );
+                                        accountTable.draw();
+                                    }
+                                },
+                                error: function(response) {
                                     messageModal(
                                         'Warning',
-                                        'Failed to unrestrict user.',
+                                        'Something went wrong, Try again later.',
                                         'warning',
                                         '#FFDF00'
                                     );
-                                } else {
-                                    messageModal(
-                                        'Success',
-                                        'Successfully User Unrestricted.',
-                                        'success',
-                                        '#3CB043'
-                                    );
-                                    accountTable.draw();
                                 }
-                            },
-                            error: function(response) {
-                                messageModal(
-                                    'Warning',
-                                    'Something went wrong, Try again later.',
-                                    'warning',
-                                    '#FFDF00'
-                                );
-                            }
-                        });
-                    }
-                });
+                            });
+                        }
+                    });
+                } else if (selectedAction === 'editAccount') {
+                    $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
+                    $('.modal-title').text('Edit User Account Form');
+                    $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit');
+                    $('#saveProfileDetails').text('Update');
+                    $('#suspend-container').hide();
+                    $('#organization').val(data['organization']);
+                    $('#position').val(data['position']);
+                    $('#email').val(data['email']);
+                    $('#operation').val('update');
+                    $('#userAccountModal').modal('show');
+                    defaultFormData = $('#accountForm').serialize();
+                } else if (selectedAction === 'removeAccount') {
+                    confirmModal('Do you want to remove this user account?').then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: "DELETE",
+                                url: "{{ route('remove.account', ':userId') }}"
+                                    .replace(':userId', userId),
+                                success: function(response) {
+                                    if (response.status == 0) {
+                                        messageModal(
+                                            'Warning',
+                                            'Failed to remove user details.',
+                                            'warning',
+                                            '#FFDF00'
+                                        );
+                                    } else {
+                                        Swal.fire(
+                                            'Success',
+                                            'Successfully removed user account.',
+                                            'success'
+                                        );
+
+                                        accountTable.draw();
+                                    }
+                                },
+                                error: function() {
+                                    messageModal(
+                                        'Warning',
+                                        'Something went wrong, Try again later.',
+                                        'warning',
+                                        '#FFDF00'
+                                    );
+                                }
+                            });
+                        }
+                    });
+                } else if (selectedAction === 'suspendAccount') {
+                    $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
+                    $('.modal-title').text('Suspend User Account Form');
+                    $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit');
+                    $('#saveProfileDetails').text('Suspend');
+                    $('#organization').val(data['organization']);
+                    $('#position').val(data['position']);
+                    $('#email').val(data['email']);
+                    $('#operation').val('suspend');
+                    $('#userAccountModal').modal('show');
+                    defaultFormData = $('#accountForm').serialize();
+                } else if (selectedAction === 'openAccount') {
+                    confirmModal('Do you want to open this user account?').then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: "PUT",
+                                url: "{{ route('open.account', ':userId') }}"
+                                    .replace(':userId', userId),
+                                success: function(response) {
+                                    if (response.status == 0) {
+                                        messageModal(
+                                            'Warning',
+                                            'Failed to open user account.',
+                                            'warning',
+                                            '#FFDF00'
+                                        );
+                                    } else {
+                                        messageModal(
+                                            'Success',
+                                            'Successfully opened user account.',
+                                            'success',
+                                            '#3CB043'
+                                        );
+
+                                        accountTable.draw();
+                                    }
+                                },
+                                error: function() {
+                                    messageModal(
+                                        'Warning',
+                                        'Something went wrong, Try again later.',
+                                        'warning',
+                                        '#FFDF00'
+                                    );
+                                }
+                            });
+                        }
+                    });
+                }
             });
 
             $('#createUserAccount').click(function() {
@@ -192,130 +293,6 @@
                 $('#operation').val('create');
                 $('#userAccountModal').modal('show');
                 $('#saveProfileDetails').text('Create');
-            });
-
-            $(document).on('click', '.editUserAccount', function() {
-                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                $('.modal-title').text('Edit User Account Form');
-                $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit');
-                $('#saveProfileDetails').text('Update');
-
-                let currentRow = $(this).closest('tr');
-
-                if (accountTable.responsive.hasHidden())
-                    currentRow = currentRow.prev('tr');
-
-                let data = accountTable.row(currentRow).data();
-                userId = data['id'];
-                $('#suspend-container').hide();
-                $('#organization').val(data['organization']);
-                $('#position').val(data['position']);
-                $('#email').val(data['email']);
-                $('#operation').val('update');
-                $('#userAccountModal').modal('show');
-                defaultFormData = $('#accountForm').serialize();
-            });
-
-            $(document).on('click', '.removeUserAccount', function() {
-                userId = $(this).data('id');
-
-                confirmModal('Do you want to remove this user account?').then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "DELETE",
-                            url: "{{ route('remove.account', ':userId') }}"
-                                .replace(':userId', userId),
-                            success: function(response) {
-                                if (response.status == 0) {
-                                    messageModal(
-                                        'Warning',
-                                        'Failed to remove user details.',
-                                        'warning',
-                                        '#FFDF00'
-                                    );
-                                } else {
-                                    Swal.fire(
-                                        'Success',
-                                        'Successfully removed user account.',
-                                        'success'
-                                    );
-
-                                    accountTable.draw();
-                                }
-                            },
-                            error: function() {
-                                messageModal(
-                                    'Warning',
-                                    'Something went wrong, Try again later.',
-                                    'warning',
-                                    '#FFDF00'
-                                );
-                            }
-                        });
-                    }
-                });
-            });
-
-            $(document).on('click', '.suspendUserAccount', function() {
-                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                $('.modal-title').text('Suspend User Account Form');
-                $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit');
-                $('#saveProfileDetails').text('Suspend');
-
-                let currentRow = $(this).closest('tr');
-
-                if (accountTable.responsive.hasHidden())
-                    currentRow = currentRow.prev('tr');
-
-                let data = accountTable.row(currentRow).data();
-                userId = data['id'];
-                
-                $('#organization').val(data['organization']);
-                $('#position').val(data['position']);
-                $('#email').val(data['email']);
-                $('#operation').val('suspend');
-                $('#userAccountModal').modal('show');
-                defaultFormData = $('#accountForm').serialize();
-            });
-
-            $(document).on('click', '.openUserAccount', function() {
-                userId = $(this).data('id');
-
-                confirmModal('Do you want to open this user account?').then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "PUT",
-                            url: "{{ route('open.account', ':userId') }}"
-                                .replace(':userId', userId),
-                            success: function(response) {
-                                if (response.status == 0) {
-                                    messageModal(
-                                        'Warning',
-                                        'Failed to open user account.',
-                                        'warning',
-                                        '#FFDF00'
-                                    );
-                                } else {
-                                    Swal.fire(
-                                        'Success',
-                                        'Successfully opened user account.',
-                                        'success'
-                                    );
-
-                                    accountTable.draw();
-                                }
-                            },
-                            error: function() {
-                                messageModal(
-                                    'Warning',
-                                    'Something went wrong, Try again later.',
-                                    'warning',
-                                    '#FFDF00'
-                                );
-                            }
-                        });
-                    }
-                });
             });
 
             let validator = $("#accountForm").validate({
@@ -342,7 +319,7 @@
                     }
                 },
                 errorElement: 'span',
-                submitHandler: formSubmitHandler,
+                submitHandler: formSubmitHandler
             });
 
             function formSubmitHandler(form) {

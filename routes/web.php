@@ -24,7 +24,8 @@ Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function () {
 
     Route::group(['prefix' => 'reportAccident'], function () {
         Route::controller(ReportAccidentController::class)->group(function () {
-            Route::get('/viewReport', 'displayGReport')->name('accident.report.resident');
+            Route::get('/pendingIncidentReport', 'displayGPendingReport')->name('pending.report.resident');
+            Route::get('/displayIncidentReport', 'displayIncidentReport')->name('accident.report.resident');
             Route::post('/addReport', 'addAccidentReport')->name('report.accident.resident');
         });
     });
@@ -58,10 +59,11 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['prefix' => 'reportAccident'], function () {
             Route::controller(ReportAccidentController::class)->group(function () {
-                Route::get('/viewReport', 'displayCReport')->name('accident.report.cdrrmo');
+                Route::get('/displayPendingReport', 'displayPendingReport')->name('pending.report.cdrrmo');
+                Route::get('/displayIncidentReport', 'displayIncidentReport')->name('accident.report.cdrrmo');
                 Route::post('/addReport', 'addAccidentReport')->name('report.accident.cdrrmo');
                 Route::post('/approveReport/{reportId}', 'approveAccidentReport')->name('approve.accident.report.cdrrmo');
-                Route::delete('/removeReport/{reportId}', 'removeAccidentReport')->name('remove.accident.report.cdrrmo');
+                Route::delete('/declineAccidentReport/{reportId}', 'declineAccidentReport')->name('decline.accident.report.cdrrmo');
             });
         });
 
