@@ -22,15 +22,34 @@
         <div class="main-content">
             <div class="dashboard-logo pb-4">
                 <i class="bi bi-megaphone text-2xl p-2 bg-slate-600 text-white rounded"></i>
-                <span class="text-2xl font-bold tracking-wider mx-2">REPORT ACCIDENT</span>
+                <span class="text-2xl font-bold tracking-wider mx-2">REPORT INCIDENT</span>
                 <hr class="mt-4">
             </div>
 
             <div id="result"></div>
 
-            <div class="report-table bg-slate-50 shadow-lg p-4 rounded">
+            <div class="report-table bg-slate-50 shadow-lg p-4 rounded mb-5">
                 <header class="text-2xl font-semibold">Pending Accident Report</header>
-                <table class="table data-table display nowrap" style="width:100%" id="report-table">
+                <table class="table pendingReport display nowrap" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th class="w-px">Report ID</th>
+                            <th>Report Description</th>
+                            <th>Accident Location</th>
+                            <th>Actual Photo</th>
+                            <th class="w-4">Status</th>
+                            @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
+                                <th class="w-4">Action</th>
+                            @endif
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+            <div class="report-table bg-slate-50 shadow-lg p-4 rounded">
+                <header class="text-2xl font-semibold">Incident Report</header>
+                <table class="table incidentReports display nowrap" style="width:100%">
                     <thead>
                         <tr>
                             <th class="w-px">Report ID</th>
@@ -55,10 +74,8 @@
                                 <h1 class="modal-title fs-5 text-center text-white">Report Incident Form</h1>
                             </div>
                             <div class="modal-body">
-                                <form action="{{ route('report.accident.cdrrmo') }}" method="POST" id="reportForm"
-                                    name="reportForm" enctype="multipart/form-data">
+                                <form id="reportForm" name="reportForm" enctype="multipart/form-data">
                                     @csrf
-                                    <input type="hidden" name="report_id" id="report_id">
                                     <div class="mb-3">
                                         <label for="description" class="flex items-center justify-center">Report
                                             Description</label>
@@ -81,7 +98,7 @@
                                         <span class="text-danger error-text photo_error"></span>
                                     </div>
                                     <div class="modal-footer text-white">
-                                        <button type="submit"
+                                        <button id="reportIncidentBtn"
                                             class="bg-green-600 p-2 rounded shadow-lg hover:bg-green-700 transition duration-200">Report
                                             Accident</button>
                                     </div>
@@ -116,13 +133,57 @@
     @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
         <script type="text/javascript">
             $(document).ready(function() {
+                let reportId;
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
 
-                var report_table = $('.data-table').DataTable({
+                let pendingReport = $('.pendingReport').DataTable({
+                    rowReorder: {
+                        selector: 'td:nth-child(2)'
+                    },
+                    responsive: true,
+                    processing: false,
+                    serverSide: true,
+                    ajax: "{{ route('pending.report.cdrrmo') }}",
+                    columns: [{
+                            data: 'id',
+                            name: 'id',
+                            visible: false
+                        },
+                        {
+                            data: 'description',
+                            name: 'description'
+                        },
+                        {
+                            data: 'location',
+                            name: 'location'
+                        },
+                        {
+                            data: 'photo',
+                            name: 'photo',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'status',
+                            name: 'status',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'action',
+                            name: 'action',
+                            orderable: false,
+                            searchable: false
+                        },
+                    ]
+                });
+
+                let incidentReports = $('.incidentReports').DataTable({
                     rowReorder: {
                         selector: 'td:nth-child(2)'
                     },
@@ -164,97 +225,138 @@
                     ]
                 });
 
-                $('body').on('click', '.approveAccidentReport', function() {
-                    var report_id = $(this).data('id');
+                $('body').on('click', '.approveIncidentReport', function() {
+                    reportId = $(this).data('id');
 
-                    Swal.fire({
-                        title: 'Would you like to approve this report?',
-                        showDenyButton: true,
-                        confirmButtonText: 'Yes, approve it.',
-                        confirmButtonColor: '#334155',
-                        denyButtonText: `Don't Approve`,
-                        denyButtonColor: '#b91c1c',
-                    }).then((result) => {
+                    confirmModal('Do you want to approve this report incident?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "POST",
-                                url: "{{ route('approve.accident.report.cdrrmo', ':report_id') }}"
-                                    .replace(':report_id', report_id),
-                                success: function(data) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Successfully Approved Reported.',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#334155',
-                                    });
-                                    table.draw();
+                                url: "{{ route('approve.accident.report.cdrrmo', ':reportId') }}"
+                                    .replace(':reportId', reportId),
+                                success: function(response) {
+                                    if (response.status == 0) {
+                                        messageModal(
+                                            'Warning',
+                                            'Failed to approve report incident, Try again.',
+                                            'warning',
+                                            '#FFDF00'
+                                        );
+                                    } else {
+                                        messageModal(
+                                            'Success',
+                                            'Successfully Approved Reported.',
+                                            'success',
+                                            '#3CB043'
+                                        ).then(() => {
+                                            pendingReport.draw();
+                                            incidentReports.draw();
+                                        });
+                                    }
                                 },
-                                error: function(response) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        confirmButtonText: 'Understood',
-                                        confirmButtonColor: '#334155',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Something went wrong, try again later.'
-                                    });
-                                }
-                            });
-                        }
-                    })
-                });
-
-                $('body').on('click', '.removeAccidentReport', function() {
-                    var report_id = $(this).data("id");
-
-                    Swal.fire({
-                        icon: 'warning',
-                        title: 'Are you sure?',
-                        text: "You won't be able to undo this!",
-                        showCancelButton: true,
-                        confirmButtonColor: '#334155',
-                        cancelButtonColor: '#b91c1c',
-                        confirmButtonText: 'Yes, remove it.'
-                    }).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                type: "DELETE",
-                                url: "{{ route('remove.accident.report.cdrrmo', ':report_id') }}"
-                                    .replace(':report_id', report_id),
-                                success: function(data) {
-                                    Swal.fire({
-                                        icon: 'success',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Accident Report has been removed.',
-                                        confirmButtonText: 'OK',
-                                        confirmButtonColor: '#334155',
-                                    });
-                                    table.draw();
-                                },
-                                error: function(response) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        confirmButtonText: 'Understood',
-                                        confirmButtonColor: '#334155',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Something went wrong, try again later.'
-                                    });
+                                error: function() {
+                                    messageModal(
+                                        'Warning',
+                                        'Something went wrong, try again later.',
+                                        'warning',
+                                        '#FFDF00'
+                                    );
                                 }
                             });
                         }
                     });
                 });
 
-                Echo.channel('report-incident').listen('ReportIncident', (e) => {
-                    table.draw();
-                })
+                $('body').on('click', '.declineIncidentReport', function() {
+                    reportId = $(this).data('id');
+                    confirmModal('Do you want to decline this report incident?').then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: "DELETE",
+                                url: "{{ route('decline.accident.report.cdrrmo', ':reportId') }}"
+                                    .replace(':reportId', reportId),
+                                success: function(response) {
+                                    if (response.status == 0) {
+                                        messageModal(
+                                            'Warning',
+                                            'Failed to decline report incident, Try again.',
+                                            'error',
+                                            '#FFDF00'
+                                        );
+                                    } else {
+                                        messageModal(
+                                            'Success',
+                                            'Successfully Declined Reported.',
+                                            'success',
+                                            '#3CB043'
+                                        ).then(() => {
+                                            pendingReport.draw();
+                                            incidentReports.draw();
+                                        });
+                                    }
+                                },
+                                error: function() {
+                                    messageModal(
+                                        'Warning',
+                                        'Something went wrong, try again later.',
+                                        'error',
+                                        '#FFDF00'
+                                    );
+                                }
+                            });
+                        }
+                    });
+                });
+
+                // Echo.channel('report-incident').listen('ReportIncident', (e) => {
+                //     table.draw();
+                // })
             });
         </script>
     @endif
     @guest
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+            integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+            crossorigin="anonymous"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                var report_table = $('.data-table').DataTable({
+                let pendingReport = $('.pendingReport').DataTable({
+                    rowReorder: {
+                        selector: 'td:nth-child(2)'
+                    },
+                    responsive: true,
+                    processing: false,
+                    serverSide: true,
+                    ajax: "{{ route('pending.report.resident') }}",
+                    columns: [{
+                            data: 'id',
+                            name: 'id',
+                            visible: false
+                        },
+                        {
+                            data: 'description',
+                            name: 'description'
+                        },
+                        {
+                            data: 'location',
+                            name: 'location'
+                        },
+                        {
+                            data: 'photo',
+                            name: 'photo',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
+                            data: 'status',
+                            name: 'status',
+                            orderable: false,
+                            searchable: false
+                        },
+                    ]
+                });
+
+                let incidentReports = $('.incidentReports').DataTable({
                     rowReorder: {
                         selector: 'td:nth-child(2)'
                     },
@@ -291,7 +393,6 @@
                 });
 
                 $('#createReport').click(function() {
-                    $('#report_id').val('');
                     $('#reportForm').trigger("reset");
                     $('#createAccidentReportModal').modal('show');
                 });
@@ -307,19 +408,38 @@
 
                 });
 
-                $('#reportForm').submit(function(e) {
-                    let formData = new FormData(this);
+                let validator = $("#reportForm").validate({
+                    rules: {
+                        description: {
+                            required: true
+                        },
+                        location: {
+                            required: true
+                        },
+                        photo: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        description: {
+                            required: 'Please Enter Incident Description.'
+                        },
+                        location: {
+                            required: 'Please Enter Incident Location.'
+                        },
+                        photo: {
+                            required: 'Please Provide Atleast 1 Actual Photo.'
+                        }
+                    },
+                    errorElement: 'span',
+                    submitHandler: formSubmitHandler,
+                });
+
+                function formSubmitHandler(form, e) {
+                    let formData = new FormData(form);
                     e.preventDefault();
 
-                    Swal.fire({
-                        icon: 'question',
-                        title: 'Would you like to report this accident?',
-                        showDenyButton: true,
-                        confirmButtonText: 'Yes, report it.',
-                        confirmButtonColor: '#334155',
-                        denyButtonText: `Double Check`,
-                        denyButtonColor: '#b91c1c',
-                    }).then((result) => {
+                    confirmModal('Do you want to report this incident?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: 'POST',
@@ -336,51 +456,53 @@
                                             $('span.' + prefix + '_error').text(val[
                                                 0]);
                                         });
-                                        Swal.fire({
-                                            icon: 'error',
-                                            title: "{{ config('app.name') }}",
-                                            text: 'Failed to Reported Accident, Thanks for your concern.',
-                                            confirmButtonText: 'OK',
-                                            confirmButtonColor: '#334155',
-                                        });
-                                    } else if (data.condition == 2) {
-                                        Swal.fire(
-                                            "{{ config('app.name') }}",
-                                            data.block_time,
-                                            'error'
+                                        messageModal(
+                                            'Warning',
+                                            'Failed to Reported Incident, Thanks for your concern.',
+                                            'error',
+                                            '#3CB043'
                                         );
-                                        $('#reportForm')[0].reset();
-                                        $('#createAccidentReportModal').modal('hide');
-                                    } else {
-                                        Swal.fire({
-                                            icon: 'success',
-                                            title: "{{ config('app.name') }}",
-                                            text: 'Successfully Reported, Thanks for your concern.',
-                                            confirmButtonText: 'OK',
-                                            confirmButtonColor: '#334155',
+                                    } else if (data.condition == 2) {
+                                        messageModal(
+                                            "You've been Blocked",
+                                            data.block_time,
+                                            'warning',
+                                            '#3CB043'
+                                        ).then(() => {
+                                            $('#reportForm')[0].reset();
+                                            $('#createAccidentReportModal').modal(
+                                                'hide');
                                         });
-                                        $('#reportForm')[0].reset();
-                                        $('#createAccidentReportModal').modal('hide');
-                                        table.draw();
+                                    } else {
+                                        messageModal(
+                                            'Success',
+                                            'Successfully Reported, Thanks for your concern.',
+                                            'success',
+                                            '#3CB043'
+                                        ).then(() => {
+                                            $('#reportForm')[0].reset();
+                                            $('#createAccidentReportModal').modal(
+                                                'hide');
+                                            pendingReport.draw();
+                                        });
                                     }
                                 },
-                                error: function(response) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        confirmButtonText: 'Understood',
-                                        confirmButtonColor: '#334155',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Something went wrong, try again later.'
-                                    });
+                                error: function() {
+                                    messageModal(
+                                        'Warning',
+                                        'Something went wrong, try again later.',
+                                        'error',
+                                        '#3CB043'
+                                    );
                                 }
                             });
                         }
-                    })
-                });
+                    });
+                }
 
-                Echo.channel('report-incident').listen('ReportIncident', (e) => {
-                    table.draw();
-                })
+                // Echo.channel('report-incident').listen('ReportIncident', (e) => {
+                //     table.draw();
+                // })
             });
         </script>
     @endguest

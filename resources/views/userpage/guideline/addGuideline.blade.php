@@ -1,13 +1,12 @@
 <div class="modal fade" id="guidelineModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-red-700">
-                <h1 class="modal-title fs-5 text-white">Guideline Form</h1>
+            <div class="modal-header bg-green-600">
+                <h1 class="modal-title fs-5 text-white">Publish Guideline Form</h1>
             </div>
             <div class="modal-body">
                 <form id="guidelineForm" name="guidelineForm">
                     @csrf
-                    <input type="hidden" name="guideline_id" id="guideline_id">
                     <div class="mb-3">
                         <label for="type" class="flex items-center justify-center">Guideline
                             Type</label>
@@ -16,11 +15,7 @@
                         <span class="text-danger error-text type_error"></span>
                     </div>
                     <div class="modal-footer">
-                        <button type="button"
-                            class="bg-slate-600 text-white p-2 rounded drop-shadow-lg hover:bg-slate-700"
-                            data-bs-dismiss="modal">Close</button>
-                        <button id="submitGuidelineBtn"
-                            class="bg-red-700 text-white p-2 rounded drop-shadow-lg hover:bg-red-800">Publish
+                        <button id="submitGuidelineBtn" class="btn-submit p-2">Publish
                             Guideline</button>
                     </div>
                 </form>

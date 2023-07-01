@@ -41,26 +41,23 @@ class UserAccountsController extends Controller
             return DataTables::of($userAccounts)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    $actionBtns = '';
+                    $actionBtns = '<select class="custom-select custom-select-sm font-bold actionSelect" data-id="' . $row->id . '">
+                            <option value="">Select Action</option>';
 
                     if ($row->isSuspend == 0) {
-                        $suspendBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Suspend" class="py-1.5 btn-sm mr-2 suspendUserAccount">Suspend</a>';
-
                         if ($row->isRestrict == 0) {
-                            $restrictBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Restrict" class="restrict btn-primary py-1.5 btn-sm mr-2 restrictUserAccount">Restrict</a>';
-                            $actionBtns .= $restrictBtn . $suspendBtn;
+                            $actionBtns .= '<option value="restrictAccount">Restrict</option>';
                         } else {
-                            $unRestrictBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Unrestrict" class="unRestrict btn-primary py-1.5 btn-sm mr-2 unRestrictUserAccount">Unrestrict</a>';
-                            $actionBtns .= $unRestrictBtn . $suspendBtn;
+                            $actionBtns .= '<option value="unrestrictAccount">Unrestrict</option>';
                         }
+                        $actionBtns .= '<option value="suspendAccount">Suspend</option>';
                     } else {
-                        $openAccountBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="OpenAccount" class="py-1.5 btn-sm mr-2 openUserAccount">Open Account</a>';
-                        $actionBtns .= $openAccountBtn;
+                        $actionBtns .= '<option value="openAccount">Open Account</option>';
                     }
 
-                    $removeBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="py-1.5 btn-sm mr-2 removeUserAccount">Remove</a>';
-                    $editBtn = '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="btn-edit py-1.5 btn-sm mr-2 editUserAccount">Edit</a>';
-                    $actionBtns .= $editBtn . $removeBtn;
+                    $actionBtns .= '<option value="editAccount">Edit</option>';
+                    $actionBtns .= '<option value="removeAccount">Remove</option>';
+                    $actionBtns .= '</select>';
 
                     return $actionBtns;
                 })
@@ -91,12 +88,12 @@ class UserAccountsController extends Controller
                 ]);
                 $this->logActivity->generateLog('Creating Account Details');
 
-                Mail::to(trim($request->email))->send(new UserCredentialsMail([
-                    'email' => trim($request->email),
-                    'organization' => $request->organization,
-                    'position' => Str::upper($request->position),
-                    'password' => $defaultPassword
-                ]));
+                // Mail::to(trim($request->email))->send(new UserCredentialsMail([
+                //     'email' => trim($request->email),
+                //     'organization' => $request->organization,
+                //     'position' => Str::upper($request->position),
+                //     'password' => $defaultPassword
+                // ]));
 
                 return response()->json(['status' => 1]);
             } catch (\Exception $e) {

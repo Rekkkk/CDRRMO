@@ -35,17 +35,24 @@ class AuthenticationController extends Controller
     {
         if (auth()->check()) {
             $userRole = '';
-            $suspendTime = Carbon::parse(auth()->user()->suspendTime)->format('F j, Y H:i:s');
 
+            if (auth()->user()->isRestrict == 1) {
+                session()->flush();
+                auth()->logout();
+                return back()->withInput()->with('message', 'Your account has been Restricted.');
+            }
+            
             if (auth()->user()->isSuspend == 1) {
+                $suspendTime = Carbon::parse(auth()->user()->suspendTime)->format('F j, Y H:i:s');
+
                 if (auth()->user()->suspendTime < Carbon::now()->format('Y-m-d H:i:s')) {
+                    $userRole = auth()->user()->organization;
 
                     $this->user->find(auth()->user()->id)->update([
                         'status' => 'Active',
                         'isSuspend' => 0,
                         'suspendTime' => null
                     ]);
-                    $userRole = auth()->user()->organization;
                     $this->logActivity->generateLog('Logged In');
 
                     if ($userRole == 'CDRRMO')
@@ -53,10 +60,10 @@ class AuthenticationController extends Controller
                     else if ($userRole == 'CSWD')
                         return redirect('/cswd/dashboard')->with('message', 'Welcome to CSWD Panel.');
                 } else {
-                    session()->flush();
                     auth()->logout();
+                    session()->flush();
 
-                    return back()->withInput()->with('message', 'Your Account has been suspended until ' . $suspendTime);
+                    return back()->withInput()->with('message', 'Your account has been suspended until ' . $suspendTime);
                 }
             } else {
                 $userRole = auth()->user()->organization;
@@ -72,7 +79,7 @@ class AuthenticationController extends Controller
         return back();
     }
 
-    public function logout(Request $request)
+    public function logout()
     {
         $role_name = auth()->user()->organization;
         $this->logActivity->generateLog('Logged Out');

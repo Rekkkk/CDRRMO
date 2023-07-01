@@ -33,8 +33,7 @@
                                 </a>
                                 <a href="#edit{{ $guidelineItem->id }}" data-bs-toggle="modal"
                                     class="absolute left-2 top-3">
-                                    <i
-                                        class="btn-edit bi bi-pencil p-2"></i>
+                                    <i class="btn-edit bi bi-pencil p-2"></i>
                                 </a>
                                 @include('userpage.guideline.updateGuideline')
                                 <a class="guidelines-item"
@@ -55,8 +54,7 @@
                                 </a>
                                 <a href="#edit{{ $guidelineItem->id }}" data-bs-toggle="modal"
                                     class="absolute left-2 top-3">
-                                    <i
-                                        class="btn-edit bi bi-pencil p-2"></i>
+                                    <i class="btn-edit bi bi-pencil p-2"></i>
                                 </a>
                                 @include('userpage.guideline.updateGuideline')
                                 <a class="guidelines-item"
@@ -89,9 +87,9 @@
                         (auth()->check() && auth()->user()->position == 'President') ||
                             (auth()->check() && auth()->user()->position == 'Secretary'))
                         <div class="w-72">
-                            <div
-                                class="flex text-slate-600 w-full h-full drop-shadow-2xl items-center justify-center">
-                                <a id="createGuidelineBtn" href="javascript:void(0)" class="transition ease-in-out delay-150 hover:scale-105 duration-100">
+                            <div class="flex text-slate-600 w-full h-full drop-shadow-2xl items-center justify-center">
+                                <a id="createGuidelineBtn" href="javascript:void(0)"
+                                    class="transition ease-in-out delay-150 hover:scale-105 duration-100">
                                     <i class="bi bi-plus-square-fill text-4xl "></i>
                                 </a>
                             </div>
@@ -110,10 +108,9 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
     @if (auth()->check())
-        <script type="text/javascript">
+        <script>
             $(document).ready(function() {
                 $('#createGuidelineBtn').click(function() {
-                    $('#guideline_id').val('');
                     $('#guidelineForm')[0].reset();
                     $('#guidelineModal').modal('show');
                 });
@@ -121,14 +118,7 @@
                 $('#submitGuidelineBtn').click(function(e) {
                     e.preventDefault();
 
-                    Swal.fire({
-                        icon: 'question',
-                        title: 'Would you like to publish this guideline?',
-                        showDenyButton: true,
-                        confirmButtonText: 'Yes, publish it.',
-                        confirmButtonColor: '#334155',
-                        denyButtonText: 'Double Check'
-                    }).then((result) => {
+                    confirmModal('Do you want to publish this guideline?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
                                 data: $('#guidelineForm').serialize(),
@@ -144,40 +134,38 @@
                                             $('span.' + prefix + '_error').text(val[
                                                 0]);
                                         });
-                                        Swal.fire({
-                                            icon: 'error',
-                                            confirmButtonText: 'Understood',
-                                            confirmButtonColor: '#334155',
-                                            title: "{{ config('app.name') }}",
-                                            text: 'Failed to Publish E-LIGTAS Guideline.'
-                                        });
+                                        messageModal(
+                                            'Warning',
+                                            'Failed to Publish E-LIGTAS Guideline.',
+                                            'warning',
+                                            '#FFDF00'
+                                        );
                                     } else {
-                                        $('#guidelineForm')[0].reset();
-                                        $('#guidelineModal').modal('hide');
-                                        Swal.fire({
-                                            title: "{{ config('app.name') }}",
-                                            text: 'E-LIGTAS Guideline Successfully Published.',
-                                            icon: 'success'
-                                        }).then((result) => {
-                                            if (result.isConfirmed) {
-                                                location.reload();
-                                            }
+                                        messageModal(
+                                            'Success',
+                                            'E-LIGTAS Guideline Successfully Published.',
+                                            'success',
+                                            '#3CB043'
+                                        ).then(() => {
+                                            $('#guidelineForm')[0].reset();
+                                            $('#guidelineModal').modal('hide');
+                                            location.reload();
                                         });
                                     }
                                 },
-                                error: function(data) {
-                                    Swal.fire({
-                                        icon: 'error',
-                                        confirmButtonText: 'Understood',
-                                        confirmButtonColor: '#334155',
-                                        title: "{{ config('app.name') }}",
-                                        text: 'Something went wrong, try again later.'
-                                    });
+                                error: function() {
+                                    messageModal(
+                                        'Warning',
+                                        'Something went wrong, Try again later.',
+                                        'warning',
+                                        '#FFDF00'
+                                    );
                                 }
                             });
                         }
-                    })
+                    });
                 });
+
             });
         </script>
     @endif

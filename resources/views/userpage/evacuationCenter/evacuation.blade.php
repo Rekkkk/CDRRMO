@@ -34,7 +34,7 @@
                             Add Evacuation Center
                         </button>
                     </div>
-                    <table class="table data-table display nowrap" style="width:100%">
+                    <table class="table evacuationCenterTable display nowrap" style="width:100%">
                         <thead>
                             <tr>
                                 <th></th>
@@ -76,7 +76,7 @@
                 }
             });
 
-            var evacuationCenterTable = $('.data-table').DataTable({
+            var evacuationCenterTable = $('.evacuationCenterTable').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(2)'
                 },

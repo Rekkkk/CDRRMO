@@ -59,6 +59,7 @@ hr {
 
 .btn-submit:hover {
     background: #15803d;
+    color: var(--color-text);
     transform: scale(1.05);
 }
 
@@ -71,6 +72,7 @@ hr {
 
 .btn-primary:hover {
     background: #1d4ed8;
+    color: var(--color-text);
     transform: scale(1.05);
 }
 
@@ -108,7 +110,9 @@ hr {
 .evacuation-button .btn-cancel,
 .removeEvacuationCenter,
 .guide-content .btn-cancel,
-.removeUserAccount {
+.removeUserAccount,
+.declineIncidentReport,
+.removeIncidentReport {
     background: var(--color-red);
     color: var(--color-text);
     border-radius: 4px;
@@ -119,7 +123,9 @@ hr {
 .evacuation-button .btn-cancel:hover,
 .removeEvacuationCenter:hover,
 .guide-content .btn-cancel:hover,
-.removeUserAccount:hover {
+.removeUserAccount:hover,
+.declineIncidentReport:hover,
+.removeIncidentReport:hover {
     background: #b91c1c;
     color: var(--color-text);
     transform: scale(1.05);
@@ -440,6 +446,10 @@ hr {
     background-size: cover;
 }
 
+select.custom-select option {
+    font-size: 15px;
+    font-weight: 700;
+}
 /* User Profile End Section */
 
 /* Recording Evacuee Section Start Here */
