@@ -49,7 +49,7 @@
                                 <tr class="table-row">
                                     <th>Id</th>
                                     <th>House Hold #</th>
-                                    <th><label for="selectAllCheckBox">Select All</label>
+                                    <th>
                                         <input type="checkbox" class="w-4 h-4 accent-blue-600" id="selectAllCheckBox">
                                     </th>
                                     <th>Full Name</th>
