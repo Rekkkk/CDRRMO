@@ -103,7 +103,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::group(['prefix' => 'evacuee'], function () {
             Route::controller(EvacueeController::class)->group(function () {
-                Route::get('/getEvacueeInfo', 'loadEvacueeTable')->name('get.evacuee.info.cswd');
+                Route::get('/getEvacueeInfo', 'getEvacueeData')->name('get.evacuee.info.cswd');
                 Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('record.evacuee.cswd');
                 Route::put('/updateEvacueeInfo/{evacueeId}', 'updateEvacueeInfo')->name('update.evacuee.info.cswd');
                 Route::patch('/updateEvacueeDateOut', 'updateEvacueeDateOut')->name('update.evacuee.dateout.cswd');

@@ -20,9 +20,9 @@ class EvacueeController extends Controller
         $this->logActivity = new ActivityUserLog;
     }
 
-    public function loadEvacueeTable()
+    public function getEvacueeData()
     {
-        $data = $this->evacuee->all();
+        $data = $this->evacuee->where('date_out', null)->get();
         return DataTables::of($data)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
