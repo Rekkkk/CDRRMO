@@ -19,7 +19,7 @@
         <x-messages />
         <div class="main-content">
             <div class="dashboard-logo pb-4">
-                <div class="grid grid-cols-2">
+                <div class="grid grid-cols-1">
                     <div class="grid col-end-1 mr-4">
                         <div>
                             <i class="bi bi-people text-2xl p-2 bg-slate-600 text-white rounded"></i>
