@@ -32,34 +32,18 @@ class UserAccountsController extends Controller
     {
         $userAccounts = $this->user->all();
 
-        if (auth()->user()->organization == "CDRRMO")
-            $userAccounts = $userAccounts->whereNotIn('id', [auth()->user()->id]);
-        else
-            $userAccounts = $userAccounts->where('organization', 'CSWD')->whereNotIn('id', [auth()->user()->id]);
+        $userAccounts = auth()->user()->organization == "CDRRMO" ? $userAccounts->whereNotIn('id', [auth()->user()->id]) :
+            $userAccounts->where('organization', 'CSWD')->whereNotIn('id', [auth()->user()->id]);
 
         if ($request->ajax()) {
             return DataTables::of($userAccounts)
                 ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $actionBtns = '<select class="custom-select custom-select-sm font-bold actionSelect" data-id="' . $row->id . '">
+                ->addColumn('action', function ($user) {
+                    $actionBtns = '<select class="custom-select custom-select-sm font-bold actionSelect" data-id="' . $user->id . '">
                             <option value="">Select Action</option>';
-
-                    if ($row->isSuspend == 0) {
-                        if ($row->isRestrict == 0) {
-                            $actionBtns .= '<option value="restrictAccount">Restrict</option>';
-                        } else {
-                            $actionBtns .= '<option value="unrestrictAccount">Unrestrict</option>';
-                        }
-                        $actionBtns .= '<option value="suspendAccount">Suspend</option>';
-                    } else {
-                        $actionBtns .= '<option value="openAccount">Open Account</option>';
-                    }
-
-                    $actionBtns .= '<option value="editAccount">Edit</option>';
-                    $actionBtns .= '<option value="removeAccount">Remove</option>';
-                    $actionBtns .= '</select>';
-
-                    return $actionBtns;
+                    $actionBtns .= $user->isSuspend == 0 ? '<option value="suspendAccount">Suspend</option>' : '<option value="openAccount">Open Account</option>';
+                    $actionBtns .= $user->isRestrict == 0 ? '<option value="restrictAccount">Restrict</option>' : '<option value="unrestrictAccount">Unrestrict</option>';
+                    return $actionBtns .= '<option value="editAccount">Edit</option>' . '<option value="removeAccount">Remove</option>' . '</select>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -135,7 +119,6 @@ class UserAccountsController extends Controller
                 'status' => 'Restricted',
                 'isRestrict' => 1
             ]);
-
             $this->logActivity->generateLog('Restricting User Account');
 
             return response()->json(['status' => 1]);
@@ -147,13 +130,11 @@ class UserAccountsController extends Controller
     public function unRestrictUserAccount($userId)
     {
         try {
-            $unRestrictedAccount = [
+            $this->user->find($userId)->update([
                 'status' => 'Active',
                 'isRestrict' => 0
-            ];
-
-            $this->user->find($userId)->update($unRestrictedAccount);
-            $this->logActivity->generateLog('Unrestrict User Account');
+            ]);
+            $this->logActivity->generateLog('Unrestricting User Account');
 
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {

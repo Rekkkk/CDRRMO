@@ -13,7 +13,6 @@
         @include('partials.header')
         @include('partials.sidebar')
         <x-messages />
-
         <div class="main-content">
             <div class="user-profile-container rounded shadow-lg mt-4">
                 @include('userpage.userAccount.userAccountModal')
@@ -35,13 +34,11 @@
                             <div class="relative w-full mb-3 lg:w-2/12 px-4 text-center">
                                 @if (auth()->user()->organization == 'CDRRMO')
                                     <label class="w-full bg-red-700 profile-details-label">Position</label>
-                                    <p class="profile-details">{{ auth()->user()->position }}
-                                    </p>
                                 @else
                                     <label class="w-full bg-green-600 profile-details-label">Position</label>
-                                    <p class="profile-details">{{ auth()->user()->position }}
-                                    </p>
                                 @endif
+                                <p class="profile-details">{{ auth()->user()->position }}
+                                </p>
                             </div>
                             <div class="relative w-full mb-3 lg:w-5/12 px-4 text-center">
                                 @if (auth()->user()->organization == 'CDRRMO')
@@ -59,24 +56,20 @@
                                 @if (auth()->user()->organization == 'CDRRMO')
                                     <label class="w-full bg-red-700 profile-details-label">Email
                                         Address</label>
-                                    <p class="profile-details">{{ auth()->user()->email }}</p>
                                 @else
                                     <label class="w-full bg-green-600 profile-details-label">Email
                                         Address</label>
-                                    <p class="profile-details">{{ auth()->user()->email }}
-                                    </p>
                                 @endif
+                                <p class="profile-details">{{ auth()->user()->email }}</p>
                             </div>
                             <div class="relative w-full mb-3 lg:w-2/12 px-4 text-center">
                                 @if (auth()->user()->organization == 'CDRRMO')
                                     <label class="w-full bg-red-700 profile-details-label">Account Status</label>
-                                    <p class="profile-details">{{ auth()->user()->status }}
-                                    </p>
                                 @else
                                     <label class="w-full bg-green-600 profile-details-label">Account Status</label>
-                                    <p class="profile-details">{{ auth()->user()->status }}
-                                    </p>
                                 @endif
+                                <p class="profile-details">{{ auth()->user()->status }}
+                                </p>
                             </div>
                         </div>
                     </form>
@@ -94,16 +87,12 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
-
     <script>
         $(document).ready(function() {
-            let defaultFormData;
-
             $('#editProfileBtn').click(function() {
                 $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                 $('.modal-title').text('Edit Profile Account Form');
-                $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit');
-                $('#saveProfileDetails').text('Update');
+                $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text('Update');
                 $('#suspend-container').hide();
                 $('#operation').val('update');
                 $('#accountId').val('{{ auth()->user()->id }}');
@@ -147,19 +136,14 @@
                 confirmModal('Do you want to update this user details?').then((result) => {
                     if (result.isConfirmed) {
                         if (operation == 'update') {
-                            messageModal(
-                                'Info',
-                                'No changes were made.',
-                                'info',
-                                '#B91C1C'
-                            );
+                            messageModal('Info', 'No changes were made.', 'info', '#B91C1C');
                             $('#userAccountModal').modal('hide');
                             return;
                         }
                         $.ajax({
                             url: "{{ route('update.account', ':accountid') }}"
                                 .replace(':accountid', accountid),
-                            method: 'put',
+                            method: 'PUT',
                             data: $('#accountForm').serialize(),
                             dataType: 'json',
                             beforeSend: function() {
@@ -170,17 +154,11 @@
                                     $.each(response.error, function(prefix, val) {
                                         $('span.' + prefix + '_error').text(val[0]);
                                     });
-                                    messageModal(
-                                        'Warning',
-                                        `Failed to update user details.`,
-                                        'warning',
-                                        '#FFDF00'
-                                    );
+                                    messageModal('Warning', `Failed to update user details.`,
+                                        'warning', '#FFDF00');
                                 } else {
-                                    messageModal(
-                                        'Success',
-                                        `Successfully updated the user details.`,
-                                        'success',
+                                    messageModal('Success',
+                                        `Successfully updated the user details.`, 'success',
                                         '#3CB043'
                                     ).then(function() {
                                         $('#userAccountModal').modal('hide');
@@ -190,12 +168,9 @@
                             },
                             error: function() {
                                 $('#userAccountModal').modal('hide');
-                                messageModal(
-                                    'Warning',
-                                    'Something went wrong, Try again later.',
-                                    'warning',
-                                    '#FFDF00'
-                                );
+                                messageModal('Warning',
+                                    'Something went wrong, Try again later.', 'warning',
+                                    '#FFDF00');
                             }
                         });
                     }

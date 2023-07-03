@@ -56,7 +56,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
-
     <script>
         $(document).ready(function() {
             let userId, defaultFormData;
@@ -124,29 +123,20 @@
                                     .replace(':userId', userId),
                                 success: function(response) {
                                     if (response.status == 0) {
-                                        messageModal(
-                                            'Warning',
+                                        messageModal('Warning',
                                             'Failed to restrict user details.',
-                                            'warning',
-                                            '#FFDF00'
-                                        );
+                                            'warning', '#FFDF00');
                                     } else {
-                                        messageModal(
-                                            'Success',
+                                        messageModal('Success',
                                             'Successfully User Restricted.',
-                                            'success',
-                                            '#3CB043'
-                                        );
+                                            'success', '#3CB043');
                                         accountTable.draw();
                                     }
                                 },
                                 error: function() {
-                                    messageModal(
-                                        'Warning',
+                                    messageModal('Warning',
                                         'Something went wrong, Try again later.',
-                                        'warning',
-                                        '#FFDF00'
-                                    );
+                                        'warning', '#FFDF00');
                                 }
                             });
                         }
@@ -160,29 +150,20 @@
                                     .replace(':userId', userId),
                                 success: function(data) {
                                     if (data.status == 0) {
-                                        messageModal(
-                                            'Warning',
-                                            'Failed to unrestrict user.',
-                                            'warning',
-                                            '#FFDF00'
-                                        );
+                                        messageModal('Warning',
+                                            'Failed to unrestrict user.', 'warning',
+                                            '#FFDF00');
                                     } else {
-                                        messageModal(
-                                            'Success',
+                                        messageModal('Success',
                                             'Successfully User Unrestricted.',
-                                            'success',
-                                            '#3CB043'
-                                        );
+                                            'success', '#3CB043');
                                         accountTable.draw();
                                     }
                                 },
                                 error: function(response) {
-                                    messageModal(
-                                        'Warning',
+                                    messageModal('Warning',
                                         'Something went wrong, Try again later.',
-                                        'warning',
-                                        '#FFDF00'
-                                    );
+                                        'warning', '#FFDF00');
                                 }
                             });
                         }
@@ -190,9 +171,8 @@
                 } else if (selectedAction === 'editAccount') {
                     $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                     $('.modal-title').text('Edit User Account Form');
-                    $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit');
-                    $('#saveProfileDetails').text('Update');
-                    $('#suspend-container').hide();
+                    $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text('Update');
+                    $('#suspend').prop('disabled', true);
                     $('#organization').val(data['organization']);
                     $('#position').val(data['position']);
                     $('#email').val(data['email']);
@@ -208,29 +188,20 @@
                                     .replace(':userId', userId),
                                 success: function(response) {
                                     if (response.status == 0) {
-                                        messageModal(
-                                            'Warning',
+                                        messageModal('Warning',
                                             'Failed to remove user details.',
-                                            'warning',
-                                            '#FFDF00'
-                                        );
+                                            'warning', '#FFDF00');
                                     } else {
-                                        Swal.fire(
-                                            'Success',
+                                        messageModal('Success',
                                             'Successfully removed user account.',
-                                            'success'
-                                        );
-
+                                            'success', '#3CB043');
                                         accountTable.draw();
                                     }
                                 },
                                 error: function() {
-                                    messageModal(
-                                        'Warning',
+                                    messageModal('Warning',
                                         'Something went wrong, Try again later.',
-                                        'warning',
-                                        '#FFDF00'
-                                    );
+                                        'warning', '#FFDF00');
                                 }
                             });
                         }
@@ -238,8 +209,7 @@
                 } else if (selectedAction === 'suspendAccount') {
                     $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                     $('.modal-title').text('Suspend User Account Form');
-                    $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit');
-                    $('#saveProfileDetails').text('Suspend');
+                    $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text('Suspend');
                     $('#organization').val(data['organization']);
                     $('#position').val(data['position']);
                     $('#email').val(data['email']);
@@ -255,30 +225,20 @@
                                     .replace(':userId', userId),
                                 success: function(response) {
                                     if (response.status == 0) {
-                                        messageModal(
-                                            'Warning',
+                                        messageModal('Warning',
                                             'Failed to open user account.',
-                                            'warning',
-                                            '#FFDF00'
-                                        );
+                                            'warning', '#FFDF00');
                                     } else {
-                                        messageModal(
-                                            'Success',
+                                        messageModal('Success',
                                             'Successfully opened user account.',
-                                            'success',
-                                            '#3CB043'
-                                        );
-
+                                            'success', '#3CB043');
                                         accountTable.draw();
                                     }
                                 },
                                 error: function() {
-                                    messageModal(
-                                        'Warning',
+                                    messageModal('Warning',
                                         'Something went wrong, Try again later.',
-                                        'warning',
-                                        '#FFDF00'
-                                    );
+                                        'warning', '#FFDF00');
                                 }
                             });
                         }
@@ -289,10 +249,11 @@
             $('#createUserAccount').click(function() {
                 $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
                 $('.modal-title').text('Create User Account Form');
-                $('#saveProfileDetails').removeClass('btn-edit').addClass('btn-submit');
+                $('#saveProfileDetails').removeClass('btn-edit').addClass('btn-submit').text('Create');
+                $('#suspend-container').prop('hidden', true);
+                $('#suspend').prop('disabled', true);
                 $('#operation').val('create');
                 $('#userAccountModal').modal('show');
-                $('#saveProfileDetails').text('Create');
             });
 
             let validator = $("#accountForm").validate({
@@ -305,6 +266,9 @@
                     },
                     email: {
                         required: true
+                    },
+                    suspend: {
+                        required: true
                     }
                 },
                 messages: {
@@ -316,6 +280,9 @@
                     },
                     email: {
                         required: 'Please Enter Your Email Address.'
+                    },
+                    suspend: {
+                        required: 'Please Enter Suspension Time.'
                     }
                 },
                 errorElement: 'span',
@@ -329,27 +296,17 @@
                     formData = $(form).serialize(),
                     modal = $('#userAccountModal');
 
-                if (operation == 'create') {
-                    url = "{{ route('create.account') }}";
-                    type = "POST";
-                } else if (operation == 'update') {
-                    url = "{{ route('update.account', 'userId') }}".replace('userId', userId);
-                    type = "PUT";
-                } else {
-                    url = "{{ route('suspend.account', 'userId') }}".replace('userId', userId);
-                    type = "PUT";
-                }
+                url = operation == 'create' ? "{{ route('create.account') }}" :
+                    operation == 'update' ? "{{ route('update.account', 'userId') }}".replace('userId', userId) :
+                    "{{ route('suspend.account', 'userId') }}".replace('userId', userId);
+
+                type = operation == 'create' ? "POST" : "PUT";
 
                 confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
                     if (result.isConfirmed) {
                         if (operation == 'update' && defaultFormData == formData) {
                             modal.modal('hide');
-                            messageModal(
-                                'Info',
-                                'No changes were made.',
-                                'info',
-                                '#B91C1C'
-                            );
+                            messageModal('Info', 'No changes were made.', 'info', '#B91C1C');
                             return;
                         }
                         $.ajax({
@@ -362,27 +319,13 @@
                                     $.each(response.error, function(prefix, val) {
                                         $('span.' + prefix + '_error').text(val[0]);
                                     });
-                                    messageModal(
-                                        'Warning',
-                                        `Failed to ${operation} user details.`,
-                                        'warning',
-                                        '#FFDF00'
-                                    );
+                                    messageModal('Warning',
+                                        `Failed to ${operation} user details.`, 'warning',
+                                        '#FFDF00');
                                 } else {
-                                    if (operation == 'create') {
-                                        Swal.fire(
-                                            'Success',
-                                            `Successfully ${operation}d new user account.`,
-                                            'success'
-                                        )
-                                    } else {
-                                        messageModal(
-                                            'Success',
-                                            `Successfully ${operation}d the user details.`,
-                                            'success',
-                                            '#3CB043'
-                                        );
-                                    }
+                                    messageModal('Success',
+                                        `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`,
+                                        'success', '#3CB043');
 
                                     modal.modal('hide');
                                     accountTable.draw();
@@ -390,12 +333,9 @@
                             },
                             error: function() {
                                 modal.modal('hide');
-                                messageModal(
-                                    'Warning',
-                                    'Something went wrong, Try again later.',
-                                    'warning',
-                                    '#FFDF00'
-                                );
+                                messageModal('Warning',
+                                    'Something went wrong, Try again later.', 'warning',
+                                    '#FFDF00');
                             }
                         });
                     }
@@ -419,8 +359,10 @@
 
             $('#userAccountModal').on('hidden.bs.modal', function() {
                 validator.resetForm();
-                $('#suspend-container').show();
                 $(document).find('span.error-text').text('');
+                $('#suspend').prop('disabled', false);
+                $('#suspend-container').prop('hidden', false);
+                $('.actionSelect').val('');
                 $('#accountForm').trigger("reset");
             });
         });

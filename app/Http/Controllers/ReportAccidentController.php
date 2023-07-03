@@ -55,7 +55,7 @@ class ReportAccidentController extends Controller
                 ->addColumn('action', function ($row) {
                     if ($row->user_ip == request()->ip())
                         return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Revert" class="py-1.5 btn-sm mr-2 revertIncidentReport">Revert</a>';
-                        
+
                     if (auth()->check())
                         return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="py-1.5 btn-sm mr-2 removeIncidentReport">Remove</a>';
 
@@ -105,10 +105,10 @@ class ReportAccidentController extends Controller
                 try {
                     $this->reportAccident->create($reportAccident);
                     $this->reportLog->where('user_ip', $request->ip())->update(['attempt' => $residentAttempt + 1]);
-                    $attempt = intval($this->reportLog->where('user_ip', $request->ip())->value('attempt'));
-
-                    if ($attempt == 3)
-                        $this->reportLog->where('user_ip', $request->ip())->update(['report_time' => Carbon::now()->addDays(3)]);
+                    $attempt = 0;
+                    
+                    $attempt == 3 ? $this->reportLog->where('user_ip', $request->ip())->update(['report_time' => Carbon::now()->addDays(3)]) :
+                        intval($this->reportLog->where('user_ip', $request->ip())->value('attempt'));
 
                     //event(new ReportIncident());
 
@@ -119,7 +119,6 @@ class ReportAccidentController extends Controller
             } else {
                 try {
                     $this->reportAccident->create($reportAccident);
-
                     $this->reportLog->create([
                         'user_ip' => $request->ip(),
                         'attempt' => 1
