@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\EvacueeDataExport;
 use App\Models\Typhoon;
 use App\Models\Evacuee;
 use App\Models\Disaster;
 use App\Models\Flashflood;
 use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
+use Maatwebsite\Excel\Facades\Excel;
+use Maatwebsite\Excel\Excel as ExcelExcel;
 
 class MainController extends Controller
 {
@@ -27,14 +30,14 @@ class MainController extends Controller
         $inEvacuationCenter = $evacuee->whereNull('date_out')->count();
         $isReturned = $evacuee->whereNotNull('date_out')->count();
 
-        $typhoonMaleData = $evacuee->countEvacuee(1, 'Male');
-        $typhoonFemaleData = $evacuee->countEvacuee(1, 'Female');
-        $floodingMaleData = $evacuee->countEvacuee(2, 'Male');
-        $floodingFemaleData = $evacuee->countEvacuee(2, 'Female');
+        $typhoonMaleData = $evacuee->countEvacuee('Typhoon', 'Male');
+        $typhoonFemaleData = $evacuee->countEvacuee('Typhoon', 'Female');
+        $floodingMaleData = $evacuee->countEvacuee('Flooding', 'Male');
+        $floodingFemaleData = $evacuee->countEvacuee('Flooding', 'Female');
 
         $typhoonData = $evacuee->countEvacueeWithDisablities(1);
 
-        $typhoon_4Ps = intval($typhoonData[0]->{'4Ps'});
+        $typhoon_4Ps = intval($typhoonData[0]->{'fourps'});
         $typhoon_PWD = intval($typhoonData[0]->PWD);
         $typhoon_pregnant = intval($typhoonData[0]->pregnant);
         $typhoon_lactating = intval($typhoonData[0]->lactating);
@@ -43,7 +46,7 @@ class MainController extends Controller
 
         $floodingData = $evacuee->countEvacueeWithDisablities(2);
 
-        $flooding_4Ps = intval($floodingData[0]->{'4Ps'});
+        $flooding_4Ps = intval($floodingData[0]->{'fourps'});
         $flooding_PWD = intval($floodingData[0]->PWD);
         $flooding_pregnant = intval($floodingData[0]->pregnant);
         $flooding_lactating = intval($floodingData[0]->lactating);
@@ -74,6 +77,11 @@ class MainController extends Controller
         ));
     }
 
+    public function generateExcelEvacueeData()
+    {
+        return Excel::download(new EvacueeDataExport, 'evacuee-data.xlxs', ExcelExcel::XLSX);
+    }
+    
     public function manageEvacueeInformation(Request $request)
     {
         $disaster = new Disaster;

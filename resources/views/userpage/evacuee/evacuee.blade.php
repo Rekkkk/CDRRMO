@@ -160,8 +160,8 @@
                         name: 'evacuation_assigned'
                     },
                     {
-                        data: '4Ps',
-                        name: '4Ps',
+                        data: 'fourps',
+                        name: 'fourps',
                         orderable: false,
                         searchable: false
                     },

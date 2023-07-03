@@ -18,7 +18,7 @@ class Evacuee extends Model
         'full_name',
         'sex',
         'age',
-        '4Ps',
+        'fourps',
         'PWD',
         'pregnant',
         'lactating',
@@ -42,6 +42,6 @@ class Evacuee extends Model
 
     public function countEvacueeWithDisablities($disaster)
     {
-        return $this->selectRaw('SUM(`4Ps`) AS `4Ps`, SUM(`PWD`) AS `PWD`, SUM(`pregnant`) AS `pregnant`, SUM(`lactating`) AS `lactating`, SUM(`student`) AS `student`, SUM(`working`) AS `working`')->where('disaster_type', $disaster)->get();
+        return $this->selectRaw('SUM(`fourps`) AS `fourps`, SUM(`PWD`) AS `PWD`, SUM(`pregnant`) AS `pregnant`, SUM(`lactating`) AS `lactating`, SUM(`student`) AS `student`, SUM(`working`) AS `working`')->where('disaster_type', $disaster)->get();
     }
 }
