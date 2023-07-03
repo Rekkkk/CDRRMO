@@ -36,11 +36,9 @@
                             <th class="w-px">Report ID</th>
                             <th>Report Description</th>
                             <th>Accident Location</th>
-                            <th>Actual Photo</th>
-                            <th class="w-4">Status</th>
-                            @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
-                                <th class="w-4">Action</th>
-                            @endif
+                            <th class="w-5">Status</th>
+                            <th style="width:20%;">Actual Photo</th>
+                            <th class="w-4">Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -55,8 +53,8 @@
                             <th class="w-px">Report ID</th>
                             <th>Report Description</th>
                             <th>Accident Location</th>
-                            <th>Actual Photo</th>
-                            <th class="w-4">Status</th>
+                            <th>Status</th>
+                            <th class="w-4">Actual Photo</th>
                             @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
                                 <th class="w-4">Action</th>
                             @endif
@@ -111,7 +109,7 @@
         </div>
         @guest
             <div class="report-button">
-                <div class="report-form absolute bottom-7 right-5">
+                <div class="report-form">
                     <a class="bg-slate-700 hover:bg-slate-800 p-3 fs-4 rounded-full" href="javascript:void(0)"
                         id="createReport">
                         <i class="bi bi-megaphone text-white"></i>
@@ -129,12 +127,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
-
     @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
         <script type="text/javascript">
             $(document).ready(function() {
-                let reportId;
-
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -163,14 +158,14 @@
                             name: 'location'
                         },
                         {
-                            data: 'photo',
-                            name: 'photo',
+                            data: 'status',
+                            name: 'status',
                             orderable: false,
                             searchable: false
                         },
                         {
-                            data: 'status',
-                            name: 'status',
+                            data: 'photo',
+                            name: 'photo',
                             orderable: false,
                             searchable: false
                         },
@@ -205,14 +200,14 @@
                             name: 'location'
                         },
                         {
-                            data: 'photo',
-                            name: 'photo',
+                            data: 'status',
+                            name: 'status',
                             orderable: false,
                             searchable: false
                         },
                         {
-                            data: 'status',
-                            name: 'status',
+                            data: 'photo',
+                            name: 'photo',
                             orderable: false,
                             searchable: false
                         },
@@ -226,41 +221,32 @@
                 });
 
                 $('body').on('click', '.approveIncidentReport', function() {
-                    reportId = $(this).data('id');
+                    let reportId = $(this).data('id');
 
                     confirmModal('Do you want to approve this report incident?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "POST",
-                                url: "{{ route('approve.accident.report.cdrrmo', ':reportId') }}"
+                                url: "{{ route('approve.report.cdrrmo', ':reportId') }}"
                                     .replace(':reportId', reportId),
                                 success: function(response) {
                                     if (response.status == 0) {
-                                        messageModal(
-                                            'Warning',
+                                        messageModal('Warning',
                                             'Failed to approve report incident, Try again.',
-                                            'warning',
-                                            '#FFDF00'
-                                        );
+                                            'warning', '#FFDF00');
                                     } else {
-                                        messageModal(
-                                            'Success',
+                                        messageModal('Success',
                                             'Successfully Approved Reported.',
-                                            'success',
-                                            '#3CB043'
-                                        ).then(() => {
+                                            'success', '#3CB043').then(() => {
                                             pendingReport.draw();
                                             incidentReports.draw();
                                         });
                                     }
                                 },
                                 error: function() {
-                                    messageModal(
-                                        'Warning',
+                                    messageModal('Warning',
                                         'Something went wrong, try again later.',
-                                        'warning',
-                                        '#FFDF00'
-                                    );
+                                        '#FFDF00');
                                 }
                             });
                         }
@@ -268,40 +254,64 @@
                 });
 
                 $('body').on('click', '.declineIncidentReport', function() {
-                    reportId = $(this).data('id');
+                    let reportId = $(this).data('id');
+
                     confirmModal('Do you want to decline this report incident?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "DELETE",
-                                url: "{{ route('decline.accident.report.cdrrmo', ':reportId') }}"
+                                url: "{{ route('decline.report.cdrrmo', ':reportId') }}"
                                     .replace(':reportId', reportId),
                                 success: function(response) {
                                     if (response.status == 0) {
-                                        messageModal(
-                                            'Warning',
+                                        messageModal('Warning',
                                             'Failed to decline report incident, Try again.',
-                                            'error',
-                                            '#FFDF00'
-                                        );
+                                            'error', '#FFDF00');
                                     } else {
-                                        messageModal(
-                                            'Success',
+                                        messageModal('Success',
                                             'Successfully Declined Reported.',
-                                            'success',
-                                            '#3CB043'
-                                        ).then(() => {
+                                            'success', '#3CB043').then(() => {
                                             pendingReport.draw();
                                             incidentReports.draw();
                                         });
                                     }
                                 },
                                 error: function() {
-                                    messageModal(
-                                        'Warning',
+                                    messageModal('Warning',
                                         'Something went wrong, try again later.',
-                                        'error',
-                                        '#FFDF00'
-                                    );
+                                        'error', '#FFDF00');
+                                }
+                            });
+                        }
+                    });
+                });
+
+                $('body').on('click', '.removeIncidentReport', function() {
+                    let reportId = $(this).data('id');
+
+                    confirmModal('Do you want to remove this report incident?').then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: "DELETE",
+                                url: "{{ route('remove.report.cdrrmo', ':reportId') }}"
+                                    .replace(':reportId', reportId),
+                                success: function(response) {
+                                    if (response.status == 0) {
+                                        messageModal('Warning',
+                                            'Failed to remove report incident, Try again.',
+                                            'warning', '#FFDF00');
+                                    } else {
+                                        messageModal('Success',
+                                            'Successfully Removed Accident Report.',
+                                            'success', '#3CB043').then(() => {
+                                            incidentReports.draw();
+                                        });
+                                    }
+                                },
+                                error: function() {
+                                    messageModal('Warning',
+                                        'Something went wrong, try again later.',
+                                        '#FFDF00');
                                 }
                             });
                         }
@@ -320,6 +330,12 @@
             crossorigin="anonymous"></script>
         <script type="text/javascript">
             $(document).ready(function() {
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    }
+                });
+
                 let pendingReport = $('.pendingReport').DataTable({
                     rowReorder: {
                         selector: 'td:nth-child(2)'
@@ -342,14 +358,20 @@
                             name: 'location'
                         },
                         {
+                            data: 'status',
+                            name: 'status',
+                            orderable: false,
+                            searchable: false
+                        },
+                        {
                             data: 'photo',
                             name: 'photo',
                             orderable: false,
                             searchable: false
                         },
                         {
-                            data: 'status',
-                            name: 'status',
+                            data: 'action',
+                            name: 'action',
                             orderable: false,
                             searchable: false
                         },
@@ -378,14 +400,14 @@
                             name: 'location'
                         },
                         {
-                            data: 'photo',
-                            name: 'photo',
+                            data: 'status',
+                            name: 'status',
                             orderable: false,
                             searchable: false
                         },
                         {
-                            data: 'status',
-                            name: 'status',
+                            data: 'photo',
+                            name: 'photo',
                             orderable: false,
                             searchable: false
                         },
@@ -447,58 +469,99 @@
                                 data: formData,
                                 contentType: false,
                                 processData: false,
-                                beforeSend: function(data) {
+                                beforeSend: function(response) {
                                     $(document).find('span.error-text').text('');
                                 },
-                                success: function(data) {
-                                    if (data.condition == 1) {
-                                        $.each(data.error, function(prefix, val) {
+                                success: function(response) {
+                                    if (response.status == 1) {
+                                        $.each(response.error, function(prefix, val) {
                                             $('span.' + prefix + '_error').text(val[
                                                 0]);
                                         });
-                                        messageModal(
-                                            'Warning',
+                                        messageModal('Warning',
                                             'Failed to Reported Incident, Thanks for your concern.',
-                                            'error',
-                                            '#3CB043'
-                                        );
-                                    } else if (data.condition == 2) {
-                                        messageModal(
-                                            "You've been Blocked",
-                                            data.block_time,
-                                            'warning',
-                                            '#3CB043'
-                                        ).then(() => {
+                                            'error', '#FFDF00');
+                                    } else if (response.status == 2) {
+                                        messageModal("You've been Blocked", response.block_time,
+                                            'warning', '#FFDF00').then(() => {
                                             $('#reportForm')[0].reset();
-                                            $('#createAccidentReportModal').modal(
-                                                'hide');
+                                            $('#createAccidentReportModal').modal('hide');
                                         });
                                     } else {
-                                        messageModal(
-                                            'Success',
+                                        messageModal('Success',
                                             'Successfully Reported, Thanks for your concern.',
-                                            'success',
-                                            '#3CB043'
-                                        ).then(() => {
+                                            'success', '#3CB043').then(() => {
                                             $('#reportForm')[0].reset();
-                                            $('#createAccidentReportModal').modal(
-                                                'hide');
+                                            $('#createAccidentReportModal').modal('hide');
                                             pendingReport.draw();
                                         });
                                     }
                                 },
                                 error: function() {
-                                    messageModal(
-                                        'Warning',
-                                        'Something went wrong, try again later.',
-                                        'error',
-                                        '#3CB043'
-                                    );
+                                    messageModal('Warning',
+                                        'Something went wrong, try again later.', 'error',
+                                        '#FFDF00');
                                 }
                             });
                         }
                     });
                 }
+
+                $('body').on('click', '.revertIncidentReport', function() {
+                    let reportId = $(this).data('id');
+
+                    confirmModal('Do you want to revert your report?').then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                type: "DELETE",
+                                url: "{{ route('revert.report.resident', ':reportId') }}"
+                                    .replace(':reportId', reportId),
+                                success: function(response) {
+                                    if (response.status == 0) {
+                                        messageModal('Warning',
+                                            'Failed to revert your report, Try again.',
+                                            'warning', '#FFDF00');
+                                    } else {
+                                        revertReport(reportId);
+                                    }
+                                },
+                                error: function() {
+                                    messageModal('Warning',
+                                        'Something went wrong, try again later.',
+                                        'warning',
+                                        '#FFDF00');
+                                }
+                            });
+                        }
+                    });
+                });
+
+                function revertReport(reportId) {
+                    $.ajax({
+                        type: "PUT",
+                        url: "{{ route('update.report.resident', ':reportId') }}".replace(':reportId',
+                            reportId),
+                        success: function(response) {
+                            if (response.status == 0) {
+                                messageModal('Warning', 'Failed to revert your report, Try again.',
+                                    'warning', '#FFDF00');
+                            } else {
+                                messageModal('Success', 'Successfully Reverted Report.', 'success',
+                                    '#3CB043').then(() => {
+                                    pendingReport.draw();
+                                });
+                            }
+                        },
+                        error: function() {
+                            messageModal('Warning', 'Something went wrong, try again later.', 'warning',
+                                '#FFDF00');
+                        }
+                    });
+                }
+
+                $('#createAccidentReportModal').on('hidden.bs.modal', function() {
+                    validator.resetForm();
+                });
 
                 // Echo.channel('report-incident').listen('ReportIncident', (e) => {
                 //     table.draw();

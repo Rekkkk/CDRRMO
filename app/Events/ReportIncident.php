@@ -12,25 +12,39 @@ class ReportIncident implements ShouldBroadcast
 {
     use Dispatchable, SerializesModels;
 
-    public $reportAccident;
+    public $reportLog, $reportAccident;
 
     public function __construct()
     {
-        
     }
 
-    function approveStatus($accidentReportId){
+    function approveStatus($accidentReportId)
+    {
         $this->reportAccident = new Reporting;
         $this->reportAccident->find($accidentReportId)->update([
             'status' => 'Approved'
         ]);
     }
 
-    function declineStatus($accidentReportId){
+    function declineStatus($accidentReportId)
+    {
         $this->reportAccident = new Reporting;
         $this->reportAccident->find($accidentReportId)->update([
             'status' => 'Declined'
         ]);
+    }
+
+    function revertReport($accidentReportId, $reportPhotoPath)
+    {
+        $this->reportAccident = new Reporting;
+    
+        $image_path = public_path('reports_image/' .$reportPhotoPath);
+        
+        if(file_exists($image_path)){
+            unlink($image_path);
+        }
+        
+        $this->reportAccident->find($accidentReportId)->delete();
     }
 
     public function broadcastOn()

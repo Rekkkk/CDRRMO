@@ -15,7 +15,7 @@ return new class extends Migration
             $table->string('location');
             $table->string('photo')->nullable();
             $table->string('status');
-            $table->timestamps();
+            $table->string('user_ip');
         });
     }
 
