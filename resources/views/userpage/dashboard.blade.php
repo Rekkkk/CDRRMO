@@ -28,11 +28,17 @@
                 <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">DASHBOARD</span>
                 <hr class="mt-3">
-                <button
-                    class="btn-submit float-right p-2 mt-2 font-medium">
+                @if (auth()->user()->organization == 'CDRRMO')
+                    <form action="{{ route('generate.evacuee.data.cdrrmo') }}" method="POST" target="__blank">
+                    @else
+                        <form action="{{ route('generate.evacuee.data.cswd') }}" method="POST" target="__blank">
+                @endif
+                @csrf
+                <button typ="submit" class="btn-submit float-right p-2 mt-2 font-medium">
                     <i class="bi bi-printer pr-2"></i>
                     Generate Report Data
                 </button>
+                </form>
             </div>
 
             <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
@@ -104,6 +110,36 @@
             </figure>
         </div>
     </div>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">First</th>
+                <th scope="col">Last</th>
+                <th scope="col">Handle</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>Mark</td>
+                <td>Otto</td>
+                <td>@mdo</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>Jacob</td>
+                <td>Thornton</td>
+                <td>@fat</td>
+            </tr>
+            <tr>
+                <th scope="row">3</th>
+                <td colspan="2">Larry the Bird</td>
+                <td>@twitter</td>
+            </tr>
+        </tbody>
+    </table>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>

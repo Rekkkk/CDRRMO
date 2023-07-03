@@ -77,6 +77,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::controller(MainController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
+            Route::post('/generateEvacueeData', 'generateExcelEvacueeData')->name('generate.evacuee.data.cdrrmo');
             Route::get('/reportAccident', 'reportAccident')->name('display.report.accident.cdrrmo');
             Route::get('/hotlineNumber', 'hotlineNumber')->name('hotline.number.cdrrmo');
             Route::get('/about', 'about')->name('about.cdrrmo');
@@ -121,6 +122,7 @@ Route::group(['middleware' => 'auth'], function () {
 
         Route::controller(MainController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cswd');
+            Route::post('/generateEvacueeData', 'generateExcelEvacueeData')->name('generate.evacuee.data.cswd');
             Route::get('/evacuee', 'manageEvacueeInformation')->name('manage.evacuee.record.cswd');
             Route::get('/evacuationManage', 'evacuationManage')->name('manage.evacuation.cswd');
             Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator.cswd');

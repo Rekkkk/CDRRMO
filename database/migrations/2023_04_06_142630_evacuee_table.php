@@ -13,7 +13,7 @@ return new class extends Migration
             $table->string('full_name');
             $table->string('sex');
             $table->integer('age');
-            $table->boolean('4Ps');
+            $table->boolean('fourps');
             $table->boolean('PWD');
             $table->boolean('pregnant');
             $table->boolean('lactating');
