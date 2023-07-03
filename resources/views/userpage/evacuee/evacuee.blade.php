@@ -44,7 +44,8 @@
                 @include('userpage.evacuee.evacueeInfoFormModal')
                 <div class="table-container mt-3 mb-2 p-3 bg-slate-50 shadow-lg flex rounded-lg">
                     <div class="block w-full overflow-auto">
-                        <table class="table data-table table-striped table-light align-middle" width="100%">
+                        <header class="text-2xl font-semibold mb-3">Evacuee Informations</header>
+                        <table class="table evacueeTable table-striped table-light align-middle" width="100%">
                             <thead class="thead-light text-justify">
                                 <tr class="table-row">
                                     <th>Id</th>
@@ -76,6 +77,51 @@
                         </table>
                     </div>
                 </div>
+                <div class="evacueeArchiveSelect flex flex-wrap justify-end font-semibold gap-3 pt-3 wi-500px">
+                    <select name="archiveEvacueeDataTyphoon" id="archiveEvacueeDataTyphoon">
+                        <option value="None">Select Typhoon</option>
+                        @foreach ($typhoonList as $typhoon)
+                            <option value="{{ $typhoon->name }}">
+                                {{ $typhoon->name }}</option>
+                        @endforeach
+                    </select>
+                    <select name="archiveEvacueeDataFlashflood" id="archiveEvacueeDataFlashflood">
+                        <option value="None">Select Flashflood Location</option>
+                        @foreach ($flashfloodList as $flashflood)
+                            <option value="{{ $flashflood->location }}">
+                                {{ $flashflood->location }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="table-container mt-3 mb-2 p-3 bg-slate-50 shadow-lg flex rounded-lg">
+                    <div class="block w-full overflow-auto">
+                        <header class="text-2xl font-semibold mb-3">Archived Evacuee Informations</header>
+                        <table class="table archivedEvacueeTable table-striped table-light align-middle" width="100%">
+                            <thead class="thead-light text-justify">
+                                <tr class="table-row">
+                                    <th>House Hold #</th>
+                                    <th>Full Name</th>
+                                    <th>Sex</th>
+                                    <th>Age</th>
+                                    <th>Barangay</th>
+                                    <th>Date Entry</th>
+                                    <th>Date Out</th>
+                                    <th>Disaster Type</th>
+                                    <th>Disaster Info</th>
+                                    <th>Evacuation Center</th>
+                                    <th>4Ps</th>
+                                    <th>PWD</th>
+                                    <th>Pregnant</th>
+                                    <th>Lactating</th>
+                                    <th>Student</th>
+                                    <th>Working</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -93,10 +139,13 @@
         crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
-            let evacueeTable = $('.data-table').DataTable({
+            let evacueeTable = $('.evacueeTable').DataTable({
                 order: [
                     [1, 'asc']
                 ],
+                language: {
+                    emptyTable: 'No evacuee data available'
+                },
                 responsive: true,
                 processing: false,
                 serverSide: true,
@@ -205,42 +254,38 @@
 
                 drawCallback: function() {
                     $('#selectAllCheckBox').prop('checked', false);
-
-                    this.api().rows().every(function() {
-                        let columnName = [
-                            '4Ps',
-                            'PWD',
-                            'pregnant',
-                            'lactating',
-                            'student',
-                            'working'
-                        ];
-
-                        for (let i = 0; i < columnName.length; i++) {
-                            this.data()[columnName[i]] == 1 ?
-                                this.data()[columnName[i]] = 'Yes' :
-                                this.data()[columnName[i]] = 'No';
-                            $(`td:eq(${i+11})`, this.node()).text(this.data()[columnName[i]]);
-                        }
-
-                        if (this.data()['date_out'] !== null) {
-                            let checkbox = $(this.node()).find(
-                                'td:eq(1) input[type="checkbox"]');
-                            checkbox.prop('disabled', true);
-                            checkbox.hide();
-                        }
-                    });
+                    convertBooleanToYesNo(this.api());
                 }
             });
 
+            function convertBooleanToYesNo(api) {
+                api.rows().every(function() {
+                    let columnName = [
+                        '4Ps',
+                        'PWD',
+                        'pregnant',
+                        'lactating',
+                        'student',
+                        'working'
+                    ];
+
+                    for (let i = 0; i < columnName.length; i++) {
+                        this.data()[columnName[i]] == 1 ?
+                            this.data()[columnName[i]] = 'Yes' :
+                            this.data()[columnName[i]] = 'No';
+                        $(`td:eq(${i+11})`, this.node()).text(this.data()[columnName[i]]);
+                    }
+                });
+            }
+
             $('#recordEvacueeBtn').click(function() {
                 $('.modal-header').
-                    removeClass('bg-yellow-500').
-                    addClass('bg-green-600');
+                removeClass('bg-yellow-500').
+                addClass('bg-green-600');
                 $('.modal-title').text('Record Evacuee Information');
                 $('#saveEvacueeInfoBtn').
-                    removeClass('bg-yellow-500 hover:bg-yellow-600').
-                    addClass('bg-green-600 hover:bg-green-700');
+                removeClass('bg-yellow-500 hover:bg-yellow-600').
+                addClass('bg-green-600 hover:bg-green-700');
                 $('#dateFormFieldsContainer').hide();
                 $('#evacuationSelectContainer').removeClass('hidden');
                 $('#operation').val('record');
@@ -529,7 +574,7 @@
             });
 
             $('#selectAllCheckBox').click(function() {
-                let checkBox = $('.data-table tbody tr td input[type="checkbox"]');
+                let checkBox = $('.evacueeTable tbody tr td input[type="checkbox"]');
 
                 $(this).is(':checked') ?
                     checkBox.each(function() {
@@ -544,7 +589,7 @@
 
             $('#returnEvacueeBtn').on('click', function() {
                 let id = [],
-                    checked = $('.data-table tbody tr td input[type="checkbox"]:checked');
+                    checked = $('.evacueeTable tbody tr td input[type="checkbox"]:checked');
 
                 if (checked.length > 0) {
                     $(checked).each(function() {
@@ -574,6 +619,7 @@
                                 dataType: 'json',
                                 success: function(response) {
                                     evacueeTable.draw();
+                                    archivedEvacueeTable.draw();
 
                                     messageModal(
                                         'Success',
@@ -606,6 +652,126 @@
                     );
                 }
             });
+
+            let archivedEvacueeTable = $('.archivedEvacueeTable').DataTable({
+                order: [
+                    [1, 'asc']
+                ],
+                language: {
+                    emptyTable: 'No archived evacuee data available'
+                },
+                responsive: true,
+                processing: false,
+                serverSide: true,
+                ajax: "{{ route('get.archived.evacuee.info.cswd', 'disasterInfo') }}".replace(
+                    'disasterInfo',
+                    'None'),
+                columns: [{
+                        data: 'house_hold_number',
+                        name: 'house_hold_number',
+                        width: '8%'
+                    },
+                    {
+                        data: 'full_name',
+                        name: 'full_name'
+                    },
+                    {
+                        data: 'sex',
+                        name: 'sex'
+                    },
+                    {
+                        data: 'age',
+                        name: 'age'
+                    },
+                    {
+                        data: 'barangay',
+                        name: 'barangay'
+                    },
+                    {
+                        data: 'date_entry',
+                        name: 'date_entry'
+                    },
+                    {
+                        data: 'date_out',
+                        name: 'date_out'
+                    },
+                    {
+                        data: 'disaster_type',
+                        name: 'disaster_type'
+                    },
+                    {
+                        data: 'disaster_info',
+                        name: 'disaster_info'
+                    },
+                    {
+                        data: 'evacuation_assigned',
+                        name: 'evacuation_assigned'
+                    },
+                    {
+                        data: '4Ps',
+                        name: '4Ps',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'PWD',
+                        name: 'PWD',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'pregnant',
+                        name: 'pregnant',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'lactating',
+                        name: 'lactating',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'student',
+                        name: 'student',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'working',
+                        name: 'working',
+                        orderable: false,
+                        searchable: false
+                    }
+                ],
+                drawCallback: function() {
+                    convertBooleanToYesNo(this.api());
+                }
+            });
+
+            function initializeDataTable(url) {
+                archivedEvacueeTable.clear();
+                archivedEvacueeTable.ajax.url(url).load();
+            }
+
+            $('#archiveEvacueeDataTyphoon').on('change', function() {
+                $('#archiveEvacueeDataFlashflood').val('None');
+
+                initializeDataTable(
+                    "{{ route('get.archived.evacuee.info.cswd', 'disasterId') }}".replace(
+                        'disasterId', $(this).val())
+                );
+            });
+
+            $('#archiveEvacueeDataFlashflood').on('change', function() {
+                $('#archiveEvacueeDataTyphoon').val('None');
+
+                initializeDataTable(
+                    "{{ route('get.archived.evacuee.info.cswd', 'disasterId') }}".replace(
+                        'disasterId', $(this).val())
+                );
+            });
+
         });
     </script>
 </body>
