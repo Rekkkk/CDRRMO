@@ -10,7 +10,7 @@ class ReportLog extends Model
     use HasFactory;
     protected $table = 'report_log';
 
-    protected $primaryKey = 'report_id';
+    protected $primaryKey = 'id';
 
     protected $fillable = [
         'user_ip',

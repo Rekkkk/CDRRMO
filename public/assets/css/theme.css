@@ -112,7 +112,8 @@ hr {
 .guide-content .btn-cancel,
 .removeUserAccount,
 .declineIncidentReport,
-.removeIncidentReport {
+.removeIncidentReport,
+.revertIncidentReport {
     background: var(--color-red);
     color: var(--color-text);
     border-radius: 4px;
@@ -125,7 +126,8 @@ hr {
 .guide-content .btn-cancel:hover,
 .removeUserAccount:hover,
 .declineIncidentReport:hover,
-.removeIncidentReport:hover {
+.removeIncidentReport:hover,
+.revertIncidentReport:hover {
     background: #b91c1c;
     color: var(--color-text);
     transform: scale(1.05);
@@ -380,7 +382,7 @@ hr {
 
 /* Guide End Section */
 
-/* Report Accident Section Start Here*/
+/* Manage Evacuation Center Section Start Here*/
 .evacuation-content>div {
     margin: 2rem;
 }
@@ -391,7 +393,21 @@ hr {
     transform: translateX(-100%);
 }
 
-/* Report Accident End Section */
+/* Mange Evacuation Center End Section */
+
+/* Report Incident Section Start Here */
+.report-button{
+    position: fixed;
+    margin: 35px 14px;
+    bottom: 0;
+    right: 0;
+}
+
+#actualPhoto {
+    max-width: 400px;
+}
+
+/* Report Incident End Section*/
 
 /* About Section Start Here */
 .about-content {
@@ -450,6 +466,7 @@ select.custom-select option {
     font-size: 15px;
     font-weight: 700;
 }
+
 /* User Profile End Section */
 
 /* Recording Evacuee Section Start Here */

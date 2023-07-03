@@ -9,33 +9,31 @@ use App\Models\Flashflood;
 use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
 
-class CswdController extends Controller
+class MainController extends Controller
 {
-    private $disaster, $typhoon, $flashflood, $evacuee, $evacuationCenter;
+    private $evacuationCenter;
 
-    function __construct()
+    public function __construct()
     {
-        $this->typhoon = new Typhoon;
-        $this->evacuee = new Evacuee;
-        $this->disaster = new Disaster;
-        $this->flashflood = new Flashflood;
         $this->evacuationCenter = new EvacuationCenter;
     }
-
     public function dashboard()
     {
-        $activeEvacuation = $this->evacuationCenter->where('status', 'Active')->count();;
+        $evacuee = new Evacuee;
+
+        $activeEvacuation = $this->evacuationCenter->where('status', 'Active')->count();
         $inActiveEvacuation = $this->evacuationCenter->where('status', 'Inactive')->count();
 
-        $inEvacuationCenter = $this->evacuee->whereNull('date_out')->count();
-        $isReturned = $this->evacuee->whereNotNull('date_out')->count();
+        $inEvacuationCenter = $evacuee->whereNull('date_out')->count();
+        $isReturned = $evacuee->whereNotNull('date_out')->count();
 
-        $typhoonMaleData = $this->evacuee->countEvacuee('Typhoon', 'Male');
-        $typhoonFemaleData = $this->evacuee->countEvacuee('Typhoon', 'Female');
-        $floodingMaleData = $this->evacuee->countEvacuee('Flashflood', 'Male');
-        $floodingFemaleData = $this->evacuee->countEvacuee('Flashflood', 'Female');
+        $typhoonMaleData = $evacuee->countEvacuee(1, 'Male');
+        $typhoonFemaleData = $evacuee->countEvacuee(1, 'Female');
+        $floodingMaleData = $evacuee->countEvacuee(2, 'Male');
+        $floodingFemaleData = $evacuee->countEvacuee(2, 'Female');
 
-        $typhoonData = $this->evacuee->countEvacueeWithDisablities('Typhoon');
+        $typhoonData = $evacuee->countEvacueeWithDisablities(1);
+
         $typhoon_4Ps = intval($typhoonData[0]->{'4Ps'});
         $typhoon_PWD = intval($typhoonData[0]->PWD);
         $typhoon_pregnant = intval($typhoonData[0]->pregnant);
@@ -43,7 +41,8 @@ class CswdController extends Controller
         $typhoon_student = intval($typhoonData[0]->student);
         $typhoon_working = intval($typhoonData[0]->working);
 
-        $floodingData = $this->evacuee->countEvacueeWithDisablities('Flashflood');
+        $floodingData = $evacuee->countEvacueeWithDisablities(2);
+
         $flooding_4Ps = intval($floodingData[0]->{'4Ps'});
         $flooding_PWD = intval($floodingData[0]->PWD);
         $flooding_pregnant = intval($floodingData[0]->pregnant);
@@ -77,17 +76,19 @@ class CswdController extends Controller
 
     public function manageEvacueeInformation(Request $request)
     {
+        $disaster = new Disaster;
+
         $evacuationList = $this->evacuationCenter->all();
-        $typhoonList =  $this->typhoon->all();
-        $flashfloodList = $this->flashflood->all()->where('status', 'Rising');
+        $typhoonList =  Typhoon::all();
+        $flashfloodList = Flashflood::all()->where('status', 'Rising');
         $disasterList = null;
 
-        if ($typhoonList->isNotEmpty() && $flashfloodList->isNotEmpty()) {
-            $disasterList = $this->disaster->all();
-        } else if ($typhoonList->isNotEmpty() && $flashfloodList->isEmpty()) {
-            $disasterList = $this->disaster->find(1)->get();
-        } else if ($flashfloodList->isNotEmpty() && $typhoonList->isEmpty()) {
-            $disasterList = $this->disaster->find(2)->get();
+        if($typhoonList->isNotEmpty() && $flashfloodList->isNotEmpty()){
+            $disasterList = $disaster->all();
+        }else if($typhoonList->isNotEmpty()){
+            $disasterList = $disaster->where('id', 1)->get();
+        }else if($flashfloodList->isNotEmpty()){
+            $disasterList = $disaster->where('id', 2)->get();
         }
 
         return view('userpage.evacuee.evacuee', compact('evacuationList', 'disasterList', 'typhoonList', 'flashfloodList'));
@@ -130,5 +131,20 @@ class CswdController extends Controller
     public function evacuationManage()
     {
         return view('userpage.evacuationCenter.evacuation');
+    }
+
+    public function reportAccident()
+    {
+        return view('userpage.reportAccident');
+    }
+
+    public function hotlineNumber()
+    {
+        return view('userpage.hotlineNumbers');
+    }
+
+    public function about()
+    {
+        return view('userpage.about');
     }
 }

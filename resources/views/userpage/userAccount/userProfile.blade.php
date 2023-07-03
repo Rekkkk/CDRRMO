@@ -24,8 +24,7 @@
                         </div>
                     </div>
                     <div class="flex justify-end pb-2 pr-4">
-                        <button class=" btn-edit top-50 right-0 p-2 rounded font-medium"
-                            id="editProfileBtn">
+                        <button class=" btn-edit top-50 right-0 p-2 rounded font-medium" id="editProfileBtn">
                             <i class="bi bi-pencil pr-2"></i>
                             Edit Profile
                         </button>
@@ -98,13 +97,15 @@
 
     <script>
         $(document).ready(function() {
+            let defaultFormData;
+
             $('#editProfileBtn').click(function() {
-                $('.modal-header').removeClass('bg-green-700').addClass('bg-yellow-500');
+                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                 $('.modal-title').text('Edit Profile Account Form');
                 $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit');
                 $('#saveProfileDetails').text('Update');
                 $('#suspend-container').hide();
-                $('#accountForm')[0].reset();
+                $('#operation').val('update');
                 $('#accountId').val('{{ auth()->user()->id }}');
                 $('#organization').val('{{ auth()->user()->organization }}');
                 $('#position').val('{{ auth()->user()->position }}');
@@ -140,10 +141,21 @@
             });
 
             function formSubmitHandler(form) {
-                var accountid = $('#accountId').val();
+                let accountid = $('#accountId').val(),
+                    operation = $('#operation').val();
 
                 confirmModal('Do you want to update this user details?').then((result) => {
                     if (result.isConfirmed) {
+                        if (operation == 'update') {
+                            messageModal(
+                                'Info',
+                                'No changes were made.',
+                                'info',
+                                '#B91C1C'
+                            );
+                            $('#userAccountModal').modal('hide');
+                            return;
+                        }
                         $.ajax({
                             url: "{{ route('update.account', ':accountid') }}"
                                 .replace(':accountid', accountid),

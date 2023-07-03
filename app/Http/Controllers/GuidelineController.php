@@ -24,12 +24,18 @@ class GuidelineController extends Controller
 
     public function eligtasGuideline()
     {
-        $users = auth()->user();
+        if (!auth()->check()) {
+            $guideline = $this->guideline->all();
 
-        $organization = $this->guideline->where('organization', $users->organization);
+            return view('userpage.guideline.eligtasGuideline', compact('guideline'));
+        }
 
-        $guideline = $organization->when($users->position === "Secretary", function ($query) use ($users) {
-            return $query->where('author', $users->id);
+        $author = auth()->user();
+
+        $organization = $this->guideline->where('organization', $author->organization);
+
+        $guideline = $organization->when($author->position === "Secretary", function ($query) use ($author) {
+            return $query->where('author', $author->id);
         })->get();
 
         return view('userpage.guideline.eligtasGuideline', compact('guideline'));
