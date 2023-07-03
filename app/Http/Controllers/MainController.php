@@ -2,13 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Exports\EvacueeDataExport;
 use App\Models\Typhoon;
 use App\Models\Evacuee;
 use App\Models\Disaster;
 use App\Models\Flashflood;
 use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
+use App\Exports\EvacueeDataExport;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 

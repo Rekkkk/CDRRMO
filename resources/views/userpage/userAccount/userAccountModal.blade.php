@@ -32,7 +32,6 @@
                             <label for="suspend" class="flex items-center justify-center">Suspend Time</label>
                             <input type="text" name="suspend" class="form-control" id="suspend" autocomplete="off"
                                 placeholder="Select Suspend Time">
-                                <span class="text-danger italic text-xs error-text suspend_error"></span>
                         </div>
                     @else
                         <input type="hidden" name="organization" class="form-control" id="organization">
@@ -44,7 +43,6 @@
                             placeholder="Enter Email Address">
                         <span class="text-danger italic text-sm error-text email_error"></span>
                     </div>
-
                     <div class="modal-footer">
                         <button id="saveProfileDetails" class="btn-submit p-2">Save</button>
                     </div>

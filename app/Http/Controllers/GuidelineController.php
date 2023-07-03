@@ -96,9 +96,9 @@ class GuidelineController extends Controller
             $this->guideline->find(Crypt::decryptString($guidelineId))->delete();
             $this->logActivity->generateLog('Deleting Guideline');
 
-            Alert::success(config('app.name'), 'Guideline Removed Successfully.');
+            Alert::success('Success', 'Guideline Removed Successfully.');
         } catch (\Exception $e) {
-            Alert::error(config('app.name'), 'Failed to Remove Guideline.');
+            Alert::warning('Warning', 'Failed to Remove Guideline.');
         }
 
         return back();
@@ -142,9 +142,9 @@ class GuidelineController extends Controller
                 ]);
                 $this->logActivity->generateLog('Updating Guide');
 
-                Alert::success(config('app.name'), 'Guide Successfully Updated.');
+                Alert::success('Success', 'Guide Successfully Updated.');
             } catch (\Exception $e) {
-                Alert::error(config('app.name'), 'Failed to Update Guide.');
+                Alert::warning('Warning', 'Failed to Update Guide.');
             }
         }
         return back();
@@ -156,9 +156,9 @@ class GuidelineController extends Controller
             $this->guide->find($guideId)->delete();
             $this->logActivity->generateLog('Removing Guide');
 
-            Alert::success(config('app.name'), 'Guide Removed Successfully.');
+            Alert::success('Success', 'Guide Removed Successfully.');
         } catch (\Exception $e) {
-            Alert::error(config('app.name'), 'Failed to Remove Guide.');
+            Alert::warning('Warning', 'Failed to Remove Guide.');
         }
 
         return back();

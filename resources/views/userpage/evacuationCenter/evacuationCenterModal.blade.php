@@ -12,7 +12,6 @@
                         <label for="name" class="flex items-center justify-center">Evacuation Center Name</label>
                         <input type="text" name="name" class="form-control" id="name" autocomplete="off"
                             placeholder="Enter Evacuation Center Name">
-                        <span class="text-danger error-text name_error"></span>
                     </div>
                     <div class="relative w-full mb-3">
                         <label for="barangay_name" class="flex items-center justify-center">Barangay Name</label>
@@ -37,25 +36,21 @@
                             <option value="Barangay II Poblacion">Barangay II Poblacion</option>
                             <option value="Barangay III Poblacion">Barangay III Poblacion</option>
                         </select>
-                        <span class="text-danger error-text barangay_name_error"></span>
                     </div>
                     <div class="mb-3">
                         <label for="latitude" class="flex items-center justify-center">Latitude</label>
                         <input type="text" name="latitude" class="form-control" id="latitude" autocomplete="off"
                             placeholder="Enter Latitude">
-                        <span class="text-danger error-text latitude_error"></span>
                     </div>
                     <div class="mb-3">
                         <label for="Longitude" class="flex items-center justify-center">Longitude</label>
                         <input type="text" name="longitude" class="form-control" autocomplete="off" id="longitude"
                             placeholder="Enter Longitude">
-                        <span class="text-danger error-text longitude_error"></span>
                     </div>
                     <div class="mb-3" id="status-container">
                         <label for="status" class="flex items-center justify-center">Status</label>
                         <input type="text" name="status" class="form-control" id="status" autocomplete="off"
                             placeholder="Enter status">
-                        <span class="text-danger error-text status_error"></span>
                     </div>
                     <div class="modal-footer">
                         <button id="saveEvacuationCenterBtn" class="btn-submit p-2">Create</button>

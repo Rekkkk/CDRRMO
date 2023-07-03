@@ -76,7 +76,7 @@
                 }
             });
 
-            var evacuationCenterTable = $('.evacuationCenterTable').DataTable({
+            let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
                 rowReorder: {
                     selector: 'td:nth-child(2)'
                 },
@@ -306,8 +306,6 @@
                 $('#status-container').show();
                 $('#evacuationCenterForm')[0].reset();
             });
-
-
         });
     </script>
 </body>
