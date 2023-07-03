@@ -20,10 +20,10 @@ class EvacueeController extends Controller
         $this->logActivity = new ActivityUserLog;
     }
 
-    public function loadEvacueeTable()
+    public function getEvacueeData()
     {
-        $data = $this->evacuee->all();
-        return DataTables::of($data)
+        $evacueeInfo = $this->evacuee->where('date_out', null)->get();
+        return DataTables::of($evacueeInfo)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
                 return '<button data-id="' . $row->id . '" data-toggle="modal" data-target="#evacueeInfoFormModal"' .
@@ -33,6 +33,17 @@ class EvacueeController extends Controller
                 return '<input type="checkbox" class="w-4 h-4 accent-blue-600" value="' . $row->id . '">';
             })
             ->rawColumns(['select', 'action'])
+            ->make(true);
+    }
+
+    public function getArchivedEvacueeInfo($disasterInfo)
+    {
+        $archivedEvacueeInfo = $this->evacuee
+            ->where('disaster_info', $disasterInfo)
+            ->where('date_out', '!=', null)->get();
+
+        return datatables::of($archivedEvacueeInfo)
+            ->addIndexColumn()
             ->make(true);
     }
 
