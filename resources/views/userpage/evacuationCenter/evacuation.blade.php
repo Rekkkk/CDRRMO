@@ -15,25 +15,28 @@
         @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
-
         <x-messages />
-
         <div class="main-content">
-            <div class="dashboard-logo pb-4">
-                <i class="bi bi-tropical-storm text-2xl p-2 bg-slate-600 text-white rounded"></i>
-                <span class="text-2xl font-bold tracking-wider mx-2">EVACUATION CENTER</span>
-                <hr class="mt-4">
-            </div>
-
-            <div class="evacuation-content flex bg-slate-50 shadow-lg p-2">
-                <div class="evacuation-table w-full relative">
-                    <div class="flex justify-between">
-                        <header class="text-2xl font-semibold">Evacuation Center Table</header>
-                        <button class="btn-submit p-2 mb-4" id="addEvacuationCenter">
-                            <i class="bi bi-house-down-fill pr-2"></i>
-                            Add Evacuation Center
-                        </button>
+            <div class="grid grid-cols-1">
+                <div class="grid col-end-1 mr-4">
+                    <div class="m-auto">
+                        <i class="bi bi-house-gear text-2xl p-2 bg-slate-600 text-white rounded"></i>
                     </div>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-wider">EVACUATION CENTER</span>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="flex justify-end my-3">
+                <button class="btn-submit p-2" id="addEvacuationCenter">
+                    <i class="bi bi-house-down-fill pr-2"></i>
+                    Add Evacuation Center
+                </button>
+            </div>
+            <div class="evacuation-content flex bg-slate-50 shadow-lg p-3">
+                <div class="evacuation-table w-full relative">
+                    <header class="text-2xl font-semibold">Evacuation Center Table</header>
                     <table class="table evacuationCenterTable display nowrap" style="width:100%">
                         <thead>
                             <tr>

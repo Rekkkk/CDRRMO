@@ -16,23 +16,28 @@
         <x-messages />
 
         <div class="main-content">
-            <div class="dashboard-logo relative mb-14">
-                <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
-                <span class="text-2xl font-bold tracking-wider mx-2">Guides</span>
-                <hr class="mt-3">
-                <div class="guide-btn flex justify-end mt-2">
-                    @if (
-                        (auth()->check() && auth()->user()->organization == 'CDRRMO') ||
-                            (auth()->check() && auth()->user()->organization == 'CSWD'))
-                        <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 rounded font-medium">
-                            <i class="bi bi-plus-lg mr-2"></i> Create Guide
-                        </a>
-                        <input type="text" class="guideline_id" value="{{ $guidelineId }}" hidden>
-                        @include('userpage.guideline.addGuide')
-                    @endif
+            <div class="grid grid-cols-1">
+                <div class="grid col-end-1 mr-4">
+                    <div class="m-auto">
+                        <i class="bi bi-file-earmark-richtext text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-wider">GUIDES</span>
                 </div>
             </div>
-
+            <hr class="mt-4">
+            <div class="guide-btn flex justify-end my-3">
+                @if (
+                    (auth()->check() && auth()->user()->organization == 'CDRRMO') ||
+                        (auth()->check() && auth()->user()->organization == 'CSWD'))
+                    <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 rounded font-medium">
+                        <i class="bi bi-plus-lg mr-2"></i> Create Guide
+                    </a>
+                    <input type="text" class="guideline_id" value="{{ $guidelineId }}" hidden>
+                    @include('userpage.guideline.addGuide')
+                @endif
+            </div>
             @foreach ($guide as $guide)
                 <div class="guide-container">
                     <div class="guide-content relative mx-2.5 my-2">

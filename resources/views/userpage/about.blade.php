@@ -23,12 +23,17 @@
         <x-messages />
 
         <div class="main-content">
-            <div class="dashboard-logo pb-4">
-                <i class="bi bi-info-circle text-2xl p-2 bg-slate-600 text-white rounded"></i>
-                <span class="text-2xl font-bold tracking-wider mx-2">ABOUT</span>
-                <hr class="mt-4">
+            <div class="grid grid-cols-1">
+                <div class="grid col-end-1 mr-4">
+                    <div class="m-auto">
+                        <i class="bi bi-info-circle text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-wider">ABOUT</span>
+                </div>
             </div>
-
+            <hr class="my-4">
             <div class="about-content">
                 <div class="location-section drop-shadow-lg bg-slate-600 p-6 text-white">
                     <div class="text-center">

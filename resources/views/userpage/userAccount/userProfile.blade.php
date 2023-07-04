@@ -14,9 +14,20 @@
         @include('partials.sidebar')
         <x-messages />
         <div class="main-content">
+            <div class="grid grid-cols-1">
+                <div class="grid col-end-1 mr-4">
+                    <div class="m-auto">
+                        <i class="bi bi-person-circle text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-wider">MY PROFILE</span>
+                </div>
+            </div>
+            <hr class="mt-4">
             <div class="user-profile-container rounded shadow-lg mt-4">
                 @include('userpage.userAccount.userAccountModal')
-                <div class="mt-20">
+                <div>
                     <div class="flex justify-center items-center pt-4 pb-2">
                         <div class="bg-slate-300 w-60 h-60 rounded-full overflow-hidden border-4 border-indigo-500">
                             <img src="{{ asset('assets/img/profile.png') }}" alt="Profile" id="profile">
