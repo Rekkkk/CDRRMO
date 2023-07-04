@@ -254,13 +254,14 @@
 
                 drawCallback: function() {
                     $('#selectAllCheckBox').prop('checked', false);
-                    convertBooleanToYesNo(this.api());
+                    convertBooleanToYesNo(this.api(), 'evacueeTable');
                 }
             });
 
-            function convertBooleanToYesNo(api) {
+            function convertBooleanToYesNo(api, table) {
                 api.rows().every(function() {
-                    let columnName = [
+                    let columnIndex,
+                        columnName = [
                         '4Ps',
                         'PWD',
                         'pregnant',
@@ -269,11 +270,16 @@
                         'working'
                     ];
 
+                    table == 'evacueeTable' ?
+                        columnIndex = 11 :
+                        columnIndex = 10;
+
+
                     for (let i = 0; i < columnName.length; i++) {
                         this.data()[columnName[i]] == 1 ?
                             this.data()[columnName[i]] = 'Yes' :
                             this.data()[columnName[i]] = 'No';
-                        $(`td:eq(${i+11})`, this.node()).text(this.data()[columnName[i]]);
+                        $(`td:eq(${i+columnIndex})`, this.node()).text(this.data()[columnName[i]]);
                     }
                 });
             }
@@ -745,7 +751,7 @@
                     }
                 ],
                 drawCallback: function() {
-                    convertBooleanToYesNo(this.api());
+                    convertBooleanToYesNo(this.api(), 'archivedEvacueeTable');
                 }
             });
 
