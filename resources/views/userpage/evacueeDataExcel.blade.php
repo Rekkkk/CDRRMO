@@ -12,20 +12,19 @@
     <table class="table">
         <thead>
             <tr>
-                <th>DATE AND TIME OF ENTRY</th>
+                <th>DATE AND <br>TIME OF ENTRY</th>
                 <th>HH#</th>
                 <th>No.</th>
-                <th>Name</th>
-                <th>Sex</th>
+                <th>NAME</th>
+                <th>SEX</th>
                 <th>Age</th>
-                <th>4Ps</th>
+                <th>4Ps?</th>
                 <th>PWD</th>
-                <th>Pregnant</th>
-                <th>Lactating</th>
-                <th>Student</th>
-                <th>Working</th>
-                <th>Barangay</th>
-                <th>DATE AND TIME RETURNED HOME</th>
+                <th>PREGNANT</th>
+                <th>LACTATING</th>
+                <th>STUDENT</th>
+                <th>WORKING</th>
+                <th>DATE AND TIME <br>RETURNED HOME</th>
             </tr>
         </thead>
         <tbody>
@@ -43,7 +42,6 @@
                     <td data-column="Lactating">{{ $data->lactating }}</td>
                     <td data-column="Student">{{ $data->student }}</td>
                     <td data-column="Working">{{ $data->working }}</td>
-                    <td data-column="Barangay">{{ $data->barangay }}</td>
                     <td data-column="Date Out">{{ $data->date_out }}</td>
                 </tr>
             @endforeach
