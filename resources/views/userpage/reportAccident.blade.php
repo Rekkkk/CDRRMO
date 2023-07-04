@@ -20,15 +20,21 @@
         <x-messages />
 
         <div class="main-content">
-            <div class="dashboard-logo pb-4">
-                <i class="bi bi-megaphone text-2xl p-2 bg-slate-600 text-white rounded"></i>
-                <span class="text-2xl font-bold tracking-wider mx-2">REPORT INCIDENT</span>
-                <hr class="mt-4">
+            <div class="grid grid-cols-1">
+                <div class="grid col-end-1 mr-4">
+                    <div class="m-auto">
+                        <i class="bi bi-megaphone text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-wider">REPORT INCIDENT</span>
+                </div>
             </div>
+            <hr class="mt-4">
 
             <div id="result"></div>
 
-            <div class="report-table bg-slate-50 shadow-lg p-4 rounded mb-5">
+            <div class="report-table bg-slate-50 shadow-lg p-4 rounded my-4">
                 <header class="text-2xl font-semibold">Pending Accident Report</header>
                 <table class="table pendingReport display nowrap" style="width:100%">
                     <thead>
@@ -45,7 +51,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="report-table bg-slate-50 shadow-lg p-4 rounded">
+            <div class="report-table bg-slate-50 shadow-lg p-4 rounded mb-4">
                 <header class="text-2xl font-semibold">Incident Report</header>
                 <table class="table incidentReports display nowrap" style="width:100%">
                     <thead>

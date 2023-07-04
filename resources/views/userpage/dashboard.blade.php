@@ -24,21 +24,28 @@
         <x-messages />
 
         <div class="main-content">
-            <div class="dashboard-logo relative mb-14">
-                <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
-                <span class="text-2xl font-bold tracking-wider mx-2">DASHBOARD</span>
-                <hr class="mt-3">
+            <div class="grid grid-cols-1">
+                <div class="grid col-end-1 mr-4">
+                    <div class="m-auto">
+                        <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-wider">DASHBOARD</span>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="guide-btn flex justify-end my-3">
                 @if (auth()->user()->position == "President")
                     <form action="{{ route('generate.evacuee.data') }}" method="POST" target="__blank">
                 @endif
                 @csrf
-                <button typ="submit" class="btn-submit float-right p-2 mt-2 font-medium">
+                <button typ="submit" class="btn-submit float-right p-2 font-medium">
                     <i class="bi bi-printer pr-2"></i>
                     Generate Report Data
                 </button>
                 </form>
             </div>
-
             <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
                 <div class="widget bg-green-400 drop-shadow-lg rounded max-w-full">
                     <div class="widget-logo flex justify-center items-center">

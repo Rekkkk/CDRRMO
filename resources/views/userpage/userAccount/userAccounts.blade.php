@@ -17,14 +17,25 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="account-table bg-slate-50 shadow-lg p-4 rounded">
-                <div class="flex justify-between">
-                    <header class="text-2xl font-semibold">User Accounts Table</header>
-                    <button class="btn-submit p-2 mb-4" id="createUserAccount">
-                        <i class="bi bi-person-fill-add pr-2"></i>
-                        Create User Account
-                    </button>
+            <div class="grid grid-cols-1">
+                <div class="grid col-end-1 mr-4">
+                    <div class="m-auto">
+                        <i class="bi bi-person-gear text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    </div>
                 </div>
+                <div>
+                    <span class="text-xl font-bold tracking-wider">MANAGE ACCOUNTS</span>
+                </div>
+            </div>
+            <hr class="mt-4">
+            <div class="flex justify-end my-3">
+                <button class="btn-submit p-2" id="createUserAccount">
+                    <i class="bi bi-person-fill-add pr-2"></i>
+                    Create User Account
+                </button>
+            </div>
+            <div class="account-table bg-slate-50 shadow-lg p-4 rounded">
+                <header class="text-2xl font-semibold">User Accounts Table</header>
                 <table class="table accountTable display nowrap" style="width:100%">
                     <thead>
                         <tr>

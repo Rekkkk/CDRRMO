@@ -16,13 +16,18 @@
         <x-messages />
 
         <div class="main-content">
-            <div class="dashboard-logo">
-                <i class="bi bi-book text-2xl p-2 bg-slate-600 text-white rounded"></i>
-                <span class="text-2xl font-bold tracking-wider mx-2">E-LIGTAS Guideline</span>
-                <hr class="horizontal-line">
+            <div class="grid grid-cols-1">
+                <div class="grid col-end-1 mr-4">
+                    <div class="m-auto">
+                        <i class="bi bi-book text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-wider">E-LIGTAS GUIDELINES</span>
+                </div>
             </div>
-
-            <div class="content-item text-center p-8">
+            <hr class="mt-4">
+            <div class="content-item text-center pt-4">
                 <div class="widget-container">
                     @foreach ($guideline as $guidelineItem)
                         <div class="guideline-widget">

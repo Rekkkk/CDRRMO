@@ -15,12 +15,18 @@
         <x-messages />
 
         <div class="main-content">
-            <div class="dashboard-logo pb-4">
-                <i class="bi bi-telephone text-2xl p-2 bg-slate-600 text-white rounded"></i>
-                <span class="text-2xl font-bold tracking-wider mx-2">HOTLINE NUMBERS</span>
-                <hr class="mt-4">
+            <div class="grid grid-cols-1">
+                <div class="grid col-end-1 mr-4">
+                    <div class="m-auto">
+                        <i class="bi bi-telephone text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    </div>
+                </div>
+                <div>
+                    <span class="text-xl font-bold tracking-wider">HOTLINE NUMBERS</span>
+                </div>
             </div>
-            <div class="hotline-content flex">
+            <hr class="mt-4">
+            <div class="hotline-content flex mt-4">
                 <div class="location-section shadow-lg bg-slate-600 p-6 text-white">
                     <div class="mt-8">
                         <span class="font-bold">

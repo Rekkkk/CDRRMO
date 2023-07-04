@@ -21,7 +21,7 @@
             @if (auth()->user()->position == 'President')
                 <li>
                     <a href="{{ route('account.display.users') }}">
-                        <i class="bi bi-people text-white"></i>
+                        <i class="bi bi-person-gear text-white"></i>
                         <span class="links_name">Manage User Accounts</span>
                     </a>
                 </li>
@@ -60,7 +60,7 @@
             </li>
             <li>
                 <a href="{{ route('manage.evacuation') }}">
-                    <i class="bi bi-house-add text-white"></i>
+                    <i class="bi bi-house-gear text-white"></i>
                     <span class="links_name">Manage Evacuation Center</span>
                 </a>
             </li>
@@ -73,7 +73,7 @@
             @if (auth()->user()->position == 'Secretary')
                 <li>
                     <a href="{{ route('account.display.users') }}">
-                        <i class="bi bi-people text-white"></i>
+                        <i class="bi bi-person-gear text-white"></i>
                         <span class="links_name">Manage CSWD Accounts</span>
                     </a>
                 </li>
@@ -95,7 +95,7 @@
             <li>
                 <a href="{{ route('resident.display.report.accident') }}">
                     <i class="bi bi-megaphone text-white"></i>
-                    <span class="links_name">Report Iccident</span>
+                    <span class="links_name">Report Incident</span>
                 </a>
             </li>
             <li>
