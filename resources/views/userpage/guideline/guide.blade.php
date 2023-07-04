@@ -12,27 +12,22 @@
         @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
-
         <x-messages />
-
         <div class="main-content">
             <div class="dashboard-logo relative mb-14">
                 <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">Guides</span>
                 <hr class="mt-3">
                 <div class="guide-btn flex justify-end mt-2">
-                    @if (
-                        (auth()->check() && auth()->user()->organization == 'CDRRMO') ||
-                            (auth()->check() && auth()->user()->organization == 'CSWD'))
-                        <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 rounded font-medium">
+                    @if (auth()->check())
+                        <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 font-medium">
                             <i class="bi bi-plus-lg mr-2"></i> Create Guide
                         </a>
-                        <input type="text" class="guideline_id" value="{{ $guidelineId }}" hidden>
+                        <input type="text" class="guidelineId" value="{{ $guidelineId }}" hidden>
                         @include('userpage.guideline.addGuide')
                     @endif
                 </div>
             </div>
-
             @foreach ($guide as $guide)
                 <div class="guide-container">
                     <div class="guide-content relative mx-2.5 my-2">
@@ -43,19 +38,13 @@
                             <p class="mb-2">
                                 {{ $guide->content }}
                             </p>
-                            @if (
-                                (auth()->check() && auth()->user()->organization == 'CDRRMO') ||
-                                    (auth()->check() && auth()->user()->organization == 'CSWD'))
+                            @if (auth()->check())
                                 <div class="action-btn py-2 flex justify-start">
-                                    <a href="#edit{{ $guide->id }}" data-bs-toggle="modal">
-                                        <button type="submit" class="btn-edit p-2">
-                                            <i class="bi bi-pencil text-sm mr-2"></i>Edit
-                                        </button>
+                                    <a href="#edit{{ $guide->id }}" data-bs-toggle="modal" class="btn-edit p-2">
+                                        <i class="bi bi-pencil text-sm mr-2"></i>Edit
                                     </a>
-                                    <a href="{{ route('remove.guide.cdrrmo', $guide->id) }}">
-                                        <button type="submit" class="btn-cancel ml-2 p-2">
-                                            <i class="bi bi-trash mr-2"></i>Remove
-                                        </button>
+                                    <a href="{{ route('guide.remove', $guide->id) }}" class="btn-cancel ml-2 p-2">
+                                        <i class="bi bi-trash mr-2"></i>Remove
                                     </a>
                                 </div>
                             @endif
@@ -88,8 +77,6 @@
             }
 
             $('#createGuideBtn').click(function() {
-                $('#create_guide_id').val('');
-                $('#guideline_id').val('');
                 $('#createGuideForm').trigger("reset");
                 $('#createGuideModal').modal('show');
             });
@@ -116,14 +103,15 @@
             });
 
             function createGuideForm(form) {
-                let guideline_id = $('.guideline_id').val();
+                let guidelineId = $('.guidelineId').val();
+
                 confirmModal(`Do you want to create this guide?`).then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
                             data: $('#createGuideForm').serialize(),
-                            url: "{{ route('add.guide.cdrrmo', ':guideline_id') }}"
+                            url: "{{ route('guide.add', ':guidelineId') }}"
                                 .replace(
-                                    ':guideline_id', guideline_id),
+                                    ':guidelineId', guidelineId),
                             type: "POST",
                             dataType: 'json',
                             success: function(data) {
@@ -160,61 +148,6 @@
                     }
                 });
             }
-
-            $('#updateGuideBtn').click(function(e) {
-                var guideId = $('.guide_id').val();
-                e.preventDefault();
-
-                confirmModal('Do you want to update this guide?').then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            data: $('#updateGuideForm').serialize(),
-                            url: "{{ route('update.guide.cdrrmo', ':guideId') }}"
-                                .replace(
-                                    ':guideId', guideId),
-                            type: "PUT",
-                            dataType: 'json',
-                            beforeSend: function(data) {
-                                $(document).find('span.error-text').text('');
-                            },
-                            success: function(data) {
-                                if (data.status == 0) {
-                                    $.each(data.error, function(prefix, val) {
-                                        $('span.' + prefix + '_error').text(val[
-                                            0]);
-                                    });
-                                    messageModal(
-                                        'Error',
-                                        'Failed to Update E-LIGTAS Guide.',
-                                        'info',
-                                        '#B91C1C'
-                                    );
-                                } else {
-                                    messageModal(
-                                        'Success',
-                                        'E-LIGTAS Guide Successfully Updated.',
-                                        'success',
-                                        '#3CB043'
-                                    ).then((result) => {
-                                        $('#createGuideForm')[0].reset();
-                                        $('#createGuideModal').modal(
-                                            'hide');
-                                        location.reload();
-                                    });
-                                }
-                            },
-                            error: function(data) {
-                                messageModal(
-                                    'Error',
-                                    'Something went wrong, try again later.',
-                                    'info',
-                                    '#B91C1C'
-                                );
-                            }
-                        });
-                    }
-                });
-            });
         });
     </script>
 </body>

@@ -149,7 +149,7 @@
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('get.evacuee.info.cswd') }}",
+                ajax: "{{ route('get.evacuee.info') }}",
                 columns: [{
                         data: 'id',
                         name: 'id',
@@ -499,10 +499,10 @@
                     modal = $('#evacueeInfoFormModal');
 
                 if (operation == 'record') {
-                    url = "{{ route('record.evacuee.cswd') }}";
+                    url = "{{ route('record.evacuee') }}";
                     type = "POST";
                 } else {
-                    url = "{{ route('update.evacuee.info.cswd', 'evacueeId') }}".replace('evacueeId', evacueeId);
+                    url = "{{ route('update.evacuee.info', 'evacueeId') }}".replace('evacueeId', evacueeId);
                     type = "PUT";
                     hideModal = true;
                 }
@@ -614,7 +614,7 @@
                                 data: {
                                     evacueeIds: id,
                                 },
-                                url: "{{ route('update.evacuee.dateout.cswd') }}",
+                                url: "{{ route('update.evacuee.dateout') }}",
                                 type: "PATCH",
                                 dataType: 'json',
                                 success: function(response) {
@@ -663,7 +663,7 @@
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('get.archived.evacuee.info.cswd', 'disasterInfo') }}".replace(
+                ajax: "{{ route('get.archived.evacuee.info', 'disasterInfo') }}".replace(
                     'disasterInfo',
                     'None'),
                 columns: [{
@@ -758,7 +758,7 @@
                 $('#archiveEvacueeDataFlashflood').val('None');
 
                 initializeDataTable(
-                    "{{ route('get.archived.evacuee.info.cswd', 'disasterId') }}".replace(
+                    "{{ route('get.archived.evacuee.info', 'disasterId') }}".replace(
                         'disasterId', $(this).val())
                 );
             });
@@ -767,7 +767,7 @@
                 $('#archiveEvacueeDataTyphoon').val('None');
 
                 initializeDataTable(
-                    "{{ route('get.archived.evacuee.info.cswd', 'disasterId') }}".replace(
+                    "{{ route('get.archived.evacuee.info', 'disasterId') }}".replace(
                         'disasterId', $(this).val())
                 );
             });

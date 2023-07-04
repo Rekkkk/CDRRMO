@@ -73,7 +73,7 @@
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('display.user.accounts') }}",
+                ajax: "{{ route('account.display.users') }}",
                 columns: [{
                         data: 'id',
                         name: 'id',
@@ -119,7 +119,7 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "PUT",
-                                url: "{{ route('restrict.account', ':userId') }}"
+                                url: "{{ route('account.restrict', ':userId') }}"
                                     .replace(':userId', userId),
                                 success: function(response) {
                                     if (response.status == 0) {
@@ -146,7 +146,7 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "PUT",
-                                url: "{{ route('unrestrict.account', ':userId') }}"
+                                url: "{{ route('account.unrestrict', ':userId') }}"
                                     .replace(':userId', userId),
                                 success: function(data) {
                                     if (data.status == 0) {
@@ -184,7 +184,7 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "DELETE",
-                                url: "{{ route('remove.account', ':userId') }}"
+                                url: "{{ route('account.remove', ':userId') }}"
                                     .replace(':userId', userId),
                                 success: function(response) {
                                     if (response.status == 0) {
@@ -221,7 +221,7 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "PUT",
-                                url: "{{ route('open.account', ':userId') }}"
+                                url: "{{ route('account.open', ':userId') }}"
                                     .replace(':userId', userId),
                                 success: function(response) {
                                     if (response.status == 0) {
@@ -296,9 +296,9 @@
                     formData = $(form).serialize(),
                     modal = $('#userAccountModal');
 
-                url = operation == 'create' ? "{{ route('create.account') }}" :
-                    operation == 'update' ? "{{ route('update.account', 'userId') }}".replace('userId', userId) :
-                    "{{ route('suspend.account', 'userId') }}".replace('userId', userId);
+                url = operation == 'create' ? "{{ route('account.create') }}" :
+                    operation == 'update' ? "{{ route('account.update', 'userId') }}".replace('userId', userId) :
+                    "{{ route('account.suspend', 'userId') }}".replace('userId', userId);
 
                 type = operation == 'create' ? "POST" : "PUT";
 

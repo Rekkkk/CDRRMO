@@ -28,10 +28,8 @@
                 <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
                 <span class="text-2xl font-bold tracking-wider mx-2">DASHBOARD</span>
                 <hr class="mt-3">
-                @if (auth()->user()->organization == 'CDRRMO')
-                    <form action="{{ route('generate.evacuee.data.cdrrmo') }}" method="POST" target="__blank">
-                    @else
-                        <form action="{{ route('generate.evacuee.data.cswd') }}" method="POST" target="__blank">
+                @if (auth()->user()->position == "President")
+                    <form action="{{ route('generate.evacuee.data') }}" method="POST" target="__blank">
                 @endif
                 @csrf
                 <button typ="submit" class="btn-submit float-right p-2 mt-2 font-medium">

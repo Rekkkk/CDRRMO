@@ -17,7 +17,7 @@
             <div class="user-profile-container rounded shadow-lg mt-4">
                 @include('userpage.userAccount.userAccountModal')
                 <div class="mt-20">
-                    <div class="flex justify-center items-center pt-4 pb-2">
+                    <div class="profile-section flex justify-center items-center pt-4 pb-2">
                         <div class="bg-slate-300 w-60 h-60 rounded-full overflow-hidden border-4 border-indigo-500">
                             <img src="{{ asset('assets/img/profile.png') }}" alt="Profile" id="profile">
                         </div>
@@ -89,6 +89,8 @@
         crossorigin="anonymous"></script>
     <script>
         $(document).ready(function() {
+            let defaultFormData;
+
             $('#editProfileBtn').click(function() {
                 $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                 $('.modal-title').text('Edit Profile Account Form');
@@ -100,6 +102,7 @@
                 $('#position').val('{{ auth()->user()->position }}');
                 $('#email').val('{{ auth()->user()->email }}');
                 $('#userAccountModal').modal('show');
+                defaultFormData = $('#accountForm').serialize();
             });
 
             let validator = $("#accountForm").validate({
@@ -131,20 +134,21 @@
 
             function formSubmitHandler(form) {
                 let accountid = $('#accountId').val(),
-                    operation = $('#operation').val();
+                    operation = $('#operation').val(),
+                    formData = $(form).serialize();
 
                 confirmModal('Do you want to update this user details?').then((result) => {
                     if (result.isConfirmed) {
-                        if (operation == 'update') {
+                        if (operation == 'update' && defaultFormData == formData) {
                             messageModal('Info', 'No changes were made.', 'info', '#B91C1C');
                             $('#userAccountModal').modal('hide');
                             return;
                         }
                         $.ajax({
-                            url: "{{ route('update.account', ':accountid') }}"
+                            url: "{{ route('account.update', ':accountid') }}"
                                 .replace(':accountid', accountid),
                             method: 'PUT',
-                            data: $('#accountForm').serialize(),
+                            data: formData,
                             dataType: 'json',
                             beforeSend: function() {
                                 $(document).find('span.error-text').text('');

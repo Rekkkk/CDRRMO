@@ -5,9 +5,9 @@
                 <h1 class="modal-title fs-5 text-center text-white">Update Guide Form</h1>
             </div>
             <div class="modal-body">
-                <form id="updateGuideForm">
+                <form action="{{ route('guide.update', $guide->id) }}" method="POST">
+                    @method('PUT')
                     @csrf
-                    <input type="text" name="guide_id" value="{{ $guide->id }}" hidden>
                     <div class="mb-3">
                         <label for="label" class="flex items-center justify-center">Guide
                             Desctription</label>
@@ -19,8 +19,7 @@
                         <textarea name="content" class="form-control" autocomplete="off" placeholder="Enter Guide Content" rows="5">{{ $guide->content }}</textarea>
                     </div>
                     <div class="modal-footer text-white">
-                        <button id="updateGuideBtn" class="btn-edit p-2 rounded">Update
-                        </button>
+                        <button type="submit" class="btn-edit bg-yellow-500 p-2 rounded">Update</button>
                     </div>
                 </form>
             </div>
