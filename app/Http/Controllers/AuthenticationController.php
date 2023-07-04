@@ -56,9 +56,9 @@ class AuthenticationController extends Controller
                     $this->logActivity->generateLog('Logged In');
 
                     if ($userRole == 'CDRRMO')
-                        return redirect('/cdrrmo/dashboard')->with('message', 'Welcome to CDRRMO Panel.');
+                        return redirect('/dashboard')->with('message', 'Welcome to CDRRMO Panel.');
                     else if ($userRole == 'CSWD')
-                        return redirect('/cswd/dashboard')->with('message', 'Welcome to CSWD Panel.');
+                        return redirect('/dashboard')->with('message', 'Welcome to CSWD Panel.');
                 } else {
                     auth()->logout();
                     session()->flush();
@@ -70,9 +70,9 @@ class AuthenticationController extends Controller
                 $this->logActivity->generateLog('Logged In');
 
                 if ($userRole == 'CDRRMO')
-                    return redirect('/cdrrmo/dashboard')->with('message', 'Welcome to CDRRMO Panel.');
+                    return redirect('/dashboard')->with('message', 'Welcome to CDRRMO Panel.');
                 else if ($userRole == 'CSWD')
-                    return redirect('/cswd/dashboard')->with('message', 'Welcome to CSWD Panel.');
+                    return redirect('/dashboard')->with('message', 'Welcome to CSWD Panel.');
             }
         }
 

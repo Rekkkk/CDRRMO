@@ -46,6 +46,7 @@ hr {
     left: 0;
     height: 70px;
     background: var(--color-red);
+    z-index: 1;
 }
 
 /* Button Section Start Here */

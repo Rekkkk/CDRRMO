@@ -143,7 +143,7 @@
                     responsive: true,
                     processing: false,
                     serverSide: true,
-                    ajax: "{{ route('pending.report.cdrrmo') }}",
+                    ajax: "{{ route('report.pending') }}",
                     columns: [{
                             data: 'id',
                             name: 'id',
@@ -185,7 +185,7 @@
                     responsive: true,
                     processing: false,
                     serverSide: true,
-                    ajax: "{{ route('accident.report.cdrrmo') }}",
+                    ajax: "{{ route('report.accident') }}",
                     columns: [{
                             data: 'id',
                             name: 'id',
@@ -227,7 +227,7 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "POST",
-                                url: "{{ route('approve.report.cdrrmo', ':reportId') }}"
+                                url: "{{ route('report.approve', ':reportId') }}"
                                     .replace(':reportId', reportId),
                                 success: function(response) {
                                     if (response.status == 0) {
@@ -260,7 +260,7 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "DELETE",
-                                url: "{{ route('decline.report.cdrrmo', ':reportId') }}"
+                                url: "{{ route('report.decline', ':reportId') }}"
                                     .replace(':reportId', reportId),
                                 success: function(response) {
                                     if (response.status == 0) {
@@ -293,7 +293,7 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "DELETE",
-                                url: "{{ route('remove.report.cdrrmo', ':reportId') }}"
+                                url: "{{ route('report.remove', ':reportId') }}"
                                     .replace(':reportId', reportId),
                                 success: function(response) {
                                     if (response.status == 0) {
@@ -343,7 +343,7 @@
                     responsive: true,
                     processing: false,
                     serverSide: true,
-                    ajax: "{{ route('pending.report.resident') }}",
+                    ajax: "{{ route('resident.report.pending') }}",
                     columns: [{
                             data: 'id',
                             name: 'id',
@@ -385,7 +385,7 @@
                     responsive: true,
                     processing: false,
                     serverSide: true,
-                    ajax: "{{ route('accident.report.resident') }}",
+                    ajax: "{{ route('resident.report.display') }}",
                     columns: [{
                             data: 'id',
                             name: 'id',
@@ -465,7 +465,7 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: 'POST',
-                                url: "{{ route('report.accident.resident') }}",
+                                url: "{{ route('resident.report.accident') }}",
                                 data: formData,
                                 contentType: false,
                                 processData: false,
@@ -514,7 +514,7 @@
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "DELETE",
-                                url: "{{ route('revert.report.resident', ':reportId') }}"
+                                url: "{{ route('resident.report.revert', ':reportId') }}"
                                     .replace(':reportId', reportId),
                                 success: function(response) {
                                     if (response.status == 0) {
@@ -539,11 +539,11 @@
                 function revertReport(reportId) {
                     $.ajax({
                         type: "PUT",
-                        url: "{{ route('update.report.resident', ':reportId') }}".replace(':reportId',
+                        url: "{{ route('resident.report.update', ':reportId') }}".replace(':reportId',
                             reportId),
                         success: function(response) {
                             if (response.status == 0) {
-                                messageModal('Warning', 'Failed to revert your report, Try again.',
+                                messageModal('Warning', 'Failed to revert your repdasdasort, Try again.',
                                     'warning', '#FFDF00');
                             } else {
                                 messageModal('Success', 'Successfully Reverted Report.', 'success',

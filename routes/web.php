@@ -1,9 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\CswdController;
 use App\Http\Controllers\MainController;
-use App\Http\Controllers\CdrrmoController;
 use App\Http\Controllers\EvacueeController;
 use App\Http\Controllers\GuidelineController;
 use App\Http\Controllers\UserAccountsController;
@@ -21,124 +19,90 @@ Route::controller(AuthenticationController::class)->group(function () {
 });
 
 Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function () {
-
-    Route::group(['prefix' => 'reportAccident'], function () {
-        Route::controller(ReportAccidentController::class)->group(function () {
-            Route::get('/pendingIncidentReport', 'displayPendingReport')->name('pending.report.resident');
-            Route::get('/displayIncidentReport', 'displayIncidentReport')->name('accident.report.resident');
-            Route::delete('/revertReport/{reportId}', 'revertAccidentReport')->name('revert.report.resident');
-            Route::put('/updateAttempt', 'updateUserAttempt')->name('update.report.resident');
-            Route::post('/addReport', 'addAccidentReport')->name('report.accident.resident');
+    Route::name('resident.')->group(function () {
+        Route::name('report.')->prefix('reportAccident')->controller(ReportAccidentController::class)->group(function () {
+            Route::get('/pendingIncidentReport', 'displayPendingReport')->name('pending');
+            Route::get('/displayIncidentReport', 'displayIncidentReport')->name('display');
+            Route::delete('/revertReport/{reportId}', 'revertAccidentReport')->name('revert');
+            Route::put('/updateAttempt', 'updateUserAttempt')->name('update');
+            Route::post('/addReport', 'addAccidentReport')->name('accident');
         });
-    });
 
-    Route::group(['prefix' => 'eligtasGuideline'], function () {
-        Route::controller(GuidelineController::class)->group(function () {
-            Route::get('/', 'eligtasGuideline')->name('guideline.resident');
-            Route::get('/guide/{guidelineId}', 'guide')->name('guide.resident');
+        Route::prefix('eligtasGuideline')->controller(GuidelineController::class)->group(function () {
+            Route::get('/', 'eligtasGuideline')->name('guideline');
+            Route::get('/', 'eligtasGuideline')->name('guideline');
+            Route::get('/guide/{guidelineId}', 'guide')->name('guide');
         });
-    });
 
-    Route::controller(MainController::class)->group(function () {
-        Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.resident');
-        Route::get('/reportAccident', 'reportAccident')->name('display.report.accident.resident');
-        Route::get('/hotlineNumber', 'hotlineNumber')->name('hotline.number.resident');
-        Route::get('/about', 'about')->name('about.resident');
+        Route::controller(MainController::class)->group(function () {
+            Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center');
+            Route::get('/reportAccident', 'reportAccident')->name('display.report.accident');
+            Route::get('/hotlineNumber', 'hotlineNumber')->name('hotline.number');
+            Route::get('/about', 'about')->name('about');
+        });
     });
 });
 
 Route::group(['middleware' => 'auth'], function () {
-
-    Route::group(['prefix' => 'cdrrmo'], function () {
-        Route::group(['prefix' => 'eligtasGuideline'], function () {
-            Route::controller(GuidelineController::class)->group(function () {
-                Route::get('/', 'eligtasGuideline')->name('guideline.cdrrmo');
-                Route::post('/guide/addGuide{guidelineId}', 'addGuide')->name('add.guide.cdrrmo');
-                Route::put('/guide/updateGuide/{guideId}', 'updateGuide')->name('update.guide.cdrrmo');
-                Route::get('/guide/removeGuide/{guideId}', 'removeGuide')->name('remove.guide.cdrrmo');
-
-                Route::get('/guide/{guidelineId}', 'guide')->name('guide.cdrrmo');
-                Route::post('/guideline/addGuideline', 'addGuideline')->name('add.guideline.cdrrmo');
-                Route::put('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update.guideline.cdrrmo');
-                Route::get('/guideline/removeGuideline/{guidelineId}', 'removeGuideline')->name('remove.guideline.cdrrmo');
-            });
-        });
-
-        Route::group(['prefix' => 'reportAccident'], function () {
-            Route::controller(ReportAccidentController::class)->group(function () {
-                Route::get('/displayPendingReport', 'displayPendingReport')->name('pending.report.cdrrmo');
-                Route::get('/displayIncidentReport', 'displayIncidentReport')->name('accident.report.cdrrmo');
-                Route::post('/addReport', 'addAccidentReport')->name('report.accident.cdrrmo');
-                Route::post('/approveReport/{reportId}', 'approveAccidentReport')->name('approve.report.cdrrmo');
-                Route::delete('/declineAccidentReport/{reportId}', 'declineAccidentReport')->name('decline.report.cdrrmo');
-                Route::delete('/removeAccidentReport/{reportId}', 'removeReportAccident')->name('remove.report.cdrrmo');
-            });
-        });
-
-        Route::controller(MainController::class)->group(function () {
-            Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
-            Route::post('/generateEvacueeData', 'generateExcelEvacueeData')->name('generate.evacuee.data.cdrrmo');
-            Route::get('/reportAccident', 'reportAccident')->name('display.report.accident.cdrrmo');
-            Route::get('/hotlineNumber', 'hotlineNumber')->name('hotline.number.cdrrmo');
-            Route::get('/about', 'about')->name('about.cdrrmo');
-        });
-
+    Route::controller(MainController::class)->group(function () {
+        Route::get('/dashboard', 'dashboard')->name('dashboard');
+        Route::post('/generateEvacueeData', 'generateExcelEvacueeData')->name('generate.evacuee.data');
+        Route::get('/evacuee', 'manageEvacueeInformation')->name('manage.evacuee.record');
+        Route::get('/evacuationManage', 'evacuationManage')->name('manage.evacuation');
+        Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator');
+        Route::get('/reportAccident', 'reportAccident')->name('display.report.accident');
+        Route::get('/hotlineNumber', 'hotlineNumber')->name('hotline.number');
+        Route::get('/about', 'about')->name('about');
     });
 
-    Route::group(['prefix' => 'cswd'], function () {
-
-        Route::group(['prefix' => 'eligtasGuideline'], function () {
-            Route::controller(GuidelineController::class)->group(function () {
-                Route::get('/', 'eligtasGuideline')->name('guideline.cswd');
-                Route::post('/guide/addGuide{guidelineId}', 'addGuide')->name('add.guide.cswd');
-                Route::put('/guide/updateGuide/{guideId}', 'updateGuide')->name('update.guide.cswd');
-                Route::get('/guide/removeGuide/{guideId}', 'removeGuide')->name('remove.guide.cswd');
-
-                Route::get('/guide/{guidelineId}', 'guide')->name('guide.cswd');
-                Route::post('/guideline/addGuideline', 'addGuideline')->name('add.guideline.cswd');
-                Route::put('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update.guideline.cswd');
-                Route::get('/guideline/removeGuideline/{guidelineId}', 'removeGuideline')->name('remove.guideline.cswd');
-            });
+    Route::prefix('eligtasGuideline')->controller(GuidelineController::class)->group(function () {
+        Route::name('guideline.')->group(function () {
+            Route::get('/', 'eligtasGuideline')->name('display');
+            Route::post('/guideline/addGuideline', 'addGuideline')->name('add');
+            Route::put('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update');
+            Route::get('/guideline/removeGuideline/{guidelineId}', 'removeGuideline')->name('remove');
         });
 
-        Route::group(['prefix' => 'evacuationCenter'], function () {
-            Route::controller(EvacuationCenterController::class)->group(function () {
-                Route::get('/viewEvacuationCenter', 'evacuationCenterList')->name('evacuation.center.cswd');
-                Route::get('/evacuationCenterDetails/{evacuationId}', 'getEvacuationCenterDetails')->name('evacuation.center.detail.cswd');
-                Route::post('/registerEvacuation', 'registerEvacuationCenter')->name('register.evacuation.center.cswd');
-                Route::put('/updateEvacuation/{evacuationId}', 'updateEvacuationCenter')->name('update.evacuation.center.cswd');
-                Route::delete('/removeEvacuation/{evacuationId}', 'removeEvacuationCenter')->name('remove.evacuation.center.cswd');
-            });
-        });
-
-        Route::group(['prefix' => 'evacuee'], function () {
-            Route::controller(EvacueeController::class)->group(function () {
-                Route::get('/getEvacueeInfo', 'getEvacueeData')->name('get.evacuee.info.cswd');
-                Route::get('/getArchivedEvacueeInfo/{disasterInfo}', 'getArchivedEvacueeInfo')->name('get.archived.evacuee.info.cswd');
-                Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('record.evacuee.cswd');
-                Route::put('/updateEvacueeInfo/{evacueeId}', 'updateEvacueeInfo')->name('update.evacuee.info.cswd');
-                Route::patch('/updateEvacueeDateOut', 'updateEvacueeDateOut')->name('update.evacuee.dateout.cswd');
-            });
-        });
-
-        Route::controller(MainController::class)->group(function () {
-            Route::get('/dashboard', 'dashboard')->name('dashboard.cswd');
-            Route::post('/generateEvacueeData', 'generateExcelEvacueeData')->name('generate.evacuee.data.cswd');
-            Route::get('/evacuee', 'manageEvacueeInformation')->name('manage.evacuee.record.cswd');
-            Route::get('/evacuationManage', 'evacuationManage')->name('manage.evacuation.cswd');
-            Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator.cswd');
+        Route::name('guide.')->group(function () {
+            Route::get('/guide/{guidelineId}', 'guide')->name('display');
+            Route::post('/guide/addGuide{guidelineId}', 'addGuide')->name('add');
+            Route::put('/guide/updateGuide/{guideId}', 'updateGuide')->name('update');
+            Route::get('/guide/removeGuide/{guideId}', 'removeGuide')->name('remove');
         });
     });
 
-    Route::controller(UserAccountsController::class)->group(function () {
-        Route::post('/createUserAccount', 'createUserAccount')->name('create.account');
-        Route::get('/userProfile', 'userProfile')->name('display.user.profile');
-        Route::put('/updateAccount/{userId}', 'updateUserAccount')->name('update.account');
-        Route::get('/userAccount', 'userAccounts')->name('display.user.accounts');
-        Route::put('/restrictUser/{userId}', 'restrictUserAccount')->name('restrict.account');
-        Route::put('/unrestrictUser/{userId}', 'unRestrictUserAccount')->name('unrestrict.account');
-        Route::put('/suspendUser/{userId}', 'suspendUserAccount')->name('suspend.account');
-        Route::put('/openAccount/{userId}', 'openUserAccount')->name('open.account');
-        Route::delete('/removeAccount/{userId}', 'removeUserAccount')->name('remove.account');
+    Route::prefix('evacuee')->controller(EvacueeController::class)->group(function () {
+        Route::get('/getEvacueeInfo', 'getEvacueeData')->name('get.evacuee.info');
+        Route::get('/getArchivedEvacueeInfo/{disasterInfo}', 'getArchivedEvacueeInfo')->name('get.archived.evacuee.info');
+        Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('record.evacuee');
+        Route::put('/updateEvacueeInfo/{evacueeId}', 'updateEvacueeInfo')->name('update.evacuee.info');
+        Route::patch('/updateEvacueeDateOut', 'updateEvacueeDateOut')->name('update.evacuee.dateout');
+    });
+
+    Route::prefix('evacuationCenter')->name('evacuation.center.')->controller(EvacuationCenterController::class)->group(function () {
+        Route::get('/viewEvacuationCenter', 'evacuationCenterList')->name('display');
+        Route::post('/registerEvacuation', 'registerEvacuationCenter')->name('register');
+        Route::put('/updateEvacuation/{evacuationId}', 'updateEvacuationCenter')->name('update');
+        Route::delete('/removeEvacuation/{evacuationId}', 'removeEvacuationCenter')->name('remove');
+    });
+
+    Route::name('account.')->controller(UserAccountsController::class)->group(function () {
+        Route::post('/createUserAccount', 'createUserAccount')->name('create');
+        Route::get('/userProfile', 'userProfile')->name('display.profile');
+        Route::put('/updateAccount/{userId}', 'updateUserAccount')->name('update');
+        Route::get('/userAccount', 'userAccounts')->name('display.users');
+        Route::put('/restrictUser/{userId}', 'restrictUserAccount')->name('restrict');
+        Route::put('/unrestrictUser/{userId}', 'unRestrictUserAccount')->name('unrestrict');
+        Route::put('/suspendUser/{userId}', 'suspendUserAccount')->name('suspend');
+        Route::put('/openAccount/{userId}', 'openUserAccount')->name('open');
+        Route::delete('/removeAccount/{userId}', 'removeUserAccount')->name('remove');
+    });
+
+    Route::prefix('reportAccident')->name('report.')->controller(ReportAccidentController::class)->group(function () {
+        Route::get('/displayPendingReport', 'displayPendingReport')->name('pending');
+        Route::get('/displayIncidentReport', 'displayIncidentReport')->name('accident');
+        Route::post('/approveReport/{reportId}', 'approveAccidentReport')->name('approve');
+        Route::delete('/declineAccidentReport/{reportId}', 'declineAccidentReport')->name('decline');
+        Route::delete('/removeAccidentReport/{reportId}', 'removeReportAccident')->name('remove');
     });
 });

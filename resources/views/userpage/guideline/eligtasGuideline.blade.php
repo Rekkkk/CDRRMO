@@ -26,8 +26,8 @@
                 <div class="widget-container">
                     @foreach ($guideline as $guidelineItem)
                         <div class="guideline-widget">
-                            @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
-                                <a href="{{ route('remove.guideline.cdrrmo', Crypt::encryptString($guidelineItem->id)) }}"
+                            @if (auth()->check())
+                                <a href="{{ route('guideline.remove', Crypt::encryptString($guidelineItem->id)) }}"
                                     class="absolute top-2 right-0">
                                     <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
                                 </a>
@@ -37,7 +37,7 @@
                                 </a>
                                 @include('userpage.guideline.updateGuideline')
                                 <a class="guidelines-item"
-                                    href="{{ route('guide.cdrrmo', Crypt::encryptString($guidelineItem->id)) }}">
+                                    href="{{ route('guide.display', Crypt::encryptString($guidelineItem->id)) }}">
                                     <div class="relative bg-slate-50 drop-shadow-2xl -z-50 overflow-hidden rounded">
                                         <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}"
                                             alt="logo">
@@ -47,40 +47,19 @@
                                         </div>
                                     </div>
                                 </a>
-                            @elseif (auth()->check() && auth()->user()->organization == 'CSWD')
-                                <a href="{{ route('remove.guideline.cswd', Crypt::encryptString($guidelineItem->id)) }}"
-                                    class="absolute top-2 right-0">
-                                    <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
-                                </a>
-                                <a href="#edit{{ $guidelineItem->id }}" data-bs-toggle="modal"
-                                    class="absolute left-2 top-3">
-                                    <i class="btn-edit bi bi-pencil p-2"></i>
-                                </a>
-                                @include('userpage.guideline.updateGuideline')
+                            @else
                                 <a class="guidelines-item"
-                                    href="{{ route('guide.cswd', Crypt::encryptString($guidelineItem->id)) }}">
+                                    href="{{ route('resident.guide', Crypt::encryptString($guidelineItem->id)) }}">
                                     <div class="relative bg-slate-50 drop-shadow-2xl -z-50 overflow-hidden rounded">
                                         <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}"
                                             alt="logo">
-                                        <div
-                                            class="absolute w-full h-3/6 top-2/4 text-white bg-slate-700 flex items-center justify-center">
-                                            <p class="uppercase">{{ $guidelineItem->type }}</p>
-                                        </div>
-                                    </div>
-                                </a>
-                            @endif
-                            @guest
-                                <a class="guidelines-item"
-                                    href="{{ route('guide.resident', Crypt::encryptString($guidelineItem->id)) }}">
-                                    <div class="relative bg-slate-50 drop-shadow-2xl -z-50 overflow-hidden rounded">
-                                        <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
                                         <div
                                             class="absolute w-full h-3/6 top-2/4 text-white bg-slate-700 flex items-center justify-center hover:scale-105">
                                             <p class="uppercase">{{ $guidelineItem->type }}</p>
                                         </div>
                                     </div>
                                 </a>
-                            @endguest
+                            @endif
                         </div>
                     @endforeach
                     @if (
@@ -118,35 +97,29 @@
                 $('#submitGuidelineBtn').click(function(e) {
                     e.preventDefault();
 
-                    confirmModal('Do you want to publish this guideline?').then((result) => {
+                    confirmModal('Do you want to create this guideline?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
                                 data: $('#guidelineForm').serialize(),
-                                url: "{{ route('add.guideline.cdrrmo') }}",
+                                url: "{{ route('guideline.add') }}",
                                 type: "POST",
                                 dataType: 'json',
-                                beforeSend: function(data) {
+                                beforeSend: function(response) {
                                     $(document).find('span.error-text').text('');
                                 },
-                                success: function(data) {
-                                    if (data.status == 0) {
-                                        $.each(data.error, function(prefix, val) {
+                                success: function(response) {
+                                    if (response.status == 0) {
+                                        $.each(response.error, function(prefix, val) {
                                             $('span.' + prefix + '_error').text(val[
                                                 0]);
                                         });
-                                        messageModal(
-                                            'Warning',
-                                            'Failed to Publish E-LIGTAS Guideline.',
-                                            'warning',
-                                            '#FFDF00'
-                                        );
+                                        messageModal('Warning',
+                                            'Failed to Create E-LIGTAS Guideline.',
+                                            'warning', '#FFDF00');
                                     } else {
-                                        messageModal(
-                                            'Success',
-                                            'E-LIGTAS Guideline Successfully Published.',
-                                            'success',
-                                            '#3CB043'
-                                        ).then(() => {
+                                        messageModal('Success',
+                                            'E-LIGTAS Guideline Successfully Created.',
+                                            'success', '#3CB043').then(() => {
                                             $('#guidelineForm')[0].reset();
                                             $('#guidelineModal').modal('hide');
                                             location.reload();
@@ -154,18 +127,14 @@
                                     }
                                 },
                                 error: function() {
-                                    messageModal(
-                                        'Warning',
+                                    messageModal('Warning',
                                         'Something went wrong, Try again later.',
-                                        'warning',
-                                        '#FFDF00'
-                                    );
+                                        'warning', '#FFDF00');
                                 }
                             });
                         }
                     });
                 });
-
             });
         </script>
     @endif

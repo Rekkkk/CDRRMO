@@ -83,7 +83,7 @@
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('evacuation.center.cswd') }}",
+                ajax: "{{ route('evacuation.center.display') }}",
                 columns: [{
                         data: 'id',
                         name: 'id',
@@ -157,7 +157,7 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: "{{ route('remove.evacuation.center.cswd', ':evacuationCenterId') }}"
+                            url: "{{ route('evacuation.center.remove', ':evacuationCenterId') }}"
                                 .replace(':evacuationCenterId', evacuationCenterId),
                             success: function(response) {
                                 if (response.status == 0) {
@@ -231,10 +231,10 @@
                     modal = $('#evacuationCenterModal');
 
                 if (operation == 'create') {
-                    url = "{{ route('register.evacuation.center.cswd') }}";
+                    url = "{{ route('evacuation.center.register') }}";
                     type = "POST";
                 } else {
-                    url = "{{ route('update.evacuation.center.cswd', ':evacuationCenterId') }}"
+                    url = "{{ route('evacuation.center.update', ':evacuationCenterId') }}"
                         .replace(':evacuationCenterId', evacuationCenterId),
                         type = "PUT";
                 }

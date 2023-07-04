@@ -15,8 +15,7 @@
                         <span class="text-danger error-text type_error"></span>
                     </div>
                     <div class="modal-footer">
-                        <button id="submitGuidelineBtn" class="btn-submit p-2">Publish
-                            Guideline</button>
+                        <button id="submitGuidelineBtn" class="btn-submit p-2">Create</button>
                     </div>
                 </form>
             </div>

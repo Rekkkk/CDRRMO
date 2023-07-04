@@ -4,12 +4,12 @@
             <button type="button" class="bi bi-list text-white cursor-pointer text-2xl" id="btn-sidebar-mobile"></button>
         </div>
         @if (auth()->check())
-            <div class="dropdown px-2">
+            <div class="dropdown px-2" id="dropdown">
                 <button class="text-white text-sm bi bi-caret-down-fill" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item text-sm" href="{{ route('display.user.profile') }}"><i
+                    <li><a class="dropdown-item text-sm" href="{{ route('account.display.profile') }}"><i
                                 class="bi bi-person pr-2"></i>My Profile</a></li>
                     <li><a class="dropdown-item text-sm" href="{{ route('logout.user') }}"><i
                                 class="bi bi-box-arrow-in-left pr-2"></i>Logout</a></li>

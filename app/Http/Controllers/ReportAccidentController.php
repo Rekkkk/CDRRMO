@@ -34,7 +34,14 @@ class ReportAccidentController extends Controller
             return DataTables::of($pendingReport)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" id="approveIncidentReport" class="btn-submit py-1.5 btn-sm mr-2 approveIncidentReport">Approve</a>' . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Decline" class="py-1.5 btn-sm mr-2 declineIncidentReport">Decline</a>';
+                    $actionBtn = '';
+
+                    if ($row->user_ip == request()->ip() && !auth()->check())
+                        $actionBtn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Revert" class="py-1.5 btn-sm mr-2 revertIncidentReport">Revert</a>';
+                    else if (auth()->check())
+                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" id="approveIncidentReport" class="btn-submit py-1.5 btn-sm mr-2 approveIncidentReport">Approve</a>' . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Decline" class="py-1.5 btn-sm mr-2 declineIncidentReport">Decline</a>';
+
+                    return $actionBtn;
                 })->addColumn('photo', function ($row) {
                     return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
                 })
@@ -53,13 +60,7 @@ class ReportAccidentController extends Controller
             return DataTables::of($incidentReport)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    if ($row->user_ip == request()->ip())
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Revert" class="py-1.5 btn-sm mr-2 revertIncidentReport">Revert</a>';
-
-                    if (auth()->check())
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="py-1.5 btn-sm mr-2 removeIncidentReport">Remove</a>';
-
-                    return;
+                    return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="py-1.5 btn-sm mr-2 removeIncidentReport">Remove</a>';
                 })->addColumn('photo', function ($row) {
                     return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
                 })
@@ -106,7 +107,7 @@ class ReportAccidentController extends Controller
                     $this->reportAccident->create($reportAccident);
                     $this->reportLog->where('user_ip', $request->ip())->update(['attempt' => $residentAttempt + 1]);
                     $attempt = 0;
-                    
+
                     $attempt == 3 ? $this->reportLog->where('user_ip', $request->ip())->update(['report_time' => Carbon::now()->addDays(3)]) :
                         intval($this->reportLog->where('user_ip', $request->ip())->value('attempt'));
 
@@ -190,7 +191,6 @@ class ReportAccidentController extends Controller
                     'attempt' => $userReport - 1
                 ]);
             }
-            $this->logActivity->generateLog('Reverting Accident Report');
 
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
