@@ -12,6 +12,9 @@ use App\Http\Controllers\EvacuationCenterController;
 Route::controller(AuthenticationController::class)->group(function () {
     Route::post('/', 'authUser')->name('login');
     Route::get('/logout', 'logout')->name('logout.user');
+    Route::get('/recoverAccount', 'recoverAccount')->name('recoverAccount');
+    Route::get('/findAccount', 'findAccount')->name('findAccount');
+    Route::get('/sendResetPasswordLink', 'sendResetPasswordLink')->name('sendResetPasswordLink');
 
     Route::group(['middleware' => 'check.login'], function () {
         Route::view('/', 'authentication/authUser')->name('home');

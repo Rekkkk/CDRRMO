@@ -285,6 +285,11 @@ hr,
     right: 15px;
 }
 
+.recover-cotainer{
+    max-width: 500px;
+    margin: 10% auto;
+}
+
 .bottom-section {
     top: 90%;
 }
