@@ -80,6 +80,7 @@
         </div>
     </div>
 
+    <script src="{{ asset('assets/js/script.js') }}"></script>
     <script async src="https://maps.googleapis.com/maps/api/js?key=...&callback=initMap"></script>
     @include('partials.toastr')
     <script>
