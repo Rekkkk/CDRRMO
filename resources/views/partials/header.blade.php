@@ -9,10 +9,10 @@
                     aria-expanded="false">
                 </button>
                 <ul class="dropdown-menu">
-                    <li><a class="dropdown-item text-sm rounded" href="{{ route('account.display.profile') }}"><i
+                    <li class="px-2 pb-1"><a class="dropdown-item text-sm rounded-sm hover:bg-gray-200 active:bg-green-600" href="{{ route('account.display.profile') }}"><i
                                 class="bi bi-person-circle pr-2"></i>My
                             Profile</a></li>
-                    <li><a class="dropdown-item text-sm rounded" href="{{ route('logout.user') }}"><i
+                    <li class="px-2"><a class="dropdown-item text-sm rounded-sm hover:bg-gray-200 active:bg-red-600" href="{{ route('logout.user') }}"><i
                                 class="bi bi-box-arrow-in-left pr-2"></i>Logout</a>
                     </li>
                 </ul>

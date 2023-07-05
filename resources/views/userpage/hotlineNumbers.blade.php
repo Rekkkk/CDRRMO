@@ -16,9 +16,7 @@
                         <i class="bi bi-telephone text-2xl p-2 bg-slate-600 text-white rounded"></i>
                     </div>
                 </div>
-                <div>
-                    <span class="text-xl font-bold tracking-wider">HOTLINE NUMBERS</span>
-                </div>
+                <span class="text-xl font-bold tracking-wider">HOTLINE NUMBERS</span>
             </div>
             <hr class="mt-4">
             <div class="hotline-content flex mt-4">

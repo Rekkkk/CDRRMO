@@ -16,9 +16,7 @@
                         <i class="bi bi-house text-2xl p-2 bg-slate-600 text-white rounded"></i>
                     </div>
                 </div>
-                <div>
-                    <span class="text-xl font-bold tracking-wider">EVACUATION CENTER LOCATOR</span>
-                </div>
+                <span class="text-xl font-bold tracking-wider">EVACUATION CENTER LOCATOR</span>
             </div>
             <hr class="mt-4">
             <div class="locator-content my-4 drop-shadow-2xl">
@@ -33,11 +31,9 @@
             </div>
             <div class="map-btn text-white">
                 @guest
-                    <button type="button"
-                        class="btn-submit bg-green-600 p-2 mr-4">Locate
+                    <button type="button" class="btn-submit bg-green-600 p-2 mr-4">Locate
                         Nearest Evacuation</button>
-                    <button type="button"
-                        class="btn-cancel bg-red-600 p-2">Locate
+                    <button type="button" class="btn-cancel bg-red-600 p-2">Locate
                         Current Location</button>
                 @endguest
             </div>
@@ -62,8 +58,7 @@
                                 <td>{{ $evacuationCenterList->status }}</td>
                                 @guest
                                     <td>
-                                        <a href="#"
-                                            class="btn-cancel p-2">Locate</a>
+                                        <a href="#" class="btn-cancel p-2">Locate</a>
                                     </td>
                                 @endguest
                             </tr>

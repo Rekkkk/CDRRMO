@@ -17,9 +17,7 @@
                         <i class="bi bi-person-circle text-2xl p-2 bg-slate-600 text-white rounded"></i>
                     </div>
                 </div>
-                <div>
-                    <span class="text-xl font-bold tracking-wider">MY PROFILE</span>
-                </div>
+                <span class="text-xl font-bold tracking-wider">MY PROFILE</span>
             </div>
             <hr class="mt-4">
             <div class="user-profile-container rounded shadow-lg mt-4">

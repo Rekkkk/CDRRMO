@@ -11,19 +11,23 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="dashboard-logo relative mb-14">
-                <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
-                <span class="text-2xl font-bold tracking-wider mx-2">Guides</span>
-                <hr class="mt-3">
-                <div class="guide-btn flex justify-end mt-2">
-                    @if (auth()->check())
-                        <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 font-medium">
-                            <i class="bi bi-plus-lg mr-2"></i> Create Guide
-                        </a>
-                        <input type="text" class="guidelineId" value="{{ $guidelineId }}" hidden>
-                        @include('userpage.guideline.addGuide')
-                    @endif
+            <div class="grid grid-cols-1">
+                <div class="grid col-end-1 mr-4">
+                    <div class="m-auto">
+                        <i class="bi bi-file-earmark-richtext text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    </div>
                 </div>
+                <span class="text-xl font-bold tracking-wider">GUIDES</span>
+            </div>
+            <hr class="mt-4">
+            <div class="guide-btn flex justify-end mt-2">
+                @if (auth()->check())
+                    <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 font-medium">
+                        <i class="bi bi-plus-lg mr-2"></i> Create Guide
+                    </a>
+                    <input type="text" class="guidelineId" value="{{ $guidelineId }}" hidden>
+                    @include('userpage.guideline.addGuide')
+                @endif
             </div>
             @foreach ($guide as $guide)
                 <div class="guide-container">
@@ -52,7 +56,7 @@
             @endforeach
         </div>
     </div>
-    
+
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"

@@ -17,12 +17,10 @@
                         <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
                     </div>
                 </div>
-                <div>
-                    <span class="text-xl font-bold tracking-wider">DASHBOARD</span>
-                </div>
+                <span class="text-xl font-bold tracking-wider">DASHBOARD</span>
             </div>
             <hr class="mt-4">
-            <div class="flex justify-end my-3">
+            <div class="flex justify-end mt-2">
                 @if (auth()->user()->position == 'President')
                     <form action="{{ route('generate.evacuee.data') }}" method="POST" target="__blank">
                 @endif
@@ -101,7 +99,7 @@
             </figure>
         </div>
     </div>
-    
+
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
