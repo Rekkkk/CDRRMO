@@ -41,8 +41,18 @@ class UserAccountsController extends Controller
                 ->addColumn('action', function ($user) {
                     $actionBtns = '<select class="custom-select custom-select-sm font-bold actionSelect" data-id="' . $user->id . '">
                             <option value="">Select Action</option>';
-                    $actionBtns .= $user->isSuspend == 0 ? '<option value="suspendAccount">Suspend</option>' : '<option value="openAccount">Open Account</option>';
-                    $actionBtns .= $user->isRestrict == 0 ? '<option value="restrictAccount">Restrict</option>' : '<option value="unrestrictAccount">Unrestrict</option>';
+
+                    if ($user->isSuspend == 0) {
+                        $actionBtns .= '<option value="suspendAccount">Suspend</option>';
+                        if ($user->isRestrict == 0) {
+                            $actionBtns .= '<option value="restrictAccount">Restrict</option>';
+                        } else {
+                            $actionBtns .= '<option value="unrestrictAccount">Unrestrict</option>';
+                        }
+                    } else {
+                        $actionBtns .= '<option value="openAccount">Open Account</option>';
+                    }
+
                     return $actionBtns .= '<option value="editAccount">Edit</option>' . '<option value="removeAccount">Remove</option>' . '</select>';
                 })
                 ->rawColumns(['action'])

@@ -26,7 +26,7 @@ class EvacuationCenterController extends Controller
             return DataTables::of($evacuationCenterList)
                 ->addIndexColumn()
                 ->addColumn('action', function ($row) {
-                    return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="btn-edit p-1.5 mr-2 text-sm updateEvacuationCenter">Edit</a>' . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="removeEvacuationCenter p-1.5 mr-2 text-sm">Remove</a>';
+                    return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="btn-edit p-1.5 mr-2 text-sm updateEvacuationCenter">Edit</a>' . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="btn-cancel removeEvacuationCenter p-1.5 mr-2 text-sm">Remove</a>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);

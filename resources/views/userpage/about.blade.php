@@ -2,26 +2,13 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
-    <link rel="shortcut icon" href="{{ asset('assets/img/e-ligtas-logo.png') }}" type="image/png">
-    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
-    <title>{{ config('app.name') }}</title>
+    @include('partials.headPackage')
 </head>
 
 <body>
     <div class="wrapper">
-
         @include('partials.header')
         @include('partials.sidebar')
-
-        <x-messages />
-
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
@@ -139,42 +126,11 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
-    <script>
-        $(document).ready(function() {
-            // $('#editAddressModal').on('click', function() {
-            //     var address = $('#addressData').text();
-            //     $('#address').val(address.trim());
-            //     $('#editAddressForm').modal('show');
-            // })
-        })
-
-        // $('#editAddressBtn').on('click', function() {
-        //     Swal.fire({
-        //         icon: 'info',
-        //         title: 'Do you really want to update this?',
-        //         showDenyButton: true,
-        //         confirmButtonText: 'Yes, update it.',
-        //         confirmButtonColor: '#334155',
-        //         denyButtonText: `Double Check`,
-        //         denyButtonColor: '#b91c1c',
-        //     }).then((result) => {
-        //         if (result.isConfirmed) {
-        //             var updateAddress = $('#address').val().trim();
-        //             //$('#addressData').text(updateAddress);
-        //             document.getElementById("addressData").textContent = updateAddress;
-        //             $('#editAddressForm').modal('hide');
-        //         }
-        //     })
-        // })
-    </script>
-
+    @include('partials.toastr')
 </body>
 
 </html>

@@ -30,58 +30,54 @@ class MainController extends Controller
         $inEvacuationCenter = $evacuee->whereNull('date_out')->count();
         $isReturned = $evacuee->whereNotNull('date_out')->count();
 
-        $typhoonMaleData = $evacuee->countEvacuee('Typhoon', 'Male');
-        $typhoonFemaleData = $evacuee->countEvacuee('Typhoon', 'Female');
-        $floodingMaleData = $evacuee->countEvacuee('Flooding', 'Male');
-        $floodingFemaleData = $evacuee->countEvacuee('Flooding', 'Female');
+        $typhoonData = $evacuee->countEvacueeWithDisablities('Typhoon');
+        $typhoon4Ps = intval($typhoonData[0]->{'fourps'});
+        $typhoonPWD = intval($typhoonData[0]->PWD);
+        $typhoonPregnant = intval($typhoonData[0]->pregnant);
+        $typhoonLactating = intval($typhoonData[0]->lactating);
+        $typhoonStudent = intval($typhoonData[0]->student);
+        $typhoonWorking = intval($typhoonData[0]->working);
 
-        $typhoonData = $evacuee->countEvacueeWithDisablities(1);
+        $floodingData = $evacuee->countEvacueeWithDisablities('Flashflood');
+        $flooding4Ps = intval($floodingData[0]->{'fourps'});
+        $floodingPWD = intval($floodingData[0]->PWD);
+        $floodingPregnant = intval($floodingData[0]->pregnant);
+        $floodingLactating = intval($floodingData[0]->lactating);
+        $floodingStudent = intval($floodingData[0]->student);
+        $floodingWorking = intval($floodingData[0]->working);
 
-        $typhoon_4Ps = intval($typhoonData[0]->{'fourps'});
-        $typhoon_PWD = intval($typhoonData[0]->PWD);
-        $typhoon_pregnant = intval($typhoonData[0]->pregnant);
-        $typhoon_lactating = intval($typhoonData[0]->lactating);
-        $typhoon_student = intval($typhoonData[0]->student);
-        $typhoon_working = intval($typhoonData[0]->working);
-
-        $floodingData = $evacuee->countEvacueeWithDisablities(2);
-
-        $flooding_4Ps = intval($floodingData[0]->{'fourps'});
-        $flooding_PWD = intval($floodingData[0]->PWD);
-        $flooding_pregnant = intval($floodingData[0]->pregnant);
-        $flooding_lactating = intval($floodingData[0]->lactating);
-        $flooding_student = intval($floodingData[0]->student);
-        $flooding_working = intval($floodingData[0]->working);
-
-        return view('userpage.dashboard', compact(
+        $statisticData = compact(
             'activeEvacuation',
             'inActiveEvacuation',
             'inEvacuationCenter',
             'isReturned',
-            'typhoonMaleData',
-            'typhoonFemaleData',
-            'floodingMaleData',
-            'floodingFemaleData',
-            'typhoon_4Ps',
-            'typhoon_PWD',
-            'typhoon_pregnant',
-            'typhoon_lactating',
-            'typhoon_student',
-            'typhoon_working',
-            'flooding_4Ps',
-            'flooding_PWD',
-            'flooding_pregnant',
-            'flooding_lactating',
-            'flooding_student',
-            'flooding_working'
-        ));
+            'typhoon4Ps',
+            'typhoonPWD',
+            'typhoonPregnant',
+            'typhoonLactating',
+            'typhoonStudent',
+            'typhoonWorking',
+            'flooding4Ps',
+            'floodingPWD',
+            'floodingPregnant',
+            'floodingLactating',
+            'floodingStudent',
+            'floodingWorking'
+        );
+
+        $statisticData['typhoonMaleData'] = $evacuee->countEvacuee('Typhoon', 'Male');
+        $statisticData['typhoonFemaleData'] = $evacuee->countEvacuee('Typhoon', 'Female');
+        $statisticData['floodingMaleData'] = $evacuee->countEvacuee('Flooding', 'Male');
+        $statisticData['floodingFemaleData'] = $evacuee->countEvacuee('Flooding', 'Female');
+
+        return view('userpage.dashboard',  $statisticData);
     }
 
     public function generateExcelEvacueeData()
     {
         return Excel::download(new EvacueeDataExport, 'evacuee-data.xlxs', ExcelExcel::XLSX);
     }
-    
+
     public function manageEvacueeInformation(Request $request)
     {
         $disaster = new Disaster;
@@ -91,11 +87,11 @@ class MainController extends Controller
         $flashfloodList = Flashflood::all()->where('status', 'Rising');
         $disasterList = null;
 
-        if($typhoonList->isNotEmpty() && $flashfloodList->isNotEmpty()){
+        if ($typhoonList->isNotEmpty() && $flashfloodList->isNotEmpty()) {
             $disasterList = $disaster->all();
-        }else if($typhoonList->isNotEmpty()){
+        } else if ($typhoonList->isNotEmpty()) {
             $disasterList = $disaster->where('id', 1)->get();
-        }else if($flashfloodList->isNotEmpty()){
+        } else if ($flashfloodList->isNotEmpty()) {
             $disasterList = $disaster->where('id', 2)->get();
         }
 
