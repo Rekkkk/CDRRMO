@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\SendResetPasswordLink;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 
 class AuthenticationController extends Controller
@@ -14,6 +16,7 @@ class AuthenticationController extends Controller
 
     public function __construct()
     {
+
         $this->user = new User;
         $this->logActivity = new ActivityUserLog;
     }
@@ -67,6 +70,45 @@ class AuthenticationController extends Controller
         }
 
         return back();
+    }
+
+    public function recoverAccount()
+    {
+        return view('authentication.forgotPassword');
+    }
+
+    public function findAccount(Request $request)
+    {
+        Session::flush();
+
+        $userAccount = $this->user->where('email', $request->email)->get();
+
+        $em   = explode("@", $userAccount->value('email'));
+        $name = implode('@', array_slice($em, 0, count($em) - 1));
+        $len  = floor(strlen($name) / 2);
+
+        $userEmail  = substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
+
+        Session::put('userEmail', $userAccount->value('email'));
+
+        if ($userAccount->isNotEmpty()) {
+            return response()->json(['status' => 1, 'account' => $userEmail]);
+        } else {
+            return response()->json(['status' => 0]);
+        }
+    }
+
+    public function sendResetPasswordLink()
+    {
+        $userEmail = Session::get('userEmail');
+
+        try {
+            Mail::to($userEmail)->send(new SendResetPasswordLink());
+        } catch (\Exception $e) {
+            return response()->json(['status' => 0]);
+        }
+
+        return response()->json(['status' => 1]);
     }
 
     public function logout()

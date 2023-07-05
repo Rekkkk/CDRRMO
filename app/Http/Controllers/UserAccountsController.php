@@ -31,9 +31,10 @@ class UserAccountsController extends Controller
     public function userAccounts(Request $request)
     {
         $userAccounts = $this->user->all();
+        $userId = auth()->user()->id;
 
-        $userAccounts = auth()->user()->organization == "CDRRMO" ? $userAccounts->whereNotIn('id', [auth()->user()->id]) :
-            $userAccounts->where('organization', 'CSWD')->whereNotIn('id', [auth()->user()->id]);
+        $userAccounts = auth()->user()->organization == "CDRRMO" ? $userAccounts->whereNotIn('id', [$userId]) :
+            $userAccounts->where('organization', 'CSWD')->whereNotIn('id', [$userId]);
 
         if ($request->ajax()) {
             return DataTables::of($userAccounts)
@@ -82,12 +83,12 @@ class UserAccountsController extends Controller
                 ]);
                 $this->logActivity->generateLog('Creating Account Details');
 
-                // Mail::to(trim($request->email))->send(new UserCredentialsMail([
-                //     'email' => trim($request->email),
-                //     'organization' => $request->organization,
-                //     'position' => Str::upper($request->position),
-                //     'password' => $defaultPassword
-                // ]));
+                Mail::to(trim($request->email))->send(new UserCredentialsMail([
+                    'email' => trim($request->email),
+                    'organization' => $request->organization,
+                    'position' => Str::upper($request->position),
+                    'password' => $defaultPassword
+                ]));
 
                 return response()->json(['status' => 1]);
             } catch (\Exception $e) {
@@ -193,9 +194,6 @@ class UserAccountsController extends Controller
         }
     }
 
-    public function resetUserPassword(Request $request, $userId)
-    {
-    }
 
     public function removeUserAccount($userId)
     {
