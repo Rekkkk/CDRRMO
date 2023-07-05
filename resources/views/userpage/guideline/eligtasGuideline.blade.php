@@ -17,9 +17,7 @@
                         <i class="bi bi-book text-2xl p-2 bg-slate-600 text-white rounded"></i>
                     </div>
                 </div>
-                <div>
-                    <span class="text-xl font-bold tracking-wider">E-LIGTAS GUIDELINES</span>
-                </div>
+                <span class="text-xl font-bold tracking-wider">E-LIGTAS GUIDELINES</span>
             </div>
             <hr class="mt-4">
             <div class="content-item text-center pt-4">
@@ -79,7 +77,7 @@
             </div>
         </div>
     </div>
-    
+
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"

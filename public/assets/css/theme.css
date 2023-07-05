@@ -115,14 +115,14 @@ hr,
     transition-duration: 100ms;
 }
 
- .btn-edit:hover,
+.btn-edit:hover,
 .btn-table-edit:hover {
     background: #ca8a04;
     color: var(--color-text);
     transform: scale(1.05);
 }
 
- .btn-cancel,
+.btn-cancel,
 .btn-table-cancel {
     background: var(--color-red);
     color: var(--color-text);
@@ -131,7 +131,7 @@ hr,
     transition-duration: 100ms;
 }
 
- .btn-cancel:hover,
+.btn-cancel:hover,
 .btn-table-cancel:hover {
     background: #b91c1c;
     color: var(--color-text);
@@ -285,7 +285,7 @@ hr,
     right: 15px;
 }
 
-.recover-cotainer{
+.recover-cotainer {
     max-width: 500px;
     margin: 10% auto;
 }

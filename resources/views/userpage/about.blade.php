@@ -16,9 +16,7 @@
                         <i class="bi bi-info-circle text-2xl p-2 bg-slate-600 text-white rounded"></i>
                     </div>
                 </div>
-                <div>
-                    <span class="text-xl font-bold tracking-wider">ABOUT</span>
-                </div>
+                <span class="text-xl font-bold tracking-wider">ABOUT</span>
             </div>
             <hr class="my-4">
             <div class="about-content">
