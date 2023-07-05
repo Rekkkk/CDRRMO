@@ -4,15 +4,17 @@
             <button type="button" class="bi bi-list text-white cursor-pointer text-2xl" id="btn-sidebar-mobile"></button>
         </div>
         @if (auth()->check())
-            <div class="dropdown px-2" id="dropdown">
+            <div class="dropdown">
                 <button class="text-white text-sm bi bi-caret-down-fill" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                 </button>
                 <ul class="dropdown-menu">
-                    <li class="px-2"><a class="dropdown-item text-sm rounded" href="{{ route('account.display.profile') }}"><i
-                                class="bi bi-person-circle pr-2"></i>My Profile</a></li>
-                    <li class="px-2"><a class="dropdown-item text-sm rounded active:bg-red-600" href="{{ route('logout.user') }}"><i
-                                class="bi bi-box-arrow-in-left pr-2"></i>Logout</a></li>
+                    <li><a class="dropdown-item text-sm rounded" href="{{ route('account.display.profile') }}"><i
+                                class="bi bi-person-circle pr-2"></i>My
+                            Profile</a></li>
+                    <li><a class="dropdown-item text-sm rounded" href="{{ route('logout.user') }}"><i
+                                class="bi bi-box-arrow-in-left pr-2"></i>Logout</a>
+                    </li>
                 </ul>
             </div>
         @endif

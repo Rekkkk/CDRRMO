@@ -3,11 +3,12 @@
 
 <head>
     @include('partials.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
+        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
+        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
-    <title>{{ config('app.name') }}</title>
 </head>
 
 <body>
@@ -16,9 +17,6 @@
         @include('partials.header')
         @include('partials.sidebar')
         {{-- @vite(['resources/js/app.js']) --}}
-
-        <x-messages />
-
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
@@ -31,9 +29,6 @@
                 </div>
             </div>
             <hr class="mt-4">
-
-            <div id="result"></div>
-
             <div class="report-table bg-slate-50 shadow-lg p-4 rounded my-4">
                 <header class="text-2xl font-semibold">Pending Accident Report</header>
                 <table class="table pendingReport display nowrap" style="width:100%">
@@ -59,9 +54,9 @@
                             <th class="w-px">Report ID</th>
                             <th>Report Description</th>
                             <th>Accident Location</th>
-                            <th>Status</th>
-                            <th class="w-4">Actual Photo</th>
-                            @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
+                            <th class="w-5">Status</th>
+                            <th style="width:20%;">Actual Photo</th>
+                            @if (auth()->check())
                                 <th class="w-4">Action</th>
                             @endif
                         </tr>
@@ -127,12 +122,12 @@
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
+    @include('partials.toastr')
     @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
         <script>
             $(document).ready(function() {

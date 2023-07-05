@@ -3,8 +3,6 @@
 
 <head>
     @include('partials.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
-    <title>{{ config('app.name') }}</title>
 </head>
 
 <body>
@@ -36,10 +34,10 @@
             <div class="map-btn text-white">
                 @guest
                     <button type="button"
-                        class="bg-slate-600  p-2 rounded drop-shadow-lg hover:bg-slate-700">Locate
+                        class="btn-submit bg-green-600 p-2 mr-4">Locate
                         Nearest Evacuation</button>
                     <button type="button"
-                        class="bg-red-700 p-2 rounded drop-shadow-lg hover:bg-red-800">Locate
+                        class="btn-cancel bg-red-600 p-2">Locate
                         Current Location</button>
                 @endguest
             </div>
@@ -65,7 +63,7 @@
                                 @guest
                                     <td>
                                         <a href="#"
-                                            class="bg-red-700 text-white p-2 rounded drop-shadow-lg hover:bg-red-800">Locate</a>
+                                            class="btn-cancel p-2">Locate</a>
                                     </td>
                                 @endguest
                             </tr>
@@ -83,6 +81,7 @@
     </div>
 
     <script async src="https://maps.googleapis.com/maps/api/js?key=...&callback=initMap"></script>
+    @include('partials.toastr')
     <script>
         let map, activeInfoWindow, markers = [];
 

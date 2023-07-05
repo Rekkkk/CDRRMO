@@ -3,8 +3,6 @@
 
 <head>
     @include('partials.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
-    <title>{{ config('app.name') }}</title>
 </head>
 
 <body>
@@ -12,7 +10,6 @@
         @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
-        <x-messages />
         <div class="main-content">
             <div class="dashboard-logo relative mb-14">
                 <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
@@ -28,28 +25,6 @@
                     @endif
                 </div>
             </div>
-            <div class="grid grid-cols-1">
-                <div class="grid col-end-1 mr-4">
-                    <div class="m-auto">
-                        <i class="bi bi-file-earmark-richtext text-2xl p-2 bg-slate-600 text-white rounded"></i>
-                    </div>
-                </div>
-                <div>
-                    <span class="text-xl font-bold tracking-wider">GUIDES</span>
-                </div>
-            </div>
-            <hr class="mt-4">
-            <div class="guide-btn flex justify-end my-3">
-                @if (
-                    (auth()->check() && auth()->user()->organization == 'CDRRMO') ||
-                        (auth()->check() && auth()->user()->organization == 'CSWD'))
-                    <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 rounded font-medium">
-                        <i class="bi bi-plus-lg mr-2"></i> Create Guide
-                    </a>
-                    <input type="text" class="guideline_id" value="{{ $guidelineId }}" hidden>
-                    @include('userpage.guideline.addGuide')
-                @endif
-            </div>
             @foreach ($guide as $guide)
                 <div class="guide-container">
                     <div class="guide-content relative mx-2.5 my-2">
@@ -61,7 +36,7 @@
                                 {{ $guide->content }}
                             </p>
                             @if (auth()->check())
-                                <div class="action-btn py-2 flex justify-start">
+                                <div class="py-2 flex justify-start">
                                     <a href="#edit{{ $guide->id }}" data-bs-toggle="modal" class="btn-edit p-2">
                                         <i class="bi bi-pencil text-sm mr-2"></i>Edit
                                     </a>
@@ -78,16 +53,14 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"
-        integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
+    @include('partials.toastr')
     <script>
         $(document).ready(function() {
             const accordion = document.getElementsByClassName('guide-content');

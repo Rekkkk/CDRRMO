@@ -14,11 +14,25 @@ body {
     background: var(--color-background);
 }
 
-html {
-    scroll-behavior: smooth;
+.toast {
+    opacity: 1 !important;
+    box-shadow: none !important;
 }
 
-hr {
+::-webkit-scrollbar {
+    width: 0.5vw;
+}
+
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+    background: #64748b;
+}
+
+hr,
+::-webkit-scrollbar-thumb:hover {
     background: var(--color-gray);
 }
 
@@ -93,7 +107,7 @@ hr {
 }
 
 .btn-edit,
-.guide-content .btn-edit {
+.btn-table-edit {
     background: var(--color-yellow);
     color: var(--color-text);
     border-radius: 4px;
@@ -101,20 +115,15 @@ hr {
     transition-duration: 100ms;
 }
 
-.btn-edit:hover,
-.guide-content .btn-edit:hover {
+ .btn-edit:hover,
+.btn-table-edit:hover {
     background: #ca8a04;
     color: var(--color-text);
     transform: scale(1.05);
 }
 
-.evacuation-button .btn-cancel,
-.removeEvacuationCenter,
-.guide-content .btn-cancel,
-.removeUserAccount,
-.declineIncidentReport,
-.removeIncidentReport,
-.revertIncidentReport {
+ .btn-cancel,
+.btn-table-cancel {
     background: var(--color-red);
     color: var(--color-text);
     border-radius: 4px;
@@ -122,30 +131,9 @@ hr {
     transition-duration: 100ms;
 }
 
-.evacuation-button .btn-cancel:hover,
-.removeEvacuationCenter:hover,
-.guide-content .btn-cancel:hover,
-.removeUserAccount:hover,
-.declineIncidentReport:hover,
-.removeIncidentReport:hover,
-.revertIncidentReport:hover {
+ .btn-cancel:hover,
+.btn-table-cancel:hover {
     background: #b91c1c;
-    color: var(--color-text);
-    transform: scale(1.05);
-}
-
-.suspendUserAccount,
-.openUserAccount {
-    background: var(--color-violet);
-    color: var(--color-text);
-    border-radius: 4px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
-    transition-duration: 100ms;
-}
-
-.suspendUserAccount:hover,
-.openUserAccount:hover {
-    background: #9333ea;
     color: var(--color-text);
     transform: scale(1.05);
 }
@@ -397,7 +385,7 @@ hr {
 /* Mange Evacuation Center End Section */
 
 /* Report Incident Section Start Here */
-.report-button{
+.report-button {
     position: fixed;
     margin: 35px 14px;
     bottom: 0;
@@ -725,111 +713,3 @@ span.error {
 }
 
 /* Mobile View End Section */
-
-
-
-
-
-
-
-
-
-
-
-/* @media only screen and (max-width: 1100px) {
-    .content .evacuation-content .evacuation-form {
-        padding: 0 !important;
-        border: none;
-    }
-} */
-
-/* @media only screen and (max-width: 900px) {
-@media only screen and (max-width: 900px) {
-
-    .wrapper .header-section .container-fluid span {
-        display: none;
-        transition: all 0.4s ease;
-
-    }
-
-    .content .evacuation-content .evacuation-form .fields {
-        display: contents !important;
-    }
-
-    .content .evacuation-content .evacuation-table,
-    .content .disaster-content .disaster-table {
-        margin: 0 !important;
-        padding: 1.5rem !important;
-    }
-} */
-
-/* @media only screen and (max-width: 1300px) {
-
-    .content .main-content,
-    .about-content,
-    .hotline-content,
-    .evacuation-content {
-        display: flex;
-        flex-direction: column;
-    }
-}
-
-@keyframes transitionIn {
-    from {
-        opacity: 0;
-        transform: rotateX(-10deg);
-    }
-
-    to {
-        opacity: 1;
-        transform: rotateX(0);
-    }
-} */
-
-/* @media only screen and (max-width: 1024px) {
-    .main-content {
-        padding: 17% 2rem 0 2rem;
-    }
-
-}
-
-@media only screen and (max-width: 1100px) {
-    .content .evacuation-content .evacuation-form {
-        padding: 0 !important;
-        border: none;
-    }
-
-    .wrapper .header-section .container-fluid span {
-        display: none;
-        transition: all 0.4s ease;
-    }
-
-
-    .wrapper .header-section .container-fluid img {
-        margin: 0 auto;
-        float: none !important;
-    }
-
-    .content .evacuation-content .evacuation-table,
-    .content .table-container {
-        margin: 0 !important;
-        padding: 1.5rem !important;
-    }
-
-    .locator-container .locator-content .locator-header {
-        line-height: 20px;
-    }
-}
-
-@media only screen and (max-width: 1300px) {
-
-    .content .main-content,
-    .about-content,
-    .hotline-content,
-    .evacuation-content {
-        display: flex;
-        flex-direction: column;
-
-    }
-
-} */

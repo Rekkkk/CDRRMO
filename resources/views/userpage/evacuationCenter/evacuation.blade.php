@@ -3,11 +3,9 @@
 
 <head>
     @include('partials.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
-    <title>{{ config('app.name') }}</title>
 </head>
 
 <body>
@@ -15,7 +13,6 @@
         @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
-        <x-messages />
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
@@ -28,7 +25,7 @@
                 </div>
             </div>
             <hr class="mt-4">
-            <div class="flex justify-end my-3">
+            <div class=" flex justify-end my-3">
                 <button class="btn-submit p-2" id="addEvacuationCenter">
                     <i class="bi bi-house-down-fill pr-2"></i>
                     Add Evacuation Center
@@ -60,7 +57,6 @@
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
@@ -69,6 +65,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
+    @include('partials.toastr')
     <script type="text/javascript">
         $(document).ready(function() {
             let evacuationCenterId, defaultFormData;

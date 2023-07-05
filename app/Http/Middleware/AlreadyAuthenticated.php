@@ -11,7 +11,7 @@ class AlreadyAuthenticated
     public function handle(Request $request, Closure $next): Response
     {
         if (auth()->check()) 
-            return back()->with('message', 'Request Can`t Perform.');
+            return back()->with('error', 'Request Can`t Perform.');
             
         return $next($request);
     }
