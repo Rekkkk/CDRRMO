@@ -20,7 +20,7 @@
                         <i class="bi bi-house-gear text-2xl p-2 bg-slate-600 text-white rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold tracking-wider">EVACUATION CENTER</span>
+                <span class="text-xl font-bold tracking-wider">MANAGE EVACUATION CENTER</span>
             </div>
             <hr class="mt-4">
             <div class=" flex justify-end my-3">
@@ -29,14 +29,15 @@
                     Add Evacuation Center
                 </button>
             </div>
-            <div class="evacuation-content flex bg-slate-50 shadow-lg p-3">
-                <div class="evacuation-table w-full relative">
-                    <header class="text-2xl font-semibold">Evacuation Center Table</header>
-                    <table class="table evacuationCenterTable display nowrap" style="width:100%">
-                        <thead>
+            <div class="table-container mt-3 mb-2 p-3 bg-slate-50 shadow-lg flex rounded-lg">
+                <div class="block w-full overflow-auto">
+                    <header class="text-2xl font-semibold mb-3">Evacuation Centers</header>
+                    <table class="table evacuationCenterTable table-striped table-light align-middle"
+                        style="width:100%">
+                        <thead class="thead-light text-justify">
                             <tr>
                                 <th></th>
-                                <th>Evacuation Center Name</th>
+                                <th>Name</th>
                                 <th>Barangay</th>
                                 <th>Latitude</th>
                                 <th>Longitude</th>
@@ -66,22 +67,17 @@
     @include('partials.toastr')
     <script type="text/javascript">
         $(document).ready(function() {
-            let evacuationCenterId, defaultFormData;
-
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-
             let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
-                rowReorder: {
-                    selector: 'td:nth-child(2)'
+                order: [
+                    [1, 'asc']
+                ],
+                language: {
+                    emptyTable: 'No evacuation center added yet',
                 },
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('evacuation.center.display') }}",
+                ajax: "{{ route('evacuation.center.get') }}",
                 columns: [{
                         data: 'id',
                         name: 'id',
@@ -116,19 +112,25 @@
             });
 
             $('#addEvacuationCenter').click(function() {
-                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                $('.modal-title').text('Create Evacuation Center Form');
-                $('#saveEvacuationCenterBtn').removeClass('btn-edit').addClass('btn-submit');
-                $('#operation').val('create');
+                $('.modal-header').
+                removeClass('bg-yellow-500').
+                addClass('bg-green-600');
+                $('.modal-title').text('Add Evacuation Center');
+                $('#saveEvacuationCenterBtn').
+                removeClass('bg-yellow-500').
+                addClass('bg-green-600');
+                $('#operation').val('Add');
                 $('#status-container').hide();
                 $('#evacuationCenterModal').modal('show');
-                $('#saveEvacuationCenterBtn').text('Create');
+                $('#saveEvacuationCenterBtn').text('Add');
             });
+
+            let evacuationCenterId, defaultFormData;
 
             $(document).on('click', '.updateEvacuationCenter', function(e) {
                 $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                $('.modal-title').text('Edit Evacuation Center Form');
-                $('#saveEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-edit');
+                $('.modal-title').text('Edit Evacuation Center');
+                $('#saveEvacuationCenterBtn').removeClass('bg-green-600').addClass('bg-yellow-500');
                 $('#saveEvacuationCenterBtn').text('Update');
 
                 let currentRow = $(this).closest('tr');
@@ -154,6 +156,10 @@
                 confirmModal('Do you want to remove this evacuation center?').then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
+                                    'content')
+                            },
                             type: "DELETE",
                             url: "{{ route('evacuation.center.remove', ':evacuationCenterId') }}"
                                 .replace(':evacuationCenterId', evacuationCenterId),
@@ -228,8 +234,8 @@
                     formData = $(form).serialize(),
                     modal = $('#evacuationCenterModal');
 
-                if (operation == 'create') {
-                    url = "{{ route('evacuation.center.register') }}";
+                if (operation == 'Add') {
+                    url = "{{ route('evacuation.center.add') }}";
                     type = "POST";
                 } else {
                     url = "{{ route('evacuation.center.update', ':evacuationCenterId') }}"
@@ -266,7 +272,7 @@
                                         '#FFDF00'
                                     );
                                 } else {
-                                    if (operation == 'create') {
+                                    if (operation == 'Add') {
                                         Swal.fire(
                                             'Success',
                                             `Successfully ${operation}d new evacuation center.`,

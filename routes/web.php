@@ -38,7 +38,7 @@ Route::group(['prefix' => 'resident', 'middleware' => 'guest'], function () {
         });
 
         Route::controller(MainController::class)->group(function () {
-            Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center');
+            Route::get('/evacuationCenterLocator', 'evacuationCenterLocator')->name('evacuation.center.locator');
             Route::get('/reportAccident', 'reportAccident')->name('display.report.accident');
             Route::get('/hotlineNumber', 'hotlineNumber')->name('hotline.number');
             Route::get('/about', 'about')->name('about');
@@ -50,9 +50,9 @@ Route::group(['middleware' => 'auth'], function () {
     Route::controller(MainController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
         Route::post('/generateEvacueeData', 'generateExcelEvacueeData')->name('generate.evacuee.data');
-        Route::get('/evacuee', 'manageEvacueeInformation')->name('manage.evacuee.record');
-        Route::get('/evacuationManage', 'evacuationManage')->name('manage.evacuation');
-        Route::get('/evacuationCenter', 'evacuationCenter')->name('evacuation.center.locator');
+        Route::get('/manageEvacuee', 'manageEvacueeInformation')->name('manage.evacuee.record');
+        Route::get('/manageEvacuation', 'manageEvacuation')->name('manage.evacuation');
+        Route::get('/evacuationCenterLocator', 'evacuationCenterLocator')->name('evacuation.center.locator');
         Route::get('/reportAccident', 'reportAccident')->name('display.report.accident');
         Route::get('/hotlineNumber', 'hotlineNumber')->name('hotline.number');
         Route::get('/about', 'about')->name('about');
@@ -74,17 +74,17 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
-    Route::prefix('evacuee')->controller(EvacueeController::class)->group(function () {
-        Route::get('/getEvacueeInfo', 'getEvacueeData')->name('get.evacuee.info');
-        Route::get('/getArchivedEvacueeInfo/{disasterInfo}', 'getArchivedEvacueeInfo')->name('get.archived.evacuee.info');
-        Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('record.evacuee');
-        Route::put('/updateEvacueeInfo/{evacueeId}', 'updateEvacueeInfo')->name('update.evacuee.info');
-        Route::patch('/updateEvacueeDateOut', 'updateEvacueeDateOut')->name('update.evacuee.dateout');
+    Route::prefix('manageEvacuee')->name('evacuee.info.')->controller(EvacueeController::class)->group(function () {
+        Route::get('/getEvacueeInfo', 'getEvacueeData')->name('get');
+        Route::get('/getArchivedEvacueeInfo/{disasterInfo}', 'getArchivedEvacueeInfo')->name('get.archived');
+        Route::post('/recordEvacueeInfo', 'recordEvacueeInfo')->name('record');
+        Route::put('/updateEvacueeInfo/{evacueeId}', 'updateEvacueeInfo')->name('update');
+        Route::patch('/updateEvacueeDateOut', 'updateEvacueeDateOut')->name('update.dateout');
     });
 
     Route::prefix('evacuationCenter')->name('evacuation.center.')->controller(EvacuationCenterController::class)->group(function () {
-        Route::get('/viewEvacuationCenter', 'evacuationCenterList')->name('display');
-        Route::post('/registerEvacuation', 'registerEvacuationCenter')->name('register');
+        Route::get('/getEvacuationCenter', 'getEvacuationData')->name('get');
+        Route::post('/addEvacuation', 'addEvacuationCenter')->name('add');
         Route::put('/updateEvacuation/{evacuationId}', 'updateEvacuationCenter')->name('update');
         Route::delete('/removeEvacuation/{evacuationId}', 'removeEvacuationCenter')->name('remove');
     });
