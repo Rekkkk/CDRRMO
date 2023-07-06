@@ -269,9 +269,12 @@ hr,
 }
 
 .login-form-section {
+    height: 75%;
     padding: 20px 10px;
     width: 100%;
     max-width: 430px;
+    border-radius: 6px;
+    filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
 }
 
 .login-form-section .my-3 input {
@@ -301,8 +304,12 @@ hr,
 
 #login-container .btn-login,
 .btn-resident {
+    width: 100%;
     padding: 15px;
     font-size: 18px;
+    font-weight: 800;
+    color: var(--color-text);
+    border-radius: 6px;
 }
 
 /* Authentication End Section */
@@ -398,7 +405,7 @@ hr,
     border-radius: 4px;
 }
 
-.guideline-type{
+.guideline-type {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -410,11 +417,11 @@ hr,
     background: var(--color-gray);
 }
 
-.guideline-btn{
+.guideline-btn {
     width: 288px;
 }
 
-.guideline-btn div{
+.guideline-btn div {
     display: flex;
     width: 100%;
     height: 100%;
@@ -478,7 +485,7 @@ hr,
     filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
-#editAddressModal{
+#editAddressModal {
     float: right;
     padding: 4px 8px;
 }
@@ -495,7 +502,7 @@ hr,
     filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
-.number-section .font-bold a{
+.number-section .font-bold a {
     float: right;
     padding: 4px 8px;
 }
@@ -527,7 +534,7 @@ hr,
     filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
-.details-section{
+.details-section {
     position: relative;
     width: 100%;
     margin-bottom: 16px;

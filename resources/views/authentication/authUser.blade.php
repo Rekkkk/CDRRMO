@@ -17,7 +17,7 @@
                             knowledge about disaster preparedness.</p>
                     </div>
                 </div>
-                <div class="login-form-section h-3/4 bg-slate-300 drop-shadow-2xl rounded">
+                <div class="login-form-section bg-slate-300">
                     <form action="{{ route('login') }}" method="POST" class="px-3">
                         @csrf
                         <div class="my-3">
@@ -32,14 +32,14 @@
                         </div>
                         <div class="login-btn">
                             <button type="submit"
-                                class="btn-login rounded text-white bg-slate-700 w-full font-extrabold hover:bg-slate-800">Login</button>
+                                class="btn-login bg-slate-700 hover:bg-slate-800">Login</button>
                         </div>
                     </form>
                     <form action="{{ route('resident.guideline') }}" method="POST" class="py-2 px-3">
                         @method('GET')
                         @csrf
                         <button type="submit"
-                            class="btn-resident rounded text-white bg-red-600 w-full font-extrabold hover:bg-red-700">
+                            class="btn-resident bg-red-600 hover:bg-red-700">
                             Continue as resident
                         </button>
                     </form>
