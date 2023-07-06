@@ -13,87 +13,87 @@
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
-                    <div class="m-auto">
-                        <i class="bi bi-speedometer2 text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    <div class="text-white text-2xl">
+                        <i class="bi bi-speedometer2 p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold tracking-wider">DASHBOARD</span>
             </div>
-            <hr class="mt-4">
-            <div class="flex justify-end mt-2">
-                @if (auth()->user()->position == 'President')
+            <hr class="mt-3">
+            @if (auth()->user()->position == 'President')
+                <div class="flex justify-end my-2">
                     <form action="{{ route('generate.evacuee.data') }}" method="POST" target="__blank">
-                @endif
-                @csrf
-                <button typ="submit" class="btn-submit float-right p-2 font-medium">
-                    <i class="bi bi-printer pr-2"></i>
-                    Generate Report Data
-                </button>
-                </form>
+                        @csrf
+                        <button typ="submit" class="btn-submit float-right p-2 font-medium">
+                            <i class="bi bi-printer pr-2"></i>
+                            Generate Report Data
+                        </button>
+                    </form>
+                </div>
+            @endif
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+                <div class="widget bg-green-400">
+                    <div class="widget-logo">
+                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}">
+                    </div>
+                    <div class="widget-content">
+                        <div class="content-description">
+                            <h5>Evacuation Center (Active)</h5>
+                            <span>{{ $activeEvacuation }}</span>
+                        </div>
+                        <div class="widget-image">
+                            <img src="{{ asset('assets/img/evacuation.png') }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="widget bg-red-400">
+                    <div class="widget-logo">
+                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}">
+                    </div>
+                    <div class="widget-content">
+                        <div class="content-description">
+                            <h5>Evacuation Center (Inactive)</h5>
+                            <span>{{ $inActiveEvacuation }} </span>
+                        </div>
+                        <div class="widget-image">
+                            <img src="{{ asset('assets/img/evacuation.png') }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="widget bg-yellow-300">
+                    <div class="widget-logo">
+                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}">
+                    </div>
+                    <div class="widget-content">
+                        <div class="content-description">
+                            <h5>Evacuee (On Evacuation Center)</h5>
+                            <span id="onEvacuationCenter">{{ $inEvacuationCenter }}</span>
+                        </div>
+                        <div class="widget-image">
+                            <img src="{{ asset('assets/img/family.png') }}">
+                        </div>
+                    </div>
+                </div>
+                <div class="widget bg-blue-300">
+                    <div class="widget-logo">
+                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}">
+                    </div>
+                    <div class="widget-content">
+                        <div class="content-description">
+                            <h5>Evacuee(Returned)</h5>
+                            <span>{{ $isReturned }}</span>
+                        </div>
+                        <div class="widget-image">
+                            <img src="{{ asset('assets/img/family.png') }}">
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-                <div class="widget bg-green-400 drop-shadow-lg rounded max-w-full">
-                    <div class="widget-logo flex justify-center items-center">
-                        <img class="pt-52" src="{{ asset('assets/img/cdrrmo-logo.png') }}">
-                    </div>
-                    <div class="content-logo flex justify-between my-3 p-1">
-                        <div class="content-description px-2">
-                            <h5 class="font-semibold tracking-wide">Evacuation Center (Active)</h5>
-                            <span class="text-4xl font-bold">{{ $activeEvacuation }}</span>
-                        </div>
-                        <div class="content-header rounded">
-                            <img src="{{ asset('assets/img/evacuation.png') }}" style="width:3rem;">
-                        </div>
-                    </div>
-                </div>
-                <div class="widget bg-red-400 drop-shadow-lg rounded max-w-full">
-                    <div class="widget-logo flex justify-center items-center">
-                        <img class="pt-52" src="{{ asset('assets/img/cdrrmo-logo.png') }}">
-                    </div>
-                    <div class="content-logo flex justify-between my-3 p-1">
-                        <div class="content-description px-2">
-                            <h5 class="font-semibold tracking-wide">Evacuation Center (Inactive)</h5>
-                            <span class="text-4xl font-bold">{{ $inActiveEvacuation }} </span>
-                        </div>
-                        <div class="content-header rounded">
-                            <img src="{{ asset('assets/img/evacuation.png') }}" style="width:3rem;">
-                        </div>
-                    </div>
-                </div>
-                <div class="widget bg-yellow-300 drop-shadow-lg rounded max-w-full">
-                    <div class="widget-logo flex justify-center items-center">
-                        <img class="pt-52" src="{{ asset('assets/img/cdrrmo-logo.png') }}">
-                    </div>
-                    <div class="content-logo flex justify-between my-3 p-1">
-                        <div class="content-description px-2">
-                            <h5 class="font-semibold tracking-wide">Evacuee (On Evacuation Center)</h5>
-                            <span class="text-4xl font-bold" id="onEvacuationCenter">{{ $inEvacuationCenter }}</span>
-                        </div>
-                        <div class="content-header rounded">
-                            <img src="{{ asset('assets/img/family.png') }}" style="width:3rem;">
-                        </div>
-                    </div>
-                </div>
-                <div class="widget bg-blue-300 drop-shadow-lg rounded max-w-full">
-                    <div class="widget-logo flex justify-center items-center">
-                        <img class="pt-52" src="{{ asset('assets/img/cdrrmo-logo.png') }}">
-                    </div>
-                    <div class="content-logo flex justify-between my-3 p-1">
-                        <div class="content-description px-2">
-                            <h5 class="font-semibold tracking-wide">Evacuee(Returned)</h5>
-                            <span class="text-4xl font-bold">{{ $isReturned }}</span>
-                        </div>
-                        <div class="content-header rounded">
-                            <img src="{{ asset('assets/img/family.png') }}" style="width:3rem;">
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <figure class="pie-chart-container mb-3 mt-5">
+            <figure class="pie-chart-container">
                 <div id="Typhoon" class="bg-slate-50 rounded shadow-lg mr-3"></div>
                 <div id="TyphoonBarGraph" class="bg-slate-200 rounded shadow-lg flex-1"></div>
             </figure>
-            <figure class="pie-chart-container mb-3">
+            <figure class="pie-chart-container">
                 <div id="Flashflood" class="bg-slate-50 rounded shadow-lg mr-3"></div>
                 <div id="FlashfloodBarGraph" class="bg-slate-200 rounded shadow-lg flex-1"></div>
             </figure>

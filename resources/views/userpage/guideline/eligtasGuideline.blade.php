@@ -13,15 +13,15 @@
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
-                    <div class="m-auto">
-                        <i class="bi bi-book text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    <div class="text-2xl text-white">
+                        <i class="bi bi-book p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold tracking-wider">E-LIGTAS GUIDELINES</span>
             </div>
-            <hr class="mt-4">
+            <hr class="mt-3">
             <div class="content-item text-center pt-4">
-                <div class="widget-container">
+                <div class="guideline-container">
                     @foreach ($guideline as $guidelineItem)
                         <div class="guideline-widget">
                             @if (auth()->check())
@@ -36,11 +36,10 @@
                                 @include('userpage.guideline.updateGuideline')
                                 <a class="guidelines-item"
                                     href="{{ route('guide.display', Crypt::encryptString($guidelineItem->id)) }}">
-                                    <div class="relative bg-slate-50 drop-shadow-2xl -z-50 overflow-hidden rounded">
+                                    <div class="guideline-content">
                                         <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}"
                                             alt="logo">
-                                        <div
-                                            class="absolute w-full h-3/6 top-2/4 text-white bg-slate-700 flex items-center justify-center">
+                                        <div class="guideline-type">
                                             <p class="uppercase">{{ $guidelineItem->type }}</p>
                                         </div>
                                     </div>
@@ -48,11 +47,10 @@
                             @else
                                 <a class="guidelines-item"
                                     href="{{ route('resident.guide', Crypt::encryptString($guidelineItem->id)) }}">
-                                    <div class="relative bg-slate-50 drop-shadow-2xl -z-50 overflow-hidden rounded">
+                                    <div class="guideline-content">
                                         <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}"
                                             alt="logo">
-                                        <div
-                                            class="absolute w-full h-3/6 top-2/4 text-white bg-slate-700 flex items-center justify-center hover:scale-105">
+                                        <div class="guideline-type">
                                             <p class="uppercase">{{ $guidelineItem->type }}</p>
                                         </div>
                                     </div>
@@ -63,8 +61,8 @@
                     @if (
                         (auth()->check() && auth()->user()->position == 'President') ||
                             (auth()->check() && auth()->user()->position == 'Secretary'))
-                        <div class="w-72">
-                            <div class="flex text-slate-600 w-full h-full drop-shadow-2xl items-center justify-center">
+                        <div class="guideline-btn">
+                            <div class="btn-container">
                                 <a id="createGuidelineBtn" href="javascript:void(0)"
                                     class="transition ease-in-out delay-150 hover:scale-105 duration-100">
                                     <i class="bi bi-plus-square-fill text-4xl "></i>

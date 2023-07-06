@@ -2,19 +2,19 @@
 
 namespace Database\Seeders;
 
+use App\Models\Flashflood;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Facades\DB;
 
 class FlashFloodSeeder extends Seeder
 {
     public function run(): void
     {
-        DB::table('flashflood')->insert([
+        Flashflood::insert([
             'location' => 'Rose St., Brgy. 1',
             'disaster_id' => 2,
             'status' => 'Rising',
             'longitude' => 123.123,
-            'latitude' => 123.123,
+            'latitude' => 123.123
         ]);
     }
 }

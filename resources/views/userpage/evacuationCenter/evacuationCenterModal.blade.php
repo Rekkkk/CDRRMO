@@ -15,7 +15,7 @@
                     </div>
                     <div class="relative w-full mb-3">
                         <label for="barangay_name" class="flex items-center justify-center">Barangay Name</label>
-                        <select name="barangay_name" class="form-control" id="barangay_name">
+                        <select name="barangay_name" class="form-select" id="barangay_name">
                             <option value="">Select Barangay</option>
                             <option value="Baclaran">Baclaran</option>
                             <option value="Banay-Banay">Banay-Banay</option>

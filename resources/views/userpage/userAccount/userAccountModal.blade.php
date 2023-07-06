@@ -12,7 +12,7 @@
                     @if (auth()->user()->position == 'President')
                         <div class="mb-3" id="organization-container">
                             <label for="organization" class="flex items-center justify-center">Organization</label>
-                            <select type="text" name="organization" class="form-control" autocomplete="off"
+                            <select type="text" name="organization" class="form-select" autocomplete="off"
                                 id="organization" placeholder="Enter Organization">
                                 <option value="">Select Organization</option>
                                 <option value="CDRRMO">CDRRMO</option>
@@ -21,7 +21,7 @@
                         </div>
                         <div class="mb-3" id="position-container">
                             <label for="position" class="flex items-center justify-center">Position</label>
-                            <select type="text" name="position" class="form-control" id="position"
+                            <select type="text" name="position" class="form-select" id="position"
                                 autocomplete="off" placeholder="Enter Position">
                                 <option value="">Select Position</option>
                                 <option value="President">President</option>

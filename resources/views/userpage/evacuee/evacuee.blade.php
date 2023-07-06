@@ -18,8 +18,8 @@
             <div class="pb-4">
                 <div class="grid grid-cols-1">
                     <div class="grid col-end-1 mr-4">
-                        <div class="m-auto">
-                            <i class="bi bi-people text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                        <div class="text-2xl text-white">
+                            <i class="bi bi-people p-2 bg-slate-600 rounded"></i>
                         </div>
                     </div>
                     <span class="text-xl font-bold tracking-wider">MANAGE EVACUEE INFORMATION</span>

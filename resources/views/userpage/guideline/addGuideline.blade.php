@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header bg-green-600">
-                <h1 class="modal-title fs-5 text-white">Publish Guideline Form</h1>
+                <h1 class="modal-title fs-5 text-white">Create Guideline Form</h1>
             </div>
             <div class="modal-body">
                 <form id="guidelineForm" name="guidelineForm">

@@ -17,21 +17,21 @@
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
-                    <div class="m-auto">
-                        <i class="bi bi-person-gear text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    <div class="text-2xl text-white">
+                        <i class="bi bi-person-gear p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold tracking-wider">MANAGE ACCOUNTS</span>
             </div>
-            <hr class="mt-4">
-            <div class="flex justify-end my-3">
-                <button class="btn-submit p-2" id="createUserAccount">
-                    <i class="bi bi-person-fill-add pr-2"></i>
-                    Create User Account
-                </button>
-            </div>
-            <div class="account-table bg-slate-50 shadow-lg p-4 rounded">
-                <header class="text-2xl font-semibold">User Accounts Table</header>
+            <hr class="mt-3">
+            <div class="account-table bg-slate-50 shadow-lg p-3 rounded mt-3">
+                <div class="flex justify-between mt-1 mb-3">
+                    <header class="text-2xl font-semibold">User Accounts Table</header>
+                    <button class="btn-submit p-2" id="createUserAccount">
+                        <i class="bi bi-person-fill-add pr-2"></i>
+                        Create User Account
+                    </button>
+                </div>
                 <table class="table accountTable display nowrap" style="width:100%">
                     <thead>
                         <tr>
