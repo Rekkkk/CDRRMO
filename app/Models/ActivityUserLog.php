@@ -24,12 +24,10 @@ class ActivityUserLog extends Model
 
     public function generateLog($activity)
     {
-        $activityLog = [
+        $this->create([
             'user_id' => auth()->user()->id,
             'activity' => $activity,
             'date_time' => Carbon::now()->toDayDateTimeString()
-        ];
-
-        $this->create($activityLog);
+        ]);
     }
 }

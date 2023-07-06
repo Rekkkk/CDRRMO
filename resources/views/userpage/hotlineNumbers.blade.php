@@ -12,23 +12,23 @@
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
-                    <div class="m-auto">
-                        <i class="bi bi-telephone text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    <div class="text-2xl text-white">
+                        <i class="bi bi-telephone p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold tracking-wider">HOTLINE NUMBERS</span>
             </div>
             <hr class="mt-4">
             <div class="hotline-content flex mt-4">
-                <div class="location-section shadow-lg bg-slate-600 p-6 text-white">
+                <div class="number-section">
                     <div class="mt-8">
-                        <span class="font-bold">
+                        <div class="font-bold">
                             <i class="bi bi-hospital mr-4 text-lg"></i>
                             Hotline Numbers:
                             @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
-                                <i class="bi bi-pencil float-right btn-edit cursor-pointer px-2 py-1"></i>
+                                <a class="bi bi-pencil btn-edit"></a>
                             @endif
-                        </span>
+                        </div>
                         <hr class="mt-3 clear-both">
                         <p class="my-3">+12 3341 562 341</p>
                     </div>
@@ -37,7 +37,7 @@
                             <i class="bi bi-fire mr-4 text-lg"></i>
                             Hotline Numbers:
                             @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
-                                <i class="bi bi-pencil float-right btn-edit cursor-pointer px-2 py-1"></i>
+                                <a class="bi bi-pencil btn-edit"></a>
                             @endif
                         </span>
                         <hr class="mt-3 clear-both">
@@ -48,7 +48,7 @@
                             <i class="bi bi-droplet mr-4 text-lg"></i>
                             Hotline Numbers:
                             @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
-                                <i class="bi bi-pencil float-right btn-edit cursor-pointer px-2 py-1"></i>
+                                <a class="bi bi-pencil btn-edit"></a>
                             @endif
                         </span>
                         <hr class="mt-3 clear-both">
@@ -59,7 +59,7 @@
                             <i class="bi bi-tree mr-4 text-lg"></i>
                             Hotline Numbers:
                             @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
-                                <i class="bi bi-pencil float-right btn-edit cursor-pointer px-2 py-1"></i>
+                                <a class="bi bi-pencil btn-edit"></a>
                             @endif
                         </span>
                         <hr class="mt-3 clear-both">

@@ -12,7 +12,7 @@ class GuideSeeder extends Seeder
         Guide::insert([
             'label' => ('testing phase'),
             'content' => ('Testing phase guidelines section in cabuyao city disaster risk reduction management office using e-ligtas system'),
-            'guideline_id' => 1,
+            'guideline_id' => 1
         ]);
     }
 }

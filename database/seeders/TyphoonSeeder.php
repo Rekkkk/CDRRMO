@@ -12,7 +12,7 @@ class TyphoonSeeder extends Seeder
 
         Typhoon::insert([
             'name' => ('Typhoon Rolly'),
-            'disaster_id' => 1,
+            'disaster_id' => 1
         ]);
 
         Typhoon::insert([
@@ -22,7 +22,7 @@ class TyphoonSeeder extends Seeder
 
         Typhoon::insert([
             'name' => ('Typhoon Quinta'),
-            'disaster_id' => 1,
+            'disaster_id' => 1
         ]);
     }
 }

@@ -16,22 +16,22 @@
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
-                    <div class="m-auto">
-                        <i class="bi bi-house-gear text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    <div class="text-2xl text-white">
+                        <i class="bi bi-house-gear p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold tracking-wider">EVACUATION CENTER</span>
             </div>
-            <hr class="mt-4">
-            <div class=" flex justify-end my-3">
-                <button class="btn-submit p-2" id="addEvacuationCenter">
-                    <i class="bi bi-house-down-fill pr-2"></i>
-                    Add Evacuation Center
-                </button>
-            </div>
-            <div class="evacuation-content flex bg-slate-50 shadow-lg p-3">
-                <div class="evacuation-table w-full relative">
-                    <header class="text-2xl font-semibold">Evacuation Center Table</header>
+            <hr class="mt-3">
+            <div class="evacuation-content flex bg-slate-50 shadow-lg p-2 mt-3">
+                <div class="evacuation-table w-full relative p-3">
+                    <div class=" flex justify-between mb-3">
+                        <header class="text-2xl font-semibold">Evacuation Center Table</header>
+                        <button class="btn-submit p-2" id="addEvacuationCenter">
+                            <i class="bi bi-house-down-fill pr-2"></i>
+                            Add Evacuation Center
+                        </button>
+                    </div>
                     <table class="table evacuationCenterTable display nowrap" style="width:100%">
                         <thead>
                             <tr>
