@@ -26,49 +26,41 @@ class ReportAccidentController extends Controller
         $this->logActivity = new ActivityUserLog;
     }
 
-    public function displayPendingReport(Request $request)
+    public function displayPendingReport()
     {
         $pendingReport = $this->reportAccident->where('status', 'On Process')->get();
 
-        if ($request->ajax()) {
-            return DataTables::of($pendingReport)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    $actionBtn = '';
+        return DataTables::of($pendingReport)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                $actionBtn = '';
 
-                    if ($row->user_ip == request()->ip() && !auth()->check())
-                        $actionBtn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Revert" class="btn-table-cancel py-1.5 btn-sm mr-2 revertIncidentReport">Revert</a>';
-                    else if (auth()->check())
-                        return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" id="approveIncidentReport" class="btn-submit py-1.5 btn-sm mr-2 approveIncidentReport">Approve</a>' . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Decline" class="btn-table-cancel py-1.5 btn-sm mr-2 declineIncidentReport">Decline</a>';
+                if ($row->user_ip == request()->ip() && !auth()->check())
+                    $actionBtn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Revert" class="btn-table-cancel py-1.5 btn-sm mr-2 revertIncidentReport">Revert</a>';
+                else if (auth()->check())
+                    return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" id="approveIncidentReport" class="btn-submit py-1.5 btn-sm mr-2 approveIncidentReport">Approve</a>' . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Decline" class="btn-table-cancel py-1.5 btn-sm mr-2 declineIncidentReport">Decline</a>';
 
-                    return $actionBtn;
-                })->addColumn('photo', function ($row) {
-                    return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
-                })
-                ->rawColumns(['action', 'photo'])
-                ->make(true);
-        }
-
-        return view('userpage.reportAccident', compact('report'));
+                return $actionBtn;
+            })->addColumn('photo', function ($row) {
+                return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
+            })
+            ->rawColumns(['action', 'photo'])
+            ->make(true);
     }
 
-    public function displayIncidentReport(Request $request)
+    public function displayIncidentReport()
     {
         $incidentReport = $this->reportAccident->whereNotIn('status', ["On Process"])->get();
 
-        if ($request->ajax()) {
-            return DataTables::of($incidentReport)
-                ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="btn-table-cancel py-1.5 btn-sm mr-2 removeIncidentReport">Remove</a>';
-                })->addColumn('photo', function ($row) {
-                    return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
-                })
-                ->rawColumns(['action', 'photo'])
-                ->make(true);
-        }
-
-        return view('userpage.reportAccident', compact('report'));
+        return DataTables::of($incidentReport)
+            ->addIndexColumn()
+            ->addColumn('action', function ($row) {
+                return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="btn-table-cancel py-1.5 btn-sm mr-2 removeIncidentReport">Remove</a>';
+            })->addColumn('photo', function ($row) {
+                return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
+            })
+            ->rawColumns(['action', 'photo'])
+            ->make(true);
     }
 
     public function addAccidentReport(Request $request)

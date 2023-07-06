@@ -561,6 +561,7 @@ select {
     -webkit-appearance: none;
     appearance: none;
     background-image: none;
+    cursor: pointer;
 }
 
 input::-webkit-outer-spin-button,
