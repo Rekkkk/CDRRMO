@@ -10,51 +10,51 @@
                     <div class="bg-slate-50 pt-3 pb-2 rounded">
                         <div class="flex-auto">
                             <div class="flex flex-wrap">
-                                <div class="w-full px-4 mb-3 hidden">
+                                <div class="field-container hidden">
                                     <input type="text" id="operation">
                                 </div>
-                                <div class="relative w-full mb-3 lg:w-3/12 px-4">
+                                <div class="w-full mb-3 lg:w-3/12 px-4">
                                     <label>House Hold #</label>
                                     <input type="number" name="houseHoldNumber" class="placeholder-opacity-100"
                                         autocomplete="off" placeholder="HH#">
                                 </div>
-                                <div class="relative w-full mb-3 lg:w-9/12 px-4">
+                                <div class="w-full mb-3 lg:w-9/12 px-4">
                                     <label>Full Name</label>
                                     <input type="text" name="fullName" class="placeholder-opacity-100"
                                         autocomplete="off" placeholder="Enter Full Name">
                                 </div>
-                                <div class="relative w-full mb-3 lg:w-6/12 px-4">
+                                <div class="w-full mb-3 lg:w-6/12 px-4">
                                     <label>Sex</label>
                                     <select name="sex">
                                         <option value="">Select Sex</option>
                                         <option value="Male">
-                                            Male 
+                                            Male
                                         </option>
                                         <option value="Female">
                                             Female
                                         </option>
                                     </select>
                                 </div>
-                                <div class="relative w-full mb-3 lg:w-6/12 px-4">
+                                <div class="w-full mb-3 lg:w-6/12 px-4">
                                     <label>Age</label>
                                     <input type="number" name="age" class="placeholder-opacity-100"
                                         autocomplete="off" placeholder="Enter Age">
                                 </div>
                                 <div class="flex flex-wrap w-full" id="dateFormFieldsContainer">
-                                    <div class="relative w-full mb-3 lg:w-6/12 px-4" id="dateEntryContainer">
+                                    <div class="w-full mb-3 lg:w-6/12 px-4" id="dateEntryContainer">
                                         <label>Date Entry</label>
                                         <input type="text" name="dateEntry" id="dateEntry"
                                             class="placeholder-opacity-100" autocomplete="off"
                                             placeholder="Select Date Entry">
                                     </div>
-                                    <div class="relative w-full mb-3 lg:w-6/12 px-4" id="dateOutContainer">
+                                    <div class="w-full mb-3 lg:w-6/12 px-4" id="dateOutContainer">
                                         <label>Date Out</label>
                                         <input type="text" name="dateOut" id="dateOut"
                                             class="placeholder-opacity-100" autocomplete="off"
                                             placeholder="Select Date Out">
                                     </div>
                                 </div>
-                                <div class="relative w-full mb-3 lg:w-6/12 px-4">
+                                <div class="w-full mb-3 lg:w-6/12 px-4">
                                     <label>Barangay</label>
                                     <select name="barangay">
                                         <option value="">Select Barangay</option>
@@ -78,7 +78,7 @@
                                         <option value="Barangay III Poblacion">Barangay III Poblacion</option>
                                     </select>
                                 </div>
-                                <div class="relative w-full mb-3 lg:w-6/12 px-4">
+                                <div class="w-full mb-3 lg:w-6/12 px-4">
                                     <label>Disaster</label>
                                     <select name="disasterType" id="disasterType">
                                         <option value="">Select Disaster</option>
@@ -91,7 +91,7 @@
                                     </select>
                                 </div>
                                 <div class="w-full px-4 hidden" id="typhoonSelectContainer">
-                                    <div class="relative w-full mb-3">
+                                    <div class="w-full mb-3">
                                         <select name="typhoon" id="typhoon">
                                             <option value="">Select Typhoon</option>
                                             @foreach ($typhoonList as $typhoon)
@@ -102,7 +102,7 @@
                                     </div>
                                 </div>
                                 <div class="w-full px-4 hidden" id="flashfloodSelectContainer">
-                                    <div class="relative w-full mb-3">
+                                    <div class="w-full mb-3">
                                         <select name="flashflood" id="flashflood">
                                             <option value="">Select Location</option>
                                             @foreach ($flashfloodList as $flashflood)
@@ -112,10 +112,10 @@
                                         </select>
                                     </div>
                                 </div>
-                                <div class="w-full px-4 mb-3 hidden">
+                                <div class="field-container hidden">
                                     <input type="text" name="disasterInfo">
                                 </div>
-                                <div class="w-full px-4 mb-3" id="evacuationSelectContainer">
+                                <div class="field-container" id="evacuationSelectContainer">
                                     <label>Evacuation Assigned</label>
                                     <select name="evacuationAssigned">
                                         <option value="">Select Evacuation Assigned</option>
@@ -125,7 +125,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="w-full px-4 mb-3 hidden">
+                                <div class="field-container hidden">
                                     <input type="text" name="defaultEvacuationAssigned">
                                 </div>
                                 <div class="w-full px-4">
@@ -162,7 +162,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="relative w-full px-4">
+                                <div class="w-full px-4">
                                     <button id="saveEvacueeInfoBtn"
                                         class="btn-submit p-2 float-right mb-3">Save</button>
                                 </div>
