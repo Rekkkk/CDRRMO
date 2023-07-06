@@ -30,13 +30,13 @@ class UserAccountsController extends Controller
 
     public function userAccounts(Request $request)
     {
-        $userAccounts = $this->user->all();
-        $userId = auth()->user()->id;
-
-        $userAccounts = auth()->user()->organization == "CDRRMO" ? $userAccounts->whereNotIn('id', [$userId]) :
-            $userAccounts->where('organization', 'CSWD')->whereNotIn('id', [$userId]);
-
         if ($request->ajax()) {
+            $userAccounts = $this->user->all();
+            $userId = auth()->user()->id;
+
+            $userAccounts = auth()->user()->organization == "CDRRMO" ? $userAccounts->whereNotIn('id', [$userId]) :
+                $userAccounts->where('organization', 'CSWD')->whereNotIn('id', [$userId]);
+
             return DataTables::of($userAccounts)
                 ->addIndexColumn()
                 ->addColumn('action', function ($user) {
@@ -60,7 +60,7 @@ class UserAccountsController extends Controller
                 ->make(true);
         }
 
-        return view('userpage.userAccount.userAccounts', compact('userAccounts'));
+        return view('userpage.userAccount.userAccounts');
     }
 
     public function createUserAccount(Request $request)

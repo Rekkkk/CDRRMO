@@ -2,13 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\SendResetPasswordLink;
 use Carbon\Carbon;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
+use App\Mail\SendResetPasswordLink;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Session;
 
 class AuthenticationController extends Controller
 {
@@ -85,7 +84,7 @@ class AuthenticationController extends Controller
 
     public function findAccount(Request $request)
     {
-        Session::flush();
+        session()->flush();
 
         $userAccount = $this->user->where('email', $request->email)->get();
 
@@ -95,7 +94,7 @@ class AuthenticationController extends Controller
 
         $userEmail  = substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
 
-        Session::put('userEmail', $userAccount->value('email'));
+        session()->put('userEmail', $userAccount->value('email'));
 
         if ($userAccount->isNotEmpty()) {
             return response()->json(['status' => 1, 'account' => $userEmail]);
@@ -106,7 +105,7 @@ class AuthenticationController extends Controller
 
     public function sendResetPasswordLink()
     {
-        $userEmail = Session::get('userEmail');
+        $userEmail = session()->get('userEmail');
 
         try {
             Mail::to($userEmail)->send(new SendResetPasswordLink());
