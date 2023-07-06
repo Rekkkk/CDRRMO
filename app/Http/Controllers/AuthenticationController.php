@@ -44,6 +44,8 @@ class AuthenticationController extends Controller
                 return back()->withInput()->with('error', 'Your account has been Restricted.');
             }
 
+            $userOrganization = '';
+
             if (auth()->user()->isSuspend == 1) {
                 $suspendTime = Carbon::parse(auth()->user()->suspendTime)->format('F j, Y H:i:s');
 
@@ -54,18 +56,22 @@ class AuthenticationController extends Controller
                         'suspendTime' => null
                     ]);
                     $this->logActivity->generateLog('Logged In');
-
-                    return redirect('/dashboard')->with('success', "Welcome to " . auth()->user()->organization . " Panel.");
+                    $userOrganization = auth()->user()->organization;
                 } else {
                     auth()->logout();
                     session()->flush();
-
+                    
                     return back()->withInput()->with('error', 'Your account has been suspended until ' . $suspendTime);
                 }
             } else {
                 $this->logActivity->generateLog('Logged In');
+                $userOrganization = auth()->user()->organization;
+            }
 
-                return redirect('/dashboard')->with('success', "Welcome to " . auth()->user()->organization . " Panel.");
+            if ($userOrganization == "CDRRMO") {
+                return redirect('/cdrrmo/dashboard')->with('success', "Welcome to " . $userOrganization . " Panel.");
+            } else if ($userOrganization == "CSWD") {
+                return redirect('/cswd/dashboard')->with('success', "Welcome to " . $userOrganization . " Panel.");
             }
         }
 

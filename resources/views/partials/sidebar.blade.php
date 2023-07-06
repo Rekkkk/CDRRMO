@@ -31,7 +31,7 @@
             <ul class="nav_list">
                 @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
                     <li>
-                        <a href="{{ route('dashboard') }}">
+                        <a href="{{ route('dashboard.cdrrmo') }}">
                             <i class="bi bi-speedometer2 text-white"></i>
                             <span class="links_name">Dashboard</span>
                         </a>
@@ -71,7 +71,7 @@
                 @endif
                 @if (auth()->check() && auth()->user()->organization == 'CSWD')
                     <li>
-                        <a href="{{ route('dashboard') }}">
+                        <a href="{{ route('dashboard.cswd') }}">
                             <i class="bi bi-speedometer2 text-white"></i>
                             <span class="links_name">Dashboard</span>
                         </a>

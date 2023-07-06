@@ -10,11 +10,9 @@ class Cdrrmo
 {
     public function handle(Request $request, Closure $next): Response
     {
-        // 1 = CDRRMO, 2 = CSWD
-        if (auth()->user()->organization == 'CDRRMO' || auth()->user()->organization == 'CSWD')
+        if (auth()->check() && auth()->user()->organization == 'CDRRMO')
             return $next($request);
 
-        else
-            return back();
+        return back()->with('error', "Requdasst Can't Perform.");
     }
 }
