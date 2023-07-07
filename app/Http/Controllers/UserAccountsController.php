@@ -45,16 +45,16 @@ class UserAccountsController extends Controller
 
                     if ($user->isSuspend == 0) {
                         if ($user->isRestrict == 0) {
-                            $actionBtns .= '<option value="disableAccount">Disable</option>';
+                            $actionBtns .= '<option value="disableAccount">Disable Account</option>';
                         } else {
-                            $actionBtns .= '<option value="enableAccount">Enable</option>';
+                            $actionBtns .= '<option value="enableAccount">Enable Account</option>';
                         }
-                        $actionBtns .= '<option value="suspendAccount">Suspend</option>';
+                        $actionBtns .= '<option value="suspendAccount">Suspend Account</option>';
                     } else {
                         $actionBtns .= '<option value="openAccount">Open Account</option>';
                     }
 
-                    return $actionBtns .= '<option value="editAccount">Edit</option>' . '<option value="removeAccount">Remove</option>' . '</select>';
+                    return $actionBtns .= '<option value="editAccount">Edit Account</option>' . '<option value="removeAccount">Remove Account</option>' . '</select>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -63,10 +63,10 @@ class UserAccountsController extends Controller
         return view('userpage.userAccount.userAccounts');
     }
 
-    public function createUserAccount(Request $request)
+    public function createAccount(Request $request)
     {
         $validatedAccount = Validator::make($request->all(), [
-            'email' => 'email|unique:user,email',
+            'email' => 'email|unique:user,email'
         ]);
 
         if ($validatedAccount->passes()) {
@@ -79,7 +79,7 @@ class UserAccountsController extends Controller
                     'password' =>  Hash::make($defaultPassword),
                     'status' =>  "Active",
                     'isRestrict' =>  0,
-                    'isSuspend' =>  0,
+                    'isSuspend' =>  0
                 ]);
                 $this->logActivity->generateLog('Creating Account Details');
 
@@ -99,10 +99,10 @@ class UserAccountsController extends Controller
         return response()->json(['status' => 0, 'error' => $validatedAccount->errors()->toArray()]);
     }
 
-    public function updateUserAccount(Request $request, $userId)
+    public function updateAccount(Request $request, $userId)
     {
         $validatedAccount = Validator::make($request->all(), [
-            'email' => 'unique:user,email,' . $userId,
+            'email' => 'unique:user,email,' . $userId
         ]);
 
         if ($validatedAccount->passes()) {
@@ -153,7 +153,7 @@ class UserAccountsController extends Controller
         }
     }
 
-    public function suspendUserAccount(Request $request, $userId)
+    public function suspendAccount(Request $request, $userId)
     {
         try {
             $this->user->find($userId)->update([
@@ -169,7 +169,7 @@ class UserAccountsController extends Controller
         }
     }
 
-    public function openUserAccount($userId)
+    public function openAccount($userId)
     {
         try {
             $this->user->find($userId)->update([
@@ -203,20 +203,24 @@ class UserAccountsController extends Controller
     {
         if (Hash::check($request->current_password, auth()->user()->password)) {
             if ($request->password == $request->confirm_password) {
-                $this->user->find($userId)->update([
-                    'password' => Hash::make($request->password)
-                ]);
+                try {
+                    $this->user->find($userId)->update([
+                        'password' => Hash::make($request->password)
+                    ]);
+                    $this->logActivity->generateLog('Changing Password');
 
-                return back()->with('success', "Password successfully changed.");
+                    return response()->json(['status' => 1]);
+                } catch (\Exception $e) {
+                    return response()->json(['status' => 0]);
+                }
             } else {
-                return back()->withInput()->with('error', "Password and Confirm Password is not match.");
+                return response()->json(['status' => 2]);
             }
         }
-
-        return back()->withInput()->with('error', "Current password is incorrect.");;
+        return response()->json(['status' => 0]);
     }
 
-    public function removeUserAccount($userId)
+    public function removeAccount($userId)
     {
         try {
             $this->user->find($userId)->delete();

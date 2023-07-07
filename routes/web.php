@@ -16,7 +16,7 @@ Route::controller(AuthenticationController::class)->group(function () {
     Route::get('/findAccount', 'findAccount')->name('findAccount');
     Route::get('/sendResetPasswordLink', 'sendResetPasswordLink')->name('sendResetPasswordLink');
 
-    Route::middleware(['check.login'])->group(function () {
+    Route::middleware('check.login')->group(function () {
         Route::view('/', 'authentication/authUser')->name('home');
     });
 });
@@ -46,8 +46,8 @@ Route::prefix('resident')->middleware('guest')->group(function () {
     });
 });
 
-Route::group(['middleware' => 'auth'], function () {
-    Route::prefix('cswd')->middleware(['check.cswd'])->group(function () {
+Route::middleware('auth')->group(function () {
+    Route::prefix('cswd')->middleware('check.cswd')->group(function () {
         Route::controller(MainController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cswd');
             Route::post('/generateEvacueeData', 'generateExcelEvacueeData')->name('generate.evacuee.data');
@@ -72,7 +72,7 @@ Route::group(['middleware' => 'auth'], function () {
         });
     });
 
-    Route::prefix('cdrrmo')->middleware(['check.cdrrmo'])->group(function () {
+    Route::prefix('cdrrmo')->middleware('check.cdrrmo')->group(function () {
         Route::controller(MainController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
             Route::get('/reportAccident', 'reportAccident')->name('display.report.accident');
@@ -106,17 +106,17 @@ Route::group(['middleware' => 'auth'], function () {
     });
 
     Route::name('account.')->controller(UserAccountsController::class)->group(function () {
-        Route::post('/createUserAccount', 'createUserAccount')->name('create');
+        Route::post('/createAccount', 'createAccount')->name('create');
         Route::get('/userProfile', 'userProfile')->name('display.profile');
-        Route::put('/updateAccount/{userId}', 'updateUserAccount')->name('update');
+        Route::put('/updateAccount/{userId}', 'updateAccount')->name('update');
         Route::get('/userAccount', 'userAccounts')->name('display.users');
         Route::put('/disableAccount/{userId}', 'disableAccount')->name('disable');
         Route::put('/enableAccount/{userId}', 'enableAccount')->name('enable');
-        Route::put('/suspendUser/{userId}', 'suspendUserAccount')->name('suspend');
-        Route::put('/openAccount/{userId}', 'openUserAccount')->name('open');
+        Route::put('/suspendAccount/{userId}', 'suspendAccount')->name('suspend');
+        Route::put('/openAccount/{userId}', 'openAccount')->name('open');
         Route::get('/changePassword', 'changePassword')->name('change.password');
         Route::put('/resetPassword/{userId}', 'resetPassword')->name('reset.password');
         Route::post('/checkPassword', 'checkPassword')->name('check.password');
-        Route::delete('/removeAccount/{userId}', 'removeUserAccount')->name('remove');
+        Route::delete('/removeAccount/{userId}', 'removeAccount')->name('remove');
     });
 });
