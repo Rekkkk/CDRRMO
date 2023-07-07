@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
             'organization' => 'CDRRMO',
             'position' => 'President',
             'status' => 'Active',
-            'isRestrict' => 0,
+            'isDisable' => 0,
             'isSuspend' => 0
         ]);
 
@@ -26,7 +26,7 @@ class DatabaseSeeder extends Seeder
             'organization' => 'CSWD',
             'position' => 'Secretary',
             'status' => 'Active',
-            'isRestrict' => 0,
+            'isDisable' => 0,
             'isSuspend' => 0
         ]);
 
@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
             'organization' => 'CSWD',
             'position' => 'President',
             'status' => 'Active',
-            'isRestrict' => 0,
+            'isDisable' => 0,
             'isSuspend' => 0
         ]);
 

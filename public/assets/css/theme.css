@@ -63,6 +63,11 @@ hr,
     z-index: 1;
 }
 
+.dropdown-menu li {
+    font-size: 13px;
+    padding-bottom: 1.5px;
+}
+
 /* Button Section Start Here */
 .btn-submit {
     background: var(--color-green);
@@ -546,6 +551,21 @@ hr,
     margin-top: 20px;
     background-attachment: fixed;
     background-size: cover;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container .form-content {
+    padding: 10px 20px;
+}
+
+.form-container .form-content .mb-2.relative i {
+    top: 28px;
+    right: 10px;
 }
 
 select.custom-select option {

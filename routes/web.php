@@ -110,10 +110,13 @@ Route::group(['middleware' => 'auth'], function () {
         Route::get('/userProfile', 'userProfile')->name('display.profile');
         Route::put('/updateAccount/{userId}', 'updateUserAccount')->name('update');
         Route::get('/userAccount', 'userAccounts')->name('display.users');
-        Route::put('/restrictUser/{userId}', 'restrictUserAccount')->name('restrict');
-        Route::put('/unrestrictUser/{userId}', 'unRestrictUserAccount')->name('unrestrict');
+        Route::put('/disableAccount/{userId}', 'disableAccount')->name('disable');
+        Route::put('/enableAccount/{userId}', 'enableAccount')->name('enable');
         Route::put('/suspendUser/{userId}', 'suspendUserAccount')->name('suspend');
         Route::put('/openAccount/{userId}', 'openUserAccount')->name('open');
+        Route::get('/changePassword', 'changePassword')->name('change.password');
+        Route::put('/resetPassword/{userId}', 'resetPassword')->name('reset.password');
+        Route::post('/checkPassword', 'checkPassword')->name('check.password');
         Route::delete('/removeAccount/{userId}', 'removeUserAccount')->name('remove');
     });
 });

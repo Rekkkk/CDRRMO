@@ -22,7 +22,7 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
-        'isRestrict',
+        'isDisable',
         'isSuspend',
         'suspendTime'
     ];
