@@ -31,15 +31,13 @@
                             <i class="bi bi-eye-slash absolute cursor-pointer text-2xl " id="show-password"></i>
                         </div>
                         <div class="login-btn">
-                            <button type="submit"
-                                class="btn-login bg-slate-700 hover:bg-slate-800">Login</button>
+                            <button type="submit" class="btn-login bg-slate-700 hover:bg-slate-800">Login</button>
                         </div>
                     </form>
                     <form action="{{ route('resident.guideline') }}" method="POST" class="py-2 px-3">
                         @method('GET')
                         @csrf
-                        <button type="submit"
-                            class="btn-resident bg-red-600 hover:bg-red-700">
+                        <button type="submit" class="btn-resident bg-red-600 hover:bg-red-700">
                             Continue as resident
                         </button>
                     </form>
@@ -77,7 +75,6 @@
             }
         }
     </script>
-
 </body>
 
 </html>

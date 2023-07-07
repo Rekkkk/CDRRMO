@@ -44,12 +44,12 @@ class UserAccountsController extends Controller
                             <option value="">Select Action</option>';
 
                     if ($user->isSuspend == 0) {
-                        $actionBtns .= '<option value="suspendAccount">Suspend</option>';
                         if ($user->isRestrict == 0) {
-                            $actionBtns .= '<option value="restrictAccount">Restrict</option>';
+                            $actionBtns .= '<option value="disableAccount">Disable</option>';
                         } else {
-                            $actionBtns .= '<option value="unrestrictAccount">Unrestrict</option>';
+                            $actionBtns .= '<option value="enableAccount">Enable</option>';
                         }
+                        $actionBtns .= '<option value="suspendAccount">Suspend</option>';
                     } else {
                         $actionBtns .= '<option value="openAccount">Open Account</option>';
                     }
@@ -123,14 +123,14 @@ class UserAccountsController extends Controller
         return response()->json(['status' => 0, 'error' => $validatedAccount->errors()->toArray()]);
     }
 
-    public function restrictUserAccount($userId)
+    public function disableAccount($userId)
     {
         try {
             $this->user->find($userId)->update([
-                'status' => 'Restricted',
+                'status' => 'Disabled',
                 'isRestrict' => 1
             ]);
-            $this->logActivity->generateLog('Restricting User Account');
+            $this->logActivity->generateLog('Disabling Account');
 
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
@@ -138,14 +138,14 @@ class UserAccountsController extends Controller
         }
     }
 
-    public function unRestrictUserAccount($userId)
+    public function enableAccount($userId)
     {
         try {
             $this->user->find($userId)->update([
                 'status' => 'Active',
                 'isRestrict' => 0
             ]);
-            $this->logActivity->generateLog('Unrestricting User Account');
+            $this->logActivity->generateLog('Enabling Account');
 
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
@@ -155,26 +155,18 @@ class UserAccountsController extends Controller
 
     public function suspendUserAccount(Request $request, $userId)
     {
-        $validatedSuspensionTime = Validator::make($request->all(), [
-            'suspend' => 'required',
-        ]);
+        try {
+            $this->user->find($userId)->update([
+                'status' => 'Suspended',
+                'isSuspend' => 1,
+                'suspendTime' => Carbon::parse($request->suspend)->format('Y-m-d H:i:s')
+            ]);
+            $this->logActivity->generateLog('Suspending User Account');
 
-        if ($validatedSuspensionTime->passes()) {
-            try {
-                $this->user->find($userId)->update([
-                    'status' => 'Suspended',
-                    'isSuspend' => 1,
-                    'suspendTime' => Carbon::parse($request->suspend)->format('Y-m-d H:i:s')
-                ]);
-                $this->logActivity->generateLog('Suspending User Account');
-
-                return response()->json(['status' => 1]);
-            } catch (\Exception $e) {
-                return response()->json(['status' => 0]);
-            }
+            return response()->json(['status' => 1]);
+        } catch (\Exception $e) {
+            return response()->json(['status' => 0]);
         }
-
-        return response()->json(['status' => 0, 'error' => $validatedSuspensionTime->errors()->toArray()]);
     }
 
     public function openUserAccount($userId)
@@ -194,6 +186,35 @@ class UserAccountsController extends Controller
         }
     }
 
+    public function changePassword()
+    {
+        return view('userpage.userAccount.changePassword');
+    }
+
+    public function checkPassword(Request $request)
+    {
+        if (Hash::check($request->current_password, auth()->user()->password))
+            return response()->json(['status' => 1]);
+        else
+            return response()->json(['status' => 0]);
+    }
+
+    public function resetPassword(Request $request, $userId)
+    {
+        if (Hash::check($request->current_password, auth()->user()->password)) {
+            if ($request->password == $request->confirm_password) {
+                $this->user->find($userId)->update([
+                    'password' => Hash::make($request->password)
+                ]);
+
+                return back()->with('success', "Password successfully changed.");
+            } else {
+                return back()->withInput()->with('error', "Password and Confirm Password is not match.");
+            }
+        }
+
+        return back()->withInput()->with('error', "Current password is incorrect.");;
+    }
 
     public function removeUserAccount($userId)
     {
