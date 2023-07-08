@@ -212,11 +212,11 @@
                     colorByPoint: true,
                     data: [{
                         name: 'Male',
-                        y: {{ Js::from($floodingMaleData) }},
+                        y: {{ Js::from($flashfloodMaleData) }},
                         color: '#dc2626'
                     }, {
                         name: 'Female',
-                        y: {{ Js::from($floodingFemaleData) }},
+                        y: {{ Js::from($flashfloodFemaleData) }},
                         color: '#2c3e50'
                     }]
                 }]

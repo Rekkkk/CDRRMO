@@ -97,7 +97,7 @@
                                     <div class="modal-footer text-white">
                                         <button id="reportIncidentBtn"
                                             class="bg-green-600 p-2 rounded shadow-lg hover:bg-green-700 transition duration-200">Report
-                                            Accident</button>
+                                            Incident</button>
                                     </div>
                                 </form>
                             </div>

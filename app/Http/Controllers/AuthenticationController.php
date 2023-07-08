@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\User;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use App\Mail\SendResetPasswordLink;
@@ -15,7 +16,6 @@ class AuthenticationController extends Controller
 
     public function __construct()
     {
-
         $this->user = new User;
         $this->logActivity = new ActivityUserLog;
     }
@@ -26,46 +26,41 @@ class AuthenticationController extends Controller
 
     public function authUser(Request $request)
     {
-        $credentials = $request->only('email', 'password');
-
-        if (auth()->attempt($credentials))
+        if (auth()->attempt($request->only('email', 'password')))
             return $this->checkUserAccount();
 
-        return back()->withInput()->with('error', 'Incorrect User Credentials!');
+        return back()->withInput()->with('error', 'Incorrect User Credentials.');
     }
 
     public function checkUserAccount()
     {
         if (auth()->check()) {
-            if (auth()->user()->isRestrict == 1) {
+            $userAuthenticated = auth()->user();
+
+            if ($userAuthenticated->isRestrict == 1) {
                 session()->flush();
                 auth()->logout();
                 return back()->withInput()->with('error', 'Your account has been Restricted.');
             }
 
-            $userOrganization = '';
+            if ($userAuthenticated->isSuspend == 1) {
+                $suspendTime = Carbon::parse($userAuthenticated->suspendTime)->format('F j, Y H:i:s');
 
-            if (auth()->user()->isSuspend == 1) {
-                $suspendTime = Carbon::parse(auth()->user()->suspendTime)->format('F j, Y H:i:s');
-
-                if (auth()->user()->suspendTime < Carbon::now()->format('Y-m-d H:i:s')) {
-                    $this->user->find(auth()->user()->id)->update([
+                if ($userAuthenticated->suspendTime < Carbon::now()->format('Y-m-d H:i:s')) {
+                    $this->user->find($userAuthenticated->id)->update([
                         'status' => 'Active',
                         'isSuspend' => 0,
                         'suspendTime' => null
                     ]);
-                    $this->logActivity->generateLog('Logged In');
-                    $userOrganization = auth()->user()->organization;
                 } else {
                     auth()->logout();
                     session()->flush();
-                    
                     return back()->withInput()->with('error', 'Your account has been suspended until ' . $suspendTime);
                 }
-            } else {
-                $this->logActivity->generateLog('Logged In');
-                $userOrganization = auth()->user()->organization;
             }
+
+            $this->logActivity->generateLog('Logged In');
+            $userOrganization = $userAuthenticated->organization;
 
             if ($userOrganization == "CDRRMO") {
                 return redirect('/cdrrmo/dashboard')->with('success', "Welcome to " . $userOrganization . " Panel.");
@@ -86,18 +81,18 @@ class AuthenticationController extends Controller
     {
         session()->flush();
 
-        $userAccount = $this->user->where('email', $request->email)->get();
+        $userAccount = $this->user->where('email', $request->email)->first();
 
-        $em   = explode("@", $userAccount->value('email'));
-        $name = implode('@', array_slice($em, 0, count($em) - 1));
-        $len  = floor(strlen($name) / 2);
+        if ($userAccount) {
+            $obfuscatedEmail = Str::replaceFirst(
+                '@',
+                '@' . str_repeat('*', strlen($userAccount->email) - strpos($userAccount->email, '@') - 1),
+                $userAccount->email
+            );
 
-        $userEmail  = substr($name, 0, $len) . str_repeat('*', $len) . "@" . end($em);
+            session()->put('userEmail', $userAccount->email);
 
-        session()->put('userEmail', $userAccount->value('email'));
-
-        if ($userAccount->isNotEmpty()) {
-            return response()->json(['status' => 1, 'account' => $userEmail]);
+            return response()->json(['status' => 1, 'account' => $obfuscatedEmail]);
         } else {
             return response()->json(['status' => 0]);
         }
@@ -108,7 +103,7 @@ class AuthenticationController extends Controller
         $userEmail = session()->get('userEmail');
 
         try {
-            Mail::to($userEmail)->send(new SendResetPasswordLink());
+            //Mail::to($userEmail)->send(new SendResetPasswordLink());
         } catch (\Exception $e) {
             return response()->json(['status' => 0]);
         }
@@ -118,12 +113,11 @@ class AuthenticationController extends Controller
 
     public function logout()
     {
-        $role_name = auth()->user()->organization;
+        $roleName = auth()->user()->organization;
         $this->logActivity->generateLog('Logged Out');
-
         auth()->logout();
         session()->flush();
 
-        return redirect('/')->with('success', 'Logged out ' . $role_name . ' Panel.');
+        return redirect('/')->with('success', 'Logged out ' . $roleName . ' Panel.');
     }
 }
