@@ -103,6 +103,11 @@ hr,
     z-index: 1;
 }
 
+.dropdown-menu li {
+    font-size: 13px;
+    padding-bottom: 1.5px;
+}
+
 /* Button Section Start Here */
 .btn-submit {
     background: var(--color-green);
@@ -309,9 +314,12 @@ hr,
 }
 
 .login-form-section {
+    height: 75%;
     padding: 20px 10px;
     width: 100%;
     max-width: 430px;
+    border-radius: 6px;
+    filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
 }
 
 .login-form-section .my-3 input {
@@ -341,8 +349,12 @@ hr,
 
 #login-container .btn-login,
 .btn-resident {
+    width: 100%;
     padding: 15px;
     font-size: 18px;
+    font-weight: 800;
+    color: var(--color-text);
+    border-radius: 6px;
 }
 
 /* Authentication End Section */
@@ -351,9 +363,14 @@ hr,
 .widget {
     position: relative;
     overflow: hidden;
+    border-radius: 6px;
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .widget-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
     position: relative;
 }
 
@@ -361,11 +378,42 @@ hr,
     position: absolute;
     z-index: -1;
     opacity: 0.2;
+    padding-top: 208px;
+}
+
+.widget-content {
+    display: flex;
+    justify-content: space-between;
+    margin: 16px 0;
+    padding: 4px;
+}
+
+.widget-image {
+    border-radius: 6px;
+}
+
+.widget-image img {
+    width: 3rem;
+}
+
+.content-description {
+    padding: 0 8px;
+}
+
+.content-description h5 {
+    font-weight: 600;
+    letter-spacing: 0.4px;
+}
+
+.content-description span {
+    font-size: 36px;
+    font-weight: 700;
 }
 
 .pie-chart-container {
     display: flex;
     justify-content: flex-start;
+    margin: 16px 0;
 }
 
 #Typhoon,
@@ -376,7 +424,7 @@ hr,
 /* Dashboard End Section */
 
 /* Guideline Section Start Here */
-.widget-container {
+.guideline-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -391,6 +439,41 @@ hr,
 .guideline-widget {
     position: relative;
     max-width: 300px;
+}
+
+.guideline-content {
+    overflow: hidden;
+    z-index: -50;
+    position: relative;
+    background: var(--color-text);
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    border-radius: 4px;
+}
+
+.guideline-type {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    width: 100%;
+    height: 50%;
+    top: 50%;
+    color: var(--color-text);
+    background: var(--color-gray);
+}
+
+.guideline-btn {
+    width: 288px;
+}
+
+.guideline-btn div {
+    display: flex;
+    width: 100%;
+    height: 100%;
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    justify-content: center;
+    align-items: center;
+    color: var(--color-gray);
 }
 
 /* Guideline End Section */
@@ -415,15 +498,6 @@ hr,
 }
 
 /* Guide End Section */
-
-/* Manage Evacuation Center Section Start Here*/
-.evacuation-content .evacuation-form form.secActive .form.evacuation {
-    opacity: 0;
-    pointer-events: none;
-    transform: translateX(-100%);
-}
-
-/* Mange Evacuation Center End Section */
 
 /* Report Incident Section Start Here */
 .report-button {
@@ -450,13 +524,32 @@ hr,
 
 .about-content .location-section {
     flex: 3;
+    padding: 24px;
+    background: #475569;
+    color: var(--color-text);
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+}
+
+#editAddressModal {
+    float: right;
+    padding: 4px 8px;
 }
 
 /* About End Section */
 
 /* Hotline Number Section Start Here */
-.hotline-content .location-section {
+
+.hotline-content .number-section {
     flex: 3;
+    padding: 24px;
+    background: #475569;
+    color: var(--color-text);
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+}
+
+.number-section .font-bold a {
+    float: right;
+    padding: 4px 8px;
 }
 
 /* Hotline Number End Section */
@@ -470,6 +563,7 @@ hr,
 }
 
 .profile-details-label {
+    width: 100%;
     color: var(--color-text);
     padding: 8px;
     font-size: 16px;
@@ -485,11 +579,33 @@ hr,
     filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
+.details-section {
+    position: relative;
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 0 24px;
+}
+
 #profile {
     position: relative;
     margin-top: 20px;
     background-attachment: fixed;
     background-size: cover;
+}
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-container .form-content {
+    padding: 10px 20px;
+}
+
+.form-container .form-content .mb-2.relative i {
+    top: 28px;
+    right: 10px;
 }
 
 select.custom-select option {
@@ -505,6 +621,7 @@ select {
     -webkit-appearance: none;
     appearance: none;
     background-image: none;
+    cursor: pointer;
 }
 
 input::-webkit-outer-spin-button,

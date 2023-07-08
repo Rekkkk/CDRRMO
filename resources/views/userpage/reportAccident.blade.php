@@ -20,13 +20,13 @@
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
-                    <div class="m-auto">
-                        <i class="bi bi-megaphone text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    <div class="text-2xl text-white">
+                        <i class="bi bi-megaphone p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold tracking-wider">REPORT INCIDENT</span>
             </div>
-            <hr class="mt-4">
+            <hr class="mt-3">
             <div class="report-table bg-slate-50 shadow-lg p-4 rounded my-4">
                 <header class="text-2xl font-semibold">Pending Accident Report</header>
                 <table class="table pendingReport display nowrap" style="width:100%">
@@ -97,7 +97,7 @@
                                     <div class="modal-footer text-white">
                                         <button id="reportIncidentBtn"
                                             class="bg-green-600 p-2 rounded shadow-lg hover:bg-green-700 transition duration-200">Report
-                                            Accident</button>
+                                            Incident</button>
                                     </div>
                                 </form>
                             </div>

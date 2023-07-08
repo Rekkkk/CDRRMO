@@ -18,8 +18,8 @@
             <div class="pb-4">
                 <div class="grid grid-cols-1">
                     <div class="grid col-end-1 mr-4">
-                        <div class="m-auto">
-                            <i class="bi bi-people text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                        <div class="text-2xl text-white">
+                            <i class="bi bi-people p-2 bg-slate-600 rounded"></i>
                         </div>
                     </div>
                     <span class="text-xl font-bold tracking-wider">MANAGE EVACUEE INFORMATION</span>
@@ -73,14 +73,14 @@
                     </div>
                 </div>
                 <div class="evacueeArchiveSelect flex flex-wrap justify-end font-semibold gap-3 pt-3 wi-500px">
-                    <select name="archiveEvacueeDataTyphoon" id="archiveEvacueeDataTyphoon">
+                    <select name="archiveEvacueeDataTyphoon" class="form-select" id="archiveEvacueeDataTyphoon">
                         <option value="None">Select Typhoon</option>
                         @foreach ($typhoonList as $typhoon)
                             <option value="{{ $typhoon->name }}">
                                 {{ $typhoon->name }}</option>
                         @endforeach
                     </select>
-                    <select name="archiveEvacueeDataFlashflood" id="archiveEvacueeDataFlashflood">
+                    <select name="archiveEvacueeDataFlashflood" class="form-select" id="archiveEvacueeDataFlashflood">
                         <option value="None">Select Flashflood Location</option>
                         @foreach ($flashfloodList as $flashflood)
                             <option value="{{ $flashflood->location }}">

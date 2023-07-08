@@ -12,15 +12,15 @@
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
-                    <div class="m-auto">
-                        <i class="bi bi-info-circle text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    <div class="text-2xl text-white">
+                        <i class="bi bi-info-circle p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold tracking-wider">ABOUT</span>
             </div>
             <hr class="my-4">
             <div class="about-content">
-                <div class="location-section drop-shadow-lg bg-slate-600 p-6 text-white">
+                <div class="location-section">
                     <div class="text-center">
                         <span class="text-2xl font-bold">Location</span>
                     </div>
@@ -28,10 +28,9 @@
                         <i class="bi bi-geo-alt-fill mr-4 text-lg"></i>
                         Address:
                         @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
-                            <i class="bi bi-pencil float-right cursor-pointer btn-edit px-2 py-1"
-                                id="editAddressModal"></i>
-
-                            <div class="modal fade" id="editAddressForm" data-bs-backdrop="static"
+                            <a class="bi bi-pencil float-right cursor-pointer btn-edit px-2 py-1"
+                                id="editAddressModal"></a>
+                            {{-- <div class="modal fade" id="editAddressForm" data-bs-backdrop="static"
                                 data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
                                 aria-hidden="true">
                                 <div class="modal-dialog">
@@ -57,7 +56,7 @@
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
                         @endif
                         <hr class="mt-3 clear-both">
                         <a

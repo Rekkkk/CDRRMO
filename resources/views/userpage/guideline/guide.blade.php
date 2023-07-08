@@ -13,13 +13,13 @@
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
-                    <div class="m-auto">
-                        <i class="bi bi-file-earmark-richtext text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    <div class="text-2xl text-white">
+                        <i class="bi bi-file-earmark-richtext p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold tracking-wider">GUIDES</span>
             </div>
-            <hr class="mt-4">
+            <hr class="mt-3">
             <div class="guide-btn flex justify-end mt-2">
                 @if (auth()->check())
                     <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 font-medium">
@@ -99,7 +99,7 @@
                     }
                 },
                 errorElement: 'span',
-                submitHandler: createGuideForm,
+                submitHandler: createGuideForm
             });
 
             function createGuideForm(form) {

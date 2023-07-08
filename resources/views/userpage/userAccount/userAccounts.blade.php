@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 
 <head>
     @include('partials.headPackage')
@@ -17,21 +17,21 @@
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
-                    <div class="m-auto">
-                        <i class="bi bi-person-gear text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    <div class="text-2xl text-white">
+                        <i class="bi bi-person-gear p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold tracking-wider">MANAGE ACCOUNTS</span>
             </div>
-            <hr class="mt-4">
-            <div class="flex justify-end my-3">
-                <button class="btn-submit p-2" id="createUserAccount">
-                    <i class="bi bi-person-fill-add pr-2"></i>
-                    Create User Account
-                </button>
-            </div>
-            <div class="account-table bg-slate-50 shadow-lg p-4 rounded">
-                <header class="text-2xl font-semibold">User Accounts Table</header>
+            <hr class="mt-3">
+            <div class="account-table bg-slate-50 shadow-lg p-3 rounded mt-3">
+                <div class="flex justify-between mt-1 mb-3">
+                    <header class="text-2xl font-semibold">User Accounts Table</header>
+                    <button class="btn-submit p-2" id="createUserAccount">
+                        <i class="bi bi-person-fill-add pr-2"></i>
+                        Create User Account
+                    </button>
+                </div>
                 <table class="table accountTable display nowrap" style="width:100%">
                     <thead>
                         <tr>
@@ -121,21 +121,21 @@
                 let data = accountTable.row(currentRow).data();
                 userId = data['id'];
 
-                if (selectedAction === 'restrictAccount') {
-                    confirmModal('Do you want to restrict this user?').then((result) => {
+                if (selectedAction === 'disableAccount') {
+                    confirmModal('Do you want to disable this account?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "PUT",
-                                url: "{{ route('account.restrict', ':userId') }}"
+                                url: "{{ route('account.disable', ':userId') }}"
                                     .replace(':userId', userId),
                                 success: function(response) {
                                     if (response.status == 0) {
                                         messageModal('Warning',
-                                            'Failed to restrict user details.',
+                                            'Failed to disable account.',
                                             'warning', '#FFDF00');
                                     } else {
                                         messageModal('Success',
-                                            'Successfully User Restricted.',
+                                            'Successfully disabled account.',
                                             'success', '#3CB043');
                                         accountTable.draw();
                                     }
@@ -148,26 +148,26 @@
                             });
                         }
                     });
-                } else if (selectedAction === 'unrestrictAccount') {
-                    confirmModal('Do you want to unrestrict this user?').then((result) => {
+                } else if (selectedAction === 'enableAccount') {
+                    confirmModal('Do you want to enable this account?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
                                 type: "PUT",
-                                url: "{{ route('account.unrestrict', ':userId') }}"
+                                url: "{{ route('account.enable', ':userId') }}"
                                     .replace(':userId', userId),
-                                success: function(data) {
-                                    if (data.status == 0) {
+                                success: function(response) {
+                                    if (response.status == 0) {
                                         messageModal('Warning',
-                                            'Failed to unrestrict user.', 'warning',
+                                            'Failed to enable account.', 'warning',
                                             '#FFDF00');
                                     } else {
                                         messageModal('Success',
-                                            'Successfully User Unrestricted.',
+                                            'Successfully enabled account.',
                                             'success', '#3CB043');
                                         accountTable.draw();
                                     }
                                 },
-                                error: function(response) {
+                                error: function() {
                                     messageModal('Warning',
                                         'Something went wrong, Try again later.',
                                         'warning', '#FFDF00');
@@ -179,7 +179,7 @@
                     $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                     $('.modal-title').text('Edit User Account Form');
                     $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text('Update');
-                    $('#suspend').prop('disabled', true);
+                    $('#suspend-container').prop('hidden', true);
                     $('#organization').val(data['organization']);
                     $('#position').val(data['position']);
                     $('#email').val(data['email']);
@@ -358,7 +358,7 @@
                     dateFormat: "D, M j, Y h:i K",
                     minuteIncrement: 1,
                     secondIncrement: 1,
-                    position: "below center",
+                    position: "below center"
                 });
             }
 
@@ -367,7 +367,7 @@
             $('#userAccountModal').on('hidden.bs.modal', function() {
                 validator.resetForm();
                 $(document).find('span.error-text').text('');
-                $('#suspend').prop('disabled', false);
+                $('#suspend').prop('hidden', false);
                 $('#suspend-container').prop('hidden', false);
                 $('.actionSelect').val('');
                 $('#accountForm').trigger("reset");

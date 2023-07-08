@@ -10,9 +10,14 @@ class AlreadyAuthenticated
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (auth()->check()) 
-            return back()->with('error', 'Request Can`t Perform.');
-            
+        if (auth()->check()) {
+            if (auth()->user()->organization == "CDRRMO")
+                return redirect()->route('dashboard.cdrrmo')->with('error', 'Request Can`t Perform.');
+
+            else if (auth()->user()->organization == "CSWD")
+                return redirect()->route('dashboard.cswd')->with('error', 'Request Can`t Perform.');
+        }
+
         return $next($request);
     }
 }

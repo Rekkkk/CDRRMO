@@ -13,8 +13,8 @@
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
-                    <div class="m-auto">
-                        <i class="bi bi-person-circle text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    <div class="text-2xl text-white">
+                        <i class="bi bi-person-circle p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold tracking-wider">MY PROFILE</span>
@@ -36,43 +36,43 @@
                     </div>
                     <hr class="mx-6 mb-4">
                     <form id='userProfileForm' class="relative flex-auto">
-                        <div class="flex flex-wrap">
-                            <div class="relative w-full mb-3 lg:w-2/12 px-4 text-center">
+                        <div class="flex flex-wrap text-center">
+                            <div class="details-section lg:w-2/12">
                                 @if (auth()->user()->organization == 'CDRRMO')
-                                    <label class="w-full bg-red-700 profile-details-label">Position</label>
+                                    <label class="bg-red-700 profile-details-label">Position</label>
                                 @else
-                                    <label class="w-full bg-green-600 profile-details-label">Position</label>
+                                    <label class="bg-green-600 profile-details-label">Position</label>
                                 @endif
                                 <p class="profile-details">{{ auth()->user()->position }}
                                 </p>
                             </div>
-                            <div class="relative w-full mb-3 lg:w-5/12 px-4 text-center">
+                            <div class="details-section lg:w-5/12">
                                 @if (auth()->user()->organization == 'CDRRMO')
-                                    <label class="w-full bg-red-700 profile-details-label">Organization</label>
+                                    <label class="bg-red-700 profile-details-label">Organization</label>
                                     <p class="profile-details">Cabuyao Disaster Risk Reduction
                                         and Management Office ({{ auth()->user()->organization }})</p>
                                 @else
-                                    <label class="w-full bg-green-600 profile-details-label">Organization</label>
+                                    <label class="bg-green-600 profile-details-label">Organization</label>
                                     <p class="profile-details">City Social Welfare and
                                         Development ({{ auth()->user()->organization }})
                                     </p>
                                 @endif
                             </div>
-                            <div class="relative w-full mb-3 lg:w-3/12 px-4 text-center">
+                            <div class="details-section lg:w-3/12">
                                 @if (auth()->user()->organization == 'CDRRMO')
-                                    <label class="w-full bg-red-700 profile-details-label">Email
+                                    <label class="bg-red-700 profile-details-label">Email
                                         Address</label>
                                 @else
-                                    <label class="w-full bg-green-600 profile-details-label">Email
+                                    <label class="bg-green-600 profile-details-label">Email
                                         Address</label>
                                 @endif
                                 <p class="profile-details">{{ auth()->user()->email }}</p>
                             </div>
-                            <div class="relative w-full mb-3 lg:w-2/12 px-4 text-center">
+                            <div class="details-section lg:w-2/12">
                                 @if (auth()->user()->organization == 'CDRRMO')
-                                    <label class="w-full bg-red-700 profile-details-label">Account Status</label>
+                                    <label class="bg-red-700 profile-details-label">Account Status</label>
                                 @else
-                                    <label class="w-full bg-green-600 profile-details-label">Account Status</label>
+                                    <label class="bg-green-600 profile-details-label">Account Status</label>
                                 @endif
                                 <p class="profile-details">{{ auth()->user()->status }}
                                 </p>

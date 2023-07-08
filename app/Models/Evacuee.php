@@ -40,7 +40,7 @@ class Evacuee extends Model
         return $this->where('disaster_type', $disaster)->where('sex', $sex)->count();
     }
 
-    public function countEvacueeWithDisablities($disaster)
+    public function countEvacueeWithDisabilities($disaster)
     {
         return $this->selectRaw('SUM(`fourps`) AS `fourps`, SUM(`PWD`) AS `PWD`, SUM(`pregnant`) AS `pregnant`, SUM(`lactating`) AS `lactating`, SUM(`student`) AS `student`, SUM(`working`) AS `working`')->where('disaster_type', $disaster)->get();
     }

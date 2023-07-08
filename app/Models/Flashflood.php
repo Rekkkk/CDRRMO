@@ -18,6 +18,6 @@ class Flashflood extends Model
         'disaster_id',
         'status',
         'longitude',
-        'latitude',
+        'latitude'
     ];
 }

@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="field-container">
                                     <label>Barangay</label>
-                                    <select name="barangay_name">
+                                    <select name="barangay_name" class="form-select">
                                         <option value="">Select Barangay</option>
                                         <option value="Baclaran">Baclaran</option>
                                         <option value="Banay-Banay">Banay-Banay</option>

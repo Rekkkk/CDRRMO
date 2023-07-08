@@ -23,52 +23,44 @@ class MainController extends Controller
     public function dashboard()
     {
         $evacuee = new Evacuee;
-
         $activeEvacuation = $this->evacuationCenter->where('status', 'Active')->count();
         $inActiveEvacuation = $this->evacuationCenter->where('status', 'Inactive')->count();
-
         $inEvacuationCenter = $evacuee->whereNull('date_out')->count();
         $isReturned = $evacuee->whereNotNull('date_out')->count();
-
-        $typhoonData = $evacuee->countEvacueeWithDisablities('Typhoon');
-        $typhoon4Ps = intval($typhoonData[0]->{'fourps'});
-        $typhoonPWD = intval($typhoonData[0]->PWD);
-        $typhoonPregnant = intval($typhoonData[0]->pregnant);
-        $typhoonLactating = intval($typhoonData[0]->lactating);
-        $typhoonStudent = intval($typhoonData[0]->student);
-        $typhoonWorking = intval($typhoonData[0]->working);
-
-        $floodingData = $evacuee->countEvacueeWithDisablities('Flashflood');
-        $flooding4Ps = intval($floodingData[0]->{'fourps'});
-        $floodingPWD = intval($floodingData[0]->PWD);
-        $floodingPregnant = intval($floodingData[0]->pregnant);
-        $floodingLactating = intval($floodingData[0]->lactating);
-        $floodingStudent = intval($floodingData[0]->student);
-        $floodingWorking = intval($floodingData[0]->working);
+        $typhoonData = $evacuee->countEvacueeWithDisabilities('Typhoon')->first();
+        $floodingData = $evacuee->countEvacueeWithDisabilities('Flashflood')->first();
 
         $statisticData = compact(
             'activeEvacuation',
             'inActiveEvacuation',
             'inEvacuationCenter',
-            'isReturned',
-            'typhoon4Ps',
-            'typhoonPWD',
-            'typhoonPregnant',
-            'typhoonLactating',
-            'typhoonStudent',
-            'typhoonWorking',
-            'flooding4Ps',
-            'floodingPWD',
-            'floodingPregnant',
-            'floodingLactating',
-            'floodingStudent',
-            'floodingWorking'
+            'isReturned'
         );
+
+        if ($typhoonData) {
+            $typhoonData = $typhoonData->toArray();
+            $statisticData['typhoon4Ps'] = intval($typhoonData['fourps']);
+            $statisticData['typhoonPWD'] = intval($typhoonData['PWD']);
+            $statisticData['typhoonPregnant'] = intval($typhoonData['pregnant']);
+            $statisticData['typhoonLactating'] = intval($typhoonData['lactating']);
+            $statisticData['typhoonStudent'] = intval($typhoonData['student']);
+            $statisticData['typhoonWorking'] = intval($typhoonData['working']);
+        }
+
+        if ($floodingData) {
+            $floodingData = $floodingData->toArray();
+            $statisticData['flooding4Ps'] = intval($floodingData['fourps']);
+            $statisticData['floodingPWD'] = intval($floodingData['PWD']);
+            $statisticData['floodingPregnant'] = intval($floodingData['pregnant']);
+            $statisticData['floodingLactating'] = intval($floodingData['lactating']);
+            $statisticData['floodingStudent'] = intval($floodingData['student']);
+            $statisticData['floodingWorking'] = intval($floodingData['working']);
+        }
 
         $statisticData['typhoonMaleData'] = $evacuee->countEvacuee('Typhoon', 'Male');
         $statisticData['typhoonFemaleData'] = $evacuee->countEvacuee('Typhoon', 'Female');
-        $statisticData['floodingMaleData'] = $evacuee->countEvacuee('Flooding', 'Male');
-        $statisticData['floodingFemaleData'] = $evacuee->countEvacuee('Flooding', 'Female');
+        $statisticData['flashfloodMaleData'] = $evacuee->countEvacuee('Flashflood', 'Male');
+        $statisticData['flashfloodFemaleData'] = $evacuee->countEvacuee('Flashflood', 'Female');
 
         return view('userpage.dashboard',  $statisticData);
     }

@@ -25,7 +25,7 @@
                                 </div>
                                 <div class="w-full mb-3 lg:w-6/12 px-4">
                                     <label>Sex</label>
-                                    <select name="sex">
+                                    <select name="sex" class="form-select">
                                         <option value="">Select Sex</option>
                                         <option value="Male">
                                             Male
@@ -56,7 +56,7 @@
                                 </div>
                                 <div class="w-full mb-3 lg:w-6/12 px-4">
                                     <label>Barangay</label>
-                                    <select name="barangay">
+                                    <select name="barangay" class="form-select">
                                         <option value="">Select Barangay</option>
                                         <option value="Baclaran">Baclaran</option>
                                         <option value="Banay-Banay">Banay-Banay</option>
@@ -80,7 +80,7 @@
                                 </div>
                                 <div class="w-full mb-3 lg:w-6/12 px-4">
                                     <label>Disaster</label>
-                                    <select name="disasterType" id="disasterType">
+                                    <select name="disasterType" id="disasterType" class="form-select">
                                         <option value="">Select Disaster</option>
                                         @if ($disasterList != null)
                                             @foreach ($disasterList as $disaster)
@@ -92,7 +92,7 @@
                                 </div>
                                 <div class="w-full px-4 hidden" id="typhoonSelectContainer">
                                     <div class="w-full mb-3">
-                                        <select name="typhoon" id="typhoon">
+                                        <select name="typhoon" id="typhoon" class="form-select">
                                             <option value="">Select Typhoon</option>
                                             @foreach ($typhoonList as $typhoon)
                                                 <option value="{{ $typhoon->id }}">
@@ -103,7 +103,7 @@
                                 </div>
                                 <div class="w-full px-4 hidden" id="flashfloodSelectContainer">
                                     <div class="w-full mb-3">
-                                        <select name="flashflood" id="flashflood">
+                                        <select name="flashflood" id="flashflood" class="form-select">
                                             <option value="">Select Location</option>
                                             @foreach ($flashfloodList as $flashflood)
                                                 <option value="{{ $flashflood->id }}">
@@ -117,7 +117,7 @@
                                 </div>
                                 <div class="field-container" id="evacuationSelectContainer">
                                     <label>Evacuation Assigned</label>
-                                    <select name="evacuationAssigned">
+                                    <select name="evacuationAssigned" class="form-select">
                                         <option value="">Select Evacuation Assigned</option>
                                         @foreach ($evacuationList as $evacuationCenter)
                                             <option value="{{ $evacuationCenter->name }}">

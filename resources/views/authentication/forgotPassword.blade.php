@@ -6,7 +6,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
         integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
         crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    {{-- @vite(['resources/js/app.js']) --}}
 </head>
 
 <body>
@@ -16,7 +15,6 @@
         <div class="recover-cotainer bg-slate-50 rounded drop-shadow-lg">
             <form id="recoverAccountForm" class="relative w-full">
                 <input type="text" id="operation" name="operation" hidden>
-                @method('GET')
                 @csrf
                 <div class="header-recovery p-3">
                     <h1 class="text-xl font-bold" id="formTitle">Find Your Account</h1>
@@ -43,9 +41,9 @@
                 </div>
             </form>
         </div>
-        <div class="bottom-section pb-5 l-0 w-full text-white">
-            <hr class="text-slate-900">
-            <p id="year" class="text-slate-900"></p>
+        <div class="bottom-section pb-5 l-0 w-full">
+            <hr>
+            <p>E-LIGTAS @ {{ date('Y') }}</p>
         </div>
     </div>
     
@@ -56,8 +54,6 @@
     @include('partials.toastr')
     <script>
         $(document).ready(function() {
-            document.getElementById("year").innerHTML = "E-LIGTAS @ " + new Date().getFullYear();
-
             $('body').on('click', '#searchBtn', function(e) {
                 e.preventDefault();
 
