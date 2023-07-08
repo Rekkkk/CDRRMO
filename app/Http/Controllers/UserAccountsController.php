@@ -81,7 +81,7 @@ class UserAccountsController extends Controller
                     'isRestrict' =>  0,
                     'isSuspend' =>  0
                 ]);
-                $this->logActivity->generateLog('Creating Account Details');
+                $this->logActivity->generateLog('Creating Account');
 
                 Mail::to(trim($request->email))->send(new UserCredentialsMail([
                     'email' => trim($request->email),
@@ -112,7 +112,7 @@ class UserAccountsController extends Controller
                     'position' => $request->position,
                     'email' => trim($request->email)
                 ]);
-                $this->logActivity->generateLog('Updating Account Details');
+                $this->logActivity->generateLog('Updating Account');
 
                 return response()->json(['status' => 1]);
             } catch (\Exception $e) {
@@ -161,7 +161,7 @@ class UserAccountsController extends Controller
                 'isSuspend' => 1,
                 'suspendTime' => Carbon::parse($request->suspend)->format('Y-m-d H:i:s')
             ]);
-            $this->logActivity->generateLog('Suspending User Account');
+            $this->logActivity->generateLog('Suspending Account');
 
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
@@ -178,7 +178,7 @@ class UserAccountsController extends Controller
                 'isSuspend' => 0,
                 'suspendTime' => null
             ]);
-            $this->logActivity->generateLog('Opening User Account');
+            $this->logActivity->generateLog('Opening Account');
 
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
@@ -202,7 +202,7 @@ class UserAccountsController extends Controller
     public function resetPassword(Request $request, $userId)
     {
         if (Hash::check($request->current_password, auth()->user()->password)) {
-            if ($request->password == $request->confirm_password) {
+            if ($request->password == $request->confirmPassword) {
                 try {
                     $this->user->find($userId)->update([
                         'password' => Hash::make($request->password)
@@ -224,7 +224,7 @@ class UserAccountsController extends Controller
     {
         try {
             $this->user->find($userId)->delete();
-            $this->logActivity->generateLog('Removing User Account');
+            $this->logActivity->generateLog('Removing Account');
 
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {

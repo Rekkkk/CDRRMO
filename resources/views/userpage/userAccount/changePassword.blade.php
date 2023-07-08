@@ -38,16 +38,16 @@
                             <label class="flex items-center justify-center">New Password</label>
                             <input type="password" name="password" id="password" class="form-control"
                                 autocomplete="off" disabled>
-                            <i class="bi bi-eye-slash absolute cursor-pointer text-xl" id="show-password"></i>
+                            <i class="bi bi-eye-slash absolute cursor-pointer text-xl" id="showPassword"></i>
                         </div>
                         <div class="mb-2 relative">
                             <label class="flex items-center justify-center">Confirm Password</label>
-                            <input type="password" name="confirm_password" id="confirm_password" class="form-control"
+                            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
                                 autocomplete="off" onpaste="return false;" disabled>
-                            <i class="bi bi-eye-slash absolute cursor-pointer text-xl" id="show-confirm"></i>
+                            <i class="bi bi-eye-slash absolute cursor-pointer text-xl" id="showConfirmPassword"></i>
                         </div>
                         <div class="mt-4 mb-2 text-center">
-                            <button id="changePasswordBtn" class="btn-submit bg-green-600 p-2" disabled>Change</button>
+                            <button id="changePasswordBtn" class="btn-submit p-2" disabled>Change</button>
                         </div>
                     </div>
                 </form>
@@ -61,8 +61,8 @@
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
-    integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
-    crossorigin="anonymous"></script>
+        integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+        crossorigin="anonymous"></script>
     @include('partials.toastr')
     <script>
         $(document).ready(function() {
@@ -94,7 +94,7 @@
                                         '* Current Password is Incorrect.')
                                     .removeClass('text-green-600').addClass(
                                         'text-red-600');
-                                $('#password ,#confirm_password, #changePasswordBtn')
+                                $('#password ,#confirmPassword, #changePasswordBtn')
                                     .prop('disabled',
                                         true);
                             } else if (response.status == 1) {
@@ -102,7 +102,7 @@
                                         '* Current Password is Correct.')
                                     .removeClass('text-red-600').addClass(
                                         'text-green-600');
-                                $('#password, #confirm_password, #changePasswordBtn')
+                                $('#password, #confirmPassword, #changePasswordBtn')
                                     .prop('disabled',
                                         false);
                             }
@@ -119,7 +119,7 @@
                     password: {
                         required: true
                     },
-                    confirm_password: {
+                    confirmPassword: {
                         required: true
                     }
                 },
@@ -130,7 +130,7 @@
                     password: {
                         required: 'Password field is required.'
                     },
-                    confirm_password: {
+                    confirmPassword: {
                         required: 'Confirm password field is required.'
                     }
                 },
@@ -164,7 +164,7 @@
                                     messageModal('Warning',
                                         'Password and Confirm Password is not match.',
                                         'warning', '#FFDF00');
-                                    $('#confirm_password').val('');
+                                    $('#confirmPassword').val('');
                                 }
                             },
                             error: function() {

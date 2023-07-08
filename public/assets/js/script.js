@@ -1,37 +1,19 @@
-let mobile_side_button = document.querySelector('#btn-sidebar-mobile'),
-    mobile_side_close = document.querySelector('#btn-sidebar-close'),
-    sidebar = document.querySelector('.sidebar'),
-    showPassword = document.getElementById("show-password"),
-    showConfirmPassword = document.getElementById("show-confirm"),
+const sidebar = document.querySelector('.sidebar'),
+    authPassword = document.getElementById("authPassword"),
     password = document.getElementById("password"),
-    cPassword = document.getElementById("confirm_password");
+    cPassword = document.getElementById("confirmPassword");
 
-mobile_side_button.onclick = function () {
-    sidebar.classList.toggle("active");
-}
-
-mobile_side_close.onclick = function () {
-    sidebar.classList.remove("active");
-}
-
-showPassword.onclick = togglePasswordVisibility;
-showConfirmPassword.onclick = togglePasswordVisibility;
-
-function togglePasswordVisibility() {
-    if (this === showPassword)
-        toggleVisibility(password);
-    else if (this === showConfirmPassword)
-        toggleVisibility(cPassword);
-
-    this.classList.toggle("bi-eye");
-}
-
-function toggleVisibility(inputField) {
-    if (inputField.type === "password")
-        inputField.type = "text";
-    else
-        inputField.type = "password";
-}
+document.addEventListener('click', function (object) {
+    if (object.target.id == 'btn-sidebar-mobile') {
+        sidebar.classList.toggle('active');
+    } else if (object.target.id == 'btn-sidebar-close') {
+        sidebar.classList.remove('active');
+    } else if (object.target.id == 'showPassword' || object.target.id == 'showConfirmPassword' || object.target.id == 'showAuthPassword') {
+        const target = object.target.id == 'showPassword' ? password : object.target.id == 'showConfirmPassword' ? cPassword : authPassword;
+        target.type = target.type == 'password' ? 'text' : 'password';
+        object.target.classList.toggle("bi-eye");
+    }
+});
 
 function confirmModal(text) {
     return Swal.fire({
