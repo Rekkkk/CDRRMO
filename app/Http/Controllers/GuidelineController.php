@@ -30,9 +30,9 @@ class GuidelineController extends Controller
         }
 
         if (auth()->user()->organization === "CDRRMO" && auth()->check()) {
-            $guideline = $this->guideline->where('organization', "CDRRMO")->get();
+            $guideline = $this->guideline->where('organization', "CDRRMO")->where('is_archive', 0)->get();
         } else {
-            $guideline = $this->guideline->where('organization', "CSWD")->get();
+            $guideline = $this->guideline->where('organization', "CSWD")->where('is_archive', 0)->get();
         }
 
         return view('userpage.guideline.eligtasGuideline', compact('guideline'));
@@ -48,7 +48,8 @@ class GuidelineController extends Controller
             try {
                 $this->guideline->create([
                     'type' => Str::lower(trim("$request->type guideline")),
-                    'organization' => auth()->user()->organization
+                    'organization' => auth()->user()->organization,
+                    'is_archive' => 0
                 ]);
                 $this->logActivity->generateLog('Registering Guideline');
 
@@ -83,11 +84,13 @@ class GuidelineController extends Controller
         return response()->json(['status' => 'warning', 'message' => 'Guideline is existing.']);
     }
 
-    public function removeGuideline($guidelineId)
+    public function archiveGuideline($guidelineId)
     {
         try {
-            $this->guideline->find(Crypt::decryptString($guidelineId))->delete();
-            $this->logActivity->generateLog('removing Guideline');
+            $this->guideline->find(Crypt::decryptString($guidelineId))->update([
+                'is_archive' => 1
+            ]);
+            $this->logActivity->generateLog('Archiving Guideline');
 
             return response()->json(['status' => 'success', 'message' => 'Guideline removed successfully, Please wait...']);
         } catch (\Exception $e) {
@@ -97,7 +100,7 @@ class GuidelineController extends Controller
 
     public function guide($guidelineId)
     {
-        $guide = $this->guide->where('guideline_id', Crypt::decryptString($guidelineId))->get();
+        $guide = $this->guide->where('guideline_id', Crypt::decryptString($guidelineId))->where('is_archive', 0)->get();
 
         return view('userpage.guideline.guide', compact('guide', 'guidelineId'));
     }
@@ -113,7 +116,8 @@ class GuidelineController extends Controller
                 $this->guide->create([
                     'label' => Str::lower(trim($request->label)),
                     'content' => Str::ucFirst(trim($request->content)),
-                    'guideline_id' => Crypt::decryptString($guidelineId)
+                    'guideline_id' => Crypt::decryptString($guidelineId),
+                    'is_archive' => 0
                 ]);
                 $this->logActivity->generateLog('Registering Guide');
 
@@ -149,13 +153,15 @@ class GuidelineController extends Controller
         return response()->json(['status' => 'warning', 'message' => 'Guide is existing.']);
     }
     
-    public function removeGuide($guideId)
+    public function archiveGuide($guideId)
     {
         try {
-            $this->guide->find($guideId)->delete();
-            $this->logActivity->generateLog('Removing Guide');
+            $this->guide->find($guideId)->update([
+                'is_archive' => 1
+            ]);
+            $this->logActivity->generateLog('Archiving Guide');
 
-            return response()->json(['status' => 'success', 'message' => 'Guide removed successfully, Please wait...']);
+            return response()->json(['status' => 'success', 'message' => 'Guide archived successfully, Please wait...']);
         } catch (\Exception $e) {
             return response()->json(['status' => 'error', 'message' => 'Something went wrong, please try again.']);
         }

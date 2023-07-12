@@ -94,14 +94,14 @@ Route::middleware('auth')->group(function () {
             Route::get('/', 'eligtasGuideline')->name('display');
             Route::post('/guideline/addGuideline', 'addGuideline')->name('add');
             Route::put('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update');
-            Route::get('/guideline/removeGuideline/{guidelineId}', 'removeGuideline')->name('remove');
+            Route::get('/guideline/archiveGuideline/{guidelineId}', 'archiveGuideline')->name('archive');
         });
 
         Route::name('guide.')->group(function () {
             Route::get('/guide/{guidelineId}', 'guide')->name('display');
             Route::post('/guide/addGuide{guidelineId}', 'addGuide')->name('add');
             Route::put('/guide/updateGuide/{guideId}', 'updateGuide')->name('update');
-            Route::get('/guide/removeGuide/{guideId}', 'removeGuide')->name('remove');
+            Route::get('/guide/archiveGuide/{guideId}', 'archiveGuide')->name('archive');
         });
     });
 
