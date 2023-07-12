@@ -17,7 +17,8 @@ class Guide extends Model
         'label',
         'content',
         'guideline_id',
-        'author'
+        'author',
+        'is_archive'
     ];
 
     public $timestamps = false;

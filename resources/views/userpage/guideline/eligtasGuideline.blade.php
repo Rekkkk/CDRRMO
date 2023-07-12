@@ -24,12 +24,11 @@
                     @foreach ($guideline as $guidelineItem)
                         <div class="guideline-widget">
                             @can('view', \App\Models\User::class)
-                                @can('updateOrRemove', \App\Models\User::class)
-                                    <a href="javascript:void(0)" class="absolute top-2 right-0" id="removeGuidelineBtn">
+                                @can('updateOrArchive', \App\Models\User::class)
+                                    <a href="javascript:void(0)" class="absolute top-2 right-0" id="archiveGuidelineBtn">
                                         <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
                                     </a>
-                                    <a href="javascript:void(0)" class="absolute left-2 top-3"
-                                        id="updateGuidelineBtn">
+                                    <a href="javascript:void(0)" class="absolute left-2 top-3" id="updateGuidelineBtn">
                                         <i class="btn-edit bi bi-pencil p-2"></i>
                                     </a>
                                 @endcan
@@ -95,18 +94,18 @@
 
                 let guidelineId, defaultFormData;
 
-                $(document).on('click', '#removeGuidelineBtn', function() {
+                $(document).on('click', '#archiveGuidelineBtn', function() {
                     guidelineWidget = this.closest('.guideline-widget');
                     guidelineItem = guidelineWidget.querySelector('.guidelines-item');
                     guidelineId = guidelineItem.getAttribute('href').split('/').pop();
 
-                    confirmModal('Do you want to remove this guideline?').then((result) => {
+                    confirmModal('Do you want to archive this guideline?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
                                 data: {
                                     guidelineId: guidelineId
                                 },
-                                url: "{{ route('guideline.remove', ':guidelineId') }}"
+                                url: "{{ route('guideline.archive', ':guidelineId') }}"
                                     .replace(':guidelineId', guidelineId),
                                 type: "GET",
                                 dataType: 'json',
@@ -140,7 +139,8 @@
                     let guidelineWidget = this.closest('.guideline-widget');
                     let guidelineItem = guidelineWidget.querySelector('.guidelines-item');
                     guidelineId = guidelineItem.getAttribute('href').split('/').pop();
-                    let guidelineLabel = guidelineItem.querySelector('.guideline-type p').innerText.toLowerCase();
+                    let guidelineLabel = guidelineItem.querySelector('.guideline-type p').innerText
+                        .toLowerCase();
                     $('#guidelineType').val(guidelineLabel);
                     $('#operation').val('update');
                     $('#guidelineModal').modal('show');

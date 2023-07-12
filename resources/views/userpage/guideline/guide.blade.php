@@ -32,7 +32,7 @@
                     <div class="guide-widget">
                         @can('view', \App\Models\User::class)
                             @can('updateOrRemove', \App\Models\User::class)
-                                <a href="javascript:void(0)" class="absolute top-2 right-0" id="removeGuideBtn">
+                                <a href="javascript:void(0)" class="absolute top-2 right-0" id="archiveGuideBtn">
                                     <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
                                 </a>
                                 <a href="javascript:void(0)" class="absolute left-2 top-3" id="updateGuideBtn">
@@ -111,18 +111,18 @@
                     defaultFormData = $('#guideForm').serialize();
                 });
 
-                $(document).on('click', '#removeGuideBtn', function() {
+                $(document).on('click', '#archiveGuideBtn', function() {
                     guideWidget = $(this).closest('.guide-widget');
                     guideItem = guideWidget.find('.guide-item');
                     guideId = guideWidget.find('#guideId').val();
 
-                    confirmModal('Do you want to remove this guide?').then((result) => {
+                    confirmModal('Do you want to archive this guide?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
                                 data: {
                                     guideId: guideId
                                 },
-                                url: "{{ route('guide.remove', ':guideId') }}"
+                                url: "{{ route('guide.archive', ':guideId') }}"
                                     .replace(':guideId', guideId),
                                 type: "GET",
                                 dataType: 'json',

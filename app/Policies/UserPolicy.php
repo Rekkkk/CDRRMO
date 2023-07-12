@@ -26,7 +26,7 @@ class UserPolicy
         return ($user->status === "Active" && auth()->check()) ? true : false;
     }
 
-    public function updateOrRemove(User $user): bool
+    public function updateOrArchive(User $user): bool
     {
         return ($user->status === "Active" && auth()->check()) ? true : false;
     }
