@@ -285,23 +285,23 @@
                     });
                 });
 
-                $('body').on('click', '.removeIncidentReport', function() {
+                $('body').on('click', '.archiveIncidentReport', function() {
                     let reportId = $(this).data('id');
 
-                    confirmModal('Do you want to remove this report incident?').then((result) => {
+                    confirmModal('Do you want to archive this report incident?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
-                                type: "DELETE",
-                                url: "{{ route('report.remove', ':reportId') }}"
+                                type: "PUT",
+                                url: "{{ route('report.archive', ':reportId') }}"
                                     .replace(':reportId', reportId),
                                 success: function(response) {
                                     if (response.status == 0) {
                                         messageModal('Warning',
-                                            'Failed to remove report incident, Try again.',
+                                            'Failed to archive report incident, Try again.',
                                             'warning', '#FFDF00');
                                     } else {
                                         messageModal('Success',
-                                            'Successfully Removed Accident Report.',
+                                            'Successfully archived Accident Report.',
                                             'success', '#3CB043').then(() => {
                                             incidentReports.draw();
                                         });

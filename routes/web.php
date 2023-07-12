@@ -85,7 +85,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/displayIncidentReport', 'displayIncidentReport')->name('accident');
             Route::post('/approveReport/{reportId}', 'approveAccidentReport')->name('approve');
             Route::delete('/declineAccidentReport/{reportId}', 'declineAccidentReport')->name('decline');
-            Route::delete('/removeAccidentReport/{reportId}', 'removeReportAccident')->name('remove');
+            Route::put('/archiveReportAccident/{reportId}', 'archiveReportAccident')->name('archive');
         });
     });
 

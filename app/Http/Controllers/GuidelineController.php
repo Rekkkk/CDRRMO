@@ -27,6 +27,8 @@ class GuidelineController extends Controller
 
         if (!auth()->check()) {
             $guideline = $this->guideline->all();
+
+            return view('userpage.guideline.eligtasGuideline', compact('guideline'));
         }
 
         if (auth()->user()->organization === "CDRRMO" && auth()->check()) {
@@ -152,7 +154,7 @@ class GuidelineController extends Controller
 
         return response()->json(['status' => 'warning', 'message' => 'Guide is existing.']);
     }
-    
+
     public function archiveGuide($guideId)
     {
         try {
