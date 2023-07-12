@@ -5,14 +5,14 @@
                 <h1 class="modal-title fs-5 text-white">Create Guideline Form</h1>
             </div>
             <div class="modal-body">
-                <form id="guidelineForm" name="guidelineForm">
+                <form id="guidelineForm">
+                    <input type="text" id="operation" hidden>
                     @csrf
                     <div class="mb-3">
                         <label for="type" class="flex items-center justify-center">Guideline
                             Type</label>
                         <input type="text" name="type" class="form-control" autocomplete="off"
-                            placeholder="Enter Guideline Type">
-                        <span class="text-danger error-text type_error"></span>
+                            placeholder="Enter Guideline Type" id="guidelineType">
                     </div>
                     <div class="modal-footer">
                         <button id="submitGuidelineBtn" class="btn-submit p-2">Create</button>

@@ -44,7 +44,7 @@ class UserAccountsController extends Controller
                             <option value="">Select Action</option>';
 
                     if ($user->isSuspend == 0) {
-                        if ($user->isRestrict == 0) {
+                        if ($user->isDisable == 0) {
                             $actionBtns .= '<option value="disableAccount">Disable Account</option>';
                         } else {
                             $actionBtns .= '<option value="enableAccount">Enable Account</option>';
@@ -78,17 +78,17 @@ class UserAccountsController extends Controller
                     'email' => trim($request->email),
                     'password' =>  Hash::make($defaultPassword),
                     'status' =>  "Active",
-                    'isRestrict' =>  0,
+                    'isDisable' =>  0,
                     'isSuspend' =>  0
                 ]);
                 $this->logActivity->generateLog('Creating Account');
 
-                Mail::to(trim($request->email))->send(new UserCredentialsMail([
-                    'email' => trim($request->email),
-                    'organization' => $request->organization,
-                    'position' => Str::upper($request->position),
-                    'password' => $defaultPassword
-                ]));
+                // Mail::to(trim($request->email))->send(new UserCredentialsMail([
+                //     'email' => trim($request->email),
+                //     'organization' => $request->organization,
+                //     'position' => Str::upper($request->position),
+                //     'password' => $defaultPassword
+                // ]));
 
                 return response()->json(['status' => 1]);
             } catch (\Exception $e) {
@@ -128,7 +128,7 @@ class UserAccountsController extends Controller
         try {
             $this->user->find($userId)->update([
                 'status' => 'Disabled',
-                'isRestrict' => 1
+                'isDisable' => 1
             ]);
             $this->logActivity->generateLog('Disabling Account');
 
@@ -143,7 +143,7 @@ class UserAccountsController extends Controller
         try {
             $this->user->find($userId)->update([
                 'status' => 'Active',
-                'isRestrict' => 0
+                'isDisable' => 0
             ]);
             $this->logActivity->generateLog('Enabling Account');
 
@@ -174,7 +174,7 @@ class UserAccountsController extends Controller
         try {
             $this->user->find($userId)->update([
                 'status' => 'Active',
-                'isRestrict' => 0,
+                'isDisable' => 0,
                 'isSuspend' => 0,
                 'suspendTime' => null
             ]);

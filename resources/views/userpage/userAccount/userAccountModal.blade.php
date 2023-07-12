@@ -25,7 +25,7 @@
                                 autocomplete="off" placeholder="Enter Position">
                                 <option value="">Select Position</option>
                                 <option value="President">President</option>
-                                <option value="Secretary">Secretary</option>
+                                <option value="Focal">Focal</option>
                             </select>
                         </div>
                         <div class="mb-3" id="suspend-container">

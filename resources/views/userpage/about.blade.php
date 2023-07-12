@@ -27,37 +27,6 @@
                     <div class="mt-8">
                         <i class="bi bi-geo-alt-fill mr-4 text-lg"></i>
                         Address:
-                        @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
-                            <a class="bi bi-pencil float-right cursor-pointer btn-edit px-2 py-1"
-                                id="editAddressModal"></a>
-                            {{-- <div class="modal fade" id="editAddressForm" data-bs-backdrop="static"
-                                data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel"
-                                aria-hidden="true">
-                                <div class="modal-dialog">
-                                    <div class="modal-content">
-                                        <div class="modal-header bg-red-900">
-                                            <h1 class="modal-title fs-5 text-center text-white">
-                                                {{ config('app.name') }}
-                                            </h1>
-                                        </div>
-                                        <div class="modal-body">
-                                            <label for="address" class="text-black">Address</label>
-                                            <input type="text" id="address" value="" class="form-control"
-                                                placeholder="Enter Address" autocomplete="off">
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button"
-                                                class="bg-slate-700 text-white p-2 rounded drop-shadow-lg hover:bg-slate-800"
-                                                data-bs-dismiss="modal">Close</button>
-                                            <button type="button" id="editAddressBtn"
-                                                class="bg-red-600 text-white p-2 rounded drop-shadow-lg hover:bg-red-700">
-                                                Update
-                                            </button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div> --}}
-                        @endif
                         <hr class="mt-3 clear-both">
                         <a
                             href="https://www.google.com/maps/place/Retail+Plaza+City+of+Cabuyao/@14.2772989,121.1214,17z/data=!3m1!4b1!4m6!3m5!1s0x3397d8604aa8f17d:0x4e0371b3a9d5540e!8m2!3d14.2772937!4d121.1235887!16s%2Fg%2F11bxg2qw2w">

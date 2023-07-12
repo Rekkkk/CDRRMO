@@ -37,10 +37,10 @@ class AuthenticationController extends Controller
         if (auth()->check()) {
             $userAuthenticated = auth()->user();
 
-            if ($userAuthenticated->isRestrict == 1) {
+            if ($userAuthenticated->isDisable == 1) {
                 session()->flush();
                 auth()->logout();
-                return back()->withInput()->with('error', 'Your account has been Restricted.');
+                return back()->withInput()->with('error', 'Your account has been Disabled.');
             }
 
             if ($userAuthenticated->isSuspend == 1) {
