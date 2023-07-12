@@ -20,7 +20,7 @@
                 <span class="text-xl font-bold tracking-wider">DASHBOARD</span>
             </div>
             <hr class="mt-3">
-            @if (auth()->user()->position == 'President')
+            @can('generateData', \App\Models\User::class)
                 <div class="flex justify-end my-2">
                     <form action="{{ route('generate.evacuee.data') }}" method="POST" target="__blank">
                         @csrf
@@ -30,7 +30,7 @@
                         </button>
                     </form>
                 </div>
-            @endif
+            @endcan
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 <div class="widget bg-green-400">
                     <div class="widget-logo">
@@ -66,7 +66,7 @@
                     </div>
                     <div class="widget-content">
                         <div class="content-description">
-                            <h5>Evacuee (On Evacuation Center)</h5>
+                            <h5>Evacuee (On Evacuation)</h5>
                             <span id="onEvacuationCenter">{{ $inEvacuationCenter }}</span>
                         </div>
                         <div class="widget-image">

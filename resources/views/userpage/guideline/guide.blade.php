@@ -7,7 +7,6 @@
 
 <body>
     <div class="wrapper">
-        @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
@@ -20,40 +19,52 @@
                 <span class="text-xl font-bold tracking-wider">GUIDES</span>
             </div>
             <hr class="mt-3">
-            <div class="guide-btn flex justify-end mt-2">
-                @if (auth()->check())
+            <div class="guide-btn flex justify-end my-2">
+                @can('create', \App\Models\User::class)
                     <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 font-medium">
                         <i class="bi bi-plus-lg mr-2"></i> Create Guide
                     </a>
                     <input type="text" class="guidelineId" value="{{ $guidelineId }}" hidden>
-                    @include('userpage.guideline.addGuide')
-                @endif
+                @endcan
             </div>
-            @foreach ($guide as $guide)
-                <div class="guide-container">
-                    <div class="guide-content relative mx-2.5 my-2">
-                        <div class="label relative bg-slate-600 text-white cursor-pointer p-3 uppercase">
-                            {{ $guide->label }}
-                        </div>
-                        <div class="content relative h-0 overflow-hidden drop-shadow-lg bg-slate-50">
-                            <p class="mb-2">
-                                {{ $guide->content }}
-                            </p>
-                            @if (auth()->check())
-                                <div class="py-2 flex justify-start">
-                                    <a href="#edit{{ $guide->id }}" data-bs-toggle="modal" class="btn-edit p-2">
-                                        <i class="bi bi-pencil text-sm mr-2"></i>Edit
-                                    </a>
-                                    <a href="{{ route('guide.remove', $guide->id) }}" class="btn-cancel ml-2 p-2">
-                                        <i class="bi bi-trash mr-2"></i>Remove
-                                    </a>
+            <div class="guide-container">
+                @foreach ($guide as $guide)
+                    <div class="guide-widget">
+                        @can('view', \App\Models\User::class)
+                            @can('updateOrRemove', \App\Models\User::class)
+                                <a href="javascript:void(0)" class="absolute top-2 right-0" id="removeGuideBtn">
+                                    <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
+                                </a>
+                                <a href="javascript:void(0)" class="absolute left-2 top-3" id="updateGuideBtn">
+                                    <i class="btn-edit bi bi-pencil p-2"></i>
+                                </a>
+                            @endcan
+                            <a class="guide-item cursor-pointer guideContentBtn">
+                                <div class="guide-content">
+                                    <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
+                                    <div class="guide-type">
+                                        <p class="uppercase">{{ $guide->label }}</p>
+                                    </div>
+                                    <input type="text" id="guideContent" value="{{ $guide->content }}" hidden>
+                                    <input type="text" id="guideId" value="{{ $guide->id }}" hidden>
                                 </div>
-                            @endif
-                        </div>
+                            </a>
+                            @include('userpage.guideline.guideContent')
+                        @endcan
+                        @guest
+                            <a class="guide-item" href="">
+                                <div class="guide-content">
+                                    <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
+                                    <div class="guide-type">
+                                        <p class="uppercase">{{ $guide->label }}</p>
+                                    </div>
+                                </div>
+                            </a>
+                        @endguest
                     </div>
-                </div>
-                @include('userpage.guideline.updateGuide')
-            @endforeach
+                @endforeach
+            </div>
+            @include('userpage.guideline.guideModal')
         </div>
     </div>
 
@@ -65,91 +76,151 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
-    @include('partials.toastr')
-    <script>
-        $(document).ready(function() {
-            const accordion = document.getElementsByClassName('guide-content');
+    @can('view', \App\Models\User::class)
+        @include('partials.toastr')
+        <script>
+            $(document).ready(function() {
+                let guideId, guideWidget, guideItem, defaultFormData, guidelineId = $('.guidelineId').val();
 
-            for (i = 0; i < accordion.length; i++) {
-                accordion[i].addEventListener('click', function() {
-                    this.classList.toggle('active')
-                })
-            }
-
-            $('#createGuideBtn').click(function() {
-                $('#createGuideForm').trigger("reset");
-                $('#createGuideModal').modal('show');
-            });
-
-            let validator = $("#createGuideForm").validate({
-                rules: {
-                    label: {
-                        required: true
-                    },
-                    content: {
-                        required: true
-                    }
-                },
-                messages: {
-                    content: {
-                        required: 'Please Enter Guide Label.'
-                    },
-                    content: {
-                        required: 'Please Enter Guide Content.'
-                    }
-                },
-                errorElement: 'span',
-                submitHandler: createGuideForm
-            });
-
-            function createGuideForm(form) {
-                let guidelineId = $('.guidelineId').val();
-
-                confirmModal(`Do you want to create this guide?`).then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            data: $('#createGuideForm').serialize(),
-                            url: "{{ route('guide.add', ':guidelineId') }}"
-                                .replace(
-                                    ':guidelineId', guidelineId),
-                            type: "POST",
-                            dataType: 'json',
-                            success: function(data) {
-                                if (data.status == 0) {
-                                    messageModal(
-                                        'Error',
-                                        'Failed to Post E-LIGTAS Guide.',
-                                        'info',
-                                        '#B91C1C'
-                                    );
-                                } else {
-                                    messageModal(
-                                        'Success',
-                                        'E-LIGTAS Guide Successfully Posted.',
-                                        'success',
-                                        '#3CB043'
-                                    ).then((result) => {
-                                        $('#createGuideForm')[0].reset();
-                                        $('#createGuideModal').modal(
-                                            'hide');
-                                        location.reload();
-                                    });
-                                }
-                            },
-                            error: function(data) {
-                                messageModal(
-                                    'Error',
-                                    'Something went wrong, try again later.',
-                                    'info',
-                                    '#B91C1C'
-                                );
-                            }
-                        });
-                    }
+                $('#createGuideBtn').click(function() {
+                    $('#createGuideForm').trigger("reset");
+                    $('#operation').val('create');
+                    $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
+                    $('.modal-title').text('Create Guide Form');
+                    $('#submitGuideBtn').removeClass('btn-edit').addClass('btn-submit').text('Create');
+                    $('#guideModal').modal('show');
                 });
-            }
-        });
-    </script>
+
+                $(document).on('click', '.guideContentBtn', function() {
+                    $('#guideContentModal').modal('show');
+                    $('.modal-title').text($(this).find('.guide-type p').text().toUpperCase());
+                    $('#guideContentSection').text($(this).find('#guideContent').val());
+                });
+
+                $(document).on('click', '#updateGuideBtn', function() {
+                    guideWidget = $(this).closest('.guide-widget');
+                    guideItem = guideWidget.find('.guide-item');
+                    guideId = guideWidget.find('#guideId').val();
+                    $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
+                    $('.modal-title').text('Update Guide Form');
+                    $('#submitGuideBtn').removeClass('btn-submit').addClass('btn-edit').text('Update');
+                    $('#label').val(guideItem.find('p').text());
+                    $('#content').val(guideWidget.find('#guideContent').val());
+                    $('#operation').val('update');
+                    $('#guideModal').modal('show');
+                    defaultFormData = $('#guideForm').serialize();
+                });
+
+                $(document).on('click', '#removeGuideBtn', function() {
+                    guideWidget = $(this).closest('.guide-widget');
+                    guideItem = guideWidget.find('.guide-item');
+                    guideId = guideWidget.find('#guideId').val();
+
+                    confirmModal('Do you want to remove this guide?').then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                data: {
+                                    guideId: guideId
+                                },
+                                url: "{{ route('guide.remove', ':guideId') }}"
+                                    .replace(':guideId', guideId),
+                                type: "GET",
+                                dataType: 'json',
+                                success: function(response) {
+                                    if (response.status == 'success') {
+                                        toastr.success(response.message, 'Success', {
+                                            onHidden: function() {
+                                                location.reload();
+                                            }
+                                        });
+                                    } else if (response.status == 'error') {
+                                        toastr.warning(response.message, 'Error');
+                                    } else if (response.status == 'warning') {
+                                        toastr.warning(response.message, 'Error');
+                                    }
+                                },
+                                error: function() {
+                                    toastr.error(
+                                        'An error occurred while processing your request.',
+                                        'Error');
+                                }
+                            });
+                        }
+                    });
+                });
+
+                let validator = $("#guideForm").validate({
+                    rules: {
+                        label: {
+                            required: true
+                        },
+                        content: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        label: {
+                            required: 'Please Enter Guide Label.'
+                        },
+                        content: {
+                            required: 'Please Enter Guide Content.'
+                        }
+                    },
+                    errorElement: 'span',
+                    submitHandler: guideFormHandler
+                });
+
+                function guideFormHandler(form) {
+                    let operation = $('#operation').val(),
+                        url = "",
+                        type = "",
+                        formData = $(form).serialize();
+
+                    url = operation == 'create' ? "{{ route('guide.add', 'guidelineId') }}".replace(
+                        'guidelineId', guidelineId) : "{{ route('guide.update', 'guideId') }}".replace(
+                        'guideId', guideId);
+
+                    type = operation == 'create' ? "POST" : "PUT";
+
+                    confirmModal(`Do you want to ${operation} this guide?`).then((result) => {
+                        if (result.isConfirmed) {
+                            if (operation == 'update' && defaultFormData == formData) {
+                                $('#guideModal').modal('hide');
+                                messageModal('Info', 'No changes were made.', 'info', '#B91C1C');
+                                return;
+                            }
+                            $.ajax({
+                                data: formData,
+                                url: url,
+                                type: type,
+                                dataType: 'json',
+                                success: function(response) {
+                                    if (response.status == 'success') {
+                                        toastr.success(response.message, 'Success', {
+                                            onHidden: function() {
+                                                location.reload();
+                                            }
+                                        });
+                                        $('#guideForm')[0].reset();
+                                        $('#guideModal').modal('hide');
+                                    } else if (response.status == 'error') {
+                                        toastr.warning(response.message, 'Error');
+                                    } else if (response.status == 'warning') {
+                                        toastr.warning(response.message, 'Warning');
+                                    }
+                                },
+                                error: function() {
+                                    toastr.error(
+                                        'An error occurred while processing your request.',
+                                        'Error');
+                                }
+                            });
+                        }
+                    });
+                }
+            });
+        </script>
+    @endcan
 </body>
 
 </html>

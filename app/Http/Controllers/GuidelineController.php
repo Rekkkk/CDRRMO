@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Illuminate\Support\Facades\Crypt;
-use RealRashid\SweetAlert\Facades\Alert;
 use Illuminate\Support\Facades\Validator;
 
 class GuidelineController extends Controller
@@ -24,19 +23,17 @@ class GuidelineController extends Controller
 
     public function eligtasGuideline()
     {
+        $guideline = "";
+
         if (!auth()->check()) {
             $guideline = $this->guideline->all();
-
-            return view('userpage.guideline.eligtasGuideline', compact('guideline'));
         }
 
-        $author = auth()->user();
-
-        $organization = $this->guideline->where('organization', $author->organization);
-
-        $guideline = $organization->when($author->position === "Secretary", function ($query) use ($author) {
-            return $query->where('author', $author->id);
-        })->get();
+        if (auth()->user()->organization === "CDRRMO" && auth()->check()) {
+            $guideline = $this->guideline->where('organization', "CDRRMO")->get();
+        } else {
+            $guideline = $this->guideline->where('organization', "CSWD")->get();
+        }
 
         return view('userpage.guideline.eligtasGuideline', compact('guideline'));
     }
@@ -44,64 +41,58 @@ class GuidelineController extends Controller
     public function addGuideline(Request $request)
     {
         $validatedGuideline = Validator::make($request->all(), [
-            'type' => ['required', 'unique:guideline,type']
+            'type' => 'unique:guideline,type'
         ]);
 
         if ($validatedGuideline->passes()) {
             try {
                 $this->guideline->create([
-                    'type' => Str::lower(trim("$request->type Guideline")),
-                    'organization' => auth()->user()->organization,
-                    'author' => auth()->user()->id
+                    'type' => Str::lower(trim("$request->type guideline")),
+                    'organization' => auth()->user()->organization
                 ]);
                 $this->logActivity->generateLog('Registering Guideline');
 
-                return response()->json(['status' => 1]);
+                return response()->json(['status' => 'success', 'message' => 'Guideline successfully added, Please wait...']);
             } catch (\Exception $e) {
-                return response()->json(['status' => 0]);
+                return response()->json(['status' => 'error', 'message' => 'Something went wrong, please try again.']);
             }
         }
 
-        return response()->json(['status' => 0, 'error' => $validatedGuideline->errors()->toArray()]);
+        return response()->json(['status' => 'warning', 'message' => 'Guideline is existing.']);
     }
 
     public function updateGuideline(Request $request, $guidelineId)
     {
         $validatedGuideline = Validator::make($request->all(), [
-            'type' => 'required'
+            'type' => 'unique:guideline,type'
         ]);
 
         if ($validatedGuideline->passes()) {
             try {
-                $this->guideline->find($guidelineId)->update([
+                $this->guideline->find(Crypt::decryptString($guidelineId))->update([
                     'type' => Str::lower(trim($request->type))
                 ]);
                 $this->logActivity->generateLog('Updating Guideline');
 
-                Alert::success(config('app.name'), 'Guideline Successfully Updated.');
+                return response()->json(['status' => 'success', 'message' => 'Guideline successfully updated, Please wait...']);
             } catch (\Exception $e) {
-                Alert::error(config('app.name'), 'Failed to Update Guideline.');
+                return response()->json(['status' => 'error', 'message' => 'Something went wrong, please try again.']);
             }
-
-            return back();
         }
 
-        Alert::error(config('app.name'), 'Failed to Update Guideline.');
-        return back();
+        return response()->json(['status' => 'warning', 'message' => 'Guideline is existing.']);
     }
 
     public function removeGuideline($guidelineId)
     {
         try {
             $this->guideline->find(Crypt::decryptString($guidelineId))->delete();
-            $this->logActivity->generateLog('Deleting Guideline');
+            $this->logActivity->generateLog('removing Guideline');
 
-            Alert::success('Success', 'Guideline Removed Successfully.');
+            return response()->json(['status' => 'success', 'message' => 'Guideline removed successfully, Please wait...']);
         } catch (\Exception $e) {
-            Alert::warning('Warning', 'Failed to Remove Guideline.');
+            return response()->json(['status' => 'error', 'message' => 'Something went wrong, please try again.']);
         }
-
-        return back();
     }
 
     public function guide($guidelineId)
@@ -113,25 +104,32 @@ class GuidelineController extends Controller
 
     public function addGuide(Request $request, $guidelineId)
     {
-        try {
-            $this->guide->create([
-                'label' => Str::lower(trim($request->label)),
-                'content' => Str::ucFirst(trim($request->content)),
-                'guideline_id' => Crypt::decryptString($guidelineId)
-            ]);
-            $this->logActivity->generateLog('Registering Guide');
+        $validatedGuide = Validator::make($request->all(), [
+            'label' => 'unique:guide,label'
+        ]);
 
-            return response()->json(['status' => 1]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
+        if ($validatedGuide->passes()) {
+            try {
+                $this->guide->create([
+                    'label' => Str::lower(trim($request->label)),
+                    'content' => Str::ucFirst(trim($request->content)),
+                    'guideline_id' => Crypt::decryptString($guidelineId)
+                ]);
+                $this->logActivity->generateLog('Registering Guide');
+
+                return response()->json(['status' => 'success', 'message' => 'Guide successfully added, Please wait...']);
+            } catch (\Exception $e) {
+                return response()->json(['status' => 'error', 'message' => 'Something went wrong, please try again.']);
+            }
         }
+
+        return response()->json(['status' => 'warning', 'message' => 'Guide is existing.']);
     }
 
     public function updateGuide(Request $request, $guideId)
     {
         $validatedGuide = Validator::make($request->all(), [
-            'label' => 'required',
-            'content' => 'required'
+            'label' => 'unique:guideline,type'
         ]);
 
         if ($validatedGuide->passes()) {
@@ -142,25 +140,24 @@ class GuidelineController extends Controller
                 ]);
                 $this->logActivity->generateLog('Updating Guide');
 
-                Alert::success('Success', 'Guide Successfully Updated.');
+                return response()->json(['status' => 'success', 'message' => 'Guide successfully updated, Please wait...']);
             } catch (\Exception $e) {
-                Alert::warning('Warning', 'Failed to Update Guide.');
+                return response()->json(['status' => 'error', 'message' => 'Something went wrong, please try again.']);
             }
         }
-        return back();
-    }
 
+        return response()->json(['status' => 'warning', 'message' => 'Guide is existing.']);
+    }
+    
     public function removeGuide($guideId)
     {
         try {
             $this->guide->find($guideId)->delete();
             $this->logActivity->generateLog('Removing Guide');
 
-            Alert::success('Success', 'Guide Removed Successfully.');
+            return response()->json(['status' => 'success', 'message' => 'Guide removed successfully, Please wait...']);
         } catch (\Exception $e) {
-            Alert::warning('Warning', 'Failed to Remove Guide.');
+            return response()->json(['status' => 'error', 'message' => 'Something went wrong, please try again.']);
         }
-
-        return back();
     }
 }
