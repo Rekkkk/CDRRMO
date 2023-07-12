@@ -76,9 +76,6 @@
     </div>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
-    <script
-        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB8aKsfeTmVYUCLK_Mdy4Znaeh2DNd3guc&callback=initMap&v=weekly"
-        defer></script>
     @include('partials.toastr')
     <script>
         let map, activeInfoWindow, markers = [];
