@@ -19,4 +19,8 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'googleMap' => [
+        'key' => env('GOOGLE_MAP_KEY'),
+    ],
+
 ];
