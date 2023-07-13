@@ -69,6 +69,7 @@ Route::middleware('auth')->group(function () {
             Route::post('/registerEvacuation', 'addEvacuationCenter')->name('add');
             Route::put('/updateEvacuation/{evacuationId}', 'updateEvacuationCenter')->name('update');
             Route::delete('/removeEvacuation/{evacuationId}', 'removeEvacuationCenter')->name('remove');
+            Route::patch('/changeEvacuationStatus/{evacuationId}', 'changeEvacuationStatus')->name('change.status');
         });
     });
 
