@@ -119,7 +119,6 @@ hr,
 }
 
 .btn-submit:hover {
-    background: #15803d;
     color: var(--color-text);
     transform: scale(1.05);
 }
