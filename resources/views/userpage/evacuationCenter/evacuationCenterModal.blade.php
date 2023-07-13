@@ -20,7 +20,7 @@
                                 </div>
                                 <div class="field-container">
                                     <label>Barangay</label>
-                                    <select name="barangay_name" class="form-select">
+                                    <select name="barangayName" class="form-select">
                                         <option value="">Select Barangay</option>
                                         <option value="Baclaran">Baclaran</option>
                                         <option value="Banay-Banay">Banay-Banay</option>
@@ -43,20 +43,21 @@
                                     </select>
                                 </div>
                                 <div class="field-container">
+                                    <label>Location</label>
+                                    <div class="border-2 rounded-md border-slate-400">
+                                        <div class="h-96 rounded" id="map"></div>
+                                    </div>
+                                    <span id="location-error" class="error"></span>
+                                </div>
+                                <div class="field-container hidden">
                                     <label>Latitude</label>
-                                    <input type="text" name="latitude" autocomplete="off"
-                                        placeholder="Enter Latitude">
+                                    <input type="text" name="latitude">
                                 </div>
-                                <div class="field-container">
+                                <div class="field-container hidden">
                                     <label>Longitude</label>
-                                    <input type="text" name="longitude" autocomplete="off"
-                                        placeholder="Enter Longitude">
+                                    <input type="text" name="longitude">
                                 </div>
-                                <div class="field-container" id="status-container">
-                                    <label>Status</label>
-                                    <input type="text" name="status" autocomplete="off" placeholder="Enter status">
-                                </div>
-                                <div class="w-full px-4">
+                                <div class="w-full px-4 mt-4">
                                     <button id="saveEvacuationCenterBtn"
                                         class="btn-submit p-2 float-right mb-3">Add</button>
                                 </div>

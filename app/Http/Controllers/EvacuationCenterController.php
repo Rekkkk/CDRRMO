@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
+use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use App\Models\EvacuationCenter;
 
@@ -23,59 +24,89 @@ class EvacuationCenterController extends Controller
         $evacuationCenterList = $this->evacuationCenter->all();
 
         return DataTables::of($evacuationCenterList)
-        ->addIndexColumn()
-        ->addColumn('action', function ($row) {
-            return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="btn-edit p-1.5 mr-2 text-sm updateEvacuationCenter">Edit</a>' . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="btn-cancel removeEvacuationCenter p-1.5 mr-2 text-sm">Remove</a>';
-        })
-        ->rawColumns(['action'])
-        ->make(true);
+            ->addIndexColumn()
+            ->addColumn('action', function () {
+                return '<div class="flex justify-around actionContainer"><button class="btn-table-edit updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Edit</button>' .
+                    '<button class="btn-table-remove removeEvacuationCenter"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
+                    '<select class="form-select w-44 bg-blue-500 text-white changeEvacuationStatus">
+                        <option value="">Change Status</option>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                        <option value="Full">Full</option>
+                    </select></div>';
+            })
+            ->rawColumns(['action'])
+            ->make(true);
     }
 
     public function addEvacuationCenter(Request $request)
     {
-        try {
-            $this->evacuationCenter->create([
-                'name' => Str::ucfirst($request->name),
-                'barangay_name' => $request->barangay_name,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'status' => 'Active'
-            ]);
-            $this->logActivity->generateLog('Registering Evacuation Center Information');
+        $validateEvacuationCenter = Validator::make($request->all(), [
+            'name' => 'required',
+            'barangayName' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required'
+        ]);
 
-            return response()->json(['status' => 1]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
+        if (!$validateEvacuationCenter->passes()) {
+            return response()->json(['condition' => 0]);
         }
+
+        $this->evacuationCenter->create([
+            'name' => Str::ucfirst($request->name),
+            'barangay_name' => $request->barangayName,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'status' => 'Active'
+        ]);
+
+        $this->logActivity->generateLog('Added new evacuation center');
+
+        return response()->json(['condition' => 1]);
     }
 
     public function updateEvacuationCenter(Request $request, $evacuationId)
     {
-        try {
-            $this->evacuationCenter->find($evacuationId)->update([
-                'name' => Str::ucfirst(trim($request->name)),
-                'barangay_name' => $request->barangay_name,
-                'latitude' => trim($request->latitude),
-                'longitude' => trim($request->longitude),
-                'status' => $request->status
-            ]);
-            $this->logActivity->generateLog('Updating Evacuation Center Information');
+        $validateEvacuationCenter = Validator::make($request->all(), [
+            'name' => 'required',
+            'barangayName' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required'
+        ]);
 
-            return response()->json(['status' => 1]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
+        if (!$validateEvacuationCenter->passes()) {
+            return response()->json(['condition' => 0]);
         }
+
+        $this->evacuationCenter->find($evacuationId)->update([
+            'name' => Str::ucfirst(trim($request->name)),
+            'barangay_name' => $request->barangayName,
+            'latitude' => trim($request->latitude),
+            'longitude' => trim($request->longitude),
+        ]);
+
+        $this->logActivity->generateLog('Updated evacuation center');
+
+        return response()->json(['condition' => 1]);
     }
 
     public function removeEvacuationCenter($evacuationId)
     {
-        try {
-            $this->evacuationCenter->find($evacuationId)->delete();
-            $this->logActivity->generateLog('Removing Evacuation Center Information');
+        $this->evacuationCenter->find($evacuationId)->delete();
 
-            return response()->json(['status' => 1]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
-        }
+        $this->logActivity->generateLog('Removed evacuation center');
+
+        return response()->json();
+    }
+
+    public function changeEvacuationStatus($evacuationId, Request $request)
+    {
+        $this->evacuationCenter->find($evacuationId)->update([
+            'status' => $request->status
+        ]);
+
+        $this->logActivity->generateLog('Changed evacuation center status');
+
+        return response()->json();
     }
 }
