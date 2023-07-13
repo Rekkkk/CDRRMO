@@ -25,9 +25,8 @@ class EvacueeController extends Controller
         $evacueeInfo = $this->evacuee->where('date_out', null)->get();
         return DataTables::of($evacueeInfo)
             ->addIndexColumn()
-            ->addColumn('action', function ($row) {
-                return '<button data-id="' . $row->id . '" data-toggle="modal" data-target="#evacueeInfoFormModal"' .
-                    ' class="editEvacueeBtn updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Edit</button>';
+            ->addColumn('action', function () {
+                return '<button class="btn-table-edit editEvacueeBtn"><i class="bi bi-pencil-square pr-2"></i>Edit</button>';
             })
             ->addColumn('select', function ($row) {
                 return '<input type="checkbox" class="w-4 h-4 accent-blue-600" value="' . $row->id . '">';
