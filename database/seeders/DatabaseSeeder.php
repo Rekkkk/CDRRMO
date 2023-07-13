@@ -21,20 +21,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::insert([
-            'email' => ('CSWD123@gmail.com'),
-            'password' => Hash::make('CSWD123'),
-            'organization' => 'CSWD',
-            'position' => 'Secretary',
-            'status' => 'Active',
-            'isDisable' => 0,
-            'isSuspend' => 0
-        ]);
-
-        User::insert([
             'email' => ('CSWD132@gmail.com'),
             'password' => Hash::make('CSWD1212'),
             'organization' => 'CSWD',
-            'position' => 'President',
+            'position' => 'Focal',
             'status' => 'Active',
             'isDisable' => 0,
             'isSuspend' => 0

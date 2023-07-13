@@ -429,7 +429,8 @@ hr,
 /* Dashboard End Section */
 
 /* Guideline Section Start Here */
-.guideline-container {
+.guideline-container,
+.guide-container {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
@@ -441,12 +442,13 @@ hr,
     margin-top: 20px;
 }
 
-.guideline-widget {
+.guideline-widget,
+.guide-widget {
     position: relative;
     max-width: 300px;
 }
 
-.guideline-content {
+.guideline-content, .guide-content {
     overflow: hidden;
     z-index: -50;
     position: relative;
@@ -456,7 +458,7 @@ hr,
     border-radius: 4px;
 }
 
-.guideline-type {
+.guideline-type, .guide-type {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -486,7 +488,7 @@ hr,
 /* Guideline End Section */
 
 /* Guide Section Start Here*/
-.guide-container .guide-content .label:before {
+/* .guide-container .guide-content .label:before {
     content: "+";
     position: absolute;
     top: 50%;
@@ -502,7 +504,7 @@ hr,
 .guide-container .guide-content.active .content {
     height: 150px;
     padding: 10px;
-}
+} */
 
 /* Guide End Section */
 

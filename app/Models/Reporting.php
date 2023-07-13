@@ -18,7 +18,8 @@ class Reporting extends Model
         'location',
         'photo',
         'status',
-        'user_ip'
+        'user_ip',
+        'is_archive'
     ];
 
     public $timestamps = false;

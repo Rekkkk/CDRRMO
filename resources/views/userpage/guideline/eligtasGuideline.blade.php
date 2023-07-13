@@ -7,7 +7,6 @@
 
 <body>
     <div class="wrapper">
-        @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
@@ -24,43 +23,39 @@
                 <div class="guideline-container">
                     @foreach ($guideline as $guidelineItem)
                         <div class="guideline-widget">
-                            @if (auth()->check())
-                                <a href="{{ route('guideline.remove', Crypt::encryptString($guidelineItem->id)) }}"
-                                    class="absolute top-2 right-0">
-                                    <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
-                                </a>
-                                <a href="#edit{{ $guidelineItem->id }}" data-bs-toggle="modal"
-                                    class="absolute left-2 top-3">
-                                    <i class="btn-edit bi bi-pencil p-2"></i>
-                                </a>
-                                @include('userpage.guideline.updateGuideline')
+                            @can('view', \App\Models\User::class)
+                                @can('updateOrArchive', \App\Models\User::class)
+                                    <a href="javascript:void(0)" class="absolute top-2 right-0" id="archiveGuidelineBtn">
+                                        <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
+                                    </a>
+                                    <a href="javascript:void(0)" class="absolute left-2 top-3" id="updateGuidelineBtn">
+                                        <i class="btn-edit bi bi-pencil p-2"></i>
+                                    </a>
+                                @endcan
                                 <a class="guidelines-item"
                                     href="{{ route('guide.display', Crypt::encryptString($guidelineItem->id)) }}">
                                     <div class="guideline-content">
-                                        <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}"
-                                            alt="logo">
+                                        <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
                                         <div class="guideline-type">
                                             <p class="uppercase">{{ $guidelineItem->type }}</p>
                                         </div>
                                     </div>
                                 </a>
-                            @else
+                            @endcan
+                            @guest
                                 <a class="guidelines-item"
                                     href="{{ route('resident.guide', Crypt::encryptString($guidelineItem->id)) }}">
                                     <div class="guideline-content">
-                                        <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}"
-                                            alt="logo">
+                                        <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
                                         <div class="guideline-type">
                                             <p class="uppercase">{{ $guidelineItem->type }}</p>
                                         </div>
                                     </div>
                                 </a>
-                            @endif
+                            @endguest
                         </div>
                     @endforeach
-                    @if (
-                        (auth()->check() && auth()->user()->position == 'President') ||
-                            (auth()->check() && auth()->user()->position == 'Secretary'))
+                    @can('create', \App\Models\User::class)
                         <div class="guideline-btn">
                             <div class="btn-container">
                                 <a id="createGuidelineBtn" href="javascript:void(0)"
@@ -69,8 +64,8 @@
                                 </a>
                             </div>
                         </div>
-                        @include('userpage.guideline.addGuideline')
-                    @endif
+                        @include('userpage.guideline.guidelineModal')
+                    @endcan
                 </div>
             </div>
         </div>
@@ -81,59 +76,143 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+        integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+        crossorigin="anonymous"></script>
     @include('partials.toastr')
-    @if (auth()->check())
+    @can('view', \App\Models\User::class)
         <script>
             $(document).ready(function() {
                 $('#createGuidelineBtn').click(function() {
                     $('#guidelineForm')[0].reset();
+                    $('#operation').val('create');
+                    $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
+                    $('.modal-title').text('Create Guideline Form');
+                    $('#submitGuidelineBtn').removeClass('btn-edit').addClass('btn-submit').text('Create');
                     $('#guidelineModal').modal('show');
                 });
 
-                $('#submitGuidelineBtn').click(function(e) {
-                    e.preventDefault();
+                let guidelineId, defaultFormData;
 
-                    confirmModal('Do you want to create this guideline?').then((result) => {
+                $(document).on('click', '#archiveGuidelineBtn', function() {
+                    guidelineWidget = this.closest('.guideline-widget');
+                    guidelineItem = guidelineWidget.querySelector('.guidelines-item');
+                    guidelineId = guidelineItem.getAttribute('href').split('/').pop();
+
+                    confirmModal('Do you want to archive this guideline?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
-                                data: $('#guidelineForm').serialize(),
-                                url: "{{ route('guideline.add') }}",
-                                type: "POST",
-                                dataType: 'json',
-                                beforeSend: function(response) {
-                                    $(document).find('span.error-text').text('');
+                                data: {
+                                    guidelineId: guidelineId
                                 },
+                                url: "{{ route('guideline.archive', ':guidelineId') }}"
+                                    .replace(':guidelineId', guidelineId),
+                                type: "GET",
+                                dataType: 'json',
                                 success: function(response) {
-                                    if (response.status == 0) {
-                                        $.each(response.error, function(prefix, val) {
-                                            $('span.' + prefix + '_error').text(val[
-                                                0]);
+                                    if (response.status == 'success') {
+                                        toastr.success(response.message, 'Success', {
+                                            onHidden: function() {
+                                                location.reload();
+                                            }
                                         });
-                                        messageModal('Warning',
-                                            'Failed to Create E-LIGTAS Guideline.',
-                                            'warning', '#FFDF00');
-                                    } else {
-                                        messageModal('Success',
-                                            'E-LIGTAS Guideline Successfully Created.',
-                                            'success', '#3CB043').then(() => {
-                                            $('#guidelineForm')[0].reset();
-                                            $('#guidelineModal').modal('hide');
-                                            location.reload();
-                                        });
+                                    } else if (response.status == 'error') {
+                                        toastr.warning(response.message, 'Error');
+                                    } else if (response.status == 'warning') {
+                                        toastr.warning(response.message, 'Error');
                                     }
                                 },
                                 error: function() {
-                                    messageModal('Warning',
-                                        'Something went wrong, Try again later.',
-                                        'warning', '#FFDF00');
+                                    toastr.error(
+                                        'An error occurred while processing your request.',
+                                        'Error');
                                 }
                             });
                         }
                     });
                 });
+
+                $(document).on('click', '#updateGuidelineBtn', function() {
+                    $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
+                    $('.modal-title').text('Update Guideline Form');
+                    $('#submitGuidelineBtn').removeClass('btn-submit').addClass('btn-edit').text('Update');
+                    let guidelineWidget = this.closest('.guideline-widget');
+                    let guidelineItem = guidelineWidget.querySelector('.guidelines-item');
+                    guidelineId = guidelineItem.getAttribute('href').split('/').pop();
+                    let guidelineLabel = guidelineItem.querySelector('.guideline-type p').innerText
+                        .toLowerCase();
+                    $('#guidelineType').val(guidelineLabel);
+                    $('#operation').val('update');
+                    $('#guidelineModal').modal('show');
+                    defaultFormData = $('#guidelineForm').serialize();
+                });
+
+                let validator = $("#guidelineForm").validate({
+                    rules: {
+                        type: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        type: {
+                            required: 'Please Enter Guideline Type.'
+                        }
+                    },
+                    errorElement: 'span',
+                    submitHandler: createGuidelineForm
+                });
+
+                function createGuidelineForm(form) {
+                    let operation = $('#operation').val(),
+                        url = "",
+                        type = "",
+                        formData = $(form).serialize();
+
+                    url = operation == 'create' ? "{{ route('guideline.add') }}" :
+                        "{{ route('guideline.update', 'guidelineId') }}".replace('guidelineId',
+                            guidelineId);
+
+                    type = operation == 'create' ? "POST" : "PUT";
+
+                    confirmModal(`Do you want to ${operation} this guideline?`).then((result) => {
+                        if (result.isConfirmed) {
+                            if (operation == 'update' && defaultFormData == formData) {
+                                $('#guidelineModal').modal('hide');
+                                messageModal('Info', 'No changes were made.', 'info', '#B91C1C');
+                                return;
+                            }
+                            $.ajax({
+                                data: formData,
+                                url: url,
+                                type: type,
+                                dataType: 'json',
+                                success: function(response) {
+                                    if (response.status == 'success') {
+                                        toastr.success(response.message, 'Success', {
+                                            onHidden: function() {
+                                                location.reload();
+                                            }
+                                        });
+                                        $('#guidelineForm')[0].reset();
+                                        $('#guidelineModal').modal('hide');
+                                    } else if (response.status == 'error') {
+                                        toastr.warning(response.message, 'Error');
+                                    } else if (response.status == 'warning') {
+                                        toastr.warning(response.message, 'Error');
+                                    }
+                                },
+                                error: function() {
+                                    toastr.error(
+                                        'An error occurred while processing your request.',
+                                        'Error');
+                                }
+                            });
+                        }
+                    });
+                }
             });
         </script>
-    @endif
+    @endcan
 </body>
 
 </html>

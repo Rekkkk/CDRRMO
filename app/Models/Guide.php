@@ -16,7 +16,9 @@ class Guide extends Model
     protected $fillable = [
         'label',
         'content',
-        'guideline_id'
+        'guideline_id',
+        'author',
+        'is_archive'
     ];
 
     public $timestamps = false;

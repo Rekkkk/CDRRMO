@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('photo')->nullable();
             $table->string('status');
             $table->string('user_ip');
+            $table->boolean('is_archive');
         });
     }
 

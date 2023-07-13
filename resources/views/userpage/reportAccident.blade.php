@@ -54,9 +54,9 @@
                             <th>Accident Location</th>
                             <th class="w-5">Status</th>
                             <th style="width:20%;">Actual Photo</th>
-                            @if (auth()->check())
+                            @can('removeReport', \App\Models\User::class)
                                 <th class="w-4">Action</th>
-                            @endif
+                            @endcan
                         </tr>
                     </thead>
                     <tbody>
@@ -126,7 +126,7 @@
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
     @include('partials.toastr')
-    @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
+    @can('approveOrDecline', \App\Models\User::class)
         <script>
             $(document).ready(function() {
                 $.ajaxSetup({
@@ -285,23 +285,23 @@
                     });
                 });
 
-                $('body').on('click', '.removeIncidentReport', function() {
+                $('body').on('click', '.archiveIncidentReport', function() {
                     let reportId = $(this).data('id');
 
-                    confirmModal('Do you want to remove this report incident?').then((result) => {
+                    confirmModal('Do you want to archive this report incident?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
-                                type: "DELETE",
-                                url: "{{ route('report.remove', ':reportId') }}"
+                                type: "PUT",
+                                url: "{{ route('report.archive', ':reportId') }}"
                                     .replace(':reportId', reportId),
                                 success: function(response) {
                                     if (response.status == 0) {
                                         messageModal('Warning',
-                                            'Failed to remove report incident, Try again.',
+                                            'Failed to archive report incident, Try again.',
                                             'warning', '#FFDF00');
                                     } else {
                                         messageModal('Success',
-                                            'Successfully Removed Accident Report.',
+                                            'Successfully archived Accident Report.',
                                             'success', '#3CB043').then(() => {
                                             incidentReports.draw();
                                         });
@@ -322,7 +322,7 @@
                 // })
             });
         </script>
-    @endif
+    @endcan
     @guest
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
             integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="

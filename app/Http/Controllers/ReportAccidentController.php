@@ -50,12 +50,12 @@ class ReportAccidentController extends Controller
 
     public function displayIncidentReport()
     {
-        $incidentReport = $this->reportAccident->whereNotIn('status', ["On Process"])->get();
+        $incidentReport = $this->reportAccident->whereNotIn('status', ["On Process"])->where('is_archive', 0)->get();
 
         return DataTables::of($incidentReport)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="btn-table-cancel py-1.5 btn-sm mr-2 removeIncidentReport">Remove</a>';
+                return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Archive" class="btn-table-cancel py-1.5 btn-sm mr-2 archiveIncidentReport">Archive</a>';
             })->addColumn('photo', function ($row) {
                 return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
             })
@@ -79,6 +79,7 @@ class ReportAccidentController extends Controller
                 'photo' => $reportPhotoPath,
                 'status' => 'On Process',
                 'user_ip' => $request->ip(),
+                'is_archive' => 0
             ];
 
             if ($userIp) {
@@ -98,7 +99,7 @@ class ReportAccidentController extends Controller
                 try {
                     $this->reportAccident->create($reportAccident);
                     $this->reportLog->where('user_ip', $request->ip())->update(['attempt' => $residentAttempt + 1]);
-                    $attempt = 0;
+                    $attempt = $this->reportLog->where('user_ip', $request->ip())->value('attempt');
 
                     $attempt == 3 ? $this->reportLog->where('user_ip', $request->ip())->update(['report_time' => Carbon::now()->addDays(3)]) :
                         intval($this->reportLog->where('user_ip', $request->ip())->value('attempt'));
@@ -190,11 +191,13 @@ class ReportAccidentController extends Controller
         }
     }
 
-    public function removeReportAccident($reportId)
+    public function archiveReportAccident($reportId)
     {
         try {
-            $this->reportAccident->find($reportId)->delete();
-            $this->logActivity->generateLog('Removing Accident Report');
+            $this->reportAccident->find($reportId)->update([
+                'is_archive' => 1
+            ]);
+            $this->logActivity->generateLog('Archiving Accident Report');
 
             return response()->json(['status' => 1]);
         } catch (\Exception $e) {
