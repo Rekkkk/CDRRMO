@@ -90,7 +90,7 @@ class MainController extends Controller
         return view('userpage.evacuee.evacuee', compact('evacuationList', 'disasterList', 'typhoonList', 'flashfloodList'));
     }
 
-    public function evacuationCenter()
+    public function evacuationCenterLocator()
     {
         $evacuationCenter = $this->evacuationCenter->all();
 
@@ -124,9 +124,9 @@ class MainController extends Controller
         return view('userpage.evacuationCenter.evacuationCenter', ['evacuationCenter' => $evacuationCenter, 'initialMarkers' => $initialMarkers]);
     }
 
-    public function evacuationManage()
+    public function manageEvacuation()
     {
-        return view('userpage.evacuationCenter.evacuation');
+        return view('userpage.evacuationCenter.manageEvacuation');
     }
 
     public function reportAccident()

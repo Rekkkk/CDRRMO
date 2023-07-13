@@ -1,6 +1,18 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat&display=swap");
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
 
+:root {
+    --color-text: #ffffff;
+    --color-background: #ecf0f1;
+    --color-red: #dc2626;
+    --color-gray: #2c3e50;
+
+    --color-green: #16a34a;
+    --color-primary: #2563eb;
+    --color-yellow: #eab308;
+    --color-violet: #8b5cf6;
+}
+
 * {
     margin: 0;
     padding: 0;
@@ -12,6 +24,47 @@
 
 body {
     background: var(--color-background);
+}
+
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+#evacueeInfoForm input,
+#evacuationCenterForm input,
+#evacuationCenterForm select,
+#evacueeInfoForm select {
+    width: 100%;
+    margin: 8px 0;
+    padding: 0 12px;
+    border-radius: 5px;
+    font-weight: 400;
+    font-size: 0.875rem;
+    border: 2px solid #94a3b8;
+    height: 44px;
+    transition-timing-function: linear;
+    transition-property: all;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms;
+}
+
+.field-container {
+    width: 100%;
+    margin-bottom: 12px;
+    padding: 0 24px;
+}
+
+span.error {
+    color: #ef4444;
+    font-size: 12px;
+    font-family: Montserrat, san-serif;
+    font-style: italic;
+}
+
+table th,
+table td {
+    text-align: center !important;
+    vertical-align: middle !important;
 }
 
 .toast {
@@ -34,18 +87,6 @@ body {
 hr,
 ::-webkit-scrollbar-thumb:hover {
     background: var(--color-gray);
-}
-
-:root {
-    --color-text: #ffffff;
-    --color-background: #ecf0f1;
-    --color-red: #dc2626;
-    --color-gray: #2c3e50;
-
-    --color-green: #16a34a;
-    --color-primary: #2563eb;
-    --color-yellow: #eab308;
-    --color-violet: #8b5cf6;
 }
 
 .wrapper {
@@ -73,12 +114,12 @@ hr,
     background: var(--color-green);
     color: var(--color-text);
     border-radius: 4px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     transition-duration: 100ms;
 }
 
 .btn-submit:hover {
-    background: #15803d;
     color: var(--color-text);
     transform: scale(1.05);
 }
@@ -86,7 +127,8 @@ hr,
 .btn-primary {
     background: var(--color-primary);
     border-radius: 4px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     transition-duration: 100ms;
 }
 
@@ -96,7 +138,8 @@ hr,
     transform: scale(1.05);
 }
 
-.editEvacueeBtn {
+.btn-edit,
+.btn-table-edit {
     background: var(--color-yellow);
     width: 80px;
     font-size: 14px;
@@ -111,15 +154,6 @@ hr,
     border-radius: 4px;
 }
 
-.btn-edit,
-.btn-table-edit {
-    background: var(--color-yellow);
-    color: var(--color-text);
-    border-radius: 4px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
-    transition-duration: 100ms;
-}
-
 .btn-edit:hover,
 .btn-table-edit:hover {
     background: #ca8a04;
@@ -127,22 +161,32 @@ hr,
     transform: scale(1.05);
 }
 
-.btn-cancel,
-.btn-table-cancel {
+.btn-remove,
+.btn-table-remove {
     background: var(--color-red);
+    width: 100px;
+    font-size: 14px;
+    line-height: 20px;
+    font-weight: 600;
+    margin-right: 8px;
+    padding: 6px 0;
     color: var(--color-text);
-    border-radius: 4px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     transition-duration: 100ms;
+    transition-delay: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 4px;
 }
 
-.btn-cancel:hover,
-.btn-table-cancel:hover {
+.btn-remove:hover,
+.btn-table-remove:hover {
     background: #b91c1c;
     color: var(--color-text);
     transform: scale(1.05);
 }
 
+.changeEvacuationStatus {
+    background-image: none;
+}
 /* Button End Section */
 
 /* Main Content Start Here */
@@ -219,6 +263,7 @@ hr,
 
 .sidebar ul li a:hover {
     background: var(--color-red);
+    color: var(--color-text);
 }
 
 .sidebar ul li i {
@@ -245,7 +290,6 @@ hr,
 .sidebar:hover .user-details {
     display: block;
 }
-
 
 #btn-sidebar-mobile,
 #btn-sidebar-close {
@@ -324,7 +368,8 @@ hr,
     position: relative;
     overflow: hidden;
     border-radius: 6px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .widget-logo {
@@ -408,7 +453,8 @@ hr,
     z-index: -50;
     position: relative;
     background: var(--color-text);
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     border-radius: 4px;
 }
 
@@ -432,7 +478,8 @@ hr,
     display: flex;
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     justify-content: center;
     align-items: center;
     color: var(--color-gray);
@@ -480,7 +527,7 @@ hr,
     display: flex;
 }
 
-.about-content>div {
+.about-content > div {
     margin: 0 16px;
 }
 
@@ -489,7 +536,8 @@ hr,
     padding: 24px;
     background: #475569;
     color: var(--color-text);
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 #editAddressModal {
@@ -506,7 +554,8 @@ hr,
     padding: 24px;
     background: #475569;
     color: var(--color-text);
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .number-section .font-bold a {
@@ -538,7 +587,8 @@ hr,
     background: var(--color-text);
     padding: 8px 0;
     font-weight: 700;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .details-section {
@@ -592,90 +642,24 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-#evacueeInfoForm input {
-    width: 100%;
-    margin: 8px 0;
-    padding: 0 12px;
-    border-radius: 5px;
-    font-weight: 400;
-    font-size: 0.875rem;
-    border: 2px solid #94a3b8;
-    height: 44px;
-    transition-timing-function: linear;
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-}
-
 #evacueeInfoForm .checkbox-container {
     display: flex;
     align-items: center;
     gap: 8px;
 }
 
-#evacueeInfoForm .check-box label {
+#evacueeInfoForm label {
     margin-bottom: 0;
 }
 
-#evacueeInfoForm .input-container {
-
-    position: relative;
-    width: 100%;
-    margin-bottom: 12px;
-    padding: 0 24px;
-}
-
-#evacueeInfoForm select {
-    width: 100%;
-    margin: 8px 0;
-    padding: 0 12px;
-    border-radius: 5px;
-    font-weight: 400;
-    font-size: 0.875rem;
-    border: 2px solid #94a3b8;
-    height: 44px;
-    transition-timing-function: linear;
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-}
-
 .evacueeArchiveSelect select {
-    width: 250px;
-    margin: 8px 0;
-    padding: 0 12px;
-    border-radius: 5px;
-    font-weight: 400;
-    font-size: 0.875rem;
-    border: 2px solid #94a3b8;
-    height: 44px;
-    transition-timing-function: linear;
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
-}
-
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-
-span.error {
-    color: #ef4444;
-    font-size: 12px;
-    font-family: Montserrat, san-serif;
-    font-style: italic;
-}
-
-.evacueeTable th,
-.evacueeTable td,
-.archivedEvacueeTable th,
-.archivedEvacueeTable td {
-    text-align: center !important;
-    vertical-align: middle !important;
+    width: 270px;
+    height: 40px;
 }
 
 .checkbox {
     transform: scale(1.25);
+    accent-color: var(--color-primary);
 }
 
 /* Recording Evacuee End Section */
@@ -708,7 +692,7 @@ span.error {
         display: contents;
     }
 
-    .about-content>div {
+    .about-content > div {
         margin: 26px 0;
     }
 }
@@ -829,6 +813,18 @@ span.error {
     .bottom-section p {
         font-size: 12px;
         padding: 5px 0;
+    }
+}
+
+@media only screen and (max-width: 466px) {
+    .actionContainer {
+        flex-wrap: wrap;
+    }
+
+    .actionContainer button,
+    .actionContainer select {
+        margin-top: 2px;
+        margin-bottom: 2px;
     }
 }
 

@@ -93,7 +93,7 @@
                         <header class="text-2xl font-semibold mb-3">Archived Evacuee Informations</header>
                         <table class="table archivedEvacueeTable table-striped table-light align-middle" width="100%">
                             <thead class="thead-light text-justify">
-                                <tr class="table-row">
+                                <tr>
                                     <th>House Hold #</th>
                                     <th>Full Name</th>
                                     <th>Sex</th>
@@ -140,12 +140,12 @@
                     [1, 'asc']
                 ],
                 language: {
-                    emptyTable: 'No evacuee data available'
+                    emptyTable: 'No evacuee data recorded'
                 },
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('get.evacuee.info') }}",
+                ajax: "{{ route('evacuee.info.get') }}",
                 columns: [{
                         data: 'id',
                         name: 'id',
@@ -501,10 +501,10 @@
                     modal = $('#evacueeInfoFormModal');
 
                 if (operation == 'record') {
-                    url = "{{ route('record.evacuee') }}";
+                    url = "{{ route('evacuee.info.record') }}";
                     type = "POST";
                 } else {
-                    url = "{{ route('update.evacuee.info', 'evacueeId') }}".replace('evacueeId', evacueeId);
+                    url = "{{ route('evacuee.info.update', 'evacueeId') }}".replace('evacueeId', evacueeId);
                     type = "PUT";
                     hideModal = true;
                 }
@@ -616,7 +616,7 @@
                                 data: {
                                     evacueeIds: id,
                                 },
-                                url: "{{ route('update.evacuee.dateout') }}",
+                                url: "{{ route('evacuee.info.update.dateout') }}",
                                 type: "PATCH",
                                 dataType: 'json',
                                 success: function(response) {
@@ -660,12 +660,12 @@
                     [1, 'asc']
                 ],
                 language: {
-                    emptyTable: 'No archived evacuee data available'
+                    emptyTable: 'No archived evacuee data'
                 },
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('get.archived.evacuee.info', 'disasterInfo') }}".replace(
+                ajax: "{{ route('evacuee.info.get.archived', 'disasterInfo') }}".replace(
                     'disasterInfo',
                     'None'),
                 columns: [{
@@ -760,7 +760,7 @@
                 $('#archiveEvacueeDataFlashflood').val('None');
 
                 initializeDataTable(
-                    "{{ route('get.archived.evacuee.info', 'disasterId') }}".replace(
+                    "{{ route('evacuee.info.get.archived', 'disasterId') }}".replace(
                         'disasterId', $(this).val())
                 );
             });
@@ -769,7 +769,7 @@
                 $('#archiveEvacueeDataTyphoon').val('None');
 
                 initializeDataTable(
-                    "{{ route('get.archived.evacuee.info', 'disasterId') }}".replace(
+                    "{{ route('evacuee.info.get.archived', 'disasterId') }}".replace(
                         'disasterId', $(this).val())
                 );
             });
