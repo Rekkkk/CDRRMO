@@ -66,7 +66,9 @@ class ReportAccidentController extends Controller
     public function addAccidentReport(Request $request)
     {
         $validatedAccidentReport = Validator::make($request->all(), [
-            'photo' => 'image|mimes:jpeg|max:2048'
+            'description' => 'required',
+            'location' => 'required',
+            'photo' => 'required|image|mimes:jpeg|max:2048'
         ]);
 
         if ($validatedAccidentReport->passes()) {

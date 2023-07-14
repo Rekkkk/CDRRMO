@@ -92,7 +92,7 @@
                             <span class="links_name">Evacuation Center Locator</span>
                         </a>
                     </li>
-                    @if (auth()->user()->position === 'President')
+                    @if (auth()->user()->position === 'Focal')
                         <li>
                             <a href="{{ route('account.display.users') }}">
                                 <i class="bi bi-person-gear text-white"></i>
@@ -109,7 +109,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('resident.evacuation.center') }}">
+                        <a href="{{ route('evacuation.center.locator') }}">
                             <i class="bi bi-house text-white"></i>
                             <span class="links_name">Evacuation Center Locator</span>
                         </a>

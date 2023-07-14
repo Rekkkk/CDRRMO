@@ -48,9 +48,21 @@ class EvacueeController extends Controller
 
     public function recordEvacueeInfo(Request $request)
     {
-        $validateFullName = Validator::make($request->all(), ['fullName' => 'required']);
+        $validateEvacuee = Validator::make($request->all(), [
+            'houseHoldNumber' => 'required',
+            'fullName' => 'required',
+            'sex' => 'required',
+            'age' => 'required',
+            'dateEntry' => 'required',
+            'dateOut' => 'required',
+            'barangay' => 'required',
+            'disasterType' => 'required',
+            'typhoon' => 'required',
+            'flashflood' => 'required',
+            'evacuationAssigned' => 'required'
+        ]);
 
-        if (!$validateFullName->passes())
+        if (!$validateEvacuee->passes())
             return response()->json(['condition' => 0]);
 
         $disasterId = null;
@@ -91,9 +103,21 @@ class EvacueeController extends Controller
 
     public function updateEvacueeInfo($evacueeId, Request $request)
     {
-        $validateFullName = Validator::make($request->all(), ['fullName' => 'required']);
+        $validateEvacuee = Validator::make($request->all(), [
+            'houseHoldNumber' => 'required',
+            'fullName' => 'required',
+            'sex' => 'required',
+            'age' => 'required',
+            'dateEntry' => 'required',
+            'dateOut' => 'required',
+            'barangay' => 'required',
+            'disasterType' => 'required',
+            'typhoon' => 'required',
+            'flashflood' => 'required',
+            'evacuationAssigned' => 'required'
+        ]);
 
-        if (!$validateFullName->passes())
+        if (!$validateEvacuee->passes())
             return response()->json(['condition' => 0]);
 
         $disasterId = $evacuationAssigned = null;

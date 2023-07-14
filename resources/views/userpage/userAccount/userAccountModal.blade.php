@@ -9,7 +9,7 @@
                     @csrf
                     <input type="text" id="accountId" hidden>
                     <input type="text" id="operation" hidden>
-                    @if (auth()->user()->position == 'President')
+                    @if (auth()->user()->position == 'President' || auth()->user()->position == 'Focal')
                         <div class="mb-3" id="organization-container">
                             <label for="organization" class="flex items-center justify-center">Organization</label>
                             <select type="text" name="organization" class="form-select" autocomplete="off"
@@ -21,8 +21,8 @@
                         </div>
                         <div class="mb-3" id="position-container">
                             <label for="position" class="flex items-center justify-center">Position</label>
-                            <select type="text" name="position" class="form-select" id="position"
-                                autocomplete="off" placeholder="Enter Position">
+                            <select type="text" name="position" class="form-select" id="position" autocomplete="off"
+                                placeholder="Enter Position">
                                 <option value="">Select Position</option>
                                 <option value="President">President</option>
                                 <option value="Focal">Focal</option>

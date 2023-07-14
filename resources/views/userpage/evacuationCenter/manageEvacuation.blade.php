@@ -23,13 +23,13 @@
                 <span class="text-xl font-bold tracking-wider">MANAGE EVACUATION CENTER</span>
             </div>
             <hr class="mt-4">
-            <div class=" flex justify-end my-3">
+            <div class=" flex justify-end my-2">
                 <button class="btn-submit p-2" id="addEvacuationCenter">
                     <i class="bi bi-house-down-fill pr-2"></i>
                     Add Evacuation Center
                 </button>
             </div>
-            <div class="table-container my-3 p-3 bg-slate-50 shadow-lg flex rounded-lg">
+            <div class="table-container my-2 p-3 bg-slate-50 shadow-lg flex rounded-lg">
                 <div class="block w-full overflow-auto">
                     <header class="text-2xl font-semibold mb-3">Evacuation Centers</header>
                     <table class="table evacuationCenterTable table-striped table-light align-middle"
