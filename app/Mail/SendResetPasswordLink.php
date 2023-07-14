@@ -12,8 +12,11 @@ class SendResetPasswordLink extends Mailable
 {
     use Queueable, SerializesModels;
 
-    public function __construct()
+    public $token;
+
+    public function __construct($token)
     {
+        $this->token = $token;
     }
 
     public function envelope(): Envelope
@@ -26,7 +29,7 @@ class SendResetPasswordLink extends Mailable
     public function content(): Content
     {
         return new Content(
-            view: 'authentication.resetPassword',
+            view: 'authentication.resetPasswordLink',
         );
     }
 

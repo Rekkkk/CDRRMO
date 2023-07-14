@@ -13,8 +13,9 @@ Route::controller(AuthenticationController::class)->group(function () {
     Route::post('/', 'authUser')->name('login');
     Route::get('/logout', 'logout')->name('logout.user');
     Route::get('/recoverAccount', 'recoverAccount')->name('recoverAccount');
-    Route::get('/findAccount', 'findAccount')->name('findAccount');
-    Route::get('/sendResetPasswordLink', 'sendResetPasswordLink')->name('sendResetPasswordLink');
+    Route::post('/findAccount', 'findAccount')->name('findAccount');
+    Route::get('/resetPasswordForm/{token}', 'resetPasswordForm')->name('resetPasswordForm');
+    Route::post('resetPassword', 'resetPassword')->name('resetPassword');
 
     Route::middleware('check.login')->group(function () {
         Route::view('/', 'authentication/authUser')->name('home');
