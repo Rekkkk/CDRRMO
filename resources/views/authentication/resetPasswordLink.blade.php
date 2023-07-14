@@ -31,7 +31,7 @@
     <hr>
 
     <center>
-        <a href="#" id="btn-reset">Reset Password Link</a>
+        <a href="{{ route('resetPasswordForm', $token) }}" id="btn-reset">Reset Password Link</a>
     </center>
 
     <hr>

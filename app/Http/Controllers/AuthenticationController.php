@@ -8,7 +8,10 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use App\Mail\SendResetPasswordLink;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class AuthenticationController extends Controller
 {
@@ -79,36 +82,63 @@ class AuthenticationController extends Controller
 
     public function findAccount(Request $request)
     {
-        session()->flush();
+        $verifyEmailValidate = Validator::make($request->all(), [
+            'email' => 'required|email|exists:user'
+        ]);
 
-        $userAccount = $this->user->where('email', $request->email)->first();
+        if ($verifyEmailValidate->passes()) {
+            try {
+                $token = Str::random(64);
+                DB::table('password_resets')->insert([
+                    'email' => $request->email,
+                    'token' => $token,
+                    'created_at' => Carbon::now()
+                ]);
+                Mail::to($request->email)->send(new SendResetPasswordLink(['token' => $token]));
 
-        if ($userAccount) {
-            $obfuscatedEmail = Str::replaceFirst(
-                '@',
-                '@' . str_repeat('*', strlen($userAccount->email) - strpos($userAccount->email, '@') - 1),
-                $userAccount->email
-            );
-
-            session()->put('userEmail', $userAccount->email);
-
-            return response()->json(['status' => 1, 'account' => $obfuscatedEmail]);
-        } else {
-            return response()->json(['status' => 0]);
+                return back()->with('success', 'We have sent you an email with a link to reset your password.');
+            } catch (\Exception $e) {
+                return back()->with('error', 'Something went wrong, Please try again.');
+            }
         }
+
+        return back()->with('warning', 'Email address is not existing.');
     }
 
-    public function sendResetPasswordLink()
+    public function resetPasswordForm($token)
     {
-        $userEmail = session()->get('userEmail');
+        return view('authentication.resetPasswordForm', ['token' => $token]);
+    }
 
-        try {
-            //Mail::to($userEmail)->send(new SendResetPasswordLink());
-        } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
+    public function resetPassword(Request $request)
+    {
+        $resetPasswordValidate = Validator::make($request->all(), [
+            'email' => 'required|email|exists:user',
+            'password' => 'required|confirmed',
+            'password_confirmation' => 'required'
+        ]);
+
+        if ($resetPasswordValidate->passes()) {
+            try {
+                $updatePassword = DB::table('password_resets')
+                    ->where([
+                        'email' => $request->email,
+                        'token' => $request->token
+                    ])
+                    ->first();
+                if (!$updatePassword) {
+                    return back()->withInput()->with('error', 'Unauthorized Token!');
+                }
+
+                User::where('email', $request->email)->update(['password' => Hash::make($request->password)]);
+                DB::table('password_resets')->where(['email' => $request->email])->delete();
+                return redirect('/')->with('success', 'Your password has been changed.');
+            } catch (\Exception $e) {
+                return back()->with('error', 'Something went wrong, Please try again.');
+            }
         }
 
-        return response()->json(['status' => 1]);
+        return back()->withInput()->with('error', 'Please fill out correctly.');
     }
 
     public function logout()

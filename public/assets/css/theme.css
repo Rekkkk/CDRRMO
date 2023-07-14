@@ -335,7 +335,8 @@ hr,
     right: 15px;
 }
 
-.recover-cotainer {
+.recover-container,
+.res-password-cotainer {
     max-width: 500px;
     margin: 10% auto;
 }
