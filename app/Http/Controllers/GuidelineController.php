@@ -43,7 +43,7 @@ class GuidelineController extends Controller
     public function addGuideline(Request $request)
     {
         $validatedGuideline = Validator::make($request->all(), [
-            'type' => 'unique:guideline,type'
+            'type' => 'required|unique:guideline,type'
         ]);
 
         if ($validatedGuideline->passes()) {
@@ -67,7 +67,7 @@ class GuidelineController extends Controller
     public function updateGuideline(Request $request, $guidelineId)
     {
         $validatedGuideline = Validator::make($request->all(), [
-            'type' => 'unique:guideline,type'
+            'type' => 'required|unique:guideline,type'
         ]);
 
         if ($validatedGuideline->passes()) {
@@ -110,7 +110,7 @@ class GuidelineController extends Controller
     public function addGuide(Request $request, $guidelineId)
     {
         $validatedGuide = Validator::make($request->all(), [
-            'label' => 'unique:guide,label'
+            'label' => 'required|unique:guide,label'
         ]);
 
         if ($validatedGuide->passes()) {
@@ -135,7 +135,8 @@ class GuidelineController extends Controller
     public function updateGuide(Request $request, $guideId)
     {
         $validatedGuide = Validator::make($request->all(), [
-            'label' => 'unique:guideline,type'
+            'label' => 'required|unique:guideline,type',
+            'content' => 'required'
         ]);
 
         if ($validatedGuide->passes()) {

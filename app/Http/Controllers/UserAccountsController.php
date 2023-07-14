@@ -34,8 +34,8 @@ class UserAccountsController extends Controller
             $userAccounts = $this->user->all();
             $userId = auth()->user()->id;
 
-            $userAccounts = auth()->user()->organization == "CDRRMO" ? $userAccounts->whereNotIn('id', [$userId]) :
-                $userAccounts->where('organization', 'CSWD')->whereNotIn('id', [$userId]);
+            $userAccounts = auth()->user()->organization == "CSWD" ? $userAccounts->whereNotIn('id', [$userId]) :
+                $userAccounts->where('organization', 'CDRRMO')->whereNotIn('id', [$userId]);
 
             return DataTables::of($userAccounts)
                 ->addIndexColumn()
@@ -66,7 +66,9 @@ class UserAccountsController extends Controller
     public function createAccount(Request $request)
     {
         $validatedAccount = Validator::make($request->all(), [
-            'email' => 'email|unique:user,email'
+            'organization' => 'required',
+            'email' => 'required|email|unique:user,email',
+            'position' => 'required'
         ]);
 
         if ($validatedAccount->passes()) {
@@ -102,7 +104,9 @@ class UserAccountsController extends Controller
     public function updateAccount(Request $request, $userId)
     {
         $validatedAccount = Validator::make($request->all(), [
-            'email' => 'unique:user,email,' . $userId
+            'organization' => 'required',
+            'position' => 'required',
+            'email' => 'required|unique:user,email,' . $userId
         ]);
 
         if ($validatedAccount->passes()) {
@@ -155,18 +159,26 @@ class UserAccountsController extends Controller
 
     public function suspendAccount(Request $request, $userId)
     {
-        try {
-            $this->user->find($userId)->update([
-                'status' => 'Suspended',
-                'isSuspend' => 1,
-                'suspendTime' => Carbon::parse($request->suspend)->format('Y-m-d H:i:s')
-            ]);
-            $this->logActivity->generateLog('Suspending Account');
+        $suspendAccount = Validator::make($request->all(), [
+            'suspendTime' => 'required',
+        ]);
 
-            return response()->json(['status' => 1]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
+        if ($suspendAccount->passes()) {
+            try {
+                $this->user->find($userId)->update([
+                    'status' => 'Suspended',
+                    'isSuspend' => 1,
+                    'suspendTime' => Carbon::parse($request->suspend)->format('Y-m-d H:i:s')
+                ]);
+                $this->logActivity->generateLog('Suspending Account');
+
+                return response()->json(['status' => 1]);
+            } catch (\Exception $e) {
+                return response()->json(['status' => 0]);
+            }
         }
+
+        return response()->json(['status' => 0, 'error' => $suspendAccount->errors()->toArray()]);
     }
 
     public function openAccount($userId)
@@ -203,16 +215,26 @@ class UserAccountsController extends Controller
     {
         if (Hash::check($request->current_password, auth()->user()->password)) {
             if ($request->password == $request->confirmPassword) {
-                try {
-                    $this->user->find($userId)->update([
-                        'password' => Hash::make($request->password)
-                    ]);
-                    $this->logActivity->generateLog('Changing Password');
+                $changePasswordValidated = Validator::make($request->all(), [
+                    'current_password' => 'required',
+                    'password' => 'required',
+                    'confirmPassword' => 'required'
+                ]);
 
-                    return response()->json(['status' => 1]);
-                } catch (\Exception $e) {
-                    return response()->json(['status' => 0]);
+                if ($changePasswordValidated->passes()) {
+                    try {
+                        $this->user->find($userId)->update([
+                            'password' => Hash::make($request->password)
+                        ]);
+                        $this->logActivity->generateLog('Changing Password');
+
+                        return response()->json(['status' => 1]);
+                    } catch (\Exception $e) {
+                        return response()->json(['status' => 0]);
+                    }
                 }
+
+                return response()->json(['status' => 0, 'error' => $changePasswordValidated->errors()->toArray()]);
             } else {
                 return response()->json(['status' => 2]);
             }
