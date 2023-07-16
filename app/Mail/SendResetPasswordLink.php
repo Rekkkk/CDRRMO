@@ -22,7 +22,7 @@ class SendResetPasswordLink extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Reset Password Link',
+            subject: '[E-LIGTAS] Reset password link',
         );
     }
 

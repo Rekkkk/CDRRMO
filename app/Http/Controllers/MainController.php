@@ -30,39 +30,7 @@ class MainController extends Controller
         $typhoonData = $evacuee->countEvacueeWithDisabilities('Typhoon')->first();
         $floodingData = $evacuee->countEvacueeWithDisabilities('Flashflood')->first();
 
-        $statisticData = compact(
-            'activeEvacuation',
-            'inActiveEvacuation',
-            'inEvacuationCenter',
-            'isReturned'
-        );
-
-        if ($typhoonData) {
-            $typhoonData = $typhoonData->toArray();
-            $statisticData['typhoon4Ps'] = intval($typhoonData['fourps']);
-            $statisticData['typhoonPWD'] = intval($typhoonData['PWD']);
-            $statisticData['typhoonPregnant'] = intval($typhoonData['pregnant']);
-            $statisticData['typhoonLactating'] = intval($typhoonData['lactating']);
-            $statisticData['typhoonStudent'] = intval($typhoonData['student']);
-            $statisticData['typhoonWorking'] = intval($typhoonData['working']);
-        }
-
-        if ($floodingData) {
-            $floodingData = $floodingData->toArray();
-            $statisticData['flooding4Ps'] = intval($floodingData['fourps']);
-            $statisticData['floodingPWD'] = intval($floodingData['PWD']);
-            $statisticData['floodingPregnant'] = intval($floodingData['pregnant']);
-            $statisticData['floodingLactating'] = intval($floodingData['lactating']);
-            $statisticData['floodingStudent'] = intval($floodingData['student']);
-            $statisticData['floodingWorking'] = intval($floodingData['working']);
-        }
-
-        $statisticData['typhoonMaleData'] = $evacuee->countEvacuee('Typhoon', 'Male');
-        $statisticData['typhoonFemaleData'] = $evacuee->countEvacuee('Typhoon', 'Female');
-        $statisticData['flashfloodMaleData'] = $evacuee->countEvacuee('Flashflood', 'Male');
-        $statisticData['flashfloodFemaleData'] = $evacuee->countEvacuee('Flashflood', 'Female');
-
-        return view('userpage.dashboard',  $statisticData);
+        return view('userpage.dashboard',  compact('activeEvacuation', 'inActiveEvacuation', 'inEvacuationCenter', 'isReturned'));
     }
 
     public function generateExcelEvacueeData()
