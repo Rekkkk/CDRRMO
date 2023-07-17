@@ -18,7 +18,7 @@
                                 href="{{ route('account.display.profile') }}"><i class="bi bi-person-circle pr-2"></i>My
                                 Profile</a></li>
                     @endcan
-                    <li class="px-2"><a class="dropdown-item rounded-sm hover:bg-gray-200 active:bg-red-600"
+                    <li class="px-2" id="logoutBtn"><a class="dropdown-item rounded-sm hover:bg-gray-200 active:bg-red-600"
                             href="{{ route('logout.user') }}"><i class="bi bi-box-arrow-in-left pr-2"></i>Logout</a>
                     </li>
                 </ul>

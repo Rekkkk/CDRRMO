@@ -12,7 +12,18 @@ document.addEventListener('click', function (object) {
         const target = object.target.id == 'showPassword' ? password : object.target.id == 'showConfirmPassword' ? cPassword : authPassword;
         target.type = target.type == 'password' ? 'text' : 'password';
         object.target.classList.toggle("bi-eye");
+    } else if (object.target.parentElement.className == 'menuLink') {
+        localStorage.setItem('activeLink', $(object.target.parentElement).attr('href'));
+    } else if (object.target.parentElement.id == 'logoutBtn' || object.target.parentElement.id == 'loginLink') {
+        localStorage.removeItem("activeLink");
     }
+});
+
+$(document).ready(function () {
+    localStorage.getItem('activeLink') ?
+        $('.menuLink[href="' + localStorage.getItem('activeLink') + '"]').
+            addClass('activeLink') :
+        $('.menuLink').first().addClass('activeLink');
 });
 
 function confirmModal(text) {

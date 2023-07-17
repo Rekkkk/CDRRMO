@@ -275,10 +275,22 @@ hr,
     display: flex;
     align-items: center;
     white-space: nowrap;
+    margin: 5px;
+    border-radius: 5px;
 }
 
-.sidebar ul li a:hover {
+.sidebar ul li a:not(.activeLink):hover {
+    background: rgb(170, 170, 170);
+    color: var(--color-text);
+}
+
+.activeLink {
     background: var(--color-red);
+    color: var(--color-text);
+}
+
+.sidebar ul li i {
+    margin-left: -2px;
     color: var(--color-text);
 }
 

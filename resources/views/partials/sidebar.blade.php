@@ -23,79 +23,79 @@
             <ul class="nav_list">
                 @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
                     <li>
-                        <a href="{{ route('dashboard.cdrrmo') }}">
-                            <i class="bi bi-speedometer2 text-white"></i>
+                        <a href="{{ route('dashboard.cdrrmo') }}" class="menuLink">
+                            <i class="bi bi-speedometer2"></i>
                             <span class="links_name">Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('guideline.display') }}">
-                            <i class="bi bi-book text-white"></i>
+                        <a href="{{ route('guideline.display') }}" class="menuLink">
+                            <i class="bi bi-book"></i>
                             <span class="links_name">E-LIGTAS Guideline</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('display.report.accident') }}">
-                            <i class="bi bi-megaphone text-white"></i>
+                        <a href="{{ route('display.report.accident') }}" class="menuLink">
+                            <i class="bi bi-megaphone"></i>
                             <span class="links_name">Report Incident</span>
                         </a>
                     </li>
                     @if (auth()->user()->position == 'President')
                         <li>
-                            <a href="{{ route('account.display.users') }}">
-                                <i class="bi bi-person-gear text-white"></i>
+                            <a href="{{ route('account.display.users') }}" class="menuLink">
+                                <i class="bi bi-person-gear"></i>
                                 <span class="links_name">Manage User Accounts</span>
                             </a>
                         </li>
                     @endif
                     <li>
-                        <a href="{{ route('hotline.number') }}">
-                            <i class="bi bi-telephone text-white"></i>
+                        <a href="{{ route('hotline.number') }}" class="menuLink">
+                            <i class="bi bi-telephone"></i>
                             <span class="links_name">Hotline Numbers</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('about') }}">
-                            <i class="bi bi-info-circle text-white"></i>
+                        <a href="{{ route('about') }}" class="menuLink">
+                            <i class="bi bi-info-circle"></i>
                             <span class="links_name">About</span>
                         </a>
                     </li>
                 @endif
                 @if (auth()->check() && auth()->user()->organization == 'CSWD')
                     <li>
-                        <a href="{{ route('dashboard.cswd') }}">
-                            <i class="bi bi-speedometer2 text-white"></i>
+                        <a href="{{ route('dashboard.cswd') }}" class="menuLink">
+                            <i class="bi bi-speedometer2"></i>
                             <span class="links_name">Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('manage.evacuee.record') }}">
-                            <i class="bi bi-people text-white"></i>
+                        <a href="{{ route('manage.evacuee.record') }}" class="menuLink">
+                            <i class="bi bi-people"></i>
                             <span class="links_name">Manage Evacuee Information</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('guideline.display') }}">
-                            <i class="bi bi-book text-white"></i>
+                        <a href="{{ route('guideline.display') }}" class="menuLink">
+                            <i class="bi bi-book"></i>
                             <span class="links_name">E-LIGTAS Guideline</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('manage.evacuation') }}">
-                            <i class="bi bi-house-gear text-white"></i>
+                        <a href="{{ route('manage.evacuation') }}" class="menuLink">
+                            <i class="bi bi-house-gear"></i>
                             <span class="links_name">Manage Evacuation Center</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('evacuation.center.locator') }}">
-                            <i class="bi bi-house text-white"></i>
+                        <a href="{{ route('evacuation.center.locator') }}" class="menuLink">
+                            <i class="bi bi-house"></i>
                             <span class="links_name">Evacuation Center Locator</span>
                         </a>
                     </li>
                     @if (auth()->user()->position === 'Focal')
                         <li>
-                            <a href="{{ route('account.display.users') }}">
-                                <i class="bi bi-person-gear text-white"></i>
+                            <a href="{{ route('account.display.users') }}" class="menuLink">
+                                <i class="bi bi-person-gear"></i>
                                 <span class="links_name">Manage CSWD Accounts</span>
                             </a>
                         </li>
@@ -103,38 +103,38 @@
                 @endif
                 @guest
                     <li>
-                        <a href="{{ route('resident.guideline') }}">
-                            <i class="bi bi-book text-white"></i>
+                        <a href="{{ route('resident.guideline') }}" class="menuLink">
+                            <i class="bi bi-book"></i>
                             <span class="links_name">E-LIGTAS Guidelines</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('resident.evacuation.center.locator') }}">
-                            <i class="bi bi-house text-white"></i>
+                        <a href="{{ route('resident.evacuation.center.locator') }}" class="menuLink">
+                            <i class="bi bi-house"></i>
                             <span class="links_name">Evacuation Center Locator</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('resident.display.report.accident') }}">
-                            <i class="bi bi-megaphone text-white"></i>
+                        <a href="{{ route('resident.display.report.accident') }}" class="menuLink">
+                            <i class="bi bi-megaphone"></i>
                             <span class="links_name">Report Incident</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('resident.hotline.number') }}">
-                            <i class="bi bi-telephone text-white"></i>
+                        <a href="{{ route('resident.hotline.number') }}" class="menuLink">
+                            <i class="bi bi-telephone"></i>
                             <span class="links_name">Hotline Numbers</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('resident.about') }}">
-                            <i class="bi bi-info-circle text-white"></i>
+                        <a href="{{ route('resident.about') }}" class="menuLink">
+                            <i class="bi bi-info-circle"></i>
                             <span class="links_name">About</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('login') }}">
-                            <i class="bi bi-box-arrow-in-right text-white"></i>
+                        <a href="{{ route('login') }}" id="loginLink">
+                            <i class="bi bi-box-arrow-in-right"></i>
                             <span class="links_name">Login</span>
                         </a>
                     </li>
