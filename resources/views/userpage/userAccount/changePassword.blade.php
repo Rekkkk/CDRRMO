@@ -20,37 +20,41 @@
                 <span class="text-xl font-bold ml-2">CHANGE PASSWORD</span>
             </div>
             <hr class="mt-4">
-            <div class="form-container mt-3">
-                <form id="changePasswordForm" class="bg-slate-50 rounded drop-shadow-xl">
-                    @csrf
-                    <div class="text-center py-3 bg-green-600 text-white rounded-t">
-                        <h1 class="text-lg font-bold ">Change Password</h1>
-                    </div>
-                    <hr>
-                    <div class="form-content">
-                        <div class="mb-2">
-                            <label>Current Password</label>
-                            <input type="text" name="current_password" class="form-control" id="current_password"
-                                autocomplete="off">
-                            <span class="text-xs text-red-600 italic" id="currentPassword"></span>
+            <div class="form-container mt-3 flex justify-center">
+                <div class="w-full sm:w-10/12 md:w-8/12 lg:w-6/12 xl:w-4/12">
+                    <form id="changePasswordForm" class="bg-slate-50 rounded drop-shadow-xl">
+                        @csrf
+                        <div class="text-center py-3 bg-green-600 text-white rounded-t">
+                            <h1 class="text-lg font-bold">Change Password</h1>
                         </div>
-                        <div class="mb-2 relative">
-                            <label>New Password</label>
-                            <input type="password" name="password" id="password" class="form-control"
-                                autocomplete="off" disabled>
-                            <i class="bi bi-eye-slash absolute cursor-pointer text-xl mt-1" id="showPassword"></i>
+                        <hr>
+                        <div class="form-content">
+                            <div class="mb-2">
+                                <label>Current Password</label>
+                                <input type="text" name="current_password" class="form-control" id="current_password"
+                                    autocomplete="off">
+                                <span class="text-xs text-red-600 italic" id="currentPassword"></span>
+                            </div>
+                            <div class="mb-2 relative">
+                                <label>New Password</label>
+                                <input type="password" name="password" id="password" class="form-control"
+                                    autocomplete="off" disabled>
+                                <i class="bi bi-eye-slash absolute cursor-pointer text-xl mt-1" id="showPassword"></i>
+                            </div>
+                            <div class="mb-2 relative">
+                                <label>Confirm Password</label>
+                                <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
+                                    autocomplete="off" onpaste="return false;" disabled>
+                                <i class="bi bi-eye-slash absolute cursor-pointer text-xl mt-1"
+                                    id="showConfirmPassword"></i>
+                            </div>
+                            <div class="mt-4 flex justify-end">
+                                <button id="changePasswordBtn" class="btn-submit p-2 mb-3"
+                                    disabled>Change</button>
+                            </div>
                         </div>
-                        <div class="mb-2 relative">
-                            <label>Confirm Password</label>
-                            <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
-                                autocomplete="off" onpaste="return false;" disabled>
-                            <i class="bi bi-eye-slash absolute cursor-pointer text-xl mt-1" id="showConfirmPassword"></i>
-                        </div>
-                        <div class="mt-4">
-                            <button id="changePasswordBtn" class="btn-submit p-2 float-right mb-3" disabled>Change</button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
@@ -111,7 +115,7 @@
                 }, 500));
             });
 
-            let validator = $("#changePasswordForm").validate({
+            $("#changePasswordForm").validate({
                 rules: {
                     current_password: {
                         required: true
