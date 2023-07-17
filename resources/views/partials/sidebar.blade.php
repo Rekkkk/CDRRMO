@@ -109,7 +109,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('evacuation.center.locator') }}">
+                        <a href="{{ route('resident.evacuation.center.locator') }}">
                             <i class="bi bi-house text-white"></i>
                             <span class="links_name">Evacuation Center Locator</span>
                         </a>

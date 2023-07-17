@@ -16,10 +16,10 @@
                         <i class="bi bi-file-earmark-richtext p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold tracking-wider">GUIDES</span>
+                <span class="text-xl font-bold ml-2">GUIDES</span>
             </div>
             <hr class="mt-3">
-            <div class="guide-btn flex justify-end my-2">
+            <div class="guide-btn flex justify-end my-3">
                 @can('create', \App\Models\User::class)
                     <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 font-medium">
                         <i class="bi bi-plus-lg mr-2"></i> Create Guide

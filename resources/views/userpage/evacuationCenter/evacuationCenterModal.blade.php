@@ -10,12 +10,10 @@
                     <div class="bg-slate-50 pt-3 pb-2 rounded">
                         <div class="flex-auto">
                             <div class="flex flex-wrap">
-                                <div class="field-container hidden">
-                                    <input type="text" id="operation">
-                                </div>
+                                <input type="text" id="operation" hidden>
                                 <div class="field-container">
                                     <label>Name</label>
-                                    <input type="text" name="name" class="placeholder-opacity-100"
+                                    <input type="text" name="name" class="form-control"
                                         autocomplete="off" placeholder="Enter Name">
                                 </div>
                                 <div class="field-container">
@@ -44,18 +42,12 @@
                                 </div>
                                 <div class="field-container">
                                     <label>Location</label>
-                                    <div class="border-2 rounded-md border-slate-400">
+                                    <div class="border-2 rounded-md mb-2 border-slate-400">
                                         <div class="h-96 rounded" id="map"></div>
                                     </div>
+                                    <input type="text" name="latitude" hidden>
+                                    <input type="text" name="longitude" hidden>
                                     <span id="location-error" class="error"></span>
-                                </div>
-                                <div class="field-container hidden">
-                                    <label>Latitude</label>
-                                    <input type="text" name="latitude">
-                                </div>
-                                <div class="field-container hidden">
-                                    <label>Longitude</label>
-                                    <input type="text" name="longitude">
                                 </div>
                                 <div class="w-full px-4 mt-4">
                                     <button id="saveEvacuationCenterBtn"

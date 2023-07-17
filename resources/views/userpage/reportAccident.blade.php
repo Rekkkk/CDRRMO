@@ -24,10 +24,10 @@
                         <i class="bi bi-megaphone p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold tracking-wider">REPORT INCIDENT</span>
+                <span class="text-xl font-bold">REPORT INCIDENT</span>
             </div>
-            <hr class="mt-3">
-            <div class="report-table bg-slate-50 shadow-lg p-4 rounded my-4">
+            <hr class="mt-4">
+            <div class="report-table bg-slate-50 shadow-lg p-4 rounded my-3">
                 <header class="text-2xl font-semibold">Pending Accident Report</header>
                 <table class="table pendingReport display nowrap" style="width:100%">
                     <thead>
@@ -44,7 +44,7 @@
                     </tbody>
                 </table>
             </div>
-            <div class="report-table bg-slate-50 shadow-lg p-4 rounded mb-4">
+            <div class="report-table bg-slate-50 shadow-lg p-4 rounded mb-3">
                 <header class="text-2xl font-semibold">Incident Report</header>
                 <table class="table incidentReports display nowrap" style="width:100%">
                     <thead>

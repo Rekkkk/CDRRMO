@@ -17,11 +17,11 @@
                         <i class="bi bi-speedometer2 p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold tracking-wider">DASHBOARD</span>
+                <span class="text-xl font-bold ml-2">DASHBOARD</span>
             </div>
-            <hr class="mt-3">
+            <hr class="mt-4">
             @can('generateData', \App\Models\User::class)
-                <div class="flex justify-end my-2">
+                <div class="flex justify-end my-3">
                     <form action="{{ route('generate.evacuee.data') }}" method="POST" target="__blank">
                         @csrf
                         <button typ="submit" class="btn-submit float-right p-2 font-medium">

@@ -17,51 +17,51 @@
                         <i class="bi bi-person-circle p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold tracking-wider">MY PROFILE</span>
+                <span class="text-xl font-bold ml-2">MY PROFILE</span>
             </div>
             <hr class="mt-4">
-            <div class="user-profile-container rounded shadow-lg mt-4">
+            <div class="user-profile-container rounded shadow-lg mt-3">
                 @include('userpage.userAccount.userAccountModal')
-                <div class="profile-section flex justify-center items-center pt-4 pb-2">
-                    <div class="bg-slate-300 w-60 h-60 rounded-full overflow-hidden border-4 border-indigo-500">
+                <div class="profile-section flex justify-center items-center py-3">
+                    <div class="bg-slate-300 w-60 h-60 rounded-full overflow-hidden border-4 border-blue-500">
                         <img src="{{ asset('assets/img/profile.png') }}" alt="Profile" id="profile">
                     </div>
                 </div>
                 <div class="flex justify-end pb-2 pr-4">
                     @can('editProfile', \App\Models\User::class)
-                        <button class="btn-edit top-50 right-0 p-2 rounded font-medium" id="editProfileBtn">
+                        <button class="btn-edit w-36" id="editProfileBtn">
                             <i class="bi bi-pencil pr-2"></i>
                             Edit Profile
                         </button>
                     @endcan
                 </div>
-                <hr class="mx-6 mb-4">
+                <hr class="mx-6 mb-3">
                 <form id='userProfileForm' class="relative flex-auto">
-                    <div class="flex flex-wrap text-center">
+                    <div class="flex flex-wrap text-center pb-2">
                         <div class="details-section lg:w-2/12">
-                            <label class="bg-red-700 profile-details-label">Position</label>
-                            <p class="profile-details">{{ auth()->user()->position }}</p>
+                            <label class="bg-red-700 rounded-t profile-details-label">Position</label>
+                            <p class="profile-details rounded-b">{{ auth()->user()->position }}</p>
                         </div>
-                        <div class="details-section lg:w-5/12">
+                        <div class="details-section lg:w-4/12">
                             @if (auth()->user()->organization == 'CDRRMO')
-                                <label class="bg-red-700 profile-details-label">Organization</label>
-                                <p class="profile-details">Cabuyao Disaster Risk Reduction
+                                <label class="bg-red-700 rounded-t profile-details-label">Organization</label>
+                                <p class="profile-details rounded-b">Cabuyao Disaster Risk Reduction
                                     and Management Office ({{ auth()->user()->organization }})</p>
                             @else
-                                <label class="bg-green-600 profile-details-label">Organization</label>
-                                <p class="profile-details">City Social Welfare and
+                                <label class="bg-green-600 rounded-t profile-details-label">Organization</label>
+                                <p class="profile-details rounded-b">City Social Welfare and
                                     Development ({{ auth()->user()->organization }})
                                 </p>
                             @endif
                         </div>
-                        <div class="details-section lg:w-3/12">
-                            <label class="bg-red-700 profile-details-label">Email
+                        <div class="details-section lg:w-4/12">
+                            <label class="bg-red-700 rounded-t profile-details-label">Email
                                 Address</label>
-                            <p class="profile-details">{{ auth()->user()->email }}</p>
+                            <p class="profile-details rounded-b">{{ auth()->user()->email }}</p>
                         </div>
                         <div class="details-section lg:w-2/12">
-                            <label class="bg-red-700 profile-details-label">Account Status</label>
-                            <p class="profile-details">{{ auth()->user()->status }}</p>
+                            <label class="bg-red-700 rounded-t profile-details-label">Account Status</label>
+                            <p class="profile-details rounded-b">{{ auth()->user()->status }}</p>
                         </div>
                     </div>
                 </form>
@@ -85,7 +85,7 @@
 
                 $('#editProfileBtn').click(function() {
                     $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                    $('.modal-title').text('Edit Profile Account Form');
+                    $('.modal-title').text('Edit Profile Account');
                     $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text('Update');
                     $('#suspend-container').hide();
                     $('#operation').val('update');

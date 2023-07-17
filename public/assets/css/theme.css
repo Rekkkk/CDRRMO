@@ -29,22 +29,23 @@ input[type="number"] {
     -moz-appearance: textfield;
 }
 
+input::-ms-reveal,
+input::-ms-clear {
+  display: none;
+}
+
 #evacueeInfoForm input,
 #evacuationCenterForm input,
+#accountForm input,
+#changePasswordForm input,
 #evacuationCenterForm select,
-#evacueeInfoForm select {
-    width: 100%;
-    margin: 8px 0;
-    padding: 0 12px;
+#evacueeInfoForm select,
+#accountForm select {
     border-radius: 5px;
     font-weight: 400;
     font-size: 0.875rem;
     border: 2px solid #94a3b8;
     height: 44px;
-    transition-timing-function: linear;
-    transition-property: all;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    transition-duration: 150ms;
 }
 
 .field-container {
@@ -91,7 +92,7 @@ hr,
 .wrapper {
     width: 100%;
     margin: 0 auto;
-    padding: 0 20px;
+    padding: 0 10px 0 20px;
 }
 
 .header-section {
@@ -113,19 +114,37 @@ hr,
     background: var(--color-green);
     color: var(--color-text);
     border-radius: 4px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     transition-duration: 100ms;
 }
 
 .btn-submit:hover {
     color: var(--color-text);
+    background: #06782f;
+    transform: scale(1.05);
+}
+
+.btn-cancel {
+    background: var(--color-red);
+    color: var(--color-text);
+    border-radius: 4px;
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    transition-duration: 100ms;
+}
+
+.btn-cancel:hover {
+    color: var(--color-text);
+    background-color: #b91c1c;
     transform: scale(1.05);
 }
 
 .btn-primary {
     background: var(--color-primary);
     border-radius: 4px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     transition-duration: 100ms;
 }
 
@@ -140,8 +159,7 @@ hr,
     background: var(--color-yellow);
     width: 80px;
     font-size: 14px;
-    line-height: 20px;
-    font-weight: 600;
+    font-weight: 600px;
     margin-right: 8px;
     padding: 6px 0;
     color: var(--color-text);
@@ -163,8 +181,7 @@ hr,
     background: var(--color-red);
     width: 100px;
     font-size: 14px;
-    line-height: 20px;
-    font-weight: 600;
+    font-weight: 600px;
     margin-right: 8px;
     padding: 6px 0;
     color: var(--color-text);
@@ -191,7 +208,8 @@ hr,
 .main-content {
     width: 100%;
     margin: 100px auto 0;
-    padding: 0 20px 0 100px;
+    margin-bottom: 30px;
+    padding: 0 20px 0 90px;
 }
 
 /* Main End Content */
@@ -273,6 +291,7 @@ hr,
 
 .sidebar .nav_list {
     height: 100%;
+    margin-bottom: 10%;
 }
 
 .sidebar.active,
@@ -411,7 +430,7 @@ hr,
     font-weight: 700;
 }
 
-.pie-chart-container {
+.chart-container {
     display: flex;
     justify-content: flex-start;
     margin: 30px 0;
@@ -419,7 +438,7 @@ hr,
 
 #Typhoon,
 #Flashflood {
-    width: 500px;
+    width: 300px;
 }
 
 /* Dashboard End Section */
@@ -430,8 +449,8 @@ hr,
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    grid-row-gap: 30px;
-    grid-column-gap: 40px;
+    grid-row-gap: 15px;
+    grid-column-gap: 15px;
 }
 
 .horizontal-line {
@@ -450,7 +469,8 @@ hr,
     z-index: -50;
     position: relative;
     background: var(--color-text);
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     border-radius: 4px;
 }
 
@@ -475,7 +495,8 @@ hr,
     display: flex;
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     justify-content: center;
     align-items: center;
     color: var(--color-gray);
@@ -502,16 +523,13 @@ hr,
     display: flex;
 }
 
-.about-content>div {
-    margin: 0 16px;
-}
-
 .about-content .location-section {
     flex: 3;
     padding: 24px;
     background: #475569;
     color: var(--color-text);
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 #editAddressModal {
@@ -528,7 +546,8 @@ hr,
     padding: 24px;
     background: #475569;
     color: var(--color-text);
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .number-section .font-bold a {
@@ -560,7 +579,8 @@ hr,
     background: var(--color-text);
     padding: 8px 0;
     font-weight: 700;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .details-section {
@@ -618,10 +638,11 @@ input::-webkit-inner-spin-button {
     display: flex;
     align-items: center;
     gap: 8px;
+    margin: 20px 0;
 }
 
-#evacueeInfoForm label {
-    margin-bottom: 0;
+#evacueeInfoForm .checkbox-container label {
+    margin-top: 9px;
 }
 
 .evacueeArchiveSelect select {
@@ -664,8 +685,8 @@ input::-webkit-inner-spin-button {
         display: contents;
     }
 
-    .about-content>div {
-        margin: 26px 0;
+    .about-content > div {
+        margin: 15px 0;
     }
 }
 
@@ -674,7 +695,13 @@ input::-webkit-inner-spin-button {
 /* Mobile View Section */
 @media only screen and (max-width: 767px) {
     .main-content {
-        padding: 0;
+        margin-top: 90px;
+        margin-bottom: 20px;
+        padding: 0 0 0 0;
+    }
+
+    .wrapper {
+        padding: 0 20px;
     }
 
     .login-section .login-content .header-desc {
@@ -713,7 +740,7 @@ input::-webkit-inner-spin-button {
         width: 320px !important;
     }
 
-    .pie-chart-container {
+    .chart-container {
         display: contents;
     }
 
@@ -722,10 +749,8 @@ input::-webkit-inner-spin-button {
     #FlashfloodBarGraph,
     #TyphoonBarGraph {
         width: 100%;
-        margin: 20px 0;
+        margin: 15px 0;
     }
-
-
 }
 
 /* Mobile View End Section */
@@ -789,6 +814,12 @@ input::-webkit-inner-spin-button {
         padding: 5px 0;
     }
 
+    hr {
+        margin-top: 0;
+    }
+}
+
+@media only screen and (max-width: 466px) {
     .actionContainer {
         flex-wrap: wrap;
     }

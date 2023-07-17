@@ -13,13 +13,13 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-book p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-book p-2 bg-slate-600 rounded-md"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold tracking-wider">E-LIGTAS GUIDELINES</span>
+                <span class="text-xl font-bold ml-2">E-LIGTAS GUIDELINES</span>
             </div>
-            <hr class="mt-3">
-            <div class="content-item text-center pt-4">
+            <hr class="mt-4">
+            <div class="content-item text-center mt-3">
                 <div class="guideline-container">
                     @foreach ($guideline as $guidelineItem)
                         <div class="guideline-widget">

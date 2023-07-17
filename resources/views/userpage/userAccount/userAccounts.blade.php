@@ -21,31 +21,33 @@
                         <i class="bi bi-person-gear p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold tracking-wider">MANAGE ACCOUNTS</span>
+                <span class="text-xl font-bold">MANAGE ACCOUNTS</span>
             </div>
-            <hr class="mt-3">
-            <div class="account-table bg-slate-50 shadow-lg p-3 rounded mt-3">
-                <div class="flex justify-between mt-1 mb-3">
-                    <header class="text-2xl font-semibold">User Accounts Table</header>
-                    <button class="btn-submit p-2" id="createUserAccount">
-                        <i class="bi bi-person-fill-add pr-2"></i>
-                        Create User Account
-                    </button>
+            <hr class="mt-4">
+            <div class="flex justify-end my-3">
+                <button class="btn-submit p-2" id="createUserAccount">
+                    <i class="bi bi-person-fill-add pr-2"></i>
+                    Create User Account
+                </button>
+            </div>
+            <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
+                <div class="block w-full overflow-auto">
+                    <header class="text-2xl font-semibold mb-3">User Accounts Table</header>
+                    <table class="table accountTable table-striped table-light" width="100%">
+                        <thead class="thead-light">
+                            <tr>
+                                <th></th>
+                                <th>Email Address</th>
+                                <th>Organization</th>
+                                <th>Position</th>
+                                <th>Status</th>
+                                <th width="20%">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
-                <table class="table accountTable display nowrap" style="width:100%">
-                    <thead>
-                        <tr>
-                            <th></th>
-                            <th>Email Address</th>
-                            <th>Organization</th>
-                            <th>Position</th>
-                            <th>Status</th>
-                            <th style="width:20%">Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
                 @include('userpage.userAccount.userAccountModal')
             </div>
         </div>
@@ -178,7 +180,7 @@
                         });
                     } else if (selectedAction === 'editAccount') {
                         $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                        $('.modal-title').text('Edit User Account Form');
+                        $('.modal-title').text('Edit User Account');
                         $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text('Update');
                         $('#suspend-container').prop('hidden', true);
                         $('#organization').val(data['organization']);

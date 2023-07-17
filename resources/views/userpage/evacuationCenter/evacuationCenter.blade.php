@@ -7,37 +7,38 @@
 
 <body>
     <div class="wrapper">
+        @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-house p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-house p-2 bg-slate-600 rounded-md"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold tracking-wider">EVACUATION CENTER LOCATOR</span>
+                <span class="text-xl font-bold ml-2">EVACUATION CENTER LOCATOR</span>
             </div>
             <hr class="mt-4">
-            <div class="locator-content my-4 drop-shadow-2xl">
-                <div class="locator-header text-center text-white h-22 bg-red-600">
+            <div class="locator-content my-3">
+                <div class="locator-header text-center text-white h-22 bg-red-600 rounded-t">
                     <div class="text-2xl py-3">
                         <span>Cabuyao City Map</span>
                     </div>
                 </div>
-                <div class="map-section">
-                    <div class="w-full" id="map" style="height:600px;"></div>
+                <div class="map-section border-2 border-red-600 rounded-b-md">
+                    <div class="w-full rounded-b-md" id="map" style="height:600px;"></div>
                 </div>
             </div>
-            <div class="map-btn text-white">
+            <div class="map-btn text-white my-3">
                 @guest
-                    <button type="button" class="btn-submit bg-green-600 p-2 mr-4">Locate
+                    <button type="button" class="btn-submit bg-green-600 p-2 mr-3">Locate
                         Nearest Evacuation</button>
-                    <button type="button" class="btn-cancel bg-red-600 p-2">Locate
+                    <button type="button" class="btn-cancel bg-red-600 p-2 rounded">Locate
                         Current Location</button>
                 @endguest
             </div>
-            <div class="evacuation-table mt-5">
+            <div class="evacuation-table">
                 <table class="table bg-slate-50">
                     <thead>
                         <tr>
@@ -58,7 +59,7 @@
                                 <td>{{ $evacuationCenterList->status }}</td>
                                 @guest
                                     <td>
-                                        <a href="#" class="btn-cancel p-2">Locate</a>
+                                        <a href="#" class="btn-table-remove p-2">Locate</a>
                                     </td>
                                 @endguest
                             </tr>
@@ -77,7 +78,7 @@
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script
-        src="https://maps.googleapis.com/maps/api/js?key={{config('services.googleMap.key')}}&callback=initMap&v=weekly"
+        src="https://maps.googleapis.com/maps/api/js?key={{ config('services.googleMap.key') }}&callback=initMap&v=weekly"
         defer></script>
     @include('partials.toastr')
     <script>

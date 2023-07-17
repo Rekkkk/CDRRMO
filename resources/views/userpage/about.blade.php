@@ -16,11 +16,11 @@
                         <i class="bi bi-info-circle p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold tracking-wider">ABOUT</span>
+                <span class="text-xl font-bold ml-2">ABOUT</span>
             </div>
-            <hr class="my-4">
+            <hr class=" mt-4 mb-3">
             <div class="about-content">
-                <div class="location-section">
+                <div class="location-section mr-4 rounded-md">
                     <div class="text-center">
                         <span class="text-2xl font-bold">Location</span>
                     </div>
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="right-side flex flex-1 flex-col">
-                    <div class="social-section drop-shadow-2xl bg-slate-600 mb-4 text-white">
+                    <div class="social-section drop-shadow-2xl bg-slate-600 mb-3 text-white rounded-md">
                         <div class="text-center py-4">
                             <span class="text-lg font-bold">Social</span>
                         </div>
@@ -68,7 +68,7 @@
                         </a>
                     </div>
 
-                    <div class="telephone-section drop-shadow-2xl flex-1 bg-slate-600 text-white">
+                    <div class="telephone-section drop-shadow-2xl flex-1 bg-slate-600 text-white rounded-md">
                         <div class="text-center py-4 font-bold">
                             <span class="text-lg">Contact</span>
                         </div>

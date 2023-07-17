@@ -17,37 +17,37 @@
                         <i class="bi bi-person-fill-lock p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold tracking-wider">Change Password</span>
+                <span class="text-xl font-bold ml-2">CHANGE PASSWORD</span>
             </div>
-            <hr class="mt-3">
-            <div class="form-container">
-                <form id="changePasswordForm" class="m-4 bg-slate-50 rounded drop-shadow-xl">
+            <hr class="mt-4">
+            <div class="form-container mt-3">
+                <form id="changePasswordForm" class="bg-slate-50 rounded drop-shadow-xl">
                     @csrf
                     <div class="text-center py-3 bg-green-600 text-white rounded-t">
-                        <h1 class="tracking-wide text-lg font-bold px-28">Change Password Form</h1>
+                        <h1 class="text-lg font-bold ">Change Password</h1>
                     </div>
                     <hr>
                     <div class="form-content">
                         <div class="mb-2">
-                            <label class="flex items-center justify-center">Current Password</label>
+                            <label>Current Password</label>
                             <input type="text" name="current_password" class="form-control" id="current_password"
                                 autocomplete="off">
                             <span class="text-xs text-red-600 italic" id="currentPassword"></span>
                         </div>
                         <div class="mb-2 relative">
-                            <label class="flex items-center justify-center">New Password</label>
+                            <label>New Password</label>
                             <input type="password" name="password" id="password" class="form-control"
                                 autocomplete="off" disabled>
-                            <i class="bi bi-eye-slash absolute cursor-pointer text-xl" id="showPassword"></i>
+                            <i class="bi bi-eye-slash absolute cursor-pointer text-xl mt-1" id="showPassword"></i>
                         </div>
                         <div class="mb-2 relative">
-                            <label class="flex items-center justify-center">Confirm Password</label>
+                            <label>Confirm Password</label>
                             <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
                                 autocomplete="off" onpaste="return false;" disabled>
-                            <i class="bi bi-eye-slash absolute cursor-pointer text-xl" id="showConfirmPassword"></i>
+                            <i class="bi bi-eye-slash absolute cursor-pointer text-xl mt-1" id="showConfirmPassword"></i>
                         </div>
-                        <div class="mt-4 mb-2 text-center">
-                            <button id="changePasswordBtn" class="btn-submit p-2" disabled>Change</button>
+                        <div class="mt-4">
+                            <button id="changePasswordBtn" class="btn-submit p-2 float-right mb-3" disabled>Change</button>
                         </div>
                     </div>
                 </form>
