@@ -31,7 +31,7 @@ input[type="number"] {
 
 input::-ms-reveal,
 input::-ms-clear {
-  display: none;
+    display: none;
 }
 
 #evacueeInfoForm input,
@@ -260,6 +260,7 @@ hr,
 .sidebar .links_name {
     color: var(--color-text);
     opacity: 0;
+    text-align: start;
     pointer-events: none;
     overflow: hidden;
     font-size: 15px;
@@ -269,6 +270,18 @@ hr,
 .sidebar:hover .links_name {
     opacity: 1;
     pointer-events: auto;
+    width: 100%;
+}
+
+.sidebar #logo {
+    width: 55px;
+    transition: 100ms;
+}
+
+.sidebar.active #logo,
+.sidebar:hover #logo {
+    width: 100px;
+    margin-left: 15px;
 }
 
 .sidebar ul li a {
@@ -290,7 +303,7 @@ hr,
 }
 
 .sidebar ul li i {
-    margin-left: -2px;
+    margin-left: -4px;
     color: var(--color-text);
 }
 
@@ -414,21 +427,20 @@ hr,
     padding: 4px;
 }
 
-.wigdet-header{
+.wigdet-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
 }
 
-
-.content-description .wigdet-header p{
+.content-description .wigdet-header p {
     color: #000;
     font-size: 16px;
     padding: 10px 0 0;
     font-weight: 600;
     letter-spacing: 0.4px;
 }
-.wigdet-header img{
+.wigdet-header img {
     width: 30px;
 }
 
