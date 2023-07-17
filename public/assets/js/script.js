@@ -4,17 +4,19 @@ const sidebar = document.querySelector('.sidebar'),
     cPassword = document.getElementById("confirmPassword");
 
 document.addEventListener('click', function (object) {
-    if (object.target.id == 'btn-sidebar-mobile') {
+    const element = object.target;
+
+    if (element.id == 'btn-sidebar-mobile') {
         sidebar.classList.toggle('active');
-    } else if (object.target.id == 'btn-sidebar-close') {
+    } else if (element.id == 'btn-sidebar-close') {
         sidebar.classList.remove('active');
-    } else if (object.target.id == 'showPassword' || object.target.id == 'showConfirmPassword' || object.target.id == 'showAuthPassword') {
-        const target = object.target.id == 'showPassword' ? password : object.target.id == 'showConfirmPassword' ? cPassword : authPassword;
+    } else if (element.id == 'showPassword' || element.id == 'showConfirmPassword' || element.id == 'showAuthPassword') {
+        const target = element.id == 'showPassword' ? password : element.id == 'showConfirmPassword' ? cPassword : authPassword;
         target.type = target.type == 'password' ? 'text' : 'password';
-        object.target.classList.toggle("bi-eye");
-    } else if (object.target.parentElement.className == 'menuLink') {
-        localStorage.setItem('activeLink', $(object.target.parentElement).attr('href'));
-    } else if (object.target.parentElement.id == 'logoutBtn' || object.target.parentElement.id == 'loginLink') {
+        element.classList.toggle("bi-eye");
+    } else if (element.parentElement.className == 'menuLink') {
+        localStorage.setItem('activeLink', $(element.parentElement).attr('href'));
+    } else if (element.closest('#logoutBtn') || element.parentElement.id == 'loginLink') {
         localStorage.removeItem("activeLink");
     }
 });
