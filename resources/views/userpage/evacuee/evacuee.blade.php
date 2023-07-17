@@ -15,107 +15,105 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="pb-4">
-                <div class="grid grid-cols-1">
-                    <div class="grid col-end-1 mr-4">
-                        <div class="text-2xl text-white">
-                            <i class="bi bi-people p-2 bg-slate-600 rounded"></i>
-                        </div>
-                    </div>
-                    <span class="text-xl font-bold tracking-wider">MANAGE EVACUEE INFORMATION</span>
-                </div>
-                <hr class="mt-4">
-                <div class="flex flex-wrap justify-end text-white text-sm font-semibold gap-3 pt-3">
-                    <button id="returnEvacueeBtn" class="btn-primary p-2">
-                        <i class="bi bi-person-up fs-6 pr-1"></i>
-                        Returning Home
-                    </button>
-                    <button id="recordEvacueeBtn" data-toggle="modal" data-target="#evacueeInfoFormModal"
-                        class="btn-submit p-2">
-                        <i class="bi bi-person-down fs-6 pr-1"></i>
-                        Record Evacuee Info
-                    </button>
-                </div>
-                @include('userpage.evacuee.evacueeInfoFormModal')
-                <div class="table-container mt-3 mb-2 p-3 bg-slate-50 shadow-lg flex rounded-lg">
-                    <div class="block w-full overflow-auto">
-                        <header class="text-2xl font-semibold mb-3">Evacuee Informations</header>
-                        <table class="table evacueeTable table-striped table-light align-middle" width="100%">
-                            <thead class="thead-light text-justify">
-                                <tr class="table-row">
-                                    <th>Id</th>
-                                    <th>House Hold #</th>
-                                    <th>
-                                        <input type="checkbox" class="w-4 h-4 accent-blue-600" id="selectAllCheckBox">
-                                    </th>
-                                    <th>Full Name</th>
-                                    <th>Sex</th>
-                                    <th>Age</th>
-                                    <th>Barangay</th>
-                                    <th>Date Entry</th>
-                                    <th>Date Out</th>
-                                    <th>Disaster Type</th>
-                                    <th>Disaster Id</th>
-                                    <th>Disaster Info</th>
-                                    <th>Evacuation Center</th>
-                                    <th>4Ps</th>
-                                    <th>PWD</th>
-                                    <th>Pregnant</th>
-                                    <th>Lactating</th>
-                                    <th>Student</th>
-                                    <th>Working</th>
-                                    <th class="w-4">Action</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
+            <div class="grid grid-cols-1">
+                <div class="grid col-end-1 mr-4">
+                    <div class="text-2xl text-white">
+                        <i class="bi bi-people p-2 bg-slate-600 rounded-md"></i>
                     </div>
                 </div>
-                <div class="evacueeArchiveSelect flex flex-wrap justify-end font-semibold gap-3 pt-3 wi-500px">
-                    <select name="archiveEvacueeDataTyphoon" class="form-select" id="archiveEvacueeDataTyphoon">
-                        <option value="None">Select Typhoon</option>
-                        @foreach ($typhoonList as $typhoon)
-                            <option value="{{ $typhoon->name }}">
-                                {{ $typhoon->name }}</option>
-                        @endforeach
-                    </select>
-                    <select name="archiveEvacueeDataFlashflood" class="form-select" id="archiveEvacueeDataFlashflood">
-                        <option value="None">Select Flashflood Location</option>
-                        @foreach ($flashfloodList as $flashflood)
-                            <option value="{{ $flashflood->location }}">
-                                {{ $flashflood->location }}</option>
-                        @endforeach
-                    </select>
+                <span class="text-xl font-bold">MANAGE EVACUEE INFORMATION</span>
+            </div>
+            <hr class="mt-4">
+            <div class="flex flex-wrap justify-end text-white gap-3 my-3">
+                <button id="returnEvacueeBtn" class="btn-primary p-2">
+                    <i class="bi bi-person-up pr-2"></i>
+                    Returning Home
+                </button>
+                <button id="recordEvacueeBtn" data-toggle="modal" data-target="#evacueeInfoFormModal"
+                    class="btn-submit p-2">
+                    <i class="bi bi-person-down pr-2"></i>
+                    Record Evacuee Info
+                </button>
+            </div>
+            @include('userpage.evacuee.evacueeInfoFormModal')
+            <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
+                <div class="block w-full overflow-auto">
+                    <header class="text-2xl font-semibold mb-3">Evacuee Informations</header>
+                    <table class="table evacueeTable table-striped table-light" width="100%">
+                        <thead class="thead-light">
+                            <tr class="table-row">
+                                <th>Id</th>
+                                <th>House Hold #</th>
+                                <th>
+                                    <input type="checkbox" class="w-4 h-4 accent-blue-600" id="selectAllCheckBox">
+                                </th>
+                                <th>Full Name</th>
+                                <th>Sex</th>
+                                <th>Age</th>
+                                <th>Barangay</th>
+                                <th>Date Entry</th>
+                                <th>Date Out</th>
+                                <th>Disaster Type</th>
+                                <th>Disaster Id</th>
+                                <th>Disaster Info</th>
+                                <th>Evacuation Center</th>
+                                <th>4Ps</th>
+                                <th>PWD</th>
+                                <th>Pregnant</th>
+                                <th>Lactating</th>
+                                <th>Student</th>
+                                <th>Working</th>
+                                <th class="w-4">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="table-container mt-3 mb-2 p-3 bg-slate-50 shadow-lg flex rounded-lg">
-                    <div class="block w-full overflow-auto">
-                        <header class="text-2xl font-semibold mb-3">Archived Evacuee Informations</header>
-                        <table class="table archivedEvacueeTable table-striped table-light align-middle" width="100%">
-                            <thead class="thead-light text-justify">
-                                <tr>
-                                    <th>House Hold #</th>
-                                    <th>Full Name</th>
-                                    <th>Sex</th>
-                                    <th>Age</th>
-                                    <th>Barangay</th>
-                                    <th>Date Entry</th>
-                                    <th>Date Out</th>
-                                    <th>Disaster Type</th>
-                                    <th>Disaster Info</th>
-                                    <th>Evacuation Center</th>
-                                    <th>4Ps</th>
-                                    <th>PWD</th>
-                                    <th>Pregnant</th>
-                                    <th>Lactating</th>
-                                    <th>Student</th>
-                                    <th>Working</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                            </tbody>
-                        </table>
-                    </div>
+            </div>
+            <div class="evacueeArchiveSelect flex flex-wrap justify-end font-semibold gap-3 my-3">
+                <select name="archiveEvacueeDataTyphoon" class="form-select" id="archiveEvacueeDataTyphoon">
+                    <option value="None">Select Typhoon</option>
+                    @foreach ($typhoonList as $typhoon)
+                        <option value="{{ $typhoon->name }}">
+                            {{ $typhoon->name }}</option>
+                    @endforeach
+                </select>
+                <select name="archiveEvacueeDataFlashflood" class="form-select" id="archiveEvacueeDataFlashflood">
+                    <option value="None">Select Flashflood Location</option>
+                    @foreach ($flashfloodList as $flashflood)
+                        <option value="{{ $flashflood->location }}">
+                            {{ $flashflood->location }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
+                <div class="block w-full overflow-auto">
+                    <header class="text-2xl font-semibold mb-3">Archived Evacuee Informations</header>
+                    <table class="table archivedEvacueeTable table-striped table-light" width="100%">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>House Hold #</th>
+                                <th>Full Name</th>
+                                <th>Sex</th>
+                                <th>Age</th>
+                                <th>Barangay</th>
+                                <th>Date Entry</th>
+                                <th>Date Out</th>
+                                <th>Disaster Type</th>
+                                <th>Disaster Info</th>
+                                <th>Evacuation Center</th>
+                                <th>4Ps</th>
+                                <th>PWD</th>
+                                <th>Pregnant</th>
+                                <th>Lactating</th>
+                                <th>Student</th>
+                                <th>Working</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
                 </div>
             </div>
         </div>

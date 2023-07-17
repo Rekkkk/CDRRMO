@@ -16,25 +16,24 @@
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
-                    <div class="m-auto">
-                        <i class="bi bi-house-gear text-2xl p-2 bg-slate-600 text-white rounded"></i>
+                    <div class="text-2xl text-white">
+                        <i class="bi bi-house-gear p-2 bg-slate-600 rounded-md"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold tracking-wider">MANAGE EVACUATION CENTER</span>
+                <span class="text-xl font-bold">MANAGE EVACUATION CENTER</span>
             </div>
             <hr class="mt-4">
-            <div class=" flex justify-end my-2">
+            <div class="flex justify-end my-3">
                 <button class="btn-submit p-2" id="addEvacuationCenter">
                     <i class="bi bi-house-down-fill pr-2"></i>
                     Add Evacuation Center
                 </button>
             </div>
-            <div class="table-container my-2 p-3 bg-slate-50 shadow-lg flex rounded-lg">
+            <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
                 <div class="block w-full overflow-auto">
                     <header class="text-2xl font-semibold mb-3">Evacuation Centers</header>
-                    <table class="table evacuationCenterTable table-striped table-light align-middle"
-                        style="width:100%">
-                        <thead class="thead-light text-justify">
+                    <table class="table evacuationCenterTable table-striped table-light" width="100%">
+                        <thead class="thead-light">
                             <tr>
                                 <th></th>
                                 <th>Name</th>

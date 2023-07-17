@@ -13,11 +13,11 @@
                 <div class="header-desc py-5">
                     <h1 class="text-white tracking-wide font-extrabold">{{ config('app.name') }}</h1>
                     <div class="pt-4">
-                        <p class="text-slate-400">E-LIGTAS help you to locate evacuation center and to share
-                            knowledge about disaster preparedness.</p>
+                        <p class="text-slate-400">E-LIGTAS can help you locate an evacuation center in Cabuyao, Laguna,
+                            and learn about disaster preparedness.</p>
                     </div>
                 </div>
-                <div class="login-form-section bg-slate-300">
+                <div class="login-form-section bg-slate-300 mr-2    ">
                     <form action="{{ route('login') }}" method="POST" class="px-3">
                         @csrf
                         <div class="my-3">
@@ -41,14 +41,13 @@
                             Continue as resident
                         </button>
                     </form>
-                    <div class="flex justify-center text-center mt-6 text-sky-600">
+                    <div class="flex justify-center text-center my-10 text-sky-600">
                         <a href="{{ route('recoverAccount') }}">Forgotten password?</a>
                     </div>
-                    <hr class="my-10 mx-4">
                 </div>
             </div>
         </div>
-        <div class="bottom-section pb-5 l-0 w-full text-white">
+        <div class="bottom-section w-full text-white">
             <hr>
             <p class="text-slate-400">E-LIGTAS @ {{ date('Y') }}</p>
         </div>

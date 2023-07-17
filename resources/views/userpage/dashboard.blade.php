@@ -17,11 +17,11 @@
                         <i class="bi bi-speedometer2 p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold tracking-wider">DASHBOARD</span>
+                <span class="text-xl font-bold ml-2">DASHBOARD</span>
             </div>
-            <hr class="mt-3">
+            <hr class="mt-4">
             @can('generateData', \App\Models\User::class)
-                <div class="flex justify-end my-2">
+                <div class="flex justify-end my-3">
                     <form action="{{ route('generate.evacuee.data') }}" method="POST" target="__blank">
                         @csrf
                         <button typ="submit" class="btn-submit float-right p-2 font-medium">
@@ -31,70 +31,58 @@
                     </form>
                 </div>
             @endcan
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div class="grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-4 gap-3">
                 <div class="widget bg-green-400">
-                    <div class="widget-logo">
-                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}">
-                    </div>
                     <div class="widget-content">
                         <div class="content-description">
                             <h5>Evacuation Center (Active)</h5>
                             <span>{{ $activeEvacuation }}</span>
                         </div>
-                        <div class="widget-image">
+                        <div class="widget-image mr-2">
                             <img src="{{ asset('assets/img/evacuation.png') }}">
                         </div>
                     </div>
                 </div>
                 <div class="widget bg-red-400">
-                    <div class="widget-logo">
-                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}">
-                    </div>
                     <div class="widget-content">
                         <div class="content-description">
                             <h5>Evacuation Center (Inactive)</h5>
                             <span>{{ $inActiveEvacuation }} </span>
                         </div>
-                        <div class="widget-image">
+                        <div class="widget-image mr-2">
                             <img src="{{ asset('assets/img/evacuation.png') }}">
                         </div>
                     </div>
                 </div>
                 <div class="widget bg-yellow-300">
-                    <div class="widget-logo">
-                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}">
-                    </div>
                     <div class="widget-content">
                         <div class="content-description">
                             <h5>Evacuee (On Evacuation)</h5>
                             <span id="onEvacuationCenter">{{ $inEvacuationCenter }}</span>
                         </div>
-                        <div class="widget-image">
+                        <div class="widget-image mr-2">
                             <img src="{{ asset('assets/img/family.png') }}">
                         </div>
                     </div>
                 </div>
                 <div class="widget bg-blue-300">
-                    <div class="widget-logo">
-                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}">
-                    </div>
                     <div class="widget-content">
                         <div class="content-description">
                             <h5>Evacuee(Returned)</h5>
                             <span>{{ $isReturned }}</span>
                         </div>
-                        <div class="widget-image">
+                        <div class="widget-image mr-2">
                             <img src="{{ asset('assets/img/family.png') }}">
                         </div>
                     </div>
                 </div>
             </div>
-            <figure class="pie-chart-container">
-                <div id="Typhoon" class="bg-slate-50 rounded shadow-lg mr-3"></div>
+            <figure class="chart-container">
+                <div id="Typhoon" class="bg-slate-50 rounded shadow-lg mr-4"></div>
                 <div id="TyphoonBarGraph" class="bg-slate-200 rounded shadow-lg flex-1"></div>
             </figure>
-            <figure class="pie-chart-container">
-                <div id="Flashflood" class="bg-slate-50 rounded shadow-lg mr-3"></div>
+            <figure class="chart-container">
+                <div id="Flashflood" class="bg-slate-50 rounded shadow-lg mr-4"></div>
                 <div id="FlashfloodBarGraph" class="bg-slate-200 rounded shadow-lg flex-1"></div>
             </figure>
         </div>
