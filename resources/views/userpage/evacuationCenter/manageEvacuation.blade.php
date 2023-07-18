@@ -381,9 +381,7 @@
                             }
                         });
                     } else {
-                        if (operation == 'change status') {
-                            $('.changeEvacuationStatus').val('');
-                        }
+                        $('.changeEvacuationStatus').val('');
                     }
                 });
             }

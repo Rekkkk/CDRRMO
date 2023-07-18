@@ -7,28 +7,27 @@ use App\Models\ReportLog;
 use App\Models\Reporting;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Events\ReportIncident;
+use App\Events\IncidentReport;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
 
-
-class ReportAccidentController extends Controller
+class IncidentReportController extends Controller
 {
 
-    private $report, $reportLog, $logActivity, $reportAccident;
+    private $report, $reportLog, $logActivity, $incidentReport;
 
     function __construct()
     {
         $this->reportLog = new ReportLog;
-        $this->report = new ReportIncident;
-        $this->reportAccident = new Reporting;
+        $this->report = new IncidentReport;
+        $this->incidentReport = new Reporting;
         $this->logActivity = new ActivityUserLog;
     }
 
-    public function displayPendingReport()
+    public function displayPendingIncidentReport()
     {
-        $pendingReport = $this->reportAccident->where('status', 'On Process')->get();
+        $pendingReport = $this->incidentReport->where('status', 'On Process')->get();
 
         return DataTables::of($pendingReport)
             ->addIndexColumn()
@@ -50,7 +49,7 @@ class ReportAccidentController extends Controller
 
     public function displayIncidentReport()
     {
-        $incidentReport = $this->reportAccident->whereNotIn('status', ["On Process"])->where('is_archive', 0)->get();
+        $incidentReport = $this->incidentReport->whereNotIn('status', ["On Process"])->where('is_archive', 0)->get();
 
         return DataTables::of($incidentReport)
             ->addIndexColumn()
@@ -63,19 +62,19 @@ class ReportAccidentController extends Controller
             ->make(true);
     }
 
-    public function addAccidentReport(Request $request)
+    public function createIncidentReport(Request $request)
     {
         $validatedAccidentReport = Validator::make($request->all(), [
             'description' => 'required',
             'location' => 'required',
-            'photo' => 'required|image|mimes:jpeg|max:2048'
+            'photo' => 'image|mimes:jpeg|max:2048'
         ]);
 
         if ($validatedAccidentReport->passes()) {
             $userIp = $this->reportLog->where('user_ip', $request->ip())->exists();
             $reportPhotoPath = $request->file('photo')->store();
             $request->photo->move(public_path('reports_image'), $reportPhotoPath);
-            $reportAccident = [
+            $incidentReport = [
                 'description' => Str::ucFirst(trim($request->description)),
                 'location' => Str::of(trim($request->location))->title(),
                 'photo' => $reportPhotoPath,
@@ -94,50 +93,50 @@ class ReportAccidentController extends Controller
                         $residentAttempt = 0;
                     } else {
                         $reportTime = Carbon::parse($reportTime)->format('F j, Y H:i:s');
-                        return response()->json(['status' => 2, 'block_time' => "You have been blocked until $reportTime."]);
+                        return response(['status' => 'blocked', 'message' => "You have been blocked until $reportTime."]);
                     }
                 }
 
                 try {
-                    $this->reportAccident->create($reportAccident);
+                    $this->incidentReport->create($incidentReport);
                     $this->reportLog->where('user_ip', $request->ip())->update(['attempt' => $residentAttempt + 1]);
                     $attempt = $this->reportLog->where('user_ip', $request->ip())->value('attempt');
 
                     $attempt == 3 ? $this->reportLog->where('user_ip', $request->ip())->update(['report_time' => Carbon::now()->addDays(3)]) :
                         intval($this->reportLog->where('user_ip', $request->ip())->value('attempt'));
 
-                    //event(new ReportIncident());
+                    //event(new IncidentReport());
 
-                    return response()->json(['status' => 0]);
+                    return response(['status' => 'success', 'message' => 'Successfully reported, Thank for your concern.']);
                 } catch (\Exception $e) {
-                    return response()->json(['status' => 1]);
+                    return response()->json(['status' => 'error', 'message' => 'An error occurred while processing your request.']);
                 }
-            } else {
-                try {
-                    $this->reportAccident->create($reportAccident);
-                    $this->reportLog->create([
-                        'user_ip' => $request->ip(),
-                        'attempt' => 1
-                    ]);
+            }
 
-                    //event(new ReportIncident());
+            try {
+                $this->incidentReport->create($incidentReport);
+                $this->reportLog->create([
+                    'user_ip' => $request->ip(),
+                    'attempt' => 1
+                ]);
 
-                    return response()->json(['status' => 0]);
-                } catch (\Exception $e) {
-                    return response()->json(['status' => 1]);
-                }
+                //event(new IncidentReport());
+
+                return response(['status' => 'success', 'message' => 'Successfully reported, Thank for your concern.']);
+            } catch (\Exception $e) {
+                return response(['status' => 'error', 'message' => 'An error occurred while processing your request.']);
             }
         }
 
-        return response()->json(['status' => 1, 'error' => $validatedAccidentReport->errors()->toArray()]);
+        return response()->json(['status' => 'warning', 'message' => $validatedAccidentReport->errors()->first()]);
     }
 
-    public function approveAccidentReport($reportId)
+    public function approveIncidentReport($reportId)
     {
         try {
             $this->report->approveStatus($reportId);
-            //event(new ReportIncident());
-            $this->logActivity->generateLog('Approving Accident Report');
+            //event(new IncidentReport());
+            $this->logActivity->generateLog('Approving Incident Report');
 
             return response(['status' => 'success', 'message' => 'Incident report successfully approved.']);
         } catch (\Exception $e) {
@@ -145,29 +144,29 @@ class ReportAccidentController extends Controller
         }
     }
 
-    public function declineAccidentReport($reportId)
+    public function declineIncidentReport($reportId)
     {
         try {
             $this->report->declineStatus($reportId);
-            //event(new ReportIncident());
-            $this->logActivity->generateLog('Declining Accident Report');
+            //event(new IncidentReport());
+            $this->logActivity->generateLog('Declining Incident Report');
 
-            return response()->json(['status' => 1]);
+            return response(['status' => 'success', 'message' => 'Incident report successfully declined.']);
         } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
+            return response(['status' => 'error', 'message' => 'An error occurred while processing your request.']);
         }
     }
 
-    public function revertAccidentReport($reportId)
+    public function revertIncidentReport($reportId)
     {
         try {
-            $reportPhotoPath = $this->reportAccident->find($reportId)->value('photo');
+            $reportPhotoPath = $this->incidentReport->find($reportId)->value('photo');
             $this->report->revertReport($reportId, $reportPhotoPath);
-            //event(new ReportIncident());
+            //event(new IncidentReport());
 
-            return response()->json(['status' => 1]);
+            return response(['status' => 'success']);
         } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
+            return response(['status' => 'error', 'message' => 'An error occurred while processing your request.']);
         }
     }
 
@@ -187,21 +186,21 @@ class ReportAccidentController extends Controller
                 ]);
             }
 
-            return response()->json(['status' => 1]);
+            return response(['status' => 'success', 'message' => 'Incident report successfully reverted.']);
         } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
+            return response(['status' => 'error', 'message' => 'An error occurred while processing your request.']);
         }
     }
 
-    public function archiveReportAccident($reportId)
+    public function archiveIncidentReport($reportId)
     {
         try {
-            $this->reportAccident->find($reportId)->update([
+            $this->incidentReport->find($reportId)->update([
                 'is_archive' => 1
             ]);
-            $this->logActivity->generateLog('Archiving Accident Report');
+            $this->logActivity->generateLog('Removing Incident Report');
 
-            return response(['status' => 'success', 'message' => 'Incident report successfully remove.']);
+            return response(['status' => 'success', 'message' => 'Incident report successfully removed.']);
         } catch (\Exception $e) {
             return response(['status' => 'error', 'message' => 'An error occurred while processing your request.']);
         }

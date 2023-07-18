@@ -35,7 +35,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('display.report.accident') }}" class="menuLink">
+                        <a href="{{ route('display.incident.report') }}" class="menuLink">
                             <i class="bi bi-megaphone"></i>
                             <span class="links_name">Report Incident</span>
                         </a>
@@ -121,7 +121,7 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('resident.display.report.accident') }}" class="menuLink">
+                        <a href="{{ route('resident.display.incident.report') }}" class="menuLink">
                             <i class="bi bi-megaphone"></i>
                             <span class="links_name">Report Incident</span>
                         </a>

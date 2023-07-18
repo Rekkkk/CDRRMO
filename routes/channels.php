@@ -6,6 +6,6 @@ Broadcast::channel('active-evacuees', function () {
     return true;
 });
 
-Broadcast::channel('report-incident', function () {
+Broadcast::channel('incident-report', function () {
     return true;
 });

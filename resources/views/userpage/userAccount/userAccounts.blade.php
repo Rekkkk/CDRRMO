@@ -149,6 +149,8 @@
                                             'warning', '#FFDF00');
                                     }
                                 });
+                            } else {
+                                $('.actionSelect').val('');
                             }
                         });
                     } else if (selectedAction === 'enableAccount') {
@@ -176,6 +178,8 @@
                                             'warning', '#FFDF00');
                                     }
                                 });
+                            } else {
+                                $('.actionSelect').val('');
                             }
                         });
                     } else if (selectedAction === 'editAccount') {
@@ -214,6 +218,8 @@
                                             'warning', '#FFDF00');
                                     }
                                 });
+                            } else {
+                                $('.actionSelect').val('');
                             }
                         });
                     } else if (selectedAction === 'suspendAccount') {
@@ -251,6 +257,8 @@
                                             'warning', '#FFDF00');
                                     }
                                 });
+                            } else {
+                                $('.actionSelect').val('');
                             }
                         });
                     }

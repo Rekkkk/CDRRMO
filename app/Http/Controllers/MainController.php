@@ -96,9 +96,9 @@ class MainController extends Controller
         return view('userpage.evacuationCenter.manageEvacuation');
     }
 
-    public function reportAccident()
+    public function incidentReport()
     {
-        return view('userpage.reportAccident');
+        return view('userpage.incidentReport');
     }
 
     public function hotlineNumber()
