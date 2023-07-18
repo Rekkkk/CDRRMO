@@ -20,7 +20,7 @@
                         <i class="bi bi-megaphone p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold">REPORT INCIDENT</span>
+                <span class="text-xl font-bold">INCIDENT REPORT</span>
             </div>
             <hr class="mt-4">
             <div class="report-table bg-slate-50 shadow-lg p-4 rounded my-3">
