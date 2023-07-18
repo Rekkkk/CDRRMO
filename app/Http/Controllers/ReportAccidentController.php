@@ -36,9 +36,9 @@ class ReportAccidentController extends Controller
                 $actionBtn = '';
 
                 if ($row->user_ip == request()->ip() && !auth()->check())
-                    $actionBtn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Revert" class="btn-table-remove py-1.5 btn-sm mr-2 revertIncidentReport">Revert</a>';
+                    $actionBtn .= '<button class="btn-table-remove revertIncidentReport">Revert</button>';
                 else if (auth()->check())
-                    return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" id="approveIncidentReport" class="btn-submit py-1.5 btn-sm mr-2 approveIncidentReport">Approve</a>' . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Decline" class="btn-table-remove py-1.5 btn-sm mr-2 declineIncidentReport">Decline</a>';
+                    return '<button class="btn-table-submit p-1.5 px-3.5 mr-2 text-sm approveIncidentReport">Approve</button>' . '<button class="btn-table-remove declineIncidentReport">Decline</button>';
 
                 return $actionBtn;
             })->addColumn('photo', function ($row) {
@@ -54,8 +54,8 @@ class ReportAccidentController extends Controller
 
         return DataTables::of($incidentReport)
             ->addIndexColumn()
-            ->addColumn('action', function ($row) {
-                return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Archive" class="btn-table-remove py-1.5 btn-sm mr-2 archiveIncidentReport">Archive</a>';
+            ->addColumn('action', function () {
+                return '<button class="btn-table-remove removeIncidentReport">Remove</button>';
             })->addColumn('photo', function ($row) {
                 return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
             })
@@ -139,9 +139,9 @@ class ReportAccidentController extends Controller
             //event(new ReportIncident());
             $this->logActivity->generateLog('Approving Accident Report');
 
-            return response()->json(['status' => 1]);
+            return response(['status' => 'success', 'message' => 'Incident report successfully approved.']);
         } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
+            return response(['status' => 'error', 'message' => 'An error occurred while processing your request.']);
         }
     }
 
@@ -201,9 +201,9 @@ class ReportAccidentController extends Controller
             ]);
             $this->logActivity->generateLog('Archiving Accident Report');
 
-            return response()->json(['status' => 1]);
+            return response(['status' => 'success', 'message' => 'Incident report successfully remove.']);
         } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
+            return response(['status' => 'error', 'message' => 'An error occurred while processing your request.']);
         }
     }
 }

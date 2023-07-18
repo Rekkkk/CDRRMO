@@ -129,6 +129,8 @@
     @can('approveOrDecline', \App\Models\User::class)
         <script>
             $(document).ready(function() {
+                let reportId;
+                
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -220,102 +222,80 @@
                 });
 
                 $('body').on('click', '.approveIncidentReport', function() {
-                    let reportId = $(this).data('id');
-
-                    confirmModal('Do you want to approve this report incident?').then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                type: "POST",
-                                url: "{{ route('report.approve', ':reportId') }}"
-                                    .replace(':reportId', reportId),
-                                success: function(response) {
-                                    if (response.status == 0) {
-                                        messageModal('Warning',
-                                            'Failed to approve report incident, Try again.',
-                                            'warning', '#FFDF00');
-                                    } else {
-                                        messageModal('Success',
-                                            'Successfully Approved Reported.',
-                                            'success', '#3CB043').then(() => {
-                                            pendingReport.draw();
-                                            incidentReports.draw();
-                                        });
-                                    }
-                                },
-                                error: function() {
-                                    messageModal('Warning',
-                                        'Something went wrong, try again later.',
-                                        '#FFDF00');
-                                }
-                            });
-                        }
-                    });
+                    reportId = getPendingRowData(this)['id'];
+                    alterReportIncident('approve');
                 });
 
                 $('body').on('click', '.declineIncidentReport', function() {
-                    let reportId = $(this).data('id');
+                    reportId = getPendingRowData(this)['id'];
+                    alterReportIncident('decline');
+                });
 
-                    confirmModal('Do you want to decline this report incident?').then((result) => {
+                $('body').on('click', '.removeIncidentReport', function() {
+                    reportId = getIncidentRowData(this)['id'];
+                    alterReportIncident('remove');
+                });
+
+                function alterReportIncident(operation) {
+                    confirmModal(`Do you want to ${operation} this report?`).then((result) => {
                         if (result.isConfirmed) {
+                            let url, type;
+
+                            if (operation == 'approve') {
+                                url = "{{ route('report.approve', ':reportId') }}"
+                                    .replace(':reportId', reportId);
+                                type = "POST";
+                            } else if (operation == 'decline') {
+                                url = "{{ route('report.decline', ':reportId') }}"
+                                    .replace(':reportId', reportId);
+                                type = "DELETE";
+                            } else {
+                                url = "{{ route('report.archive', ':reportId') }}"
+                                    .replace(':reportId', reportId);
+                                type = "PATCH";
+                            }
+
                             $.ajax({
-                                type: "DELETE",
-                                url: "{{ route('report.decline', ':reportId') }}"
-                                    .replace(':reportId', reportId),
+                                type: type,
+                                url: url,
                                 success: function(response) {
-                                    if (response.status == 0) {
-                                        messageModal('Warning',
-                                            'Failed to decline report incident, Try again.',
-                                            'error', '#FFDF00');
-                                    } else {
-                                        messageModal('Success',
-                                            'Successfully Declined Reported.',
-                                            'success', '#3CB043').then(() => {
-                                            pendingReport.draw();
-                                            incidentReports.draw();
-                                        });
+                                    if (response.status == 'success') {
+                                        toastr.success(response.message, 'Success');
+                                        pendingReport.draw();
+                                        incidentReports.draw();
+                                    } else if (response.status == 'error') {
+                                        toastr.warning(response.message, 'Error');
                                     }
                                 },
                                 error: function() {
-                                    messageModal('Warning',
-                                        'Something went wrong, try again later.',
-                                        'error', '#FFDF00');
+                                    toastr.error(
+                                        'Something went wrong, Please try again later.',
+                                        'Error');
                                 }
                             });
                         }
                     });
-                });
+                }
 
-                $('body').on('click', '.archiveIncidentReport', function() {
-                    let reportId = $(this).data('id');
+                function getPendingRowData(element) {
+                    let currentRow = $(element).closest('tr');
 
-                    confirmModal('Do you want to archive this report incident?').then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                type: "PUT",
-                                url: "{{ route('report.archive', ':reportId') }}"
-                                    .replace(':reportId', reportId),
-                                success: function(response) {
-                                    if (response.status == 0) {
-                                        messageModal('Warning',
-                                            'Failed to archive report incident, Try again.',
-                                            'warning', '#FFDF00');
-                                    } else {
-                                        messageModal('Success',
-                                            'Successfully archived Accident Report.',
-                                            'success', '#3CB043').then(() => {
-                                            incidentReports.draw();
-                                        });
-                                    }
-                                },
-                                error: function() {
-                                    messageModal('Warning',
-                                        'Something went wrong, try again later.',
-                                        '#FFDF00');
-                                }
-                            });
-                        }
-                    });
-                });
+                    if (pendingReport.responsive.hasHidden()) {
+                        currentRow = currentRow.prev('tr');
+                    }
+
+                    return pendingReport.row(currentRow).data();
+                }
+
+                function getIncidentRowData(element) {
+                    let currentRow = $(element).closest('tr');
+
+                    if (incidentReports.responsive.hasHidden()) {
+                        currentRow = currentRow.prev('tr');
+                    }
+
+                    return incidentReports.row(currentRow).data();
+                }
 
                 // Echo.channel('report-incident').listen('ReportIncident', (e) => {
                 //     table.draw();

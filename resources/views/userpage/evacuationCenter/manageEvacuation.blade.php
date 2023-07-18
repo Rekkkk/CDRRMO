@@ -26,7 +26,7 @@
             <div class="flex justify-end my-3">
                 <button class="btn-submit p-2" id="addEvacuationCenter">
                     <i class="bi bi-house-down-fill pr-2"></i>
-                    Add Evacuation Center
+                    Create Evacuation Center
                 </button>
             </div>
             <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
