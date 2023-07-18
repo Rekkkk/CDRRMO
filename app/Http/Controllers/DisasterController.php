@@ -28,7 +28,7 @@ class DisasterController extends Controller
                     return '<div class="flex justify-around actionContainer"><button class="btn-table-edit updateDisaster"><i class="bi bi-pencil-square pr-2"></i>Edit</button>' .
                         '<button class="btn-table-remove removeDisaster"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
                         '<select class="custom-select w-44 bg-blue-500 text-white changeDisasterStatus">
-                        <option disabled selected hidden>Change Status</option>
+                        <option value="" disabled selected hidden>Change Status</option>
                         <option value="On Going">On Going</option>
                         <option value="Inactive">Inactive</option>
                     </select></div>';

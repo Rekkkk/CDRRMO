@@ -3,20 +3,16 @@
 
 <head>
     @include('partials.headPackage')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"
-        integrity="sha512-AA1Bzp5Q0K1KanKKmvN/4d3IRKVlv9PYgwFPvm32nPO6QS8yH1HO7LbgB1pgiOxPtfeg5zEn2ba64MUcqJx6CA=="
-        crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
+        {{-- @vite(['resources/js/app.js']) --}}
 </head>
 
 <body>
     <div class="wrapper">
-        @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
-        {{-- @vite(['resources/js/app.js']) --}}
         <div class="main-content">
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
@@ -28,7 +24,7 @@
             </div>
             <hr class="mt-4">
             <div class="report-table bg-slate-50 shadow-lg p-4 rounded my-3">
-                <header class="text-2xl font-semibold">Pending Accident Report</header>
+                <header class="text-2xl font-semibold">Incident Pending Report</header>
                 <table class="table pendingReport display nowrap" style="width:100%">
                     <thead>
                         <tr>
@@ -68,7 +64,7 @@
                     <div class="modal-dialog">
                         <div class="modal-content">
                             <div class="modal-header bg-green-600 text-white">
-                                <h1 class="modal-title fs-5 text-center text-white">Report Incident Form</h1>
+                                <h1 class="modal-title fs-5 text-center text-white">Incident Report Form</h1>
                             </div>
                             <div class="modal-body">
                                 <form id="reportForm" name="reportForm" enctype="multipart/form-data">
@@ -130,7 +126,7 @@
         <script>
             $(document).ready(function() {
                 let reportId;
-                
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -223,20 +219,20 @@
 
                 $('body').on('click', '.approveIncidentReport', function() {
                     reportId = getPendingRowData(this)['id'];
-                    alterReportIncident('approve');
+                    alterIncidentReport('approve');
                 });
 
                 $('body').on('click', '.declineIncidentReport', function() {
                     reportId = getPendingRowData(this)['id'];
-                    alterReportIncident('decline');
+                    alterIncidentReport('decline');
                 });
 
                 $('body').on('click', '.removeIncidentReport', function() {
                     reportId = getIncidentRowData(this)['id'];
-                    alterReportIncident('remove');
+                    alterIncidentReport('remove');
                 });
 
-                function alterReportIncident(operation) {
+                function alterIncidentReport(operation) {
                     confirmModal(`Do you want to ${operation} this report?`).then((result) => {
                         if (result.isConfirmed) {
                             let url, type;
@@ -297,8 +293,9 @@
                     return incidentReports.row(currentRow).data();
                 }
 
-                // Echo.channel('report-incident').listen('ReportIncident', (e) => {
-                //     table.draw();
+                // Echo.channel('incident-report').listen('IncidentReport', (e) => {
+                //     pendingReport.draw();
+                //     incidentReports.draw();
                 // })
             });
         </script>
@@ -416,9 +413,6 @@
                         },
                         location: {
                             required: true
-                        },
-                        photo: {
-                            required: true
                         }
                     },
                     messages: {
@@ -427,9 +421,6 @@
                         },
                         location: {
                             required: 'Please Enter Incident Location.'
-                        },
-                        photo: {
-                            required: 'Please Provide Atleast 1 Actual Photo.'
                         }
                     },
                     errorElement: 'span',
@@ -452,34 +443,25 @@
                                     $(document).find('span.error-text').text('');
                                 },
                                 success: function(response) {
-                                    if (response.status == 1) {
-                                        $.each(response.error, function(prefix, val) {
-                                            $('span.' + prefix + '_error').text(val[
-                                                0]);
-                                        });
-                                        messageModal('Warning',
-                                            'Failed to Reported Incident, Thanks for your concern.',
-                                            'error', '#FFDF00');
-                                    } else if (response.status == 2) {
-                                        messageModal("You've been Blocked", response.block_time,
-                                            'warning', '#FFDF00').then(() => {
-                                            $('#reportForm')[0].reset();
-                                            $('#createAccidentReportModal').modal('hide');
-                                        });
-                                    } else {
-                                        messageModal('Success',
-                                            'Successfully Reported, Thanks for your concern.',
-                                            'success', '#3CB043').then(() => {
-                                            $('#reportForm')[0].reset();
-                                            $('#createAccidentReportModal').modal('hide');
-                                            pendingReport.draw();
-                                        });
+                                    if (response.status == 'success') {
+                                        toastr.success(response.message, 'Success');
+                                        $('#reportForm')[0].reset();
+                                        $('#createAccidentReportModal').modal('hide');
+                                        pendingReport.draw();
+                                    } else if (response.status == 'error') {
+                                        toastr.warning(response.message, 'Error');
+                                    } else if (response.status == 'warning') {
+                                        toastr.warning(response.message, 'Warning');
+                                    } else if (response.status == 'blocked') {
+                                        $('#reportForm')[0].reset();
+                                        $('#createAccidentReportModal').modal('hide');
+                                        toastr.warning(response.message, 'Error');
                                     }
                                 },
                                 error: function() {
-                                    messageModal('Warning',
-                                        'Something went wrong, try again later.', 'error',
-                                        '#FFDF00');
+                                    toastr.error(
+                                        'Something went wrong, Please try again later.',
+                                        'Error');
                                 }
                             });
                         }
@@ -487,7 +469,7 @@
                 }
 
                 $('body').on('click', '.revertIncidentReport', function() {
-                    let reportId = $(this).data('id');
+                    let reportId = getPendingRowData(this)['id'];
 
                     confirmModal('Do you want to revert your report?').then((result) => {
                         if (result.isConfirmed) {
@@ -496,19 +478,16 @@
                                 url: "{{ route('resident.report.revert', ':reportId') }}"
                                     .replace(':reportId', reportId),
                                 success: function(response) {
-                                    if (response.status == 0) {
-                                        messageModal('Warning',
-                                            'Failed to revert your report, Try again.',
-                                            'warning', '#FFDF00');
+                                    if (response.status == 'error') {
+                                        toastr.warning(response.message, 'Error');
                                     } else {
                                         revertReport(reportId);
                                     }
                                 },
                                 error: function() {
-                                    messageModal('Warning',
-                                        'Something went wrong, try again later.',
-                                        'warning',
-                                        '#FFDF00');
+                                    toastr.error(
+                                        'Something went wrong, Please try again later.',
+                                        'Error');
                                 }
                             });
                         }
@@ -521,29 +500,38 @@
                         url: "{{ route('resident.report.update', ':reportId') }}".replace(':reportId',
                             reportId),
                         success: function(response) {
-                            if (response.status == 0) {
-                                messageModal('Warning', 'Failed to revert your repdasdasort, Try again.',
-                                    'warning', '#FFDF00');
-                            } else {
-                                messageModal('Success', 'Successfully Reverted Report.', 'success',
-                                    '#3CB043').then(() => {
-                                    pendingReport.draw();
-                                });
+                            if (response.status == 'success') {
+                                toastr.success(response.message, 'Success');
+                                pendingReport.draw();
+                            } else if (response.status == 'error') {
+                                toastr.warning(response.message, 'Error');
                             }
                         },
                         error: function() {
-                            messageModal('Warning', 'Something went wrong, try again later.', 'warning',
-                                '#FFDF00');
+                            toastr.error(
+                                'Something went wrong, Please try again later.',
+                                'Error');
                         }
                     });
+                }
+
+                function getPendingRowData(element) {
+                    let currentRow = $(element).closest('tr');
+
+                    if (pendingReport.responsive.hasHidden()) {
+                        currentRow = currentRow.prev('tr');
+                    }
+
+                    return pendingReport.row(currentRow).data();
                 }
 
                 $('#createAccidentReportModal').on('hidden.bs.modal', function() {
                     validator.resetForm();
                 });
 
-                // Echo.channel('report-incident').listen('ReportIncident', (e) => {
-                //     table.draw();
+                // Echo.channel('incident-report').listen('IncidentReport', (e) => {
+                //     pendingReport.draw();
+                //     incidentReports.draw();
                 // })
             });
         </script>

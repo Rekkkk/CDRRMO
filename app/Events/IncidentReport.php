@@ -8,11 +8,11 @@ use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class ReportIncident implements ShouldBroadcast
+class IncidentReport implements ShouldBroadcast
 {
     use Dispatchable, SerializesModels;
 
-    public $reportLog, $reportAccident;
+    public $reportLog, $incidentReport;
 
     public function __construct()
     {
@@ -20,23 +20,23 @@ class ReportIncident implements ShouldBroadcast
 
     function approveStatus($accidentReportId)
     {
-        $this->reportAccident = new Reporting;
-        $this->reportAccident->find($accidentReportId)->update([
+        $this->incidentReport = new Reporting;
+        $this->incidentReport->find($accidentReportId)->update([
             'status' => 'Approved'
         ]);
     }
 
     function declineStatus($accidentReportId)
     {
-        $this->reportAccident = new Reporting;
-        $this->reportAccident->find($accidentReportId)->update([
+        $this->incidentReport = new Reporting;
+        $this->incidentReport->find($accidentReportId)->update([
             'status' => 'Declined'
         ]);
     }
 
     function revertReport($accidentReportId, $reportPhotoPath)
     {
-        $this->reportAccident = new Reporting;
+        $this->incidentReport = new Reporting;
     
         $image_path = public_path('reports_image/' .$reportPhotoPath);
         
@@ -44,11 +44,11 @@ class ReportIncident implements ShouldBroadcast
             unlink($image_path);
         }
         
-        $this->reportAccident->find($accidentReportId)->delete();
+        $this->incidentReport->find($accidentReportId)->delete();
     }
 
     public function broadcastOn()
     {
-        return new Channel('report-incident');
+        return new Channel('incident-report');
     }
 }
