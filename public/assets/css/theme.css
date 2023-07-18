@@ -21,10 +21,6 @@
     font-family: "Montserrat", sans-serif;
 }
 
-/* body {
-    background: var(--color-text);
-} */
-
 input[type="number"] {
     -moz-appearance: textfield;
 }

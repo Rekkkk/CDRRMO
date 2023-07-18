@@ -22,7 +22,7 @@
             <hr class="mt-4">
             @can('generateData', \App\Models\User::class)
                 <div class="flex justify-between my-3">
-                    <p class="font-semibold     tracking-wider"> Current Disaster:
+                    <p class="font-semibold tracking-wider"> Current Disaster:
                         @foreach ($onGoingDisaster as $disasters)
                             <span class="text-red-600 font-black">{{ $disasters->name }},</span>
                         @endforeach

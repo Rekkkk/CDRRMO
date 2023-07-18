@@ -23,8 +23,8 @@
                 </div>
                 <span class="text-xl font-bold">MANAGE ACCOUNTS</span>
             </div>
-            <hr class="my-4">
-            <div class="flex justify-end mb-3">
+            <hr class="mt-4">
+            <div class="flex justify-end my-3">
                 <button class="btn-submit p-2" id="createUserAccount">
                     <i class="bi bi-person-fill-add pr-2"></i>
                     Create User Account
@@ -33,8 +33,8 @@
             <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
                 <header class="text-2xl font-semibold mb-3">User Accounts Table</header>
                 <div class="block w-full overflow-auto">
-                    <table class="table accountTable table-striped table-light" width="100%">
-                        <thead>
+                    <table class="table accountTable" width="100%">
+                        <thead class="thead-light">
                             <tr>
                                 <th></th>
                                 <th>Email Address</th>
@@ -331,15 +331,11 @@
                                 data: formData,
                                 url: url,
                                 type: type,
-                                dataType: 'json',
                                 success: function(response) {
                                     if (response.status == 0) {
                                         $.each(response.error, function(prefix, val) {
                                             $('span.' + prefix + '_error').text(val[0]);
                                         });
-                                        messageModal('Warning',
-                                            `Failed to ${operation} user details.`, 'warning',
-                                            '#FFDF00');
                                     } else {
                                         messageModal('Success',
                                             `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`,

@@ -3,7 +3,7 @@
 
 <head>
     @include('partials.headPackage')
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
+    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" /> --}}
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
 </head>
@@ -19,7 +19,7 @@
                         <i class="bi bi-tropical-storm p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold ml-2">MANAGE DISASTER INFORMATION</span>
+                <span class="text-xl font-bold">MANAGE DISASTER INFORMATION</span>
             </div>
             <hr class="mt-4">
             <div class="flex justify-end my-3">
@@ -28,11 +28,11 @@
                     Create Disaster Data
                 </button>
             </div>
-            <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
+            <div class="table-container p-3 shadow-lg rounded-lg">
                 <header class="text-2xl font-semibold mb-3">Disaster Information Table</header>
                 <div class="block w-full overflow-auto">
-                    <table class="table disasterTable table-striped table-light" width="100%">
-                        <thead>
+                    <table class="table disasterTable" width="100%">
+                        <thead class="thead-light">
                             <tr>
                                 <th></th>
                                 <th>Disaster Name</th>

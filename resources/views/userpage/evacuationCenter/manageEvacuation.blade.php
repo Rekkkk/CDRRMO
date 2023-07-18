@@ -29,10 +29,10 @@
                     Create Evacuation Center
                 </button>
             </div>
-            <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
+            <div class="table-container p-3 shadow-lg rounded-lg">
                 <div class="block w-full overflow-auto">
-                    <header class="text-2xl font-semibold mb-3">Evacuation Centers</header>
-                    <table class="table evacuationCenterTable table-striped table-light" width="100%">
+                    <header class="text-2xl font-semibold mb-3">Evacuation Center Table</header>
+                    <table class="table evacuationCenterTable" width="100%">
                         <thead class="thead-light">
                             <tr>
                                 <th></th>

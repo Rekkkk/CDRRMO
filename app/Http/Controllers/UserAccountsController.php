@@ -92,9 +92,9 @@ class UserAccountsController extends Controller
                 //     'password' => $defaultPassword
                 // ]));
 
-                return response()->json(['status' => 1]);
+                return response()->json(['status' => 'success', 'message' => 'Account successfully created.']);
             } catch (\Exception $e) {
-                return response()->json(['status' => 0]);
+                return response()->json(['status' => 'error', 'message' => 'An error occurred while processing your request.']);
             }
         }
 

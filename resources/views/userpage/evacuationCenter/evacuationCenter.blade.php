@@ -17,7 +17,7 @@
                         <i class="bi bi-house p-2 bg-slate-600 rounded-md"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold ml-2">EVACUATION CENTER LOCATOR</span>
+                <span class="text-xl font-bold">EVACUATION CENTER LOCATOR</span>
             </div>
             <hr class="mt-4">
             <div class="locator-content my-3">
@@ -39,8 +39,8 @@
                 @endguest
             </div>
             <div class="evacuation-table">
-                <table class="table bg-slate-50">
-                    <thead>
+                <table class="table">
+                    <thead class="thead-light">
                         <tr>
                             <th scope="col">Evacuation Center Name</th>
                             <th scope="col">Barangay Name</th>
