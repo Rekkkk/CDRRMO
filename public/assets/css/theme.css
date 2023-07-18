@@ -462,7 +462,7 @@ hr,
 
 #Typhoon,
 #Flashflood {
-    width: 300px;
+    width: 500px;
 }
 
 /* Dashboard End Section */
@@ -637,6 +637,8 @@ hr,
 }
 
 select.custom-select option {
+    background: var(--color-background);
+    color: #000;
     font-size: 15px;
     font-weight: 700;
 }

@@ -23,14 +23,12 @@ class MainController extends Controller
     public function dashboard()
     {
         $evacuee = new Evacuee;
+        $disaster = new Disaster;
+        $onGoingDisaster = $disaster->where('status', "On Going")->get();
         $activeEvacuation = $this->evacuationCenter->where('status', 'Active')->count();
-        $inActiveEvacuation = $this->evacuationCenter->where('status', 'Inactive')->count();
         $inEvacuationCenter = $evacuee->whereNull('date_out')->count();
-        $isReturned = $evacuee->whereNotNull('date_out')->count();
-        $typhoonData = $evacuee->countEvacueeWithDisabilities('Typhoon')->first();
-        $floodingData = $evacuee->countEvacueeWithDisabilities('Flashflood')->first();
 
-        return view('userpage.dashboard',  compact('activeEvacuation', 'inActiveEvacuation', 'inEvacuationCenter', 'isReturned'));
+        return view('userpage.dashboard',  compact('activeEvacuation', 'inEvacuationCenter', 'onGoingDisaster'));
     }
 
     public function generateExcelEvacueeData()

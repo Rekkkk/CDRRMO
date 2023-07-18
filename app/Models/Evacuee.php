@@ -35,13 +35,13 @@ class Evacuee extends Model
 
     public $timestamps = false;
 
-    public function countEvacuee($disaster, $sex)
-    {
-        return $this->where('disaster_type', $disaster)->where('sex', $sex)->count();
-    }
+    // public function countEvacuee($disaster, $sex)
+    // {
+    //     return $this->where('disaster_type', $disaster)->where('sex', $sex)->count();
+    // }
 
-    public function countEvacueeWithDisabilities($disaster)
-    {
-        return $this->selectRaw('SUM(`fourps`) AS `fourps`, SUM(`PWD`) AS `PWD`, SUM(`pregnant`) AS `pregnant`, SUM(`lactating`) AS `lactating`, SUM(`student`) AS `student`, SUM(`working`) AS `working`')->where('disaster_type', $disaster)->get();
-    }
+    // public function countEvacueeWithDisabilities($disaster)
+    // {
+    //     return $this->selectRaw('SUM(`fourps`) AS `fourps`, SUM(`PWD`) AS `PWD`, SUM(`pregnant`) AS `pregnant`, SUM(`lactating`) AS `lactating`, SUM(`student`) AS `student`, SUM(`working`) AS `working`')->where('disaster_type', $disaster)->get();
+    // }
 }
