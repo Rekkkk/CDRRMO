@@ -36,10 +36,10 @@
                 </button>
             </div>
             @include('userpage.evacuee.evacueeInfoFormModal')
-            <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
+            <div class="table-container p-3 shadow-lg rounded-lg">
                 <div class="block w-full overflow-auto">
                     <header class="text-2xl font-semibold mb-3">Evacuee Informations</header>
-                    <table class="table evacueeTable table-striped table-light" width="100%">
+                    <table class="table evacueeTable" width="100%">
                         <thead class="thead-light">
                             <tr class="table-row">
                                 <th>Id</th>
@@ -87,10 +87,10 @@
                     @endforeach
                 </select>
             </div>
-            <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
+            <div class="table-container p-3 shadow-lg rounded-lg">
                 <div class="block w-full overflow-auto">
                     <header class="text-2xl font-semibold mb-3">Archived Evacuee Informations</header>
-                    <table class="table archivedEvacueeTable table-striped table-light" width="100%">
+                    <table class="table archivedEvacueeTable" width="100%">
                         <thead class="thead-light">
                             <tr>
                                 <th>House Hold #</th>
