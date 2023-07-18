@@ -24,15 +24,14 @@ class DisasterController extends Controller
 
             return DataTables::of($disasterInformation)
                 ->addIndexColumn()
-                ->addColumn('action', function ($row) {
-                    return '<div class="btn-group items-center" role="group">' .
-                        '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Edit" class="btn-table-edit py-1.5 btn-sm mr-2 editDisaster">Edit</a>' .
-                        '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Remove" class="btn-table-remove py-1.5 btn-sm mr-2 removeDisaster">Remove</a>' .
-                        '<select class="custom-select bg-blue-500 text-white changeDisasterStatus" style="height:35px;">' .
-                        '<option value="" disabled selected hidden>Change Status</option>' .
-                        '<option value="On Going">On Going</option>' .
-                        '<option value="Inactive">Inactive</option>' .
-                        '</select></div>';
+                ->addColumn('action', function () {
+                    return '<div class="flex justify-around actionContainer"><button class="btn-table-edit updateDisaster"><i class="bi bi-pencil-square pr-2"></i>Edit</button>' .
+                        '<button class="btn-table-remove removeDisaster"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
+                        '<select class="custom-select w-44 bg-blue-500 text-white changeDisasterStatus">
+                        <option disabled selected hidden>Change Status</option>
+                        <option value="On Going">On Going</option>
+                        <option value="Inactive">Inactive</option>
+                    </select></div>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);

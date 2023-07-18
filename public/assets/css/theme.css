@@ -110,7 +110,8 @@ hr,
 }
 
 /* Button Section Start Here */
-.btn-submit {
+.btn-submit,
+.btn-table-submit {
     background: var(--color-green);
     color: var(--color-text);
     border-radius: 4px;
@@ -119,7 +120,8 @@ hr,
     transition-duration: 100ms;
 }
 
-.btn-submit:hover {
+.btn-submit:hover, 
+.btn-table-submit:hover {
     color: var(--color-text);
     background: #06782f;
     transform: scale(1.05);

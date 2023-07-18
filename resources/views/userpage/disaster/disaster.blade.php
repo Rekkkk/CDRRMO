@@ -21,15 +21,15 @@
                 </div>
                 <span class="text-xl font-bold ml-2">MANAGE DISASTER INFORMATION</span>
             </div>
-            <hr class="my-4">
+            <hr class="mt-4">
+            <div class="flex justify-end my-3">
+                <button class="btn-submit p-2" id="createDisasterData">
+                    <i class="bi bi-cloud-plus pr-2"></i>
+                    Create Disaster Data
+                </button>
+            </div>
             <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
-                <div class="flex justify-between mb-3">
-                    <header class="text-2xl font-semibold mb-3">Disaster Information Table</header>
-                    <button class="btn-submit p-2" id="createDisasterData">
-                        <i class="bi bi-cloud-plus pr-2"></i>
-                        Create Disaster Data
-                    </button>
-                </div>
+                <header class="text-2xl font-semibold mb-3">Disaster Information Table</header>
                 <div class="block w-full overflow-auto">
                     <table class="table disasterTable table-striped table-light" width="100%">
                         <thead>
@@ -113,7 +113,7 @@
             $('#disasterModal').modal('show');
         });
 
-        $(document).on('click', '.editDisaster', function() {
+        $(document).on('click', '.updateDisaster', function() {
             let data = getRowData(this);
             disasterId = data['id'];
             $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');

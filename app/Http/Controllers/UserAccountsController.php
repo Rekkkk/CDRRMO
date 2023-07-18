@@ -40,8 +40,8 @@ class UserAccountsController extends Controller
             return DataTables::of($userAccounts)
                 ->addIndexColumn()
                 ->addColumn('action', function ($user) {
-                    $actionBtns = '<select class="custom-select custom-select-sm font-bold actionSelect" data-id="' . $user->id . '">
-                            <option value="">Select Action</option>';
+                    $actionBtns = '<select class="custom-select custom-select bg-blue-500 text-white actionSelect">
+                            <option disabled selected hidden>Select Action</option>';
 
                     if ($user->isSuspend == 0) {
                         if ($user->isDisable == 0) {
