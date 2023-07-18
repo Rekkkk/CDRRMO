@@ -22,10 +22,10 @@
             <hr class="mt-4">
             @can('generateData', \App\Models\User::class)
                 <div class="flex justify-between my-3">
-                    <p class="font-bold tracking-wider"> Current Disaster: 
-                    @foreach ($onGoingDisaster as $disasters)
-                       {{ $disasters->name }},
-                    @endforeach
+                    <p class="font-semibold     tracking-wider"> Current Disaster:
+                        @foreach ($onGoingDisaster as $disasters)
+                            <span class="text-red-600 font-black">{{ $disasters->name }},</span>
+                        @endforeach
                     </p>
                     <form action="{{ route('generate.evacuee.data') }}" method="POST" target="__blank">
                         @csrf
@@ -62,10 +62,12 @@
                     </div>
                 </div>
             </div>
-            <figure class="chart-container my-4">
-                <div id="Typhoon" class="bg-slate-50 rounded shadow-lg mr-3"></div>
-                <div id="evacueeGraph" class="bg-slate-200 rounded shadow-lg flex-1"></div>
-            </figure>
+            @foreach ($onGoingDisaster as $count => $disaster)
+                <figure class="chart-container my-4">
+                    <div id="evacueePie{{ $count + 1 }}" class="bg-slate-50 rounded shadow-lg mr-3"></div>
+                    <div id="evacueeGraph{{ $count + 1 }}" class="bg-slate-200 rounded shadow-lg flex-1"></div>
+                </figure>
+            @endforeach
         </div>
     </div>
 
@@ -80,91 +82,93 @@
     @include('partials.toastr')
     <script>
         $(document).ready(function() {
-            Highcharts.chart('Typhoon', {
-                chart: {
-                    type: 'pie'
-                },
-                title: {
-                    text: 'Paeng'
-                },
-                tooltip: {
-                    pointFormat: '{series.name}: <b>{point.y}</b>'
-                },
-                series: [{
-                    name: 'Evacuee',
-                    colorByPoint: true,
-                    data: [{
-                        name: 'Male',
-                        y: {{ Js::from($activeEvacuation) }},
-                        color: '#0284c7'
-                    }, {
-                        name: 'Female',
-                        y: {{ Js::from($activeEvacuation) }},
-                        color: '#f43f5e'
-                    }]
-                }],
-            });
-
-            Highcharts.chart('evacueeGraph', {
-                chart: {
-                    type: 'bar'
-                },
-                title: {
-                    text: 'Current Disaster Statistics'
-                },
-                xAxis: {
-                    categories: ['SENIOR CITIZEN', 'MINORS', 'INFANTS', 'PWD', 'PREGNANT', 'LACTATING'],
-                },
-                yAxis: {
-                    allowDecimals: false,
-                    title: {
-                        text: 'Estimated Numbers'
+            @foreach ($onGoingDisaster as $count => $disaster)
+                Highcharts.chart('evacueePie{{ $count + 1 }}', {
+                    chart: {
+                        type: 'pie'
                     },
-                },
-                legend: {
-                    reversed: true
-                },
-                plotOptions: {
-                    series: {
-                        stacking: 'normal',
-                        dataLabels: {
-                            enabled: true,
-                            formatter: function() {
-                                if (this.y != 0) {
-                                    return this.y;
-                                } else {
-                                    return null;
+                    title: {
+                        text: '{{ $disaster->name }}'
+                    },
+                    tooltip: {
+                        pointFormat: '{series.name}: <b>{point.y}</b>'
+                    },
+                    series: [{
+                        name: 'Evacuee',
+                        colorByPoint: true,
+                        data: [{
+                            name: 'Male',
+                            y: {{ Js::from($activeEvacuation) }},
+                            color: '#0284c7'
+                        }, {
+                            name: 'Female',
+                            y: {{ Js::from($activeEvacuation) }},
+                            color: '#f43f5e'
+                        }]
+                    }],
+                });
+
+                Highcharts.chart('evacueeGraph{{ $count + 1 }}', {
+                    chart: {
+                        type: 'bar'
+                    },
+                    title: {
+                        text: '{{ $disaster->name }} Statistics'
+                    },
+                    xAxis: {
+                        categories: ['SENIOR CITIZEN', 'MINORS', 'INFANTS', 'PWD', 'PREGNANT', 'LACTATING'],
+                    },
+                    yAxis: {
+                        allowDecimals: false,
+                        title: {
+                            text: 'Estimated Numbers'
+                        },
+                    },
+                    legend: {
+                        reversed: true
+                    },
+                    plotOptions: {
+                        series: {
+                            stacking: 'normal',
+                            dataLabels: {
+                                enabled: true,
+                                formatter: function() {
+                                    if (this.y != 0) {
+                                        return this.y;
+                                    } else {
+                                        return null;
+                                    }
                                 }
                             }
                         }
-                    }
-                },
-                series: [{
-                    name: 'SENIOR CITIZEN',
-                    data: [{{ Js::from($activeEvacuation) }}, '', '', '', '', ''],
-                    color: '#e74c3c'
-                }, {
-                    name: 'MINORS',
-                    data: ['', {{ Js::from($activeEvacuation) }}, '', '', '', ''],
-                    color: '#3498db'
-                }, {
-                    name: 'INFANTS',
-                    data: ['', '', {{ Js::from($activeEvacuation) }}, '', '', ''],
-                    color: '#2ecc71'
-                }, {
-                    name: 'PWD',
-                    data: ['', '', '', {{ Js::from($activeEvacuation) }}, '', ''],
-                    color: '#1abc9c'
-                }, {
-                    name: 'PREGNANT',
-                    data: ['', '', '', '', {{ Js::from($activeEvacuation) }}, ''],
-                    color: '#e67e22'
-                }, {
-                    name: 'LACTATING',
-                    data: ['', '', '', '', '', {{ Js::from($activeEvacuation) }}],
-                    color: '#9b59b6'
-                }]
-            });
+                    },
+                    series: [{
+                        name: 'SENIOR CITIZEN',
+                        data: [{{ Js::from($activeEvacuation) }}, '', '', '', '', ''],
+                        color: '#e74c3c'
+                    }, {
+                        name: 'MINORS',
+                        data: ['', {{ Js::from($activeEvacuation) }}, '', '', '', ''],
+                        color: '#3498db'
+                    }, {
+                        name: 'INFANTS',
+                        data: ['', '', {{ Js::from($activeEvacuation) }}, '', '', ''],
+                        color: '#2ecc71'
+                    }, {
+                        name: 'PWD',
+                        data: ['', '', '', {{ Js::from($activeEvacuation) }}, '', ''],
+                        color: '#1abc9c'
+                    }, {
+                        name: 'PREGNANT',
+                        data: ['', '', '', '', {{ Js::from($activeEvacuation) }}, ''],
+                        color: '#e67e22'
+                    }, {
+                        name: 'LACTATING',
+                        data: ['', '', '', '', '', {{ Js::from($activeEvacuation) }}],
+                        color: '#9b59b6'
+                    }]
+                });
+            @endforeach
         });
     </script>
 </body>

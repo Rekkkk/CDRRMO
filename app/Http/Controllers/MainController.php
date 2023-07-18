@@ -24,6 +24,7 @@ class MainController extends Controller
     {
         $evacuee = new Evacuee;
         $disaster = new Disaster;
+        
         $onGoingDisaster = $disaster->where('status', "On Going")->get();
         $activeEvacuation = $this->evacuationCenter->where('status', 'Active')->count();
         $inEvacuationCenter = $evacuee->whereNull('date_out')->count();
