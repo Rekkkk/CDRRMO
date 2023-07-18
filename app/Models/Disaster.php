@@ -14,7 +14,10 @@ class Disaster extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'type'
+        'name',
+        'location',
+        'status',
+        'is_archive'
     ];
 
     public $timestamps = false;

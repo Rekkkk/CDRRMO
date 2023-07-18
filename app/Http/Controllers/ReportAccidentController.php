@@ -36,9 +36,9 @@ class ReportAccidentController extends Controller
                 $actionBtn = '';
 
                 if ($row->user_ip == request()->ip() && !auth()->check())
-                    $actionBtn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Revert" class="btn-table-cancel py-1.5 btn-sm mr-2 revertIncidentReport">Revert</a>';
+                    $actionBtn .= '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Revert" class="btn-table-remove py-1.5 btn-sm mr-2 revertIncidentReport">Revert</a>';
                 else if (auth()->check())
-                    return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" id="approveIncidentReport" class="btn-submit py-1.5 btn-sm mr-2 approveIncidentReport">Approve</a>' . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Decline" class="btn-table-cancel py-1.5 btn-sm mr-2 declineIncidentReport">Decline</a>';
+                    return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Approve" id="approveIncidentReport" class="btn-submit py-1.5 btn-sm mr-2 approveIncidentReport">Approve</a>' . '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Decline" class="btn-table-remove py-1.5 btn-sm mr-2 declineIncidentReport">Decline</a>';
 
                 return $actionBtn;
             })->addColumn('photo', function ($row) {
@@ -55,7 +55,7 @@ class ReportAccidentController extends Controller
         return DataTables::of($incidentReport)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Archive" class="btn-table-cancel py-1.5 btn-sm mr-2 archiveIncidentReport">Archive</a>';
+                return '<a href="javascript:void(0)" data-toggle="tooltip" data-id="' . $row->id . '" data-original-title="Archive" class="btn-table-remove py-1.5 btn-sm mr-2 archiveIncidentReport">Archive</a>';
             })->addColumn('photo', function ($row) {
                 return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
             })

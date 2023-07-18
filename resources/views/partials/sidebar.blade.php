@@ -19,7 +19,7 @@
                 @endif
             </div>
         </div>
-        <div class="items-center text-center">
+        <div class="text-center">
             <ul class="nav_list">
                 @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
                     <li>
@@ -69,15 +69,21 @@
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('manage.evacuee.record') }}" class="menuLink">
-                            <i class="bi bi-people"></i>
-                            <span class="links_name">Manage Evacuee Information</span>
-                        </a>
-                    </li>
-                    <li>
                         <a href="{{ route('guideline.display') }}" class="menuLink">
                             <i class="bi bi-book"></i>
                             <span class="links_name">E-LIGTAS Guideline</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('disaster.display') }}" class="menuLink">
+                            <i class="bi bi-tropical-storm"></i>
+                            <span class="links_name">Manage Disaster Information</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('manage.evacuee.record') }}" class="menuLink">
+                            <i class="bi bi-people"></i>
+                            <span class="links_name">Manage Evacuee Information</span>
                         </a>
                     </li>
                     <li>

@@ -11,11 +11,17 @@ class DisasterSeeder extends Seeder
     {
 
         Disaster::insert([
-            'type' => ('Typhoon')
+            'name' => ('Typhoon Paeng'),
+            'location' => null,
+            'status' => "On Going",
+            'is_archive' => 0
         ]);
 
         Disaster::insert([
-            'type' => ('Flashflood')
+            'name' => ('Typhoon Ondoy'),
+            'location' => null,
+            'status' => "On Going",
+            'is_archive' => 0
         ]);
     }
 }

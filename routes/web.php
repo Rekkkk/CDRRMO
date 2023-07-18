@@ -6,6 +6,7 @@ use App\Http\Controllers\EvacueeController;
 use App\Http\Controllers\GuidelineController;
 use App\Http\Controllers\UserAccountsController;
 use App\Http\Controllers\AuthenticationController;
+use App\Http\Controllers\DisasterController;
 use App\Http\Controllers\ReportAccidentController;
 use App\Http\Controllers\EvacuationCenterController;
 
@@ -55,6 +56,14 @@ Route::middleware('auth')->group(function () {
             Route::get('/evacuee', 'manageEvacueeInformation')->name('manage.evacuee.record');
             Route::get('/manageEvacuation', 'manageEvacuation')->name('manage.evacuation');
             Route::get('/evacuationCenter', 'evacuationCenterLocator')->name('evacuation.center.locator');
+        });
+
+        Route::prefix('disaster')->name('disaster.')->controller(DisasterController::class)->group(function () {
+            Route::get('/disasterInformation', 'displayDisasterInformation')->name('display');
+            Route::post('/createDisasterData', 'createDisasterData')->name('create');
+            Route::put('/updateDisaster/{disasterId}', 'updateDisasterData')->name('update');
+            Route::patch('/removeDisaster/{disasterId}', 'removeDisasterData')->name('remove');
+            Route::patch('/changeDisasterStatus/{disasterId}', 'changeDisasterStatus')->name('change.status');
         });
 
         Route::prefix('evacuee')->name('evacuee.info.')->controller(EvacueeController::class)->group(function () {

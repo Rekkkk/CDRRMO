@@ -23,18 +23,18 @@
                 </div>
                 <span class="text-xl font-bold">MANAGE ACCOUNTS</span>
             </div>
-            <hr class="mt-4">
-            <div class="flex justify-end my-3">
-                <button class="btn-submit p-2" id="createUserAccount">
-                    <i class="bi bi-person-fill-add pr-2"></i>
-                    Create User Account
-                </button>
-            </div>
+            <hr class="my-4">
             <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
-                <div class="block w-full overflow-auto">
+                <div class="flex justify-between mb-3">
                     <header class="text-2xl font-semibold mb-3">User Accounts Table</header>
+                    <button class="btn-submit p-2" id="createUserAccount">
+                        <i class="bi bi-person-fill-add pr-2"></i>
+                        Create User Account
+                    </button>
+                </div>
+                <div class="block w-full overflow-auto">
                     <table class="table accountTable table-striped table-light" width="100%">
-                        <thead class="thead-light">
+                        <thead>
                             <tr>
                                 <th></th>
                                 <th>Email Address</th>
