@@ -23,10 +23,10 @@
                 <span class="text-xl font-bold">INCIDENT REPORT</span>
             </div>
             <hr class="mt-4">
-            <div class="report-table bg-slate-50 shadow-lg p-4 rounded my-3">
+            <div class="report-table shadow-lg p-4 rounded my-3">
                 <header class="text-2xl font-semibold">Incident Pending Report</header>
                 <table class="table pendingReport display nowrap" style="width:100%">
-                    <thead>
+                    <thead class="thead-light">
                         <tr>
                             <th class="w-px">Report ID</th>
                             <th>Report Description</th>
@@ -40,10 +40,10 @@
                     </tbody>
                 </table>
             </div>
-            <div class="report-table bg-slate-50 shadow-lg p-4 rounded mb-3">
+            <div class="report-table shadow-lg p-4 rounded mb-3">
                 <header class="text-2xl font-semibold">Incident Report</header>
                 <table class="table incidentReports display nowrap" style="width:100%">
-                    <thead>
+                    <thead class="thead-light">
                         <tr>
                             <th class="w-px">Report ID</th>
                             <th>Report Description</th>
@@ -74,21 +74,18 @@
                                             Description</label>
                                         <input type="text" id="description" name="description" class="form-control"
                                             placeholder="Enter Incident Description" autocomplete="off">
-                                        <span class="text-danger error-text description_error"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label for="location" class="flex items-center justify-center">Report
                                             Location</label>
                                         <input type="text" id="location" name="location" class="form-control"
                                             placeholder="Enter Incident Location" autocomplete="off">
-                                        <span class="text-danger error-text location_error"></span>
                                     </div>
                                     <div class="mb-3">
                                         <label for="photo" class="flex items-center justify-center">Report
                                             Photo</label>
                                         <input type="file" id="photo" name="photo" class="form-control"
                                             placeholder="Enter Incident Location" autocomplete="off">
-                                        <span class="text-danger error-text photo_error"></span>
                                     </div>
                                     <div class="modal-footer text-white">
                                         <button id="reportIncidentBtn"
@@ -246,7 +243,7 @@
                                     .replace(':reportId', reportId);
                                 type = "DELETE";
                             } else {
-                                url = "{{ route('report.archive', ':reportId') }}"
+                                url = "{{ route('report.remove', ':reportId') }}"
                                     .replace(':reportId', reportId);
                                 type = "PATCH";
                             }
@@ -254,18 +251,15 @@
                             $.ajax({
                                 type: type,
                                 url: url,
-                                success: function(response) {
-                                    if (response.status == 'success') {
-                                        toastr.success(response.message, 'Success');
-                                        pendingReport.draw();
-                                        incidentReports.draw();
-                                    } else if (response.status == 'error') {
-                                        toastr.warning(response.message, 'Error');
-                                    }
+                                success: function() {
+                                    toastr.success(`Incident report successfully ${operation}d.`,
+                                        'Success');
+                                    pendingReport.draw();
+                                    incidentReports.draw();
                                 },
                                 error: function() {
                                     toastr.error(
-                                        'Something went wrong, Please try again later.',
+                                        'An error occurred while processing your request.',
                                         'Error');
                                 }
                             });
@@ -439,28 +433,25 @@
                                 data: formData,
                                 contentType: false,
                                 processData: false,
-                                beforeSend: function(response) {
-                                    $(document).find('span.error-text').text('');
-                                },
                                 success: function(response) {
                                     if (response.status == 'success') {
-                                        toastr.success(response.message, 'Success');
+                                        toastr.success(
+                                            'Successfully reported, Thank for your concern.',
+                                            'Success');
                                         $('#reportForm')[0].reset();
                                         $('#createAccidentReportModal').modal('hide');
                                         pendingReport.draw();
-                                    } else if (response.status == 'error') {
-                                        toastr.warning(response.message, 'Error');
                                     } else if (response.status == 'warning') {
                                         toastr.warning(response.message, 'Warning');
                                     } else if (response.status == 'blocked') {
                                         $('#reportForm')[0].reset();
                                         $('#createAccidentReportModal').modal('hide');
-                                        toastr.warning(response.message, 'Error');
+                                        toastr.warning(response.message, 'Warning');
                                     }
                                 },
                                 error: function() {
                                     toastr.error(
-                                        'Something went wrong, Please try again later.',
+                                        'An error occurred while processing your request.',
                                         'Error');
                                 }
                             });
@@ -477,16 +468,12 @@
                                 type: "DELETE",
                                 url: "{{ route('resident.report.revert', ':reportId') }}"
                                     .replace(':reportId', reportId),
-                                success: function(response) {
-                                    if (response.status == 'error') {
-                                        toastr.warning(response.message, 'Error');
-                                    } else {
-                                        revertReport(reportId);
-                                    }
+                                success: function() {
+                                    revertReport(reportId);
                                 },
                                 error: function() {
                                     toastr.error(
-                                        'Something went wrong, Please try again later.',
+                                        'An error occurred while processing your request.',
                                         'Error');
                                 }
                             });
@@ -499,17 +486,13 @@
                         type: "PUT",
                         url: "{{ route('resident.report.update', ':reportId') }}".replace(':reportId',
                             reportId),
-                        success: function(response) {
-                            if (response.status == 'success') {
-                                toastr.success(response.message, 'Success');
-                                pendingReport.draw();
-                            } else if (response.status == 'error') {
-                                toastr.warning(response.message, 'Error');
-                            }
+                        success: function() {
+                            toastr.success('Incident report successfully reverted.', 'Success');
+                            pendingReport.draw();
                         },
                         error: function() {
                             toastr.error(
-                                'Something went wrong, Please try again later.',
+                                'An error occurred while processing your request.',
                                 'Error');
                         }
                     });
