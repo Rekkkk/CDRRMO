@@ -21,27 +21,12 @@ class UserPolicy
         return ($user->status === "Active" && auth()->check()) ? true : false;
     }
 
-    public function editProfile(User $user): bool
+    public function alter(User $user): bool
     {
         return ($user->status === "Active" && auth()->check()) ? true : false;
     }
 
-    public function updateOrArchive(User $user): bool
-    {
-        return ($user->status === "Active" && auth()->check()) ? true : false;
-    }
-
-    public function approveOrDecline(User $user): bool
-    {
-        return ($user->organization === "CDRRMO" && auth()->check()) ? true : false;
-    }
-
-    public function removeReport(User $user): bool
-    {
-        return ($user->organization === "CDRRMO" && auth()->check()) ? true : false;
-    }
-
-    public function editNumbers(User $user): bool
+    public function alterReport(User $user): bool
     {
         return ($user->status === "Active" && auth()->check()) ? true : false;
     }

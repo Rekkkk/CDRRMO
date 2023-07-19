@@ -209,6 +209,7 @@ hr,
     margin: 100px auto 0;
     margin-bottom: 30px;
     padding: 0 20px 0 90px;
+    transition: 0.2s all ease-in-out;
 }
 
 .main-content .grid {
@@ -790,14 +791,6 @@ input::-webkit-inner-spin-button {
 
     .chart-container {
         display: contents;
-    }
-
-    #Typhoon,
-    #Flashflood,
-    #FlashfloodBarGraph,
-    #TyphoonBarGraph {
-        width: 100%;
-        margin: 15px 0;
     }
 
     .actionContainer {

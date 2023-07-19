@@ -24,7 +24,7 @@
                     @foreach ($guideline as $guidelineItem)
                         <div class="guideline-widget">
                             @can('view', \App\Models\User::class)
-                                @can('updateOrArchive', \App\Models\User::class)
+                                @can('alter', \App\Models\User::class)
                                     <a href="javascript:void(0)" class="absolute top-2 right-0" id="archiveGuidelineBtn">
                                         <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
                                     </a>

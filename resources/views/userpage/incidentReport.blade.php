@@ -50,7 +50,7 @@
                             <th>Accident Location</th>
                             <th class="w-5">Status</th>
                             <th style="width:20%;">Actual Photo</th>
-                            @can('removeReport', \App\Models\User::class)
+                            @can('alterReport', \App\Models\User::class)
                                 <th class="w-4">Action</th>
                             @endcan
                         </tr>
@@ -115,7 +115,6 @@
     </div>
 
     <script src="{{ asset('assets/js/sidebar.js') }}"></script>
-    {{-- <script src="{{ asset('assets/js/script.js') }}"></script> --}}
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
@@ -125,7 +124,8 @@
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
     @include('partials.toastr')
-    @can('approveOrDecline', \App\Models\User::class)
+    @can('alterReport', \App\Models\User::class)
+        <script src="{{ asset('assets/js/script.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script>
             $(document).ready(function() {
