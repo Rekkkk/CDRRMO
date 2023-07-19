@@ -197,7 +197,7 @@ hr,
 
 .create-section {
     display: flex;
-    justify-content: center;
+    justify-content: end;
     margin: 16px 0;
 }
 
@@ -679,6 +679,7 @@ input::-webkit-inner-spin-button {
     gap: 8px;
     margin: 20px 0;
 }
+
 
 #evacueeInfoForm .checkbox-container label {
     margin-top: 9px;
