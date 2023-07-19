@@ -3,7 +3,7 @@
 
 <head>
     @include('partials.headPackage')
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" /> --}}
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
 </head>
@@ -62,7 +62,7 @@
         crossorigin="anonymous"></script>
     @include('partials.toastr')
     <script>
-        let disasterId, defaultFormData, status;
+        let disasterId, defaultFormData, current_status, status;
 
         $.ajaxSetup({
             headers: {
@@ -104,21 +104,36 @@
             ]
         });
 
-        $('#createDisasterData').click(function() {
-            $('#disasterForm')[0].reset();
-            $('#operation').val('create');
-            $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
+        let validator = $("#disasterForm").validate({
+            rules: {
+                name: {
+                    required: true
+                }
+            },
+            messages: {
+                name: {
+                    required: 'Please Enter Disaster Name.'
+                }
+            },
+            errorElement: 'span',
+            submitHandler: disasterFormHandler
+        });
+
+        $(document).on('click', '#createDisasterData', function() {
+            $('.modal-header').attr('class', 'modal-header bg-green-500');
             $('.modal-title').text('Create Disaster Form');
-            $('#submitDisasterBtn').removeClass('btn-edit').addClass('btn-submit').text('Create');
+            $('#submitDisasterBtn').attr('class', 'btn-submit p-2').text('Create');
+            $('#operation').val('create');
             $('#disasterModal').modal('show');
         });
 
         $(document).on('click', '.updateDisaster', function() {
             let data = getRowData(this);
             disasterId = data['id'];
-            $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
+
+            $('.modal-header').attr('class', 'modal-header bg-yellow-500');
             $('.modal-title').text('Edit Disaster Form');
-            $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-edit').text('Update');
+            $('#submitDisasterBtn').attr('class', 'btn-edit').text('Update');
             $('#disasterName').val(data['name']);
             $('#location').val(data['location']);
             $('#operation').val('update');
@@ -127,19 +142,29 @@
         });
 
         $(document).on('click', '.removeDisaster', function() {
-            let data = getRowData(this);
-            disasterId = data['id'];
+            disasterId = getRowData(this)['id'];
             alterDisasterData('remove');
         });
 
         $(document).on('change', '.changeDisasterStatus', function() {
             disasterId = getRowData(this)['id'];
+            current_status = getRowData(this)['status']
             status = $(this).val();
-            alterDisasterData('change status');
+            alterDisasterData('change');
+        });
+
+        $('#disasterModal').on('hidden.bs.modal', function() {
+            validator.resetForm();
+            $('#disasterForm')[0].reset();
         });
 
         function alterDisasterData(operation) {
             confirmModal(`Do you want to ${operation} this disaster?`).then((result) => {
+                if (operation == 'change' && status == current_status) {
+                    toastr.warning('No changes were made.', 'Warning');
+                    $('.changeDisasterStatus').val('');
+                    return;
+                }
                 if (result.isConfirmed) {
                     let url, type;
 
@@ -159,17 +184,13 @@
                             status: status
                         },
                         url: url,
-                        success: function(response) {
-                            if (response.status == 'success') {
-                                toastr.success(response.message, 'Success');
-                                disasterTable.draw();
-                            } else if (response.status == 'error') {
-                                toastr.warning(response.message, 'Error');
-                            }
+                        success: function() {
+                            toastr.success(`Disaster successfully ${operation}d.`, 'Success');
+                            disasterTable.draw();
                         },
                         error: function() {
                             toastr.error(
-                                'Something went wrong, Please try again later.',
+                                'An error occurred while processing your request.',
                                 'Error');
                         }
                     });
@@ -178,21 +199,6 @@
                 }
             });
         }
-
-        let validator = $("#disasterForm").validate({
-            rules: {
-                name: {
-                    required: true
-                }
-            },
-            messages: {
-                name: {
-                    required: 'Please Enter Disaster Name.'
-                }
-            },
-            errorElement: 'span',
-            submitHandler: disasterFormHandler
-        });
 
         function disasterFormHandler(form) {
             let operation = $('#operation').val(),
@@ -210,29 +216,25 @@
                 if (result.isConfirmed) {
                     if (operation == 'update' && defaultFormData == formData) {
                         $('#disasterModal').modal('hide');
-                        messageModal('Info', 'No changes were made.', 'info', '#B91C1C');
+                        toastr.warning('No changes were made.', 'Warning');
                         return;
                     }
                     $.ajax({
                         data: formData,
                         url: url,
                         type: type,
-                        dataType: 'json',
                         success: function(response) {
                             if (response.status == 'success') {
-                                toastr.success(response.message, 'Success');
-                                $('#disasterForm')[0].reset();
+                                toastr.success(`Disaster successfully ${operation}d.`, 'Success');
                                 $('#disasterModal').modal('hide');
                                 disasterTable.draw();
-                            } else if (response.status == 'error') {
-                                toastr.warning(response.message, 'Error');
                             } else if (response.status == 'warning') {
-                                toastr.warning(response.message, 'Error');
+                                toastr.warning(response.message, 'Warning');
                             }
                         },
                         error: function() {
                             toastr.error(
-                                'Something went wrong, Please try again later.',
+                                'An error occurred while processing your request.',
                                 'Error');
                         }
                     });
