@@ -76,7 +76,7 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('evacuationCenter')->name('evacuation.center.')->controller(EvacuationCenterController::class)->group(function () {
             Route::get('/viewEvacuationCenter', 'getEvacuationData')->name('get');
-            Route::post('/registerEvacuation', 'addEvacuationCenter')->name('add');
+            Route::post('/createEvacuationCenter', 'createEvacuationCenter')->name('create');
             Route::put('/updateEvacuation/{evacuationId}', 'updateEvacuationCenter')->name('update');
             Route::delete('/removeEvacuation/{evacuationId}', 'removeEvacuationCenter')->name('remove');
             Route::patch('/changeEvacuationStatus/{evacuationId}', 'changeEvacuationStatus')->name('change.status');
