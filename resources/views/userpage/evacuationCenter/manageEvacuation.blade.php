@@ -22,7 +22,7 @@
                 <span class="text-xl font-bold">MANAGE EVACUATION CENTER</span>
             </div>
             <hr class="mt-4">
-            <div class="flex justify-end my-3">
+            <div class="create-section">
                 <button class="btn-submit p-2 createEvacuationCenter">
                     <i class="bi bi-house-down-fill pr-2"></i>
                     Create Evacuation Center
@@ -49,9 +49,13 @@
                 </div>
             </div>
             @include('userpage.evacuationCenter.evacuationCenterModal')
+            @auth
+                @include('userpage.changePasswordModal')
+            @endauth
         </div>
     </div>
 
+    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>

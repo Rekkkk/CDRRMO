@@ -12,12 +12,12 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="grid grid-cols-1">
-                <div class="grid col-end-1 mr-4">
+                <div class="grid col-end-1">
                     <div class="text-2xl text-white">
                         <i class="bi bi-person-circle p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold ml-2">MY PROFILE</span>
+                <span class="text-xl font-bold">MY PROFILE</span>
             </div>
             <hr class="mt-4">
             <div class="user-profile-container rounded shadow-lg mt-3">
@@ -43,12 +43,11 @@
                             <p class="profile-details rounded-b">{{ auth()->user()->position }}</p>
                         </div>
                         <div class="details-section lg:w-4/12">
+                            <label class="bg-red-700 rounded-t profile-details-label">Organization</label>
                             @if (auth()->user()->organization == 'CDRRMO')
-                                <label class="bg-red-700 rounded-t profile-details-label">Organization</label>
                                 <p class="profile-details rounded-b">Cabuyao Disaster Risk Reduction
                                     and Management Office ({{ auth()->user()->organization }})</p>
                             @else
-                                <label class="bg-green-600 rounded-t profile-details-label">Organization</label>
                                 <p class="profile-details rounded-b">City Social Welfare and
                                     Development ({{ auth()->user()->organization }})
                                 </p>
@@ -67,8 +66,10 @@
                 </form>
             </div>
         </div>
+        @include('userpage.changePasswordModal')
     </div>
 
+    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
