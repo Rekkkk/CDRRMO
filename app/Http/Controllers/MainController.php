@@ -24,7 +24,7 @@ class MainController extends Controller
     {
         $evacuee = new Evacuee;
         $disaster = new Disaster;
-        
+
         $onGoingDisaster = $disaster->where('status', "On Going")->get();
         $activeEvacuation = $this->evacuationCenter->where('status', 'Active')->count();
         $inEvacuationCenter = $evacuee->whereNull('date_out')->count();
@@ -59,36 +59,9 @@ class MainController extends Controller
 
     public function evacuationCenterLocator()
     {
-        $evacuationCenter = $this->evacuationCenter->all();
+        $evacuationCenters = $this->evacuationCenter->all();
 
-        $initialMarkers = [
-            [
-                'position' => [
-                    'lat' => 28.625485,
-                    'lng' => 79.821091
-                ],
-                'label' => ['color' => 'white', 'text' => 'P1'],
-                'draggable' => true
-            ],
-            [
-                'position' => [
-                    'lat' => 28.625293,
-                    'lng' => 79.817926
-                ],
-                'label' => ['color' => 'white', 'text' => 'P2'],
-                'draggable' => false
-            ],
-            [
-                'position' => [
-                    'lat' => 28.625182,
-                    'lng' => 79.81464
-                ],
-                'label' => ['color' => 'white', 'text' => 'P3'],
-                'draggable' => true
-            ]
-        ];
-
-        return view('userpage.evacuationCenter.evacuationCenter', ['evacuationCenter' => $evacuationCenter, 'initialMarkers' => $initialMarkers]);
+        return view('userpage.evacuationCenter.evacuationCenter', ['evacuationCenters' => $evacuationCenters]);
     }
 
     public function manageEvacuation()
