@@ -57,6 +57,10 @@ span.error {
     font-style: italic;
 }
 
+div b {
+    font-weight: bold;
+}
+
 table th,
 table td {
     text-align: center !important;

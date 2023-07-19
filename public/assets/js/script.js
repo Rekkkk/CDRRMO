@@ -143,3 +143,27 @@ function messageModal(title, text, icon, iconColor) {
         allowOutsideClick: false,
     });
 }
+
+var mapTypeStyleArray = [
+    {
+        featureType: 'water',
+        elementType: 'labels.text',
+        stylers: [{
+            color: '#000000'
+        }]
+    },
+    {
+        featureType: 'road.local',
+        elementType: 'geometry.fill',
+        stylers: [{
+            color: '#b8b8b8'
+        }]
+    },
+    {
+        featureType: 'road.highway',
+        elementType: 'geometry.fill',
+        stylers: [{
+            color: '#383838'
+        }]
+    },
+];

@@ -11,8 +11,8 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         User::insert([
-            'email' => ('CDRRMO123@gmail.com'),
-            'password' => Hash::make('CDRRMO_Admin_Panel'),
+            'email' => ('d@gmail.com'),
+            'password' => Hash::make('d'),
             'organization' => 'CDRRMO',
             'position' => 'President',
             'status' => 'Active',
@@ -21,8 +21,8 @@ class DatabaseSeeder extends Seeder
         ]);
 
         User::insert([
-            'email' => ('CSWD132@gmail.com'),
-            'password' => Hash::make('CSWD1212'),
+            'email' => ('c@gmail.com'),
+            'password' => Hash::make('c'),
             'organization' => 'CSWD',
             'position' => 'Focal',
             'status' => 'Active',

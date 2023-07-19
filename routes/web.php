@@ -45,6 +45,10 @@ Route::prefix('resident')->middleware('guest')->group(function () {
             Route::get('/hotlineNumber', 'hotlineNumber')->name('hotline.number');
             Route::get('/about', 'about')->name('about');
         });
+
+        Route::controller(EvacuationCenterController::class)->group(function () {
+            Route::get('/viewEvacuationCenter/{operation}', 'getEvacuationData')->name('evacuation.center.get');
+        });
     });
 });
 
@@ -75,7 +79,7 @@ Route::middleware('auth')->group(function () {
         });
 
         Route::prefix('evacuationCenter')->name('evacuation.center.')->controller(EvacuationCenterController::class)->group(function () {
-            Route::get('/viewEvacuationCenter', 'getEvacuationData')->name('get');
+            Route::get('/viewEvacuationCenter/{operation}', 'getEvacuationData')->name('get');
             Route::post('/createEvacuationCenter', 'createEvacuationCenter')->name('create');
             Route::put('/updateEvacuation/{evacuationId}', 'updateEvacuationCenter')->name('update');
             Route::delete('/removeEvacuation/{evacuationId}', 'removeEvacuationCenter')->name('remove');
