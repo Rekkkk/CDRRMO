@@ -14,25 +14,25 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="grid grid-cols-1">
-                <div class="grid col-end-1 mr-4">
+                <div class="grid col-end-1">
                     <div class="text-white text-2xl">
                         <i class="bi bi-tropical-storm p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold ml-2">MANAGE DISASTER INFORMATION</span>
+                <span class="text-xl font-bold">MANAGE DISASTER INFORMATION</span>
             </div>
             <hr class="mt-4">
-            <div class="flex justify-end my-3">
+            <div class="create-section">
                 <button class="btn-submit p-2" id="createDisasterData">
                     <i class="bi bi-cloud-plus pr-2"></i>
                     Create Disaster Data
                 </button>
             </div>
-            <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
+            <div class="table-container p-3 shadow-lg rounded-lg">
                 <header class="text-2xl font-semibold mb-3">Disaster Information Table</header>
                 <div class="block w-full overflow-auto">
-                    <table class="table disasterTable table-striped table-light" width="100%">
-                        <thead>
+                    <table class="table disasterTable" width="100%">
+                        <thead class="thead-light">
                             <tr>
                                 <th></th>
                                 <th>Disaster Name</th>
@@ -50,6 +50,7 @@
         </div>
     </div>
 
+    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -62,7 +63,7 @@
         crossorigin="anonymous"></script>
     @include('partials.toastr')
     <script>
-        let disasterId, defaultFormData, status;
+        let disasterId, defaultFormData, current_status, status;
 
         $.ajaxSetup({
             headers: {
@@ -104,21 +105,35 @@
             ]
         });
 
-        $('#createDisasterData').click(function() {
-            $('#disasterForm')[0].reset();
-            $('#operation').val('create');
-            $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
+        let validator = $("#disasterForm").validate({
+            rules: {
+                name: {
+                    required: true
+                }
+            },
+            messages: {
+                name: {
+                    required: 'Please Enter Disaster Name.'
+                }
+            },
+            errorElement: 'span',
+            submitHandler: disasterFormHandler
+        });
+
+        $(document).on('click', '#createDisasterData', function() {
+            $('.modal-header').attr('class', 'modal-header bg-green-600');
             $('.modal-title').text('Create Disaster Form');
-            $('#submitDisasterBtn').removeClass('btn-edit').addClass('btn-submit').text('Create');
+            $('#submitDisasterBtn').attr('class', 'btn-submit p-2 float-right mx-4 my-2').text('Create');
+            $('#operation').val('create');
             $('#disasterModal').modal('show');
         });
 
         $(document).on('click', '.updateDisaster', function() {
             let data = getRowData(this);
             disasterId = data['id'];
-            $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
+            $('.modal-header').attr('class', 'modal-header bg-yellow-500');
             $('.modal-title').text('Edit Disaster Form');
-            $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-edit').text('Update');
+            $('#submitDisasterBtn').attr('class', 'btn-edit p-2 float-right mx-4 my-2').text('Update');
             $('#disasterName').val(data['name']);
             $('#location').val(data['location']);
             $('#operation').val('update');
@@ -127,19 +142,29 @@
         });
 
         $(document).on('click', '.removeDisaster', function() {
-            let data = getRowData(this);
-            disasterId = data['id'];
+            disasterId = getRowData(this)['id'];
             alterDisasterData('remove');
         });
 
         $(document).on('change', '.changeDisasterStatus', function() {
             disasterId = getRowData(this)['id'];
+            current_status = getRowData(this)['status']
             status = $(this).val();
-            alterDisasterData('change status');
+            alterDisasterData('change');
+        });
+
+        $('#disasterModal').on('hidden.bs.modal', function() {
+            validator.resetForm();
+            $('#disasterForm')[0].reset();
         });
 
         function alterDisasterData(operation) {
             confirmModal(`Do you want to ${operation} this disaster?`).then((result) => {
+                if (operation == 'change' && status == current_status) {
+                    toastr.warning('No changes were made.', 'Warning');
+                    $('.changeDisasterStatus').val('');
+                    return;
+                }
                 if (result.isConfirmed) {
                     let url, type;
 
@@ -159,17 +184,13 @@
                             status: status
                         },
                         url: url,
-                        success: function(response) {
-                            if (response.status == 'success') {
-                                toastr.success(response.message, 'Success');
-                                disasterTable.draw();
-                            } else if (response.status == 'error') {
-                                toastr.warning(response.message, 'Error');
-                            }
+                        success: function() {
+                            toastr.success(`Disaster successfully ${operation}d.`, 'Success');
+                            disasterTable.draw();
                         },
                         error: function() {
                             toastr.error(
-                                'Something went wrong, Please try again later.',
+                                'An error occurred while processing your request.',
                                 'Error');
                         }
                     });
@@ -178,21 +199,6 @@
                 }
             });
         }
-
-        let validator = $("#disasterForm").validate({
-            rules: {
-                name: {
-                    required: true
-                }
-            },
-            messages: {
-                name: {
-                    required: 'Please Enter Disaster Name.'
-                }
-            },
-            errorElement: 'span',
-            submitHandler: disasterFormHandler
-        });
 
         function disasterFormHandler(form) {
             let operation = $('#operation').val(),
@@ -209,30 +215,25 @@
             confirmModal(`Do you want to ${operation} this disaster?`).then((result) => {
                 if (result.isConfirmed) {
                     if (operation == 'update' && defaultFormData == formData) {
-                        $('#disasterModal').modal('hide');
-                        messageModal('Info', 'No changes were made.', 'info', '#B91C1C');
+                        toastr.warning('No changes were made.', 'Warning');
                         return;
                     }
                     $.ajax({
                         data: formData,
                         url: url,
                         type: type,
-                        dataType: 'json',
                         success: function(response) {
                             if (response.status == 'success') {
-                                toastr.success(response.message, 'Success');
-                                $('#disasterForm')[0].reset();
+                                toastr.success(`Disaster successfully ${operation}d.`, 'Success');
                                 $('#disasterModal').modal('hide');
                                 disasterTable.draw();
-                            } else if (response.status == 'error') {
-                                toastr.warning(response.message, 'Error');
                             } else if (response.status == 'warning') {
-                                toastr.warning(response.message, 'Error');
+                                toastr.warning(response.message, 'Warning');
                             }
                         },
                         error: function() {
                             toastr.error(
-                                'Something went wrong, Please try again later.',
+                                'An error occurred while processing your request.',
                                 'Error');
                         }
                     });

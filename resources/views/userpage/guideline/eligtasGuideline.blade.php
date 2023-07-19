@@ -13,10 +13,10 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1 mr-4">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-book p-2 bg-slate-600 rounded-md"></i>
+                        <i class="bi bi-book p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold ml-2">E-LIGTAS GUIDELINES</span>
+                <span class="text-xl font-bold">E-LIGTAS GUIDELINES</span>
             </div>
             <hr class="mt-4">
             <div class="content-item text-center mt-3">
@@ -24,7 +24,7 @@
                     @foreach ($guideline as $guidelineItem)
                         <div class="guideline-widget">
                             @can('view', \App\Models\User::class)
-                                @can('updateOrArchive', \App\Models\User::class)
+                                @can('alter', \App\Models\User::class)
                                     <a href="javascript:void(0)" class="absolute top-2 right-0" id="archiveGuidelineBtn">
                                         <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
                                     </a>
@@ -69,18 +69,22 @@
                 </div>
             </div>
         </div>
+        @auth
+            @include('userpage.changePasswordModal')
+        @endauth
     </div>
 
-    <script src="{{ asset('assets/js/script.js') }}"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
-        integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
-        crossorigin="anonymous"></script>
-    @include('partials.toastr')
     @can('view', \App\Models\User::class)
+        @include('partials.toastr')
+        <script src="{{ asset('assets/js/script.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+            integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+            crossorigin="anonymous"></script>
         <script>
             $(document).ready(function() {
                 $('#createGuidelineBtn').click(function() {

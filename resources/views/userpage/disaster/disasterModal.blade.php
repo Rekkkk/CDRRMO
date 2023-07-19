@@ -6,20 +6,27 @@
             </div>
             <div class="modal-body">
                 <form id="disasterForm">
-                    <input type="text" id="operation" hidden>
                     @csrf
-                    <div class="mb-3">
-                        <label for="type" class="flex items-center justify-center">Disaster Name</label>
-                        <input type="text" name="name" class="form-control" autocomplete="off"
-                            placeholder="Enter Disaster Name" id="disasterName">
-                    </div>
-                    <div class="mb-3">
-                        <label for="type" class="flex items-center justify-center">Location</label>
-                        <input type="text" name="location" class="form-control" autocomplete="off"
-                            placeholder="Enter Location" id="location">
-                    </div>
-                    <div class="modal-footer">
-                        <button id="submitDisasterBtn" class="btn-submit p-2">Create</button>
+                    <div class="bg-slate-50 pt-3 pb-2 rounded">
+                        <div class="flex-auto">
+                            <div class="flex flex-wrap">
+                                <input type="text" id="operation" hidden>
+                                <div class="field-container">
+                                    <label>Disaster Name</label>
+                                    <input type="text" name="name" class="form-control" autocomplete="off"
+                                        placeholder="Enter Disaster Name" id="disasterName">
+                                </div>
+                                <div class="field-container">
+                                    <label>Location</label>
+                                    <input type="text" name="location" class="form-control" autocomplete="off"
+                                        placeholder="Enter Location" id="location">
+                                </div>
+                                <div class="w-full">
+                                    <button id="submitDisasterBtn"
+                                        class="btn-submit p-2 float-right">Create</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

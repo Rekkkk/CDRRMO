@@ -7,7 +7,7 @@ use App\Http\Controllers\GuidelineController;
 use App\Http\Controllers\UserAccountsController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\DisasterController;
-use App\Http\Controllers\ReportAccidentController;
+use App\Http\Controllers\IncidentReportController;
 use App\Http\Controllers\EvacuationCenterController;
 
 Route::controller(AuthenticationController::class)->group(function () {
@@ -25,12 +25,12 @@ Route::controller(AuthenticationController::class)->group(function () {
 
 Route::prefix('resident')->middleware('guest')->group(function () {
     Route::name('resident.')->group(function () {
-        Route::name('report.')->prefix('reportAccident')->controller(ReportAccidentController::class)->group(function () {
-            Route::get('/pendingIncidentReport', 'displayPendingReport')->name('pending');
+        Route::name('report.')->prefix('reportIncident')->controller(IncidentReportController::class)->group(function () {
+            Route::get('/displayPendingIncidentReport', 'displayPendingIncidentReport')->name('pending');
             Route::get('/displayIncidentReport', 'displayIncidentReport')->name('display');
-            Route::delete('/revertReport/{reportId}', 'revertAccidentReport')->name('revert');
+            Route::delete('/revertIncidentReport/{reportId}', 'revertIncidentReport')->name('revert');
             Route::put('/updateAttempt', 'updateUserAttempt')->name('update');
-            Route::post('/addReport', 'addAccidentReport')->name('accident');
+            Route::post('/createIncidentReport', 'createIncidentReport')->name('accident');
         });
 
         Route::prefix('eligtasGuideline')->controller(GuidelineController::class)->group(function () {
@@ -41,7 +41,7 @@ Route::prefix('resident')->middleware('guest')->group(function () {
 
         Route::controller(MainController::class)->group(function () {
             Route::get('/evacuationCenter', 'evacuationCenterLocator')->name('evacuation.center.locator');
-            Route::get('/reportAccident', 'reportAccident')->name('display.report.accident');
+            Route::get('/incidentReport', 'incidentReport')->name('display.incident.report');
             Route::get('/hotlineNumber', 'hotlineNumber')->name('hotline.number');
             Route::get('/about', 'about')->name('about');
         });
@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('evacuationCenter')->name('evacuation.center.')->controller(EvacuationCenterController::class)->group(function () {
             Route::get('/viewEvacuationCenter/{operation}', 'getEvacuationData')->name('get');
-            Route::post('/registerEvacuation', 'addEvacuationCenter')->name('add');
+            Route::post('/createEvacuationCenter', 'createEvacuationCenter')->name('create');
             Route::put('/updateEvacuation/{evacuationId}', 'updateEvacuationCenter')->name('update');
             Route::delete('/removeEvacuation/{evacuationId}', 'removeEvacuationCenter')->name('remove');
             Route::patch('/changeEvacuationStatus/{evacuationId}', 'changeEvacuationStatus')->name('change.status');
@@ -90,17 +90,17 @@ Route::middleware('auth')->group(function () {
     Route::prefix('cdrrmo')->middleware('check.cdrrmo')->group(function () {
         Route::controller(MainController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
-            Route::get('/reportAccident', 'reportAccident')->name('display.report.accident');
+            Route::get('/incidentReport', 'incidentReport')->name('display.incident.report');
             Route::get('/hotlineNumber', 'hotlineNumber')->name('hotline.number');
             Route::get('/about', 'about')->name('about');
         });
 
-        Route::prefix('reportAccident')->name('report.')->controller(ReportAccidentController::class)->group(function () {
-            Route::get('/displayPendingReport', 'displayPendingReport')->name('pending');
+        Route::prefix('reportIncident')->name('report.')->controller(IncidentReportController::class)->group(function () {
+            Route::get('/displayPendingIndcidentReport', 'displayPendingIncidentReport')->name('pending');
             Route::get('/displayIncidentReport', 'displayIncidentReport')->name('accident');
-            Route::post('/approveReport/{reportId}', 'approveAccidentReport')->name('approve');
-            Route::delete('/declineAccidentReport/{reportId}', 'declineAccidentReport')->name('decline');
-            Route::patch('/archiveReportAccident/{reportId}', 'archiveReportAccident')->name('archive');
+            Route::post('/approveIncidentReport/{reportId}', 'approveIncidentReport')->name('approve');
+            Route::delete('/declineIncidentReport/{reportId}', 'declineIncidentReport')->name('decline');
+            Route::patch('/removeIncidentReport/{reportId}', 'removeIncidentReport')->name('remove');
         });
     });
 

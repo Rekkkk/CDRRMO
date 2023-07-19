@@ -10,14 +10,14 @@
         <div class="header-section w-full drop-shadow-lg"></div>
         <div class="login-section relative m-auto">
             <div class="login-content flex justify-around">
-                <div class="header-desc py-5">
+                <div class="header-desc">
                     <h1 class="text-white tracking-wide font-extrabold">{{ config('app.name') }}</h1>
                     <div class="pt-4">
                         <p class="text-slate-400">E-LIGTAS can help you locate an evacuation center in Cabuyao, Laguna,
                             and learn about disaster preparedness.</p>
                     </div>
                 </div>
-                <div class="login-form-section bg-slate-300 mr-2    ">
+                <div class="login-form-section bg-slate-300 mr-2">
                     <form action="{{ route('login') }}" method="POST" class="px-3">
                         @csrf
                         <div class="my-3">
@@ -53,9 +53,7 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/js/script.js') }}"></script>
-    <script src="https://code.jquery.com/jquery-3.7.0.min.js"
-        integrity="sha256-2Pmvv0kuTBOenSvLm6bvfBSSHrUJ+3A7x6P5Ebd07/g=" crossorigin="anonymous"></script>
+    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>

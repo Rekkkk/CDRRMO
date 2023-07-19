@@ -16,9 +16,9 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="grid grid-cols-1">
-                <div class="grid col-end-1 mr-4">
+                <div class="grid col-end-1">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-people p-2 bg-slate-600 rounded-md"></i>
+                        <i class="bi bi-people p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">MANAGE EVACUEE INFORMATION</span>
@@ -36,10 +36,10 @@
                 </button>
             </div>
             @include('userpage.evacuee.evacueeInfoFormModal')
-            <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
+            <div class="table-container p-3 shadow-lg rounded-lg">
                 <div class="block w-full overflow-auto">
                     <header class="text-2xl font-semibold mb-3">Evacuee Informations</header>
-                    <table class="table evacueeTable table-striped table-light" width="100%">
+                    <table class="table evacueeTable" width="100%">
                         <thead class="thead-light">
                             <tr class="table-row">
                                 <th>Id</th>
@@ -87,10 +87,10 @@
                     @endforeach
                 </select>
             </div>
-            <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
+            <div class="table-container p-3 shadow-lg rounded-lg">
                 <div class="block w-full overflow-auto">
                     <header class="text-2xl font-semibold mb-3">Archived Evacuee Informations</header>
-                    <table class="table archivedEvacueeTable table-striped table-light" width="100%">
+                    <table class="table archivedEvacueeTable" width="100%">
                         <thead class="thead-light">
                             <tr>
                                 <th>House Hold #</th>
@@ -117,8 +117,10 @@
                 </div>
             </div>
         </div>
+        @include('userpage.changePasswordModal')
     </div>
 
+    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
