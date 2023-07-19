@@ -28,7 +28,7 @@
                     </div>
                 </div>
                 <div class="flex justify-end pb-2 pr-4">
-                    @can('editProfile', \App\Models\User::class)
+                    @can('alter', \App\Models\User::class)
                         <button class="btn-edit w-36" id="editProfileBtn">
                             <i class="bi bi-pencil pr-2"></i>
                             Edit Profile
