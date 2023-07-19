@@ -14,9 +14,9 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="grid grid-cols-1">
-                <div class="grid col-end-1 mr-4">
+                <div class="grid col-end-1">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-house-gear p-2 bg-slate-600 rounded-md"></i>
+                        <i class="bi bi-house-gear p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">MANAGE EVACUATION CENTER</span>
@@ -182,7 +182,7 @@
             $(document).on('click', '.createEvacuationCenter', function() {
                 $('.modal-header').attr('class', 'modal-header bg-green-600');
                 $('.modal-title').text('Create Evacuation Center');
-                $('#saveEvacuationCenterBtn').attr('class', 'btn-submit p-2').text('Create');
+                $('#saveEvacuationCenterBtn').attr('class', 'btn-submit float-right p-2').text('Create');
                 $('#operation').val('create');
                 $('#evacuationCenterModal').modal('show');
             });
@@ -193,7 +193,7 @@
 
                 $('.modal-header').attr('class', 'modal-header bg-yellow-500');
                 $('.modal-title').text('Edit Evacuation Center');
-                $('#saveEvacuationCenterBtn').attr('class', 'btn-edit p-2').text('Update');
+                $('#saveEvacuationCenterBtn').attr('class', 'btn-edit p-2 float-right').text('Update');
                 $('#operation').val('update');
                 $('#name').val(data['name']);
                 $('#latitude').val(data['latitude']);
@@ -284,7 +284,6 @@
                 confirmModal(`Do you want to ${operation} this evacuation center?`).then((result) => {
                     if (result.isConfirmed) {
                         if (operation == 'update' && defaultFormData == formData) {
-                            modal.modal('hide');
                             toastr.warning('No changes were made.', 'Warning');
                             return;
                         }

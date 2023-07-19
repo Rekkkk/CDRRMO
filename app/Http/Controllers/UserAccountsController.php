@@ -65,137 +65,113 @@ class UserAccountsController extends Controller
 
     public function createAccount(Request $request)
     {
-        $validatedAccount = Validator::make($request->all(), [
+        $createAccountValidation = Validator::make($request->all(), [
             'organization' => 'required',
             'email' => 'required|email|unique:user,email',
             'position' => 'required'
         ]);
 
-        if ($validatedAccount->passes()) {
-            try {
-                $defaultPassword = Str::password(15);
-                $this->user->create([
-                    'organization' => $request->organization,
-                    'position' => $request->position,
-                    'email' => trim($request->email),
-                    'password' =>  Hash::make($defaultPassword),
-                    'status' =>  "Active",
-                    'isDisable' =>  0,
-                    'isSuspend' =>  0
-                ]);
-                $this->logActivity->generateLog('Creating Account');
+        if ($createAccountValidation->passes()) {
+            $defaultPassword = Str::password(15);
+            $this->user->create([
+                'organization' => $request->organization,
+                'position' => $request->position,
+                'email' => trim($request->email),
+                'password' =>  Hash::make($defaultPassword),
+                'status' =>  "Active",
+                'isDisable' =>  0,
+                'isSuspend' =>  0
+            ]);
+            $this->logActivity->generateLog('Creating Account');
 
-                // Mail::to(trim($request->email))->send(new UserCredentialsMail([
-                //     'email' => trim($request->email),
-                //     'organization' => $request->organization,
-                //     'position' => Str::upper($request->position),
-                //     'password' => $defaultPassword
-                // ]));
+            // Mail::to(trim($request->email))->send(new UserCredentialsMail([
+            //     'email' => trim($request->email),
+            //     'organization' => $request->organization,
+            //     'position' => Str::upper($request->position),
+            //     'password' => $defaultPassword
+            // ]));
 
-                return response()->json(['status' => 'success', 'message' => 'Account successfully created.']);
-            } catch (\Exception $e) {
-                return response()->json(['status' => 'error', 'message' => 'An error occurred while processing your request.']);
-            }
+            return response()->json();
         }
 
-        return response()->json(['status' => 0, 'error' => $validatedAccount->errors()->toArray()]);
+        return response(['status' => "warning", 'message' => $createAccountValidation->error()->first()]);
     }
 
     public function updateAccount(Request $request, $userId)
     {
-        $validatedAccount = Validator::make($request->all(), [
+        $updateAccountValidation = Validator::make($request->all(), [
             'organization' => 'required',
             'position' => 'required',
             'email' => 'required|unique:user,email,' . $userId
         ]);
 
-        if ($validatedAccount->passes()) {
-            try {
-                $this->user->find($userId)->update([
-                    'organization' => $request->organization,
-                    'position' => $request->position,
-                    'email' => trim($request->email)
-                ]);
-                $this->logActivity->generateLog('Updating Account');
+        if ($updateAccountValidation->passes()) {
+            $this->user->find($userId)->update([
+                'organization' => $request->organization,
+                'position' => $request->position,
+                'email' => trim($request->email)
+            ]);
+            $this->logActivity->generateLog('Updating Account');
 
-                return response()->json(['status' => 1]);
-            } catch (\Exception $e) {
-                return response()->json(['status' => 0]);
-            }
+            return response()->json();
         }
 
-        return response()->json(['status' => 0, 'error' => $validatedAccount->errors()->toArray()]);
+        return response(['status' => "warning", 'message' => $updateAccountValidation->error()->first()]);
     }
 
     public function disableAccount($userId)
     {
-        try {
-            $this->user->find($userId)->update([
-                'status' => 'Disabled',
-                'isDisable' => 1
-            ]);
-            $this->logActivity->generateLog('Disabling Account');
+        $this->user->find($userId)->update([
+            'status' => 'Disabled',
+            'isDisable' => 1
+        ]);
+        $this->logActivity->generateLog('Disabling Account');
 
-            return response()->json(['status' => 1]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
-        }
+        return response()->json();
     }
 
     public function enableAccount($userId)
     {
-        try {
-            $this->user->find($userId)->update([
-                'status' => 'Active',
-                'isDisable' => 0
-            ]);
-            $this->logActivity->generateLog('Enabling Account');
+        $this->user->find($userId)->update([
+            'status' => 'Active',
+            'isDisable' => 0
+        ]);
+        $this->logActivity->generateLog('Enabling Account');
 
-            return response()->json(['status' => 1]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
-        }
+        return response()->json();
     }
 
     public function suspendAccount(Request $request, $userId)
     {
-        $suspendAccount = Validator::make($request->all(), [
-            'suspendTime' => 'required',
+        $suspendAccountValidation = Validator::make($request->all(), [
+            'suspendTime' => 'required'
         ]);
 
-        if ($suspendAccount->passes()) {
-            try {
-                $this->user->find($userId)->update([
-                    'status' => 'Suspended',
-                    'isSuspend' => 1,
-                    'suspendTime' => Carbon::parse($request->suspend)->format('Y-m-d H:i:s')
-                ]);
-                $this->logActivity->generateLog('Suspending Account');
+        if ($suspendAccountValidation->passes()) {
+            $this->user->find($userId)->update([
+                'status' => 'Suspended',
+                'isSuspend' => 1,
+                'suspendTime' => Carbon::parse($request->suspend)->format('Y-m-d H:i:s')
+            ]);
+            $this->logActivity->generateLog('Suspending Account');
 
-                return response()->json(['status' => 1]);
-            } catch (\Exception $e) {
-                return response()->json(['status' => 0]);
-            }
+            return response()->json();
         }
 
-        return response()->json(['status' => 0, 'error' => $suspendAccount->errors()->toArray()]);
+        return response(['status' => "warning", 'error' => $suspendAccountValidation->error()->first()]);
     }
 
     public function openAccount($userId)
     {
-        try {
-            $this->user->find($userId)->update([
-                'status' => 'Active',
-                'isDisable' => 0,
-                'isSuspend' => 0,
-                'suspendTime' => null
-            ]);
-            $this->logActivity->generateLog('Opening Account');
+        $this->user->find($userId)->update([
+            'status' => 'Active',
+            'isDisable' => 0,
+            'isSuspend' => 0,
+            'suspendTime' => null
+        ]);
+        $this->logActivity->generateLog('Opening Account');
 
-            return response()->json(['status' => 1]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
-        }
+        return response()->json();
     }
 
     public function changePassword()
@@ -206,51 +182,45 @@ class UserAccountsController extends Controller
     public function checkPassword(Request $request)
     {
         if (Hash::check($request->current_password, auth()->user()->password))
-            return response()->json(['status' => 1]);
+            return response()->json();
         else
-            return response()->json(['status' => 0]);
+            return response(['status' => "warning"]);
     }
 
     public function resetPassword(Request $request, $userId)
     {
         if (Hash::check($request->current_password, auth()->user()->password)) {
             if ($request->password == $request->confirmPassword) {
-                $changePasswordValidated = Validator::make($request->all(), [
+                $changePasswordValidation = Validator::make($request->all(), [
                     'current_password' => 'required',
                     'password' => 'required',
                     'confirmPassword' => 'required'
                 ]);
 
-                if ($changePasswordValidated->passes()) {
-                    try {
-                        $this->user->find($userId)->update([
-                            'password' => Hash::make($request->password)
-                        ]);
-                        $this->logActivity->generateLog('Changing Password');
 
-                        return response()->json(['status' => 1]);
-                    } catch (\Exception $e) {
-                        return response()->json(['status' => 0]);
-                    }
+                if ($changePasswordValidation->passes()) {
+                    $this->user->find($userId)->update([
+                        'password' => Hash::make($request->password)
+                    ]);
+                    $this->logActivity->generateLog('Changing Password');
+
+                    return response()->json();
                 }
 
-                return response()->json(['status' => 0, 'error' => $changePasswordValidated->errors()->toArray()]);
+                return response(['status' => "warning", 'error' => $changePasswordValidation->errors()->toArray()]);
             } else {
-                return response()->json(['status' => 2]);
+                return response(['status' => "warning", 'message' => "Password & Confirm pasword must be the same."]);
             }
         }
-        return response()->json(['status' => 0]);
+
+        return response(['status' => "warning", 'message' => "Current password doesn't match."]);
     }
 
     public function removeAccount($userId)
     {
-        try {
-            $this->user->find($userId)->delete();
-            $this->logActivity->generateLog('Removing Account');
+        $this->user->find($userId)->delete();
+        $this->logActivity->generateLog('Removing Account');
 
-            return response()->json(['status' => 1]);
-        } catch (\Exception $e) {
-            return response()->json(['status' => 0]);
-        }
+        return response()->json();
     }
 }
