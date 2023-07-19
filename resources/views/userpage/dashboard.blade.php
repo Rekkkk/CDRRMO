@@ -21,7 +21,7 @@
             </div>
             <hr class="mt-4">
             @can('generateData', \App\Models\User::class)
-                <div class="flex justify-between my-3">
+                <div class="report-container">
                     <p class="font-semibold tracking-wider"> Current Disaster:
                         @foreach ($onGoingDisaster as $disasters)
                             <span class="text-red-600 font-black">{{ $disasters->name }},</span>
@@ -64,14 +64,15 @@
             </div>
             @foreach ($onGoingDisaster as $count => $disaster)
                 <figure class="chart-container my-4">
-                    <div id="evacueePie{{ $count + 1 }}" class="bg-slate-50 rounded shadow-lg mr-3"></div>
-                    <div id="evacueeGraph{{ $count + 1 }}" class="bg-slate-200 rounded shadow-lg flex-1"></div>
+                    <div id="evacueePie{{ $count + 1 }}" class="pie-chart bg-slate-50 rounded shadow-lg mr-3"></div>
+                    <div id="evacueeGraph{{ $count + 1 }}" class="bar-graph bg-slate-200 rounded shadow-lg flex-1"></div>
                 </figure>
             @endforeach
         </div>
         @include('userpage.changePasswordModal')
     </div>
 
+    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>

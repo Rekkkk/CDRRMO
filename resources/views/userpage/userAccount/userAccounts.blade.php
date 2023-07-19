@@ -23,7 +23,7 @@
                 <span class="text-xl font-bold">MANAGE ACCOUNTS</span>
             </div>
             <hr class="mt-4">
-            <div class="flex justify-end my-3">
+            <div class="create-section">
                 <button class="btn-submit p-2 createUserAccount">
                     <i class="bi bi-person-fill-add pr-2"></i>
                     Create User Account
@@ -53,6 +53,7 @@
         </div>
     </div>
 
+    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

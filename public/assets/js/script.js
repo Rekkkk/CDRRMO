@@ -1,32 +1,17 @@
-const sidebar = document.querySelector('.sidebar'),
-    authPassword = document.getElementById("authPassword"),
-    password = document.getElementById("password"),
+const password = document.getElementById("password"),
     cPassword = document.getElementById("confirmPassword");
 
 document.addEventListener('click', function (object) {
     const element = object.target;
 
-    if (element.id == 'btn-sidebar-mobile') {
-        sidebar.classList.toggle('active');
-    } else if (element.id == 'btn-sidebar-close') {
-        sidebar.classList.remove('active');
-    } else if (element.id == 'showPassword' || element.id == 'showConfirmPassword' || element.id == 'showAuthPassword') {
-        const target = element.id == 'showPassword' ? password : element.id == 'showConfirmPassword' ? cPassword : authPassword;
+    if (element.id == 'showPassword' || element.id == 'showConfirmPassword') {
+        const target = element.id == 'showPassword' ? password : cPassword;
         target.type = target.type == 'password' ? 'text' : 'password';
         element.classList.toggle("bi-eye");
-    } else if (element.parentElement.className == 'menuLink') {
-        localStorage.setItem('activeLink', $(element.parentElement).attr('href'));
-    } else if (element.closest('#logoutBtn') || element.parentElement.id == 'loginLink') {
-        localStorage.removeItem("activeLink");
     }
 });
 
 $(document).ready(function () {
-    localStorage.getItem('activeLink') ?
-        $('.menuLink[href="' + localStorage.getItem('activeLink') + '"]').
-            addClass('activeLink') :
-        $('.menuLink').first().addClass('activeLink');
-
     $(document).on('click', '.changePasswordBtn', function () {
         $('#operation').val('change');
         $('#changePasswordModal').modal('show');

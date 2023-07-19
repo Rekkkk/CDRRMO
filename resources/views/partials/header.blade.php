@@ -3,7 +3,6 @@
         <div class="mobile-header">
             <button type="button" class="bi bi-list text-white cursor-pointer text-2xl" id="btn-sidebar-mobile"></button>
         </div>
-
         @if (auth()->check())
             <div class="dropdown">
                 <button class="text-white text-sm bi bi-caret-down-fill" role="button" data-bs-toggle="dropdown"
