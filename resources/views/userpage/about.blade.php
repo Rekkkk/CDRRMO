@@ -11,16 +11,16 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="grid grid-cols-1">
-                <div class="grid col-end-1 mr-4">
+                <div class="grid col-end-1">
                     <div class="text-2xl text-white">
                         <i class="bi bi-info-circle p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold ml-2">ABOUT</span>
+                <span class="text-xl font-bold">ABOUT</span>
             </div>
-            <hr class=" mt-4 mb-3">
-            <div class="about-content">
-                <div class="location-section mr-4 rounded-md">
+            <hr class="mt-4">
+            <div class="about-content mt-3">
+                <div class="location-section mr-4 rounded">
                     <div class="text-center">
                         <span class="text-2xl font-bold">Location</span>
                     </div>
@@ -38,7 +38,7 @@
                 </div>
 
                 <div class="right-side flex flex-1 flex-col">
-                    <div class="social-section drop-shadow-2xl bg-slate-600 mb-3 text-white rounded-md">
+                    <div class="social-section drop-shadow-2xl bg-slate-600 mb-3 text-white rounded">
                         <div class="text-center py-4">
                             <span class="text-lg font-bold">Social</span>
                         </div>
@@ -68,7 +68,7 @@
                         </a>
                     </div>
 
-                    <div class="telephone-section drop-shadow-2xl flex-1 bg-slate-600 text-white rounded-md">
+                    <div class="telephone-section drop-shadow-2xl flex-1 bg-slate-600 text-white rounded">
                         <div class="text-center py-4 font-bold">
                             <span class="text-lg">Contact</span>
                         </div>
@@ -97,6 +97,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+        integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+        crossorigin="anonymous"></script>
     @include('partials.toastr')
 </body>
 

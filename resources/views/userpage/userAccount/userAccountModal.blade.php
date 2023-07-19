@@ -44,10 +44,9 @@
                                     <label>Email Address</label>
                                     <input type="text" name="email" class="form-control" id="email"
                                         placeholder="Enter Email Address">
-                                    <span class="text-danger italic text-sm error-text email_error"></span>
                                 </div>
                                 <div class="w-full px-4 mt-4 mb-3">
-                                    <button id="saveProfileDetails" class="btn-submit p-2 float-right">Save</button>
+                                    <button id="saveProfileDetails" class="btn-submit p-2 float-right">Create</button>
                                 </div>
                             </div>
                         </div>

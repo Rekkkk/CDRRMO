@@ -11,14 +11,14 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="grid grid-cols-1">
-                <div class="grid col-end-1 mr-4">
+                <div class="grid col-end-1">
                     <div class="text-2xl text-white">
                         <i class="bi bi-file-earmark-richtext p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold ml-2">GUIDES</span>
+                <span class="text-xl font-bold">GUIDES</span>
             </div>
-            <hr class="mt-3">
+            <hr class="mt-4">
             <div class="guide-btn flex justify-end my-3">
                 @can('create', \App\Models\User::class)
                     <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 font-medium">

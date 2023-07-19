@@ -14,7 +14,7 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="grid grid-cols-1">
-                <div class="grid col-end-1 mr-4">
+                <div class="grid col-end-1">
                     <div class="text-white text-2xl">
                         <i class="bi bi-tropical-storm p-2 bg-slate-600 rounded"></i>
                     </div>
@@ -120,9 +120,9 @@
         });
 
         $(document).on('click', '#createDisasterData', function() {
-            $('.modal-header').attr('class', 'modal-header bg-green-500');
+            $('.modal-header').attr('class', 'modal-header bg-green-600');
             $('.modal-title').text('Create Disaster Form');
-            $('#submitDisasterBtn').attr('class', 'btn-submit p-2').text('Create');
+            $('#submitDisasterBtn').attr('class', 'btn-submit p-2 float-right mx-4 my-2').text('Create');
             $('#operation').val('create');
             $('#disasterModal').modal('show');
         });
@@ -130,10 +130,9 @@
         $(document).on('click', '.updateDisaster', function() {
             let data = getRowData(this);
             disasterId = data['id'];
-
             $('.modal-header').attr('class', 'modal-header bg-yellow-500');
             $('.modal-title').text('Edit Disaster Form');
-            $('#submitDisasterBtn').attr('class', 'btn-edit').text('Update');
+            $('#submitDisasterBtn').attr('class', 'btn-edit p-2 float-right mx-4 my-2').text('Update');
             $('#disasterName').val(data['name']);
             $('#location').val(data['location']);
             $('#operation').val('update');
@@ -215,7 +214,6 @@
             confirmModal(`Do you want to ${operation} this disaster?`).then((result) => {
                 if (result.isConfirmed) {
                     if (operation == 'update' && defaultFormData == formData) {
-                        $('#disasterModal').modal('hide');
                         toastr.warning('No changes were made.', 'Warning');
                         return;
                     }

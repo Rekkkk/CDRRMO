@@ -51,7 +51,7 @@
                                 </div>
                                 <div class="w-full px-4 mt-4">
                                     <button id="saveEvacuationCenterBtn"
-                                        class="btn-submit p-2 float-right mb-3">Add</button>
+                                        class="btn-submit p-2 float-right mb-3">Create</button>
                                 </div>
                             </div>
                         </div>

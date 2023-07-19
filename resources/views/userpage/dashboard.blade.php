@@ -12,12 +12,12 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="grid grid-cols-1">
-                <div class="grid col-end-1 mr-4">
+                <div class="grid col-end-1">
                     <div class="text-white text-2xl">
                         <i class="bi bi-speedometer2 p-2 bg-slate-600 rounded"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold ml-2">DASHBOARD</span>
+                <span class="text-xl font-bold">DASHBOARD</span>
             </div>
             <hr class="mt-4">
             @can('generateData', \App\Models\User::class)
@@ -69,6 +69,7 @@
                 </figure>
             @endforeach
         </div>
+        @include('userpage.changePasswordModal')
     </div>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
@@ -79,6 +80,9 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-ENjdO4Dr2bkBIFxQpeoTz1HIcje39Wm4jDKdf19U8gI4ddQ3GYNS7NTKfAdVQSZe" crossorigin="anonymous">
     </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+        integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+        crossorigin="anonymous"></script>
     @include('partials.toastr')
     <script>
         $(document).ready(function() {
