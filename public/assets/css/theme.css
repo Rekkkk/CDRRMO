@@ -824,10 +824,6 @@ input::-webkit-inner-spin-button {
     /* Button Sectionn End */
 
     /* Login Section Start Here */
-    .header-section {
-        display: none;
-    }
-
     .login-section {
         padding: 10% 0 40%;
         transition: 0.5s all ease-in-out;
