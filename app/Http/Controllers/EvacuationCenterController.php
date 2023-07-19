@@ -39,7 +39,7 @@ class EvacuationCenterController extends Controller
             ->make(true);
     }
 
-    public function addEvacuationCenter(Request $request)
+    public function createEvacuationCenter(Request $request)
     {
         $validateEvacuationCenter = Validator::make($request->all(), [
             'name' => 'required',
@@ -48,21 +48,20 @@ class EvacuationCenterController extends Controller
             'longitude' => 'required'
         ]);
 
-        if (!$validateEvacuationCenter->passes()) {
-            return response()->json(['condition' => 0]);
+        if ($validateEvacuationCenter->passes()) {
+            $this->evacuationCenter->create([
+                'name' => Str::ucfirst($request->name),
+                'barangay_name' => $request->barangayName,
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'status' => 'Active'
+            ]);
+            $this->logActivity->generateLog('Added new evacuation center');
+
+            return response()->json();
         }
 
-        $this->evacuationCenter->create([
-            'name' => Str::ucfirst($request->name),
-            'barangay_name' => $request->barangayName,
-            'latitude' => $request->latitude,
-            'longitude' => $request->longitude,
-            'status' => 'Active'
-        ]);
-
-        $this->logActivity->generateLog('Added new evacuation center');
-
-        return response()->json(['condition' => 1]);
+        return response(['status' => "warning", 'message' => $validateEvacuationCenter->errors()->first()]);
     }
 
     public function updateEvacuationCenter(Request $request, $evacuationId)
@@ -74,38 +73,35 @@ class EvacuationCenterController extends Controller
             'longitude' => 'required'
         ]);
 
-        if (!$validateEvacuationCenter->passes()) {
-            return response()->json(['condition' => 0]);
+        if ($validateEvacuationCenter->passes()) {
+            $this->evacuationCenter->find($evacuationId)->update([
+                'name' => Str::ucfirst(trim($request->name)),
+                'barangay_name' => $request->barangayName,
+                'latitude' => trim($request->latitude),
+                'longitude' => trim($request->longitude)
+            ]);
+            $this->logActivity->generateLog('Updating evacuation center');
+
+            return response()->json();
         }
 
-        $this->evacuationCenter->find($evacuationId)->update([
-            'name' => Str::ucfirst(trim($request->name)),
-            'barangay_name' => $request->barangayName,
-            'latitude' => trim($request->latitude),
-            'longitude' => trim($request->longitude),
-        ]);
-
-        $this->logActivity->generateLog('Updated evacuation center');
-
-        return response()->json(['condition' => 1]);
+        return response(['status' => "warning", 'message' => $validateEvacuationCenter->errors()->first()]);
     }
 
     public function removeEvacuationCenter($evacuationId)
     {
         $this->evacuationCenter->find($evacuationId)->delete();
-
-        $this->logActivity->generateLog('Removed evacuation center');
+        $this->logActivity->generateLog('Removing evacuation center');
 
         return response()->json();
     }
 
-    public function changeEvacuationStatus($evacuationId, Request $request)
+    public function changeEvacuationStatus(Request $request, $evacuationId)
     {
         $this->evacuationCenter->find($evacuationId)->update([
             'status' => $request->status
         ]);
-
-        $this->logActivity->generateLog('Changed evacuation center status');
+        $this->logActivity->generateLog('Changing evacuation center status');
 
         return response()->json();
     }
