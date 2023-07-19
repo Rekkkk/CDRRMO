@@ -114,8 +114,7 @@
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('evacuation.center.get', ':operation') }}".
-                    replace(':operation', 'manage'),
+                ajax: "{{ route('evacuation.center.get', 'manage') }}",
                 columns: [{
                         data: 'id',
                         name: 'id',
