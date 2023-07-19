@@ -60,8 +60,9 @@ class MainController extends Controller
     public function evacuationCenterLocator()
     {
         $evacuationCenters = $this->evacuationCenter->all();
+        $prefix = Request()->route()->getPrefix();
 
-        return view('userpage.evacuationCenter.evacuationCenter', ['evacuationCenters' => $evacuationCenters]);
+        return view('userpage.evacuationCenter.evacuationCenter', compact('evacuationCenters', 'prefix'));
     }
 
     public function manageEvacuation()

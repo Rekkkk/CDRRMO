@@ -32,10 +32,10 @@
                 </div>
             </div>
             <div class="flex justify-end my-3">
-                <button type="button" class="btn-submit bg-green-600 p-2 mr-3">
+                <button type="button" class="btn-submit bg-green-600 p-2 mr-3" id="locateNearestBtn">
                     <i class="bi bi-search pr-2"></i>
                     Locate Nearest Evacuation</button>
-                <button type="button" class="btn-cancel bg-red-600 p-2 rounded">
+                <button type="button" class="btn-cancel bg-red-600 p-2 rounded" id="locateCurrentLocationBtn">
                     <i class="bi bi-pin-map-fill pr-2"></i>
                     Locate Current Location</button>
             </div>
@@ -45,8 +45,8 @@
                     <table class="table evacuationCenterTable table-striped table-light" width="100%">
                         <thead class="thead-light">
                             <tr>
-                                <th>Evacuation Center Name</th>
-                                <th>Barangay Name</th>
+                                <th>Name</th>
+                                <th>Barangay</th>
                                 <th>Latitude</th>
                                 <th>Longitude</th>
                                 <th>Status</th>
@@ -78,7 +78,7 @@
                     lat: 14.242311,
                     lng: 121.12772
                 },
-                zoom: 14,
+                zoom: 13,
                 clickableIcons: false,
                 mapTypeId: 'terrain',
                 styles: mapTypeStyleArray
@@ -89,7 +89,7 @@
             for (let evacuationCenter of evacuationCenters) {
 
                 let picture = evacuationCenter.status == 'Active' ? "evacMarkerActive" : "evacMarkerInactive"
-                picture = evacuationCenter.status == 'Full' ? "evacMarkerFull" : picture
+                    picture = evacuationCenter.status == 'Full' ? "evacMarkerFull" : picture
 
                 let marker = new google.maps.Marker({
                     position: {
@@ -126,6 +126,12 @@
         }
 
         $(document).ready(function() {
+            let url;
+
+            '{{ $prefix }}' == 'resident' ?
+                url = "{{ route('resident.evacuation.center.get', 'locator') }}" :
+                url = "{{ route('evacuation.center.get', 'locator') }}";
+
             let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
                 order: [
                     [1, 'asc']
@@ -136,10 +142,8 @@
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('resident.evacuation.center.get', ':operation') }}".
-                    replace(':operation', 'locator'),
-                columns: [
-                    {
+                ajax: url,
+                columns: [{
                         data: 'name',
                         name: 'name'
                     },
@@ -168,6 +172,32 @@
                         searchable: false
                     }
                 ]
+            });
+
+            $('#locateCurrentLocationBtn').click(function() {
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        let pos = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude
+                        };
+
+                        let userMarker = new google.maps.Marker({
+                            position: pos,
+                            map,
+                            icon: {
+                                url: "{{ asset('assets/img/userMarker.png') }}",
+                                scaledSize: new google.maps.Size(35, 35),
+                            }
+                        });
+
+                        map.setCenter(pos);
+                    }, function() {
+                        toastr.error('Error: The Geolocation service failed.');
+                    });
+                } else {
+                    toastr.error('Your browser does not support geolocation');
+                }
             });
         });
     </script>
