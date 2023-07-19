@@ -77,6 +77,8 @@
                 },
                 zoom: 13,
                 clickableIcons: false,
+                mapTypeId: 'terrain',
+                styles: mapTypeStyleArray
             });
 
             map.addListener("click", (event) => {
@@ -112,7 +114,8 @@
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: "{{ route('evacuation.center.get') }}",
+                ajax: "{{ route('evacuation.center.get', ':operation') }}".
+                    replace(':operation', 'manage'),
                 columns: [{
                         data: 'id',
                         name: 'id',
