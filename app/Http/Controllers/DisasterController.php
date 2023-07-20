@@ -25,13 +25,17 @@ class DisasterController extends Controller
             return DataTables::of($disasterInformation)
                 ->addIndexColumn()
                 ->addColumn('action', function () {
-                    return '<div class="flex justify-around actionContainer"><button class="btn-table-edit mr-2 updateDisaster"><i class="bi bi-pencil-square pr-2"></i>Edit</button>' .
-                        '<button class="btn-table-remove mr-2 removeDisaster"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
-                        '<select class="custom-select w-44 bg-blue-500 text-white changeDisasterStatus">
+                    if (auth()->user()->status == "Active") {
+                        return '<div class="flex justify-around actionContainer"><button class="btn-table-edit mr-2 updateDisaster"><i class="bi bi-pencil-square pr-2"></i>Edit</button>' .
+                            '<button class="btn-table-remove mr-2 removeDisaster"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
+                            '<select class="custom-select w-44 bg-blue-500 text-white changeDisasterStatus">
                         <option value="" disabled selected hidden>Change Status</option>
                         <option value="On Going">On Going</option>
                         <option value="Inactive">Inactive</option>
                     </select></div>';
+                    }
+
+                    return '<span class="text-sm">Currently Disabled.</span>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -49,7 +53,6 @@ class DisasterController extends Controller
         if ($validatedDisasterData->passes()) {
             $this->disaster->create([
                 'name' => $request->name,
-                'location' => $request->location,
                 'status' => "On Going",
                 'is_archive' => 0
             ]);
@@ -69,8 +72,7 @@ class DisasterController extends Controller
 
         if ($validatedDisasterData->passes()) {
             $this->disaster->find($disasterId)->update([
-                'name' => $request->name,
-                'location' => $request->location
+                'name' => $request->name
             ]);
             $this->logActivity->generateLog('Updating Disaster Data');
 

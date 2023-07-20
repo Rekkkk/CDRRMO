@@ -32,14 +32,16 @@ class IncidentReportController extends Controller
         return DataTables::of($pendingReport)
             ->addIndexColumn()
             ->addColumn('action', function ($row) {
-                $actionBtn = '';
+                if (auth()->user()->status == "Active") {
+                    $actionBtn = '';
 
-                if ($row->user_ip == request()->ip() && !auth()->check())
-                    $actionBtn .= '<button class="btn-table-remove revertIncidentReport">Revert</button>';
-                else if (auth()->check())
-                    return '<button class="btn-table-submit p-1.5 px-3.5 mr-2 text-sm approveIncidentReport">Approve</button>' . '<button class="btn-table-remove declineIncidentReport">Decline</button>';
+                    if ($row->user_ip == request()->ip() && !auth()->check())
+                        $actionBtn .= '<button class="btn-table-remove revertIncidentReport">Revert</button>';
+                    else if (auth()->check() && auth()->user()->status == "Active")
+                        return '<button class="btn-table-submit p-1.5 px-3.5 mr-2 text-sm approveIncidentReport">Approve</button>' . '<button class="btn-table-remove declineIncidentReport">Decline</button>';
+                }
 
-                return $actionBtn;
+                return '<span class="text-sm">Currently Disabled.</span>';
             })->addColumn('photo', function ($row) {
                 return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
             })
@@ -54,7 +56,11 @@ class IncidentReportController extends Controller
         return DataTables::of($incidentReport)
             ->addIndexColumn()
             ->addColumn('action', function () {
-                return '<button class="btn-table-remove removeIncidentReport">Remove</button>';
+                if (auth()->user()->status == "Active") {
+                    return '<button class="btn-table-remove removeIncidentReport">Remove</button>';
+                }
+
+                return '<span class="text-sm">Currently Disabled.</span>';
             })->addColumn('photo', function ($row) {
                 return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
             })
