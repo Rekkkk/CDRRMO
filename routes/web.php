@@ -95,7 +95,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/about', 'about')->name('about');
         });
 
-        Route::prefix('reportIncident')->name('report.')->controller(IncidentReportController::class)->group(function () {
+        Route::prefix('incidentReport')->name('report.')->controller(IncidentReportController::class)->group(function () {
             Route::get('/displayPendingIndcidentReport', 'displayPendingIncidentReport')->name('pending');
             Route::get('/displayIncidentReport', 'displayIncidentReport')->name('accident');
             Route::post('/approveIncidentReport/{reportId}', 'approveIncidentReport')->name('approve');
@@ -107,16 +107,16 @@ Route::middleware('auth')->group(function () {
     Route::prefix('eligtasGuideline')->controller(GuidelineController::class)->group(function () {
         Route::name('guideline.')->group(function () {
             Route::get('/', 'eligtasGuideline')->name('display');
-            Route::post('/guideline/addGuideline', 'addGuideline')->name('add');
+            Route::post('/guideline/addGuideline', 'createGuideline')->name('create');
             Route::put('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update');
-            Route::get('/guideline/archiveGuideline/{guidelineId}', 'archiveGuideline')->name('archive');
+            Route::patch('/guideline/removeGuideline/{guidelineId}', 'removeGuideline')->name('remove');
         });
 
         Route::name('guide.')->group(function () {
             Route::get('/guide/{guidelineId}', 'guide')->name('display');
-            Route::post('/guide/addGuide{guidelineId}', 'addGuide')->name('add');
+            Route::post('/guide/addGuide{guidelineId}', 'createGuide')->name('create');
             Route::put('/guide/updateGuide/{guideId}', 'updateGuide')->name('update');
-            Route::get('/guide/archiveGuide/{guideId}', 'archiveGuide')->name('archive');
+            Route::patch('/guide/removeGuide/{guideId}', 'removeGuide')->name('remove');
         });
     });
 
