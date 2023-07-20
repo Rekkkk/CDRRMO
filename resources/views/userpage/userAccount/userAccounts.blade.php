@@ -22,13 +22,15 @@
                 </div>
                 <span class="text-xl font-bold">MANAGE ACCOUNTS</span>
             </div>
-            <hr class="mt-4">
-            <div class="create-section">
-                <button class="btn-submit p-2 createUserAccount">
-                    <i class="bi bi-person-fill-add pr-2"></i>
-                    Create User Account
-                </button>
-            </div>
+            <hr class="mt-4 mb-3">
+            @if (auth()->user()->status == 'Active')
+                <div class="create-section">
+                    <button class="btn-submit p-2 createUserAccount">
+                        <i class="bi bi-person-fill-add pr-2"></i>
+                        Create User Account
+                    </button>
+                </div>
+            @endif
             <div class="table-container p-3 shadow-lg rounded-lg">
                 <header class="text-2xl font-semibold mb-3">User Accounts Table</header>
                 <div class="block w-full overflow-auto">
@@ -47,13 +49,14 @@
                         </tbody>
                     </table>
                 </div>
-                @include('userpage.userAccount.userAccountModal')
+                @if (auth()->user()->status == 'Active')
+                    @include('userpage.userAccount.userAccountModal')
+                @endif
                 @include('userpage.changePasswordModal')
             </div>
         </div>
     </div>
 
-    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -66,44 +69,9 @@
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
     @include('partials.toastr')
-    @can('view', \App\Models\User::class)
+    @auth
         <script>
             $(document).ready(function() {
-                let userId, defaultFormData, dateSuspendTime = datePicker("#suspend");
-
-                let validator = $("#accountForm").validate({
-                    rules: {
-                        organization: {
-                            required: true
-                        },
-                        position: {
-                            required: true
-                        },
-                        email: {
-                            required: true
-                        },
-                        suspend: {
-                            required: true
-                        }
-                    },
-                    messages: {
-                        organization: {
-                            required: 'Please Enter Your Organization.'
-                        },
-                        position: {
-                            required: 'Please Enter Your Position.'
-                        },
-                        email: {
-                            required: 'Please Enter Your Email Address.'
-                        },
-                        suspend: {
-                            required: 'Please Enter Suspension Time.'
-                        }
-                    },
-                    errorElement: 'span',
-                    submitHandler: formSubmitHandler
-                });
-
                 let accountTable = $('.accountTable').DataTable({
                     rowReorder: {
                         selector: 'td:nth-child(2)'
@@ -141,210 +109,249 @@
                         },
                     ]
                 });
+                @if (auth()->user()->status == 'Active')
+                    let userId, defaultFormData, dateSuspendTime = datePicker("#suspend");
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
-
-                $(document).on('change', '.actionSelect', function() {
-                    let selectedAction = $(this).val();
-                    let currentRow = $(this).closest('tr');
-
-                    if (accountTable.responsive.hasHidden())
-                        currentRow = currentRow.prev('tr');
-
-                    let data = accountTable.row(currentRow).data();
-                    userId = data['id'];
-
-                    if (selectedAction == 'disableAccount') {
-                        confirmModal('Do you want to disable this account?').then((result) => {
-                            if (result.isConfirmed) {
-                                $.ajax({
-                                    type: "PUT",
-                                    url: "{{ route('account.disable', ':userId') }}"
-                                        .replace(':userId', userId),
-                                    success: function() {
-                                        toastr.success('Successfully disabled account.',
-                                            'Success');
-                                        accountTable.draw();
-                                    },
-                                    error: function() {
-                                        toastr.error(
-                                            'An error occurred while processing your request.',
-                                            'Error');
-                                    }
-                                });
-                            } else {
-                                $('.actionSelect').val('');
+                    let validator = $("#accountForm").validate({
+                        rules: {
+                            organization: {
+                                required: true
+                            },
+                            position: {
+                                required: true
+                            },
+                            email: {
+                                required: true
+                            },
+                            suspend: {
+                                required: true
                             }
-                        });
-                    } else if (selectedAction == 'enableAccount') {
-                        confirmModal('Do you want to enable this account?').then((result) => {
-                            if (result.isConfirmed) {
-                                $.ajax({
-                                    type: "PUT",
-                                    url: "{{ route('account.enable', ':userId') }}"
-                                        .replace(':userId', userId),
-                                    success: function() {
-                                        toastr.success('Successfully enabled account.',
-                                            'Success');
-                                        accountTable.draw();
-                                    },
-                                    error: function() {
-                                        toastr.error(
-                                            'An error occurred while processing your request.',
-                                            'Error');
-                                    }
-                                });
-                            } else {
-                                $('.actionSelect').val('');
+                        },
+                        messages: {
+                            organization: {
+                                required: 'Please Enter Your Organization.'
+                            },
+                            position: {
+                                required: 'Please Enter Your Position.'
+                            },
+                            email: {
+                                required: 'Please Enter Your Email Address.'
+                            },
+                            suspend: {
+                                required: 'Please Enter Suspension Time.'
                             }
-                        });
-                    } else if (selectedAction == 'editAccount') {
-                        $('.modal-header').attr('class', 'modal-header bg-yellow-500');
-                        $('.modal-title').text('Edit User Account');
-                        $('#saveProfileDetails').attr('class', 'btn-edit p-2 float-right').text('Update');
-                        $('#suspend-container').prop('hidden', true);
-                        $('#organization').val(data['organization']);
-                        $('#position').val(data['position']);
-                        $('#email').val(data['email']);
-                        $('#operation').val('update');
-                        $('#userAccountModal').modal('show');
-                        defaultFormData = $('#accountForm').serialize();
-                    } else if (selectedAction == 'removeAccount') {
-                        confirmModal('Do you want to remove this user account?').then((result) => {
-                            if (result.isConfirmed) {
-                                $.ajax({
-                                    type: "DELETE",
-                                    url: "{{ route('account.remove', ':userId') }}"
-                                        .replace(':userId', userId),
-                                    success: function() {
-                                        toastr.success('Successfully removed account.',
-                                            'Success');
-                                        accountTable.draw();
-                                    },
-                                    error: function() {
-                                        toastr.error(
-                                            'An error occurred while processing your request.',
-                                            'Error');
-                                    }
-                                });
-                            } else {
-                                $('.actionSelect').val('');
-                            }
-                        });
-                    } else if (selectedAction == 'suspendAccount') {
-                        $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                        $('.modal-title').text('Suspend User Account Form');
-                        $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text('Suspend');
-                        $('#organization').val(data['organization']);
-                        $('#position').val(data['position']);
-                        $('#email').val(data['email']);
-                        $('#operation').val('suspend');
-                        $('#userAccountModal').modal('show');
-                        defaultFormData = $('#accountForm').serialize();
-                    } else if (selectedAction == 'openAccount') {
-                        confirmModal('Do you want to open this user account?').then((result) => {
-                            if (result.isConfirmed) {
-                                $.ajax({
-                                    type: "PUT",
-                                    url: "{{ route('account.open', ':userId') }}"
-                                        .replace(':userId', userId),
-                                    success: function() {
-                                        toastr.success('Successfully opened account.',
-                                            'Success');
-                                        accountTable.draw();
-                                    },
-                                    error: function() {
-                                        toastr.error(
-                                            'An error occurred while processing your request.',
-                                            'Error');
-                                    }
-                                });
-                            } else {
-                                $('.actionSelect').val('');
-                            }
-                        });
-                    }
-                });
+                        },
+                        errorElement: 'span',
+                        submitHandler: formSubmitHandler
+                    });
 
-                $(document).on('click', '.createUserAccount', function() {
-                    $('.modal-header').attr('class', 'modal-header bg-green-600');
-                    $('.modal-title').text('Create User Account Form');
-                    $('#saveProfileDetails').attr('class', 'btn-submit p-2 float-right').text('Create');
-                    $('#suspend-container').prop('hidden', true);
-                    $('#suspend').prop('disabled', true);
-                    $('#operation').val('create');
-                    $('#userAccountModal').modal('show');
-                });
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
 
-                $('#userAccountModal').on('hidden.bs.modal', function() {
-                    validator.resetForm();
-                    $('#suspend-container').prop('hidden', false);
-                    $('#suspend').prop('disabled', false);
-                    $('.actionSelect').val('');
-                    $('#accountForm')[0].reset();
-                });
+                    $(document).on('change', '.actionSelect', function() {
+                        let selectedAction = $(this).val();
+                        let currentRow = $(this).closest('tr');
 
-                function formSubmitHandler(form) {
-                    let operation = $('#operation').val(),
-                        url, type, formData = $(form).serialize(),
-                        modal = $('#userAccountModal');
+                        if (accountTable.responsive.hasHidden())
+                            currentRow = currentRow.prev('tr');
 
-                    url = operation == 'create' ? "{{ route('account.create') }}" :
-                        operation == 'update' ? "{{ route('account.update', 'userId') }}".replace('userId', userId) :
-                        "{{ route('account.suspend', 'userId') }}".replace('userId', userId);
+                        let data = accountTable.row(currentRow).data();
+                        userId = data['id'];
 
-                    type = operation == 'create' ? "POST" : "PUT";
-
-                    confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
-                        if (result.isConfirmed) {
-                            if (operation == 'update' && defaultFormData == formData) {
-                                toastr.warning('No changes were made.', 'Warning');
-                                return;
-                            }
-                            $.ajax({
-                                data: formData,
-                                url: url,
-                                type: type,
-                                success: function(response) {
-                                    if (response.status == "warning") {
-                                        toastr.warning(response.message, 'Warning');
-                                    } else {
-                                        toastr.success(
-                                            `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`,
-                                            'Success');
-                                        modal.modal('hide');
-                                        accountTable.draw();
-                                    }
-                                },
-                                error: function() {
-                                    modal.modal('hide');
-                                    toastr.error('An error occurred while processing your request.',
-                                        'Error');
+                        if (selectedAction == 'disableAccount') {
+                            confirmModal('Do you want to disable this account?').then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        type: "PUT",
+                                        url: "{{ route('account.disable', ':userId') }}"
+                                            .replace(':userId', userId),
+                                        success: function() {
+                                            toastr.success('Successfully disabled account.',
+                                                'Success');
+                                            accountTable.draw();
+                                        },
+                                        error: function() {
+                                            toastr.error(
+                                                'An error occurred while processing your request.',
+                                                'Error');
+                                        }
+                                    });
+                                } else {
+                                    $('.actionSelect').val('');
+                                }
+                            });
+                        } else if (selectedAction == 'enableAccount') {
+                            confirmModal('Do you want to enable this account?').then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        type: "PUT",
+                                        url: "{{ route('account.enable', ':userId') }}"
+                                            .replace(':userId', userId),
+                                        success: function() {
+                                            toastr.success('Successfully enabled account.',
+                                                'Success');
+                                            accountTable.draw();
+                                        },
+                                        error: function() {
+                                            toastr.error(
+                                                'An error occurred while processing your request.',
+                                                'Error');
+                                        }
+                                    });
+                                } else {
+                                    $('.actionSelect').val('');
+                                }
+                            });
+                        } else if (selectedAction == 'editAccount') {
+                            $('.modal-header').attr('class', 'modal-header bg-yellow-500');
+                            $('.modal-title').text('Edit User Account');
+                            $('#saveProfileDetails').attr('class', 'btn-edit p-2 float-right').text('Update');
+                            $('#suspend-container').prop('hidden', true);
+                            $('#organization').val(data['organization']);
+                            $('#position').val(data['position']);
+                            $('#email').val(data['email']);
+                            $('#operation').val('update');
+                            $('#userAccountModal').modal('show');
+                            defaultFormData = $('#accountForm').serialize();
+                        } else if (selectedAction == 'removeAccount') {
+                            confirmModal('Do you want to remove this user account?').then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        type: "DELETE",
+                                        url: "{{ route('account.remove', ':userId') }}"
+                                            .replace(':userId', userId),
+                                        success: function() {
+                                            toastr.success('Successfully removed account.',
+                                                'Success');
+                                            accountTable.draw();
+                                        },
+                                        error: function() {
+                                            toastr.error(
+                                                'An error occurred while processing your request.',
+                                                'Error');
+                                        }
+                                    });
+                                } else {
+                                    $('.actionSelect').val('');
+                                }
+                            });
+                        } else if (selectedAction == 'suspendAccount') {
+                            $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
+                            $('.modal-title').text('Suspend User Account Form');
+                            $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text(
+                                'Suspend');
+                            $('#organization').val(data['organization']);
+                            $('#position').val(data['position']);
+                            $('#email').val(data['email']);
+                            $('#operation').val('suspend');
+                            $('#userAccountModal').modal('show');
+                            defaultFormData = $('#accountForm').serialize();
+                        } else if (selectedAction == 'openAccount') {
+                            confirmModal('Do you want to open this user account?').then((result) => {
+                                if (result.isConfirmed) {
+                                    $.ajax({
+                                        type: "PUT",
+                                        url: "{{ route('account.open', ':userId') }}"
+                                            .replace(':userId', userId),
+                                        success: function() {
+                                            toastr.success('Successfully opened account.',
+                                                'Success');
+                                            accountTable.draw();
+                                        },
+                                        error: function() {
+                                            toastr.error(
+                                                'An error occurred while processing your request.',
+                                                'Error');
+                                        }
+                                    });
+                                } else {
+                                    $('.actionSelect').val('');
                                 }
                             });
                         }
                     });
-                }
 
-                function datePicker(id) {
-                    return flatpickr(id, {
-                        enableTime: true,
-                        allowInput: true,
-                        static: false,
-                        timeFormat: "h:i K",
-                        dateFormat: "D, M j, Y h:i K",
-                        minuteIncrement: 1,
-                        secondIncrement: 1,
-                        position: "below center"
+                    $(document).on('click', '.createUserAccount', function() {
+                        $('.modal-header').attr('class', 'modal-header bg-green-600');
+                        $('.modal-title').text('Create User Account Form');
+                        $('#saveProfileDetails').attr('class', 'btn-submit p-2 float-right').text('Create');
+                        $('#suspend-container').prop('hidden', true);
+                        $('#suspend').prop('disabled', true);
+                        $('#operation').val('create');
+                        $('#userAccountModal').modal('show');
                     });
-                }
+
+                    $('#userAccountModal').on('hidden.bs.modal', function() {
+                        validator.resetForm();
+                        $('#suspend-container').prop('hidden', false);
+                        $('#suspend').prop('disabled', false);
+                        $('.actionSelect').val('');
+                        $('#accountForm')[0].reset();
+                    });
+
+                    function formSubmitHandler(form) {
+                        let operation = $('#operation').val(),
+                            url, type, formData = $(form).serialize(),
+                            modal = $('#userAccountModal');
+
+                        url = operation == 'create' ? "{{ route('account.create') }}" :
+                            operation == 'update' ? "{{ route('account.update', 'userId') }}".replace('userId',
+                                userId) :
+                            "{{ route('account.suspend', 'userId') }}".replace('userId', userId);
+
+                        type = operation == 'create' ? "POST" : "PUT";
+
+                        confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
+                            if (result.isConfirmed) {
+                                if (operation == 'update' && defaultFormData == formData) {
+                                    toastr.warning('No changes were made.', 'Warning');
+                                    return;
+                                }
+                                $.ajax({
+                                    data: formData,
+                                    url: url,
+                                    type: type,
+                                    success: function(response) {
+                                        if (response.status == "warning") {
+                                            toastr.warning(response.message, 'Warning');
+                                        } else {
+                                            toastr.success(
+                                                `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`,
+                                                'Success');
+                                            modal.modal('hide');
+                                            accountTable.draw();
+                                        }
+                                    },
+                                    error: function() {
+                                        modal.modal('hide');
+                                        toastr.error(
+                                            'An error occurred while processing your request.',
+                                            'Error');
+                                    }
+                                });
+                            }
+                        });
+                    }
+
+                    function datePicker(id) {
+                        return flatpickr(id, {
+                            enableTime: true,
+                            allowInput: true,
+                            static: false,
+                            timeFormat: "h:i K",
+                            dateFormat: "D, M j, Y h:i K",
+                            minuteIncrement: 1,
+                            secondIncrement: 1,
+                            position: "below center"
+                        });
+                    }
+                @endif
             });
         </script>
-    @endcan
+    @endauth
 </body>
 
 </html>

@@ -7,11 +7,19 @@
         <div class="user-details py-2 bg-slate-800">
             <div class="truncate flex justify-center items-center text-white tracking-wide font-bold gap-4">
                 @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
-                    <div title="Active" class="bg-green-600 py-2 rounded-full w-4"></div>
+                    @if (auth()->user()->is_disabled == 1)
+                        <div title="Active" class="bg-green-600 py-2 rounded-full w-4"></div>
+                    @else
+                        <div title="Currently Disabled" class="bg-red-600 py-2 rounded-full w-4"></div>
+                    @endif
                     <img class="w-12" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="Logo">
                     <span>CDRRMO Panel</span>
                 @elseif (auth()->check() && auth()->user()->organization == 'CSWD')
-                    <div title="Active" class="bg-green-600 py-2 rounded-full w-4"></div>
+                    @if (auth()->user()->is_disabled == 1)
+                        <div title="Active" class="bg-green-600 py-2 rounded-full w-4"></div>
+                    @else
+                        <div title="Currently Disabled" class="bg-red-600 py-2 rounded-full w-4"></div>
+                    @endif
                     <span>CSWD Panel</span>
                 @else
                     <div title="Resident" class="bg-yellow-500 py-2 rounded-full w-4"></div>
@@ -102,7 +110,7 @@
                         <li>
                             <a href="{{ route('account.display.users') }}" class="menuLink">
                                 <i class="bi bi-person-gear"></i>
-                                <span class="links_name">Manage CSWD Accounts</span>
+                                <span class="links_name">Manage User Accounts</span>
                             </a>
                         </li>
                     @endif

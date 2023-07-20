@@ -40,21 +40,25 @@ class UserAccountsController extends Controller
             return DataTables::of($userAccounts)
                 ->addIndexColumn()
                 ->addColumn('action', function ($user) {
-                    $actionBtns = '<select class="custom-select custom-select bg-blue-500 text-white actionSelect">
-                            <option value="" disabled selected hidden>Select Action</option>';
+                    if (auth()->user()->status == "Active") {
+                        $actionBtns = '<select class="custom-select custom-select bg-blue-500 text-white actionSelect">
+                        <option value="" disabled selected hidden>Select Action</option>';
 
-                    if ($user->isSuspend == 0) {
-                        if ($user->isDisable == 0) {
-                            $actionBtns .= '<option value="disableAccount">Disable Account</option>';
+                        if ($user->is_suspend == 0) {
+                            if ($user->is_disable == 0) {
+                                $actionBtns .= '<option value="disableAccount">Disable Account</option>';
+                                $actionBtns .= '<option value="suspendAccount">Suspend Account</option>';
+                            } else {
+                                $actionBtns .= '<option value="enableAccount">Enable Account</option>';
+                            }
                         } else {
-                            $actionBtns .= '<option value="enableAccount">Enable Account</option>';
+                            $actionBtns .= '<option value="openAccount">Open Account</option>';
                         }
-                        $actionBtns .= '<option value="suspendAccount">Suspend Account</option>';
-                    } else {
-                        $actionBtns .= '<option value="openAccount">Open Account</option>';
+
+                        return $actionBtns .= '<option value="editAccount">Edit Account</option>' . '<option value="removeAccount">Remove Account</option>' . '</select>';
                     }
 
-                    return $actionBtns .= '<option value="editAccount">Edit Account</option>' . '<option value="removeAccount">Remove Account</option>' . '</select>';
+                    return '<span class="text-sm">Currently Disabled.</span>';
                 })
                 ->rawColumns(['action'])
                 ->make(true);
@@ -79,8 +83,8 @@ class UserAccountsController extends Controller
                 'email' => trim($request->email),
                 'password' =>  Hash::make($defaultPassword),
                 'status' =>  "Active",
-                'isDisable' =>  0,
-                'isSuspend' =>  0
+                'is_disable' =>  0,
+                'is_suspend' =>  0
             ]);
             $this->logActivity->generateLog('Creating Account');
 
@@ -123,7 +127,7 @@ class UserAccountsController extends Controller
     {
         $this->user->find($userId)->update([
             'status' => 'Disabled',
-            'isDisable' => 1
+            'is_disable' => 1
         ]);
         $this->logActivity->generateLog('Disabling Account');
 
@@ -134,7 +138,7 @@ class UserAccountsController extends Controller
     {
         $this->user->find($userId)->update([
             'status' => 'Active',
-            'isDisable' => 0
+            'is_disable' => 0
         ]);
         $this->logActivity->generateLog('Enabling Account');
 
@@ -144,14 +148,14 @@ class UserAccountsController extends Controller
     public function suspendAccount(Request $request, $userId)
     {
         $suspendAccountValidation = Validator::make($request->all(), [
-            'suspendTime' => 'required'
+            'suspend_time' => 'required'
         ]);
 
         if ($suspendAccountValidation->passes()) {
             $this->user->find($userId)->update([
                 'status' => 'Suspended',
-                'isSuspend' => 1,
-                'suspendTime' => Carbon::parse($request->suspend)->format('Y-m-d H:i:s')
+                'is_suspend' => 1,
+                'suspend_time' => Carbon::parse($request->suspend_time)->format('Y-m-d H:i:s')
             ]);
             $this->logActivity->generateLog('Suspending Account');
 
@@ -165,9 +169,9 @@ class UserAccountsController extends Controller
     {
         $this->user->find($userId)->update([
             'status' => 'Active',
-            'isDisable' => 0,
-            'isSuspend' => 0,
-            'suspendTime' => null
+            'is_disable' => 0,
+            'is_suspend' => 0,
+            'suspend_time' => null
         ]);
         $this->logActivity->generateLog('Opening Account');
 

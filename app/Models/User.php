@@ -22,9 +22,9 @@ class User extends Authenticatable
         'email',
         'password',
         'status',
-        'isDisable',
-        'isSuspend',
-        'suspendTime'
+        'is_disable',
+        'is_suspend',
+        'suspend_time'
     ];
 
     protected $hidden = [

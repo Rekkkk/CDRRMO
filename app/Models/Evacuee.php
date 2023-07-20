@@ -15,22 +15,17 @@ class Evacuee extends Model
 
     protected $fillable = [
         'house_hold_number',
-        'full_name',
         'sex',
         'age',
-        'fourps',
         'PWD',
         'pregnant',
         'lactating',
-        'student',
-        'working',
         'barangay',
         'date_entry',
-        'date_out',
-        'disaster_type',
+        'disaster_name',
         'disaster_id',
-        'disaster_info',
-        'evacuation_assigned'
+        'evacuation_assigned',
+        'remarks'
     ];
 
     public $timestamps = false;
