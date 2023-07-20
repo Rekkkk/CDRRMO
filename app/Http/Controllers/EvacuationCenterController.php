@@ -26,17 +26,19 @@ class EvacuationCenterController extends Controller
         return DataTables::of($evacuationCenterList)
             ->addIndexColumn()
             ->addColumn('action', function () use ($operation) {
-                if (auth()->user()->status == "Active") {
-                    return  $operation == 'locator' ?
-                        '<button class="btn-primary p-2 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>' :
-                        '<div class="flex justify-around actionContainer"><button class="btn-table-edit mr-2 updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Edit</button>' .
-                        '<button class="btn-table-remove mr-2 removeEvacuationCenter"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
-                        '<select class="custom-select w-44 bg-blue-500 text-white changeEvacuationStatus">
-                                <option value="" disabled selected hidden>Change Status</option>
-                                <option value="Active">Active</option>
-                                <option value="Inactive">Inactive</option>
-                                <option value="Full">Full</option>
-                            </select></div>';
+                if ($operation == "locator") {
+                    return '<button class="btn-primary p-2 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>';
+                } else {
+                    if (auth()->user()->status == "Active") {
+                        return '<div class="flex justify-around actionContainer"><button class="btn-table-edit mr-2 updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Edit</button>' .
+                            '<button class="btn-table-remove mr-2 removeEvacuationCenter"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
+                            '<select class="custom-select w-44 bg-blue-500 text-white changeEvacuationStatus">
+                                    <option value="" disabled selected hidden>Change Status</option>
+                                    <option value="Active">Active</option>
+                                    <option value="Inactive">Inactive</option>
+                                    <option value="Full">Full</option>
+                                </select></div>';
+                    }
                 }
 
                 return '<span class="text-sm">Currently Disabled.</span>';
