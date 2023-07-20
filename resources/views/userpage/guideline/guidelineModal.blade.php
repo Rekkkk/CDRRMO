@@ -6,16 +6,21 @@
             </div>
             <div class="modal-body">
                 <form id="guidelineForm">
-                    <input type="text" id="operation" hidden>
                     @csrf
-                    <div class="mb-3">
-                        <label for="type" class="flex items-center justify-center">Guideline
-                            Type</label>
-                        <input type="text" name="type" class="form-control" autocomplete="off"
-                            placeholder="Enter Guideline Type" id="guidelineType">
-                    </div>
-                    <div class="modal-footer">
-                        <button id="submitGuidelineBtn" class="btn-submit p-2">Create</button>
+                    <div class="bg-slate-50 pt-3 pb-2 rounded">
+                        <div class="flex-auto">
+                            <div class="flex flex-wrap">
+                                <input type="text" id="operation" hidden>
+                                <div class="field-container">
+                                    <label>Guideline Type</label>
+                                    <input type="text" name="type" class="form-control" autocomplete="off"
+                                        placeholder="Enter Guideline Type" id="guidelineType">
+                                </div>
+                                <div class="w-full">
+                                    <button id="submitGuidelineBtn" class="btn-submit p-2 float-right">Create</button>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </form>
             </div>

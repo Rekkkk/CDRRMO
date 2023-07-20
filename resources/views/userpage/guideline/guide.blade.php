@@ -25,14 +25,15 @@
                         <i class="bi bi-plus-lg mr-2"></i> Create Guide
                     </a>
                     <input type="text" class="guidelineId" value="{{ $guidelineId }}" hidden>
+                    @include('userpage.guideline.guideModal')
                 @endcan
             </div>
             <div class="guide-container">
                 @foreach ($guide as $guide)
                     <div class="guide-widget">
                         @can('view', \App\Models\User::class)
-                            @can('updateOrRemove', \App\Models\User::class)
-                                <a href="javascript:void(0)" class="absolute top-2 right-0" id="archiveGuideBtn">
+                            @can('alter', \App\Models\User::class)
+                                <a href="javascript:void(0)" class="absolute top-2 right-0" id="removeGuideBtn">
                                     <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
                                 </a>
                                 <a href="javascript:void(0)" class="absolute left-2 top-3" id="updateGuideBtn">
@@ -65,7 +66,6 @@
                 @endforeach
             </div>
             @auth
-                @include('userpage.guideline.guideModal')
                 @include('userpage.changePasswordModal')
             @endauth
         </div>
@@ -85,6 +85,27 @@
         <script>
             $(document).ready(function() {
                 let guideId, guideWidget, guideItem, defaultFormData, guidelineId = $('.guidelineId').val();
+
+                let validator = $("#guideForm").validate({
+                    rules: {
+                        label: {
+                            required: true
+                        },
+                        content: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        label: {
+                            required: 'Please Enter Guide Label.'
+                        },
+                        content: {
+                            required: 'Please Enter Guide Content.'
+                        }
+                    },
+                    errorElement: 'span',
+                    submitHandler: guideFormHandler
+                });
 
                 $('#createGuideBtn').click(function() {
                     $('#createGuideForm').trigger("reset");
@@ -115,32 +136,34 @@
                     defaultFormData = $('#guideForm').serialize();
                 });
 
-                $(document).on('click', '#archiveGuideBtn', function() {
+                $(document).on('click', '#removeGuideBtn', function() {
                     guideWidget = $(this).closest('.guide-widget');
                     guideItem = guideWidget.find('.guide-item');
                     guideId = guideWidget.find('#guideId').val();
 
-                    confirmModal('Do you want to archive this guide?').then((result) => {
+                    confirmModal('Do you want to remove this guide?').then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
                                 data: {
                                     guideId: guideId
                                 },
-                                url: "{{ route('guide.archive', ':guideId') }}"
+                                url: "{{ route('guide.remove', ':guideId') }}"
                                     .replace(':guideId', guideId),
-                                type: "GET",
-                                dataType: 'json',
+                                type: "PATCH",
                                 success: function(response) {
-                                    if (response.status == 'success') {
-                                        toastr.success(response.message, 'Success', {
-                                            onHidden: function() {
-                                                location.reload();
-                                            }
-                                        });
-                                    } else if (response.status == 'error') {
+                                    if (response.status == 'warning') {
                                         toastr.warning(response.message, 'Error');
-                                    } else if (response.status == 'warning') {
-                                        toastr.warning(response.message, 'Error');
+                                    } else {
+                                        toastr.success(
+                                            'Guide removed successfully, Please wait...',
+                                            'Success', {
+                                                onHidden: function() {
+                                                    location.reload();
+                                                }
+                                            });
                                     }
                                 },
                                 error: function() {
@@ -153,34 +176,13 @@
                     });
                 });
 
-                let validator = $("#guideForm").validate({
-                    rules: {
-                        label: {
-                            required: true
-                        },
-                        content: {
-                            required: true
-                        }
-                    },
-                    messages: {
-                        label: {
-                            required: 'Please Enter Guide Label.'
-                        },
-                        content: {
-                            required: 'Please Enter Guide Content.'
-                        }
-                    },
-                    errorElement: 'span',
-                    submitHandler: guideFormHandler
-                });
-
                 function guideFormHandler(form) {
                     let operation = $('#operation').val(),
                         url = "",
                         type = "",
                         formData = $(form).serialize();
 
-                    url = operation == 'create' ? "{{ route('guide.add', 'guidelineId') }}".replace(
+                    url = operation == 'create' ? "{{ route('guide.create', 'guidelineId') }}".replace(
                         'guidelineId', guidelineId) : "{{ route('guide.update', 'guideId') }}".replace(
                         'guideId', guideId);
 
@@ -190,27 +192,26 @@
                         if (result.isConfirmed) {
                             if (operation == 'update' && defaultFormData == formData) {
                                 $('#guideModal').modal('hide');
-                                messageModal('Info', 'No changes were made.', 'info', '#B91C1C');
+                                toastr.warning('No changes were made.', 'Warning');
                                 return;
                             }
                             $.ajax({
                                 data: formData,
                                 url: url,
                                 type: type,
-                                dataType: 'json',
                                 success: function(response) {
-                                    if (response.status == 'success') {
-                                        toastr.success(response.message, 'Success', {
-                                            onHidden: function() {
-                                                location.reload();
-                                            }
-                                        });
+                                    if (response.status == 'warning') {
+                                        toastr.warning(response.message, 'Warning');
+                                    } else {
+                                        toastr.success(
+                                            `Guide successfully ${operation}d, Please wait...`,
+                                            'Success', {
+                                                onHidden: function() {
+                                                    location.reload();
+                                                }
+                                            });
                                         $('#guideForm')[0].reset();
                                         $('#guideModal').modal('hide');
-                                    } else if (response.status == 'error') {
-                                        toastr.warning(response.message, 'Error');
-                                    } else if (response.status == 'warning') {
-                                        toastr.warning(response.message, 'Warning');
                                     }
                                 },
                                 error: function() {

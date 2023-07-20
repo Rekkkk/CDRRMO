@@ -11,7 +11,7 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="grid grid-cols-1">
-                <div class="grid col-end-1 mr-4">
+                <div class="grid col-end-1">
                     <div class="text-2xl text-white">
                         <i class="bi bi-book p-2 bg-slate-600 rounded"></i>
                     </div>
@@ -25,7 +25,7 @@
                         <div class="guideline-widget">
                             @can('view', \App\Models\User::class)
                                 @can('alter', \App\Models\User::class)
-                                    <a href="javascript:void(0)" class="absolute top-2 right-0" id="archiveGuidelineBtn">
+                                    <a href="javascript:void(0)" class="absolute top-2 right-0" id="removeGuidelineBtn">
                                         <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
                                     </a>
                                     <a href="javascript:void(0)" class="absolute left-2 top-3" id="updateGuidelineBtn">
@@ -87,6 +87,23 @@
             crossorigin="anonymous"></script>
         <script>
             $(document).ready(function() {
+                let guidelineId, defaultFormData;
+
+                let validator = $("#guidelineForm").validate({
+                    rules: {
+                        type: {
+                            required: true
+                        }
+                    },
+                    messages: {
+                        type: {
+                            required: 'Please Enter Guideline Type.'
+                        }
+                    },
+                    errorElement: 'span',
+                    submitHandler: createGuidelineForm
+                });
+
                 $('#createGuidelineBtn').click(function() {
                     $('#guidelineForm')[0].reset();
                     $('#operation').val('create');
@@ -94,46 +111,6 @@
                     $('.modal-title').text('Create Guideline Form');
                     $('#submitGuidelineBtn').removeClass('btn-edit').addClass('btn-submit').text('Create');
                     $('#guidelineModal').modal('show');
-                });
-
-                let guidelineId, defaultFormData;
-
-                $(document).on('click', '#archiveGuidelineBtn', function() {
-                    guidelineWidget = this.closest('.guideline-widget');
-                    guidelineItem = guidelineWidget.querySelector('.guidelines-item');
-                    guidelineId = guidelineItem.getAttribute('href').split('/').pop();
-
-                    confirmModal('Do you want to archive this guideline?').then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                data: {
-                                    guidelineId: guidelineId
-                                },
-                                url: "{{ route('guideline.archive', ':guidelineId') }}"
-                                    .replace(':guidelineId', guidelineId),
-                                type: "GET",
-                                dataType: 'json',
-                                success: function(response) {
-                                    if (response.status == 'success') {
-                                        toastr.success(response.message, 'Success', {
-                                            onHidden: function() {
-                                                location.reload();
-                                            }
-                                        });
-                                    } else if (response.status == 'error') {
-                                        toastr.warning(response.message, 'Error');
-                                    } else if (response.status == 'warning') {
-                                        toastr.warning(response.message, 'Error');
-                                    }
-                                },
-                                error: function() {
-                                    toastr.error(
-                                        'An error occurred while processing your request.',
-                                        'Error');
-                                }
-                            });
-                        }
-                    });
                 });
 
                 $(document).on('click', '#updateGuidelineBtn', function() {
@@ -151,19 +128,40 @@
                     defaultFormData = $('#guidelineForm').serialize();
                 });
 
-                let validator = $("#guidelineForm").validate({
-                    rules: {
-                        type: {
-                            required: true
+                $(document).on('click', '#removeGuidelineBtn', function() {
+                    guidelineWidget = this.closest('.guideline-widget');
+                    guidelineItem = guidelineWidget.querySelector('.guidelines-item');
+                    guidelineId = guidelineItem.getAttribute('href').split('/').pop();
+
+                    confirmModal('Do you want to remove this guideline?').then((result) => {
+                        if (result.isConfirmed) {
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                data: {
+                                    guidelineId: guidelineId
+                                },
+                                url: "{{ route('guideline.remove', ':guidelineId') }}"
+                                    .replace(':guidelineId', guidelineId),
+                                type: "PATCH",
+                                success: function() {
+                                    toastr.success(
+                                        'Guideline removed successfully, Please wait...',
+                                        'Success', {
+                                            onHidden: function() {
+                                                location.reload();
+                                            }
+                                        });
+                                },
+                                error: function() {
+                                    toastr.error(
+                                        'An error occurred while processing your request.',
+                                        'Error');
+                                }
+                            });
                         }
-                    },
-                    messages: {
-                        type: {
-                            required: 'Please Enter Guideline Type.'
-                        }
-                    },
-                    errorElement: 'span',
-                    submitHandler: createGuidelineForm
+                    });
                 });
 
                 function createGuidelineForm(form) {
@@ -172,7 +170,7 @@
                         type = "",
                         formData = $(form).serialize();
 
-                    url = operation == 'create' ? "{{ route('guideline.add') }}" :
+                    url = operation == 'create' ? "{{ route('guideline.create') }}" :
                         "{{ route('guideline.update', 'guidelineId') }}".replace('guidelineId',
                             guidelineId);
 
@@ -182,27 +180,26 @@
                         if (result.isConfirmed) {
                             if (operation == 'update' && defaultFormData == formData) {
                                 $('#guidelineModal').modal('hide');
-                                messageModal('Info', 'No changes were made.', 'info', '#B91C1C');
+                                toastr.warning('No changes were made.', 'Warning');
                                 return;
                             }
                             $.ajax({
                                 data: formData,
                                 url: url,
                                 type: type,
-                                dataType: 'json',
                                 success: function(response) {
-                                    if (response.status == 'success') {
-                                        toastr.success(response.message, 'Success', {
-                                            onHidden: function() {
-                                                location.reload();
-                                            }
-                                        });
+                                    if (response.status == 'warning') {
+                                        toastr.warning(response.message, 'Error');
+                                    } else {
+                                        toastr.success(
+                                            `Guideline successfully ${operation}d, Please wait...`,
+                                            'Success', {
+                                                onHidden: function() {
+                                                    location.reload();
+                                                }
+                                            });
                                         $('#guidelineForm')[0].reset();
                                         $('#guidelineModal').modal('hide');
-                                    } else if (response.status == 'error') {
-                                        toastr.warning(response.message, 'Error');
-                                    } else if (response.status == 'warning') {
-                                        toastr.warning(response.message, 'Error');
                                     }
                                 },
                                 error: function() {
