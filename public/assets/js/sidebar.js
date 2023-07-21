@@ -23,4 +23,10 @@ $(document).ready(function () {
         $('.menuLink[href="' + localStorage.getItem('activeLink') + '"]').
             addClass('activeLink') :
         $('.menuLink').first().addClass('activeLink');
+
+    $(window).resize(function () {
+        if (!$('#btn-sidebar-mobile').is(':visible')) {
+            sidebar.classList.remove('active');
+        }
+    });
 });
