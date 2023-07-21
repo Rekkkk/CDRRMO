@@ -174,6 +174,25 @@ hr,
     transform: scale(1.05);
 }
 
+.btn-table-primary {
+    background: var(--color-primary);
+    width: 100px;
+    font-size: 14px;
+    font-weight: 600px;
+    padding: 6px 0;
+    color: var(--color-text);
+    transition-duration: 100ms;
+    transition-delay: 150ms;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 4px;
+}
+
+.btn-table-primary:hover {
+    background: #1d4ed8;
+    color: var(--color-text);
+    transform: scale(1.05);
+}
+
 .btn-remove,
 .btn-table-remove {
     background: var(--color-red);
@@ -217,11 +236,16 @@ hr,
 }
 
 .main-content .grid {
-    align-items: center;
+    align-items: baseline;
 }
+
 
 .main-content .grid .grid {
     margin-right: 16px;
+}
+
+.main-content .grid i {
+    border-radius: 0.25rem/* 4px */;
 }
 
 /* Main End Content */
@@ -813,13 +837,6 @@ input::-webkit-inner-spin-button {
 
 /* Mobile View Section */
 @media only screen and (max-width: 380px) {
-
-    /* Button Section Start Here*/
-    .create-section button {
-        width: 100%;
-    }
-
-    /* Button Sectionn End */
 
     /* Login Section Start Here */
     .login-section {
