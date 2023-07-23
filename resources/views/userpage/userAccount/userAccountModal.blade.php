@@ -33,7 +33,7 @@
                                     </div>
                                     <div class="field-container" id="suspend-container">
                                         <label>Suspend Time</label>
-                                        <input type="text" name="suspend" class="form-control" id="suspend"
+                                        <input type="text" name="suspend_time" class="form-control" id="suspend"
                                             placeholder="Select Suspend Time">
                                     </div>
                                 @else

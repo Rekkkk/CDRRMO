@@ -22,13 +22,15 @@
                 </div>
                 <span class="text-xl font-bold">MANAGE ACCOUNTS</span>
             </div>
-            <hr class="mt-4">
-            <div class="create-section">
-                <button class="btn-submit p-2 createUserAccount">
-                    <i class="bi bi-person-fill-add pr-2"></i>
-                    Create User Account
-                </button>
-            </div>
+            <hr class="mt-4 mb-3">
+            @if (auth()->user()->status == 'Active')
+                <div class="create-section">
+                    <button class="btn-submit p-2 createUserAccount">
+                        <i class="bi bi-person-fill-add pr-2"></i>
+                        Create User Account
+                    </button>
+                </div>
+            @endif
             <div class="table-container p-3 shadow-lg rounded-lg">
                 <header class="text-2xl font-semibold mb-3">User Accounts Table</header>
                 <div class="block w-full overflow-auto">
@@ -47,7 +49,9 @@
                         </tbody>
                     </table>
                 </div>
-                @include('userpage.userAccount.userAccountModal')
+                @if (auth()->user()->status == 'Active')
+                    @include('userpage.userAccount.userAccountModal')
+                @endif
                 @include('userpage.changePasswordModal')
             </div>
         </div>
@@ -65,44 +69,9 @@
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
     @include('partials.toastr')
-    @can('view', \App\Models\User::class)
+    @auth
         <script>
             $(document).ready(function() {
-                let userId, defaultFormData, dateSuspendTime = datePicker("#suspend");
-
-                let validator = $("#accountForm").validate({
-                    rules: {
-                        organization: {
-                            required: true
-                        },
-                        position: {
-                            required: true
-                        },
-                        email: {
-                            required: true
-                        },
-                        suspend: {
-                            required: true
-                        }
-                    },
-                    messages: {
-                        organization: {
-                            required: 'Please Enter Your Organization.'
-                        },
-                        position: {
-                            required: 'Please Enter Your Position.'
-                        },
-                        email: {
-                            required: 'Please Enter Your Email Address.'
-                        },
-                        suspend: {
-                            required: 'Please Enter Suspension Time.'
-                        }
-                    },
-                    errorElement: 'span',
-                    submitHandler: formSubmitHandler
-                });
-
                 let accountTable = $('.accountTable').DataTable({
                     rowReorder: {
                         selector: 'td:nth-child(2)'
@@ -140,22 +109,57 @@
                         },
                     ]
                 });
+                @if (auth()->user()->status == 'Active')
+                    let userId, defaultFormData, dateSuspendTime = datePicker("#suspend");
 
-                $.ajaxSetup({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    }
-                });
+                    let validator = $("#accountForm").validate({
+                        rules: {
+                            organization: {
+                                required: true
+                            },
+                            position: {
+                                required: true
+                            },
+                            email: {
+                                required: true
+                            },
+                            suspend: {
+                                required: true
+                            }
+                        },
+                        messages: {
+                            organization: {
+                                required: 'Please Enter Your Organization.'
+                            },
+                            position: {
+                                required: 'Please Enter Your Position.'
+                            },
+                            email: {
+                                required: 'Please Enter Your Email Address.'
+                            },
+                            suspend: {
+                                required: 'Please Enter Suspension Time.'
+                            }
+                        },
+                        errorElement: 'span',
+                        submitHandler: formSubmitHandler
+                    });
 
-                $(document).on('change', '.actionSelect', function() {
-                    let selectedAction = $(this).val();
-                    let currentRow = $(this).closest('tr');
+                    $.ajaxSetup({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        }
+                    });
 
-                    if (accountTable.responsive.hasHidden())
-                        currentRow = currentRow.prev('tr');
+                    $(document).on('change', '.actionSelect', function() {
+                        let selectedAction = $(this).val();
+                        let currentRow = $(this).closest('tr');
 
-                    let data = accountTable.row(currentRow).data();
-                    userId = data['id'];
+                        if (accountTable.responsive.hasHidden())
+                            currentRow = currentRow.prev('tr');
+
+                        let data = accountTable.row(currentRow).data();
+                        userId = data['id'];
 
                     if (selectedAction == 'disableAccount') {
                         confirmModal('Do you want to disable this account?').then((result) => {
@@ -279,71 +283,74 @@
                     $('#userAccountModal').modal('show');
                 });
 
-                $('#userAccountModal').on('hidden.bs.modal', function() {
-                    validator.resetForm();
-                    $('#suspend-container').prop('hidden', false);
-                    $('#suspend').prop('disabled', false);
-                    $('.actionSelect').val('');
-                    $('#accountForm')[0].reset();
-                });
+                    $('#userAccountModal').on('hidden.bs.modal', function() {
+                        validator.resetForm();
+                        $('#suspend-container').prop('hidden', false);
+                        $('#suspend').prop('disabled', false);
+                        $('.actionSelect').val('');
+                        $('#accountForm')[0].reset();
+                    });
 
-                function formSubmitHandler(form) {
-                    let operation = $('#operation').val(),
-                        url, type, formData = $(form).serialize(),
-                        modal = $('#userAccountModal');
+                    function formSubmitHandler(form) {
+                        let operation = $('#operation').val(),
+                            url, type, formData = $(form).serialize(),
+                            modal = $('#userAccountModal');
 
-                    url = operation == 'create' ? "{{ route('account.create') }}" :
-                        operation == 'update' ? "{{ route('account.update', 'userId') }}".replace('userId', userId) :
-                        "{{ route('account.suspend', 'userId') }}".replace('userId', userId);
+                        url = operation == 'create' ? "{{ route('account.create') }}" :
+                            operation == 'update' ? "{{ route('account.update', 'userId') }}".replace('userId',
+                                userId) :
+                            "{{ route('account.suspend', 'userId') }}".replace('userId', userId);
 
-                    type = operation == 'create' ? "POST" : "PUT";
+                        type = operation == 'create' ? "POST" : "PUT";
 
-                    confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
-                        if (result.isConfirmed) {
-                            if (operation == 'update' && defaultFormData == formData) {
-                                toastr.warning('No changes were made.', 'Warning');
-                                return;
-                            }
-                            $.ajax({
-                                data: formData,
-                                url: url,
-                                type: type,
-                                success: function(response) {
-                                    if (response.status == "warning") {
-                                        toastr.warning(response.message, 'Warning');
-                                    } else {
-                                        toastr.success(
-                                            `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`,
-                                            'Success');
-                                        modal.modal('hide');
-                                        accountTable.draw();
-                                    }
-                                },
-                                error: function() {
-                                    modal.modal('hide');
-                                    toastr.error('An error occurred while processing your request.',
-                                        'Error');
+                        confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
+                            if (result.isConfirmed) {
+                                if (operation == 'update' && defaultFormData == formData) {
+                                    toastr.warning('No changes were made.', 'Warning');
+                                    return;
                                 }
-                            });
-                        }
-                    });
-                }
+                                $.ajax({
+                                    data: formData,
+                                    url: url,
+                                    type: type,
+                                    success: function(response) {
+                                        if (response.status == "warning") {
+                                            toastr.warning(response.message, 'Warning');
+                                        } else {
+                                            toastr.success(
+                                                `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`,
+                                                'Success');
+                                            modal.modal('hide');
+                                            accountTable.draw();
+                                        }
+                                    },
+                                    error: function() {
+                                        modal.modal('hide');
+                                        toastr.error(
+                                            'An error occurred while processing your request.',
+                                            'Error');
+                                    }
+                                });
+                            }
+                        });
+                    }
 
-                function datePicker(id) {
-                    return flatpickr(id, {
-                        enableTime: true,
-                        allowInput: true,
-                        static: false,
-                        timeFormat: "h:i K",
-                        dateFormat: "D, M j, Y h:i K",
-                        minuteIncrement: 1,
-                        secondIncrement: 1,
-                        position: "below center"
-                    });
-                }
+                    function datePicker(id) {
+                        return flatpickr(id, {
+                            enableTime: true,
+                            allowInput: true,
+                            static: false,
+                            timeFormat: "h:i K",
+                            dateFormat: "D, M j, Y h:i K",
+                            minuteIncrement: 1,
+                            secondIncrement: 1,
+                            position: "below center"
+                        });
+                    }
+                @endif
             });
         </script>
-    @endcan
+    @endauth
 </body>
 
 </html>

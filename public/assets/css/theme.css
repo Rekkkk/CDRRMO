@@ -221,7 +221,7 @@ hr,
 .create-section {
     display: flex;
     justify-content: end;
-    margin: 16px 0;
+    margin-bottom: 16px;
 }
 
 /* Button End Section */
@@ -669,7 +669,7 @@ hr,
 }
 
 .mb-2.relative i {
-    top: 35px;
+    top: 28px;
     right: 38px;
 }
 

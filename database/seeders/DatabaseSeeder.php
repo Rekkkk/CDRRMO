@@ -16,8 +16,8 @@ class DatabaseSeeder extends Seeder
             'organization' => 'CDRRMO',
             'position' => 'President',
             'status' => 'Active',
-            'isDisable' => 0,
-            'isSuspend' => 0
+            'is_disable' => 0,
+            'is_suspend' => 0
         ]);
 
         User::insert([
@@ -26,15 +26,13 @@ class DatabaseSeeder extends Seeder
             'organization' => 'CSWD',
             'position' => 'Focal',
             'status' => 'Active',
-            'isDisable' => 0,
-            'isSuspend' => 0
+            'is_disable' => 0,
+            'is_suspend' => 0
         ]);
 
         $this->call(DisasterSeeder::class);
         $this->call(GuidelineSeeder::class);
         $this->call(GuideSeeder::class);
         $this->call(EvacuationCenterSeeder::class);
-        $this->call(TyphoonSeeder::class);
-        $this->call(FlashFloodSeeder::class);
     }
 }

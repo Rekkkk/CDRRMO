@@ -22,7 +22,7 @@ class MainController extends Controller
     {
         $onGoingDisaster = Disaster::where('status', "On Going")->get();
         $activeEvacuation = $this->evacuationCenter->where('status', 'Active')->count();
-        $inEvacuationCenter = Evacuee::whereNull('date_out')->count();
+        $inEvacuationCenter = Evacuee::count();
 
         return view('userpage.dashboard',  compact('activeEvacuation', 'inEvacuationCenter', 'onGoingDisaster'));
     }

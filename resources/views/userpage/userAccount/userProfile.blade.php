@@ -21,20 +21,19 @@
             </div>
             <hr class="mt-4">
             <div class="user-profile-container rounded shadow-lg mt-3">
-                @include('userpage.userAccount.userAccountModal')
                 <div class="profile-section flex justify-center items-center py-3">
                     <div class="bg-slate-300 w-60 h-60 rounded-full overflow-hidden border-4 border-blue-500">
                         <img src="{{ asset('assets/img/profile.png') }}" alt="Profile" id="profile">
                     </div>
                 </div>
-                <div class="flex justify-end pb-2 pr-4">
-                    @can('alter', \App\Models\User::class)
+                @if (auth()->user()->status == 'Active')
+                    <div class="flex justify-end pb-2 pr-4">
                         <button class="btn-edit w-36" id="editProfileBtn">
                             <i class="bi bi-pencil pr-2"></i>
                             Edit Profile
                         </button>
-                    @endcan
-                </div>
+                    </div>
+                @endif
                 <hr class="mx-6 mb-3">
                 <form id='userProfileForm' class="relative flex-auto">
                     <div class="flex flex-wrap text-center pb-2">
@@ -66,6 +65,9 @@
                 </form>
             </div>
         </div>
+        @if (auth()->user()->status == 'Active')
+            @include('userpage.userAccount.userAccountModal')
+        @endif
         @include('userpage.changePasswordModal')
     </div>
 
@@ -78,7 +80,7 @@
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
     @include('partials.toastr')
-    @can('view', \App\Models\USer::class)
+    @if (auth()->user()->status == 'Active')
         <script>
             $(document).ready(function() {
                 let defaultFormData;
@@ -180,7 +182,7 @@
                 });
             });
         </script>
-    @endcan
+    @endif
 </body>
 
 </html>

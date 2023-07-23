@@ -20,7 +20,7 @@
                 <span class="text-xl font-bold">DASHBOARD</span>
             </div>
             <hr class="mt-4">
-            @can('generateData', \App\Models\User::class)
+            @if (auth()->user()->position == 'President' || auth()->user()->position == 'Focal')
                 <div class="report-container">
                     <p class="font-semibold tracking-wider"> Current Disaster:
                         @foreach ($onGoingDisaster as $disasters)
@@ -35,7 +35,7 @@
                         </button>
                     </form>
                 </div>
-            @endcan
+            @endif
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 <div class="widget">
                     <div class="widget-content">
