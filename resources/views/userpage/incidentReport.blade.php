@@ -17,7 +17,7 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-megaphone p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-megaphone p-2 bg-slate-600"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">INCIDENT REPORT</span>
@@ -114,7 +114,6 @@
         @endauth
     </div>
 
-    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"

@@ -13,7 +13,7 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-info-circle p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-info-circle p-2 bg-slate-600"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">ABOUT</span>
@@ -95,7 +95,6 @@
         @endauth
     </div>
 
-    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>

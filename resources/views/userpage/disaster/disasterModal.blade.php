@@ -21,7 +21,7 @@
                                     <input type="text" name="location" class="form-control" autocomplete="off"
                                         placeholder="Enter Location" id="location">
                                 </div>
-                                <div class="w-full">
+                                <div class="w-full py-4">
                                     <button id="submitDisasterBtn"
                                         class="btn-submit p-2 float-right">Create</button>
                                 </div>

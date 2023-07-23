@@ -17,7 +17,7 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-person-gear p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-person-gear p-2 bg-slate-600"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">MANAGE ACCOUNTS</span>
@@ -53,7 +53,6 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
@@ -203,9 +202,9 @@
                             }
                         });
                     } else if (selectedAction == 'editAccount') {
-                        $('.modal-header').attr('class', 'modal-header bg-yellow-500');
+                        $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                         $('.modal-title').text('Edit User Account');
-                        $('#saveProfileDetails').attr('class', 'btn-edit p-2 float-right').text('Update');
+                        $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text('Update');
                         $('#suspend-container').prop('hidden', true);
                         $('#organization').val(data['organization']);
                         $('#position').val(data['position']);
@@ -271,9 +270,9 @@
                 });
 
                 $(document).on('click', '.createUserAccount', function() {
-                    $('.modal-header').attr('class', 'modal-header bg-green-600');
+                    $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
                     $('.modal-title').text('Create User Account Form');
-                    $('#saveProfileDetails').attr('class', 'btn-submit p-2 float-right').text('Create');
+                    $('#saveProfileDetails').removeClass('btn-edit').addClass('btn-submit').text('Create');
                     $('#suspend-container').prop('hidden', true);
                     $('#suspend').prop('disabled', true);
                     $('#operation').val('create');

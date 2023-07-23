@@ -382,7 +382,7 @@ hr,
 }
 
 .login-section {
-    padding: 15% 0;
+    padding: 20% 0 15% 0;
 }
 
 .header-desc {
@@ -423,10 +423,6 @@ hr,
 .res-password-cotainer {
     max-width: 500px;
     margin: 10% auto;
-}
-
-.bottom-section {
-    top: 90%;
 }
 
 .bottom-section p {
@@ -729,6 +725,7 @@ input::-webkit-inner-spin-button {
 @media only screen and (max-width: 1024px) {
     .login-section {
         text-align: center;
+        padding: 20% 0 15% 0;
         width: 100%;
     }
 
@@ -739,6 +736,7 @@ input::-webkit-inner-spin-button {
     .login-section .login-content .header-desc p {
         margin: 0 auto;
         font-size: 18px;
+        padding-bottom: 20px;
     }
 
     .login-section .login-content {
@@ -780,6 +778,10 @@ input::-webkit-inner-spin-button {
 
     .wrapper {
         padding: 0 20px;
+    }
+
+    .login-section {
+        padding: 29% 0 20% 0;
     }
 
     .login-section .login-content .header-desc {
@@ -840,7 +842,7 @@ input::-webkit-inner-spin-button {
 
     /* Login Section Start Here */
     .login-section {
-        padding: 10% 0 40%;
+        padding: 35% 0 20% 0;
         transition: 0.5s all ease-in-out;
     }
 
@@ -890,13 +892,6 @@ input::-webkit-inner-spin-button {
     .login-form-section .flex {
         font-size: 12px;
         letter-spacing: 0.5px;
-    }
-
-    .bottom-section {
-        padding: 0 15px;
-        position: absolute;
-        bottom: 0;
-        left: 0;
     }
 
     .bottom-section p {

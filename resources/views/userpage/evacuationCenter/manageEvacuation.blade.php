@@ -16,7 +16,7 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-house-gear p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-house-gear p-2 bg-slate-600"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">MANAGE EVACUATION CENTER</span>
@@ -49,13 +49,10 @@
                 </div>
             </div>
             @include('userpage.evacuationCenter.evacuationCenterModal')
-            @auth
-                @include('userpage.changePasswordModal')
-            @endauth
+            @include('userpage.changePasswordModal')
         </div>
     </div>
 
-    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -186,9 +183,9 @@
             });
 
             $(document).on('click', '.createEvacuationCenter', function() {
-                $('.modal-header').attr('class', 'modal-header bg-green-600');
+                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
                 $('.modal-title').text('Create Evacuation Center');
-                $('#saveEvacuationCenterBtn').attr('class', 'btn-submit float-right p-2').text('Create');
+                $('#saveEvacuationCenterBtn').removeClass('btn-edit').addClass('btn-submit').text('Create');
                 $('#operation').val('create');
                 $('#evacuationCenterModal').modal('show');
             });
@@ -197,9 +194,9 @@
                 let data = getRowData(this);
                 evacuationCenterId = data['id'];
 
-                $('.modal-header').attr('class', 'modal-header bg-yellow-500');
+                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                 $('.modal-title').text('Edit Evacuation Center');
-                $('#saveEvacuationCenterBtn').attr('class', 'btn-edit p-2 float-right').text('Update');
+                $('#saveEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-edit').text('Update');
                 $('#operation').val('update');
                 $('#name').val(data['name']);
                 $('#latitude').val(data['latitude']);

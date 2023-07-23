@@ -80,22 +80,22 @@
                                     <label>Disaster</label>
                                     <select name="disasterType" id="disasterType" class="form-select">
                                         <option value="">Select Disaster</option>
-                                        @if ($disasterList != null)
+                                        {{-- @if ($disasterList != null)
                                             @foreach ($disasterList as $disaster)
                                                 <option value="{{ $disaster->type }}">
                                                     {{ $disaster->type }}</option>
                                             @endforeach
-                                        @endif
+                                        @endif --}}
                                     </select>
                                 </div>
                                 <div class="w-full px-4 hidden" id="typhoonSelectContainer">
                                     <div class="w-full mb-3">
                                         <select name="typhoon" id="typhoon" class="form-select">
                                             <option value="">Select Typhoon</option>
-                                            @foreach ($typhoonList as $typhoon)
+                                            {{-- @foreach ($typhoonList as $typhoon)
                                                 <option value="{{ $typhoon->id }}">
                                                     {{ $typhoon->name }}</option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>
@@ -103,10 +103,10 @@
                                     <div class="w-full mb-3">
                                         <select name="flashflood" id="flashflood" class="form-select">
                                             <option value="">Select Location</option>
-                                            @foreach ($flashfloodList as $flashflood)
+                                            {{-- @foreach ($flashfloodList as $flashflood)
                                                 <option value="{{ $flashflood->id }}">
                                                     {{ $flashflood->location }}</option>
-                                            @endforeach
+                                            @endforeach --}}
                                         </select>
                                     </div>
                                 </div>

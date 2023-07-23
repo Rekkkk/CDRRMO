@@ -18,7 +18,7 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-people p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-people p-2 bg-slate-600"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">MANAGE EVACUEE INFORMATION</span>
@@ -74,17 +74,17 @@
             <div class="evacueeArchiveSelect flex flex-wrap justify-end font-semibold gap-3 my-3">
                 <select name="archiveEvacueeDataTyphoon" class="form-select" id="archiveEvacueeDataTyphoon">
                     <option value="None">Select Typhoon</option>
-                    @foreach ($typhoonList as $typhoon)
+                    {{-- @foreach ($typhoonList as $typhoon)
                         <option value="{{ $typhoon->name }}">
                             {{ $typhoon->name }}</option>
-                    @endforeach
+                    @endforeach --}}
                 </select>
                 <select name="archiveEvacueeDataFlashflood" class="form-select" id="archiveEvacueeDataFlashflood">
                     <option value="None">Select Flashflood Location</option>
-                    @foreach ($flashfloodList as $flashflood)
+                    {{-- @foreach ($flashfloodList as $flashflood)
                         <option value="{{ $flashflood->location }}">
                             {{ $flashflood->location }}</option>
-                    @endforeach
+                    @endforeach --}}
                 </select>
             </div>
             <div class="table-container p-3 shadow-lg rounded-lg">
@@ -120,7 +120,6 @@
         @include('userpage.changePasswordModal')
     </div>
 
-    <script src="{{ asset('assets/js/sidebar.js') }}"></script>
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

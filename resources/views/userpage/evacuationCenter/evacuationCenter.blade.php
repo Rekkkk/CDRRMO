@@ -15,7 +15,7 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-house p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-house p-2 bg-slate-600"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">EVACUATION CENTER LOCATOR</span>
@@ -42,7 +42,7 @@
             <div class="table-container p-3 bg-slate-50 shadow-lg rounded-lg">
                 <div class="block w-full overflow-auto">
                     <header class="text-2xl font-semibold mb-3">Evacuation Centers</header>
-                    <table class="table evacuationCenterTable table-striped table-light" width="100%">
+                    <table class="table evacuationCenterTable" width="100%">
                         <thead class="thead-light">
                             <tr>
                                 <th>Name</th>
@@ -50,7 +50,7 @@
                                 <th>Latitude</th>
                                 <th>Longitude</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th class="w-4">Action</th>
                             </tr>
                         </thead>
                     </table>
@@ -58,6 +58,9 @@
             </div>
         </div>
     </div>
+    @auth
+        @include('userpage.changePasswordModal')
+    @endauth
     @include('partials.toastr')
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
@@ -89,7 +92,7 @@
             for (let evacuationCenter of evacuationCenters) {
 
                 let picture = evacuationCenter.status == 'Active' ? "evacMarkerActive" : "evacMarkerInactive"
-                    picture = evacuationCenter.status == 'Full' ? "evacMarkerFull" : picture
+                picture = evacuationCenter.status == 'Full' ? "evacMarkerFull" : picture
 
                 let marker = new google.maps.Marker({
                     position: {
@@ -129,7 +132,7 @@
             let url;
 
             '{{ $prefix }}' == 'resident' ?
-                url = "{{ route('resident.evacuation.center.get', 'locator') }}" :
+            url = "{{ route('resident.evacuation.center.get', 'locator') }}":
                 url = "{{ route('evacuation.center.get', 'locator') }}";
 
             let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
@@ -181,6 +184,8 @@
                             lat: position.coords.latitude,
                             lng: position.coords.longitude
                         };
+
+                        console.log(pos)
 
                         let userMarker = new google.maps.Marker({
                             position: pos,

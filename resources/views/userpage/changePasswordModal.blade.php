@@ -1,8 +1,8 @@
 <div class="modal fade" id="changePasswordModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-yellow-500">
-                <h1 class="modal-title fs-5 text-white">Change Password Form</h1>
+            <div class="flex justify-center p-3 rounded-t bg-yellow-500">
+                <h1 class="fs-5 text-white p-1 font-extrabold">Change Password Form</h1>
             </div>
             <div class="modal-body">
                 <form id="changePasswordForm">
@@ -25,18 +25,18 @@
                                     <label>New Password</label>
                                     <input type="password" name="password" id="password" class="form-control"
                                         autocomplete="off" disabled>
-                                    <i class="bi bi-eye-slash absolute cursor-pointer text-xl mt-1"
+                                    <i class="bi bi-eye-slash absolute cursor-pointer text-xl"
                                         id="showPassword"></i>
                                 </div>
                                 <div class="field-container mb-2 relative">
                                     <label>Confirm Password</label>
                                     <input type="password" name="confirmPassword" id="confirmPassword"
                                         class="form-control" autocomplete="off" onpaste="return false;" disabled>
-                                    <i class="bi bi-eye-slash absolute cursor-pointer text-xl mt-1"
+                                    <i class="bi bi-eye-slash absolute cursor-pointer text-xl"
                                         id="showConfirmPassword"></i>
                                 </div>
-                                <div class="w-full">
-                                    <button id="changePasswordBtn" class="btn-edit p-2 float-right m-4"
+                                <div class="w-full p-4">
+                                    <button id="changePasswordBtn" class="btn-edit p-2 float-right"
                                         disabled>Change</button>
                                 </div>
                             </div>
