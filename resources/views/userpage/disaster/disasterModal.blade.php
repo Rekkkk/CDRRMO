@@ -16,7 +16,12 @@
                                     <input type="text" name="name" class="form-control" autocomplete="off"
                                         placeholder="Enter Disaster Name" id="disasterName">
                                 </div>
-                                <div class="w-full">
+                                <div class="field-container">
+                                    <label>Location</label>
+                                    <input type="text" name="location" class="form-control" autocomplete="off"
+                                        placeholder="Enter Location" id="location">
+                                </div>
+                                <div class="w-full py-4">
                                     <button id="submitDisasterBtn"
                                         class="btn-submit p-2 float-right">Create</button>
                                 </div>

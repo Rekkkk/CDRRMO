@@ -6,6 +6,7 @@
 <title>{{ config('app.name') }}</title>
 
 <script src="https://cdn.tailwindcss.com"></script>
+<script src="{{ asset('assets/js/sidebar.js') }}" defer></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script src="{{ asset('assets/js/sidebar.js') }}"></script>
 

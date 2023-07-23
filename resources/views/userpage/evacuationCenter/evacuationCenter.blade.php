@@ -16,7 +16,7 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-house p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-house p-2 bg-slate-600"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">EVACUATION CENTER LOCATOR</span>
@@ -51,7 +51,7 @@
                                 <th>Latitude</th>
                                 <th>Longitude</th>
                                 <th>Status</th>
-                                <th>Action</th>
+                                <th class="w-4">Action</th>
                             </tr>
                         </thead>
                     </table>
@@ -59,7 +59,10 @@
             </div>
         </div>
     </div>
-
+    @auth
+        @include('userpage.changePasswordModal')
+    @endauth
+    @include('partials.toastr')
     <script src="{{ asset('assets/js/script.js') }}"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script
@@ -127,7 +130,8 @@
         $(document).ready(function() {
             let url;
 
-            '{{ $prefix }}' == 'resident' ? url = "{{ route('resident.evacuation.center.get', 'locator') }}":
+            '{{ $prefix }}' == 'resident' ?
+                url = "{{ route('resident.evacuation.center.get', 'locator') }}":
                 url = "{{ route('evacuation.center.get', 'locator') }}";
 
             let evacuationCenterTable = $('.evacuationCenterTable').DataTable({

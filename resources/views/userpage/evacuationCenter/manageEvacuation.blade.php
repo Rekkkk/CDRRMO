@@ -16,7 +16,7 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-house-gear p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-house-gear p-2 bg-slate-600"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">MANAGE EVACUATION CENTER</span>
@@ -189,27 +189,26 @@
                     submitHandler: formSubmitHandler
                 });
 
-                $(document).on('click', '.createEvacuationCenter', function() {
-                    $('.modal-header').attr('class', 'modal-header bg-green-600');
-                    $('.modal-title').text('Create Evacuation Center');
-                    $('#saveEvacuationCenterBtn').attr('class', 'btn-submit float-right p-2').text(
-                    'Create');
-                    $('#operation').val('create');
-                    $('#evacuationCenterModal').modal('show');
-                });
+            $(document).on('click', '.createEvacuationCenter', function() {
+                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
+                $('.modal-title').text('Create Evacuation Center');
+                $('#saveEvacuationCenterBtn').removeClass('btn-edit').addClass('btn-submit').text('Create');
+                $('#operation').val('create');
+                $('#evacuationCenterModal').modal('show');
+            });
 
                 $(document).on('click', '.updateEvacuationCenter', function() {
                     let data = getRowData(this);
                     evacuationCenterId = data['id'];
 
-                    $('.modal-header').attr('class', 'modal-header bg-yellow-500');
-                    $('.modal-title').text('Edit Evacuation Center');
-                    $('#saveEvacuationCenterBtn').attr('class', 'btn-edit p-2 float-right').text('Update');
-                    $('#operation').val('update');
-                    $('#name').val(data['name']);
-                    $('#latitude').val(data['latitude']);
-                    $('#longitude').val(data['longitude']);
-                    $(`#barangayName, option[value="${data['barangay_name']}"`).prop('selected', true);
+                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
+                $('.modal-title').text('Edit Evacuation Center');
+                $('#saveEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-edit').text('Update');
+                $('#operation').val('update');
+                $('#name').val(data['name']);
+                $('#latitude').val(data['latitude']);
+                $('#longitude').val(data['longitude']);
+                $(`#barangayName, option[value="${data['barangay_name']}"`).prop('selected', true);
 
                     marker = new google.maps.Marker({
                         position: {

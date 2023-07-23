@@ -27,7 +27,7 @@ class EvacuationCenterController extends Controller
             ->addIndexColumn()
             ->addColumn('action', function () use ($operation) {
                 if ($operation == "locator") {
-                    return '<button class="btn-primary p-2 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>';
+                    return '<button class="btn-table-primary p-2 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>';
                 } else {
                     if (auth()->user()->status == "Active") {
                         return '<div class="flex justify-around actionContainer"><button class="btn-table-edit mr-2 updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Edit</button>' .

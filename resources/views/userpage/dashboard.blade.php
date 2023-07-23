@@ -14,7 +14,7 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1">
                     <div class="text-white text-2xl">
-                        <i class="bi bi-speedometer2 p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-speedometer2 p-2 bg-slate-600"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">DASHBOARD</span>
@@ -27,9 +27,9 @@
                             <span class="text-red-600 font-black">{{ $disasters->name }},</span>
                         @endforeach
                     </p>
-                    <form action="{{ route('generate.evacuee.data') }}" method="POST" target="__blank">
+                    <form action="{{ route('generate.evacuee.data') }}" method="POST">
                         @csrf
-                        <button typ="submit" class="btn-submit float-right p-2 font-medium">
+                        <button typ="submit" class="btn-submit float-right p-2 my-1 font-medium">
                             <i class="bi bi-printer pr-2"></i>
                             Generate Report Data
                         </button>
@@ -64,9 +64,8 @@
             </div>
             @foreach ($onGoingDisaster as $count => $disaster)
                 <figure class="chart-container my-4">
-                    <div id="evacueePie{{ $count + 1 }}" class="pie-chart bg-slate-50 rounded shadow-lg mr-3"></div>
-                    <div id="evacueeGraph{{ $count + 1 }}" class="bar-graph bg-slate-200 rounded shadow-lg flex-1">
-                    </div>
+                    <div id="evacueePie{{ $count + 1 }}" class="pie-chart bg-slate-50 rounded shadow-lg mr-5"></div>
+                    <div id="evacueeGraph{{ $count + 1 }}" class="bar-graph bg-slate-200 rounded shadow-lg flex-1"></div>
                 </figure>
             @endforeach
         </div>
@@ -111,6 +110,7 @@
                             color: '#f43f5e'
                         }]
                     }],
+                    exporting: false
                 });
 
                 Highcharts.chart('evacueeGraph{{ $count + 1 }}', {
@@ -171,7 +171,8 @@
                         name: 'LACTATING',
                         data: ['', '', '', '', '', {{ Js::from($activeEvacuation) }}],
                         color: '#9b59b6'
-                    }]
+                    }],
+                    exporting: false
                 });
             @endforeach
         });

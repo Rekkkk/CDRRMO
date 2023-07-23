@@ -13,7 +13,7 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1">
                     <div class="text-2xl text-white">
-                        <i class="bi bi-book p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-book p-2 bg-slate-600"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">E-LIGTAS GUIDELINES</span>

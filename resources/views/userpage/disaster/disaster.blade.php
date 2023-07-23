@@ -16,7 +16,7 @@
             <div class="grid grid-cols-1">
                 <div class="grid col-end-1">
                     <div class="text-white text-2xl">
-                        <i class="bi bi-tropical-storm p-2 bg-slate-600 rounded"></i>
+                        <i class="bi bi-tropical-storm p-2 bg-slate-600"></i>
                     </div>
                 </div>
                 <span class="text-xl font-bold">MANAGE DISASTER INFORMATION</span>
@@ -64,6 +64,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
+    @include('userpage.changePasswordModal')
     @include('partials.toastr')
     <script>
         let disasterTable = $('.disasterTable').DataTable({

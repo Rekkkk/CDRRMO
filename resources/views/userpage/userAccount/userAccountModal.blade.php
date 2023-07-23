@@ -45,7 +45,7 @@
                                     <input type="text" name="email" class="form-control" id="email"
                                         placeholder="Enter Email Address">
                                 </div>
-                                <div class="w-full px-4 mt-4 mb-3">
+                                <div class="w-full p-4">
                                     <button id="saveProfileDetails" class="btn-submit p-2 float-right">Create</button>
                                 </div>
                             </div>
