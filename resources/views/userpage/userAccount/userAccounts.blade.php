@@ -42,7 +42,7 @@
                                 <th>Organization</th>
                                 <th>Position</th>
                                 <th>Status</th>
-                                <th width="20%">Action</th>
+                                <th class="w-4">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -208,7 +208,7 @@
                     } else if (selectedAction == 'editAccount') {
                         $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                         $('.modal-title').text('Edit User Account');
-                        $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text('Update');
+                        $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text('Save');
                         $('#suspend-container').prop('hidden', true);
                         $('#organization').val(data['organization']);
                         $('#position').val(data['position']);
@@ -240,7 +240,7 @@
                         });
                     } else if (selectedAction == 'suspendAccount') {
                         $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                        $('.modal-title').text('Suspend User Account Form');
+                        $('.modal-title').text('Suspend User Account');
                         $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text('Suspend');
                         $('#organization').val(data['organization']);
                         $('#position').val(data['position']);
@@ -275,7 +275,7 @@
 
                 $(document).on('click', '.createUserAccount', function() {
                     $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                    $('.modal-title').text('Create User Account Form');
+                    $('.modal-title').text('Create User Account');
                     $('#saveProfileDetails').removeClass('btn-edit').addClass('btn-submit').text('Create');
                     $('#suspend-container').prop('hidden', true);
                     $('#suspend').prop('disabled', true);

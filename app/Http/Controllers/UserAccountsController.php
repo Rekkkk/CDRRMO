@@ -41,7 +41,7 @@ class UserAccountsController extends Controller
                 ->addIndexColumn()
                 ->addColumn('action', function ($user) {
                     if (auth()->user()->status == "Active") {
-                        $actionBtns = '<select class="custom-select custom-select bg-blue-500 text-white actionSelect">
+                        $actionBtns = '<select class="custom-select w-44 bg-blue-500 text-white actionSelect">
                         <option value="" disabled selected hidden>Select Action</option>';
 
                         if ($user->is_suspend == 0) {

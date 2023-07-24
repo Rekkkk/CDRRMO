@@ -280,13 +280,9 @@
             }
 
             $('#recordEvacueeBtn').click(function() {
-                $('.modal-header').
-                removeClass('bg-yellow-500').
-                addClass('bg-green-600');
+                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
                 $('.modal-title').text('Record Evacuee Information');
-                $('#saveEvacueeInfoBtn').
-                removeClass('bg-yellow-500 hover:bg-yellow-600').
-                addClass('bg-green-600 hover:bg-green-700');
+                $('#saveEvacueeInfoBtn').removeClass('btn-edit').addClass('btn-submit').text('Save');
                 $('#dateFormFieldsContainer').hide();
                 $('#evacuationSelectContainer').removeClass('hidden');
                 $('#operation').val('record');
@@ -296,11 +292,9 @@
             let evacueeId, defaultFormData;
 
             $(document).on('click', '.editEvacueeBtn', function() {
-                $('.modal-header').removeClass('bg-green-700').addClass('bg-yellow-500');
+                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                 $('.modal-title').text('Edit Evacuee Information');
-                $('#saveEvacueeInfoBtn').
-                removeClass('bg-green-700 hover:bg-green-800').
-                addClass('bg-yellow-500 hover:bg-yellow-600');
+                $('#saveEvacueeInfoBtn').removeClass('btn-submit').addClass('btn-edit').text('Save');
                 $('#dateFormFieldsContainer').show();
 
                 let currentRow = $(this).closest('tr');

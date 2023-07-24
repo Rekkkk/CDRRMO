@@ -26,7 +26,7 @@
                 <div class="create-section">
                     <button class="btn-submit p-2 createEvacuationCenter">
                         <i class="bi bi-house-down-fill pr-2"></i>
-                        Create Evacuation Center
+                        Add Evacuation Center
                     </button>
                 </div>
             @endif
@@ -191,8 +191,8 @@
 
             $(document).on('click', '.createEvacuationCenter', function() {
                 $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                $('.modal-title').text('Create Evacuation Center');
-                $('#saveEvacuationCenterBtn').removeClass('btn-edit').addClass('btn-submit').text('Create');
+                $('.modal-title').text('Add Evacuation Center');
+                $('#saveEvacuationCenterBtn').removeClass('btn-edit').addClass('btn-submit').text('Add');
                 $('#operation').val('create');
                 $('#evacuationCenterModal').modal('show');
             });
@@ -203,7 +203,7 @@
 
                 $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                 $('.modal-title').text('Edit Evacuation Center');
-                $('#saveEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-edit').text('Update');
+                $('#saveEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-edit').text('Save');
                 $('#operation').val('update');
                 $('#name').val(data['name']);
                 $('#latitude').val(data['latitude']);
