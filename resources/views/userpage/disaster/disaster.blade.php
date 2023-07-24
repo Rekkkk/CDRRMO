@@ -26,7 +26,7 @@
                 <div class="create-section">
                     <button class="btn-submit p-2" id="createDisasterData">
                         <i class="bi bi-cloud-plus pr-2"></i>
-                        Create Disaster Data
+                        Add Disaster
                     </button>
                 </div>
             @endif
@@ -122,9 +122,9 @@
             });
 
             $(document).on('click', '#createDisasterData', function() {
-                $('.modal-header').attr('class', 'modal-header bg-green-600');
-                $('.modal-title').text('Create Disaster Form');
-                $('#submitDisasterBtn').attr('class', 'btn-submit p-2 float-right mx-4 my-2').text('Create');
+                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
+                $('.modal-title').text('Add Disaster');
+                $('#submitDisasterBtn').removeClass('btn-edit').addClass('btn-submit').text('Add');
                 $('#operation').val('create');
                 $('#disasterModal').modal('show');
             });
@@ -132,9 +132,9 @@
             $(document).on('click', '.updateDisaster', function() {
                 let data = getRowData(this);
                 disasterId = data['id'];
-                $('.modal-header').attr('class', 'modal-header bg-yellow-500');
-                $('.modal-title').text('Edit Disaster Form');
-                $('#submitDisasterBtn').attr('class', 'btn-edit p-2 float-right mx-4 my-2').text('Update');
+                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
+                $('.modal-title').text('Edit Disaster');
+                $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-edit').text('Save');
                 $('#disasterName').val(data['name']);
                 $('#operation').val('update');
                 $('#disasterModal').modal('show');

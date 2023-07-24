@@ -14,7 +14,7 @@
                                 <input type="text" id="operation" hidden>
                                 @if (auth()->user()->position == 'President' || auth()->user()->position == 'Focal')
                                     <div class="field-container" id="organization-container">
-                                        <label>Organization</label>
+                                        <label class="mb-0">Organization</label>
                                         <select type="text" name="organization" class="form-select" id="organization"
                                             placeholder="Enter Organization">
                                             <option value="">Select Organization</option>
@@ -23,7 +23,7 @@
                                         </select>
                                     </div>
                                     <div class="field-container" id="position-container">
-                                        <label>Position</label>
+                                        <label class="mb-0">Position</label>
                                         <select type="text" name="position" class="form-select" id="position"
                                             placeholder="Enter Position">
                                             <option value="">Select Position</option>
@@ -32,7 +32,7 @@
                                         </select>
                                     </div>
                                     <div class="field-container" id="suspend-container">
-                                        <label>Suspend Time</label>
+                                        <label class="mb-0">Suspend Time</label>
                                         <input type="text" name="suspend_time" class="form-control" id="suspend"
                                             placeholder="Select Suspend Time">
                                     </div>
@@ -41,7 +41,7 @@
                                     <input type="hidden" name="position" class="form-control" id="position">
                                 @endif
                                 <div class="field-container" id="email-container">
-                                    <label>Email Address</label>
+                                    <label class="mb-0">Email Address</label>
                                     <input type="text" name="email" class="form-control" id="email"
                                         placeholder="Enter Email Address">
                                 </div>

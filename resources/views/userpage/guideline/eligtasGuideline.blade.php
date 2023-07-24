@@ -25,11 +25,11 @@
                         <div class="guideline-widget">
                             @auth
                                 @if (auth()->user()->status == 'Active')
-                                    <a href="javascript:void(0)" class="absolute top-2 right-0" id="removeGuidelineBtn">
-                                        <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
+                                    <a href="javascript:void(0)" class="absolute left-2 top-3 mt-0.5" id="updateGuidelineBtn">
+                                        <i class="btn-edit bi bi-pencil-square p-2"></i>
                                     </a>
-                                    <a href="javascript:void(0)" class="absolute left-2 top-3" id="updateGuidelineBtn">
-                                        <i class="btn-edit bi bi-pencil p-2"></i>
+                                    <a href="javascript:void(0)" class="absolute right-0 top-2 mt-1 mr-2" id="removeGuidelineBtn">
+                                        <i class="btn-remove bi bi-x-lg cursor-pointer p-2"></i>
                                     </a>
                                 @endif
                                 <a class="guidelines-item"
@@ -59,8 +59,8 @@
                         <div class="guideline-btn">
                             <div class="btn-container">
                                 <a id="createGuidelineBtn" href="javascript:void(0)"
-                                    class="transition ease-in-out delay-150 hover:scale-105 duration-100">
-                                    <i class="bi bi-plus-square-fill text-4xl "></i>
+                                    class="transition ease-in-out delay-150 hover:scale-105 duration-10 btn-submit px-1">
+                                    <i class="bi bi-plus text-4xl"></i>
                                 </a>
                             </div>
                         </div>
@@ -108,15 +108,15 @@
                         $('#guidelineForm')[0].reset();
                         $('#operation').val('create');
                         $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                        $('.modal-title').text('Create Guideline Form');
+                        $('.modal-title').text('Create Guideline');
                         $('#submitGuidelineBtn').removeClass('btn-edit').addClass('btn-submit').text('Create');
                         $('#guidelineModal').modal('show');
                     });
 
                     $(document).on('click', '#updateGuidelineBtn', function() {
                         $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                        $('.modal-title').text('Update Guideline Form');
-                        $('#submitGuidelineBtn').removeClass('btn-submit').addClass('btn-edit').text('Update');
+                        $('.modal-title').text('Update Guideline');
+                        $('#submitGuidelineBtn').removeClass('btn-submit').addClass('btn-edit').text('Save');
                         let guidelineWidget = this.closest('.guideline-widget');
                         let guidelineItem = guidelineWidget.querySelector('.guidelines-item');
                         guidelineId = guidelineItem.getAttribute('href').split('/').pop();
