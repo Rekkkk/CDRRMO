@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
-use Illuminate\Support\Facades\Validator;
 use Yajra\DataTables\DataTables;
 use App\Models\EvacuationCenter;
+use Illuminate\Support\Facades\Validator;
 
 class EvacuationCenterController extends Controller
 {
@@ -21,18 +21,24 @@ class EvacuationCenterController extends Controller
 
     public function getEvacuationData($operation)
     {
-        $evacuationCenterList = $this->evacuationCenter->all();
+        $evacuationCenterList = $this->evacuationCenter->orderBy('name', 'asc')->get();
 
         return DataTables::of($evacuationCenterList)
             ->addIndexColumn()
-            ->addColumn('action', function () use ($operation) {
+            ->addColumn('status', function ($row) {
+                return match ($row->status) {
+                    'Active' => '<div class="text-green-600 font-extrabold">Active</div>',
+                    'Inactive' => '<div class="text-red-600 font-extrabold">Inactive</div>',
+                    default => '<div class="text-orange-500 font-extrabold">Full</div>',
+                };
+            })->addColumn('action', function () use ($operation) {
                 if ($operation == "locator") {
-                    return '<button class="btn-table-primary p-2 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>';
+                    return '<button class="btn-table-primary p-2 w-24 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>';
                 } else {
                     if (auth()->user()->status == "Active") {
-                        return '<div class="flex justify-around actionContainer"><button class="btn-table-edit mr-2 updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Edit</button>' .
-                            '<button class="btn-table-remove mr-2 removeEvacuationCenter"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
-                            '<select class="custom-select w-44 bg-blue-500 text-white changeEvacuationStatus">
+                        return '<div class="flex justify-around actionContainer"><button class="btn-table-update w-28 mr-2 updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
+                            '<button class="btn-table-remove w-28 mr-2 removeEvacuationCenter"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
+                            '<select class="form-select w-44 bg-blue-500 text-white drop-shadow-md changeEvacuationStatus">
                                     <option value="" disabled selected hidden>Change Status</option>
                                     <option value="Active">Active</option>
                                     <option value="Inactive">Inactive</option>
@@ -43,7 +49,7 @@ class EvacuationCenterController extends Controller
 
                 return '<span class="text-sm">Currently Disabled.</span>';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['status', 'action'])
             ->make(true);
     }
 

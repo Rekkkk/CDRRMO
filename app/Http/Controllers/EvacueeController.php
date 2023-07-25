@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use Carbon\Carbon;
 use App\Models\Evacuee;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Validator;
@@ -26,7 +26,7 @@ class EvacueeController extends Controller
         return DataTables::of($evacueeInfo)
             ->addIndexColumn()
             ->addColumn('action', function () {
-                return '<button class="btn-table-edit editEvacueeBtn"><i class="bi bi-pencil-square pr-2"></i>Edit</button>';
+                return '<button class="btn-table-update editEvacueeBtn"><i class="bi bi-pencil-square pr-2"></i>Edit</button>';
             })
             ->addColumn('select', function ($row) {
                 return '<input type="checkbox" class="w-4 h-4 accent-blue-600" value="' . $row->id . '">';

@@ -26,7 +26,7 @@
                 <div class="create-section">
                     <button class="btn-submit p-2 createEvacuationCenter">
                         <i class="bi bi-house-down-fill pr-2"></i>
-                        Add Evacuation Center
+                        Create Evacuation Center
                     </button>
                 </div>
             @endif
@@ -36,13 +36,12 @@
                     <table class="table evacuationCenterTable" width="100%">
                         <thead class="thead-light">
                             <tr>
-                                <th></th>
-                                <th>Name</th>
+                                <th colspan="2">Name</th>
                                 <th>Barangay</th>
                                 <th>Latitude</th>
                                 <th>Longitude</th>
-                                <th>Status</th>
-                                <th>Action</th>
+                                <th width="10%">Status</th>
+                                <th class="w-4">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -75,12 +74,7 @@
     @include('partials.toastr')
     <script type="text/javascript">
         let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
-            order: [
-                [1, 'asc']
-            ],
-            language: {
-                emptyTable: 'No evacuation center added yet',
-            },
+            ordering: false,
             responsive: true,
             processing: false,
             serverSide: true,
@@ -115,8 +109,7 @@
                     data: 'action',
                     name: 'action',
                     orderable: false,
-                    searchable: false,
-                    width: '4px'
+                    searchable: false
                 }
             ]
         });
@@ -125,6 +118,29 @@
             let evacuationCenterId, defaultFormData, status, map, marker, saveBtnClicked = false;
 
             function initMap() {
+                var mapTypeStyleArray = [{
+                        featureType: 'water',
+                        elementType: 'labels.text',
+                        stylers: [{
+                            color: '#000000'
+                        }]
+                    },
+                    {
+                        featureType: 'road.local',
+                        elementType: 'geometry.fill',
+                        stylers: [{
+                            color: '#b8b8b8'
+                        }]
+                    },
+                    {
+                        featureType: 'road.highway',
+                        elementType: 'geometry.fill',
+                        stylers: [{
+                            color: '#383838'
+                        }]
+                    },
+                ];
+
                 map = new google.maps.Map(document.getElementById("map"), {
                     center: {
                         lat: 14.2471423,
@@ -189,26 +205,28 @@
                     submitHandler: formSubmitHandler
                 });
 
-            $(document).on('click', '.createEvacuationCenter', function() {
-                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                $('.modal-title').text('Add Evacuation Center');
-                $('#saveEvacuationCenterBtn').removeClass('btn-edit').addClass('btn-submit').text('Add');
-                $('#operation').val('create');
-                $('#evacuationCenterModal').modal('show');
-            });
+                $(document).on('click', '.createEvacuationCenter', function() {
+                    $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
+                    $('.modal-title').text('Create Evacuation Center');
+                    $('#saveEvacuationCenterBtn').removeClass('btn-update').addClass('btn-submit').text(
+                        'Create');
+                    $('#operation').val('create');
+                    $('#evacuationCenterModal').modal('show');
+                });
 
                 $(document).on('click', '.updateEvacuationCenter', function() {
                     let data = getRowData(this);
                     evacuationCenterId = data['id'];
 
-                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                $('.modal-title').text('Edit Evacuation Center');
-                $('#saveEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-edit').text('Save');
-                $('#operation').val('update');
-                $('#name').val(data['name']);
-                $('#latitude').val(data['latitude']);
-                $('#longitude').val(data['longitude']);
-                $(`#barangayName, option[value="${data['barangay_name']}"`).prop('selected', true);
+                    $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
+                    $('.modal-title').text('Update Evacuation Center');
+                    $('#saveEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-update').text(
+                        'Update');
+                    $('#operation').val('update');
+                    $('#name').val(data['name']);
+                    $('#latitude').val(data['latitude']);
+                    $('#longitude').val(data['longitude']);
+                    $(`#barangayName, option[value="${data['barangay_name']}"`).prop('selected', true);
 
                     marker = new google.maps.Marker({
                         position: {

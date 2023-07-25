@@ -33,16 +33,16 @@
                 </div>
             </div>
             <div class="flex justify-end my-3">
-                <button type="button" class="btn-submit bg-green-600 p-2 mr-3" id="locateNearestBtn">
+                <button type="button" class="mr-2" id="locateNearestBtn">
                     <i class="bi bi-search pr-2"></i>
                     Locate Nearest Evacuation</button>
-                <button type="button" class="btn-cancel bg-red-600 p-2 rounded" id="locateCurrentLocationBtn">
+                <button type="button" id="locateCurrentLocationBtn">
                     <i class="bi bi-pin-map-fill pr-2"></i>
                     Locate Current Location</button>
             </div>
             <div class="table-container p-3 shadow-lg rounded-lg">
                 <div class="block w-full overflow-auto">
-                    <header class="text-2xl font-semibold mb-3">Evacuation Centers</header>
+                    <header class="text-2xl font-semibold mb-3">Evacuation Centers Table</header>
                     <table class="table evacuationCenterTable" width="100%">
                         <thead class="thead-light">
                             <tr>
@@ -50,7 +50,7 @@
                                 <th>Barangay</th>
                                 <th>Latitude</th>
                                 <th>Longitude</th>
-                                <th>Status</th>
+                                <th width="10%">Status</th>
                                 <th class="w-4">Action</th>
                             </tr>
                         </thead>
@@ -63,12 +63,16 @@
         @include('userpage.changePasswordModal')
     @endauth
     @include('partials.toastr')
-    <script src="{{ asset('assets/js/script.js') }}"></script>
+    @auth
+        <script src="{{ asset('assets/js/script.js') }}"></script>
+    @endauth
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script
         src="https://maps.googleapis.com/maps/api/js?key={{ config('services.googleMap.key') }}&callback=initMap&v=weekly"
-        defer></script>
-    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
+        defer>
+        < /> <
+        script src = "https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js" >
+    </script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
@@ -77,6 +81,29 @@
         let map, activeInfoWindow;
 
         function initMap() {
+            var mapTypeStyleArray = [{
+                    featureType: 'water',
+                    elementType: 'labels.text',
+                    stylers: [{
+                        color: '#000000'
+                    }]
+                },
+                {
+                    featureType: 'road.local',
+                    elementType: 'geometry.fill',
+                    stylers: [{
+                        color: '#b8b8b8'
+                    }]
+                },
+                {
+                    featureType: 'road.highway',
+                    elementType: 'geometry.fill',
+                    stylers: [{
+                        color: '#383838'
+                    }]
+                },
+            ];
+            
             map = new google.maps.Map(document.getElementById("map"), {
                 center: {
                     lat: 14.242311,
@@ -131,13 +158,11 @@
             let url;
 
             '{{ $prefix }}' == 'resident' ?
-                url = "{{ route('resident.evacuation.center.get', 'locator') }}":
+            url = "{{ route('resident.evacuation.center.get', 'locator') }}":
                 url = "{{ route('evacuation.center.get', 'locator') }}";
 
             let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
-                order: [
-                    [1, 'asc']
-                ],
+                ordering: false,
                 language: {
                     emptyTable: 'No available evacuation center yet',
                 },

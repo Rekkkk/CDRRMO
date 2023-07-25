@@ -21,7 +21,7 @@
             <hr class="mt-4">
             <div class="guide-btn flex justify-end my-3">
                 @if (auth()->check() && auth()->user()->status == 'Active')
-                    <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit p-2 font-medium">
+                    <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit">
                         <i class="bi bi-plus-lg mr-2"></i> Create Guide
                     </a>
                     <input type="text" class="guidelineId" value="{{ $guidelineId }}" hidden>
@@ -33,11 +33,11 @@
                     <div class="guide-widget">
                         @auth
                             @if (auth()->user()->status == 'Active')
-                                <a href="javascript:void(0)" class="absolute top-2 right-0" id="removeGuideBtn">
-                                    <i class="bi bi-x-lg cursor-pointer p-2.5"></i>
+                                <a href="javascript:void(0)" class="absolute top-3 right-2" id="removeGuideBtn">
+                                    <i class="btn-remove bi bi-x-lg cursor-pointer p-2"></i>
                                 </a>
                                 <a href="javascript:void(0)" class="absolute left-2 top-3" id="updateGuideBtn">
-                                    <i class="btn-edit bi bi-pencil p-2"></i>
+                                    <i class="btn-update bi bi-pencil p-2"></i>
                                 </a>
                             @endif
                             <a class="guide-item cursor-pointer guideContentBtn">
@@ -109,10 +109,10 @@
 
                     $('#createGuideBtn').click(function() {
                         $('#createGuideForm').trigger("reset");
-                        $('#operation').val('create');
+                        $('#guide_operation').val('create');
                         $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
                         $('.modal-title').text('Create Guide Form');
-                        $('#submitGuideBtn').removeClass('btn-edit').addClass('btn-submit').text('Create');
+                        $('#submitGuideBtn').removeClass('btn-update').addClass('btn-submit').text('Create');
                         $('#guideModal').modal('show');
                     });
 
@@ -128,10 +128,10 @@
                         guideId = guideWidget.find('#guideId').val();
                         $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                         $('.modal-title').text('Update Guide Form');
-                        $('#submitGuideBtn').removeClass('btn-submit').addClass('btn-edit').text('Update');
+                        $('#submitGuideBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
                         $('#label').val(guideItem.find('p').text());
                         $('#content').val(guideWidget.find('#guideContent').val());
-                        $('#operation').val('update');
+                        $('#guide_operation').val('update');
                         $('#guideModal').modal('show');
                         defaultFormData = $('#guideForm').serialize();
                     });
@@ -177,7 +177,7 @@
                     });
 
                     function guideFormHandler(form) {
-                        let operation = $('#operation').val(),
+                        let operation = $('#guide_operation').val(),
                             url = "",
                             type = "",
                             formData = $(form).serialize();

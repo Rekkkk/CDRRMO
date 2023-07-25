@@ -39,9 +39,15 @@ class UserAccountsController extends Controller
 
             return DataTables::of($userAccounts)
                 ->addIndexColumn()
-                ->addColumn('action', function ($user) {
+                ->addColumn('status', function ($row) {
+                    return match ($row->status) {
+                        'Active' => '<div class="text-green-600 font-extrabold">Active</div>',
+                        'Disabled' => '<div class="text-red-600 font-extrabold">Disabled</div>',
+                        'Suspended' => '<div class="text-orange-600 font-extrabold">Suspended</div>'
+                    };
+                })->addColumn('action', function ($user) {
                     if (auth()->user()->status == "Active") {
-                        $actionBtns = '<select class="custom-select w-44 bg-blue-500 text-white actionSelect">
+                        $actionBtns = '<select class="form-select w-44 bg-blue-500 text-white actionSelect">
                         <option value="" disabled selected hidden>Select Action</option>';
 
                         if ($user->is_suspend == 0) {
@@ -55,12 +61,12 @@ class UserAccountsController extends Controller
                             $actionBtns .= '<option value="openAccount">Open Account</option>';
                         }
 
-                        return $actionBtns .= '<option value="editAccount">Edit Account</option>' . '<option value="removeAccount">Remove Account</option>' . '</select>';
+                        return $actionBtns .= '<option value="updateAccount">Update Account</option>' . '<option value="removeAccount">Remove Account</option>' . '</select>';
                     }
 
                     return '<span class="text-sm">Currently Disabled.</span>';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['status', 'action'])
                 ->make(true);
         }
 

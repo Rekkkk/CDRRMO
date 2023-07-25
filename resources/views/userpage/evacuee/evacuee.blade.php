@@ -135,12 +135,7 @@
     <script>
         $(document).ready(function() {
             let evacueeTable = $('.evacueeTable').DataTable({
-                order: [
-                    [1, 'asc']
-                ],
-                language: {
-                    emptyTable: 'No evacuee data recorded'
-                },
+                ordering: false,
                 responsive: true,
                 processing: false,
                 serverSide: true,
@@ -282,7 +277,7 @@
             $('#recordEvacueeBtn').click(function() {
                 $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
                 $('.modal-title').text('Record Evacuee Information');
-                $('#saveEvacueeInfoBtn').removeClass('btn-edit').addClass('btn-submit').text('Save');
+                $('#saveEvacueeInfoBtn').removeClass('btn-update').addClass('btn-submit').text('Save');
                 $('#dateFormFieldsContainer').hide();
                 $('#evacuationSelectContainer').removeClass('hidden');
                 $('#operation').val('record');
@@ -294,7 +289,7 @@
             $(document).on('click', '.editEvacueeBtn', function() {
                 $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                 $('.modal-title').text('Edit Evacuee Information');
-                $('#saveEvacueeInfoBtn').removeClass('btn-submit').addClass('btn-edit').text('Save');
+                $('#saveEvacueeInfoBtn').removeClass('btn-submit').addClass('btn-update').text('Save');
                 $('#dateFormFieldsContainer').show();
 
                 let currentRow = $(this).closest('tr');
@@ -390,19 +385,7 @@
                 let selectedText = $('#flashflood option:selected').text();
                 $('input[name="disasterInfo"]').val(selectedText.trim());
             });
-
-            function datePicker(id) {
-                return flatpickr(id, {
-                    enableTime: true,
-                    allowInput: true,
-                    timeFormat: "h:i K",
-                    dateFormat: "D, M j, Y h:i K",
-                    minuteIncrement: 1,
-                    secondIncrement: 1,
-                    position: "below center",
-                });
-            }
-
+            
             let dateEntryInput = datePicker("#dateEntry"),
                 dateOutInput = datePicker("#dateOut");
 

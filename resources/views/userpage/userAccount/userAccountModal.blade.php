@@ -11,10 +11,10 @@
                         <div class="flex-auto">
                             <div class="flex flex-wrap">
                                 <input type="text" id="accountId" hidden>
-                                <input type="text" id="operation" hidden>
+                                <input type="text" id="account_operation" hidden>
                                 @if (auth()->user()->position == 'President' || auth()->user()->position == 'Focal')
                                     <div class="field-container" id="organization-container">
-                                        <label class="mb-0">Organization</label>
+                                        <label>Organization</label>
                                         <select type="text" name="organization" class="form-select" id="organization"
                                             placeholder="Enter Organization">
                                             <option value="">Select Organization</option>
@@ -23,7 +23,7 @@
                                         </select>
                                     </div>
                                     <div class="field-container" id="position-container">
-                                        <label class="mb-0">Position</label>
+                                        <label>Position</label>
                                         <select type="text" name="position" class="form-select" id="position"
                                             placeholder="Enter Position">
                                             <option value="">Select Position</option>
@@ -32,20 +32,20 @@
                                         </select>
                                     </div>
                                     <div class="field-container" id="suspend-container">
-                                        <label class="mb-0">Suspend Time</label>
-                                        <input type="text" name="suspend_time" class="form-control" id="suspend"
-                                            placeholder="Select Suspend Time">
+                                        <label>Suspend Time</label>
+                                        <input type="text" name="suspend_time" class="form-control cursor-pointer" id="suspend"
+                                            placeholder="Select Suspend Time" autocomplete="off">
                                     </div>
                                 @else
                                     <input type="hidden" name="organization" class="form-control" id="organization">
                                     <input type="hidden" name="position" class="form-control" id="position">
                                 @endif
                                 <div class="field-container" id="email-container">
-                                    <label class="mb-0">Email Address</label>
+                                    <label>Email Address</label>
                                     <input type="text" name="email" class="form-control" id="email"
                                         placeholder="Enter Email Address">
                                 </div>
-                                <div class="w-full p-4">
+                                <div class="w-full px-4 py-2">
                                     <button id="saveProfileDetails" class="btn-submit p-2 float-right">Create</button>
                                 </div>
                             </div>

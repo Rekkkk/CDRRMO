@@ -13,8 +13,8 @@
                 <div class="header-desc">
                     <h1 class="text-white tracking-wide font-extrabold">{{ config('app.name') }}</h1>
                     <div class="pt-4">
-                        <p class="text-slate-400">E-LIGTAS can help you locate an evacuation center in Cabuyao, Laguna,
-                            and learn about disaster preparedness.</p>
+                        <p class="text-slate-400">E-LIGTAS can help you to locate an evacuation centers in Cabuyao, Laguna,
+                            and disseminate information on disaster preparedness.</p>
                     </div>
                 </div>
                 <div class="login-form-section bg-slate-300 mr-2">

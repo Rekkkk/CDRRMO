@@ -12,17 +12,17 @@
                             <div class="flex flex-wrap">
                                 <input type="text" id="operation" hidden>
                                 <div class="w-full mb-3 lg:w-3/12 px-4">
-                                    <label class="mb-0">House Hold #</label>
+                                    <label>House Hold #</label>
                                     <input type="number" name="houseHoldNumber" class="form-control"
                                         autocomplete="off" placeholder="HH#">
                                 </div>
                                 <div class="w-full mb-3 lg:w-9/12 px-4">
-                                    <label class="mb-0">Full Name</label>
+                                    <label>Full Name</label>
                                     <input type="text" name="fullName" class="form-control"
                                         autocomplete="off" placeholder="Enter Full Name">
                                 </div>
                                 <div class="w-full mb-3 lg:w-6/12 px-4">
-                                    <label class="mb-0">Sex</label>
+                                    <label>Sex</label>
                                     <select name="sex" class="form-select">
                                         <option value="">Select Sex</option>
                                         <option value="Male">
@@ -34,26 +34,26 @@
                                     </select>
                                 </div>
                                 <div class="w-full mb-3 lg:w-6/12 px-4">
-                                    <label class="mb-0">Age</label>
+                                    <label>Age</label>
                                     <input type="number" name="age" class="form-control"
                                         autocomplete="off" placeholder="Enter Age">
                                 </div>
                                 <div class="flex flex-wrap w-full" id="dateFormFieldsContainer">
                                     <div class="w-full mb-3 lg:w-6/12 px-4" id="dateEntryContainer">
-                                        <label class="mb-0">Date Entry</label>
+                                        <label>Date Entry</label>
                                         <input type="text" name="dateEntry" id="dateEntry"
                                             class="form-control" autocomplete="off"
                                             placeholder="Select Date Entry">
                                     </div>
                                     <div class="w-full mb-3 lg:w-6/12 px-4" id="dateOutContainer">
-                                        <label class="mb-0">Date Out</label>
+                                        <label>Date Out</label>
                                         <input type="text" name="dateOut" id="dateOut"
                                             class="form-control" autocomplete="off"
                                             placeholder="Select Date Out">
                                     </div>
                                 </div>
                                 <div class="w-full mb-3 lg:w-6/12 px-4">
-                                    <label class="mb-0">Barangay</label>
+                                    <label>Barangay</label>
                                     <select name="barangay" class="form-select">
                                         <option value="">Select Barangay</option>
                                         <option value="Baclaran">Baclaran</option>
@@ -77,7 +77,7 @@
                                     </select>
                                 </div>
                                 <div class="w-full mb-3 lg:w-6/12 px-4">
-                                    <label class="mb-0">Disaster</label>
+                                    <label>Disaster</label>
                                     <select name="disasterType" id="disasterType" class="form-select">
                                         <option value="">Select Disaster</option>
                                         {{-- @if ($disasterList != null)
@@ -112,7 +112,7 @@
                                 </div>
                                 <input type="text" name="disasterInfo" hidden>
                                 <div class="field-container" id="evacuationSelectContainer">
-                                    <label class="mb-0">Evacuation Assigned</label>
+                                    <label>Evacuation Assigned</label>
                                     <select name="evacuationAssigned" class="form-select">
                                         <option value="">Select Evacuation Assigned</option>
                                         @foreach ($evacuationList as $evacuationCenter)

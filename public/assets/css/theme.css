@@ -21,59 +21,15 @@
     font-family: "Montserrat", sans-serif;
 }
 
-input[type="number"] {
-    -moz-appearance: textfield;
-}
-
-input::-ms-reveal,
-input::-ms-clear {
-    display: none;
-}
-
-#evacueeInfoForm input,
-#evacuationCenterForm input,
-#accountForm input,
-#disasterForm input,
-#changePasswordForm input,
-#guidelineForm input,
-#evacuationCenterForm select,
-#evacueeInfoForm select,
-#accountForm select {
-    border-radius: 5px;
-    font-weight: 400;
-    font-size: 0.875rem;
-    border: 2px solid #94a3b8;
-    height: 44px;
-}
-
-.field-container {
-    width: 100%;
-    margin-bottom: 12px;
-    padding: 0 24px;
-}
-
-span.error {
-    color: #ef4444;
-    font-size: 12px;
-    font-family: Montserrat, san-serif;
-    font-style: italic;
-}
-
-div b {
-    font-weight: bold;
-}
-
-table th,
-table td {
-    text-align: center !important;
-    vertical-align: middle !important;
-}
-
+/* Toastr Section Start Here */
 .toast {
     opacity: 1 !important;
     box-shadow: none !important;
 }
 
+/* Toastr Section End */
+
+/* Website Scroll Bar Start Here */
 ::-webkit-scrollbar {
     width: 0.5vw;
 }
@@ -91,54 +47,33 @@ hr,
     background: var(--color-gray);
 }
 
+/* Website Scroll Bar End */
+
 .wrapper {
     width: 100%;
     margin: 0 auto;
     padding: 0 10px 0 20px;
 }
 
-.header-section {
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 70px;
-    background: var(--color-red);
-    z-index: 1;
-}
-
-.dropdown-menu li {
-    font-size: 13px;
-    padding-bottom: 1.5px;
-}
-
 /* Button Section Start Here */
 .btn-submit,
-.btn-table-submit {
+.btn-table-submit,
+#locateNearestBtn {
     background: var(--color-green);
     color: var(--color-text);
+    font-size: 14px;
+    font-weight: 600;
     border-radius: 4px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    padding: 8px 10px;
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-duration: 100ms;
 }
 
 .btn-submit:hover,
-.btn-table-submit:hover {
+.btn-table-submit:hover,
+#locateNearestBtn:hover {
     color: var(--color-text);
     background: #06782f;
-    transform: scale(1.05);
-}
-
-.btn-cancel {
-    background: var(--color-red);
-    color: var(--color-text);
-    border-radius: 4px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
-    transition-duration: 100ms;
-}
-
-.btn-cancel:hover {
-    color: var(--color-text);
-    background-color: #b91c1c;
     transform: scale(1.05);
 }
 
@@ -155,29 +90,22 @@ hr,
     transform: scale(1.05);
 }
 
-.btn-edit {
+.btn-update,
+.btn-table-update {
     background: var(--color-yellow);
-    color: var(--color-text);
-    border-radius: 4px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
-    transition-duration: 100ms;
-}
-
-.btn-table-edit {
-    background: var(--color-yellow);
-    width: 80px;
     font-size: 14px;
-    font-weight: 600px;
+    font-weight: 600;
     padding: 6px 0;
     color: var(--color-text);
     transition-duration: 100ms;
-    transition-delay: 150ms;
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 4px;
 }
 
-.btn-edit:hover,
-.btn-table-edit:hover {
+
+.btn-update:hover,
+.btn-table-update:hover {
     background: #ca8a04;
     color: var(--color-text);
     transform: scale(1.05);
@@ -185,13 +113,11 @@ hr,
 
 .btn-table-primary {
     background: var(--color-primary);
-    width: 100px;
     font-size: 14px;
-    font-weight: 600px;
+    font-weight: 600;
     padding: 6px 0;
     color: var(--color-text);
     transition-duration: 100ms;
-    transition-delay: 150ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 4px;
 }
@@ -203,28 +129,25 @@ hr,
 }
 
 .btn-remove,
-.btn-table-remove {
+.btn-table-remove,
+#locateCurrentLocationBtn {
     background: var(--color-red);
-    width: 100px;
     font-size: 14px;
-    font-weight: 600px;
-    padding: 6px 0;
+    font-weight: 600;
+    padding: 6px 10px;
     color: var(--color-text);
     transition-duration: 100ms;
-    transition-delay: 150ms;
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 4px;
 }
 
 .btn-remove:hover,
-.btn-table-remove:hover {
+.btn-table-remove:hover,
+#locateCurrentLocationBtn:hover {
     background: #b91c1c;
     color: var(--color-text);
     transform: scale(1.05);
-}
-
-.changeEvacuationStatus {
-    background-image: none;
 }
 
 .create-section {
@@ -233,7 +156,31 @@ hr,
     margin-bottom: 16px;
 }
 
+.status{
+    background: var(--color-green);
+    color: var(--color-text);
+    border-radius: 4px;
+    padding: 2px 0;
+}
+
 /* Button End Section */
+
+/* Header Section Start Here */
+.header-section {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 70px;
+    background: var(--color-red);
+    z-index: 1;
+}
+
+.dropdown-menu li {
+    font-size: 13px;
+    padding-bottom: 1.5px;
+}
+
+/* Header Section End */
 
 /* Main Content Start Here */
 .main-content {
@@ -248,13 +195,12 @@ hr,
     align-items: baseline;
 }
 
-
 .main-content .grid .grid {
     margin-right: 16px;
 }
 
 .main-content .grid i {
-    border-radius: 0.25rem/* 4px */;
+    border-radius: 4px;
 }
 
 /* Main End Content */
@@ -432,6 +378,12 @@ hr,
 .res-password-cotainer {
     max-width: 500px;
     margin: 10% auto;
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    border-radius: 4px;
+}
+
+.res-password-cotainer .res-input-form{
+    padding: 24px 24px 2px 24px;
 }
 
 .bottom-section p {
@@ -577,6 +529,13 @@ hr,
 
 /* Guideline End Section */
 
+/* Evacuation Center Section Start Here */
+div b {
+    font-weight: bold;
+}
+
+/* Evacuation Center Section End */
+
 /* Report Incident Section Start Here */
 .report-button {
     position: fixed;
@@ -682,7 +641,7 @@ hr,
     right: 38px;
 }
 
-select.custom-select option {
+select.form-select option {
     background: var(--color-background);
     color: #000;
     font-size: 15px;
@@ -712,7 +671,6 @@ input::-webkit-inner-spin-button {
     gap: 8px;
 }
 
-
 #evacueeInfoForm .checkbox-container label {
     margin-top: 9px;
 }
@@ -728,6 +686,62 @@ input::-webkit-inner-spin-button {
 }
 
 /* Recording Evacuee End Section */
+
+/* Form Section Start Here */
+input[type="number"] {
+    -moz-appearance: textfield;
+}
+
+input::-ms-reveal,
+input::-ms-clear {
+    display: none;
+}
+
+#evacueeInfoForm input,
+#evacuationCenterForm input,
+#accountForm input,
+#disasterForm input,
+#changePasswordForm input,
+#guidelineForm input,
+#evacuationCenterForm select,
+#evacueeInfoForm select,
+#accountForm select {
+    border-radius: 5px;
+    font-weight: 400;
+    font-size: 0.875rem;
+    border: 2px solid #94a3b8;
+    height: 44px;
+}
+
+.field-container {
+    width: 100%;
+    margin-bottom: 8px;
+    padding: 0 24px;
+}
+
+.field-container label {
+    display: block;
+    text-align: start;
+    margin: 0px;
+}
+
+span.error {
+    color: #ef4444;
+    font-size: 12px;
+    font-family: Montserrat, san-serif;
+    font-style: italic;
+}
+
+/* Form Section End */
+
+/* DataTable Section Start Here */
+table th,
+table td {
+    text-align: center !important;
+    vertical-align: middle !important;
+}
+
+/* DataTable Section End */
 
 /* Laptop View Section */
 @media only screen and (max-width: 1024px) {

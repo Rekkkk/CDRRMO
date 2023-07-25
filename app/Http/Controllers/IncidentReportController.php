@@ -30,14 +30,13 @@ class IncidentReportController extends Controller
         $pendingReport = $this->incidentReport->where('status', 'On Process')->get();
 
         return DataTables::of($pendingReport)
-            ->addIndexColumn()
-            ->addColumn('action', function ($row) {
-                if (auth()->user()->status == "Active") {
-                    $actionBtn = '';
-
-                    if ($row->user_ip == request()->ip() && !auth()->check())
-                        $actionBtn .= '<button class="btn-table-remove revertIncidentReport">Revert</button>';
-                    else if (auth()->check() && auth()->user()->status == "Active")
+            ->addIndexColumn()->addColumn('status', function () {
+                return '<div class="text-orange-600 font-extrabold">On Process</div>';
+            })->addColumn('action', function ($row) {
+                if ($row->user_ip == request()->ip() && !auth()->check())
+                    return '<button class="btn-table-remove revertIncidentReport">Revert</button>';
+                if (auth()->check()) {
+                    if (auth()->user()->status == "Active")
                         return '<button class="btn-table-submit p-1.5 px-3.5 mr-2 text-sm approveIncidentReport">Approve</button>' . '<button class="btn-table-remove declineIncidentReport">Decline</button>';
                 }
 
@@ -45,7 +44,7 @@ class IncidentReportController extends Controller
             })->addColumn('photo', function ($row) {
                 return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
             })
-            ->rawColumns(['action', 'photo'])
+            ->rawColumns(['status', 'action', 'photo'])
             ->make(true);
     }
 
@@ -54,8 +53,12 @@ class IncidentReportController extends Controller
         $incidentReport = $this->incidentReport->whereNotIn('status', ["On Process"])->where('is_archive', 0)->get();
 
         return DataTables::of($incidentReport)
-            ->addIndexColumn()
-            ->addColumn('action', function () {
+            ->addIndexColumn()->addColumn('status', function ($row) {
+                return match ($row->status) {
+                    'Approved' => '<div class="text-green-600 font-extrabold">Approved</div>',
+                    'Declined' => '<div class="text-red-600 font-extrabold">Declined</div>',
+                };
+            })->addColumn('action', function () {
                 if (auth()->user()->status == "Active") {
                     return '<button class="btn-table-remove removeIncidentReport">Remove</button>';
                 }
@@ -64,7 +67,7 @@ class IncidentReportController extends Controller
             })->addColumn('photo', function ($row) {
                 return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
             })
-            ->rawColumns(['action', 'photo'])
+            ->rawColumns(['status', 'action', 'photo'])
             ->make(true);
     }
 

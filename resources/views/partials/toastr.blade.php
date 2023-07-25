@@ -17,5 +17,9 @@
         @if (Session::has('error'))
             toastr.warning("{{ Session::get('error') }}", 'Error!');
         @endif
+
+        @if (Session::has('warning'))
+            toastr.warning("{{ Session::get('warningz') }}", 'Warning!');
+        @endif
     })
 </script>

@@ -144,26 +144,15 @@ function messageModal(title, text, icon, iconColor) {
     });
 }
 
-var mapTypeStyleArray = [
-    {
-        featureType: 'water',
-        elementType: 'labels.text',
-        stylers: [{
-            color: '#000000'
-        }]
-    },
-    {
-        featureType: 'road.local',
-        elementType: 'geometry.fill',
-        stylers: [{
-            color: '#b8b8b8'
-        }]
-    },
-    {
-        featureType: 'road.highway',
-        elementType: 'geometry.fill',
-        stylers: [{
-            color: '#383838'
-        }]
-    },
-];
+function datePicker(id) {
+    return flatpickr(id, {
+        enableTime: true,
+        allowInput: true,
+        static: false,
+        timeFormat: "h:i K",
+        dateFormat: "D, M j, Y h:i K",
+        minuteIncrement: 1,
+        secondIncrement: 1,
+        position: "below center"
+    });
+}
