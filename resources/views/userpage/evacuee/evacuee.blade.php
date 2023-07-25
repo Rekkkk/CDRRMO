@@ -385,7 +385,7 @@
                 let selectedText = $('#flashflood option:selected').text();
                 $('input[name="disasterInfo"]').val(selectedText.trim());
             });
-            
+
             let dateEntryInput = datePicker("#dateEntry"),
                 dateOutInput = datePicker("#dateOut");
 
@@ -461,11 +461,11 @@
                         required: 'Please select Flashflood.',
                     },
                     evacuationAssigned: {
-                        required: 'Please select Evacuation Center.',
+                        required: 'Please select Evacuation Center.'
                     },
                 },
                 errorElement: 'span',
-                submitHandler: formSubmitHandler,
+                submitHandler: formSubmitHandler
             });
 
             function formSubmitHandler(form, e) {
@@ -489,12 +489,7 @@
                     if (result.isConfirmed) {
                         if (operation == 'edit' && defaultFormData == formData) {
                             modal.modal('hide');
-                            messageModal(
-                                'Info',
-                                'No changes were made.',
-                                'info',
-                                '#B91C1C',
-                            );
+                            toastr.warning('No changes were made.', 'Warning');
                             return;
                         }
                         $.ajax({
@@ -504,12 +499,8 @@
                             dataType: 'json',
                             success: function(response) {
                                 if (response.condition == 0) {
-                                    messageModal(
-                                        'Warning',
-                                        'Please fill up the form correctly.',
-                                        'warning',
-                                        '#FFDF00',
-                                    );
+                                    toastr.warning('Please fill up the form correctly.',
+                                        'Warning');
                                 } else {
                                     if (hideModal) {
                                         modal.modal('hide');
@@ -521,25 +512,17 @@
                                         operation += "ed new" :
                                         operation += "ed the";
 
-                                    messageModal(
-                                        'Success',
-                                        `Successfully ${operation} evacuee info.`,
-                                        'success',
-                                        '#3CB043',
-                                    );
+                                    toastr.success(`Successfully ${operation} evacuee info.`,
+                                        'Success');
                                 }
                             },
-                            error: function(jqXHR, error, data) {
+                            error: function() {
                                 if (hideModal) {
                                     modal.modal('hide');
                                 }
 
-                                messageModal(
-                                    jqXHR.status,
-                                    data,
-                                    'error',
-                                    '#B91C1C',
-                                );
+                                toastr.error(
+                                    'An error occurred while processing your request.');
                             }
                         });
                     }
@@ -595,25 +578,17 @@
                                 url: "{{ route('evacuee.info.update.dateout') }}",
                                 type: "PATCH",
                                 dataType: 'json',
-                                success: function(response) {
+                                success: function() {
                                     evacueeTable.draw();
                                     archivedEvacueeTable.draw();
-
-                                    messageModal(
-                                        'Success',
+                                    toastr.success(
                                         'Successfully update the evacuee/s date out.',
-                                        'success',
-                                        '#3CB043',
-                                    );
+                                        'Success');
                                 },
-                                error: function(jqXHR, error, data) {
+                                error: function() {
                                     $('#selectAllCheckBox').prop('checked', false);
-
-                                    messageModal(
-                                        jqXHR.status,
-                                        data,
-                                        'error',
-                                        '#B91C1C',
+                                    toastr.error(
+                                        'An error occurred while processing your request.'
                                     );
                                 }
                             });
@@ -621,23 +596,12 @@
                     });
                 } else {
                     $('#selectAllCheckBox').prop('checked', false);
-
-                    messageModal(
-                        'Warning',
-                        'Please select at least one evacuee.',
-                        'warning',
-                        '#FFDF00',
-                    );
+                    toastr.warning('Please select at least one evacuee.', 'Warning');
                 }
             });
 
             let archivedEvacueeTable = $('.archivedEvacueeTable').DataTable({
-                order: [
-                    [1, 'asc']
-                ],
-                language: {
-                    emptyTable: 'No archived evacuee data'
-                },
+                ordering: false,
                 responsive: true,
                 processing: false,
                 serverSide: true,

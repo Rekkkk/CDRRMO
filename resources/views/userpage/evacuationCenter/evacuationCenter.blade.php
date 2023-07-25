@@ -65,14 +65,16 @@
     @include('partials.toastr')
     @auth
         <script src="{{ asset('assets/js/script.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
+            integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
+            crossorigin="anonymous"></script>
     @endauth
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script
         src="https://maps.googleapis.com/maps/api/js?key={{ config('services.googleMap.key') }}&callback=initMap&v=weekly"
-        defer>
-        < /> <
-        script src = "https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js" >
-    </script>
+        defer></script>
+    <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
@@ -101,9 +103,9 @@
                     stylers: [{
                         color: '#383838'
                     }]
-                },
+                }
             ];
-            
+
             map = new google.maps.Map(document.getElementById("map"), {
                 center: {
                     lat: 14.242311,
@@ -130,13 +132,34 @@
                     icon: {
                         url: "{{ asset('assets/img/picture.png') }}".replace('picture', picture),
                         scaledSize: new google.maps.Size(35, 35),
-                    }
+                    },
+                    animation: google.maps.Animation.DROP
                 });
 
+                let evacStatus = evacuationCenter.status == 'Active' ? {
+                        text: 'Active',
+                        color: 'green'
+                    } :
+                    evacuationCenter.status == 'Inactive' ? {
+                        text: 'Inactive',
+                        color: 'red'
+                    } : {
+                        text: 'Full',
+                        color: 'orange'
+                    };
+
                 let infowindow = new google.maps.InfoWindow({
-                    content: `<b>Name:</b> ${evacuationCenter.name} <br>
-                              <b>Barangay:</b> ${evacuationCenter.barangay_name} <br>
-                              <b>Satus:</b> ${evacuationCenter.status}`
+                    content: `<div class="info-window-container">
+                                <div class="info-description">
+                                    <span>Name:</span> ${evacuationCenter.name}
+                                </div>
+                                <div class="info-description">
+                                    <span>Barangay:</span> ${evacuationCenter.barangay_name}
+                                </div>
+                                <div class="info-description">
+                                    <span>Status:</span> <span class="text-${evacStatus.color}-600">${evacStatus.text}</span>
+                                </div>
+                            </div>`
                 });
 
                 marker.addListener("click", () => {
@@ -149,7 +172,7 @@
                         map
                     });
                     activeInfoWindow = infowindow;
-                    map.setCenter(marker.getPosition());
+                    map.panTo(marker.getPosition());
                 });
             }
         }
@@ -218,10 +241,10 @@
                         });
                         map.setCenter(pos);
                     }, function() {
-                        toastr.error('Error: The Geolocation service failed.');
+                        toastr.error('The Geolocation service failed.', 'Error');
                     });
                 } else {
-                    toastr.error('Your browser does not support geolocation');
+                    toastr.error('Your browser does not support geolocation', 'Error');
                 }
             });
         });

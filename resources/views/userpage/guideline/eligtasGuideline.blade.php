@@ -24,11 +24,11 @@
                     @foreach ($guideline as $guidelineItem)
                         <div class="guideline-widget">
                             @auth
-                                @if (auth()->user()->status == 'Active')
-                                    <a href="javascript:void(0)" class="absolute left-2 top-3" id="updateGuidelineBtn">
+                                @if (auth()->user()->is_disable == 0)
+                                    <a href="javascript:void(0)" class="absolute left-2 top-3 updateGuidelineBtn">
                                         <i class="btn-update bi bi-pencil-square p-2"></i>
                                     </a>
-                                    <a href="javascript:void(0)" class="absolute top-3 right-2" id="removeGuidelineBtn">
+                                    <a href="javascript:void(0)" class="absolute top-3 right-2 removeGuidelineBtn">
                                         <i class="btn-remove bi bi-x-lg cursor-pointer p-2"></i>
                                     </a>
                                 @endif
@@ -55,11 +55,10 @@
                             @endguest
                         </div>
                     @endforeach
-                    @if (auth()->check() && auth()->user()->status == 'Active')
+                    @if (auth()->check() && auth()->user()->is_disable == 0)
                         <div class="guideline-btn">
                             <div class="btn-container">
-                                <a id="createGuidelineBtn" href="javascript:void(0)"
-                                    class="btn-submit">
+                                <a href="javascript:void(0)" class="btn-submit createGuidelineBtn">
                                     <i class="bi bi-plus text-2xl"></i>
                                 </a>
                             </div>
@@ -79,11 +78,12 @@
     </script>
     @auth
         <script src="{{ asset('assets/js/script.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
             integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
             crossorigin="anonymous"></script>
         @include('partials.toastr')
-        @if (auth()->check() && auth()->user()->status == 'Active')
+        @if (auth()->check() && auth()->user()->is_disable == 0)
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script>
                 $(document).ready(function() {
@@ -104,7 +104,7 @@
                         submitHandler: createGuidelineForm
                     });
 
-                    $('#createGuidelineBtn').click(function() {
+                    $(document).on('click', '.createGuidelineBtn', function() {
                         $('#guidelineForm')[0].reset();
                         $('#guideline_operation').val('create');
                         $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
@@ -113,7 +113,7 @@
                         $('#guidelineModal').modal('show');
                     });
 
-                    $(document).on('click', '#updateGuidelineBtn', function() {
+                    $(document).on('click', '.updateGuidelineBtn', function() {
                         $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                         $('.modal-title').text('Update Guideline');
                         $('#submitGuidelineBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
@@ -128,7 +128,7 @@
                         defaultFormData = $('#guidelineForm').serialize();
                     });
 
-                    $(document).on('click', '#removeGuidelineBtn', function() {
+                    $(document).on('click', '.removeGuidelineBtn', function() {
                         guidelineWidget = this.closest('.guideline-widget');
                         guidelineItem = guidelineWidget.querySelector('.guidelines-item');
                         guidelineId = guidelineItem.getAttribute('href').split('/').pop();

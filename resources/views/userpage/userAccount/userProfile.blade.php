@@ -26,7 +26,7 @@
                         <img src="{{ asset('assets/img/profile.png') }}" alt="Profile" id="profile">
                     </div>
                 </div>
-                @if (auth()->user()->status == 'Active')
+                @if (auth()->user()->is_disable == 0)
                     <div class="flex justify-end pb-3 pr-6">
                         <button class="btn-update p-2" id="editProfileBtn">
                             <i class="bi bi-pencil-square pr-2"></i>
@@ -65,7 +65,7 @@
                 </form>
             </div>
         </div>
-        @if (auth()->user()->status == 'Active')
+        @if (auth()->user()->is_disable == 0)
             @include('userpage.userAccount.userAccountModal')
         @endif
         @include('userpage.changePasswordModal')
@@ -80,7 +80,7 @@
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
     @include('partials.toastr')
-    @if (auth()->user()->status == 'Active')
+    @if (auth()->user()->is_disable == 0)
         <script>
             $(document).ready(function() {
                 let defaultFormData;
@@ -134,7 +134,7 @@
                     confirmModal('Do you want to update this user details?').then((result) => {
                         if (result.isConfirmed) {
                             if (operation == 'update' && defaultFormData == formData) {
-                                messageModal('Info', 'No changes were made.', 'info', '#B91C1C');
+                                toastr.warning('No changes were made.', 'Warning');
                                 $('#userAccountModal').modal('hide');
                                 return;
                             }
@@ -152,13 +152,10 @@
                                         $.each(response.error, function(prefix, val) {
                                             $('span.' + prefix + '_error').text(val[0]);
                                         });
-                                        messageModal('Warning', `Failed to update user details.`,
-                                            'warning', '#FFDF00');
+                                        toastr.warning('Failed to update user details.', 'Warning');
                                     } else {
-                                        messageModal('Success',
-                                            `Successfully updated the user details.`, 'success',
-                                            '#3CB043'
-                                        ).then(function() {
+                                        toastr.success('Successfully updated the user details.',
+                                            'Success').then(function() {
                                             $('#userAccountModal').modal('hide');
                                             location.reload();
                                         });
@@ -166,9 +163,9 @@
                                 },
                                 error: function() {
                                     $('#userAccountModal').modal('hide');
-                                    messageModal('Warning',
-                                        'Something went wrong, Try again later.', 'warning',
-                                        '#FFDF00');
+                                    toastr.error(
+                                        'An error occurred while processing your request.'
+                                    );
                                 }
                             });
                         }

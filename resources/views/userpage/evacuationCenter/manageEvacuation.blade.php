@@ -22,7 +22,7 @@
                 <span class="text-xl font-bold">MANAGE EVACUATION CENTER</span>
             </div>
             <hr class="mt-4 mb-3">
-            @if (auth()->user()->status == 'Active')
+            @if (auth()->user()->is_disable == 0)
                 <div class="create-section">
                     <button class="btn-submit p-2 createEvacuationCenter">
                         <i class="bi bi-house-down-fill pr-2"></i>
@@ -49,7 +49,7 @@
                     </table>
                 </div>
             </div>
-            @if (auth()->user()->status == 'Active')
+            @if (auth()->user()->is_disable == 0)
                 @include('userpage.evacuationCenter.evacuationCenterModal')
             @endif
             @auth
@@ -114,7 +114,7 @@
             ]
         });
 
-        @if (auth()->user()->status == 'Active')
+        @if (auth()->user()->is_disable == 0)
             let evacuationCenterId, defaultFormData, status, map, marker, saveBtnClicked = false;
 
             function initMap() {
@@ -166,10 +166,11 @@
                             url: "{{ asset('assets/img/evacMarkerDefault.png') }}",
                             scaledSize: new google.maps.Size(35, 35),
                         },
+                        animation: google.maps.Animation.DROP
                     });
 
-                    $('input[name="latitude"]').val(location.lat());
-                    $('input[name="longitude"]').val(location.lng());
+                    $('#latitude').val(location.lat());
+                    $('#longitude').val(location.lng());
                     $('#location-error').hide();
                 });
             }

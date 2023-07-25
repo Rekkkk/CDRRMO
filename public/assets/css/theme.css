@@ -95,7 +95,6 @@ hr,
     background: var(--color-yellow);
     font-size: 14px;
     font-weight: 600;
-    padding: 6px 0;
     color: var(--color-text);
     transition-duration: 100ms;
     filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
@@ -115,7 +114,6 @@ hr,
     background: var(--color-primary);
     font-size: 14px;
     font-weight: 600;
-    padding: 6px 0;
     color: var(--color-text);
     transition-duration: 100ms;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -134,7 +132,7 @@ hr,
     background: var(--color-red);
     font-size: 14px;
     font-weight: 600;
-    padding: 6px 10px;
+    padding: 0 10px;
     color: var(--color-text);
     transition-duration: 100ms;
     filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
@@ -154,13 +152,6 @@ hr,
     display: flex;
     justify-content: end;
     margin-bottom: 16px;
-}
-
-.status{
-    background: var(--color-green);
-    color: var(--color-text);
-    border-radius: 4px;
-    padding: 2px 0;
 }
 
 /* Button End Section */
@@ -382,7 +373,7 @@ hr,
     border-radius: 4px;
 }
 
-.res-password-cotainer .res-input-form{
+.res-password-cotainer .res-input-form {
     padding: 24px 24px 2px 24px;
 }
 
@@ -530,8 +521,18 @@ hr,
 /* Guideline End Section */
 
 /* Evacuation Center Section Start Here */
-div b {
-    font-weight: bold;
+
+.info-window-container {
+    width: 200px;
+    height: 100px;
+}
+
+.info-description {
+    padding: 4px;
+}
+
+.info-description span {
+    font-weight: 600;
 }
 
 /* Evacuation Center Section End */
@@ -639,6 +640,11 @@ div b {
 .mb-2.relative i {
     top: 28px;
     right: 38px;
+}
+
+select.form-select {
+    font-size: 14px;
+    font-weight: 600;
 }
 
 select.form-select option {

@@ -20,8 +20,8 @@
             </div>
             <hr class="mt-4">
             <div class="guide-btn flex justify-end my-3">
-                @if (auth()->check() && auth()->user()->status == 'Active')
-                    <a href="javascript:void(0)" id="createGuideBtn" class="btn-submit">
+                @if (auth()->check() && auth()->user()->is_disable == 0)
+                    <a href="javascript:void(0)" class="btn-submit createGuideBtn">
                         <i class="bi bi-plus-lg mr-2"></i> Create Guide
                     </a>
                     <input type="text" class="guidelineId" value="{{ $guidelineId }}" hidden>
@@ -32,11 +32,11 @@
                 @foreach ($guide as $guide)
                     <div class="guide-widget">
                         @auth
-                            @if (auth()->user()->status == 'Active')
-                                <a href="javascript:void(0)" class="absolute top-3 right-2" id="removeGuideBtn">
+                            @if (auth()->user()->is_disable == 0)
+                                <a href="javascript:void(0)" class="absolute top-3 right-2 removeGuideBtn">
                                     <i class="btn-remove bi bi-x-lg cursor-pointer p-2"></i>
                                 </a>
-                                <a href="javascript:void(0)" class="absolute left-2 top-3" id="updateGuideBtn">
+                                <a href="javascript:void(0)" class="absolute left-2 top-3 updateGuideBtn">
                                     <i class="btn-update bi bi-pencil p-2"></i>
                                 </a>
                             @endif
@@ -76,11 +76,12 @@
     </script>
     @auth
         <script src="{{ asset('assets/js/script.js') }}"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
             integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
             crossorigin="anonymous"></script>
         @include('partials.toastr')
-        @if (auth()->user()->status == 'Active')
+        @if (auth()->user()->is_disable == 0)
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script>
                 $(document).ready(function() {
@@ -107,7 +108,7 @@
                         submitHandler: guideFormHandler
                     });
 
-                    $('#createGuideBtn').click(function() {
+                    $(document).on('click', '.createGuideBtn', function() {
                         $('#createGuideForm').trigger("reset");
                         $('#guide_operation').val('create');
                         $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
@@ -122,7 +123,7 @@
                         $('#guideContentSection').text($(this).find('#guideContent').val());
                     });
 
-                    $(document).on('click', '#updateGuideBtn', function() {
+                    $(document).on('click', '.updateGuideBtn', function() {
                         guideWidget = $(this).closest('.guide-widget');
                         guideItem = guideWidget.find('.guide-item');
                         guideId = guideWidget.find('#guideId').val();
@@ -136,7 +137,7 @@
                         defaultFormData = $('#guideForm').serialize();
                     });
 
-                    $(document).on('click', '#removeGuideBtn', function() {
+                    $(document).on('click', '.removeGuideBtn', function() {
                         guideWidget = $(this).closest('.guide-widget');
                         guideItem = guideWidget.find('.guide-item');
                         guideId = guideWidget.find('#guideId').val();

@@ -20,14 +20,15 @@ $(document).ready(function () {
     $('#current_password').on('input', function () {
         var current_password = $('#current_password').val();
 
-        if (current_password === '')
-            return $('#currentPassword').html('');
-
         clearTimeout($(this).data('checkingDelay'));
 
         $(this).data('checkingDelay', setTimeout(function () {
             let checkPasswordRoute = $('#checkPasswordRoute').data('route');
+
             $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
                 type: 'POST',
                 url: checkPasswordRoute,
                 data: {
@@ -35,22 +36,20 @@ $(document).ready(function () {
                 },
                 success: function (response) {
                     if (response.status == "warning") {
-                        $('#currentPassword').html(
-                            '* Current Password is Incorrect.')
-                            .removeClass('text-green-600').addClass(
-                                'text-red-600');
-                        $('#password ,#confirmPassword, #changePasswordBtn')
-                            .prop('disabled',
-                                true);
+                        if (current_password == "") {
+                            $('#password ,#confirmPassword, #resetPasswordBtn').prop('disabled', true);
+                            $('#currentPassword').html('').val("");
+                            return;
+                        }
+
+                        $('#currentPassword').html("* Password doesn't matched.").removeClass('text-green-600').addClass('text-red-600');
+                        $('#password ,#confirmPassword, #resetPasswordBtn').prop('disabled', true);
                     } else {
-                        $('#currentPassword').html(
-                            '* Current Password is Correct.')
-                            .removeClass('text-red-600').addClass(
-                                'text-green-600');
-                        $('#password, #confirmPassword, #changePasswordBtn')
-                            .prop('disabled',
-                                false);
+                        $('#currentPassword').html('* Password matched.').removeClass('text-red-600').addClass('text-green-600');
+                        $('#password, #confirmPassword, #resetPasswordBtn').prop('disabled', false);
                     }
+
+                    console.log(current_password);
                 }
             });
         }, 500));
@@ -58,9 +57,6 @@ $(document).ready(function () {
 
     let changePasswordValidation = $("#changePasswordForm").validate({
         rules: {
-            current_password: {
-                required: true
-            },
             password: {
                 required: true
             },
@@ -69,9 +65,6 @@ $(document).ready(function () {
             }
         },
         messages: {
-            current_password: {
-                required: 'Current password is required.'
-            },
             password: {
                 required: 'Password field is required.'
             },
@@ -87,8 +80,37 @@ $(document).ready(function () {
         changePasswordValidation.resetForm();
         $('#currentPassword').html("");
         $('#changePasswordForm')[0].reset();
+        $('#password ,#confirmPassword, #resetPasswordBtn').prop('disabled', true);
     });
 });
+
+function confirmModal(text) {
+    return Swal.fire({
+        title: 'Confirmation',
+        text: text,
+        icon: 'info',
+        iconColor: '#1d4ed8',
+        showDenyButton: true,
+        confirmButtonText: 'Yes',
+        confirmButtonColor: '#15803d',
+        denyButtonText: 'No',
+        denyButtonColor: '#B91C1C',
+        allowOutsideClick: false,
+    });
+}
+
+function datePicker(id) {
+    return flatpickr(id, {
+        enableTime: true,
+        allowInput: true,
+        static: false,
+        timeFormat: "h:i K",
+        dateFormat: "D, M j, Y h:i K",
+        minuteIncrement: 1,
+        secondIncrement: 1,
+        position: "below center"
+    });
+}
 
 function changePasswordHandler(form) {
     let changePasswordRoute = $('#changePasswordRoute').data('route');
@@ -114,45 +136,5 @@ function changePasswordHandler(form) {
                 }
             });
         }
-    });
-}
-
-function confirmModal(text) {
-    return Swal.fire({
-        title: 'Confirmation',
-        text: text,
-        icon: 'info',
-        iconColor: '#1d4ed8',
-        showDenyButton: true,
-        confirmButtonText: 'Yes',
-        confirmButtonColor: '#15803d',
-        denyButtonText: 'No',
-        denyButtonColor: '#B91C1C',
-        allowOutsideClick: false,
-    });
-}
-
-function messageModal(title, text, icon, iconColor) {
-    return Swal.fire({
-        title: title,
-        text: text,
-        icon: icon,
-        iconColor: iconColor,
-        showConfirmButton: false,
-        timer: 2000,
-        allowOutsideClick: false,
-    });
-}
-
-function datePicker(id) {
-    return flatpickr(id, {
-        enableTime: true,
-        allowInput: true,
-        static: false,
-        timeFormat: "h:i K",
-        dateFormat: "D, M j, Y h:i K",
-        minuteIncrement: 1,
-        secondIncrement: 1,
-        position: "below center"
     });
 }

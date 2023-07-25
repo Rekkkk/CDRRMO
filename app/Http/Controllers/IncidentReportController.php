@@ -34,10 +34,11 @@ class IncidentReportController extends Controller
                 return '<div class="text-orange-600 font-extrabold">On Process</div>';
             })->addColumn('action', function ($row) {
                 if ($row->user_ip == request()->ip() && !auth()->check())
-                    return '<button class="btn-table-remove revertIncidentReport">Revert</button>';
+                    return '<button class="btn-table-remove p-2 revertIncidentReport">Revert</button>';
+
                 if (auth()->check()) {
-                    if (auth()->user()->status == "Active")
-                        return '<button class="btn-table-submit p-1.5 px-3.5 mr-2 text-sm approveIncidentReport">Approve</button>' . '<button class="btn-table-remove declineIncidentReport">Decline</button>';
+                    if (auth()->user()->is_disable == 0)
+                        return '<div class="flex justify-around actionContainer"><button class="btn-table-submit mr-2 approveIncidentReport">Approve</button>' . '<button class="btn-table-remove declineIncidentReport">Decline</button> </div>';
                 }
 
                 return '<span class="text-sm">Currently Disabled.</span>';
@@ -59,8 +60,8 @@ class IncidentReportController extends Controller
                     'Declined' => '<div class="text-red-600 font-extrabold">Declined</div>',
                 };
             })->addColumn('action', function () {
-                if (auth()->user()->status == "Active") {
-                    return '<button class="btn-table-remove removeIncidentReport">Remove</button>';
+                if (auth()->user()->is_disable == 0) {
+                    return '<button class="btn-table-remove p-2 removeIncidentReport">Remove</button>';
                 }
 
                 return '<span class="text-sm">Currently Disabled.</span>';
