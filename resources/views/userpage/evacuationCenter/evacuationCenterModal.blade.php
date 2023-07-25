@@ -12,12 +12,12 @@
                             <div class="flex flex-wrap">
                                 <input type="text" id="operation" hidden>
                                 <div class="field-container">
-                                    <label class="mb-0">Name</label>
+                                    <label>Name</label>
                                     <input type="text" name="name" class="form-control"
                                         autocomplete="off" placeholder="Enter Name" id="name">
                                 </div>
                                 <div class="field-container">
-                                    <label class="mb-0">Barangay</label>
+                                    <label>Barangay</label>
                                     <select name="barangayName" class="form-select" id="barangayName">
                                         <option value="">Select Barangay</option>
                                         <option value="Baclaran">Baclaran</option>
@@ -41,7 +41,7 @@
                                     </select>
                                 </div>
                                 <div class="field-container">
-                                    <label class="mb-0">Location</label>
+                                    <label>Location</label>
                                     <div class="border-2 rounded-md border-slate-400">
                                         <div class="h-96 rounded" id="map"></div>
                                     </div>
@@ -49,7 +49,7 @@
                                     <input type="text" name="longitude" id="longitude" hidden>
                                     <span id="location-error" class="error"></span>
                                 </div>
-                                <div class="w-full p-4">
+                                <div class="w-full px-4 py-2">
                                     <button id="saveEvacuationCenterBtn"
                                         class="btn-submit p-2 float-right">Create</button>
                                 </div>

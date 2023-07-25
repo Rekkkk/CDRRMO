@@ -7,21 +7,21 @@
             <div class="modal-body">
                 <form id="disasterForm">
                     @csrf
-                    <div class="bg-slate-50 pt-3 rounded">
+                    <div class="bg-slate-50 pt-3 pb-2 rounded">
                         <div class="flex-auto">
                             <div class="flex flex-wrap">
                                 <input type="text" id="operation" hidden>
                                 <div class="field-container">
-                                    <label class="mb-0">Name</label>
+                                    <label>Name</label>
                                     <input type="text" name="name" class="form-control" autocomplete="off"
                                         placeholder="Enter Disaster Name" id="disasterName">
                                 </div>
                                 <div class="field-container">
-                                    <label class="mb-0">Location</label>
+                                    <label>Location</label>
                                     <input type="text" name="location" class="form-control" autocomplete="off"
                                         placeholder="Enter Location" id="location">
                                 </div>
-                                <div class="w-full p-4 -mt-3">
+                                <div class="w-full px-4 py-2">
                                     <button id="submitDisasterBtn"
                                         class="btn-submit p-2 float-right">Create</button>
                                 </div>

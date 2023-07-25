@@ -24,9 +24,9 @@
             <hr class="mt-4 mb-3">
             @if (auth()->user()->status == 'Active')
                 <div class="create-section">
-                    <button class="btn-submit p-2" id="createDisasterData">
+                    <button class="btn-submit" id="createDisasterData">
                         <i class="bi bi-cloud-plus pr-2"></i>
-                        Add Disaster
+                        Create Disaster
                     </button>
                 </div>
             @endif
@@ -36,10 +36,9 @@
                     <table class="table disasterTable" width="100%">
                         <thead class="thead-light">
                             <tr>
-                                <th></th>
-                                <th>Disaster Name</th>
-                                <th>Status</th>
-                                <th width="20%">Action</th>
+                                <th colspan="2">Disaster Name</th>
+                                <th width="10%">Status</th>
+                                <th class="w-4">Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -68,9 +67,7 @@
     @include('partials.toastr')
     <script>
         let disasterTable = $('.disasterTable').DataTable({
-            rowReorder: {
-                selector: 'td:nth-child(2)'
-            },
+            ordering: false,
             responsive: true,
             processing: false,
             serverSide: true,
@@ -86,7 +83,7 @@
                 },
                 {
                     data: 'status',
-                    name: 'status'
+                    name: 'status',
                 },
                 {
                     data: 'action',
@@ -123,8 +120,8 @@
 
             $(document).on('click', '#createDisasterData', function() {
                 $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                $('.modal-title').text('Add Disaster');
-                $('#submitDisasterBtn').removeClass('btn-edit').addClass('btn-submit').text('Add');
+                $('.modal-title').text('Create Disaster');
+                $('#submitDisasterBtn').removeClass('btn-update').addClass('btn-submit').text('Create');
                 $('#operation').val('create');
                 $('#disasterModal').modal('show');
             });
@@ -134,7 +131,7 @@
                 disasterId = data['id'];
                 $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                 $('.modal-title').text('Edit Disaster');
-                $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-edit').text('Save');
+                $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-update').text('Save');
                 $('#disasterName').val(data['name']);
                 $('#operation').val('update');
                 $('#disasterModal').modal('show');

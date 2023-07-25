@@ -28,7 +28,7 @@
                 </div>
                 @if (auth()->user()->status == 'Active')
                     <div class="flex justify-end pb-3 pr-6">
-                        <button class="btn-edit p-2" id="editProfileBtn">
+                        <button class="btn-update p-2" id="editProfileBtn">
                             <i class="bi bi-pencil-square pr-2"></i>
                             Edit Profile
                         </button>
@@ -88,7 +88,7 @@
                 $('#editProfileBtn').click(function() {
                     $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                     $('.modal-title').text('Edit Profile Account');
-                    $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-edit').text('Update');
+                    $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text('Update');
                     $('#suspend-container').hide();
                     $('#operation').val('update');
                     $('#accountId').val('{{ auth()->user()->id }}');

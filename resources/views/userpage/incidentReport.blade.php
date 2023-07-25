@@ -28,11 +28,10 @@
                 <table class="table pendingReport display nowrap" style="width:100%">
                     <thead class="thead-light">
                         <tr>
-                            <th class="w-px">Report ID</th>
-                            <th>Report Description</th>
+                            <th colspan="2">Report Description</th>
                             <th>Accident Location</th>
-                            <th class="w-5">Status</th>
-                            <th style="width:20%;">Actual Photo</th>
+                            <th width="10%">Status</th>
+                            <th class="w-4">Actual Photo</th>
                             <th class="w-4">Action</th>
                         </tr>
                     </thead>
@@ -40,16 +39,15 @@
                     </tbody>
                 </table>
             </div>
-            <div class="report-table shadow-lg p-4 rounded mb-3">
+            <div class="report-table shadow-lg p-4 rounded">
                 <header class="text-2xl font-semibold">Incident Report</header>
                 <table class="table incidentReports display nowrap" style="width:100%">
                     <thead class="thead-light">
                         <tr>
-                            <th class="w-px">Report ID</th>
-                            <th>Report Description</th>
+                            <th colspan="2">Report Description</th>
                             <th>Accident Location</th>
-                            <th class="w-5">Status</th>
-                            <th style="width:20%;">Actual Photo</th>
+                            <th width="10%">Status</th>
+                            <th class="w-4">Actual Photo</th>
                             @auth
                                 <th class="w-4">Action</th>
                             @endauth
@@ -59,47 +57,49 @@
                     </tbody>
                 </table>
             </div>
-            @guest
-                <div class="modal fade" id="createAccidentReportModal" aria-hidden="true">
-                    <div class="modal-dialog">
-                        <div class="modal-content">
-                            <div class="modal-header bg-green-600 text-white">
-                                <h1 class="modal-title fs-5 text-center text-white">Incident Report Form</h1>
-                            </div>
-                            <div class="modal-body">
-                                <form id="reportForm" name="reportForm" enctype="multipart/form-data">
-                                    @csrf
-                                    <div class="mb-3">
-                                        <label for="description" class="flex items-center justify-center">Report
-                                            Description</label>
-                                        <input type="text" id="description" name="description" class="form-control"
-                                            placeholder="Enter Incident Description" autocomplete="off">
+        </div>
+        @guest
+            <div class="modal fade" id="createAccidentReportModal" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header bg-green-600 text-white justify-center">
+                            <h1 class="modal-title fs-5 font-bold">Incident Report Form</h1>
+                        </div>
+                        <div class="modal-body">
+                            <form id="reportForm" name="reportForm" enctype="multipart/form-data">
+                                @csrf
+                                <div class="bg-slate-50 pt-3 pb-2 rounded">
+                                    <div class="flex-auto">
+                                        <div class="flex flex-wrap">
+                                            <input type="text" id="operation" hidden>
+                                            <div class="field-container">
+                                                <label>Report Description</label>
+                                                <input type="text" id="description" name="description"
+                                                    class="form-control" placeholder="Enter Incident Description"
+                                                    autocomplete="off">
+                                            </div>
+                                            <div class="field-container">
+                                                <label>Report Location</label>
+                                                <input type="text" id="location" name="location" class="form-control"
+                                                    placeholder="Enter Incident Location" autocomplete="off">
+                                            </div>
+                                            <div class="field-container">
+                                                <label>Report Photo</label>
+                                                <input type="file" id="photo" name="photo" class="form-control"
+                                                    placeholder="Enter Incident Location" autocomplete="off">
+                                            </div>
+                                            <div class="w-full px-4 py-2">
+                                                <button id="reportIncidentBtn"
+                                                    class="btn-submit p-2 float-right">Report</button>
+                                            </div>
+                                        </div>
                                     </div>
-                                    <div class="mb-3">
-                                        <label for="location" class="flex items-center justify-center">Report
-                                            Location</label>
-                                        <input type="text" id="location" name="location" class="form-control"
-                                            placeholder="Enter Incident Location" autocomplete="off">
-                                    </div>
-                                    <div class="mb-3">
-                                        <label for="photo" class="flex items-center justify-center">Report
-                                            Photo</label>
-                                        <input type="file" id="photo" name="photo" class="form-control"
-                                            placeholder="Enter Incident Location" autocomplete="off">
-                                    </div>
-                                    <div class="modal-footer text-white">
-                                        <button id="reportIncidentBtn"
-                                            class="bg-green-600 p-2 rounded shadow-lg hover:bg-green-700 transition duration-200">Report
-                                            Incident</button>
-                                    </div>
-                                </form>
-                            </div>
+                                </div>
+                            </form>
                         </div>
                     </div>
                 </div>
-            @endguest
-        </div>
-        @guest
+            </div>
             <div class="report-button">
                 <div class="report-form">
                     <a class="bg-slate-700 hover:bg-slate-800 p-3 fs-4 rounded-full" href="javascript:void(0)"
@@ -134,9 +134,7 @@
             });
             @auth
             let pendingReport = $('.pendingReport').DataTable({
-                rowReorder: {
-                    selector: 'td:nth-child(2)'
-                },
+                ordering: false,
                 responsive: true,
                 processing: false,
                 serverSide: true,
@@ -176,9 +174,7 @@
             });
 
             let incidentReports = $('.incidentReports').DataTable({
-                rowReorder: {
-                    selector: 'td:nth-child(2)'
-                },
+                ordering: false,
                 responsive: true,
                 processing: false,
                 serverSide: true,
@@ -297,9 +293,7 @@
         @endauth
         @guest
         let pendingReport = $('.pendingReport').DataTable({
-            rowReorder: {
-                selector: 'td:nth-child(2)'
-            },
+            ordering: false,
             responsive: true,
             processing: false,
             serverSide: true,
@@ -339,9 +333,7 @@
         });
 
         let incidentReports = $('.incidentReports').DataTable({
-            rowReorder: {
-                selector: 'td:nth-child(2)'
-            },
+            ordering: false,
             responsive: true,
             processing: false,
             serverSide: true,

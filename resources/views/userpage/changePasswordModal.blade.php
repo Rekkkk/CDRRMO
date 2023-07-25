@@ -16,28 +16,28 @@
                                     data-route="{{ route('account.reset.password', auth()->user()->id) }}">
                                 <input type="text" id="operation" hidden>
                                 <div class="field-container">
-                                    <label class="mb-0">Current Password</label>
+                                    <label>Current Password</label>
                                     <input type="text" name="current_password" class="form-control"
                                         id="current_password" autocomplete="off">
                                     <span class="text-xs text-red-600 italic" id="currentPassword"></span>
                                 </div>
                                 <div class="field-container mb-2 relative">
-                                    <label class="mb-0">New Password</label>
+                                    <label>New Password</label>
                                     <input type="password" name="password" id="password" class="form-control"
                                         autocomplete="off" disabled>
                                     <i class="bi bi-eye-slash absolute cursor-pointer text-xl pt-1.5"
                                         id="showPassword"></i>
                                 </div>
                                 <div class="field-container mb-2 relative">
-                                    <label class="mb-0">Confirm Password</label>
+                                    <label>Confirm Password</label>
                                     <input type="password" name="confirmPassword" id="confirmPassword"
                                         class="form-control" autocomplete="off" onpaste="return false;" disabled>
                                     <i class="bi bi-eye-slash absolute cursor-pointer text-xl pt-1"
                                         id="showConfirmPassword"></i>
                                 </div>
-                                <div class="w-full p-4">
-                                    <button id="changePasswordBtn" class="btn-edit p-2 float-right"
-                                        disabled>Save</button>
+                                <div class="w-full px-4 py-2">
+                                    <button id="changePasswordBtn" class="btn-update p-2 float-right"
+                                        disabled>Change</button>
                                 </div>
                             </div>
                         </div>

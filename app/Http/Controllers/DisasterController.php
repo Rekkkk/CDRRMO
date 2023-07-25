@@ -20,15 +20,20 @@ class DisasterController extends Controller
     public function displayDisasterInformation(Request $request)
     {
         if ($request->ajax()) {
-            $disasterInformation = $this->disaster->where('is_archive', 0)->get();
+            $disasterInformation = $this->disaster->where('is_archive', 0)->orderBy('id', 'desc')->get();
 
             return DataTables::of($disasterInformation)
                 ->addIndexColumn()
-                ->addColumn('action', function () {
+                ->addColumn('status', function ($row) {
+                    return match ($row->status) {
+                        'On Going' => '<div class="text-green-600 font-extrabold">Active</div>',
+                        'Inactive' => '<div class="text-red-600 font-extrabold">Inactive</div>'
+                    };
+                })->addColumn('action', function () {
                     if (auth()->user()->status == "Active") {
-                        return '<div class="flex justify-around actionContainer"><button class="btn-table-edit mr-2 updateDisaster"><i class="bi bi-pencil-square pr-2"></i>Edit</button>' .
-                            '<button class="btn-table-remove mr-2 removeDisaster"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
-                            '<select class="custom-select w-44 bg-blue-500 text-white changeDisasterStatus">
+                        return '<div class="flex justify-around actionContainer"><button class="btn-table-update w-24 mr-2 updateDisaster"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
+                            '<button class="btn-table-remove w-28 mr-2 removeDisaster"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
+                            '<select class="form-select w-44 bg-blue-500 text-white drop-shadow-md changeDisasterStatus">
                         <option value="" disabled selected hidden>Change Status</option>
                         <option value="On Going">On Going</option>
                         <option value="Inactive">Inactive</option>
@@ -37,7 +42,7 @@ class DisasterController extends Controller
 
                     return '<span class="text-sm">Currently Disabled.</span>';
                 })
-                ->rawColumns(['action'])
+                ->rawColumns(['status', 'action'])
                 ->make(true);
         }
 

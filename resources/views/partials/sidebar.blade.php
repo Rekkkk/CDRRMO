@@ -7,7 +7,7 @@
         <div class="user-details py-2 bg-slate-800">
             <div class="truncate flex justify-center items-center text-white tracking-wide font-bold gap-4">
                 @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
-                    @if (auth()->user()->is_disabled == 1)
+                    @if (auth()->user()->is_disabled == 0)
                         <div title="Active" class="bg-green-600 py-2 rounded-full w-4"></div>
                     @else
                         <div title="Currently Disabled" class="bg-red-600 py-2 rounded-full w-4"></div>
@@ -15,7 +15,7 @@
                     <img class="w-12" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="Logo">
                     <span>CDRRMO Panel</span>
                 @elseif (auth()->check() && auth()->user()->organization == 'CSWD')
-                    @if (auth()->user()->is_disabled == 1)
+                    @if (auth()->user()->is_disabled == 0)
                         <div title="Active" class="bg-green-600 py-2 rounded-full w-4"></div>
                     @else
                         <div title="Currently Disabled" class="bg-red-600 py-2 rounded-full w-4"></div>
