@@ -22,9 +22,9 @@
                 <span class="text-xl font-bold">MANAGE DISASTER INFORMATION</span>
             </div>
             <hr class="mt-4 mb-3">
-            @if (auth()->user()->status == 'Active')
+            @if (auth()->user()->is_disable == 0)
                 <div class="create-section">
-                    <button class="btn-submit" id="createDisasterData">
+                    <button class="btn-submit createDisasterData">
                         <i class="bi bi-cloud-plus pr-2"></i>
                         Create Disaster
                     </button>
@@ -46,7 +46,7 @@
                     </table>
                 </div>
             </div>
-            @if (auth()->user()->status == 'Active')
+            @if (auth()->user()->is_disable == 0)
                 @include('userpage.disaster.disasterModal')
             @endif
             @include('userpage.changePasswordModal')
@@ -94,7 +94,7 @@
             ]
         });
 
-        @if (auth()->user()->status == 'Active')
+        @if (auth()->user()->is_disable == 0)
             let disasterId, defaultFormData, current_status, status;
 
             $.ajaxSetup({
@@ -118,7 +118,7 @@
                 submitHandler: disasterFormHandler
             });
 
-            $(document).on('click', '#createDisasterData', function() {
+            $(document).on('click', '.createDisasterData', function() {
                 $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
                 $('.modal-title').text('Create Disaster');
                 $('#submitDisasterBtn').removeClass('btn-update').addClass('btn-submit').text('Create');
@@ -130,8 +130,8 @@
                 let data = getRowData(this);
                 disasterId = data['id'];
                 $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                $('.modal-title').text('Edit Disaster');
-                $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-update').text('Save');
+                $('.modal-title').text('Update Disaster');
+                $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
                 $('#disasterName').val(data['name']);
                 $('#operation').val('update');
                 $('#disasterModal').modal('show');

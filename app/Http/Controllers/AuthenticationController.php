@@ -40,20 +40,14 @@ class AuthenticationController extends Controller
         if (auth()->check()) {
             $userAuthenticated = auth()->user();
 
-            if ($userAuthenticated->isDisable == 1) {
-                session()->flush();
-                auth()->logout();
-                return back()->withInput()->with('error', 'Your account has been Disabled.');
-            }
+            if ($userAuthenticated->is_suspend == 1) {
+                $suspendTime = Carbon::parse($userAuthenticated->suspend_time)->format('F j, Y H:i:s');
 
-            if ($userAuthenticated->isSuspend == 1) {
-                $suspendTime = Carbon::parse($userAuthenticated->suspendTime)->format('F j, Y H:i:s');
-
-                if ($userAuthenticated->suspendTime < Carbon::now()->format('Y-m-d H:i:s')) {
+                if ($userAuthenticated->suspend_time < Carbon::now()->format('Y-m-d H:i:s')) {
                     $this->user->find($userAuthenticated->id)->update([
                         'status' => 'Active',
-                        'isSuspend' => 0,
-                        'suspendTime' => null
+                        'is_suspend' => 0,
+                        'suspend_time' => null
                     ]);
                 } else {
                     auth()->logout();
@@ -82,13 +76,13 @@ class AuthenticationController extends Controller
 
     public function findAccount(Request $request)
     {
-        $verifyEmailValidate = Validator::make($request->all(), [
+        $verifyEmailValidation = Validator::make($request->all(), [
             'email' => 'required|email|exists:user'
         ]);
 
-        if ($verifyEmailValidate->passes()) {
+        if ($verifyEmailValidation->passes()) {
             try {
-                $token = Str::random(64);
+                $token = Str::random(124);
                 DB::table('password_resets')->insert([
                     'email' => $request->email,
                     'token' => $token,
@@ -98,7 +92,7 @@ class AuthenticationController extends Controller
 
                 return back()->with('success', 'We have sent you an email with a link to reset your password.');
             } catch (\Exception $e) {
-                return back()->with('error', 'Something went wrong, Please try again.');
+                return back()->with('error', 'An error occurred while processing your request.');
             }
         }
 
@@ -106,19 +100,19 @@ class AuthenticationController extends Controller
     }
 
     public function resetPasswordForm($token)
-    {
+    {   
         return view('authentication.resetPasswordForm', ['token' => $token]);
     }
 
     public function resetPassword(Request $request)
     {
-        $resetPasswordValidate = Validator::make($request->all(), [
+        $resetPasswordValidation = Validator::make($request->all(), [
             'email' => 'required|email|exists:user',
             'password' => 'required|confirmed',
             'password_confirmation' => 'required'
         ]);
 
-        if ($resetPasswordValidate->passes()) {
+        if ($resetPasswordValidation->passes()) {
             try {
                 $updatePassword = DB::table('password_resets')
                     ->where([
@@ -126,6 +120,7 @@ class AuthenticationController extends Controller
                         'token' => $request->token
                     ])
                     ->first();
+
                 if (!$updatePassword) {
                     return back()->withInput()->with('error', 'Unauthorized Token!');
                 }
@@ -138,16 +133,16 @@ class AuthenticationController extends Controller
             }
         }
 
-        return back()->withInput()->with('error', 'Please fill out correctly.');
+        return back()->withInput()->with('warning', 'Please fill out correctly.');
     }
 
     public function logout()
     {
-        $roleName = auth()->user()->organization;
+        $organization = auth()->user()->organization;
         $this->logActivity->generateLog('Logged Out');
         auth()->logout();
         session()->flush();
 
-        return redirect('/')->with('success', 'Logged out ' . $roleName . ' Panel.');
+        return redirect('/')->with('success', 'Logged out ' . $organization . ' Panel.');
     }
 }

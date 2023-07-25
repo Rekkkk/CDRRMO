@@ -17,7 +17,7 @@
                                         <label>Organization</label>
                                         <select type="text" name="organization" class="form-select" id="organization"
                                             placeholder="Enter Organization">
-                                            <option value="">Select Organization</option>
+                                            <option value="" hidden selected disabled>Select Organization</option>
                                             <option value="CDRRMO">CDRRMO</option>
                                             <option value="CSWD">CSWD</option>
                                         </select>
@@ -26,7 +26,7 @@
                                         <label>Position</label>
                                         <select type="text" name="position" class="form-select" id="position"
                                             placeholder="Enter Position">
-                                            <option value="">Select Position</option>
+                                            <option value="" hidden selected disabled>Select Position</option>
                                             <option value="President">President</option>
                                             <option value="Focal">Focal</option>
                                         </select>

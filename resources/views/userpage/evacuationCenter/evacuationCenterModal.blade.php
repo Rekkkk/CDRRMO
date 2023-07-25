@@ -19,7 +19,7 @@
                                 <div class="field-container">
                                     <label>Barangay</label>
                                     <select name="barangayName" class="form-select" id="barangayName">
-                                        <option value="">Select Barangay</option>
+                                        <option value="" hidden selected disabled>Select Barangay</option>
                                         <option value="Baclaran">Baclaran</option>
                                         <option value="Banay-Banay">Banay-Banay</option>
                                         <option value="Banlic">Banlic</option>

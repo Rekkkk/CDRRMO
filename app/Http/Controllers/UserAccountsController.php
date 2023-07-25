@@ -46,7 +46,7 @@ class UserAccountsController extends Controller
                         'Suspended' => '<div class="text-orange-600 font-extrabold">Suspended</div>'
                     };
                 })->addColumn('action', function ($user) {
-                    if (auth()->user()->status == "Active") {
+                    if (auth()->user()->is_disable == 0) {
                         $actionBtns = '<select class="form-select w-44 bg-blue-500 text-white actionSelect">
                         <option value="" disabled selected hidden>Select Action</option>';
 
@@ -206,7 +206,6 @@ class UserAccountsController extends Controller
                     'password' => 'required',
                     'confirmPassword' => 'required'
                 ]);
-
 
                 if ($changePasswordValidation->passes()) {
                     $this->user->find($userId)->update([

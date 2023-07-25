@@ -24,14 +24,14 @@
             </div>
             <hr class="mt-4">
             <div class="report-table shadow-lg p-4 rounded my-3">
-                <header class="text-2xl font-semibold">Incident Pending Report</header>
-                <table class="table pendingReport display nowrap" style="width:100%">
+                <header class="text-2xl font-semibold">Pending Incident Report Table</header>
+                <table class="table pendingReport" style="width:100%">
                     <thead class="thead-light">
                         <tr>
                             <th colspan="2">Report Description</th>
                             <th>Accident Location</th>
                             <th width="10%">Status</th>
-                            <th class="w-4">Actual Photo</th>
+                            <th width="10%">Actual Photo</th>
                             <th class="w-4">Action</th>
                         </tr>
                     </thead>
@@ -39,15 +39,15 @@
                     </tbody>
                 </table>
             </div>
-            <div class="report-table shadow-lg p-4 rounded">
-                <header class="text-2xl font-semibold">Incident Report</header>
-                <table class="table incidentReports display nowrap" style="width:100%">
+            <div class="report-table shadow-lg p-4 rounded mt-20">
+                <header class="text-2xl font-semibold">Incident Report Table</header>
+                <table class="table incidentReports" style="width:100%">
                     <thead class="thead-light">
                         <tr>
                             <th colspan="2">Report Description</th>
                             <th>Accident Location</th>
                             <th width="10%">Status</th>
-                            <th class="w-4">Actual Photo</th>
+                            <th width="10%">Actual Photo</th>
                             @auth
                                 <th class="w-4">Action</th>
                             @endauth
@@ -213,7 +213,7 @@
                 ]
             });
 
-            @if (auth()->user()->status == 'Active')
+            @if (auth()->user()->is_disable == 0)
                 let reportId;
 
                 $('body').on('click', '.approveIncidentReport', function() {

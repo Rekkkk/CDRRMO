@@ -35,7 +35,7 @@ class EvacuationCenterController extends Controller
                 if ($operation == "locator") {
                     return '<button class="btn-table-primary p-2 w-24 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>';
                 } else {
-                    if (auth()->user()->status == "Active") {
+                    if (auth()->user()->is_disable == 0) {
                         return '<div class="flex justify-around actionContainer"><button class="btn-table-update w-28 mr-2 updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
                             '<button class="btn-table-remove w-28 mr-2 removeEvacuationCenter"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
                             '<select class="form-select w-44 bg-blue-500 text-white drop-shadow-md changeEvacuationStatus">

@@ -14,7 +14,6 @@
                                     data-route="{{ route('account.check.password') }}">
                                 <input type="hidden" id="changePasswordRoute"
                                     data-route="{{ route('account.reset.password', auth()->user()->id) }}">
-                                <input type="text" id="operation" hidden>
                                 <div class="field-container">
                                     <label>Current Password</label>
                                     <input type="text" name="current_password" class="form-control"
@@ -36,7 +35,7 @@
                                         id="showConfirmPassword"></i>
                                 </div>
                                 <div class="w-full px-4 py-2">
-                                    <button id="changePasswordBtn" class="btn-update p-2 float-right"
+                                    <button id="resetPasswordBtn" class="btn-update p-2 float-right"
                                         disabled>Change</button>
                                 </div>
                             </div>

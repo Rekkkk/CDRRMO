@@ -30,8 +30,8 @@ class DisasterController extends Controller
                         'Inactive' => '<div class="text-red-600 font-extrabold">Inactive</div>'
                     };
                 })->addColumn('action', function () {
-                    if (auth()->user()->status == "Active") {
-                        return '<div class="flex justify-around actionContainer"><button class="btn-table-update w-24 mr-2 updateDisaster"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
+                    if (auth()->user()->is_disable == 0) {
+                        return '<div class="flex justify-around actionContainer"><button class="btn-table-update w-28 mr-2 updateDisaster"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
                             '<button class="btn-table-remove w-28 mr-2 removeDisaster"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
                             '<select class="form-select w-44 bg-blue-500 text-white drop-shadow-md changeDisasterStatus">
                         <option value="" disabled selected hidden>Change Status</option>

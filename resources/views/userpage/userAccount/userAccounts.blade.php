@@ -23,7 +23,7 @@
                 <span class="text-xl font-bold">MANAGE ACCOUNTS</span>
             </div>
             <hr class="mt-4 mb-3">
-            @if (auth()->user()->status == 'Active')
+            @if (auth()->user()->is_disable == 0)
                 <div class="create-section">
                     <button class="btn-submit p-2 createUserAccount">
                         <i class="bi bi-person-fill-add pr-2"></i>
@@ -48,7 +48,7 @@
                         </tbody>
                     </table>
                 </div>
-                @if (auth()->user()->status == 'Active')
+                @if (auth()->user()->is_disable == 0)
                     @include('userpage.userAccount.userAccountModal')
                 @endif
                 @include('userpage.changePasswordModal')
@@ -106,7 +106,7 @@
                         },
                     ]
                 });
-                @if (auth()->user()->status == 'Active')
+                @if (auth()->user()->is_disable == 0)
                     let userId, defaultFormData, dateSuspendTime = datePicker("#suspend");
 
                     let validator = $("#accountForm").validate({
