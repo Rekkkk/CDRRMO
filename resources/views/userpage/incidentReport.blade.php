@@ -39,7 +39,37 @@
                     </tbody>
                 </table>
             </div>
-            <div class="report-table shadow-lg p-4 rounded mt-20">
+            <div class="incidentReportTable grid gap-6 mt-12">
+                @foreach ($incidentReport as $report)
+                    <div class="bg-white rounded shadow-md">
+                        <div class="flex p-4 rounded">
+                            <div class="report-photo-container shadow-md bg-slate-50">
+                                <img class="report-photo" src="{{ asset('reports_image/' . $report->photo) }}"
+                                    alt="logo">
+                            </div>
+                            <div class="ml-4 flex-1">
+                                <div class="pt-2">
+                                    <p class="font-bold">Report Description</p>
+                                    <p class="text-sm text-gray-600">{{ $report->description }}</p>
+                                </div>
+                                <div class="py-2">
+                                    <p class="font-bold">Report Location</p>
+                                    <p class="text-sm text-gray-600">{{ $report->location }}</p>
+                                </div>
+                                <p class="pb-2 font-bold">Status: <span
+                                        class="text-white bg-green-600 px-2 py-1 rounded-2xl">{{ $report->status }}</span>
+                                </p>
+                                <p class="pb-2 font-bold">Date Report: <span class="text-red-600">July 22, 2002</span>
+                                </p>
+                            </div>
+                            <div class="relative top-0">
+                                <button class="btn-remove p-2">Remove</button>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+            {{-- <div class="report-table shadow-lg p-4 rounded mt-20">
                 <header class="text-2xl font-semibold">Incident Report Table</header>
                 <table class="table incidentReports" style="width:100%">
                     <thead class="thead-light">
@@ -56,7 +86,7 @@
                     <tbody>
                     </tbody>
                 </table>
-            </div>
+            </div> --}}
         </div>
         @guest
             <div class="modal fade" id="createAccidentReportModal" aria-hidden="true">
@@ -173,45 +203,45 @@
                 ]
             });
 
-            let incidentReports = $('.incidentReports').DataTable({
-                ordering: false,
-                responsive: true,
-                processing: false,
-                serverSide: true,
-                ajax: "{{ route('report.accident') }}",
-                columns: [{
-                        data: 'id',
-                        name: 'id',
-                        visible: false
-                    },
-                    {
-                        data: 'description',
-                        name: 'description'
-                    },
-                    {
-                        data: 'location',
-                        name: 'location'
-                    },
-                    {
-                        data: 'status',
-                        name: 'status',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'photo',
-                        name: 'photo',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'action',
-                        name: 'action',
-                        orderable: false,
-                        searchable: false
-                    },
-                ]
-            });
+            // let incidentReports = $('.incidentReports').DataTable({
+            //     ordering: false,
+            //     responsive: true,
+            //     processing: false,
+            //     serverSide: true,
+            //     ajax: "{{ route('report.accident') }}",
+            //     columns: [{
+            //             data: 'id',
+            //             name: 'id',
+            //             visible: false
+            //         },
+            //         {
+            //             data: 'description',
+            //             name: 'description'
+            //         },
+            //         {
+            //             data: 'location',
+            //             name: 'location'
+            //         },
+            //         {
+            //             data: 'status',
+            //             name: 'status',
+            //             orderable: false,
+            //             searchable: false
+            //         },
+            //         {
+            //             data: 'photo',
+            //             name: 'photo',
+            //             orderable: false,
+            //             searchable: false
+            //         },
+            //         {
+            //             data: 'action',
+            //             name: 'action',
+            //             orderable: false,
+            //             searchable: false
+            //         },
+            //     ]
+            // });
 
             @if (auth()->user()->is_disable == 0)
                 let reportId;
@@ -332,39 +362,39 @@
             ]
         });
 
-        let incidentReports = $('.incidentReports').DataTable({
-            ordering: false,
-            responsive: true,
-            processing: false,
-            serverSide: true,
-            ajax: "{{ route('resident.report.display') }}",
-            columns: [{
-                    data: 'id',
-                    name: 'id',
-                    visible: false
-                },
-                {
-                    data: 'description',
-                    name: 'description'
-                },
-                {
-                    data: 'location',
-                    name: 'location'
-                },
-                {
-                    data: 'status',
-                    name: 'status',
-                    orderable: false,
-                    searchable: false
-                },
-                {
-                    data: 'photo',
-                    name: 'photo',
-                    orderable: false,
-                    searchable: false
-                },
-            ]
-        });
+        // let incidentReports = $('.incidentReports').DataTable({
+        //     ordering: false,
+        //     responsive: true,
+        //     processing: false,
+        //     serverSide: true,
+        //     ajax: "{{ route('resident.report.display') }}",
+        //     columns: [{
+        //             data: 'id',
+        //             name: 'id',
+        //             visible: false
+        //         },
+        //         {
+        //             data: 'description',
+        //             name: 'description'
+        //         },
+        //         {
+        //             data: 'location',
+        //             name: 'location'
+        //         },
+        //         {
+        //             data: 'status',
+        //             name: 'status',
+        //             orderable: false,
+        //             searchable: false
+        //         },
+        //         {
+        //             data: 'photo',
+        //             name: 'photo',
+        //             orderable: false,
+        //             searchable: false
+        //         },
+        //     ]
+        // });
 
         $('#createReport').click(function() {
             $('#reportForm').trigger("reset");

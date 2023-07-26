@@ -549,6 +549,11 @@ hr,
     max-width: 400px;
 }
 
+.report-photo{
+    width: 200px;
+    height: 100%;
+}
+
 /* Report Incident End Section*/
 
 /* About Section Start Here */
