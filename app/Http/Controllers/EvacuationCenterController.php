@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use App\Models\EvacuationCenter;
+use App\Models\Evacuee;
 use Illuminate\Support\Facades\Validator;
 
 class EvacuationCenterController extends Controller
@@ -25,15 +26,23 @@ class EvacuationCenterController extends Controller
 
         return DataTables::of($evacuationCenterList)
             ->addIndexColumn()
+            ->addColumn('capacity', function ($row) {
+                $currentEvacuees = Evacuee::where('evacuation_assigned', $row->name)->sum('individuals');
+                return $currentEvacuees . '/' . $row->capacity;
+            })
             ->addColumn('status', function ($row) {
                 return match ($row->status) {
                     'Active' => '<div class="text-green-600 font-extrabold">Active</div>',
                     'Inactive' => '<div class="text-red-600 font-extrabold">Inactive</div>',
-                    default => '<div class="text-orange-500 font-extrabold">Full</div>',
+                    'Full' => '<div class="text-orange-500 font-extrabold">Full</div>',
                 };
-            })->addColumn('action', function () use ($operation) {
+            })->addColumn('action', function ($row) use ($operation) {
                 if ($operation == "locator") {
-                    return '<button class="btn-table-primary p-2 w-24 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>';
+                    return match ($row->status) {
+                        'Full' => "<span class='text-sm'>Currently full can't evacuate.</span>",
+                        'Inactive' => "<span class='text-sm'>Currently Inactive can't evacuate.</span>",
+                        'Active' => '<button class="btn-table-primary p-2 w-24 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>'
+                    };
                 } else {
                     if (auth()->user()->is_disable == 0) {
                         return '<div class="flex justify-around actionContainer"><button class="btn-table-update w-28 mr-2 updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
@@ -49,7 +58,7 @@ class EvacuationCenterController extends Controller
 
                 return '<span class="text-sm">Currently Disabled.</span>';
             })
-            ->rawColumns(['status', 'action'])
+            ->rawColumns(['capacity', 'status', 'action'])
             ->make(true);
     }
 
@@ -68,6 +77,7 @@ class EvacuationCenterController extends Controller
                 'barangay_name' => $request->barangayName,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
+                'capacity' => $request->capacity,
                 'status' => 'Active'
             ]);
             $this->logActivity->generateLog('Added new evacuation center');
@@ -92,7 +102,8 @@ class EvacuationCenterController extends Controller
                 'name' => Str::ucfirst(trim($request->name)),
                 'barangay_name' => $request->barangayName,
                 'latitude' => trim($request->latitude),
-                'longitude' => trim($request->longitude)
+                'longitude' => trim($request->longitude),
+                'capacity' => $request->capacity
             ]);
             $this->logActivity->generateLog('Updating evacuation center');
 

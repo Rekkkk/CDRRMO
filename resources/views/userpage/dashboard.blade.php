@@ -56,7 +56,7 @@
                                 <p>Evacuee (On Evacuation)</p>
                                 <img src="{{ asset('assets/img/family.png') }}">
                             </div>
-                            <p>{{ $inEvacuationCenter }}</p>
+                            <p id="totalEvacuee">{{ $totalEvacuee }}</p>
                             <span>Total</span>
                         </div>
                     </div>
@@ -65,7 +65,8 @@
             @foreach ($onGoingDisaster as $count => $disaster)
                 <figure class="chart-container my-4">
                     <div id="evacueePie{{ $count + 1 }}" class="pie-chart bg-slate-50 rounded shadow-lg mr-5"></div>
-                    <div id="evacueeGraph{{ $count + 1 }}" class="bar-graph bg-slate-200 rounded shadow-lg flex-1"></div>
+                    <div id="evacueeGraph{{ $count + 1 }}" class="bar-graph bg-slate-200 rounded shadow-lg flex-1">
+                    </div>
                 </figure>
             @endforeach
         </div>
@@ -87,13 +88,13 @@
     @include('partials.toastr')
     <script>
         $(document).ready(function() {
-            @foreach ($onGoingDisaster as $count => $disaster)
+            @foreach ($disasterData as $count => $disaster)
                 Highcharts.chart('evacueePie{{ $count + 1 }}', {
                     chart: {
                         type: 'pie'
                     },
                     title: {
-                        text: '{{ $disaster->name }}'
+                        text: '{{ $disaster['disasterName'] }}'
                     },
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.y}</b>'
@@ -103,11 +104,11 @@
                         colorByPoint: true,
                         data: [{
                             name: 'Male',
-                            y: {{ Js::from($activeEvacuation) }},
+                            y: {{ intval($disaster['totalMale']) }},
                             color: '#0284c7'
                         }, {
                             name: 'Female',
-                            y: {{ Js::from($activeEvacuation) }},
+                            y: {{ intval($disaster['totalFemale']) }},
                             color: '#f43f5e'
                         }]
                     }],
@@ -119,7 +120,7 @@
                         type: 'bar'
                     },
                     title: {
-                        text: '{{ $disaster->name }} Statistics'
+                        text: '{{ $disaster['disasterName'] }} Statistics'
                     },
                     xAxis: {
                         categories: ['SENIOR CITIZEN', 'MINORS', 'INFANTS', 'PWD', 'PREGNANT', 'LACTATING'],
@@ -150,27 +151,27 @@
                     },
                     series: [{
                         name: 'SENIOR CITIZEN',
-                        data: [{{ Js::from($activeEvacuation) }}, '', '', '', '', ''],
+                        data: [{{ intval($disaster['totalSeniorCitizen']) }}, '', '', '', '', ''],
                         color: '#e74c3c'
                     }, {
                         name: 'MINORS',
-                        data: ['', {{ Js::from($activeEvacuation) }}, '', '', '', ''],
+                        data: ['', {{ intval($disaster['totalMinors']) }}, '', '', '', ''],
                         color: '#3498db'
                     }, {
                         name: 'INFANTS',
-                        data: ['', '', {{ Js::from($activeEvacuation) }}, '', '', ''],
+                        data: ['', '', {{ intval($disaster['totalInfants']) }}, '', '', ''],
                         color: '#2ecc71'
                     }, {
                         name: 'PWD',
-                        data: ['', '', '', {{ Js::from($activeEvacuation) }}, '', ''],
+                        data: ['', '', '', {{ intval($disaster['totalPwd']) }}, '', ''],
                         color: '#1abc9c'
                     }, {
                         name: 'PREGNANT',
-                        data: ['', '', '', '', {{ Js::from($activeEvacuation) }}, ''],
+                        data: ['', '', '', '', {{ intval($disaster['totalPregnant']) }}, ''],
                         color: '#e67e22'
                     }, {
                         name: 'LACTATING',
-                        data: ['', '', '', '', '', {{ Js::from($activeEvacuation) }}],
+                        data: ['', '', '', '', '', {{ intval($disaster['totalLactating']) }}],
                         color: '#9b59b6'
                     }],
                     exporting: false
@@ -178,6 +179,13 @@
             @endforeach
         });
     </script>
+    {{-- <script>
+        window.addEventListener('DOMContentLoaded', function(e) {
+            Echo.channel('active-evacuees').listen('ActiveEvacuees', (e) => {
+                $("#totalEvacuee").text(e.activeEvacuees);
+            })
+        });
+    </script> --}}
 </body>
 
 </html>

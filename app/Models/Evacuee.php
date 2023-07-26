@@ -14,29 +14,22 @@ class Evacuee extends Model
     protected $primaryKey = 'id';
 
     protected $fillable = [
-        'house_hold_number',
-        'sex',
-        'age',
-        'PWD',
+        'infants',
+        'minors',
+        'senior_citizen',
+        'pwd',
         'pregnant',
         'lactating',
-        'barangay',
-        'date_entry',
+        'families',
+        'individuals',
+        'male',
+        'female',
         'disaster_name',
-        'disaster_id',
+        'date_entry',
+        'barangay',
         'evacuation_assigned',
         'remarks'
     ];
 
     public $timestamps = false;
-
-    // public function countEvacuee($disaster, $sex)
-    // {
-    //     return $this->where('disaster_type', $disaster)->where('sex', $sex)->count();
-    // }
-
-    // public function countEvacueeWithDisabilities($disaster)
-    // {
-    //     return $this->selectRaw('SUM(`fourps`) AS `fourps`, SUM(`PWD`) AS `PWD`, SUM(`pregnant`) AS `pregnant`, SUM(`lactating`) AS `lactating`, SUM(`student`) AS `student`, SUM(`working`) AS `working`')->where('disaster_type', $disaster)->get();
-    // }
 }

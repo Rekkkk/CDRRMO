@@ -40,8 +40,8 @@
                                 <th colspan="2">Email Address</th>
                                 <th>Organization</th>
                                 <th>Position</th>
-                                <th width="10%">Status</th>
-                                <th class="w-4">Action</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -96,11 +96,13 @@
                         },
                         {
                             data: 'status',
-                            name: 'status'
+                            name: 'status',
+                            width: '10%'
                         },
                         {
                             data: 'action',
                             name: 'action',
+                            width: '10%',
                             orderable: false,
                             searchable: false
                         },

@@ -11,7 +11,6 @@
 
 <body>
     <div class="wrapper">
-        @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
@@ -25,90 +24,32 @@
             </div>
             <hr class="mt-4">
             <div class="flex flex-wrap justify-end text-white gap-3 my-3">
-                <button id="returnEvacueeBtn" class="btn-primary p-2">
-                    <i class="bi bi-person-up pr-2"></i>
-                    Returning Home
-                </button>
                 <button id="recordEvacueeBtn" data-toggle="modal" data-target="#evacueeInfoFormModal"
                     class="btn-submit p-2">
                     <i class="bi bi-person-down pr-2"></i>
                     Record Evacuee Info
                 </button>
             </div>
-            @include('userpage.evacuee.evacueeInfoFormModal')
             <div class="table-container p-3 shadow-lg rounded-lg">
                 <div class="block w-full overflow-auto">
-                    <header class="text-2xl font-semibold mb-3">Evacuee Informations</header>
+                    <header class="text-2xl font-semibold mb-3">Evacuee Informations Table</header>
                     <table class="table evacueeTable" width="100%">
                         <thead class="thead-light">
                             <tr class="table-row">
-                                <th>Id</th>
-                                <th>House Hold #</th>
-                                <th>
-                                    <input type="checkbox" class="w-4 h-4 accent-blue-600" id="selectAllCheckBox">
-                                </th>
-                                <th>Full Name</th>
-                                <th>Sex</th>
-                                <th>Age</th>
-                                <th>Barangay</th>
+                                <th colspan="2">Barangay</th>
                                 <th>Date Entry</th>
-                                <th>Date Out</th>
-                                <th>Disaster Type</th>
-                                <th>Disaster Id</th>
-                                <th>Disaster Info</th>
-                                <th>Evacuation Center</th>
-                                <th>4Ps</th>
+                                <th>Evacuation Assigned</th>
+                                <th>Families</th>
+                                <th>No. of Individuals</th>
+                                <th>Male</th>
+                                <th>Female</th>
+                                <th>Senior Citizen</th>
+                                <th>Minors</th>
+                                <th>Infants</th>
                                 <th>PWD</th>
                                 <th>Pregnant</th>
                                 <th>Lactating</th>
-                                <th>Student</th>
-                                <th>Working</th>
-                                <th class="w-4">Action</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-            <div class="evacueeArchiveSelect flex flex-wrap justify-end font-semibold gap-3 my-3">
-                <select name="archiveEvacueeDataTyphoon" class="form-select" id="archiveEvacueeDataTyphoon">
-                    <option value="None">Select Typhoon</option>
-                    {{-- @foreach ($typhoonList as $typhoon)
-                        <option value="{{ $typhoon->name }}">
-                            {{ $typhoon->name }}</option>
-                    @endforeach --}}
-                </select>
-                <select name="archiveEvacueeDataFlashflood" class="form-select" id="archiveEvacueeDataFlashflood">
-                    <option value="None">Select Flashflood Location</option>
-                    {{-- @foreach ($flashfloodList as $flashflood)
-                        <option value="{{ $flashflood->location }}">
-                            {{ $flashflood->location }}</option>
-                    @endforeach --}}
-                </select>
-            </div>
-            <div class="table-container p-3 shadow-lg rounded-lg">
-                <div class="block w-full overflow-auto">
-                    <header class="text-2xl font-semibold mb-3">Archived Evacuee Informations</header>
-                    <table class="table archivedEvacueeTable" width="100%">
-                        <thead class="thead-light">
-                            <tr>
-                                <th>House Hold #</th>
-                                <th>Full Name</th>
-                                <th>Sex</th>
-                                <th>Age</th>
-                                <th>Barangay</th>
-                                <th>Date Entry</th>
-                                <th>Date Out</th>
-                                <th>Disaster Type</th>
-                                <th>Disaster Info</th>
-                                <th>Evacuation Center</th>
-                                <th>4Ps</th>
-                                <th>PWD</th>
-                                <th>Pregnant</th>
-                                <th>Lactating</th>
-                                <th>Student</th>
-                                <th>Working</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -117,6 +58,7 @@
                 </div>
             </div>
         </div>
+        @include('userpage.evacuee.evacueeInfoFormModal')
         @include('userpage.changePasswordModal')
     </div>
 
@@ -134,6 +76,8 @@
     @include('partials.toastr')
     <script>
         $(document).ready(function() {
+            let evacueeId, defaultFormData;
+
             let evacueeTable = $('.evacueeTable').DataTable({
                 ordering: false,
                 responsive: true,
@@ -146,30 +90,6 @@
                         visible: false
                     },
                     {
-                        data: 'house_hold_number',
-                        name: 'house_hold_number',
-                        width: '8%'
-                    },
-                    {
-                        data: 'select',
-                        name: 'select',
-                        orderable: false,
-                        searchable: false,
-                        selectRow: true
-                    },
-                    {
-                        data: 'full_name',
-                        name: 'full_name'
-                    },
-                    {
-                        data: 'sex',
-                        name: 'sex'
-                    },
-                    {
-                        data: 'age',
-                        name: 'age'
-                    },
-                    {
                         data: 'barangay',
                         name: 'barangay'
                     },
@@ -178,35 +98,55 @@
                         name: 'date_entry'
                     },
                     {
-                        data: 'date_out',
-                        name: 'date_out'
-                    },
-                    {
-                        data: 'disaster_type',
-                        name: 'disaster_type'
-                    },
-                    {
-                        data: 'disaster_id',
-                        name: 'disaster_id',
-                        visible: false
-                    },
-                    {
-                        data: 'disaster_info',
-                        name: 'disaster_info'
-                    },
-                    {
                         data: 'evacuation_assigned',
                         name: 'evacuation_assigned'
                     },
                     {
-                        data: 'fourps',
-                        name: 'fourps',
+                        data: 'families',
+                        name: 'families',
                         orderable: false,
                         searchable: false
                     },
                     {
-                        data: 'PWD',
-                        name: 'PWD',
+                        data: 'individuals',
+                        name: 'individuals',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'male',
+                        name: 'male',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'female',
+                        name: 'female',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'senior_citizen',
+                        name: 'senior_citizen',
+                        orderable: false,
+                        searchable: false
+                    },
+
+                    {
+                        data: 'minors',
+                        name: 'minors',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'infants',
+                        name: 'infants',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'pwd',
+                        name: 'pwd',
                         orderable: false,
                         searchable: false
                     },
@@ -223,74 +163,122 @@
                         searchable: false
                     },
                     {
-                        data: 'student',
-                        name: 'student',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'working',
-                        name: 'working',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
                         data: 'action',
                         name: 'action',
                         orderable: false,
-                        searchable: false
+                        searchable: false,
+                        width: '8%'
                     }
                 ],
-
-                drawCallback: function() {
-                    $('#selectAllCheckBox').prop('checked', false);
-                    convertBooleanToYesNo(this.api(), 'evacueeTable');
-                }
             });
 
-            function convertBooleanToYesNo(api, table) {
-                api.rows().every(function() {
-                    let columnIndex,
-                        columnName = [
-                            '4Ps',
-                            'PWD',
-                            'pregnant',
-                            'lactating',
-                            'student',
-                            'working'
-                        ];
+            let dateEntryInput = datePicker("#date_entry");
 
-                    table == 'evacueeTable' ?
-                        columnIndex = 11 :
-                        columnIndex = 10;
-
-
-                    for (let i = 0; i < columnName.length; i++) {
-                        this.data()[columnName[i]] == 1 ?
-                            this.data()[columnName[i]] = 'Yes' :
-                            this.data()[columnName[i]] = 'No';
-                        $(`td:eq(${i+columnIndex})`, this.node()).text(this.data()[columnName[i]]);
+            let validator = $("#evacueeInfoForm").validate({
+                rules: {
+                    disaster_name: {
+                        required: true
+                    },
+                    date_entry: {
+                        required: true
+                    },
+                    barangay: {
+                        required: true
+                    },
+                    evacuation_assigned: {
+                        required: true
+                    },
+                    infants: {
+                        required: true
+                    },
+                    minors: {
+                        required: true
+                    },
+                    senior_citizen: {
+                        required: true
+                    },
+                    pwd: {
+                        required: true
+                    },
+                    pregnant: {
+                        required: true
+                    },
+                    lactating: {
+                        required: true
+                    },
+                    families: {
+                        required: true
+                    },
+                    individual: {
+                        required: true
+                    },
+                    male: {
+                        required: true
+                    },
+                    female: {
+                        required: true
                     }
-                });
-            }
+                },
+                messages: {
+                    disaster_name: {
+                        required: 'Please enter disaster name.'
+                    },
+                    date_entry: {
+                        required: 'Please enter date entry.',
+                    },
+                    barangay: {
+                        required: 'Please enter barangay.',
+                    },
+                    evacuation_assigned: {
+                        required: 'Please enter evacuation center assigned.'
+                    },
+                    infants: {
+                        required: 'Please enter number of infants.'
+                    },
+                    minors: {
+                        required: 'Please enter number of minors.'
+                    },
+                    senior_citizen: {
+                        required: 'Please enter number of senior citizen.'
+                    },
+                    pwd: {
+                        required: 'Please enter number of pwd.'
+                    },
+                    pregnant: {
+                        required: 'Please enter number of pregnant.'
+                    },
+                    lactating: {
+                        required: 'Please enter number of lactating.'
+                    },
+                    families: {
+                        required: 'Please enter number of families.'
+                    },
+                    individual: {
+                        required: 'Please enter number of individuals.'
+                    },
+                    male: {
+                        required: 'Please enter number of male.'
+                    },
+                    female: {
+                        required: 'Please enter number of female.'
+                    }
+                },
+                errorElement: 'span',
+                submitHandler: formSubmitHandler
+            });
 
             $('#recordEvacueeBtn').click(function() {
                 $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
                 $('.modal-title').text('Record Evacuee Information');
-                $('#saveEvacueeInfoBtn').removeClass('btn-update').addClass('btn-submit').text('Save');
-                $('#dateFormFieldsContainer').hide();
-                $('#evacuationSelectContainer').removeClass('hidden');
+                $('#recordEvacueeInfoBtn').removeClass('btn-update').addClass('btn-submit').text('Record');
                 $('#operation').val('record');
                 $('#evacueeInfoFormModal').modal('show');
             });
 
-            let evacueeId, defaultFormData;
-
-            $(document).on('click', '.editEvacueeBtn', function() {
+            $(document).on('click', '.updateEvacueeBtn', function() {
                 $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                $('.modal-title').text('Edit Evacuee Information');
-                $('#saveEvacueeInfoBtn').removeClass('btn-submit').addClass('btn-update').text('Save');
-                $('#dateFormFieldsContainer').show();
+                $('.modal-title').text('Update Evacuee Information');
+                $('#recordEvacueeInfoBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
 
                 let currentRow = $(this).closest('tr');
 
@@ -307,31 +295,8 @@
                 $('input[name="age"]').val(data['age']);
                 dateEntryInput.setDate(data['date_entry']);
 
-                if (data['date_out'] == null) {
-                    $('#dateOutContainer').hide();
-                    $('#dateEntryContainer').removeClass('lg:w-6/12');
-                    dateOutInput.setDate('');
-                } else {
-                    $('#dateOutContainer').show();
-                    $('#dateEntryContainer').addClass('lg:w-6/12');
-                    dateOutInput.setDate(data['date_out']);
-                }
-
                 $(`option[value="${data['barangay']}"]`).prop('selected', true);
-                $(`option[value="${data['disaster_type']}"]`).prop('selected', true);
-                $(`option[value="${data['disaster_id']}"]`).prop('selected', true);
-
-                if (data['disaster_type'] == 'Typhoon') {
-                    $('#flashflood option:selected').prop('selected', false);
-                    $('#flashfloodSelectContainer').hide();
-                    $('#typhoonSelectContainer').show();
-                } else {
-                    $('#typhoon option:selected').prop('selected', false);
-                    $('#typhoonSelectContainer').hide();
-                    $('#flashfloodSelectContainer').show();
-                }
-
-                $('input[name="disasterInfo"]').val(data['disaster_info']);
+                $(`option[value="${data['disaster_name']}"]`).prop('selected', true);
 
                 if ($(`option[value="${data['evacuation_assigned']}"]`).length) {
                     $('#evacuationSelectContainer').removeClass('hidden');
@@ -341,154 +306,43 @@
                     $('input[name="defaultEvacuationAssigned"]').val(data['evacuation_assigned']);
                 }
 
-                dataName = ['4Ps', 'PWD', 'pregnant', 'lactating', 'student', 'working'];
-                checkbox = ['fourps', 'pwd', 'pregnant', 'lactating', 'student', 'working'];
-
-                for (let i = 0; i < dataName.length; i++) {
-                    data[dataName[i]] == 'Yes' ?
-                        $(`input[name="${checkbox[i]}"]`).prop('checked', true) :
-                        $(`input[name="${checkbox[i]}"]`).prop('checked', false);
-                }
-
-                $('#operation').val('edit');
+                $('#infants').val(data['infants']);
+                $('#minors').val(data['minors']);
+                $('#senior_citizen').val(data['senior_citizen']);
+                $('#pwd').val(data['pwd']);
+                $('#pregnant').val(data['pregnant']);
+                $('#lactating').val(data['lactating']);
+                $('#families').val(data['families']);
+                $('#individual').val(data['individual']);
+                $('#male').val(data['male']);
+                $('#female').val(data['female']);
+                $('#remarks').val(data['remarks']);
+                $('#operation').val('update');
                 $('#evacueeInfoFormModal').modal('show');
                 defaultFormData = $('#evacueeInfoForm').serialize();
             });
 
-            $('#disasterType').on('change', function(e) {
-                let disasterType = e.target.value;
-
-                if (disasterType == 'Typhoon') {
-                    $('#typhoonSelectContainer').show();
-                    $('#flashflood').val('');
-                    $('#flashfloodSelectContainer').hide();
-                } else if (disasterType == 'Flashflood') {
-                    $('#typhoonSelectContainer').hide();
-                    $('#typhoon').val('');
-                    $('#flashfloodSelectContainer').show();
-                } else {
-                    $('#typhoon').val('');
-                    $('#typhoonSelectContainer').hide();
-                    $('#flashflood').val('');
-                    $('#flashfloodSelectContainer').hide();
-                }
-
-                $('input[name="disasterInfo"]').val('');
+            $('#evacueeInfoFormModal').on('hidden.bs.modal', function() {
+                validator.resetForm();
+                $('#evacueeInfoForm').trigger("reset");
             });
 
-            $("#typhoon").on('change', function(e) {
-                let selectedText = $('#typhoon option:selected').text();
-                $('input[name="disasterInfo"]').val(selectedText.trim());
-            });
-
-            $("#flashflood").change(function() {
-                let selectedText = $('#flashflood option:selected').text();
-                $('input[name="disasterInfo"]').val(selectedText.trim());
-            });
-
-            let dateEntryInput = datePicker("#dateEntry"),
-                dateOutInput = datePicker("#dateOut");
-
-            let validator = $("#evacueeInfoForm").validate({
-                rules: {
-                    houseHoldNumber: {
-                        required: true,
-                        min: 1,
-                    },
-                    fullName: {
-                        required: true,
-                    },
-                    sex: {
-                        required: true,
-                    },
-                    age: {
-                        required: true,
-                        min: 1,
-                    },
-                    dateEntry: {
-                        required: true,
-                    },
-                    dateOut: {
-                        required: true,
-                    },
-                    barangay: {
-                        required: true,
-                    },
-                    disasterType: {
-                        required: true,
-                    },
-                    typhoon: {
-                        required: true,
-                    },
-                    flashflood: {
-                        required: true,
-                    },
-                    evacuationAssigned: {
-                        required: true,
-                    },
-                },
-                messages: {
-                    houseHoldNumber: {
-                        required: 'Please enter House Hold Number.',
-                        min: 'Please enter a number greater than zero.',
-                    },
-                    fullName: {
-                        required: 'Please enter Full Name.',
-                    },
-                    sex: {
-                        required: 'Please select Sex.',
-                    },
-                    age: {
-                        required: 'Please enter Age.',
-                        min: 'Please enter a number greater than zero.',
-                    },
-                    dateEntry: {
-                        required: 'Please select Date Entry.',
-                    },
-                    dateOut: {
-                        required: 'Please select Date Out.',
-                    },
-                    barangay: {
-                        required: 'Please select Barangay.',
-                    },
-                    disasterType: {
-                        required: 'Please select Disaster.',
-                    },
-                    typhoon: {
-                        required: 'Please select Typhoon.',
-                    },
-                    flashflood: {
-                        required: 'Please select Flashflood.',
-                    },
-                    evacuationAssigned: {
-                        required: 'Please select Evacuation Center.'
-                    },
-                },
-                errorElement: 'span',
-                submitHandler: formSubmitHandler
-            });
-
-            function formSubmitHandler(form, e) {
+            function formSubmitHandler(form) {
                 let operation = $('#operation').val(),
                     url = "",
                     type = "",
-                    hideModal = false,
                     formData = $(form).serialize(),
                     modal = $('#evacueeInfoFormModal');
 
-                if (operation == 'record') {
-                    url = "{{ route('evacuee.info.record') }}";
-                    type = "POST";
-                } else {
-                    url = "{{ route('evacuee.info.update', 'evacueeId') }}".replace('evacueeId', evacueeId);
-                    type = "PUT";
-                    hideModal = true;
-                }
+                url = operation == 'record' ?
+                    "{{ route('evacuee.info.record') }}" :
+                    "{{ route('evacuee.info.update', 'evacueeId') }}".replace('evacueeId', evacueeId);
+
+                type = operation == 'record' ? "POST" : "PUT";
 
                 confirmModal(`Do you want to ${operation} this evacuee info?`).then((result) => {
                     if (result.isConfirmed) {
-                        if (operation == 'edit' && defaultFormData == formData) {
-                            modal.modal('hide');
+                        if (operation == 'update' && defaultFormData == formData) {
                             toastr.warning('No changes were made.', 'Warning');
                             return;
                         }
@@ -496,224 +350,26 @@
                             data: formData,
                             url: url,
                             type: type,
-                            dataType: 'json',
                             success: function(response) {
-                                if (response.condition == 0) {
-                                    toastr.warning('Please fill up the form correctly.',
-                                        'Warning');
+                                if (response.status == "warning") {
+                                    toastr.warning(response.message, 'Warning');
                                 } else {
-                                    if (hideModal) {
-                                        modal.modal('hide');
-                                    }
-
+                                    $('#evacueeInfoFormModal').modal('hide');
                                     evacueeTable.draw();
-
-                                    operation == 'record' ?
-                                        operation += "ed new" :
-                                        operation += "ed the";
-
-                                    toastr.success(`Successfully ${operation} evacuee info.`,
+                                    toastr.success(
+                                        `Successfully ${operation}${operation == 'record' ? 'ed new' : 'ed the'} evacuee info.`,
                                         'Success');
                                 }
                             },
                             error: function() {
-                                if (hideModal) {
-                                    modal.modal('hide');
-                                }
-
                                 toastr.error(
-                                    'An error occurred while processing your request.');
+                                    'An error occurred while processing your request.',
+                                    'Error');
                             }
                         });
                     }
                 });
             }
-
-            $('#evacueeInfoFormModal').on('hidden.bs.modal', function() {
-                validator.resetForm();
-                $('#evacueeInfoForm').trigger("reset");
-            });
-
-            $('#selectAllCheckBox').click(function() {
-                let checkBox = $('.evacueeTable tbody tr td input[type="checkbox"]');
-
-                $(this).is(':checked') ?
-                    checkBox.each(function() {
-                        if (!$(this).is(':disabled'))
-                            $(this).prop('checked', true);
-                    }) :
-                    checkBox.each(function() {
-                        if (!$(this).is(':disabled'))
-                            $(this).prop('checked', false);
-                    });
-            });
-
-            $('#returnEvacueeBtn').on('click', function() {
-                let id = [],
-                    checked = $('.evacueeTable tbody tr td input[type="checkbox"]:checked');
-
-                if (checked.length > 0) {
-                    $(checked).each(function() {
-                        id.push($(this).val());
-                    });
-                }
-
-                if (id.length > 0) {
-                    message = "";
-
-                    id.length == 1 ?
-                        message = "Is this evacuee going back home?" :
-                        message = "Are these evacuees going back to their homes?";
-
-                    confirmModal(message).then((result) => {
-                        if (result.isConfirmed) {
-                            $.ajax({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                                        'content')
-                                },
-                                data: {
-                                    evacueeIds: id,
-                                },
-                                url: "{{ route('evacuee.info.update.dateout') }}",
-                                type: "PATCH",
-                                dataType: 'json',
-                                success: function() {
-                                    evacueeTable.draw();
-                                    archivedEvacueeTable.draw();
-                                    toastr.success(
-                                        'Successfully update the evacuee/s date out.',
-                                        'Success');
-                                },
-                                error: function() {
-                                    $('#selectAllCheckBox').prop('checked', false);
-                                    toastr.error(
-                                        'An error occurred while processing your request.'
-                                    );
-                                }
-                            });
-                        }
-                    });
-                } else {
-                    $('#selectAllCheckBox').prop('checked', false);
-                    toastr.warning('Please select at least one evacuee.', 'Warning');
-                }
-            });
-
-            let archivedEvacueeTable = $('.archivedEvacueeTable').DataTable({
-                ordering: false,
-                responsive: true,
-                processing: false,
-                serverSide: true,
-                ajax: "{{ route('evacuee.info.get.archived', 'disasterInfo') }}".replace(
-                    'disasterInfo',
-                    'None'),
-                columns: [{
-                        data: 'house_hold_number',
-                        name: 'house_hold_number',
-                        width: '8%'
-                    },
-                    {
-                        data: 'full_name',
-                        name: 'full_name'
-                    },
-                    {
-                        data: 'sex',
-                        name: 'sex'
-                    },
-                    {
-                        data: 'age',
-                        name: 'age'
-                    },
-                    {
-                        data: 'barangay',
-                        name: 'barangay'
-                    },
-                    {
-                        data: 'date_entry',
-                        name: 'date_entry'
-                    },
-                    {
-                        data: 'date_out',
-                        name: 'date_out'
-                    },
-                    {
-                        data: 'disaster_type',
-                        name: 'disaster_type'
-                    },
-                    {
-                        data: 'disaster_info',
-                        name: 'disaster_info'
-                    },
-                    {
-                        data: 'evacuation_assigned',
-                        name: 'evacuation_assigned'
-                    },
-                    {
-                        data: 'fourps',
-                        name: 'fourps',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'PWD',
-                        name: 'PWD',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'pregnant',
-                        name: 'pregnant',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'lactating',
-                        name: 'lactating',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'student',
-                        name: 'student',
-                        orderable: false,
-                        searchable: false
-                    },
-                    {
-                        data: 'working',
-                        name: 'working',
-                        orderable: false,
-                        searchable: false
-                    }
-                ],
-                drawCallback: function() {
-                    convertBooleanToYesNo(this.api(), 'archivedEvacueeTable');
-                }
-            });
-
-            function initializeDataTable(url) {
-                archivedEvacueeTable.clear();
-                archivedEvacueeTable.ajax.url(url).load();
-            }
-
-            $('#archiveEvacueeDataTyphoon').on('change', function() {
-                $('#archiveEvacueeDataFlashflood').val('None');
-
-                initializeDataTable(
-                    "{{ route('evacuee.info.get.archived', 'disasterId') }}".replace(
-                        'disasterId', $(this).val())
-                );
-            });
-
-            $('#archiveEvacueeDataFlashflood').on('change', function() {
-                $('#archiveEvacueeDataTyphoon').val('None');
-
-                initializeDataTable(
-                    "{{ route('evacuee.info.get.archived', 'disasterId') }}".replace(
-                        'disasterId', $(this).val())
-                );
-            });
-
         });
     </script>
 </body>

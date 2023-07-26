@@ -9,16 +9,19 @@ return new class extends Migration
     {
         Schema::create('evacuee', function (Blueprint $table) {
             $table->id();
-            $table->integer('house_hold_number');
-            $table->string('sex');
-            $table->string('age');
-            $table->boolean('PWD');
-            $table->boolean('pregnant');
-            $table->boolean('lactating');
-            $table->string('barangay');
-            $table->string('date_entry');
+            $table->integer('infants');
+            $table->integer('minors');
+            $table->integer('senior_citizen');
+            $table->integer('pwd');
+            $table->integer('pregnant');
+            $table->integer('lactating');
+            $table->integer('families');
+            $table->integer('individuals');
+            $table->integer('male');
+            $table->integer('female');
             $table->string('disaster_name');
-            $table->integer('disaster_id');
+            $table->string('date_entry');
+            $table->string('barangay');
             $table->string('evacuation_assigned');
             $table->string('remarks')->nullable();
         });

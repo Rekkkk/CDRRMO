@@ -50,8 +50,9 @@
                                 <th>Barangay</th>
                                 <th>Latitude</th>
                                 <th>Longitude</th>
-                                <th width="10%">Status</th>
-                                <th class="w-4">Action</th>
+                                <th>Capacity</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                     </table>
@@ -62,7 +63,6 @@
     @auth
         @include('userpage.changePasswordModal')
     @endauth
-    @include('partials.toastr')
     @auth
         <script src="{{ asset('assets/js/script.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -212,12 +212,21 @@
                         visible: false
                     },
                     {
+                        data: 'capacity',
+                        name: 'capacity',
+                        width: '5%',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
                         data: 'status',
-                        name: 'status'
+                        name: 'status',
+                        width: '10%'
                     },
                     {
                         data: 'action',
                         name: 'action',
+                        width: '10%',
                         orderable: false,
                         searchable: false
                     }

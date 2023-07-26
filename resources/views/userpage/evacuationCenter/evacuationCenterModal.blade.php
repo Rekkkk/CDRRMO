@@ -41,6 +41,11 @@
                                     </select>
                                 </div>
                                 <div class="field-container">
+                                    <label>Estimated Evacuation Center Capacity</label>
+                                    <input type="number" name="capacity" class="form-control"
+                                        autocomplete="off" placeholder="Enter Estimated Capacity" id="capacity">
+                                </div>
+                                <div class="field-container">
                                     <label>Location</label>
                                     <div class="border-2 rounded-md border-slate-400">
                                         <div class="h-96 rounded" id="map"></div>

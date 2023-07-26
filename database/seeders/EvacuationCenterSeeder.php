@@ -13,24 +13,27 @@ class EvacuationCenterSeeder extends Seeder
         EvacuationCenter::insert([
             'name' => 'Butong Elementary School',
             'barangay_name' => 'Butong',
-            'latitude' => '123.1233',
-            'longitude' => '123.1233',
+            'latitude' => '14.2862',
+            'longitude' => '121.1338',
+            'capacity' => '40',
             'status' => 'Active'
         ]);
 
         EvacuationCenter::insert([
             'name' => 'Banay-Banay Elementary School',
             'barangay_name' => 'Banay-Banay',
-            'latitude' => '123.1233',
-            'longitude' => '123.1233',
+            'latitude' => '14.2546',
+            'longitude' => '121.1295',
+            'capacity' => '40',
             'status' => 'Active'
         ]);
 
         EvacuationCenter::insert([
             'name' => 'Marinig Elementary School',
             'barangay_name' => 'Marinig',
-            'latitude' => '123.1233',
-            'longitude' => '123.1233',
+            'latitude' => '14.2704',
+            'longitude' => '121.1539',
+            'capacity' => '40',
             'status' => 'Active'
         ]);
     }
