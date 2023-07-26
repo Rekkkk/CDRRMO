@@ -23,9 +23,35 @@ class MainController extends Controller
     {
         $onGoingDisaster = Disaster::where('status', "On Going")->get();
         $activeEvacuation = $this->evacuationCenter->where('status', 'Active')->count();
-        $inEvacuationCenter = Evacuee::count();
+        $totalEvacuee = 0;
+        $disasterData = [];
 
-        return view('userpage.dashboard',  compact('activeEvacuation', 'inEvacuationCenter', 'onGoingDisaster'));
+        foreach ($onGoingDisaster as $count => $disaster) {
+            $totalEvacueeCount = Evacuee::where('disaster_name', $disaster->name)->sum('individuals');
+            $result = Evacuee::where('disaster_name', $disaster->name)
+                ->selectRaw('SUM(male) as totalMale, 
+                 SUM(female) as totalFemale, 
+                 SUM(senior_citizen) as totalSeniorCitizen, 
+                 SUM(minors) as totalMinors, 
+                 SUM(infants) as totalInfants, 
+                 SUM(pwd) as totalPwd, 
+                 SUM(pregnant) as totalPregnant, 
+                 SUM(lactating) as totalLactating')
+                ->first();
+
+            $disasterData[$count]['disasterName'] = $disaster->name;
+            $totalEvacuee += $totalEvacueeCount;
+            $disasterData[$count]['totalMale'] = $result->totalMale;
+            $disasterData[$count]['totalFemale'] = $result->totalFemale;
+            $disasterData[$count]['totalSeniorCitizen'] = $result->totalSeniorCitizen;
+            $disasterData[$count]['totalMinors'] = $result->totalMinors;
+            $disasterData[$count]['totalInfants'] = $result->totalInfants;
+            $disasterData[$count]['totalPwd'] = $result->totalPwd;
+            $disasterData[$count]['totalPregnant'] = $result->totalPregnant;
+            $disasterData[$count]['totalLactating'] = $result->totalLactating;
+        }
+
+        return view('userpage.dashboard',  compact('activeEvacuation', 'disasterData', 'totalEvacuee', 'onGoingDisaster'));
     }
 
     public function generateExcelEvacueeData()

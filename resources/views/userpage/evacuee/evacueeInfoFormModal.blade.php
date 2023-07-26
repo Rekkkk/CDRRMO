@@ -11,51 +11,25 @@
                         <div class="flex-auto">
                             <div class="flex flex-wrap">
                                 <input type="text" id="operation" hidden>
-                                <div class="w-full mb-3 lg:w-3/12 px-4">
-                                    <label>House Hold #</label>
-                                    <input type="number" name="houseHoldNumber" class="form-control"
-                                        autocomplete="off" placeholder="HH#">
-                                </div>
-                                <div class="w-full mb-3 lg:w-9/12 px-4">
-                                    <label>Full Name</label>
-                                    <input type="text" name="fullName" class="form-control"
-                                        autocomplete="off" placeholder="Enter Full Name">
-                                </div>
                                 <div class="w-full mb-3 lg:w-6/12 px-4">
-                                    <label>Sex</label>
-                                    <select name="sex" class="form-select">
-                                        <option value="">Select Sex</option>
-                                        <option value="Male">
-                                            Male
-                                        </option>
-                                        <option value="Female">
-                                            Female
-                                        </option>
+                                    <label>Disaster</label>
+                                    <select name="disaster_name" id="disaster_name" class="form-select">
+                                        <option value="" hidden disabled selected>Select Disaster</option>
+                                        @foreach ($disasterList as $disaster)
+                                            <option value="{{ $disaster->name }}">
+                                                {{ $disaster->name }}</option>
+                                        @endforeach
                                     </select>
                                 </div>
-                                <div class="w-full mb-3 lg:w-6/12 px-4">
-                                    <label>Age</label>
-                                    <input type="number" name="age" class="form-control"
-                                        autocomplete="off" placeholder="Enter Age">
+                                <div class="w-full mb-3 lg:w-6/12 px-4" id="dateEntryContainer">
+                                    <label>Date Entry</label>
+                                    <input type="text" name="date_entry" id="date_entry" class="form-control"
+                                        autocomplete="off" placeholder="Select Date Entry">
                                 </div>
-                                <div class="flex flex-wrap w-full" id="dateFormFieldsContainer">
-                                    <div class="w-full mb-3 lg:w-6/12 px-4" id="dateEntryContainer">
-                                        <label>Date Entry</label>
-                                        <input type="text" name="dateEntry" id="dateEntry"
-                                            class="form-control" autocomplete="off"
-                                            placeholder="Select Date Entry">
-                                    </div>
-                                    <div class="w-full mb-3 lg:w-6/12 px-4" id="dateOutContainer">
-                                        <label>Date Out</label>
-                                        <input type="text" name="dateOut" id="dateOut"
-                                            class="form-control" autocomplete="off"
-                                            placeholder="Select Date Out">
-                                    </div>
-                                </div>
-                                <div class="w-full mb-3 lg:w-6/12 px-4">
+                                <div class="field-container mb-3">
                                     <label>Barangay</label>
                                     <select name="barangay" class="form-select">
-                                        <option value="">Select Barangay</option>
+                                        <option value="" hidden selected disabled>Select Barangay</option>
                                         <option value="Baclaran">Baclaran</option>
                                         <option value="Banay-Banay">Banay-Banay</option>
                                         <option value="Banlic">Banlic</option>
@@ -76,89 +50,75 @@
                                         <option value="Barangay III Poblacion">Barangay III Poblacion</option>
                                     </select>
                                 </div>
-                                <div class="w-full mb-3 lg:w-6/12 px-4">
-                                    <label>Disaster</label>
-                                    <select name="disasterType" id="disasterType" class="form-select">
-                                        <option value="">Select Disaster</option>
-                                        {{-- @if ($disasterList != null)
-                                            @foreach ($disasterList as $disaster)
-                                                <option value="{{ $disaster->type }}">
-                                                    {{ $disaster->type }}</option>
-                                            @endforeach
-                                        @endif --}}
-                                    </select>
-                                </div>
-                                <div class="w-full px-4 hidden" id="typhoonSelectContainer">
-                                    <div class="w-full mb-3">
-                                        <select name="typhoon" id="typhoon" class="form-select">
-                                            <option value="">Select Typhoon</option>
-                                            {{-- @foreach ($typhoonList as $typhoon)
-                                                <option value="{{ $typhoon->id }}">
-                                                    {{ $typhoon->name }}</option>
-                                            @endforeach --}}
-                                        </select>
-                                    </div>
-                                </div>
-                                <div class="w-full px-4 hidden" id="flashfloodSelectContainer">
-                                    <div class="w-full mb-3">
-                                        <select name="flashflood" id="flashflood" class="form-select">
-                                            <option value="">Select Location</option>
-                                            {{-- @foreach ($flashfloodList as $flashflood)
-                                                <option value="{{ $flashflood->id }}">
-                                                    {{ $flashflood->location }}</option>
-                                            @endforeach --}}
-                                        </select>
-                                    </div>
-                                </div>
-                                <input type="text" name="disasterInfo" hidden>
-                                <div class="field-container" id="evacuationSelectContainer">
+                                <div class="field-container mb-3" id="evacuationSelectContainer">
                                     <label>Evacuation Assigned</label>
-                                    <select name="evacuationAssigned" class="form-select">
-                                        <option value="">Select Evacuation Assigned</option>
+                                    <select name="evacuation_assigned" class="form-select">
+                                        <option value="" hidden selected disabled>Select Evacuation Assigned
+                                        </option>
                                         @foreach ($evacuationList as $evacuationCenter)
                                             <option value="{{ $evacuationCenter->name }}">
                                                 {{ $evacuationCenter->name }}</option>
                                         @endforeach
                                     </select>
                                 </div>
-                                <input type="text" name="defaultEvacuationAssigned" hidden>
-                                <div class="w-full px-2">
-                                    <div class="flex justify-around flex-wrap">
-                                        <div class="checkbox-container px-2">
-                                            <input type="checkbox" id="fourps" name="fourps"
-                                                class="checkbox">
-                                            <label for="fourps">4ps</label>
-                                        </div>
-                                        <div class="checkbox-container px-2">
-                                            <input type="checkbox" id="pwd" name="pwd"
-                                                class="checkbox">
-                                            <label for="pwd">PWD</label>
-                                        </div>
-                                        <div class="checkbox-container px-2">
-                                            <input type="checkbox" id="pregnant" name="pregnant"
-                                                class="checkbox">
-                                            <label for="pregnant">Pregnant</label>
-                                        </div>
-                                        <div class="checkbox-container px-2">
-                                            <input type="checkbox" id="lactating" name="lactating"
-                                                class="checkbox">
-                                            <label for="lactating">Lactating</label>
-                                        </div>
-                                        <div class="checkbox-container px-2">
-                                            <input type="checkbox" id="student" name="student"
-                                                class="checkbox">
-                                            <label for="student">Student</label>
-                                        </div>
-                                        <div class="checkbox-container px-2">
-                                            <input type="checkbox" id="working" name="working"
-                                                class="checkbox">
-                                            <label for="working">Working</label>
-                                        </div>
-                                    </div>
+                                <div class="w-full mb-3 lg:w-4/12 px-4">
+                                    <label>Infants</label>
+                                    <input type="number" name="infants" id="infants" class="form-control" autocomplete="off"
+                                        placeholder="Infants">
                                 </div>
-                                <div class="w-full p-4">
-                                    <button id="saveEvacueeInfoBtn"
-                                        class="btn-submit p-2 float-right">Save</button>
+                                <div class="w-full mb-3 lg:w-4/12 px-4">
+                                    <label>Minors</label>
+                                    <input type="number" name="minors" id="minors" class="form-control" autocomplete="off"
+                                        placeholder="Minors">
+                                </div>
+                                <div class="w-full mb-3 lg:w-4/12 px-4">
+                                    <label>Senior Citizen</label>
+                                    <input type="number" name="senior_citizen" id="senior_citizen" class="form-control" autocomplete="off"
+                                        placeholder="Senior Citizen">
+                                </div>
+                                <div class="w-full mb-3 lg:w-4/12 px-4">
+                                    <label>PWD</label>
+                                    <input type="number" name="pwd" id="pwd" class="form-control" autocomplete="off"
+                                        placeholder="PWD">
+                                </div>
+                                <div class="w-full mb-3 lg:w-4/12 px-4">
+                                    <label>Pregnant</label>
+                                    <input type="number" name="pregnant" id="pregnant" class="form-control" autocomplete="off"
+                                        placeholder="Pregnant">
+                                </div>
+                                <div class="w-full mb-3 lg:w-4/12 px-4">
+                                    <label>Lactating</label>
+                                    <input type="number" name="lactating" id="lactating" class="form-control" autocomplete="off"
+                                        placeholder="Lactating">
+                                </div>
+                                <div class="w-full mb-3 lg:w-3/12 px-4">
+                                    <label>Families</label>
+                                    <input type="number" name="families" id="families" class="form-control" autocomplete="off"
+                                        placeholder="Families">
+                                </div>
+                                <div class="w-full mb-3 lg:w-3/12 px-4">
+                                    <label>No. Individual</label>
+                                    <input type="number" name="individual" id="individual" class="form-control" autocomplete="off"
+                                        placeholder="No. Individual">
+                                </div>
+                                <div class="w-full mb-3 lg:w-3/12 px-4">
+                                    <label>Male</label>
+                                    <input type="number" name="male" id="male" class="form-control" autocomplete="off"
+                                        placeholder="Male">
+                                </div>
+                                <div class="w-full mb-3 lg:w-3/12 px-4">
+                                    <label>Female</label>
+                                    <input type="number" name="female" id="female" class="form-control" autocomplete="off"
+                                        placeholder="Female">
+                                </div>
+                                <div class="field-container mb-3">
+                                    <label>Remarks</label>
+                                    <textarea type="text" name="remarks" id="remarks" class="form-control" autocomplete="off"
+                                        placeholder="Leave a remarks..."></textarea>
+                                </div>
+                                <div class="w-full px-4 py-2">
+                                    <button id="recordEvacueeInfoBtn"
+                                        class="btn-submit p-2 float-right">Record</button>
                                 </div>
                             </div>
                         </div>

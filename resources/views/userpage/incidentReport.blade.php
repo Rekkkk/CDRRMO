@@ -29,10 +29,10 @@
                     <thead class="thead-light">
                         <tr>
                             <th colspan="2">Report Description</th>
-                            <th>Accident Location</th>
-                            <th width="10%">Status</th>
-                            <th width="10%">Actual Photo</th>
-                            <th class="w-4">Action</th>
+                            <th>Incident Location</th>
+                            <th>Status</th>
+                            <th>Actual Photo</th>
+                            <th>Action</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -185,18 +185,21 @@
                     {
                         data: 'status',
                         name: 'status',
+                        width: '10%',
                         orderable: false,
                         searchable: false
                     },
                     {
                         data: 'photo',
                         name: 'photo',
+                        width: '10%',
                         orderable: false,
                         searchable: false
                     },
                     {
                         data: 'action',
                         name: 'action',
+                        width: '10%',
                         orderable: false,
                         searchable: false
                     },
@@ -344,18 +347,21 @@
                 {
                     data: 'status',
                     name: 'status',
+                    width: '10%',
                     orderable: false,
                     searchable: false
                 },
                 {
                     data: 'photo',
                     name: 'photo',
+                    width: '10%',
                     orderable: false,
                     searchable: false
                 },
                 {
                     data: 'action',
                     name: 'action',
+                    width: '10%',
                     orderable: false,
                     searchable: false
                 },

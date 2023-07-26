@@ -40,8 +40,8 @@
                                 <th>Barangay</th>
                                 <th>Latitude</th>
                                 <th>Longitude</th>
-                                <th width="10%">Status</th>
-                                <th class="w-4">Action</th>
+                                <th>Status</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -103,11 +103,13 @@
                 },
                 {
                     data: 'status',
-                    name: 'status'
+                    name: 'status',
+                    width: '10%'
                 },
                 {
                     data: 'action',
                     name: 'action',
+                    width: '10%',
                     orderable: false,
                     searchable: false
                 }
@@ -227,6 +229,7 @@
                     $('#name').val(data['name']);
                     $('#latitude').val(data['latitude']);
                     $('#longitude').val(data['longitude']);
+                    $('#capacity').val(data['capacity']);
                     $(`#barangayName, option[value="${data['barangay_name']}"`).prop('selected', true);
 
                     marker = new google.maps.Marker({
