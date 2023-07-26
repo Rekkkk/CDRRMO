@@ -7,6 +7,7 @@ use App\Models\Disaster;
 use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
 use App\Exports\EvacueeDataExport;
+use App\Models\Reporting;
 use Maatwebsite\Excel\Facades\Excel;
 use Maatwebsite\Excel\Excel as ExcelExcel;
 
@@ -55,7 +56,9 @@ class MainController extends Controller
 
     public function incidentReport()
     {
-        return view('userpage.incidentReport');
+        $incidentReport = Reporting::whereNotIn('status', ["On Process"])->where('is_archive', 0)->get();
+
+        return view('userpage.incidentReport', compact('incidentReport'));
     }
 
     public function hotlineNumber()
