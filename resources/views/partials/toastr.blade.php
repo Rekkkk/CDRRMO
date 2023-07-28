@@ -19,7 +19,7 @@
         @endif
 
         @if (Session::has('warning'))
-            toastr.warning("{{ Session::get('warningz') }}", 'Warning!');
+            toastr.warning("{{ Session::get('warning') }}", 'Warning!');
         @endif
     })
 </script>

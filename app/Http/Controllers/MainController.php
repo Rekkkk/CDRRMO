@@ -4,31 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\Evacuee;
 use App\Models\Disaster;
+use App\Models\Reporting;
 use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
 use App\Exports\EvacueeDataExport;
-use App\Models\Reporting;
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Excel as ExcelExcel;
+use Maatwebsite\Excel\Excel as FileFormat;
+use Illuminate\Support\Facades\Validator;
 
 class MainController extends Controller
 {
-    private $evacuationCenter;
+    private $evacuationCenter, $disaster, $evacuee;
 
     public function __construct()
     {
+        $this->evacuee = new Evacuee;
+        $this->disaster = new Disaster;
         $this->evacuationCenter = new EvacuationCenter;
     }
     public function dashboard()
     {
-        $onGoingDisaster = Disaster::where('status', "On Going")->get();
+        $onGoingDisaster = $this->disaster->where('status', "On Going")->get();
         $activeEvacuation = $this->evacuationCenter->where('status', 'Active')->count();
         $totalEvacuee = 0;
         $disasterData = [];
 
         foreach ($onGoingDisaster as $count => $disaster) {
-            $totalEvacueeCount = Evacuee::where('disaster_name', $disaster->name)->sum('individuals');
-            $result = Evacuee::where('disaster_name', $disaster->name)
+            $totalEvacueeCount =  $this->evacuee->where('disaster_id', $disaster->id)->sum('individuals');
+            $result = $this->evacuee->where('disaster_id', $disaster->id)
                 ->selectRaw('SUM(male) as totalMale, 
                  SUM(female) as totalFemale, 
                  SUM(senior_citizen) as totalSeniorCitizen, 
@@ -39,8 +42,8 @@ class MainController extends Controller
                  SUM(lactating) as totalLactating')
                 ->first();
 
-            $disasterData[$count]['disasterName'] = $disaster->name;
             $totalEvacuee += $totalEvacueeCount;
+            $disasterData[$count]['disasterName'] = $disaster->name;
             $disasterData[$count]['totalMale'] = $result->totalMale;
             $disasterData[$count]['totalFemale'] = $result->totalFemale;
             $disasterData[$count]['totalSeniorCitizen'] = $result->totalSeniorCitizen;
@@ -54,14 +57,26 @@ class MainController extends Controller
         return view('userpage.dashboard',  compact('activeEvacuation', 'disasterData', 'totalEvacuee', 'onGoingDisaster'));
     }
 
-    public function generateExcelEvacueeData()
+    public function generateExcelEvacueeData(Request $request)
     {
-        return Excel::download(new EvacueeDataExport, 'evacuee-data.xlxs', ExcelExcel::XLSX);
+        $generateReportValidation = Validator::make($request->all(), [
+            'disaster_id' => 'required'
+        ]);
+
+        if ($generateReportValidation->passes()) {
+            if ($this->evacuee->all()->isEmpty()) {
+                return back()->with('warning', 'Evacuee is currently empty.');
+            }
+
+            return Excel::download(new EvacueeDataExport($request->disaster_id), 'evacuee-data.xlsx', FileFormat::XLSX);
+        }
+
+        return back()->with('warning', $generateReportValidation->errors()->first());
     }
 
     public function manageEvacueeInformation(Request $request)
     {
-        $disasterList = Disaster::where('status', 'On Going')->get();
+        $disasterList = $this->disaster->where('status', 'On Going')->get();
         $evacuationList = $this->evacuationCenter->all();
 
         return view('userpage.evacuee.evacuee', compact('evacuationList', 'disasterList'));

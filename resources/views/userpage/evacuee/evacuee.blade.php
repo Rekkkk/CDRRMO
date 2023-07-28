@@ -179,7 +179,7 @@
 
             let validator = $("#evacueeInfoForm").validate({
                 rules: {
-                    disaster_name: {
+                    disaster_id: {
                         required: true
                     },
                     date_entry: {
@@ -223,8 +223,8 @@
                     }
                 },
                 messages: {
-                    disaster_name: {
-                        required: 'Please enter disaster name.'
+                    disaster_id: {
+                        required: 'Please select disaste.'
                     },
                     date_entry: {
                         required: 'Please enter date entry.',
