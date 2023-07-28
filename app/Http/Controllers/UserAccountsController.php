@@ -40,11 +40,13 @@ class UserAccountsController extends Controller
             return DataTables::of($userAccounts)
                 ->addIndexColumn()
                 ->addColumn('status', function ($row) {
-                    return match ($row->status) {
-                        'Active' => '<div class="text-green-600 font-extrabold">Active</div>',
-                        'Disabled' => '<div class="text-red-600 font-extrabold">Disabled</div>',
-                        'Suspended' => '<div class="text-orange-600 font-extrabold">Suspended</div>'
+                    $color = match ($row->status) {
+                        'Active' => 'green',
+                        'Disabled' => 'red',
+                        'Suspended' => 'orange'
                     };
+
+                    return '<div class="flex justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
                 })->addColumn('action', function ($user) {
                     if (auth()->user()->is_disable == 0) {
                         $actionBtns = '<select class="form-select w-44 bg-blue-500 text-white actionSelect">

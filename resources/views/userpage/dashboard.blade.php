@@ -28,7 +28,7 @@
                         @endforeach
                     </p>
                     <button type="button" data-bs-toggle="modal" data-bs-target="#generateReportModal"
-                        class="btn-submit bg-green-600">
+                        class="btn-submit my-1 bg-green-600">
                         <i class="bi bi-printer pr-2"></i>
                         Generate Report Data
                     </button>

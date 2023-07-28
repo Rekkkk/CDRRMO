@@ -31,7 +31,7 @@
                 </div>
             @endif
             <div class="table-container p-3 shadow-lg rounded-lg">
-                <div class="block w-full overflow-auto">
+                <div class="block w-full overflow-auto pb-2">
                     <header class="text-2xl font-semibold mb-3">Evacuation Center Table</header>
                     <table class="table evacuationCenterTable" width="100%">
                         <thead class="thead-light">
@@ -74,6 +74,9 @@
     @include('partials.toastr')
     <script type="text/javascript">
         let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
+            language: {
+                emptyTable: '<div class="no-data">No evacuation center added yet.</div>',
+            },
             ordering: false,
             responsive: true,
             processing: false,

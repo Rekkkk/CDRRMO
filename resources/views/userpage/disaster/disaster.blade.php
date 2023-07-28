@@ -31,8 +31,8 @@
                 </div>
             @endif
             <div class="table-container p-3 shadow-lg rounded-lg">
-                <header class="text-2xl font-semibold mb-3">Disaster Information Table</header>
-                <div class="block w-full overflow-auto">
+                <div class="block w-full overflow-auto pb-2">
+                    <header class="text-2xl font-semibold mb-3">Disaster Information Table</header>
                     <table class="table disasterTable" width="100%">
                         <thead class="thead-light">
                             <tr>
@@ -67,6 +67,9 @@
     @include('partials.toastr')
     <script>
         let disasterTable = $('.disasterTable').DataTable({
+            language: {
+                emptyTable: '<div class="no-data">There are no disaster data available.</div>',
+            },
             ordering: false,
             responsive: true,
             processing: false,

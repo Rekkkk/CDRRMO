@@ -31,7 +31,7 @@
                 </button>
             </div>
             <div class="table-container p-3 shadow-lg rounded-lg">
-                <div class="block w-full overflow-auto">
+                <div class="block w-full overflow-auto pb-2">
                     <header class="text-2xl font-semibold mb-3">Evacuee Informations Table</header>
                     <table class="table evacueeTable" width="100%">
                         <thead class="thead-light">
@@ -79,6 +79,9 @@
             let evacueeId, defaultFormData;
 
             let evacueeTable = $('.evacueeTable').DataTable({
+                language: {
+                    emptyTable: '<div class="no-data">No evacuees data added yet.</div>',
+                },
                 ordering: false,
                 responsive: true,
                 processing: false,

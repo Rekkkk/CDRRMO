@@ -24,18 +24,18 @@
                                     <label>New Password</label>
                                     <input type="password" name="password" id="password" class="form-control"
                                         autocomplete="off" disabled>
-                                    <i class="bi bi-eye-slash absolute cursor-pointer text-xl pt-1.5"
+                                    <i class="bi bi-eye-slash absolute cursor-pointer text-lg mt-1"
                                         id="showPassword"></i>
                                 </div>
-                                <div class="field-container mb-2 relative">
+                                <div class="field-container mb-2 mt-2 relative">
                                     <label>Confirm Password</label>
                                     <input type="password" name="confirmPassword" id="confirmPassword"
                                         class="form-control" autocomplete="off" onpaste="return false;" disabled>
-                                    <i class="bi bi-eye-slash absolute cursor-pointer text-xl pt-1"
+                                    <i class="bi bi-eye-slash absolute cursor-pointer text-lg mt-1"
                                         id="showConfirmPassword"></i>
                                 </div>
-                                <div class="w-full px-4 py-2">
-                                    <button id="resetPasswordBtn" class="bg-yellow-500 duration-100 text-white ease-out text-sm rounded font-bold p-2 float-right drop-shadow-md"
+                                <div class="w-full px-4 mt-2 pt-2 pb-3">
+                                    <button id="resetPasswordBtn" class="btn-update p-2 float-right"
                                         disabled>Change</button>
                                 </div>
                             </div>

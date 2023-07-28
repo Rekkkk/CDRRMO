@@ -19,14 +19,24 @@ document.addEventListener('click', function (object) {
 });
 
 $(document).ready(function () {
+    if (localStorage.getItem('sessionExpired') == '1') {
+        localStorage.removeItem("activeLink");
+        localStorage.setItem('sessionExpired', '0');
+    }
+
     localStorage.getItem('activeLink') ?
         $('.menuLink[href="' + localStorage.getItem('activeLink') + '"]').
             addClass('activeLink') :
         $('.menuLink').first().addClass('activeLink');
+
+    setTimeout(function () {
+        localStorage.setItem('sessionExpired', '1');
+    }, 7200000);
 
     $(window).resize(function () {
         if (!$('#btn-sidebar-mobile').is(':visible')) {
             sidebar.classList.remove('active');
         }
     });
+
 });
