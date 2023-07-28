@@ -19,7 +19,7 @@ return new class extends Migration
             $table->integer('individuals');
             $table->integer('male');
             $table->integer('female');
-            $table->string('disaster_name');
+            $table->foreignId('disaster_id')->references('id')->on('disaster');
             $table->string('date_entry');
             $table->string('barangay');
             $table->string('evacuation_assigned');

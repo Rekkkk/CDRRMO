@@ -26,7 +26,7 @@ class DisasterController extends Controller
                 ->addIndexColumn()
                 ->addColumn('status', function ($row) {
                     return match ($row->status) {
-                        'On Going' => '<div class="text-green-600 font-extrabold">Active</div>',
+                        'On Going' => '<div class="text-green-600 font-extrabold">On Going</div>',
                         'Inactive' => '<div class="text-red-600 font-extrabold">Inactive</div>'
                     };
                 })->addColumn('action', function () {

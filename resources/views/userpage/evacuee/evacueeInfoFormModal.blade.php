@@ -13,10 +13,10 @@
                                 <input type="text" id="operation" hidden>
                                 <div class="w-full mb-3 lg:w-6/12 px-4">
                                     <label>Disaster</label>
-                                    <select name="disaster_name" id="disaster_name" class="form-select">
+                                    <select name="disaster_id" id="disaster_id" class="form-select">
                                         <option value="" hidden disabled selected>Select Disaster</option>
                                         @foreach ($disasterList as $disaster)
-                                            <option value="{{ $disaster->name }}">
+                                            <option value="{{ $disaster->id }}">
                                                 {{ $disaster->name }}</option>
                                         @endforeach
                                     </select>

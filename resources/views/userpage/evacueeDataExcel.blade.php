@@ -9,42 +9,65 @@
 </head>
 
 <body>
+    <p>CITY OF CABUYAO</p>
+    <p>CITY SOCIAL WELFARE AND DEVELOPMENT OFFICE (CSWDO)</p>
+    <p>MONITORING OF EVACUEES AFFECTED OF {{ strtoupper($onGoingDisaster) }}</p>
+    <p>AS OF {{ date('F d, Y h:i A') }}</p>
+    <p>INSIDE ECS</p>
     <table class="table">
         <thead>
             <tr>
-                <th>DATE AND <br>TIME OF ENTRY</th>
-                <th>HH#</th>
-                <th>No.</th>
-                <th>NAME</th>
-                <th>SEX</th>
-                <th>Age</th>
-                <th>4Ps?</th>
+                <th>BARANGAY</th>
+                <th>TIME AND DATE</th>
+                <th>NAME OF EVACUATION</th>
+                <th>FAMILY / <br> FAMILIES</th>
+                <th>NO. OF <br> INDIVIDUALS</th>
+                <th>MALE</th>
+                <th>FEMALE</th>
+                <th>SENIOR <br> CITIZEN</th>
+                <th>MINORS</th>
+                <th>INFANTS</th>
                 <th>PWD</th>
                 <th>PREGNANT</th>
                 <th>LACTATING</th>
-                <th>STUDENT</th>
-                <th>WORKING</th>
-                <th>DATE AND TIME <br>RETURNED HOME</th>
+                <th>REMARKS</th>
             </tr>
         </thead>
         <tbody>
-            @foreach ($evacueeData as $data)
+            @foreach ($evacueeData as $evacuee)
                 <tr>
-                    <td data-column="Date Entry">{{ $data->date_entry }}</td>
-                    <td data-column="HH#">{{ $data->house_hold_number }}</td>
-                    <td data-column="No.">{{ $data->id }}</td>
-                    <td data-column="Name">{{ $data->full_name }}</td>
-                    <td data-column="Sex">{{ $data->sex }}</td>
-                    <td data-column="Age">{{ $data->age }}</td>
-                    <td data-column="fourps">{{ $data->fourps }}</td>
-                    <td data-column="PWD">{{ $data->PWD }}</td>
-                    <td data-column="Pregnant">{{ $data->pregnant }}</td>
-                    <td data-column="Lactating">{{ $data->lactating }}</td>
-                    <td data-column="Student">{{ $data->student }}</td>
-                    <td data-column="Working">{{ $data->working }}</td>
-                    <td data-column="Date Out">{{ $data->date_out }}</td>
+                    <td data-column="Barangay">{{ $evacuee->barangay }}</td>
+                    <td data-column="Time and Date">As of {{ $evacuee->date_entry }}</td>
+                    <td data-column="Name of Evacuation">{{ $evacuee->evacuation_assigned }}</td>
+                    <td data-column="Family/Families">{{ $evacuee->families }}</td>
+                    <td data-column="No. of Individuals">{{ $evacuee->individuals }}</td>
+                    <td data-column="Male">{{ $evacuee->male }}</td>
+                    <td data-column="Female">{{ $evacuee->female }}</td>
+                    <td data-column="Senior Citizen">{{ $evacuee->senior_citizen }}</td>
+                    <td data-column="Minors">{{ $evacuee->minors }}</td>
+                    <td data-column="Infants">{{ $evacuee->infants }}</td>
+                    <td data-column="Pwd">{{ $evacuee->pwd }}</td>
+                    <td data-column="Pregnant">{{ $evacuee->pregnant }}</td>
+                    <td data-column="Lactating">{{ $evacuee->lactating }}</td>
+                    <td data-column="Remarks">{{ $evacuee->remarks }}</td>
                 </tr>
             @endforeach
+            <tr>
+                <td>Total</td>
+                <td></td>
+                <td>{{ $totalEvacuationCenter }} Active Evacuation Sites</td>
+                <td>{{ $totalFamilies }}</td>
+                <td>{{ $totalIndividuals }}</td>
+                <td>{{ $totalMale }}</td>
+                <td>{{ $totalFemale }}</td>
+                <td>{{ $totalSeniorCitizen }}</td>
+                <td>{{ $totalMinors }}</td>
+                <td>{{ $totalInfants }}</td>
+                <td>{{ $totalPwd }}</td>
+                <td>{{ $totalPregnant }}</td>
+                <td>{{ $totalLactating }}</td>
+                <td></td>
+            </tr>
         </tbody>
     </table>
 </body>
