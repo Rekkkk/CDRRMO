@@ -35,7 +35,7 @@
                                         id="showConfirmPassword"></i>
                                 </div>
                                 <div class="w-full px-4 py-2">
-                                    <button id="resetPasswordBtn" class="btn-update p-2 float-right"
+                                    <button id="resetPasswordBtn" class="bg-yellow-500 duration-100 text-white ease-out text-sm rounded font-bold p-2 float-right drop-shadow-md"
                                         disabled>Change</button>
                                 </div>
                             </div>

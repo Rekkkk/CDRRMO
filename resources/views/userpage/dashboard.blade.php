@@ -27,13 +27,11 @@
                             <span class="text-red-600 font-black">{{ $disasters->name }},</span>
                         @endforeach
                     </p>
-                    <form action="{{ route('generate.evacuee.data') }}" method="POST">
-                        @csrf
-                        <button typ="submit" class="btn-submit">
-                            <i class="bi bi-printer pr-2"></i>
-                            Generate Report Data
-                        </button>
-                    </form>
+                    <button type="button" data-bs-toggle="modal" data-bs-target="#generateReportModal"
+                        class="btn-submit bg-green-600">
+                        <i class="bi bi-printer pr-2"></i>
+                        Generate Report Data
+                    </button>
                 </div>
             @endif
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
@@ -71,6 +69,42 @@
             @endforeach
         </div>
         @include('userpage.changePasswordModal')
+        <div class="modal fade" id="generateReportModal" tabindex="-1" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header justify-center bg-green-600">
+                        <h1 class="modal-title fs-5 text-white font-extrabold">Generate Excel Report</h1>
+                    </div>
+                    <div class="modal-body">
+                        <form action="{{ route('generate.evacuee.data') }}" method="POST" id="generateReportForm">
+                            @csrf
+                            <div class="bg-slate-50 pt-3 pb-2 rounded">
+                                <div class="flex-auto">
+                                    <div class="flex flex-wrap">
+                                        <div class="field-container mb-3">
+                                            <label>On Going Disaster</label>
+                                            <select name="disaster_id" id="disaster_id" class="form-select">
+                                                <option value="" hidden disabled selected>Select Disaster
+                                                </option>
+                                                @foreach ($onGoingDisaster as $disaster)
+                                                    <option value="{{ $disaster->id }}">
+                                                        {{ $disaster->name }}</option>
+                                                @endforeach
+                                            </select>
+
+                                        </div>
+                                        <div class="w-full px-4 py-2">
+                                            <button type="submit"
+                                                class="btn-submit bg-green-600 p-2 float-right">Generate</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script src="{{ asset('assets/js/script.js') }}"></script>
@@ -177,6 +211,26 @@
                     exporting: false
                 });
             @endforeach
+
+            let validator = $("#generateReportForm").validate({
+                rules: {
+                    disaster_id: {
+                        required: true
+                    }
+                },
+                messages: {
+                    disaster_id: {
+                        required: 'Please select disaster.'
+                    }
+                },
+                errorElement: 'span'
+            });
+
+            $('#generateReportModal').on('hidden.bs.modal', function() {
+                validator.resetForm();
+                $('#generateReportForm')[0].reset();
+            });
+
         });
     </script>
     {{-- <script>

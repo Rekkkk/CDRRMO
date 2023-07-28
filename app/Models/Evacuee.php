@@ -24,7 +24,7 @@ class Evacuee extends Model
         'individuals',
         'male',
         'female',
-        'disaster_name',
+        'disaster_id',
         'date_entry',
         'barangay',
         'evacuation_assigned',

@@ -18,7 +18,7 @@ class DisasterSeeder extends Seeder
 
         Disaster::insert([
             'name' => ('Typhoon Ondoy'),
-            'status' => "On Going",
+            'status' => "Inactive",
             'is_archive' => 0
         ]);
     }

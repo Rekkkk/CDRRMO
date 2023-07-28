@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Evacuee;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use App\Models\EvacuationCenter;
-use App\Models\Evacuee;
 use Illuminate\Support\Facades\Validator;
 
 class EvacuationCenterController extends Controller

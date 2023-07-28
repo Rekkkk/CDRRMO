@@ -38,6 +38,7 @@ $(document).ready(function () {
                     if (response.status == "warning") {
                         if (current_password == "") {
                             $('#password ,#confirmPassword, #resetPasswordBtn').prop('disabled', true);
+                            $('#resetPasswordBtn').removeClass('hover:scale-105 hover:bg-yellow-600');
                             $('#currentPassword').html('').val("");
                             return;
                         }
@@ -46,10 +47,9 @@ $(document).ready(function () {
                         $('#password ,#confirmPassword, #resetPasswordBtn').prop('disabled', true);
                     } else {
                         $('#currentPassword').html('* Password matched.').removeClass('text-red-600').addClass('text-green-600');
-                        $('#password, #confirmPassword, #resetPasswordBtn').prop('disabled', false);
+                        $('#password, #confirmPassword, #resetPasswordBtn').prop('disabled', false)
+                        $('#resetPasswordBtn').addClass('hover:scale-105 hover:bg-yellow-600');
                     }
-
-                    console.log(current_password);
                 }
             });
         }, 500));
@@ -126,7 +126,7 @@ function changePasswordHandler(form) {
                         toastr.warning(response.message, 'Warning');
                     } else {
                         toastr.success('Password successfully changed.', 'Success');
-                        $('#changePasswordForm')[0].reset();
+                        $('#changePasswordForm').reset();
                         $('#currentPassword').html("");
                         $('#changePasswordModal').modal('hide');
                     }

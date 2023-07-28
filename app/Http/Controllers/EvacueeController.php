@@ -46,7 +46,7 @@ class EvacueeController extends Controller
             'individual' => 'required',
             'male' => 'required',
             'female' => 'required',
-            'disaster_name' => 'required',
+            'disaster_id' => 'required',
             'date_entry' => 'required',
             'barangay' => 'required|unique:evacuee,barangay',
             'evacuation_assigned' => 'required'
@@ -64,7 +64,7 @@ class EvacueeController extends Controller
                 'individuals' => $request->individual,
                 'male' => $request->male,
                 'female' => $request->female,
-                'disaster_name' => $request->disaster_name,
+                'disaster_id' => $request->disaster_id,
                 'date_entry' => $request->date_entry,
                 'barangay' => $request->barangay,
                 'evacuation_assigned' => $request->evacuation_assigned,
