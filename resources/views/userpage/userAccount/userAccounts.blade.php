@@ -32,8 +32,8 @@
                 </div>
             @endif
             <div class="table-container p-3 shadow-lg rounded-lg">
-                <header class="text-2xl font-semibold mb-3">User Accounts Table</header>
-                <div class="block w-full overflow-auto">
+                <div class="block w-full overflow-auto pb-2">
+                    <header class="text-2xl font-semibold mb-3">User Accounts Table</header>
                     <table class="table accountTable" width="100%">
                         <thead class="thead-light">
                             <tr>
@@ -72,6 +72,9 @@
         <script>
             $(document).ready(function() {
                 let accountTable = $('.accountTable').DataTable({
+                    language: {
+                        emptyTable: '<div class="no-data">No accounts added yet.</div>',
+                    },
                     ordering: false,
                     responsive: true,
                     processing: false,
@@ -102,7 +105,7 @@
                         {
                             data: 'action',
                             name: 'action',
-                            width: '10%',
+                            width: '1rem',
                             orderable: false,
                             searchable: false
                         },
@@ -128,16 +131,16 @@
                         },
                         messages: {
                             organization: {
-                                required: 'Please Enter Your Organization.'
+                                required: 'Please select an organization.'
                             },
                             position: {
-                                required: 'Please Enter Your Position.'
+                                required: 'Please select a position.'
                             },
                             email: {
-                                required: 'Please Enter Your Email Address.'
+                                required: 'Please enter an email address.'
                             },
                             suspend: {
-                                required: 'Please Enter Suspension Time.'
+                                required: 'Please enter a suspension time.'
                             }
                         },
                         errorElement: 'span',
@@ -278,7 +281,7 @@
                         $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
                         $('.modal-title').text('Create User Account');
                         $('#saveProfileDetails').removeClass('btn-update').addClass('btn-submit').text(
-                        'Create');
+                            'Create');
                         $('#suspend-container').prop('hidden', true);
                         $('#suspend').prop('disabled', true);
                         $('#account_operation').val('create');

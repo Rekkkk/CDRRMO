@@ -25,7 +25,7 @@
             <div class="locator-content my-3">
                 <div class="locator-header text-center text-white h-22 bg-red-600 rounded-t">
                     <div class="text-2xl py-3">
-                        <span>Cabuyao City Map</span>
+                        <span class="font-extrabold">Cabuyao City Map</span>
                     </div>
                 </div>
                 <div class="map-section border-2 border-red-600 rounded-b-md">
@@ -33,15 +33,15 @@
                 </div>
             </div>
             <div class="flex justify-end my-3">
-                <button type="button" class="mr-2" id="locateNearestBtn">
+                <button type="button" class="mr-3" id="locateNearestBtn">
                     <i class="bi bi-search pr-2"></i>
                     Locate Nearest Evacuation</button>
                 <button type="button" id="locateCurrentLocationBtn">
-                    <i class="bi bi-pin-map-fill pr-2"></i>
+                    <i class="bi bi-geo-fill pr-2"></i>
                     Locate Current Location</button>
             </div>
             <div class="table-container p-3 shadow-lg rounded-lg">
-                <div class="block w-full overflow-auto">
+                <div class="block w-full overflow-auto pb-2">
                     <header class="text-2xl font-semibold mb-3">Evacuation Centers Table</header>
                     <table class="table evacuationCenterTable" width="100%">
                         <thead class="thead-light">
@@ -117,9 +117,7 @@
                 styles: mapTypeStyleArray
             });
 
-            const evacuationCenters = @json($evacuationCenters);
-
-            for (let evacuationCenter of evacuationCenters) {
+            for (let evacuationCenter of @json($evacuationCenters)) {
                 let picture = evacuationCenter.status == 'Active' ? "evacMarkerActive" : "evacMarkerInactive"
                 picture = evacuationCenter.status == 'Full' ? "evacMarkerFull" : picture
 
@@ -136,17 +134,9 @@
                     animation: google.maps.Animation.DROP
                 });
 
-                let evacStatus = evacuationCenter.status == 'Active' ? {
-                        text: 'Active',
-                        color: 'green'
-                    } :
-                    evacuationCenter.status == 'Inactive' ? {
-                        text: 'Inactive',
-                        color: 'red'
-                    } : {
-                        text: 'Full',
-                        color: 'orange'
-                    };
+                let statusColor = evacuationCenter.status == 'Active' ?
+                    'green' : evacuationCenter.status == 'Inactive' ?
+                    'red' : 'orange';
 
                 let infowindow = new google.maps.InfoWindow({
                     content: `<div class="info-window-container">
@@ -157,7 +147,7 @@
                                     <span>Barangay:</span> ${evacuationCenter.barangay_name}
                                 </div>
                                 <div class="info-description">
-                                    <span>Status:</span> <span class="text-${evacStatus.color}-600">${evacStatus.text}</span>
+                                    <span>Status:</span> <span class="bg-${statusColor}-600 status-container">${evacuationCenter.status}</span>
                                 </div>
                             </div>`
                 });
@@ -181,13 +171,16 @@
             let url;
 
             '{{ $prefix }}' == 'resident' ?
-            url = "{{ route('resident.evacuation.center.get', 'locator') }}":
+                url = "{{ route('resident.evacuation.center.get', 'locator') }}":
                 url = "{{ route('evacuation.center.get', 'locator') }}";
 
             let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
+                language: {
+                    emptyTable: '<div class="no-data">There are currently no evacuation centers available.</div>',
+                },
                 ordering: false,
                 language: {
-                    emptyTable: 'No available evacuation center yet',
+                    emptyTable: 'No available evacuation center yet.',
                 },
                 responsive: true,
                 processing: false,
@@ -225,8 +218,7 @@
                     },
                     {
                         data: 'action',
-                        name: 'action',
-                        width: '10%',
+                        width: '1rem',
                         orderable: false,
                         searchable: false
                     }
@@ -253,7 +245,7 @@
                         toastr.error('The Geolocation service failed.', 'Error');
                     });
                 } else {
-                    toastr.error('Your browser does not support geolocation', 'Error');
+                    toastr.info('Your browser does not support geolocation', 'Info');
                 }
             });
         });

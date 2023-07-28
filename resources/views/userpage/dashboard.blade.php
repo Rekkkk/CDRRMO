@@ -29,7 +29,7 @@
                     </p>
                     <form action="{{ route('generate.evacuee.data') }}" method="POST">
                         @csrf
-                        <button typ="submit" class="btn-submit">
+                        <button typ="submit" class="btn-submit my-1">
                             <i class="bi bi-printer pr-2"></i>
                             Generate Report Data
                         </button>

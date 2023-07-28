@@ -22,7 +22,7 @@
                                     <textarea name="content" class="form-control" autocomplete="off" placeholder="Enter Guide Content" rows="5"
                                         id="content"></textarea>
                                 </div>
-                                <div class="w-full px-4 py-2">
+                                <div class="w-full px-4 pt-2 pb-3">
                                     <button id="submitGuideBtn" class="btn-submit p-2 float-right">Create</button>
                                 </div>
                             </div>

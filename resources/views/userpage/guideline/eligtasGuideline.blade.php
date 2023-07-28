@@ -25,12 +25,12 @@
                         <div class="guideline-widget">
                             @auth
                                 @if (auth()->user()->is_disable == 0)
-                                    <a href="javascript:void(0)" class="absolute left-2 top-3 updateGuidelineBtn">
+                                    <button class="absolute left-2 top-3 hover:scale-105" id="updateGuidelineBtn">
                                         <i class="btn-update bi bi-pencil-square p-2"></i>
-                                    </a>
-                                    <a href="javascript:void(0)" class="absolute top-3 right-2 removeGuidelineBtn">
+                                    </button>
+                                    <button class="absolute top-3 right-2 hover:scale-105" id="removeGuidelineBtn">
                                         <i class="btn-remove bi bi-x-lg cursor-pointer p-2"></i>
-                                    </a>
+                                    </button>
                                 @endif
                                 <a class="guidelines-item"
                                     href="{{ route('guide.display', Crypt::encryptString($guidelineItem->id)) }}">
@@ -58,9 +58,9 @@
                     @if (auth()->check() && auth()->user()->is_disable == 0)
                         <div class="guideline-btn">
                             <div class="btn-container">
-                                <a href="javascript:void(0)" class="btn-submit createGuidelineBtn">
-                                    <i class="bi bi-plus text-2xl"></i>
-                                </a>
+                                <button class="py-28 hover:scale-105" id="createGuidelineBtn">
+                                    <i class="btn-submit bi bi-plus-lg text-lg p-2 "></i>
+                                </button>
                             </div>
                         </div>
                         @include('userpage.guideline.guidelineModal')
@@ -104,7 +104,7 @@
                         submitHandler: createGuidelineForm
                     });
 
-                    $(document).on('click', '.createGuidelineBtn', function() {
+                    $(document).on('click', '#createGuidelineBtn', function() {
                         $('#guidelineForm')[0].reset();
                         $('#guideline_operation').val('create');
                         $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
@@ -113,7 +113,7 @@
                         $('#guidelineModal').modal('show');
                     });
 
-                    $(document).on('click', '.updateGuidelineBtn', function() {
+                    $(document).on('click', '#updateGuidelineBtn', function() {
                         $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                         $('.modal-title').text('Update Guideline');
                         $('#submitGuidelineBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
@@ -128,7 +128,7 @@
                         defaultFormData = $('#guidelineForm').serialize();
                     });
 
-                    $(document).on('click', '.removeGuidelineBtn', function() {
+                    $(document).on('click', '#removeGuidelineBtn', function() {
                         guidelineWidget = this.closest('.guideline-widget');
                         guidelineItem = guidelineWidget.querySelector('.guidelines-item');
                         guidelineId = guidelineItem.getAttribute('href').split('/').pop();

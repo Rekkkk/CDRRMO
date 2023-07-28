@@ -24,69 +24,76 @@
             </div>
             <hr class="mt-4">
             <div class="report-table shadow-lg p-4 rounded my-3">
-                <header class="text-2xl font-semibold">Pending Incident Report Table</header>
-                <table class="table pendingReport" style="width:100%">
-                    <thead class="thead-light">
-                        <tr>
-                            <th colspan="2">Report Description</th>
-                            <th>Incident Location</th>
-                            <th>Status</th>
-                            <th>Actual Photo</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
+                <div class="block w-full overflow-auto pb-2">
+                    <header class="text-2xl font-semibold">Pending Incident Report Table</header>
+                    <table class="table pendingReport" style="width:100%">
+                        <thead class="thead-light">
+                            <tr>
+                                <th colspan="2">Description</th>
+                                <th>Location</th>
+                                <th>Status</th>
+                                <th>Photo</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
             </div>
-            <div class="incidentReportTable grid gap-6 mt-12">
-                @foreach ($incidentReport as $report)
-                    <div class="bg-white rounded shadow-md">
-                        <div class="flex p-4 rounded">
-                            <div class="report-photo-container shadow-md bg-slate-50">
-                                <img class="report-photo" src="{{ asset('reports_image/' . $report->photo) }}"
-                                    alt="logo">
-                            </div>
-                            <div class="ml-4 flex-1">
-                                <div class="pt-2">
-                                    <p class="font-bold">Report Description</p>
-                                    <p class="text-sm text-gray-600">{{ $report->description }}</p>
+            @guest
+                <div class="shadow-lg p-4 rounded my-3">
+                    <div class="incidentReportTable grid gap-6">
+                        @foreach ($incidentReport as $report)
+                            <div class="bg-slate-50 rounded shadow-md">
+                                <div class="flex p-4 rounded">
+                                    <div class="report-photo-container shadow-md">
+                                        <img class="report-photo" src="{{ asset('reports_image/' . $report->photo) }}"
+                                            alt="logo">
+                                    </div>
+                                    <div class="ml-4 flex-1">
+                                        <div class="pt-2">
+                                            <p class="font-bold">Report Description</p>
+                                            <p class="text-sm text-gray-600">{{ $report->description }}</p>
+                                        </div>
+                                        <div class="py-2">
+                                            <p class="font-bold">Report Location</p>
+                                            <p class="text-sm text-gray-600">{{ $report->location }}</p>
+                                        </div>
+                                        <div class="py-2">
+                                            <p class="font-bold">Report Status</p>
+                                            <p class=" bg-green-600 status-container">{{ $report->status }}</p>
+                                        </div>
+                                        <p class="pb-2 font-bold">Date Reported: <span class="text-red-600">July 22,
+                                                2002</span>
+                                        </p>
+                                    </div>
                                 </div>
-                                <div class="py-2">
-                                    <p class="font-bold">Report Location</p>
-                                    <p class="text-sm text-gray-600">{{ $report->location }}</p>
-                                </div>
-                                <p class="pb-2 font-bold">Status: <span
-                                        class="text-white bg-green-600 px-2 py-1 rounded-2xl">{{ $report->status }}</span>
-                                </p>
-                                <p class="pb-2 font-bold">Date Report: <span class="text-red-600">July 22, 2002</span>
-                                </p>
                             </div>
-                            <div class="relative top-0">
-                                <button class="btn-remove p-2">Remove</button>
-                            </div>
-                        </div>
+                        @endforeach
                     </div>
-                @endforeach
-            </div>
-            {{-- <div class="report-table shadow-lg p-4 rounded mt-20">
-                <header class="text-2xl font-semibold">Incident Report Table</header>
-                <table class="table incidentReports" style="width:100%">
-                    <thead class="thead-light">
-                        <tr>
-                            <th colspan="2">Report Description</th>
-                            <th>Accident Location</th>
-                            <th width="10%">Status</th>
-                            <th width="10%">Actual Photo</th>
-                            @auth
-                                <th class="w-4">Action</th>
-                            @endauth
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div> --}}
+                </div>
+            @endguest
+            @auth
+                <div class="report-table shadow-lg p-4 rounded">
+                    <div class="block w-full overflow-auto pb-2">
+                        <header class="text-2xl font-semibold">Incident Report Table</header>
+                        <table class="table incidentReports" style="width:100%">
+                            <thead class="thead-light">
+                                <tr>
+                                    <th colspan="2">Description</th>
+                                    <th>Location</th>
+                                    <th>Status</th>
+                                    <th>Photo</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            @endauth
         </div>
         @guest
             <div class="modal fade" id="createAccidentReportModal" aria-hidden="true">
@@ -104,9 +111,8 @@
                                             <input type="text" id="operation" hidden>
                                             <div class="field-container">
                                                 <label>Report Description</label>
-                                                <input type="text" id="description" name="description"
-                                                    class="form-control" placeholder="Enter Incident Description"
-                                                    autocomplete="off">
+                                                <textarea type="text" id="description" name="description" class="form-control" rows="5"
+                                                    placeholder="Enter Incident Description" autocomplete="off"></textarea>
                                             </div>
                                             <div class="field-container">
                                                 <label>Report Location</label>
@@ -115,10 +121,11 @@
                                             </div>
                                             <div class="field-container">
                                                 <label>Report Photo</label>
-                                                <input type="file" id="photo" name="photo" class="form-control"
+                                                <input type="file" id="photo" name="photo"
+                                                    class="form-control form-control-lg"
                                                     placeholder="Enter Incident Location" autocomplete="off">
                                             </div>
-                                            <div class="w-full px-4 py-2">
+                                            <div class="w-full px-4 pt-2 pb-3">
                                                 <button id="reportIncidentBtn"
                                                     class="btn-submit p-2 float-right">Report</button>
                                             </div>
@@ -164,6 +171,9 @@
             });
             @auth
             let pendingReport = $('.pendingReport').DataTable({
+                language: {
+                    emptyTable: '<div class="no-data">There are currently no pending reports.</div>',
+                },
                 ordering: false,
                 responsive: true,
                 processing: false,
@@ -199,52 +209,56 @@
                     {
                         data: 'action',
                         name: 'action',
-                        width: '10%',
+                        width: '1rem',
                         orderable: false,
                         searchable: false
                     },
                 ]
             });
 
-            // let incidentReports = $('.incidentReports').DataTable({
-            //     ordering: false,
-            //     responsive: true,
-            //     processing: false,
-            //     serverSide: true,
-            //     ajax: "{{ route('report.accident') }}",
-            //     columns: [{
-            //             data: 'id',
-            //             name: 'id',
-            //             visible: false
-            //         },
-            //         {
-            //             data: 'description',
-            //             name: 'description'
-            //         },
-            //         {
-            //             data: 'location',
-            //             name: 'location'
-            //         },
-            //         {
-            //             data: 'status',
-            //             name: 'status',
-            //             orderable: false,
-            //             searchable: false
-            //         },
-            //         {
-            //             data: 'photo',
-            //             name: 'photo',
-            //             orderable: false,
-            //             searchable: false
-            //         },
-            //         {
-            //             data: 'action',
-            //             name: 'action',
-            //             orderable: false,
-            //             searchable: false
-            //         },
-            //     ]
-            // });
+            let incidentReports = $('.incidentReports').DataTable({
+                language: {
+                    emptyTable: '<div class="no-data">There are currently no reports.</div>',
+                },
+                ordering: false,
+                responsive: true,
+                processing: false,
+                serverSide: true,
+                ajax: "{{ route('report.accident') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id',
+                        visible: false
+                    },
+                    {
+                        data: 'description',
+                        name: 'description'
+                    },
+                    {
+                        data: 'location',
+                        name: 'location'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'photo',
+                        name: 'photo',
+                        orderable: false,
+                        searchable: false
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        width: '1rem',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
 
             @if (auth()->user()->is_disable == 0)
                 let reportId;
@@ -326,6 +340,9 @@
         @endauth
         @guest
         let pendingReport = $('.pendingReport').DataTable({
+            language: {
+                emptyTable: '<div class="no-data">You have no pending reports.</div>',
+            },
             ordering: false,
             responsive: true,
             processing: false,
@@ -361,46 +378,12 @@
                 {
                     data: 'action',
                     name: 'action',
-                    width: '10%',
+                    width: '1rem',
                     orderable: false,
                     searchable: false
                 },
             ]
         });
-
-        // let incidentReports = $('.incidentReports').DataTable({
-        //     ordering: false,
-        //     responsive: true,
-        //     processing: false,
-        //     serverSide: true,
-        //     ajax: "{{ route('resident.report.display') }}",
-        //     columns: [{
-        //             data: 'id',
-        //             name: 'id',
-        //             visible: false
-        //         },
-        //         {
-        //             data: 'description',
-        //             name: 'description'
-        //         },
-        //         {
-        //             data: 'location',
-        //             name: 'location'
-        //         },
-        //         {
-        //             data: 'status',
-        //             name: 'status',
-        //             orderable: false,
-        //             searchable: false
-        //         },
-        //         {
-        //             data: 'photo',
-        //             name: 'photo',
-        //             orderable: false,
-        //             searchable: false
-        //         },
-        //     ]
-        // });
 
         $('#createReport').click(function() {
             $('#reportForm').trigger("reset");

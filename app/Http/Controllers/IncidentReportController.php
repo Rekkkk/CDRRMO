@@ -31,19 +31,22 @@ class IncidentReportController extends Controller
 
         return DataTables::of($pendingReport)
             ->addIndexColumn()->addColumn('status', function () {
-                return '<div class="text-orange-600 font-extrabold">On Process</div>';
-            })->addColumn('action', function ($row) {
+                return '<div class="flex justify-center"><div class="bg-orange-600 status-container w-28">On Process</div></div>';            })->addColumn('action', function ($row) {
                 if ($row->user_ip == request()->ip() && !auth()->check())
                     return '<button class="btn-table-remove p-2 revertIncidentReport">Revert</button>';
 
                 if (auth()->check()) {
                     if (auth()->user()->is_disable == 0)
-                        return '<div class="flex justify-around actionContainer"><button class="btn-table-submit mr-2 approveIncidentReport">Approve</button>' . '<button class="btn-table-remove declineIncidentReport">Decline</button> </div>';
+                        return
+                        '<div class="flex justify-center actionContainer">' .
+                            '<button class="btn-table-submit mr-2 approveIncidentReport">Approve</button>' .
+                            '<button class="btn-table-remove mr-2 declineIncidentReport">Decline</button>' .
+                        '</div>';
                 }
 
                 return '<span class="text-sm">Currently Disabled.</span>';
             })->addColumn('photo', function ($row) {
-                return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
+                return '<div class="flex justify-center"><img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img></div>';
             })
             ->rawColumns(['status', 'action', 'photo'])
             ->make(true);
@@ -55,10 +58,12 @@ class IncidentReportController extends Controller
 
         return DataTables::of($incidentReport)
             ->addIndexColumn()->addColumn('status', function ($row) {
-                return match ($row->status) {
-                    'Approved' => '<div class="text-green-600 font-extrabold">Approved</div>',
-                    'Declined' => '<div class="text-red-600 font-extrabold">Declined</div>',
+                $color = match ($row->status) {
+                    'Approved' => 'green',
+                    'Declined' => 'red'
                 };
+
+                return '<div class="flex  justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
             })->addColumn('action', function () {
                 if (auth()->user()->is_disable == 0) {
                     return '<button class="btn-table-remove p-2 removeIncidentReport">Remove</button>';
@@ -66,7 +71,7 @@ class IncidentReportController extends Controller
 
                 return '<span class="text-sm">Currently Disabled.</span>';
             })->addColumn('photo', function ($row) {
-                return '<img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img>';
+                return '<div class="flex justify-center"><img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img></div>';
             })
             ->rawColumns(['status', 'action', 'photo'])
             ->make(true);

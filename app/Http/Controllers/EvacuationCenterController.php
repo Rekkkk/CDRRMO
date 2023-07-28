@@ -31,28 +31,33 @@ class EvacuationCenterController extends Controller
                 return $currentEvacuees . '/' . $row->capacity;
             })
             ->addColumn('status', function ($row) {
-                return match ($row->status) {
-                    'Active' => '<div class="text-green-600 font-extrabold">Active</div>',
-                    'Inactive' => '<div class="text-red-600 font-extrabold">Inactive</div>',
-                    'Full' => '<div class="text-orange-500 font-extrabold">Full</div>',
+                $color = match ($row->status) {
+                    'Active' => 'green',
+                    'Inactive' => 'red',
+                    'Full' => 'orange'
                 };
+
+                return '<div class="flex  justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
             })->addColumn('action', function ($row) use ($operation) {
                 if ($operation == "locator") {
                     return match ($row->status) {
-                        'Full' => "<span class='text-sm'>Currently full can't evacuate.</span>",
-                        'Inactive' => "<span class='text-sm'>Currently Inactive can't evacuate.</span>",
+                        default => '',
                         'Active' => '<button class="btn-table-primary p-2 w-24 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>'
                     };
+
                 } else {
                     if (auth()->user()->is_disable == 0) {
-                        return '<div class="flex justify-around actionContainer"><button class="btn-table-update w-28 mr-2 updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
-                            '<button class="btn-table-remove w-28 mr-2 removeEvacuationCenter"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
-                            '<select class="form-select w-44 bg-blue-500 text-white drop-shadow-md changeEvacuationStatus">
-                                    <option value="" disabled selected hidden>Change Status</option>
-                                    <option value="Active">Active</option>
-                                    <option value="Inactive">Inactive</option>
-                                    <option value="Full">Full</option>
-                                </select></div>';
+                        return
+                            '<div class="flex justify-center actionContainer">'.
+                                '<button class="btn-table-update w-28 mr-2 updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
+                                '<button class="btn-table-remove w-28 mr-2 removeEvacuationCenter"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
+                                '<select class="form-select w-44 bg-blue-500 text-white drop-shadow-md changeEvacuationStatus">
+                                        <option value="" disabled selected hidden>Change Status</option>
+                                        <option value="Active">Active</option>
+                                        <option value="Inactive">Inactive</option>
+                                        <option value="Full">Full</option>
+                                    </select>'.
+                            '</div>';
                     }
                 }
 

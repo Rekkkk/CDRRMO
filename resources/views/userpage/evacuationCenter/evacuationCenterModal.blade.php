@@ -54,7 +54,7 @@
                                     <input type="text" name="longitude" id="longitude" hidden>
                                     <span id="location-error" class="error"></span>
                                 </div>
-                                <div class="w-full px-4 py-2">
+                                <div class="w-full px-4 pt-1 pb-3">
                                     <button id="saveEvacuationCenterBtn"
                                         class="btn-submit p-2 float-right">Create</button>
                                 </div>

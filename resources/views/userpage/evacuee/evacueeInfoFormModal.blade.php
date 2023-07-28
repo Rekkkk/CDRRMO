@@ -11,7 +11,7 @@
                         <div class="flex-auto">
                             <div class="flex flex-wrap">
                                 <input type="text" id="operation" hidden>
-                                <div class="w-full mb-3 lg:w-6/12 px-4">
+                                <div class="w-full mb-3 lg:w-6/12 px-4 field-container ">
                                     <label>Disaster</label>
                                     <select name="disaster_name" id="disaster_name" class="form-select">
                                         <option value="" hidden disabled selected>Select Disaster</option>
@@ -21,7 +21,7 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="w-full mb-3 lg:w-6/12 px-4" id="dateEntryContainer">
+                                <div class="w-full mb-3 lg:w-6/12 px-4 field-container " id="dateEntryContainer">
                                     <label>Date Entry</label>
                                     <input type="text" name="date_entry" id="date_entry" class="form-control"
                                         autocomplete="off" placeholder="Select Date Entry">
@@ -61,62 +61,62 @@
                                         @endforeach
                                     </select>
                                 </div>
-                                <div class="w-full mb-3 lg:w-4/12 px-4">
+                                <div class="w-full mb-3 lg:w-4/12 px-4 field-container">
                                     <label>Infants</label>
-                                    <input type="number" name="infants" id="infants" class="form-control" autocomplete="off"
-                                        placeholder="Infants">
+                                    <input type="number" name="infants" id="infants" class="form-control"
+                                        autocomplete="off" placeholder="Infants">
                                 </div>
-                                <div class="w-full mb-3 lg:w-4/12 px-4">
+                                <div class="w-full mb-3 lg:w-4/12 px-4 field-container">
                                     <label>Minors</label>
-                                    <input type="number" name="minors" id="minors" class="form-control" autocomplete="off"
-                                        placeholder="Minors">
+                                    <input type="number" name="minors" id="minors" class="form-control"
+                                        autocomplete="off" placeholder="Minors">
                                 </div>
-                                <div class="w-full mb-3 lg:w-4/12 px-4">
+                                <div class="w-full mb-3 lg:w-4/12 px-4 field-container">
                                     <label>Senior Citizen</label>
-                                    <input type="number" name="senior_citizen" id="senior_citizen" class="form-control" autocomplete="off"
-                                        placeholder="Senior Citizen">
+                                    <input type="number" name="senior_citizen" id="senior_citizen" class="form-control"
+                                        autocomplete="off" placeholder="Senior Citizen">
                                 </div>
-                                <div class="w-full mb-3 lg:w-4/12 px-4">
+                                <div class="w-full mb-3 lg:w-4/12 px-4 field-container">
                                     <label>PWD</label>
-                                    <input type="number" name="pwd" id="pwd" class="form-control" autocomplete="off"
-                                        placeholder="PWD">
+                                    <input type="number" name="pwd" id="pwd" class="form-control"
+                                        autocomplete="off" placeholder="PWD">
                                 </div>
-                                <div class="w-full mb-3 lg:w-4/12 px-4">
+                                <div class="w-full mb-3 lg:w-4/12 px-4 field-container">
                                     <label>Pregnant</label>
-                                    <input type="number" name="pregnant" id="pregnant" class="form-control" autocomplete="off"
-                                        placeholder="Pregnant">
+                                    <input type="number" name="pregnant" id="pregnant" class="form-control"
+                                        autocomplete="off" placeholder="Pregnant">
                                 </div>
-                                <div class="w-full mb-3 lg:w-4/12 px-4">
+                                <div class="w-full mb-3 lg:w-4/12 px-4 field-container">
                                     <label>Lactating</label>
-                                    <input type="number" name="lactating" id="lactating" class="form-control" autocomplete="off"
-                                        placeholder="Lactating">
+                                    <input type="number" name="lactating" id="lactating" class="form-control"
+                                        autocomplete="off" placeholder="Lactating">
                                 </div>
-                                <div class="w-full mb-3 lg:w-3/12 px-4">
+                                <div class="w-full mb-3 lg:w-3/12 px-4 field-container ">
                                     <label>Families</label>
-                                    <input type="number" name="families" id="families" class="form-control" autocomplete="off"
-                                        placeholder="Families">
+                                    <input type="number" name="families" id="families" class="form-control"
+                                        autocomplete="off" placeholder="Families">
                                 </div>
-                                <div class="w-full mb-3 lg:w-3/12 px-4">
+                                <div class="w-full mb-3 lg:w-3/12 px-4 field-container ">
                                     <label>No. Individual</label>
-                                    <input type="number" name="individual" id="individual" class="form-control" autocomplete="off"
-                                        placeholder="No. Individual">
+                                    <input type="number" name="individual" id="individual" class="form-control"
+                                        autocomplete="off" placeholder="No. Individual">
                                 </div>
-                                <div class="w-full mb-3 lg:w-3/12 px-4">
+                                <div class="w-full mb-3 lg:w-3/12 px-4 field-container ">
                                     <label>Male</label>
-                                    <input type="number" name="male" id="male" class="form-control" autocomplete="off"
-                                        placeholder="Male">
+                                    <input type="number" name="male" id="male" class="form-control"
+                                        autocomplete="off" placeholder="Male">
                                 </div>
-                                <div class="w-full mb-3 lg:w-3/12 px-4">
+                                <div class="w-full mb-3 lg:w-3/12 px-4 field-container ">
                                     <label>Female</label>
-                                    <input type="number" name="female" id="female" class="form-control" autocomplete="off"
-                                        placeholder="Female">
+                                    <input type="number" name="female" id="female" class="form-control"
+                                        autocomplete="off" placeholder="Female">
                                 </div>
                                 <div class="field-container mb-3">
                                     <label>Remarks</label>
-                                    <textarea type="text" name="remarks" id="remarks" class="form-control" autocomplete="off"
+                                    <textarea type="text" name="remarks" id="remarks" rows="5" class="form-control" autocomplete="off"
                                         placeholder="Leave a remarks..."></textarea>
                                 </div>
-                                <div class="w-full px-4 py-2">
+                                <div class="w-full px-4 pt-2 pb-3">
                                     <button id="recordEvacueeInfoBtn"
                                         class="btn-submit p-2 float-right">Record</button>
                                 </div>
