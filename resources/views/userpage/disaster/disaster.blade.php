@@ -63,7 +63,6 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
-    @include('userpage.changePasswordModal')
     @include('partials.toastr')
     <script>
         let disasterTable = $('.disasterTable').DataTable({
@@ -163,7 +162,7 @@
             function alterDisasterData(operation) {
                 confirmModal(`Do you want to ${operation} this disaster?`).then((result) => {
                     if (operation == 'change' && status == current_status) {
-                        toastr.warning('No changes were made.', 'Warning');
+                        showWarningMessage('No changes were made.');
                         $('.changeDisasterStatus').val('');
                         return;
                     }
@@ -191,9 +190,7 @@
                                 disasterTable.draw();
                             },
                             error: function() {
-                                toastr.error(
-                                    'An error occurred while processing your request.',
-                                    'Error');
+                                showErrorMessage();
                             }
                         });
                     } else {
@@ -212,12 +209,12 @@
                     "{{ route('disaster.update', 'disasterId') }}".replace('disasterId',
                         disasterId);
 
-                type = operation == 'create' ? "POST" : "PUT";
+                type = operation == 'create' ? "POST" : "PATCH";
 
                 confirmModal(`Do you want to ${operation} this disaster?`).then((result) => {
                     if (result.isConfirmed) {
                         if (operation == 'update' && defaultFormData == formData) {
-                            toastr.warning('No changes were made.', 'Warning');
+                            showWarningMessage('No changes were made.');
                             return;
                         }
                         $.ajax({
@@ -225,18 +222,16 @@
                             url: url,
                             type: type,
                             success: function(response) {
-                                if (response.status == 'success') {
-                                    toastr.success(`Disaster successfully ${operation}d.`, 'Success');
+                                if (response.status == 'warning') {
+                                    showWarningMessage(response.message);
+                                } else {
+                                    showSuccessMessage(`Disaster successfully ${operation}d.`);
                                     $('#disasterModal').modal('hide');
                                     disasterTable.draw();
-                                } else if (response.status == 'warning') {
-                                    toastr.warning(response.message, 'Warning');
                                 }
                             },
                             error: function() {
-                                toastr.error(
-                                    'An error occurred while processing your request.',
-                                    'Error');
+                                showErrorMessage();
                             }
                         });
                     }

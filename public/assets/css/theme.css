@@ -532,12 +532,12 @@ hr,
 }
 
 #actualPhoto {
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 300px;
+    max-height: 300px;
 }
 
-.report-photo{
-    width: 200px;
+.report-photo {
+    width: 250px;
     height: 100%;
 }
 
@@ -754,7 +754,6 @@ table td {
 
 .status-container {
     width: 100px;
-    border-radius: 9999px;
     padding: 6px 8px;
     color: white;
     font-weight: bold;

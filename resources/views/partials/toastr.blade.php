@@ -11,7 +11,7 @@
         }
 
         @if (Session::has('success'))
-            toastr.success("{{ Session::get('success') }}", 'Success!');
+            showSuccessMessage("{{ Session::get('success') }}");
         @endif
 
         @if (Session::has('error'))
@@ -19,7 +19,7 @@
         @endif
 
         @if (Session::has('warning'))
-            toastr.warning("{{ Session::get('warning') }}", 'Warning!');
+            showWarningMessage("{{ Session::get('warning') }}");
         @endif
     })
 </script>

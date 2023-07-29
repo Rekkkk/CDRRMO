@@ -46,24 +46,17 @@ class UserAccountsController extends Controller
                         'Suspended' => 'orange'
                     };
 
-                    return '<div class="flex justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
+                    return '<div class="flex justify-center"><div class="bg-' . $color . '-600 rounded-full status-container">' . $row->status . '</div></div>';
                 })->addColumn('action', function ($user) {
                     if (auth()->user()->is_disable == 0) {
                         $actionBtns = '<select class="form-select w-44 bg-blue-500 text-white actionSelect">
                         <option value="" disabled selected hidden>Select Action</option>';
 
-                        if ($user->is_suspend == 0) {
-                            if ($user->is_disable == 0) {
-                                $actionBtns .= '<option value="disableAccount">Disable Account</option>';
-                                $actionBtns .= '<option value="suspendAccount">Suspend Account</option>';
-                            } else {
-                                $actionBtns .= '<option value="enableAccount">Enable Account</option>';
-                            }
-                        } else {
-                            $actionBtns .= '<option value="openAccount">Open Account</option>';
-                        }
+                        $actionBtns .= $user->is_suspend == 0 && $user->is_disable == 0
+                            ? '<option value="disableAccount">Disable Account</option><option value="suspendAccount">Suspend Account</option>'
+                            : ($user->is_suspend == 1 ? '<option value="openAccount">Open Account</option>' : '<option value="enableAccount">Enable Account</option>');
 
-                        return $actionBtns .= '<option value="updateAccount">Update Account</option>' . '<option value="removeAccount">Remove Account</option>' . '</select>';
+                        return $actionBtns .= '<option value="updateAccount">Update Account</option><option value="removeAccount">Remove Account</option></select>';
                     }
 
                     return '<span class="text-sm">Currently Disabled.</span>';
@@ -193,10 +186,7 @@ class UserAccountsController extends Controller
 
     public function checkPassword(Request $request)
     {
-        if (Hash::check($request->current_password, auth()->user()->password))
-            return response()->json();
-        else
-            return response(['status' => "warning"]);
+        return Hash::check($request->current_password, auth()->user()->password) ? response()->json() : response(['status' => "warning"]);
     }
 
     public function resetPassword(Request $request, $userId)

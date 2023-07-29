@@ -29,8 +29,8 @@
                 <div class="res-input-form mb-4">
                     <label>Confirm Password</label>
                     <input type="password" name="password_confirmation" id="password_confirmation"
-                        class="form-control p-2.5" placeholder="Enter Confirm Password" autocomplete="off" required
-                        autofocus>
+                        class="form-control p-2.5" placeholder="Enter Confirm Password" autocomplete="off"
+                        onpaste="return false;" required autofocus>
                 </div>
                 <hr>
                 <div class="flex justify-end items-center py-3 px-4">
