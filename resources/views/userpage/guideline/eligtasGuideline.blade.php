@@ -146,18 +146,10 @@
                                         .replace(':guidelineId', guidelineId),
                                     type: "PATCH",
                                     success: function() {
-                                        toastr.success(
-                                            'Guideline removed successfully, Please wait...',
-                                            'Success', {
-                                                onHidden: function() {
-                                                    location.reload();
-                                                }
-                                            });
+                                        showSuccessMessage('Guideline removed successfully, Please wait...');
                                     },
                                     error: function() {
-                                        toastr.error(
-                                            'An error occurred while processing your request.',
-                                            'Error');
+                                        showErrorMessage();
                                     }
                                 });
                             }
@@ -180,7 +172,7 @@
                             if (result.isConfirmed) {
                                 if (operation == 'update' && defaultFormData == formData) {
                                     $('#guidelineModal').modal('hide');
-                                    toastr.warning('No changes were made.', 'Warning');
+                                    showWarningMessage('No changes were made.');
                                     return;
                                 }
                                 $.ajax({
@@ -191,21 +183,15 @@
                                         if (response.status == 'warning') {
                                             toastr.warning(response.message, 'Error');
                                         } else {
-                                            toastr.success(
-                                                `Guideline successfully ${operation}d, Please wait...`,
-                                                'Success', {
-                                                    onHidden: function() {
-                                                        location.reload();
-                                                    }
-                                                });
+                                            showSuccessMessage(
+                                                `Guideline successfully ${operation}d, Please wait...`
+                                            );
                                             $('#guidelineForm')[0].reset();
                                             $('#guidelineModal').modal('hide');
                                         }
                                     },
                                     error: function() {
-                                        toastr.error(
-                                            'An error occurred while processing your request.',
-                                            'Error');
+                                        showErrorMessage();
                                     }
                                 });
                             }

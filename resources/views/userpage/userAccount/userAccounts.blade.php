@@ -125,7 +125,7 @@
                             email: {
                                 required: true
                             },
-                            suspend: {
+                            suspend_time: {
                                 required: true
                             }
                         },
@@ -139,7 +139,7 @@
                             email: {
                                 required: 'Please enter an email address.'
                             },
-                            suspend: {
+                            suspend_time: {
                                 required: 'Please enter a suspension time.'
                             }
                         },
@@ -176,9 +176,7 @@
                                             accountTable.draw();
                                         },
                                         error: function() {
-                                            toastr.error(
-                                                'An error occurred while processing your request.',
-                                                'Error');
+                                            showErrorMessage();
                                         }
                                     });
                                 } else {
@@ -198,9 +196,7 @@
                                             accountTable.draw();
                                         },
                                         error: function() {
-                                            toastr.error(
-                                                'An error occurred while processing your request.',
-                                                'Error');
+                                            showErrorMessage();
                                         }
                                     });
                                 } else {
@@ -232,9 +228,7 @@
                                             accountTable.draw();
                                         },
                                         error: function() {
-                                            toastr.error(
-                                                'An error occurred while processing your request.',
-                                                'Error');
+                                            showErrorMessage();
                                         }
                                     });
                                 } else {
@@ -265,9 +259,7 @@
                                             accountTable.draw();
                                         },
                                         error: function() {
-                                            toastr.error(
-                                                'An error occurred while processing your request.',
-                                                'Error');
+                                            showErrorMessage();
                                         }
                                     });
                                 } else {
@@ -311,7 +303,7 @@
                         confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
                             if (result.isConfirmed) {
                                 if (operation == 'update' && defaultFormData == formData) {
-                                    toastr.warning('No changes were made.', 'Warning');
+                                    showWarningMessage('No changes were made.');
                                     return;
                                 }
                                 $.ajax({
@@ -320,19 +312,15 @@
                                     type: type,
                                     success: function(response) {
                                         if (response.status == "warning") {
-                                            toastr.warning(response.message, 'Warning');
+                                            showWarningMessage(response.message);
                                         } else {
-                                            toastr.success(
-                                                `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`,
-                                                'Success');
+                                            showSuccessMessage(`Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`);
                                             modal.modal('hide');
                                             accountTable.draw();
                                         }
                                     },
                                     error: function() {
-                                        toastr.error(
-                                            'An error occurred while processing your request.',
-                                            'Error');
+                                        showErrorMessage();
                                     }
                                 });
                             }

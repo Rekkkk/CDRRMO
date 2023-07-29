@@ -41,7 +41,7 @@
                             Continue as resident
                         </button>
                     </form>
-                    <div class="flex justify-center text-center my-10 text-sky-600">
+                    <div class="flex justify-center my-10 text-sky-600">
                         <a href="{{ route('recoverAccount') }}">Forgotten password?</a>
                     </div>
                 </div>

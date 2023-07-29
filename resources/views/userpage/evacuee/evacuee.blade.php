@@ -346,7 +346,7 @@
                 confirmModal(`Do you want to ${operation} this evacuee info?`).then((result) => {
                     if (result.isConfirmed) {
                         if (operation == 'update' && defaultFormData == formData) {
-                            toastr.warning('No changes were made.', 'Warning');
+                            showWarningMessage('No changes were made.');
                             return;
                         }
                         $.ajax({
@@ -355,19 +355,15 @@
                             type: type,
                             success: function(response) {
                                 if (response.status == "warning") {
-                                    toastr.warning(response.message, 'Warning');
+                                    showWarningMessage(response.message);
                                 } else {
                                     $('#evacueeInfoFormModal').modal('hide');
                                     evacueeTable.draw();
-                                    toastr.success(
-                                        `Successfully ${operation}${operation == 'record' ? 'ed new' : 'ed the'} evacuee info.`,
-                                        'Success');
+                                    showSuccessMessage(`Successfully ${operation}${operation == 'record' ? 'ed new' : 'ed the'} evacuee info.`);
                                 }
                             },
                             error: function() {
-                                toastr.error(
-                                    'An error occurred while processing your request.',
-                                    'Error');
+                                showErrorMessage();
                             }
                         });
                     }

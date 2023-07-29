@@ -1,61 +1,16 @@
-const password = document.getElementById("password"),
-    cPassword = document.getElementById("confirmPassword");
-
-document.addEventListener('click', function (object) {
-    const element = object.target;
-
-    if (element.id == 'showPassword' || element.id == 'showConfirmPassword') {
-        const target = element.id == 'showPassword' ? password : cPassword;
-        target.type = target.type == 'password' ? 'text' : 'password';
-        element.classList.toggle("bi-eye");
-    }
-});
+let currentPassword = $('#currentPassword'),
+    password = $('#password'),
+    confirmPassword = $('#confirmPassword'),
+    resetPasswordBtn = $('#resetPasswordBtn'),
+    passwordShowIcon = $('#showPassword'),
+    confirmPasswordShowIcon = $('#showConfirmPassword'),
+    changePasswordForm = $('#changePasswordForm'),
+    changePasswordModal = $('#changePasswordModal'),
+    eyeIcon = $('.toggle-password'),
+    current_password = "";
 
 $(document).ready(function () {
-    $(document).on('click', '.changePasswordBtn', function () {
-        $('#operation').val('change');
-        $('#changePasswordModal').modal('show');
-    });
-
-    $('#current_password').on('input', function () {
-        var current_password = $('#current_password').val();
-
-        clearTimeout($(this).data('checkingDelay'));
-
-        $(this).data('checkingDelay', setTimeout(function () {
-            let checkPasswordRoute = $('#checkPasswordRoute').data('route');
-
-            $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                type: 'POST',
-                url: checkPasswordRoute,
-                data: {
-                    current_password: current_password
-                },
-                success: function (response) {
-                    if (response.status == "warning") {
-                        if (current_password == "") {
-                            $('#password ,#confirmPassword, #resetPasswordBtn').prop('disabled', true);
-                            $('#resetPasswordBtn').removeClass('hover:scale-105 hover:bg-yellow-600');
-                            $('#currentPassword').html('').val("");
-                            return;
-                        }
-
-                        $('#currentPassword').html("* Password doesn't matched.").removeClass('text-green-600').addClass('text-red-600');
-                        $('#password ,#confirmPassword, #resetPasswordBtn').prop('disabled', true);
-                    } else {
-                        $('#currentPassword').html('* Password matched.').removeClass('text-red-600').addClass('text-green-600');
-                        $('#password, #confirmPassword, #resetPasswordBtn').prop('disabled', false)
-                        $('#resetPasswordBtn').addClass('hover:scale-105 hover:bg-yellow-600');
-                    }
-                }
-            });
-        }, 500));
-    });
-
-    let changePasswordValidation = $("#changePasswordForm").validate({
+    let changePasswordValidation = changePasswordForm.validate({
         rules: {
             password: {
                 required: true
@@ -76,11 +31,64 @@ $(document).ready(function () {
         submitHandler: changePasswordHandler
     });
 
-    $('#changePasswordModal').on('hidden.bs.modal', function () {
+    $(document).on('input', '#current_password', function () {
+        current_password = $('#current_password').val();
+
+        clearTimeout($(this).data('checkingDelay'));
+
+        $(this).data('checkingDelay', setTimeout(function () {
+            let checkPasswordRoute = $('#checkPasswordRoute').data('route');
+
+            if (current_password == "") {
+                changePasswordValidation.resetForm();
+                resetChangePasswordForm();
+                return;
+            }
+
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                type: 'POST',
+                url: checkPasswordRoute,
+                data: {
+                    current_password: current_password
+                },
+                success: function (response) {
+                    if (response.status == "warning") {
+                        current_password = "";
+                        currentPassword.text("* Password doesn't matched.").removeClass('text-green-600').addClass('text-red-600');
+                        eyeIcon.removeClass('bi-eye').addClass('bi-eye-slash');
+                        password.add(confirmPassword).val("").prop('type', 'password').add(resetPasswordBtn.removeClass('hover:scale-105 hover:bg-yellow-600')).prop('disabled', true);
+                    } else {
+                        currentPassword.text('* Password matched.').removeClass('text-red-600').addClass('text-green-600');
+                        password.add(confirmPassword).add(resetPasswordBtn).prop('disabled', false)
+                        resetPasswordBtn.addClass('hover:scale-105 hover:bg-yellow-600');
+                    }
+                }
+            });
+        }, 500));
+    });
+
+    changePasswordModal.on('hidden.bs.modal', function () {
+        resetChangePasswordForm();
         changePasswordValidation.resetForm();
-        $('#currentPassword').html("");
-        $('#changePasswordForm')[0].reset();
-        $('#password ,#confirmPassword, #resetPasswordBtn').prop('disabled', true);
+    });
+
+    $(document).on('click', '.toggle-password', function () {
+        if (current_password == "") {
+            $('#current_password').attr('style', 'border-color: red;');
+
+            setTimeout(function () {
+                $('#current_password').removeAttr('style');
+            }, 1000);
+        } else {
+            $('#current_password').removeAttr('style');
+            const inputElement = $($(this).data('target'));
+            const inputType = inputElement.prop('type');
+            inputElement.prop('type', inputType == 'password' ? 'text' : 'password');
+            $(this).toggleClass('bi-eye-slash bi-eye');
+        }
     });
 });
 
@@ -99,6 +107,18 @@ function confirmModal(text) {
     });
 }
 
+function showWarningMessage(message) {
+    return toastr.warning(message, 'Warning');
+}
+
+function showSuccessMessage(message) {
+    return toastr.success(message, 'Success');
+}
+
+function showErrorMessage() {
+    return toastr.error('An error occurred while processing your request.', 'Error');
+}
+
 function datePicker(id) {
     return flatpickr(id, {
         enableTime: true,
@@ -112,6 +132,14 @@ function datePicker(id) {
     });
 }
 
+function resetChangePasswordForm() {
+    current_password = "";
+    currentPassword.text("");
+    changePasswordForm[0].reset();
+    eyeIcon.removeClass('bi-eye').addClass('bi-eye-slash');
+    password.add(confirmPassword).prop('type', 'password').add(resetPasswordBtn.removeClass('hover:scale-105 hover:bg-yellow-600')).prop('disabled', true);
+}
+
 function changePasswordHandler(form) {
     let changePasswordRoute = $('#changePasswordRoute').data('route');
 
@@ -123,16 +151,16 @@ function changePasswordHandler(form) {
                 data: $(form).serialize(),
                 success: function (response) {
                     if (response.status == "warning") {
-                        toastr.warning(response.message, 'Warning');
+                        showWarningMessage(response.message);
                     } else {
                         toastr.success('Password successfully changed.', 'Success');
-                        $('#changePasswordForm').reset();
-                        $('#currentPassword').html("");
-                        $('#changePasswordModal').modal('hide');
+                        changePasswordForm[0].reset();
+                        currentPassword.text("");
+                        changePasswordModal.modal('hide');
                     }
                 },
                 error: function () {
-                    toastr.error('An error occurred while processing your request.', 'Error');
+                    tshowErrorMessage();
                 }
             });
         }

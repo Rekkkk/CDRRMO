@@ -61,8 +61,9 @@
                                             <p class="text-sm text-gray-600">{{ $report->location }}</p>
                                         </div>
                                         <div class="py-2">
-                                            <p class="font-bold">Report Status</p>
-                                            <p class=" bg-green-600 status-container">{{ $report->status }}</p>
+                                            <p class="font-bold">Report Status : <span
+                                                    class="bg-green-600 status-container rounded-full">{{ $report->status }}</span>
+                                            </p>
                                         </div>
                                         <p class="pb-2 font-bold">Date Reported: <span class="text-red-600">July 22,
                                                 2002</span>
@@ -301,16 +302,12 @@
                                 type: type,
                                 url: url,
                                 success: function() {
-                                    toastr.success(
-                                        `Incident report successfully ${operation}d.`,
-                                        'Success');
+                                    showSuccessMessage(`Incident report successfully ${operation}d.`);
                                     pendingReport.draw();
                                     incidentReports.draw();
                                 },
                                 error: function() {
-                                    toastr.error(
-                                        'An error occurred while processing your request.',
-                                        'Error');
+                                    showErrorMessage();
                                 }
                             });
                         }
@@ -436,24 +433,20 @@
                         processData: false,
                         success: function(response) {
                             if (response.status == 'success') {
-                                toastr.success(
-                                    'Successfully reported, Thank for your concern.',
-                                    'Success');
+                                showSuccessMessage('Successfully reported, Thank for your concern.');
                                 $('#reportForm')[0].reset();
                                 $('#createAccidentReportModal').modal('hide');
                                 pendingReport.draw();
                             } else if (response.status == 'warning') {
-                                toastr.warning(response.message, 'Warning');
+                                showWarningMessage(response.message);
                             } else if (response.status == 'blocked') {
                                 $('#reportForm')[0].reset();
                                 $('#createAccidentReportModal').modal('hide');
-                                toastr.warning(response.message, 'Warning');
+                                showWarningMessage(response.message);
                             }
                         },
                         error: function() {
-                            toastr.error(
-                                'An error occurred while processing your request.',
-                                'Error');
+                            showErrorMessage();
                         }
                     });
                 }
@@ -473,9 +466,7 @@
                             revertReport(reportId);
                         },
                         error: function() {
-                            toastr.error(
-                                'An error occurred while processing your request.',
-                                'Error');
+                            showErrorMessage();
                         }
                     });
                 }
@@ -488,13 +479,11 @@
                 url: "{{ route('resident.report.update', ':reportId') }}".replace(':reportId',
                     reportId),
                 success: function() {
-                    toastr.success('Incident report successfully reverted.', 'Success');
+                    showSuccessMessage('Incident report successfully reverted.');
                     pendingReport.draw();
                 },
                 error: function() {
-                    toastr.error(
-                        'An error occurred while processing your request.',
-                        'Error');
+                    showErrorMessage();
                 }
             });
         }

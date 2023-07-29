@@ -22,13 +22,12 @@ class EvacuationCenterController extends Controller
 
     public function getEvacuationData($operation)
     {
-        $evacuationCenterList = $this->evacuationCenter->orderBy('name', 'asc')->get();
-
+        $evacuationCenterList = $this->evacuationCenter->orderBy('name', 'asc')->where('is_archive', 0)->get();
+        
         return DataTables::of($evacuationCenterList)
             ->addIndexColumn()
-            ->addColumn('capacity', function ($row) {
-                $currentEvacuees = Evacuee::where('evacuation_assigned', $row->name)->sum('individuals');
-                return $currentEvacuees . '/' . $row->capacity;
+            ->addColumn('capacity', function ($row) use ($operation) {
+                return $operation == "locator" ? Evacuee::where('evacuation_assigned', $row->name)->sum('individuals') . '/' . $row->capacity : $row->capacity;
             })
             ->addColumn('status', function ($row) {
                 $color = match ($row->status) {
@@ -37,31 +36,34 @@ class EvacuationCenterController extends Controller
                     'Full' => 'orange'
                 };
 
-                return '<div class="flex  justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
+                return '<div class="flex justify-center"><div class="bg-' . $color . '-600 rounded-full status-container">' . $row->status . '</div></div>';
             })->addColumn('action', function ($row) use ($operation) {
                 if ($operation == "locator") {
                     return match ($row->status) {
-                        default => '',
-                        'Active' => '<button class="btn-table-primary p-2 w-24 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>'
+                        'Inactive' => "<span class='text-sm'>Evacuation Center isn't available.</span>",
+                        default => '<button class="btn-table-primary p-2 w-24 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>'
                     };
-
                 } else {
                     if (auth()->user()->is_disable == 0) {
-                        return
-                            '<div class="flex justify-center actionContainer">'.
-                                '<button class="btn-table-update w-28 mr-2 updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
-                                '<button class="btn-table-remove w-28 mr-2 removeEvacuationCenter"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
-                                '<select class="form-select w-44 bg-blue-500 text-white drop-shadow-md changeEvacuationStatus">
-                                        <option value="" disabled selected hidden>Change Status</option>
-                                        <option value="Active">Active</option>
-                                        <option value="Inactive">Inactive</option>
-                                        <option value="Full">Full</option>
-                                    </select>'.
-                            '</div>';
-                    }
-                }
+                        $statusOptions = '';
+                        $availableStatus = ['Active', 'Inactive', 'Full'];
 
-                return '<span class="text-sm">Currently Disabled.</span>';
+                        foreach ($availableStatus as $status) {
+                            if ($row->status != $status) {
+                                $statusOptions .= '<option value="' . $status . '">' . $status . '</option>';
+                            }
+                        }
+
+                        return '<div class="flex justify-center actionContainer">' .
+                            '<button class="btn-table-update w-28 mr-2 updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
+                            '<button class="btn-table-remove w-28 mr-2 removeEvacuationCenter"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
+                            '<select class="form-select w-44 bg-blue-500 text-white drop-shadow-md changeEvacuationStatus">' .
+                            '<option value="" disabled selected hidden>Change Status</option>' .
+                            $statusOptions . '</select></div>';
+                    }
+
+                    return '<span class="text-sm">Currently Disabled.</span>';
+                }
             })
             ->rawColumns(['capacity', 'status', 'action'])
             ->make(true);
@@ -78,14 +80,15 @@ class EvacuationCenterController extends Controller
 
         if ($validateEvacuationCenter->passes()) {
             $this->evacuationCenter->create([
-                'name' => Str::ucfirst($request->name),
+                'name' => Str::ucfirst(trim($request->name)),
                 'barangay_name' => $request->barangayName,
                 'latitude' => $request->latitude,
                 'longitude' => $request->longitude,
-                'capacity' => $request->capacity,
+                'capacity' => trim($request->capacity),
+                'is_archive' => 0,
                 'status' => 'Active'
             ]);
-            $this->logActivity->generateLog('Added new evacuation center');
+            $this->logActivity->generateLog('Adding new evacuation center');
 
             return response()->json();
         }
@@ -120,8 +123,11 @@ class EvacuationCenterController extends Controller
 
     public function removeEvacuationCenter($evacuationId)
     {
-        $this->evacuationCenter->find($evacuationId)->delete();
-        $this->logActivity->generateLog('Removing evacuation center');
+        $this->evacuationCenter->find($evacuationId)->update([
+            'is_archive' => 1,
+            'status' => 'Archived'
+        ]);
+        $this->logActivity->generateLog('Removing permanently evacuation center');
 
         return response()->json();
     }

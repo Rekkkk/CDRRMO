@@ -134,7 +134,7 @@
                     confirmModal('Do you want to update this user details?').then((result) => {
                         if (result.isConfirmed) {
                             if (operation == 'update' && defaultFormData == formData) {
-                                toastr.warning('No changes were made.', 'Warning');
+                                showWarningMessage('No changes were made.');
                                 $('#userAccountModal').modal('hide');
                                 return;
                             }
@@ -154,18 +154,12 @@
                                         });
                                         toastr.warning('Failed to update user details.', 'Warning');
                                     } else {
-                                        toastr.success('Successfully updated the user details.',
-                                            'Success').then(function() {
-                                            $('#userAccountModal').modal('hide');
-                                            location.reload();
-                                        });
+                                        showSuccessMessage('Successfully updated the user details.');
                                     }
                                 },
                                 error: function() {
                                     $('#userAccountModal').modal('hide');
-                                    toastr.error(
-                                        'An error occurred while processing your request.'
-                                    );
+                                    showErrorMessage();
                                 }
                             });
                         }

@@ -255,7 +255,7 @@
                     evacuationCenterId = getRowData(this)['id'];
                     let url = "{{ route('evacuation.center.remove', ':evacuationCenterId') }}".replace(
                         ':evacuationCenterId', evacuationCenterId);
-                    alterEvacuationCenter(url, "DELETE", "remove");
+                    alterEvacuationCenter(url, "PATCH", "remove");
                 })
 
                 $(document).on('change', '.changeEvacuationStatus', function() {
@@ -308,19 +308,16 @@
                         url, type, formData = $(form).serialize(),
                         modal = $('#evacuationCenterModal');
 
-                    if (operation == 'create') {
-                        url = "{{ route('evacuation.center.create') }}";
-                        type = "POST";
-                    } else {
-                        url = "{{ route('evacuation.center.update', ':evacuationCenterId') }}".
-                        replace(':evacuationCenterId', evacuationCenterId);
-                        type = "PUT";
-                    }
+                    url = operation == 'create' ? "{{ route('evacuation.center.create') }}" :
+                        "{{ route('evacuation.center.update', ':evacuationCenterId') }}".
+                    replace(':evacuationCenterId', evacuationCenterId);
+
+                    type = óperation == 'create' ? 'POST' : 'PUT';
 
                     confirmModal(`Do you want to ${operation} this evacuation center?`).then((result) => {
                         if (result.isConfirmed) {
                             if (operation == 'update' && defaultFormData == formData) {
-                                toastr.warning('No changes were made.', 'Warning');
+                                showWarningMessage('No changes were made.');
                                 return;
                             }
                             $.ajax({
@@ -329,20 +326,17 @@
                                 type: type,
                                 success: function(response) {
                                     if (response.status == "warning") {
-                                        toastr.warning(response.message, 'Warning');
+                                        showWarningMessage(response.message);
                                     } else {
-                                        toastr.success(
-                                            `Successfully ${operation}d evacuation center.`,
-                                            'Success');
+                                        showSuccessMessage(
+                                            `Successfully ${operation}d evacuation center.`);
                                         evacuationCenterTable.draw();
                                         modal.modal('hide');
                                     }
                                 },
                                 error: function() {
                                     modal.modal('hide');
-                                    toastr.error(
-                                        'An error occurred while processing your request.',
-                                        'Error');
+                                    showErrorMessage();
                                 }
                             });
                         }
@@ -351,7 +345,7 @@
 
                 function alterEvacuationCenter(url, type, operation) {
                     confirmModal(
-                        `Do you want to ${operation == "remove" ? "remove" : "change the status of"} this evacuation center?`
+                        `Do you want to ${operation == "remove" ? "remove permanently" : "change the status of"} this evacuation center?`
                     ).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
@@ -364,15 +358,13 @@
                                 },
                                 url: url,
                                 success: function() {
-                                    toastr.success(
-                                        `Successfully ${operation == "remove" ? "removed" : "changed the status of"} evacuation center.`,
-                                        'Success');
+                                    showSuccessMessage(
+                                        `Successfully ${operation == "remove" ? "permanently removed" : "changed the status of"} evacuation center.`
+                                    );
                                     evacuationCenterTable.draw();
                                 },
                                 error: function() {
-                                    toastr.error(
-                                        'An error occurred while processing your request.',
-                                        'Error');
+                                    showErrorMessage();
                                 }
                             });
                         } else {
