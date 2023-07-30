@@ -382,20 +382,12 @@
 
             let validator = $("#reportForm").validate({
                 rules: {
-                    description: {
-                        required: true
-                    },
-                    location: {
-                        required: true
-                    }
+                    description: 'required',
+                    location: 'required'
                 },
                 messages: {
-                    description: {
-                        required: 'Please Enter Incident Description.'
-                    },
-                    location: {
-                        required: 'Please Enter Incident Location.'
-                    }
+                    description: 'Please Enter Incident Description.',
+                    location: 'Please Enter Incident Location.'
                 },
                 errorElement: 'span',
                 submitHandler: formSubmitHandler,

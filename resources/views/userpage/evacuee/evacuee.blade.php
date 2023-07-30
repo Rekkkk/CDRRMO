@@ -134,7 +134,6 @@
                         orderable: false,
                         searchable: false
                     },
-
                     {
                         data: 'minors',
                         name: 'minors',
@@ -179,98 +178,42 @@
 
             let validator = $("#evacueeInfoForm").validate({
                 rules: {
-                    disaster_id: {
-                        required: true
-                    },
-                    date_entry: {
-                        required: true
-                    },
-                    barangay: {
-                        required: true
-                    },
-                    evacuation_assigned: {
-                        required: true
-                    },
-                    infants: {
-                        required: true
-                    },
-                    minors: {
-                        required: true
-                    },
-                    senior_citizen: {
-                        required: true
-                    },
-                    pwd: {
-                        required: true
-                    },
-                    pregnant: {
-                        required: true
-                    },
-                    lactating: {
-                        required: true
-                    },
-                    families: {
-                        required: true
-                    },
-                    individual: {
-                        required: true
-                    },
-                    male: {
-                        required: true
-                    },
-                    female: {
-                        required: true
-                    }
+                    disaster_id: 'required',
+                    date_entry: 'required',
+                    barangay: 'required',
+                    evacuation_assigned: 'required',
+                    infants: 'required',
+                    minors: 'required',
+                    senior_citizen: 'required',
+                    pwd: 'required',
+                    pregnant: 'required',
+                    lactating: 'required',
+                    families: 'required',
+                    individuals: 'required',
+                    male: 'required',
+                    female: 'required'
                 },
                 messages: {
-                    disaster_id: {
-                        required: 'Please select disaste.'
-                    },
-                    date_entry: {
-                        required: 'Please enter date entry.',
-                    },
-                    barangay: {
-                        required: 'Please enter barangay.',
-                    },
-                    evacuation_assigned: {
-                        required: 'Please enter evacuation center assigned.'
-                    },
-                    infants: {
-                        required: 'Please enter number of infants.'
-                    },
-                    minors: {
-                        required: 'Please enter number of minors.'
-                    },
-                    senior_citizen: {
-                        required: 'Please enter number of senior citizen.'
-                    },
-                    pwd: {
-                        required: 'Please enter number of pwd.'
-                    },
-                    pregnant: {
-                        required: 'Please enter number of pregnant.'
-                    },
-                    lactating: {
-                        required: 'Please enter number of lactating.'
-                    },
-                    families: {
-                        required: 'Please enter number of families.'
-                    },
-                    individual: {
-                        required: 'Please enter number of individuals.'
-                    },
-                    male: {
-                        required: 'Please enter number of male.'
-                    },
-                    female: {
-                        required: 'Please enter number of female.'
-                    }
+                    disaster_id: 'Please select disaster.',
+                    date_entry: 'Please enter date entry.',
+                    barangay: 'Please enter barangay.',
+                    evacuation_assigned: 'Please enter evacuation center assigned.',
+                    infants: 'Please enter number of infants.',
+                    minors: 'Please enter number of minors.',
+                    senior_citizen: 'Please enter number of senior citizens.',
+                    pwd: 'Please enter number of PWD.',
+                    pregnant: 'Please enter number of pregnant.',
+                    lactating: 'Please enter number of lactating.',
+                    families: 'Please enter number of families.',
+                    individuals: 'Please enter number of individuals.',
+                    male: 'Please enter number of male.',
+                    female: 'Please enter number of female.'
                 },
                 errorElement: 'span',
                 submitHandler: formSubmitHandler
             });
 
-            $('#recordEvacueeBtn').click(function() {
+            $(document).on('click', '#recordEvacueeBtn', function() {
                 $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
                 $('.modal-title').text('Record Evacuee Information');
                 $('#recordEvacueeInfoBtn').removeClass('btn-update').addClass('btn-submit').text('Record');
@@ -278,7 +221,7 @@
                 $('#evacueeInfoFormModal').modal('show');
             });
 
-            $(document).on('click', '.updateEvacueeBtn', function() {
+            $(document).on('click', '#updateEvacueeBtn', function() {
                 $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                 $('.modal-title').text('Update Evacuee Information');
                 $('#recordEvacueeInfoBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
@@ -290,36 +233,18 @@
                 }
 
                 let data = evacueeTable.row(currentRow).data();
-
                 evacueeId = data['id'];
-                $('input[name="houseHoldNumber"]').val(data['house_hold_number']);
-                $('input[name="fullName"]').val(data['full_name']);
-                $(`input[name="sex"], option[value="${data['sex']}"]`).prop('selected', true);
-                $('input[name="age"]').val(data['age']);
-                dateEntryInput.setDate(data['date_entry']);
 
-                $(`option[value="${data['barangay']}"]`).prop('selected', true);
-                $(`option[value="${data['disaster_name']}"]`).prop('selected', true);
+                for (const index in data) {
+                    if (['action', 'DT_RowIndex', 'id'].includes(index)) continue;
 
-                if ($(`option[value="${data['evacuation_assigned']}"]`).length) {
-                    $('#evacuationSelectContainer').removeClass('hidden');
-                    $(`option[value="${data['evacuation_assigned']}"]`).prop('selected', true);
-                } else {
-                    $('#evacuationSelectContainer').addClass('hidden');
-                    $('input[name="defaultEvacuationAssigned"]').val(data['evacuation_assigned']);
+                    const fields = index == 'barangay' ? 'select[name="barangay"]' :
+                        index == 'evacuation_assigned' ? 'select[name="evacuation_assigned"]' :
+                        `#${index}`;
+
+                    $(fields).val(data[index]);
                 }
 
-                $('#infants').val(data['infants']);
-                $('#minors').val(data['minors']);
-                $('#senior_citizen').val(data['senior_citizen']);
-                $('#pwd').val(data['pwd']);
-                $('#pregnant').val(data['pregnant']);
-                $('#lactating').val(data['lactating']);
-                $('#families').val(data['families']);
-                $('#individual').val(data['individual']);
-                $('#male').val(data['male']);
-                $('#female').val(data['female']);
-                $('#remarks').val(data['remarks']);
                 $('#operation').val('update');
                 $('#evacueeInfoFormModal').modal('show');
                 defaultFormData = $('#evacueeInfoForm').serialize();
@@ -350,16 +275,21 @@
                             return;
                         }
                         $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
                             data: formData,
                             url: url,
                             type: type,
                             success: function(response) {
-                                if (response.status == "warning") {
+                                if (response.status == 'warning') {
                                     showWarningMessage(response.message);
                                 } else {
-                                    $('#evacueeInfoFormModal').modal('hide');
+                                    modal.modal('hide');
                                     evacueeTable.draw();
-                                    showSuccessMessage(`Successfully ${operation}${operation == 'record' ? 'ed new' : 'ed the'} evacuee info.`);
+                                    showSuccessMessage(
+                                        `Successfully ${operation}${operation == 'record' ? 'ed new' : 'd the'} evacuee info.`
+                                    );
                                 }
                             },
                             error: function() {

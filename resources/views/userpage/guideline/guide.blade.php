@@ -89,20 +89,12 @@
 
                     let validator = $("#guideForm").validate({
                         rules: {
-                            label: {
-                                required: true
-                            },
-                            content: {
-                                required: true
-                            }
+                            label: 'required',
+                            content: 'required'
                         },
                         messages: {
-                            label: {
-                                required: 'Please Enter Guide Label.'
-                            },
-                            content: {
-                                required: 'Please Enter Guide Content.'
-                            }
+                            label: 'Please Enter Guide Label.',
+                            content: 'Please Enter Guide Content.'
                         },
                         errorElement: 'span',
                         submitHandler: guideFormHandler

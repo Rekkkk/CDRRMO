@@ -100,26 +100,15 @@
 
                 let validator = $("#accountForm").validate({
                     rules: {
-                        organization: {
-                            required: true
-                        },
-                        position: {
-                            required: true
-                        },
-                        email: {
-                            required: true
-                        }
+                        organization: 'required',
+                        position: 'required',
+                        email: 'required'
                     },
                     messages: {
-                        organization: {
-                            required: 'Please Enter Your Organization.'
-                        },
-                        position: {
-                            required: 'Please Enter Your Position.'
-                        },
-                        email: {
-                            required: 'Please Enter Your Email Address.'
-                        }
+                        organization: 'Please Enter Your Organization.',
+                        position: 'Please Enter Your Position.',
+                        email: 'Please Enter Your Email Address.'
+
                     },
                     errorElement: 'span',
                     submitHandler: formSubmitHandler

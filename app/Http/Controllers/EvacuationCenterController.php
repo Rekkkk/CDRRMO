@@ -23,7 +23,7 @@ class EvacuationCenterController extends Controller
     public function getEvacuationData($operation)
     {
         $evacuationCenterList = $this->evacuationCenter->orderBy('name', 'asc')->where('is_archive', 0)->get();
-        
+
         return DataTables::of($evacuationCenterList)
             ->addIndexColumn()
             ->addColumn('capacity', function ($row) use ($operation) {
@@ -93,7 +93,7 @@ class EvacuationCenterController extends Controller
             return response()->json();
         }
 
-        return response(['status' => "warning", 'message' => $validateEvacuationCenter->errors()->first()]);
+        return response(['status' => 'warning', 'message' => $validateEvacuationCenter->errors()->first()]);
     }
 
     public function updateEvacuationCenter(Request $request, $evacuationId)

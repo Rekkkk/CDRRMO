@@ -88,7 +88,6 @@ class UserAccountsController extends Controller
                 'is_suspend' =>  0
             ]);
             $this->logActivity->generateLog('Creating Account');
-
             // Mail::to(trim($request->email))->send(new UserCredentialsMail([
             //     'email' => trim($request->email),
             //     'organization' => $request->organization,
