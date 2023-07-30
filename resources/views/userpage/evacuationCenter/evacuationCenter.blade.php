@@ -242,7 +242,7 @@
                         });
                         map.setCenter(pos);
                     }, function() {
-                        toastr.error('The Geolocation service failed.', 'Error');
+                        showErrorMessage('The Geolocation service failed.');
                     });
                 } else {
                     toastr.info('Your browser does not support geolocation', 'Info');

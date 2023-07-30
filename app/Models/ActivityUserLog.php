@@ -26,7 +26,7 @@ class ActivityUserLog extends Model
     {
         $this->create([
             'user_id' => auth()->user()->id,
-            'activity' => $activity,
+            'activity' => trim($activity),
             'date_time' => Carbon::now()->toDayDateTimeString()
         ]);
     }

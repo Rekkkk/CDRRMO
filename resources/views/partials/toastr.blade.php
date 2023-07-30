@@ -11,15 +11,15 @@
         }
 
         @if (Session::has('success'))
-            showSuccessMessage("{{ Session::get('success') }}");
+            toastr.success("{{ Session::get('success') }}", 'Success.');
         @endif
 
         @if (Session::has('error'))
-            toastr.warning("{{ Session::get('error') }}", 'Error!');
+            toastr.error("{{ Session::get('error') }}", 'Error.');
         @endif
 
         @if (Session::has('warning'))
-            showWarningMessage("{{ Session::get('warning') }}");
+            toastr.warning("{{ Session::get('warning') }}", 'Warning.');
         @endif
     })
 </script>

@@ -36,16 +36,16 @@ class EvacueeController extends Controller
     public function recordEvacueeInfo(Request $request)
     {
         $evacueeInfoValidation = Validator::make($request->all(), [
-            'infants' => 'required',
-            'minors' => 'required',
-            'senior_citizen' => 'required',
-            'pwd' => 'required',
-            'pregnant' => 'required',
-            'lactating' => 'required',
-            'families' => 'required',
-            'individual' => 'required',
-            'male' => 'required',
-            'female' => 'required',
+            'infants' => 'required|numeric',
+            'minors' => 'required|numeric',
+            'senior_citizen' => 'required|numeric',
+            'pwd' => 'required|numeric',
+            'pregnant' => 'required|numeric',
+            'lactating' => 'required|numeric',
+            'families' => 'required|numeric',
+            'individual' => 'required|numeric',
+            'male' => 'required|numeric',
+            'female' => 'required|numeric',
             'disaster_id' => 'required',
             'date_entry' => 'required',
             'barangay' => 'required|unique:evacuee,barangay',
@@ -68,7 +68,7 @@ class EvacueeController extends Controller
                 'date_entry' => $request->date_entry,
                 'barangay' => $request->barangay,
                 'evacuation_assigned' => $request->evacuation_assigned,
-                'remarks' => trim($request->remarks)
+                'remarks' => Str::ucfirst(trim($request->remarks))
             ]);
 
             // event(new ActiveEvacuees());
@@ -78,7 +78,7 @@ class EvacueeController extends Controller
             return response()->json();
         }
 
-        return response(['status' => "warning", 'message' => $evacueeInfoValidation->errors()->first()]);
+        return response(['status' => 'warning', 'message' => $evacueeInfoValidation->errors()->first()]);
     }
 
     public function updateEvacueeInfo($evacueeId, Request $request)

@@ -1,21 +1,12 @@
-const sidebar = document.querySelector('.sidebar'),
-    authPassword = document.getElementById("authPassword");
+const sidebar = document.querySelector('.sidebar');
 
-document.addEventListener('click', function (object) {
-    const element = object.target;
+document.addEventListener('click', ({ target }) => {
+    const element = target;
 
-    if (element.id == 'btn-sidebar-mobile') {
-        sidebar.classList.toggle('active');
-    } else if (element.id == 'btn-sidebar-close') {
-        sidebar.classList.remove('active');
-    } else if (element.id == 'showAuthPassword') {
-        authPassword.type = authPassword.type == 'password' ? 'text' : 'password';
-        element.classList.toggle("bi-eye");
-    } else if (element.parentElement.className == 'menuLink') {
-        localStorage.setItem('activeLink', $(element.parentElement).attr('href'));
-    } else if (element.closest('#logoutBtn') || element.parentElement.id == 'loginLink') {
-        localStorage.removeItem("activeLink");
-    }
+    element.id == 'btn-sidebar-mobile' ? sidebar.classList.toggle('active')
+        : element.id == 'btn-sidebar-close' ? sidebar.classList.remove('active')
+            : element.parentElement.className == 'menuLink' ? localStorage.setItem('activeLink', $(element.parentElement).attr('href'))
+                : element.closest('#logoutBtn') || element.parentElement.id == 'loginLink' ? localStorage.removeItem('activeLink') : null;
 });
 
 $(document).ready(function () {

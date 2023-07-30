@@ -75,7 +75,7 @@ class GuidelineController extends Controller
             return response()->json();
         }
 
-        return response(['status' => 'warning', 'message' => $guidelineValidation->error()->first()]);
+        return response(['status' => 'warning', 'message' => $guidelineValidation->errors()->first()]);
     }
 
     public function removeGuideline($guidelineId)
@@ -113,7 +113,7 @@ class GuidelineController extends Controller
             return response()->json();
         }
 
-        return response(['status' => 'warning', 'message' => $guideValidation->error()->first()]);
+        return response(['status' => 'warning', 'message' => $guideValidation->errors()->first()]);
     }
 
     public function updateGuide(Request $request, $guideId)
@@ -133,7 +133,7 @@ class GuidelineController extends Controller
             return response()->json();
         }
 
-        return response(['status' => 'warning', 'message' => $guideValidation->error()->first()]);
+        return response(['status' => 'warning', 'message' => $guideValidation->errors()->first()]);
     }
 
     public function removeGuide($guideId)

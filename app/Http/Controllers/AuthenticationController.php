@@ -33,7 +33,7 @@ class AuthenticationController extends Controller
         if (auth()->attempt($request->only('email', 'password')))
             return $this->checkUserAccount();
 
-        return back()->withInput()->with('error', 'Incorrect User Credentials.');
+        return back()->withInput()->with('warning', 'Incorrect User Credentials.');
     }
 
     public function checkUserAccount()
@@ -53,7 +53,7 @@ class AuthenticationController extends Controller
                 } else {
                     auth()->logout();
                     session()->flush();
-                    return back()->withInput()->with('error', 'Your account has been suspended until ' . $suspendTime);
+                    return back()->withInput()->with('warning', 'Your account has been suspended until ' . $suspendTime);
                 }
             }
 
@@ -98,7 +98,9 @@ class AuthenticationController extends Controller
 
     public function resetPasswordForm($token)
     {
-        return view('authentication.resetPasswordForm', ['token' => $token]);
+        return DB::table('password_resets')->where('token', $token)->exists()
+            ? view('authentication.resetPasswordForm', compact('token'))
+            : redirect('/')->with('warning', 'Token Expired.');
     }
 
     public function resetPassword(Request $request)
@@ -124,7 +126,7 @@ class AuthenticationController extends Controller
 
                 $this->user->where('email', $request->email)->update(['password' => Hash::make($request->password)]);
                 DB::table('password_resets')->where(['email' => $request->email])->delete();
-                
+
                 return redirect('/')->with('success', 'Your password has been changed.');
             } catch (\Exception $e) {
                 return back()->with('error', 'An error occurred while processing your request.');

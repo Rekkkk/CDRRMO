@@ -109,16 +109,16 @@ class EvacuationCenterController extends Controller
             $this->evacuationCenter->find($evacuationId)->update([
                 'name' => Str::ucfirst(trim($request->name)),
                 'barangay_name' => $request->barangayName,
-                'latitude' => trim($request->latitude),
-                'longitude' => trim($request->longitude),
-                'capacity' => $request->capacity
+                'latitude' => $request->latitude,
+                'longitude' => $request->longitude,
+                'capacity' => trim($request->capacity)
             ]);
             $this->logActivity->generateLog('Updating evacuation center');
 
             return response()->json();
         }
 
-        return response(['status' => "warning", 'message' => $validateEvacuationCenter->errors()->first()]);
+        return response(['status' => 'warning', 'message' => $validateEvacuationCenter->errors()->first()]);
     }
 
     public function removeEvacuationCenter($evacuationId)
@@ -127,7 +127,7 @@ class EvacuationCenterController extends Controller
             'is_archive' => 1,
             'status' => 'Archived'
         ]);
-        $this->logActivity->generateLog('Removing permanently evacuation center');
+        $this->logActivity->generateLog('Removing evacuation center');
 
         return response()->json();
     }

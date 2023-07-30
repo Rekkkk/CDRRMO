@@ -68,7 +68,7 @@ class DisasterController extends Controller
             return response()->json();
         }
 
-        return response(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()])->json();
+        return response(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
     }
 
     public function updateDisasterData(Request $request, $disasterId)
@@ -79,11 +79,11 @@ class DisasterController extends Controller
 
         if ($validatedDisasterData->passes()) {
             $this->disaster->find($disasterId)->update([
-                'name' => $request->name
+                'name' => trim($request->name)
             ]);
             $this->logActivity->generateLog('Updating Disaster Data');
 
-            return response()->json(['status' => 'success']);
+            return response()->json();
         }
 
         return response()->json(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
@@ -92,7 +92,9 @@ class DisasterController extends Controller
     public function removeDisasterData($disasterId)
     {
         $this->disaster->find($disasterId)->update([
+            'status' => 'Archived',
             'is_archive' => 1
+
         ]);
         $this->logActivity->generateLog('Removing Disaster Data');
 
@@ -104,7 +106,7 @@ class DisasterController extends Controller
         $this->disaster->find($disasterId)->update([
             'status' => $request->status
         ]);
-        $this->logActivity->generateLog('Change Disaster Status');
+        $this->logActivity->generateLog('Changing Disaster Status');
 
         return response()->json();
     }

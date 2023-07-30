@@ -99,7 +99,7 @@ class UserAccountsController extends Controller
             return response()->json();
         }
 
-        return response(['status' => "warning", 'message' => $createAccountValidation->error()->first()]);
+        return response(['status' => 'warning', 'message' => $createAccountValidation->errors()->first()]);
     }
 
     public function updateAccount(Request $request, $userId)
@@ -107,7 +107,7 @@ class UserAccountsController extends Controller
         $updateAccountValidation = Validator::make($request->all(), [
             'organization' => 'required',
             'position' => 'required',
-            'email' => 'required|unique:user,email,' . $userId
+            'email' => 'required|email|unique:user,email,' . $userId
         ]);
 
         if ($updateAccountValidation->passes()) {
@@ -121,7 +121,7 @@ class UserAccountsController extends Controller
             return response()->json();
         }
 
-        return response(['status' => "warning", 'message' => $updateAccountValidation->error()->first()]);
+        return response(['status' => 'warning', 'message' => $updateAccountValidation->errors()->first()]);
     }
 
     public function disableAccount($userId)
@@ -163,7 +163,7 @@ class UserAccountsController extends Controller
             return response()->json();
         }
 
-        return response(['status' => "warning", 'error' => $suspendAccountValidation->error()->first()]);
+        return response(['status' => 'warning', 'error' => $suspendAccountValidation->errors()->first()]);
     }
 
     public function openAccount($userId)
@@ -186,7 +186,7 @@ class UserAccountsController extends Controller
 
     public function checkPassword(Request $request)
     {
-        return Hash::check($request->current_password, auth()->user()->password) ? response()->json() : response(['status' => "warning"]);
+        return Hash::check($request->current_password, auth()->user()->password) ? response()->json() : response(['status' => 'warning']);
     }
 
     public function resetPassword(Request $request, $userId)
@@ -201,20 +201,20 @@ class UserAccountsController extends Controller
 
                 if ($changePasswordValidation->passes()) {
                     $this->user->find($userId)->update([
-                        'password' => Hash::make($request->password)
+                        'password' => Hash::make(trim($request->password))
                     ]);
                     $this->logActivity->generateLog('Changing Password');
 
                     return response()->json();
                 }
 
-                return response(['status' => "warning", 'error' => $changePasswordValidation->errors()->toArray()]);
+                return response(['status' => 'warning', 'error' => $changePasswordValidation->errors()->toArray()]);
             } else {
-                return response(['status' => "warning", 'message' => "Password & Confirm pasword must be the same."]);
+                return response(['status' => 'warning', 'message' => 'Password & Confirm pasword must be the same.']);
             }
         }
 
-        return response(['status' => "warning", 'message' => "Current password doesn't match."]);
+        return response(['status' => 'warning', 'message' => "Current password doesn't match."]);
     }
 
     public function removeAccount($userId)
