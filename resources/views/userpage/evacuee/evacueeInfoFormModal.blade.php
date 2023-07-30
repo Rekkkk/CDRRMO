@@ -98,7 +98,7 @@
                                 </div>
                                 <div class="w-full mb-3 lg:w-3/12 px-4 field-container ">
                                     <label>No. Individual</label>
-                                    <input type="number" name="individual" id="individual" class="form-control"
+                                    <input type="number" name="individuals" id="individuals" class="form-control"
                                         autocomplete="off" placeholder="No. Individual">
                                 </div>
                                 <div class="w-full mb-3 lg:w-3/12 px-4 field-container ">

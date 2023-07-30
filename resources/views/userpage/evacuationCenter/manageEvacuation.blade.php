@@ -183,20 +183,12 @@
             $(document).ready(function() {
                 let validator = $("#evacuationCenterForm").validate({
                     rules: {
-                        name: {
-                            required: true
-                        },
-                        barangayName: {
-                            required: true
-                        }
+                        name: 'required',
+                        barangayName: 'required'
                     },
                     messages: {
-                        name: {
-                            required: 'Please enter evacuation center name.'
-                        },
-                        barangayName: {
-                            required: 'Please select a barangay.'
-                        }
+                        name: 'Please select disaster.',
+                        barangayName: 'Please select a barangay.'
                     },
                     showErrors: function(errorMap, errorList) {
                         this.defaultShowErrors();

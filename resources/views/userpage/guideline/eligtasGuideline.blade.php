@@ -91,14 +91,10 @@
 
                     let validator = $("#guidelineForm").validate({
                         rules: {
-                            type: {
-                                required: true
-                            }
+                            type: 'required'
                         },
                         messages: {
-                            type: {
-                                required: 'Please Enter Guideline Type.'
-                            }
+                            type: 'Please Enter Guideline Type.'
                         },
                         errorElement: 'span',
                         submitHandler: createGuidelineForm
@@ -146,7 +142,9 @@
                                         .replace(':guidelineId', guidelineId),
                                     type: "PATCH",
                                     success: function() {
-                                        showSuccessMessage('Guideline removed successfully, Please wait...');
+                                        showSuccessMessage(
+                                            'Guideline removed successfully, Please wait...'
+                                            );
                                     },
                                     error: function() {
                                         showErrorMessage();

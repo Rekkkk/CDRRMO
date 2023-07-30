@@ -115,10 +115,8 @@ class IncidentReportController extends Controller
                 $this->incidentReport->create($incidentReport);
                 $this->reportLog->where('user_ip', $request->ip())->update(['attempt' => $residentAttempt + 1]);
                 $attempt = $this->reportLog->where('user_ip', $request->ip())->value('attempt');
-
                 $attempt == 3 ? $this->reportLog->where('user_ip', $request->ip())->update(['report_time' => Carbon::now()->addDays(3)]) :
                     intval($this->reportLog->where('user_ip', $request->ip())->value('attempt'));
-
                 //event(new IncidentReport());
 
                 return response(['status' => 'success']);
@@ -129,7 +127,6 @@ class IncidentReportController extends Controller
                 'user_ip' => $request->ip(),
                 'attempt' => 1
             ]);
-
             //event(new IncidentReport());
 
             return response(['status' => 'success']);
@@ -141,8 +138,8 @@ class IncidentReportController extends Controller
     public function approveIncidentReport($reportId)
     {
         $this->report->approveStatus($reportId);
-        //event(new IncidentReport());
         $this->logActivity->generateLog('Approving Incident Report');
+        //event(new IncidentReport());
 
         return response()->json();
     }
@@ -150,8 +147,8 @@ class IncidentReportController extends Controller
     public function declineIncidentReport($reportId)
     {
         $this->report->declineStatus($reportId);
-        //event(new IncidentReport());
         $this->logActivity->generateLog('Declining Incident Report');
+        //event(new IncidentReport());
 
         return response()->json();
     }

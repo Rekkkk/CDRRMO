@@ -27,7 +27,7 @@ class EvacueeController extends Controller
         return DataTables::of($evacueeInfo)
             ->addIndexColumn()
             ->addColumn('action', function () {
-                return '<button class="btn-table-update p-2 updateEvacueeBtn"><i class="bi bi-pencil-square pr-2"></i>Update</button>';
+                return '<button class="btn-table-update p-2" id="updateEvacueeBtn"><i class="bi bi-pencil-square pr-2"></i>Update</button>';
             })
             ->rawColumns(['action'])
             ->make(true);
@@ -43,7 +43,7 @@ class EvacueeController extends Controller
             'pregnant' => 'required|numeric',
             'lactating' => 'required|numeric',
             'families' => 'required|numeric',
-            'individual' => 'required|numeric',
+            'individuals' => 'required|numeric',
             'male' => 'required|numeric',
             'female' => 'required|numeric',
             'disaster_id' => 'required',
@@ -53,27 +53,16 @@ class EvacueeController extends Controller
         ]);
 
         if ($evacueeInfoValidation->passes()) {
-            $this->evacuee->create([
-                'infants' => $request->infants,
-                'minors' => $request->minors,
-                'senior_citizen' => $request->senior_citizen,
-                'pwd' => $request->pwd,
-                'pregnant' => $request->pregnant,
-                'lactating' => $request->lactating,
-                'families' => $request->families,
-                'individuals' => $request->individual,
-                'male' => $request->male,
-                'female' => $request->female,
-                'disaster_id' => $request->disaster_id,
-                'date_entry' => $request->date_entry,
-                'barangay' => $request->barangay,
-                'evacuation_assigned' => $request->evacuation_assigned,
-                'remarks' => Str::ucfirst(trim($request->remarks))
+            $evacueeInfo = $request->only([
+                'infants', 'minors', 'senior_citizen', 'pwd', 'pregnant', 'lactating',
+                'families', 'individuals', 'male', 'female', 'disaster_id', 'date_entry',
+                'barangay', 'evacuation_assigned'
             ]);
 
-            // event(new ActiveEvacuees());
-
+            $evacueeInfo['remarks'] = Str::ucfirst(trim($request->remarks));
+            $this->evacuee->create($evacueeInfo);
             $this->logActivity->generateLog('Recording evacuee information');
+            // event(new ActiveEvacuees());
 
             return response()->json();
         }
@@ -81,67 +70,40 @@ class EvacueeController extends Controller
         return response(['status' => 'warning', 'message' => $evacueeInfoValidation->errors()->first()]);
     }
 
-    public function updateEvacueeInfo($evacueeId, Request $request)
+    public function updateEvacueeInfo(Request $request, $evacueeId)
     {
-        $validateEvacuee = Validator::make($request->all(), [
-            'houseHoldNumber' => 'required',
-            'fullName' => 'required',
-            'sex' => 'required',
-            'age' => 'required',
-            'dateEntry' => 'required',
-            'dateOut' => 'required',
-            'barangay' => 'required',
-            'disasterType' => 'required',
-            'typhoon' => 'required',
-            'flashflood' => 'required',
-            'evacuationAssigned' => 'required'
+        $evacueeInfoValidation = Validator::make($request->all(), [
+            'infants' => 'required|numeric',
+            'minors' => 'required|numeric',
+            'senior_citizen' => 'required|numeric',
+            'pwd' => 'required|numeric',
+            'pregnant' => 'required|numeric',
+            'lactating' => 'required|numeric',
+            'families' => 'required|numeric',
+            'individuals' => 'required|numeric',
+            'male' => 'required|numeric',
+            'female' => 'required|numeric',
+            'disaster_id' => 'required',
+            'date_entry' => 'required',
+            'barangay' => 'required|unique:evacuee,barangay',
+            'evacuation_assigned' => 'required'
         ]);
 
-        if (!$validateEvacuee->passes())
-            return response()->json(['condition' => 0]);
+        if ($evacueeInfoValidation->passes()) {
+            $evacueeInfo = $request->only([
+                'infants', 'minors', 'senior_citizen', 'pwd', 'pregnant', 'lactating',
+                'families', 'individuals', 'male', 'female', 'disaster_id', 'date_entry',
+                'barangay', 'evacuation_assigned'
+            ]);
 
-        $disasterId = $evacuationAssigned = null;
-        $is4Ps = $request->has('fourps') ? 1 : 0;
-        $isPWD = $request->has('pwd') ? 1 : 0;
-        $isPregnant = $request->has('pregnant') ? 1 : 0;
-        $isLactating = $request->has('lactating') ? 1 : 0;
-        $isStudent = $request->has('student') ? 1 : 0;
-        $isWorking = $request->has('working') ? 1 : 0;
+            $evacueeInfo['remarks'] = Str::ucfirst(trim($request->remarks));
 
-        $request->disasterType == "Typhoon" ?
-            $disasterId = $request->typhoon :
-            $disasterId = $request->flashflood;
+            $this->evacuee->find($evacueeId)->update($evacueeInfo);
+            $this->logActivity->generateLog('Updating an evacuee information');
 
-        filled($request->evacuationAssigned) ?
-            $evacuationAssigned = $request->evacuationAssigned :
-            $evacuationAssigned = $request->defaultEvacuationAssigned;
+            return response()->json();
+        }
 
-        $evacueeInfo = [
-            'house_hold_number' => $request->houseHoldNumber,
-            'full_name' => Str::ucfirst(trim($request->fullName)),
-            'sex' => $request->sex,
-            'age' => $request->age,
-            'fourps' => $is4Ps,
-            'PWD' => $isPWD,
-            'pregnant' => $isPregnant,
-            'lactating' => $isLactating,
-            'student' => $isStudent,
-            'working' => $isWorking,
-            'barangay' => $request->barangay,
-            'date_entry' => $request->dateEntry,
-            'date_out',
-            'disaster_type' => $request->disasterType,
-            'disaster_id' => intval($disasterId),
-            'disaster_info' => $request->disasterInfo,
-            'evacuation_assigned' => $evacuationAssigned
-        ];
-
-        if (filled($request->dateOut))
-            $evacueeInfo['date_out'] = $request->dateOut;
-
-        $this->evacuee->find($evacueeId)->update($evacueeInfo);
-        $this->logActivity->generateLog('Updated an evacuee information');
-
-        return response()->json(['condition' => 1]);
+        return response(['status' => 'warning', 'message', $evacueeInfoValidation->errors()->first()]);
     }
 }

@@ -116,32 +116,16 @@
 
                     let validator = $("#accountForm").validate({
                         rules: {
-                            organization: {
-                                required: true
-                            },
-                            position: {
-                                required: true
-                            },
-                            email: {
-                                required: true
-                            },
-                            suspend_time: {
-                                required: true
-                            }
+                            organization: 'required',
+                            position: 'required',
+                            email: 'required',
+                            suspend_time: 'required'
                         },
                         messages: {
-                            organization: {
-                                required: 'Please select an organization.'
-                            },
-                            position: {
-                                required: 'Please select a position.'
-                            },
-                            email: {
-                                required: 'Please enter an email address.'
-                            },
-                            suspend_time: {
-                                required: 'Please enter a suspension time.'
-                            }
+                            organization: 'Please select an organization.',
+                            position: 'Please select a position.',
+                            email: 'Please enter an email address.',
+                            suspend_time: 'Please enter a suspension time.'
                         },
                         errorElement: 'span',
                         submitHandler: formSubmitHandler
@@ -171,7 +155,8 @@
                                         url: "{{ route('account.disable', ':userId') }}"
                                             .replace(':userId', userId),
                                         success: function() {
-                                            showSuccessMessage('Successfully disabled account.');
+                                            showSuccessMessage(
+                                                'Successfully disabled account.');
                                             accountTable.draw();
                                         },
                                         error: function() {
@@ -190,7 +175,8 @@
                                         url: "{{ route('account.enable', ':userId') }}"
                                             .replace(':userId', userId),
                                         success: function() {
-                                            showSuccessMessage('Successfully enabled account.');
+                                            showSuccessMessage(
+                                                'Successfully enabled account.');
                                             accountTable.draw();
                                         },
                                         error: function() {
@@ -221,7 +207,8 @@
                                         url: "{{ route('account.remove', ':userId') }}"
                                             .replace(':userId', userId),
                                         success: function() {
-                                            showSuccessMessage('Successfully removed account.');
+                                            showSuccessMessage(
+                                                'Successfully removed account.');
                                             accountTable.draw();
                                         },
                                         error: function() {
@@ -251,7 +238,8 @@
                                         url: "{{ route('account.open', ':userId') }}"
                                             .replace(':userId', userId),
                                         success: function() {
-                                            showSuccessMessage('Successfully opened account.');
+                                            showSuccessMessage(
+                                                'Successfully opened account.');
                                             accountTable.draw();
                                         },
                                         error: function() {
@@ -310,7 +298,9 @@
                                         if (response.status == "warning") {
                                             showWarningMessage(response.message);
                                         } else {
-                                            showSuccessMessage(`Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`);
+                                            showSuccessMessage(
+                                                `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`
+                                            );
                                             modal.modal('hide');
                                             accountTable.draw();
                                         }
