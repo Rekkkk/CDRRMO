@@ -76,17 +76,17 @@ $(document).ready(function () {
     });
 
     $(document).on('click', '.toggle-password', function () {
-        if (current_password == "") {
-            $('#current_password').attr('style', 'border-color: red;');
+        const currentPasswordInput = $('#current_password');
 
+        if (current_password == "") {
+            currentPasswordInput.css('border-color', 'red');
             setTimeout(function () {
-                $('#current_password').removeAttr('style');
+                currentPasswordInput.removeAttr('style');
             }, 1000);
         } else {
-            $('#current_password').removeAttr('style');
+            currentPasswordInput.removeAttr('style');
             const inputElement = $($(this).data('target'));
-            const inputType = inputElement.prop('type');
-            inputElement.prop('type', inputType == 'password' ? 'text' : 'password');
+            inputElement.prop('type', inputElement.prop('type') == 'password' ? 'text' : 'password');
             $(this).toggleClass('bi-eye-slash bi-eye');
         }
     });
@@ -137,7 +137,7 @@ function resetChangePasswordForm() {
     currentPassword.text("");
     changePasswordForm[0].reset();
     eyeIcon.removeClass('bi-eye').addClass('bi-eye-slash');
-    password.add(confirmPassword).prop('type', 'password').add(resetPasswordBtn.removeClass('hover:scale-105 hover:bg-yellow-600')).prop('disabled', true);
+    password.add(confirmPassword).prop('type', 'password').add(resetPasswordBtn.toggleClass('hover:scale-105 hover:bg-yellow-600')).prop('disabled', true);
 }
 
 function changePasswordHandler(form) {
@@ -153,14 +153,14 @@ function changePasswordHandler(form) {
                     if (response.status == "warning") {
                         showWarningMessage(response.message);
                     } else {
-                        toastr.success('Password successfully changed.', 'Success');
-                        changePasswordForm[0].reset();
+                        showSuccessMessage('Password successfully changed.');
+                        form[0].reset();
                         currentPassword.text("");
                         changePasswordModal.modal('hide');
                     }
                 },
                 error: function () {
-                    tshowErrorMessage();
+                    showErrorMessage();
                 }
             });
         }

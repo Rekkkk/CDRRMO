@@ -345,7 +345,7 @@
 
                 function alterEvacuationCenter(url, type, operation) {
                     confirmModal(
-                        `Do you want to ${operation == "remove" ? "remove permanently" : "change the status of"} this evacuation center?`
+                        `Do you want to ${operation == "remove" ? "remove" : "change the status of"} this evacuation center?`
                     ).then((result) => {
                         if (result.isConfirmed) {
                             $.ajax({
@@ -359,7 +359,7 @@
                                 url: url,
                                 success: function() {
                                     showSuccessMessage(
-                                        `Successfully ${operation == "remove" ? "permanently removed" : "changed the status of"} evacuation center.`
+                                        `Successfully ${operation == "remove" ? "removed" : "changed the status of"} evacuation center.`
                                     );
                                     evacuationCenterTable.draw();
                                 },

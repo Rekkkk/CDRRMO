@@ -9,12 +9,12 @@ class Cswd
 {
     public function handle(Request $request, Closure $next)
     {
-        if ($request->route()->getName() === 'generate.evacuee.data')
+        if ($request->route()->getName() == 'generate.evacuee.data')
             return $next($request);
 
         if (auth()->check() && auth()->user()->organization == "CSWD")
             return $next($request);
 
-        return back()->with('error', "Request Can't Perform.");
+        return back()->with('warning', "Request Can't Perform.");
     }
 }

@@ -7,7 +7,6 @@
 
 <body>
     <div class="wrapper">
-        @include('sweetalert::alert')
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
@@ -45,10 +44,10 @@
                             <label class="bg-red-700 rounded-t profile-details-label">Organization</label>
                             @if (auth()->user()->organization == 'CDRRMO')
                                 <p class="profile-details rounded-b">Cabuyao Disaster Risk Reduction
-                                    and Management Office ({{ auth()->user()->organization }})</p>
+                                    and Management Office (CDRRMO)</p>
                             @else
                                 <p class="profile-details rounded-b">City Social Welfare and
-                                    Development ({{ auth()->user()->organization }})
+                                    Development (CSWD)
                                 </p>
                             @endif
                         </div>
@@ -83,19 +82,19 @@
     @if (auth()->user()->is_disable == 0)
         <script>
             $(document).ready(function() {
-                let defaultFormData;
+                let defaultFormData, modal = $('#userAccountModal');
 
-                $('#editProfileBtn').click(function() {
+                $(document).on('click', '#editProfileBtn', function() {
                     $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                     $('.modal-title').text('Edit Profile Account');
                     $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text('Update');
                     $('#suspend-container').hide();
-                    $('#operation').val('update');
+                    $('#account_operation').val('update');
                     $('#accountId').val('{{ auth()->user()->id }}');
                     $('#organization').val('{{ auth()->user()->organization }}');
                     $('#position').val('{{ auth()->user()->position }}');
                     $('#email').val('{{ auth()->user()->email }}');
-                    $('#userAccountModal').modal('show');
+                    modal.modal('show');
                     defaultFormData = $('#accountForm').serialize();
                 });
 
@@ -128,14 +127,13 @@
 
                 function formSubmitHandler(form) {
                     let accountid = $('#accountId').val(),
-                        operation = $('#operation').val(),
+                        operation = $('#account_operation').val(),
                         formData = $(form).serialize();
 
                     confirmModal('Do you want to update this user details?').then((result) => {
                         if (result.isConfirmed) {
                             if (operation == 'update' && defaultFormData == formData) {
                                 showWarningMessage('No changes were made.');
-                                $('#userAccountModal').modal('hide');
                                 return;
                             }
                             $.ajax({
@@ -143,22 +141,16 @@
                                     .replace(':accountid', accountid),
                                 method: 'PUT',
                                 data: formData,
-                                dataType: 'json',
-                                beforeSend: function() {
-                                    $(document).find('span.error-text').text('');
-                                },
                                 success: function(response) {
-                                    if (response.status == 0) {
-                                        $.each(response.error, function(prefix, val) {
-                                            $('span.' + prefix + '_error').text(val[0]);
-                                        });
-                                        toastr.warning('Failed to update user details.', 'Warning');
+                                    if (response.status == 'warning') {
+                                        showWarningMessage(response.message);
                                     } else {
-                                        showSuccessMessage('Successfully updated the user details.');
+                                        showSuccessMessage(
+                                            'Successfully updated the account details.');
                                     }
                                 },
                                 error: function() {
-                                    $('#userAccountModal').modal('hide');
+                                    modal.modal('hide');
                                     showErrorMessage();
                                 }
                             });
@@ -166,9 +158,8 @@
                     });
                 }
 
-                $('#userAccountModal').on('hidden.bs.modal', function() {
+                modal.on('hidden.bs.modal', function() {
                     validator.resetForm();
-                    $(document).find('span.error-text').text('');
                     $('#accountForm').trigger("reset");
                 });
             });

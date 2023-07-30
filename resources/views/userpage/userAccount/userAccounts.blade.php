@@ -171,8 +171,7 @@
                                         url: "{{ route('account.disable', ':userId') }}"
                                             .replace(':userId', userId),
                                         success: function() {
-                                            toastr.success('Successfully disabled account.',
-                                                'Success');
+                                            showSuccessMessage('Successfully disabled account.');
                                             accountTable.draw();
                                         },
                                         error: function() {
@@ -191,8 +190,7 @@
                                         url: "{{ route('account.enable', ':userId') }}"
                                             .replace(':userId', userId),
                                         success: function() {
-                                            toastr.success('Successfully enabled account.',
-                                                'Success');
+                                            showSuccessMessage('Successfully enabled account.');
                                             accountTable.draw();
                                         },
                                         error: function() {
@@ -223,8 +221,7 @@
                                         url: "{{ route('account.remove', ':userId') }}"
                                             .replace(':userId', userId),
                                         success: function() {
-                                            toastr.success('Successfully removed account.',
-                                                'Success');
+                                            showSuccessMessage('Successfully removed account.');
                                             accountTable.draw();
                                         },
                                         error: function() {
@@ -254,8 +251,7 @@
                                         url: "{{ route('account.open', ':userId') }}"
                                             .replace(':userId', userId),
                                         success: function() {
-                                            toastr.success('Successfully opened account.',
-                                                'Success');
+                                            showSuccessMessage('Successfully opened account.');
                                             accountTable.draw();
                                         },
                                         error: function() {
