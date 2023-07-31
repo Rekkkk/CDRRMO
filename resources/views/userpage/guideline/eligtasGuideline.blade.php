@@ -22,7 +22,7 @@
             <div class="content-item text-center mt-3">
                 <div class="guideline-container">
                     @foreach ($guideline as $guidelineItem)
-                        <div class="guideline-widget">
+                        <div class="guideline-widget shadow-lg">
                             @auth
                                 @if (auth()->user()->is_disable == 0)
                                     <button class="absolute left-2 top-3 hover:scale-105" id="updateGuidelineBtn">

@@ -767,7 +767,8 @@ table td {
 }
 
 .status-container {
-    width: 100px;
+    width: 120px;
+    border-radius: 9999px;
     padding: 6px 8px;
     color: white;
     font-weight: bold;
@@ -967,16 +968,11 @@ table td {
 
     .report-container p {
         font-size: 15px;
-        margin: 10px 0;
+        margin: 15px 0 10px 0;
     }
 
     .report-container form {
         margin: 10px 0;
-    }
-
-    .report-container button {
-        width: 100%;
-        float: none;
     }
 
     /* Dashboard Section End*/

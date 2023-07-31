@@ -27,14 +27,16 @@
                             <span class="text-red-600 font-black">{{ $disasters->name }},</span>
                         @endforeach
                     </p>
-                    <button type="button" data-bs-toggle="modal" data-bs-target="#generateReportModal"
-                        class="btn-submit my-1 bg-green-600">
-                        <i class="bi bi-printer pr-2"></i>
-                        Generate Report Data
-                    </button>
+                    <div class=" flex justify-end">
+                        <button type="button" data-bs-toggle="modal" data-bs-target="#generateReportModal"
+                            class="btn-submit mt-1 bg-green-600">
+                            <i class="bi bi-printer pr-2"></i>
+                            Generate Report Data
+                        </button>
+                    </div>
                 </div>
             @endif
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div class="grid grid-cols-1 mt-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
                 <div class="widget">
                     <div class="widget-content">
                         <div class="content-description">
