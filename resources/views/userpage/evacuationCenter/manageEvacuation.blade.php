@@ -187,17 +187,14 @@
                         barangayName: 'required'
                     },
                     messages: {
-                        name: 'Please select disaster.',
+                        name: 'Please enter evacuation center name.',
                         barangayName: 'Please select a barangay.'
                     },
                     showErrors: function(errorMap, errorList) {
                         this.defaultShowErrors();
 
-                        if (!marker && saveBtnClicked) {
-                            $('#location-error').
-                            text('Please select a location.').
-                            show();
-                        }
+                        if (!marker && saveBtnClicked)
+                            $('#location-error').text('Please select a location.').show();
                     },
                     errorElement: 'span',
                     submitHandler: formSubmitHandler
@@ -206,31 +203,31 @@
                 $(document).on('click', '.createEvacuationCenter', function() {
                     $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
                     $('.modal-title').text('Create Evacuation Center');
-                    $('#saveEvacuationCenterBtn').removeClass('btn-update').addClass('btn-submit').text(
+                    $('#createEvacuationCenterBtn').removeClass('btn-update').addClass('btn-submit').text(
                         'Create');
                     $('#operation').val('create');
                     $('#evacuationCenterModal').modal('show');
                 });
 
                 $(document).on('click', '.updateEvacuationCenter', function() {
-                    let data = getRowData(this);
-                    evacuationCenterId = data['id'];
+                    let data = getRowData(this, evacuationCenterTable);
+                    evacuationCenterId = data.id;
 
                     $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                     $('.modal-title').text('Update Evacuation Center');
-                    $('#saveEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-update').text(
+                    $('#createEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-update').text(
                         'Update');
                     $('#operation').val('update');
-                    $('#name').val(data['name']);
-                    $('#latitude').val(data['latitude']);
-                    $('#longitude').val(data['longitude']);
-                    $('#capacity').val(data['capacity']);
-                    $(`#barangayName, option[value="${data['barangay_name']}"`).prop('selected', true);
+                    $('#name').val(data.name);
+                    $('#latitude').val(data.latitude);
+                    $('#longitude').val(data.longitude);
+                    $('#capacity').val(data.capacity);
+                    $(`#barangayName, option[value="${data.barangay_name}"`).prop('selected', true);
 
                     marker = new google.maps.Marker({
                         position: {
-                            lat: parseFloat(data['latitude']),
-                            lng: parseFloat(data['longitude'])
+                            lat: parseFloat(data.latitude),
+                            lng: parseFloat(data.longitude)
                         },
                         map: map,
                         icon: {
@@ -244,19 +241,17 @@
                 });
 
                 $(document).on('click', '.removeEvacuationCenter', function() {
-                    evacuationCenterId = getRowData(this)['id'];
                     let url = "{{ route('evacuation.center.remove', ':evacuationCenterId') }}".replace(
-                        ':evacuationCenterId', evacuationCenterId);
-                    alterEvacuationCenter(url, "PATCH", "remove");
+                        ':evacuationCenterId', getRowData(this, evacuationCenterTable).id);
+                    alterEvacuationCenter(url, 'PATCH', 'remove');
                 })
 
                 $(document).on('change', '.changeEvacuationStatus', function() {
-                    evacuationCenterId = getRowData(this)['id'];
                     status = $(this).val();
                     let url = "{{ route('evacuation.center.change.status', ':evacuationCenterId') }}"
                         .replace(
-                            ':evacuationCenterId', evacuationCenterId);
-                    alterEvacuationCenter(url, "PATCH", "change");
+                            ':evacuationCenterId', getRowData(this, evacuationCenterTable).id);
+                    alterEvacuationCenter(url, 'PATCH', 'change');
                 })
 
                 $('#evacuationCenterModal').on('hidden.bs.modal', function() {
@@ -277,24 +272,12 @@
                     saveBtnClicked = false;
                 });
 
-                $('#saveEvacuationCenterBtn').click(() => {
+                $('#createEvacuationCenterBtn').click(() => {
                     saveBtnClicked = true;
                 });
 
-                function getRowData(element) {
-                    let currentRow = $(element).closest('tr');
-
-                    if (evacuationCenterTable.responsive.hasHidden()) {
-                        currentRow = currentRow.prev('tr');
-                    }
-
-                    return evacuationCenterTable.row(currentRow).data();
-                }
-
                 function formSubmitHandler(form) {
-                    if (!marker) {
-                        return;
-                    }
+                    if (!marker) return;
 
                     let operation = $('#operation').val(),
                         url, type, formData = $(form).serialize(),
@@ -304,7 +287,7 @@
                         "{{ route('evacuation.center.update', ':evacuationCenterId') }}".
                     replace(':evacuationCenterId', evacuationCenterId);
 
-                    type = óperation == 'create' ? 'POST' : 'PUT';
+                    type = operation == 'create' ? 'POST' : 'PUT';
 
                     confirmModal(`Do you want to ${operation} this evacuation center?`).then((result) => {
                         if (result.isConfirmed) {
@@ -317,14 +300,11 @@
                                 url: url,
                                 type: type,
                                 success: function(response) {
-                                    if (response.status == "warning") {
-                                        showWarningMessage(response.message);
-                                    } else {
-                                        showSuccessMessage(
-                                            `Successfully ${operation}d evacuation center.`);
-                                        evacuationCenterTable.draw();
-                                        modal.modal('hide');
-                                    }
+                                    response.status == "warning" ? showWarningMessage(response
+                                        .message) : (showSuccessMessage(
+                                        `Successfully ${operation}d evacuation center.`
+                                    ), evacuationCenterTable.draw(), modal.modal(
+                                        'hide'));
                                 },
                                 error: function() {
                                     modal.modal('hide');

@@ -166,3 +166,13 @@ function changePasswordHandler(form) {
         }
     });
 }
+
+function getRowData(row, table) {
+    let currentRow = $(row).closest('tr');
+
+    if (table.responsive && table.responsive.hasHidden()) {
+        currentRow = currentRow.prev('tr');
+    }
+
+    return table.row(currentRow).data();
+}

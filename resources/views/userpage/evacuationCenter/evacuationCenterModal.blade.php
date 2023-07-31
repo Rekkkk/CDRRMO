@@ -55,7 +55,7 @@
                                     <span id="location-error" class="error"></span>
                                 </div>
                                 <div class="w-full px-4 pt-1 pb-3">
-                                    <button id="saveEvacuationCenterBtn"
+                                    <button id="createEvacuationCenterBtn"
                                         class="btn-submit p-2 float-right">Create</button>
                                 </div>
                             </div>

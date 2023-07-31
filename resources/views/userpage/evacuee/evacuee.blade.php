@@ -196,7 +196,6 @@
                 messages: {
                     disaster_id: 'Please select disaster.',
                     date_entry: 'Please enter date entry.',
-                    barangay: 'Please enter barangay.',
                     evacuation_assigned: 'Please enter evacuation center assigned.',
                     infants: 'Please enter number of infants.',
                     minors: 'Please enter number of minors.',
@@ -226,20 +225,14 @@
                 $('.modal-title').text('Update Evacuee Information');
                 $('#recordEvacueeInfoBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
 
-                let currentRow = $(this).closest('tr');
-
-                if (evacueeTable.responsive.hasHidden()) {
-                    currentRow = currentRow.prev('tr');
-                }
-
-                let data = evacueeTable.row(currentRow).data();
-                evacueeId = data['id'];
+                let data = getRowData(this, evacueeTable);
+                evacueeId = data.id;
 
                 for (const index in data) {
                     if (['action', 'DT_RowIndex', 'id'].includes(index)) continue;
 
-                    const fields = index == 'barangay' ? 'select[name="barangay"]' :
-                        index == 'evacuation_assigned' ? 'select[name="evacuation_assigned"]' :
+                    const fields = index == 'barangay' ? 'select[name="barangay"]' : index ==
+                        'evacuation_assigned' ? 'select[name="evacuation_assigned"]' :
                         `#${index}`;
 
                     $(fields).val(data[index]);
@@ -282,15 +275,11 @@
                             url: url,
                             type: type,
                             success: function(response) {
-                                if (response.status == 'warning') {
-                                    showWarningMessage(response.message);
-                                } else {
-                                    modal.modal('hide');
-                                    evacueeTable.draw();
+                                response.status == 'warning' ? showWarningMessage(response
+                                    .message) : (modal.modal('hide'), evacueeTable.draw(),
                                     showSuccessMessage(
                                         `Successfully ${operation}${operation == 'record' ? 'ed new' : 'd the'} evacuee info.`
-                                    );
-                                }
+                                    ));
                             },
                             error: function() {
                                 showErrorMessage();

@@ -109,14 +109,10 @@
 
             let validator = $("#disasterForm").validate({
                 rules: {
-                    name: {
-                        required: true
-                    }
+                    name: 'required'
                 },
                 messages: {
-                    name: {
-                        required: 'Please Enter Disaster Name.'
-                    }
+                    name: 'Please Enter Disaster Name.'
                 },
                 errorElement: 'span',
                 submitHandler: disasterFormHandler
@@ -124,32 +120,33 @@
 
             $(document).on('click', '.createDisasterData', function() {
                 $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                $('.modal-title').text('Create Disaster');
+                $('.modal-title').text('Create Disaster Form');
                 $('#submitDisasterBtn').removeClass('btn-update').addClass('btn-submit').text('Create');
                 $('#operation').val('create');
                 $('#disasterModal').modal('show');
             });
 
             $(document).on('click', '.updateDisaster', function() {
-                let data = getRowData(this);
-                disasterId = data['id'];
+                let data = getRowData(this, disasterTable);
+                disasterId = data.id;
                 $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                $('.modal-title').text('Update Disaster');
+                $('.modal-title').text('Update Disaster Form');
                 $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
-                $('#disasterName').val(data['name']);
+                $('#disasterName').val(data.name);
                 $('#operation').val('update');
                 $('#disasterModal').modal('show');
                 defaultFormData = $('#disasterForm').serialize();
             });
 
             $(document).on('click', '.removeDisaster', function() {
-                disasterId = getRowData(this)['id'];
+                disasterId = getRowData(this, disasterTable).id;
                 alterDisasterData('remove');
             });
 
             $(document).on('change', '.changeDisasterStatus', function() {
-                disasterId = getRowData(this)['id'];
-                current_status = getRowData(this)['status']
+                let rowData = getRowData(this, disasterTable);
+                disasterId = rowData.id;
+                current_status = rowData.status;
                 status = $(this).val();
                 alterDisasterData('change');
             });
@@ -169,24 +166,19 @@
                     if (result.isConfirmed) {
                         let url, type;
 
-                        if (operation == 'remove') {
-                            url = "{{ route('disaster.remove', ':disasterId') }}"
-                                .replace(':disasterId', disasterId);
-                            type = "PATCH";
-                        } else {
-                            url = "{{ route('disaster.change.status', ':disasterId') }}"
-                                .replace(':disasterId', disasterId);
-                            type = "PATCH";
-                        }
+                        url = operation == 'remove' ? "{{ route('disaster.remove', ':disasterId') }}"
+                            .replace(':disasterId', disasterId) :
+                            "{{ route('disaster.change.status', ':disasterId') }}"
+                            .replace(':disasterId', disasterId);
 
                         $.ajax({
-                            type: type,
+                            type: 'PATCH',
                             data: {
                                 status: status
                             },
                             url: url,
                             success: function() {
-                                toastr.success(`Disaster successfully ${operation}d.`, 'Success');
+                                showSuccessMessage(`Disaster successfully ${operation}d.`);
                                 disasterTable.draw();
                             },
                             error: function() {
@@ -222,13 +214,9 @@
                             url: url,
                             type: type,
                             success: function(response) {
-                                if (response.status == 'warning') {
-                                    showWarningMessage(response.message);
-                                } else {
-                                    showSuccessMessage(`Disaster successfully ${operation}d.`);
-                                    $('#disasterModal').modal('hide');
-                                    disasterTable.draw();
-                                }
+                                response.status == 'warning' ? showWarningMessage(response.message) : (
+                                    showSuccessMessage(`Disaster successfully ${operation}d.`), $(
+                                        '#disasterModal').modal('hide'), disasterTable.draw());
                             },
                             error: function() {
                                 showErrorMessage();
@@ -236,16 +224,6 @@
                         });
                     }
                 });
-            }
-
-            function getRowData(element) {
-                let currentRow = $(element).closest('tr');
-
-                if (disasterTable.responsive.hasHidden()) {
-                    currentRow = currentRow.prev('tr');
-                }
-
-                return disasterTable.row(currentRow).data();
             }
         @endif
     </script>
