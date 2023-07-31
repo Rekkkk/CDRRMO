@@ -30,19 +30,16 @@ class DisasterController extends Controller
                         'Inactive' => 'red'
                     };
 
-                    return '<div class="flex  justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
-                })->addColumn('action', function () {
+                    return '<div class="flex  justify-center"><div class="bg-' . $color . '-600 rounded-full status-container">' . $row->status . '</div></div>';
+                })->addColumn('action', function ($row) {
                     if (auth()->user()->is_disable == 0) {
-                        return
-                            '<div class="flex justify-center actionContainer">' .
-                                '<button class="btn-table-update w-28 mr-2 updateDisaster"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
-                                '<button class="btn-table-remove w-28 mr-2 removeDisaster"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
-                                '<select class="form-select w-44 bg-blue-500 text-white drop-shadow-md changeDisasterStatus">
-                                        <option value="" disabled selected hidden>Change Status</option>
-                                        <option value="On Going">On Going</option>
-                                        <option value="Inactive">Inactive</option>
-                                </select>' .
-                            '</div>';
+                        $statusOptions = $row->status == 'On Going' ? '<option value="Inactive">Inactive</option>' : '<option value="On Going">On Going</option>';
+
+                        return '<div class="flex justify-center actionContainer">' .
+                            '<button class="btn-table-update w-28 mr-2 updateDisaster"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
+                            '<button class="btn-table-remove w-28 mr-2 removeDisaster"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
+                            '<select class="form-select w-44 bg-blue-500 text-white drop-shadow-md changeDisasterStatus">' .
+                            '<option value="" disabled selected hidden>Change Status</option>' . $statusOptions . '</select></div>';
                     }
 
                     return '<span class="text-sm">Currently Disabled.</span>';
@@ -62,16 +59,16 @@ class DisasterController extends Controller
 
         if ($validatedDisasterData->passes()) {
             $this->disaster->create([
-                'name' => $request->name,
+                'name' => trim($request->name),
                 'status' => "On Going",
                 'is_archive' => 0
             ]);
             $this->logActivity->generateLog('Creating Disaster Data');
 
-            return response()->json(['status' => 'success']);
+            return response()->json();
         }
 
-        return response()->json(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
+        return response(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
     }
 
     public function updateDisasterData(Request $request, $disasterId)
@@ -82,11 +79,11 @@ class DisasterController extends Controller
 
         if ($validatedDisasterData->passes()) {
             $this->disaster->find($disasterId)->update([
-                'name' => $request->name
+                'name' => trim($request->name)
             ]);
             $this->logActivity->generateLog('Updating Disaster Data');
 
-            return response()->json(['status' => 'success']);
+            return response()->json();
         }
 
         return response()->json(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
@@ -95,7 +92,9 @@ class DisasterController extends Controller
     public function removeDisasterData($disasterId)
     {
         $this->disaster->find($disasterId)->update([
+            'status' => 'Archived',
             'is_archive' => 1
+
         ]);
         $this->logActivity->generateLog('Removing Disaster Data');
 
@@ -107,7 +106,7 @@ class DisasterController extends Controller
         $this->disaster->find($disasterId)->update([
             'status' => $request->status
         ]);
-        $this->logActivity->generateLog('Change Disaster Status');
+        $this->logActivity->generateLog('Changing Disaster Status');
 
         return response()->json();
     }

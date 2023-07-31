@@ -46,24 +46,17 @@ class UserAccountsController extends Controller
                         'Suspended' => 'orange'
                     };
 
-                    return '<div class="flex justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
+                    return '<div class="flex justify-center"><div class="bg-' . $color . '-600 rounded-full status-container">' . $row->status . '</div></div>';
                 })->addColumn('action', function ($user) {
                     if (auth()->user()->is_disable == 0) {
                         $actionBtns = '<select class="form-select w-44 bg-blue-500 text-white actionSelect">
                         <option value="" disabled selected hidden>Select Action</option>';
 
-                        if ($user->is_suspend == 0) {
-                            if ($user->is_disable == 0) {
-                                $actionBtns .= '<option value="disableAccount">Disable Account</option>';
-                                $actionBtns .= '<option value="suspendAccount">Suspend Account</option>';
-                            } else {
-                                $actionBtns .= '<option value="enableAccount">Enable Account</option>';
-                            }
-                        } else {
-                            $actionBtns .= '<option value="openAccount">Open Account</option>';
-                        }
+                        $actionBtns .= $user->is_suspend == 0 && $user->is_disable == 0
+                            ? '<option value="disableAccount">Disable Account</option><option value="suspendAccount">Suspend Account</option>'
+                            : ($user->is_suspend == 1 ? '<option value="openAccount">Open Account</option>' : '<option value="enableAccount">Enable Account</option>');
 
-                        return $actionBtns .= '<option value="updateAccount">Update Account</option>' . '<option value="removeAccount">Remove Account</option>' . '</select>';
+                        return $actionBtns .= '<option value="updateAccount">Update Account</option><option value="removeAccount">Remove Account</option></select>';
                     }
 
                     return '<span class="text-sm">Currently Disabled.</span>';
@@ -95,7 +88,6 @@ class UserAccountsController extends Controller
                 'is_suspend' =>  0
             ]);
             $this->logActivity->generateLog('Creating Account');
-
             // Mail::to(trim($request->email))->send(new UserCredentialsMail([
             //     'email' => trim($request->email),
             //     'organization' => $request->organization,
@@ -106,7 +98,7 @@ class UserAccountsController extends Controller
             return response()->json();
         }
 
-        return response(['status' => "warning", 'message' => $createAccountValidation->error()->first()]);
+        return response(['status' => 'warning', 'message' => $createAccountValidation->errors()->first()]);
     }
 
     public function updateAccount(Request $request, $userId)
@@ -114,7 +106,7 @@ class UserAccountsController extends Controller
         $updateAccountValidation = Validator::make($request->all(), [
             'organization' => 'required',
             'position' => 'required',
-            'email' => 'required|unique:user,email,' . $userId
+            'email' => 'required|email|unique:user,email,' . $userId
         ]);
 
         if ($updateAccountValidation->passes()) {
@@ -128,7 +120,7 @@ class UserAccountsController extends Controller
             return response()->json();
         }
 
-        return response(['status' => "warning", 'message' => $updateAccountValidation->error()->first()]);
+        return response(['status' => 'warning', 'message' => $updateAccountValidation->errors()->first()]);
     }
 
     public function disableAccount($userId)
@@ -170,7 +162,7 @@ class UserAccountsController extends Controller
             return response()->json();
         }
 
-        return response(['status' => "warning", 'error' => $suspendAccountValidation->error()->first()]);
+        return response(['status' => 'warning', 'error' => $suspendAccountValidation->errors()->first()]);
     }
 
     public function openAccount($userId)
@@ -193,10 +185,7 @@ class UserAccountsController extends Controller
 
     public function checkPassword(Request $request)
     {
-        if (Hash::check($request->current_password, auth()->user()->password))
-            return response()->json();
-        else
-            return response(['status' => "warning"]);
+        return Hash::check($request->current_password, auth()->user()->password) ? response()->json() : response(['status' => 'warning']);
     }
 
     public function resetPassword(Request $request, $userId)
@@ -211,20 +200,20 @@ class UserAccountsController extends Controller
 
                 if ($changePasswordValidation->passes()) {
                     $this->user->find($userId)->update([
-                        'password' => Hash::make($request->password)
+                        'password' => Hash::make(trim($request->password))
                     ]);
                     $this->logActivity->generateLog('Changing Password');
 
                     return response()->json();
                 }
 
-                return response(['status' => "warning", 'error' => $changePasswordValidation->errors()->toArray()]);
+                return response(['status' => 'warning', 'error' => $changePasswordValidation->errors()->toArray()]);
             } else {
-                return response(['status' => "warning", 'message' => "Password & Confirm pasword must be the same."]);
+                return response(['status' => 'warning', 'message' => 'Password & Confirm pasword must be the same.']);
             }
         }
 
-        return response(['status' => "warning", 'message' => "Current password doesn't match."]);
+        return response(['status' => 'warning', 'message' => "Current password doesn't match."]);
     }
 
     public function removeAccount($userId)

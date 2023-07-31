@@ -13,6 +13,6 @@ class Cdrrmo
         if (auth()->check() && auth()->user()->organization == 'CDRRMO')
             return $next($request);
 
-        return back()->with('error', "Request Can't Perform.");
+        return back()->with('warning', "Request Can't Perform.");
     }
 }

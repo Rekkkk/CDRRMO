@@ -65,7 +65,7 @@ Route::middleware('auth')->group(function () {
         Route::prefix('disaster')->name('disaster.')->controller(DisasterController::class)->group(function () {
             Route::get('/disasterInformation', 'displayDisasterInformation')->name('display');
             Route::post('/createDisasterData', 'createDisasterData')->name('create');
-            Route::put('/updateDisaster/{disasterId}', 'updateDisasterData')->name('update');
+            Route::patch('/updateDisaster/{disasterId}', 'updateDisasterData')->name('update');
             Route::patch('/removeDisaster/{disasterId}', 'removeDisasterData')->name('remove');
             Route::patch('/changeDisasterStatus/{disasterId}', 'changeDisasterStatus')->name('change.status');
         });
@@ -82,7 +82,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/viewEvacuationCenter/{operation}', 'getEvacuationData')->name('get');
             Route::post('/createEvacuationCenter', 'createEvacuationCenter')->name('create');
             Route::put('/updateEvacuation/{evacuationId}', 'updateEvacuationCenter')->name('update');
-            Route::delete('/removeEvacuation/{evacuationId}', 'removeEvacuationCenter')->name('remove');
+            Route::patch('/removeEvacuation/{evacuationId}', 'removeEvacuationCenter')->name('remove');
             Route::patch('/changeEvacuationStatus/{evacuationId}', 'changeEvacuationStatus')->name('change.status');
         });
     });

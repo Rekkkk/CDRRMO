@@ -116,32 +116,16 @@
 
                     let validator = $("#accountForm").validate({
                         rules: {
-                            organization: {
-                                required: true
-                            },
-                            position: {
-                                required: true
-                            },
-                            email: {
-                                required: true
-                            },
-                            suspend: {
-                                required: true
-                            }
+                            organization: 'required',
+                            position: 'required',
+                            email: 'required',
+                            suspend_time: 'required'
                         },
                         messages: {
-                            organization: {
-                                required: 'Please select an organization.'
-                            },
-                            position: {
-                                required: 'Please select a position.'
-                            },
-                            email: {
-                                required: 'Please enter an email address.'
-                            },
-                            suspend: {
-                                required: 'Please enter a suspension time.'
-                            }
+                            organization: 'Please select an organization.',
+                            position: 'Please select a position.',
+                            email: 'Please enter an email address.',
+                            suspend_time: 'Please enter a suspension time.'
                         },
                         errorElement: 'span',
                         submitHandler: formSubmitHandler
@@ -154,14 +138,9 @@
                     });
 
                     $(document).on('change', '.actionSelect', function() {
-                        let selectedAction = $(this).val();
-                        let currentRow = $(this).closest('tr');
-
-                        if (accountTable.responsive.hasHidden())
-                            currentRow = currentRow.prev('tr');
-
-                        let data = accountTable.row(currentRow).data();
-                        userId = data['id'];
+                        let selectedAction = $(this).val(),
+                            data = getRowData(this, accountTable);
+                        userId = data.id;
 
                         if (selectedAction == 'disableAccount') {
                             confirmModal('Do you want to disable this account?').then((result) => {
@@ -171,14 +150,12 @@
                                         url: "{{ route('account.disable', ':userId') }}"
                                             .replace(':userId', userId),
                                         success: function() {
-                                            toastr.success('Successfully disabled account.',
-                                                'Success');
+                                            showSuccessMessage(
+                                                'Successfully disabled account.');
                                             accountTable.draw();
                                         },
                                         error: function() {
-                                            toastr.error(
-                                                'An error occurred while processing your request.',
-                                                'Error');
+                                            showErrorMessage();
                                         }
                                     });
                                 } else {
@@ -193,14 +170,12 @@
                                         url: "{{ route('account.enable', ':userId') }}"
                                             .replace(':userId', userId),
                                         success: function() {
-                                            toastr.success('Successfully enabled account.',
-                                                'Success');
+                                            showSuccessMessage(
+                                                'Successfully enabled account.');
                                             accountTable.draw();
                                         },
                                         error: function() {
-                                            toastr.error(
-                                                'An error occurred while processing your request.',
-                                                'Error');
+                                            showErrorMessage();
                                         }
                                     });
                                 } else {
@@ -213,9 +188,9 @@
                             $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text(
                                 'Update');
                             $('#suspend-container').prop('hidden', true);
-                            $('#organization').val(data['organization']);
-                            $('#position').val(data['position']);
-                            $('#email').val(data['email']);
+                            $('#organization').val(data.organization);
+                            $('#position').val(data.position);
+                            $('#email').val(data.email);
                             $('#account_operation').val('update');
                             $('#userAccountModal').modal('show');
                             defaultFormData = $('#accountForm').serialize();
@@ -227,14 +202,12 @@
                                         url: "{{ route('account.remove', ':userId') }}"
                                             .replace(':userId', userId),
                                         success: function() {
-                                            toastr.success('Successfully removed account.',
-                                                'Success');
+                                            showSuccessMessage(
+                                                'Successfully removed account.');
                                             accountTable.draw();
                                         },
                                         error: function() {
-                                            toastr.error(
-                                                'An error occurred while processing your request.',
-                                                'Error');
+                                            showErrorMessage();
                                         }
                                     });
                                 } else {
@@ -246,9 +219,9 @@
                             $('.modal-title').text('Suspend User Account');
                             $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text(
                                 'Suspend');
-                            $('#organization').val(data['organization']);
-                            $('#position').val(data['position']);
-                            $('#email').val(data['email']);
+                            $('#organization').val(data.organization);
+                            $('#position').val(data.position);
+                            $('#email').val(data.email);
                             $('#account_operation').val('suspend');
                             $('#userAccountModal').modal('show');
                             defaultFormData = $('#accountForm').serialize();
@@ -260,14 +233,12 @@
                                         url: "{{ route('account.open', ':userId') }}"
                                             .replace(':userId', userId),
                                         success: function() {
-                                            toastr.success('Successfully opened account.',
-                                                'Success');
+                                            showSuccessMessage(
+                                                'Successfully opened account.');
                                             accountTable.draw();
                                         },
                                         error: function() {
-                                            toastr.error(
-                                                'An error occurred while processing your request.',
-                                                'Error');
+                                            showErrorMessage();
                                         }
                                     });
                                 } else {
@@ -311,7 +282,7 @@
                         confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
                             if (result.isConfirmed) {
                                 if (operation == 'update' && defaultFormData == formData) {
-                                    toastr.warning('No changes were made.', 'Warning');
+                                    showWarningMessage('No changes were made.');
                                     return;
                                 }
                                 $.ajax({
@@ -319,20 +290,13 @@
                                     url: url,
                                     type: type,
                                     success: function(response) {
-                                        if (response.status == "warning") {
-                                            toastr.warning(response.message, 'Warning');
-                                        } else {
-                                            toastr.success(
-                                                `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`,
-                                                'Success');
-                                            modal.modal('hide');
-                                            accountTable.draw();
-                                        }
+                                        response.status == "warning" ? showWarningMessage(response
+                                            .message) : (showSuccessMessage(
+                                            `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`
+                                        ), modal.modal('hide'), accountTable.draw())
                                     },
                                     error: function() {
-                                        toastr.error(
-                                            'An error occurred while processing your request.',
-                                            'Error');
+                                        showErrorMessage();
                                     }
                                 });
                             }

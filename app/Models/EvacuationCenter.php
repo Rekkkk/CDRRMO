@@ -19,6 +19,7 @@ class EvacuationCenter extends Model
         'latitude',
         'longitude',
         'capacity',
+        'is_archive',
         'status'
     ];
 

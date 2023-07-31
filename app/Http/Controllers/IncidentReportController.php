@@ -31,17 +31,18 @@ class IncidentReportController extends Controller
 
         return DataTables::of($pendingReport)
             ->addIndexColumn()->addColumn('status', function () {
-                return '<div class="flex justify-center"><div class="bg-orange-600 status-container w-28">On Process</div></div>';            })->addColumn('action', function ($row) {
+                return '<div class="flex justify-center"><div class="bg-orange-600 rounded-full status-container w-28">On Process</div></div>';
+            })->addColumn('action', function ($row) {
                 if ($row->user_ip == request()->ip() && !auth()->check())
-                    return '<button class="btn-table-remove p-2 revertIncidentReport">Revert</button>';
+                    return '<button  class="btn-table-remove p-2 revertIncidentReport">Revert</button>';
 
                 if (auth()->check()) {
                     if (auth()->user()->is_disable == 0)
                         return
-                        '<div class="flex justify-center actionContainer">' .
+                            '<div class="flex justify-center actionContainer">' .
                             '<button class="btn-table-submit mr-2 approveIncidentReport">Approve</button>' .
                             '<button class="btn-table-remove mr-2 declineIncidentReport">Decline</button>' .
-                        '</div>';
+                            '</div>';
                 }
 
                 return '<span class="text-sm">Currently Disabled.</span>';
@@ -63,7 +64,7 @@ class IncidentReportController extends Controller
                     'Declined' => 'red'
                 };
 
-                return '<div class="flex  justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
+                return '<div class="flex justify-center"><div class="bg-' . $color . '-600 rounded-full status-container">' . $row->status . '</div></div>';
             })->addColumn('action', function () {
                 if (auth()->user()->is_disable == 0) {
                     return '<button class="btn-table-remove p-2 removeIncidentReport">Remove</button>';
@@ -114,10 +115,8 @@ class IncidentReportController extends Controller
                 $this->incidentReport->create($incidentReport);
                 $this->reportLog->where('user_ip', $request->ip())->update(['attempt' => $residentAttempt + 1]);
                 $attempt = $this->reportLog->where('user_ip', $request->ip())->value('attempt');
-
                 $attempt == 3 ? $this->reportLog->where('user_ip', $request->ip())->update(['report_time' => Carbon::now()->addDays(3)]) :
                     intval($this->reportLog->where('user_ip', $request->ip())->value('attempt'));
-
                 //event(new IncidentReport());
 
                 return response(['status' => 'success']);
@@ -128,7 +127,6 @@ class IncidentReportController extends Controller
                 'user_ip' => $request->ip(),
                 'attempt' => 1
             ]);
-
             //event(new IncidentReport());
 
             return response(['status' => 'success']);
@@ -140,8 +138,8 @@ class IncidentReportController extends Controller
     public function approveIncidentReport($reportId)
     {
         $this->report->approveStatus($reportId);
-        //event(new IncidentReport());
         $this->logActivity->generateLog('Approving Incident Report');
+        //event(new IncidentReport());
 
         return response()->json();
     }
@@ -149,8 +147,8 @@ class IncidentReportController extends Controller
     public function declineIncidentReport($reportId)
     {
         $this->report->declineStatus($reportId);
-        //event(new IncidentReport());
         $this->logActivity->generateLog('Declining Incident Report');
+        //event(new IncidentReport());
 
         return response()->json();
     }

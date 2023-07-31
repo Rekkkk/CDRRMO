@@ -61,8 +61,9 @@
                                             <p class="text-sm text-gray-600">{{ $report->location }}</p>
                                         </div>
                                         <div class="py-2">
-                                            <p class="font-bold">Report Status</p>
-                                            <p class=" bg-green-600 status-container">{{ $report->status }}</p>
+                                            <p class="font-bold">Report Status : <span
+                                                    class="bg-green-600 status-container rounded-full">{{ $report->status }}</span>
+                                            </p>
                                         </div>
                                         <p class="pb-2 font-bold">Date Reported: <span class="text-red-600">July 22,
                                                 2002</span>
@@ -139,8 +140,8 @@
             </div>
             <div class="report-button">
                 <div class="report-form">
-                    <a class="bg-slate-700 hover:bg-slate-800 p-3 fs-4 rounded-full" href="javascript:void(0)"
-                        id="createReport">
+                    <a class="bg-slate-700 hover:bg-slate-800 p-3 fs-4 rounded-full" href="#createAccidentReportModal"
+                        data-bs-toggle="modal">
                         <i class="bi bi-megaphone text-white"></i>
                     </a>
                 </div>
@@ -261,80 +262,46 @@
             });
 
             @if (auth()->user()->is_disable == 0)
-                let reportId;
-
-                $('body').on('click', '.approveIncidentReport', function() {
-                    reportId = getPendingRowData(this)['id'];
-                    alterIncidentReport('approve');
+                $(document).on('click', '.approveIncidentReport', function() {
+                    alterIncidentReport('approve', getRowData(this, pendingReport).id);
                 });
 
-                $('body').on('click', '.declineIncidentReport', function() {
-                    reportId = getPendingRowData(this)['id'];
-                    alterIncidentReport('decline');
+                $(document).on('click', '.declineIncidentReport', function() {
+                    alterIncidentReport('decline', getRowData(this, pendingReport).id);
                 });
 
-                $('body').on('click', '.removeIncidentReport', function() {
-                    reportId = getIncidentRowData(this)['id'];
-                    alterIncidentReport('remove');
+                $(document).on('click', '.removeIncidentReport', function() {
+                    alterIncidentReport('remove', getRowData(this, incidentReports).id);
                 });
 
-                function alterIncidentReport(operation) {
+                function alterIncidentReport(operation, reportId) {
                     confirmModal(`Do you want to ${operation} this report?`).then((result) => {
                         if (result.isConfirmed) {
-                            let url, type;
+                            let url = operation == 'approve' ? "{{ route('report.approve', ':reportId') }}"
+                                .replace(':reportId',
+                                    reportId) : operation == 'decline' ?
+                                "{{ route('report.decline', ':reportId') }}".replace(':reportId',
+                                    reportId) : "{{ route('report.remove', ':reportId') }}".replace(
+                                    ':reportId', reportId);
 
-                            if (operation == 'approve') {
-                                url = "{{ route('report.approve', ':reportId') }}"
-                                    .replace(':reportId', reportId);
-                                type = "POST";
-                            } else if (operation == 'decline') {
-                                url = "{{ route('report.decline', ':reportId') }}"
-                                    .replace(':reportId', reportId);
-                                type = "DELETE";
-                            } else {
-                                url = "{{ route('report.remove', ':reportId') }}"
-                                    .replace(':reportId', reportId);
-                                type = "PATCH";
-                            }
+                            let type = operation == 'approve' ? "POST" : operation == 'decline' ? "DELETE" :
+                                "PATCH";
 
                             $.ajax({
                                 type: type,
                                 url: url,
                                 success: function() {
-                                    toastr.success(
-                                        `Incident report successfully ${operation}d.`,
-                                        'Success');
+                                    showSuccessMessage(
+                                        `Incident report successfully ${operation}d.`);
                                     pendingReport.draw();
                                     incidentReports.draw();
                                 },
                                 error: function() {
-                                    toastr.error(
-                                        'An error occurred while processing your request.',
-                                        'Error');
+                                    showErrorMessage();
                                 }
                             });
                         }
                     });
-                }
-
-                function getPendingRowData(element) {
-                    let currentRow = $(element).closest('tr');
-
-                    if (pendingReport.responsive.hasHidden()) {
-                        currentRow = currentRow.prev('tr');
-                    }
-
-                    return pendingReport.row(currentRow).data();
-                }
-
-                function getIncidentRowData(element) {
-                    let currentRow = $(element).closest('tr');
-
-                    if (incidentReports.responsive.hasHidden()) {
-                        currentRow = currentRow.prev('tr');
-                    }
-
-                    return incidentReports.row(currentRow).data();
                 }
             @endif
         @endauth
@@ -385,11 +352,6 @@
             ]
         });
 
-        $('#createReport').click(function() {
-            $('#reportForm').trigger("reset");
-            $('#createAccidentReportModal').modal('show');
-        });
-
         $('#report_photo').change(function() {
             let reader = new FileReader();
 
@@ -398,25 +360,16 @@
             }
 
             reader.readAsDataURL(this.files[0]);
-
         });
 
         let validator = $("#reportForm").validate({
             rules: {
-                description: {
-                    required: true
-                },
-                location: {
-                    required: true
-                }
+                description: 'required',
+                location: 'required'
             },
             messages: {
-                description: {
-                    required: 'Please Enter Incident Description.'
-                },
-                location: {
-                    required: 'Please Enter Incident Location.'
-                }
+                description: 'Please Enter Incident Description.',
+                location: 'Please Enter Incident Location.'
             },
             errorElement: 'span',
             submitHandler: formSubmitHandler,
@@ -436,32 +389,29 @@
                         processData: false,
                         success: function(response) {
                             if (response.status == 'success') {
-                                toastr.success(
-                                    'Successfully reported, Thank for your concern.',
-                                    'Success');
+                                showSuccessMessage(
+                                    'Successfully reported, Thank for your concern.');
                                 $('#reportForm')[0].reset();
                                 $('#createAccidentReportModal').modal('hide');
                                 pendingReport.draw();
                             } else if (response.status == 'warning') {
-                                toastr.warning(response.message, 'Warning');
+                                showWarningMessage(response.message);
                             } else if (response.status == 'blocked') {
                                 $('#reportForm')[0].reset();
                                 $('#createAccidentReportModal').modal('hide');
-                                toastr.warning(response.message, 'Warning');
+                                showWarningMessage(response.message);
                             }
                         },
                         error: function() {
-                            toastr.error(
-                                'An error occurred while processing your request.',
-                                'Error');
+                            showErrorMessage();
                         }
                     });
                 }
             });
         }
 
-        $('body').on('click', '.revertIncidentReport', function() {
-            let reportId = getPendingRowData(this)['id'];
+        $(document).on('click', '.revertIncidentReport', function() {
+            let reportId = getRowData(this, pendingReport).id;
 
             confirmModal('Do you want to revert your report?').then((result) => {
                 if (result.isConfirmed) {
@@ -473,9 +423,7 @@
                             revertReport(reportId);
                         },
                         error: function() {
-                            toastr.error(
-                                'An error occurred while processing your request.',
-                                'Error');
+                            showErrorMessage();
                         }
                     });
                 }
@@ -488,25 +436,13 @@
                 url: "{{ route('resident.report.update', ':reportId') }}".replace(':reportId',
                     reportId),
                 success: function() {
-                    toastr.success('Incident report successfully reverted.', 'Success');
+                    showSuccessMessage('Incident report successfully reverted.');
                     pendingReport.draw();
                 },
                 error: function() {
-                    toastr.error(
-                        'An error occurred while processing your request.',
-                        'Error');
+                    showErrorMessage();
                 }
             });
-        }
-
-        function getPendingRowData(element) {
-            let currentRow = $(element).closest('tr');
-
-            if (pendingReport.responsive.hasHidden()) {
-                currentRow = currentRow.prev('tr');
-            }
-
-            return pendingReport.row(currentRow).data();
         }
 
         $('#createAccidentReportModal').on('hidden.bs.modal', function() {

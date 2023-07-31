@@ -89,20 +89,12 @@
 
                     let validator = $("#guideForm").validate({
                         rules: {
-                            label: {
-                                required: true
-                            },
-                            content: {
-                                required: true
-                            }
+                            label: 'required',
+                            content: 'required'
                         },
                         messages: {
-                            label: {
-                                required: 'Please Enter Guide Label.'
-                            },
-                            content: {
-                                required: 'Please Enter Guide Content.'
-                            }
+                            label: 'Please Enter Guide Label.',
+                            content: 'Please Enter Guide Content.'
                         },
                         errorElement: 'span',
                         submitHandler: guideFormHandler
@@ -158,19 +150,11 @@
                                         if (response.status == 'warning') {
                                             toastr.warning(response.message, 'Error');
                                         } else {
-                                            toastr.success(
-                                                'Guide removed successfully, Please wait...',
-                                                'Success', {
-                                                    onHidden: function() {
-                                                        location.reload();
-                                                    }
-                                                });
+                                            showSuccessMessage('Guide removed successfully, Please wait...');
                                         }
                                     },
                                     error: function() {
-                                        toastr.error(
-                                            'An error occurred while processing your request.',
-                                            'Error');
+                                        showErrorMessage();
                                     }
                                 });
                             }
@@ -193,7 +177,7 @@
                             if (result.isConfirmed) {
                                 if (operation == 'update' && defaultFormData == formData) {
                                     $('#guideModal').modal('hide');
-                                    toastr.warning('No changes were made.', 'Warning');
+                                    showWarningMessage('No changes were made.');
                                     return;
                                 }
                                 $.ajax({
@@ -202,23 +186,15 @@
                                     type: type,
                                     success: function(response) {
                                         if (response.status == 'warning') {
-                                            toastr.warning(response.message, 'Warning');
+                                            showWarningMessage(response.message);
                                         } else {
-                                            toastr.success(
-                                                `Guide successfully ${operation}d, Please wait...`,
-                                                'Success', {
-                                                    onHidden: function() {
-                                                        location.reload();
-                                                    }
-                                                });
+                                            showSuccessMessage(`Guide successfully ${operation}d, Please wait...`);
                                             $('#guideForm')[0].reset();
                                             $('#guideModal').modal('hide');
                                         }
                                     },
                                     error: function() {
-                                        toastr.error(
-                                            'An error occurred while processing your request.',
-                                            'Error');
+                                        showErrorMessage();
                                     }
                                 });
                             }

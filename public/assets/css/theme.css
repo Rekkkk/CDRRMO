@@ -307,6 +307,20 @@ hr,
     display: none;
 }
 
+.user-active{
+    width: 16px;
+    background: var(--color-green);
+    padding: 8px 0;
+    border-radius: 100%;
+}
+
+.user-disable{
+    width: 16px;
+    background: var(--color-red);
+    padding: 8px 0;
+    border-radius: 100%;
+}
+
 /* Side Bar End Section */
 
 /* Authentication Section Start Here */
@@ -532,12 +546,12 @@ hr,
 }
 
 #actualPhoto {
-    max-width: 100px;
-    max-height: 100px;
+    max-width: 300px;
+    max-height: 300px;
 }
 
-.report-photo{
-    width: 200px;
+.report-photo {
+    width: 250px;
     height: 100%;
 }
 
