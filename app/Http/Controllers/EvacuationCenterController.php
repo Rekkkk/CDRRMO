@@ -36,7 +36,7 @@ class EvacuationCenterController extends Controller
                     'Full' => 'orange'
                 };
 
-                return '<div class="flex justify-center"><div class="bg-' . $color . '-600 rounded-full status-container">' . $row->status . '</div></div>';
+                return '<div class="flex justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
             })->addColumn('action', function ($row) use ($operation) {
                 if ($operation == "locator") {
                     return match ($row->status) {
