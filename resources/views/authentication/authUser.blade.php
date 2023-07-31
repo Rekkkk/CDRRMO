@@ -55,7 +55,7 @@
     @include('partials.toastr')
     <script>
         $(document).ready(function() {
-            $('#showAuthPassword').click(function() {
+            $(document).on('click', '#showAuthPassword', function() {
                 const authPassword = $("#authPassword");
                 authPassword.attr('type', authPassword.attr('type') == 'password' ? 'text' : 'password');
                 $(this).toggleClass("bi-eye-slash bi-eye");

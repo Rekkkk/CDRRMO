@@ -138,14 +138,9 @@
                     });
 
                     $(document).on('change', '.actionSelect', function() {
-                        let selectedAction = $(this).val();
-                        let currentRow = $(this).closest('tr');
-
-                        if (accountTable.responsive.hasHidden())
-                            currentRow = currentRow.prev('tr');
-
-                        let data = accountTable.row(currentRow).data();
-                        userId = data['id'];
+                        let selectedAction = $(this).val(),
+                            data = getRowData(this, accountTable);
+                        userId = data.id;
 
                         if (selectedAction == 'disableAccount') {
                             confirmModal('Do you want to disable this account?').then((result) => {
@@ -193,9 +188,9 @@
                             $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text(
                                 'Update');
                             $('#suspend-container').prop('hidden', true);
-                            $('#organization').val(data['organization']);
-                            $('#position').val(data['position']);
-                            $('#email').val(data['email']);
+                            $('#organization').val(data.organization);
+                            $('#position').val(data.position);
+                            $('#email').val(data.email);
                             $('#account_operation').val('update');
                             $('#userAccountModal').modal('show');
                             defaultFormData = $('#accountForm').serialize();
@@ -224,9 +219,9 @@
                             $('.modal-title').text('Suspend User Account');
                             $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text(
                                 'Suspend');
-                            $('#organization').val(data['organization']);
-                            $('#position').val(data['position']);
-                            $('#email').val(data['email']);
+                            $('#organization').val(data.organization);
+                            $('#position').val(data.position);
+                            $('#email').val(data.email);
                             $('#account_operation').val('suspend');
                             $('#userAccountModal').modal('show');
                             defaultFormData = $('#accountForm').serialize();
@@ -295,15 +290,10 @@
                                     url: url,
                                     type: type,
                                     success: function(response) {
-                                        if (response.status == "warning") {
-                                            showWarningMessage(response.message);
-                                        } else {
-                                            showSuccessMessage(
-                                                `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`
-                                            );
-                                            modal.modal('hide');
-                                            accountTable.draw();
-                                        }
+                                        response.status == "warning" ? showWarningMessage(response
+                                            .message) : (showSuccessMessage(
+                                            `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`
+                                        ), modal.modal('hide'), accountTable.draw())
                                     },
                                     error: function() {
                                         showErrorMessage();

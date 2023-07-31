@@ -58,7 +58,6 @@ class EvacueeController extends Controller
                 'families', 'individuals', 'male', 'female', 'disaster_id', 'date_entry',
                 'barangay', 'evacuation_assigned'
             ]);
-
             $evacueeInfo['remarks'] = Str::ucfirst(trim($request->remarks));
             $this->evacuee->create($evacueeInfo);
             $this->logActivity->generateLog('Recording evacuee information');
@@ -95,15 +94,13 @@ class EvacueeController extends Controller
                 'families', 'individuals', 'male', 'female', 'disaster_id', 'date_entry',
                 'barangay', 'evacuation_assigned'
             ]);
-
             $evacueeInfo['remarks'] = Str::ucfirst(trim($request->remarks));
-
             $this->evacuee->find($evacueeId)->update($evacueeInfo);
             $this->logActivity->generateLog('Updating an evacuee information');
 
             return response()->json();
         }
 
-        return response(['status' => 'warning', 'message', $evacueeInfoValidation->errors()->first()]);
+        return response(['status' => 'warning', 'message' => $evacueeInfoValidation->errors()->first()]);
     }
 }
