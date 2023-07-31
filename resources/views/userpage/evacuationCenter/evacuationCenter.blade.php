@@ -81,6 +81,7 @@
     @include('partials.toastr')
     <script>
         let map, activeInfoWindow;
+        var directionsDisplay, directionsService;
 
         function initMap() {
             var mapTypeStyleArray = [{
@@ -116,6 +117,10 @@
                 mapTypeId: 'terrain',
                 styles: mapTypeStyleArray
             });
+
+            directionsService = new google.maps.DirectionsService();
+            directionsDisplay = new google.maps.DirectionsRenderer();
+            directionsDisplay.setMap(map);
 
             for (let evacuationCenter of @json($evacuationCenters)) {
                 let picture = evacuationCenter.status == 'Active' ? "evacMarkerActive" : "evacMarkerInactive"
@@ -171,7 +176,7 @@
             let url;
 
             '{{ $prefix }}' == 'resident' ?
-                url = "{{ route('resident.evacuation.center.get', 'locator') }}":
+            url = "{{ route('resident.evacuation.center.get', 'locator') }}":
                 url = "{{ route('evacuation.center.get', 'locator') }}";
 
             let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
@@ -228,26 +233,50 @@
             $('#locateCurrentLocationBtn').click(function() {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(function(position) {
-                        let pos = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude
-                        };
+                        if (activeInfoWindow) {
+                            activeInfoWindow.close();
+                        }
+
                         let userMarker = new google.maps.Marker({
-                            position: pos,
+                            position: {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude
+                            },
                             map,
                             icon: {
                                 url: "{{ asset('assets/img/userMarker.png') }}",
                                 scaledSize: new google.maps.Size(35, 35),
                             }
                         });
-                        map.setCenter(pos);
+
+                        map.panTo(userMarker.getPosition());
                     }, function() {
-                        showErrorMessage('The Geolocation service failed.');
+                        toastr.error('The Geolocation service failed.', 'Error');
                     });
                 } else {
                     toastr.info('Your browser does not support geolocation', 'Info');
                 }
             });
+
+            function calcRoute() {
+                var start = new google.maps.LatLng(14.282056, 121.141685);
+                var end = new google.maps.LatLng(14.290226557143747, 121.13719156465572);
+                var request = {
+                    origin: start,
+                    destination: end,
+                    travelMode: google.maps.TravelMode.DRIVING
+                };
+                directionsService.route(request, function(response, status) {
+                    if (status == google.maps.DirectionsStatus.OK) {
+                        directionsDisplay.setDirections(response);
+                    } else {
+                        alert("Directions Request from " + start.toUrlValue(6) + " to " + end.toUrlValue(
+                            6) + " failed: " + status);
+                    }
+                });
+            }
+
+            calcRoute();
         });
     </script>
 </body>
