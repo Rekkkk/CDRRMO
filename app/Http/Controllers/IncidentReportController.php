@@ -31,7 +31,7 @@ class IncidentReportController extends Controller
 
         return DataTables::of($pendingReport)
             ->addIndexColumn()->addColumn('status', function () {
-                return '<div class="flex justify-center"><div class="bg-orange-600 rounded-full status-container w-28">On Process</div></div>';
+                return '<div class="flex justify-center"><div class="bg-orange-600 status-container w-28">On Process</div></div>';
             })->addColumn('action', function ($row) {
                 if ($row->user_ip == request()->ip() && !auth()->check())
                     return '<button  class="btn-table-remove p-2 revertIncidentReport">Revert</button>';
@@ -64,7 +64,7 @@ class IncidentReportController extends Controller
                     'Declined' => 'red'
                 };
 
-                return '<div class="flex justify-center"><div class="bg-' . $color . '-600 rounded-full status-container">' . $row->status . '</div></div>';
+                return '<div class="flex justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
             })->addColumn('action', function () {
                 if (auth()->user()->is_disable == 0) {
                     return '<button class="btn-table-remove p-2 removeIncidentReport">Remove</button>';

@@ -46,7 +46,7 @@ class UserAccountsController extends Controller
                         'Suspended' => 'orange'
                     };
 
-                    return '<div class="flex justify-center"><div class="bg-' . $color . '-600 rounded-full status-container">' . $row->status . '</div></div>';
+                    return '<div class="flex justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
                 })->addColumn('action', function ($user) {
                     if (auth()->user()->is_disable == 0) {
                         $actionBtns = '<select class="form-select w-44 bg-blue-500 text-white actionSelect">
