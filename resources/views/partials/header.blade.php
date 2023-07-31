@@ -5,7 +5,7 @@
         </div>
         @auth
             <div class="dropdown">
-                <button class="text-white text-sm bi bi-caret-down-fill mx-3" role="button" data-bs-toggle="dropdown"
+                <button class="text-white text-sm bi bi-caret-down-fill mx-1.5 md:mx-3.5" role="button" data-bs-toggle="dropdown"
                     aria-expanded="false">
                 </button>
                 <ul class="dropdown-menu">
