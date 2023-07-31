@@ -147,7 +147,7 @@
                                     <span>Barangay:</span> ${evacuationCenter.barangay_name}
                                 </div>
                                 <div class="info-description">
-                                    <span>Status:</span> <span class="bg-${statusColor}-600 rounded-full status-container">${evacuationCenter.status}</span>
+                                    <span>Status:</span> <span class="bg-${statusColor}-600 status-container">${evacuationCenter.status}</span>
                                 </div>
                             </div>`
                 });

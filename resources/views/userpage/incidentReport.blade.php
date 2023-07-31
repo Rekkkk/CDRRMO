@@ -62,7 +62,7 @@
                                         </div>
                                         <div class="py-2">
                                             <p class="font-bold">Report Status : <span
-                                                    class="bg-green-600 status-container rounded-full">{{ $report->status }}</span>
+                                                    class="bg-green-600 status-container">{{ $report->status }}</span>
                                             </p>
                                         </div>
                                         <p class="pb-2 font-bold">Date Reported: <span class="text-red-600">July 22,
