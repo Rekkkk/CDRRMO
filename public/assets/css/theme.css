@@ -6,7 +6,6 @@
     --color-background: #ecf0f1;
     --color-red: #dc2626;
     --color-gray: #2c3e50;
-
     --color-green: #16a34a;
     --color-primary: #2563eb;
     --color-yellow: #eab308;
@@ -307,14 +306,14 @@ hr,
     display: none;
 }
 
-.user-active{
+.user-active {
     width: 16px;
     background: var(--color-green);
     padding: 8px 0;
     border-radius: 100%;
 }
 
-.user-disable{
+.user-disable {
     width: 16px;
     background: var(--color-red);
     padding: 8px 0;
@@ -368,10 +367,16 @@ hr,
 
 .recover-container,
 .res-password-cotainer {
+    padding: 20% 0 15% 0;
+}
+
+.recover-form,
+.res-password-form {
+    height: 75%;
+    width: 100%;
     max-width: 500px;
-    margin: 10% auto;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
-    border-radius: 4px;
+    border-radius: 6px;
+    filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
 }
 
 .res-password-cotainer .res-input-form {
