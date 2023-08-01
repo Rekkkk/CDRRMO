@@ -139,8 +139,13 @@
 
                     $(document).on('change', '.actionSelect', function() {
                         let selectedAction = $(this).val(),
-                            data = getRowData(this, accountTable);
-                        userId = data.id;
+                            {
+                                id,
+                                organization,
+                                position,
+                                email
+                            } = getRowData(this, accountTable);
+                        userId = id;
 
                         if (selectedAction == 'disableAccount') {
                             confirmModal('Do you want to disable this account?').then((result) => {
@@ -188,9 +193,9 @@
                             $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text(
                                 'Update');
                             $('#suspend-container').prop('hidden', true);
-                            $('#organization').val(data.organization);
-                            $('#position').val(data.position);
-                            $('#email').val(data.email);
+                            $('#organization').val(organization);
+                            $('#position').val(position);
+                            $('#email').val(email);
                             $('#account_operation').val('update');
                             $('#userAccountModal').modal('show');
                             defaultFormData = $('#accountForm').serialize();
@@ -219,9 +224,9 @@
                             $('.modal-title').text('Suspend User Account');
                             $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text(
                                 'Suspend');
-                            $('#organization').val(data.organization);
-                            $('#position').val(data.position);
-                            $('#email').val(data.email);
+                            $('#organization').val(organization);
+                            $('#position').val(position);
+                            $('#email').val(email);
                             $('#account_operation').val('suspend');
                             $('#userAccountModal').modal('show');
                             defaultFormData = $('#accountForm').serialize();

@@ -76,29 +76,27 @@ class UserAccountsController extends Controller
             'position' => 'required'
         ]);
 
-        if ($createAccountValidation->passes()) {
-            $defaultPassword = Str::password(15);
-            $this->user->create([
-                'organization' => $request->organization,
-                'position' => $request->position,
-                'email' => trim($request->email),
-                'password' =>  Hash::make($defaultPassword),
-                'status' =>  "Active",
-                'is_disable' =>  0,
-                'is_suspend' =>  0
-            ]);
-            $this->logActivity->generateLog('Creating Account');
-            // Mail::to(trim($request->email))->send(new UserCredentialsMail([
-            //     'email' => trim($request->email),
-            //     'organization' => $request->organization,
-            //     'position' => Str::upper($request->position),
-            //     'password' => $defaultPassword
-            // ]));
+        if ($createAccountValidation->fails())
+            return response(['status' => 'warning', 'message' => $createAccountValidation->errors()->first()]);
 
-            return response()->json();
-        }
-
-        return response(['status' => 'warning', 'message' => $createAccountValidation->errors()->first()]);
+        $defaultPassword = Str::password(15);
+        $this->user->create([
+            'organization' => $request->organization,
+            'position' => $request->position,
+            'email' => trim($request->email),
+            'password' =>  Hash::make($defaultPassword),
+            'status' =>  "Active",
+            'is_disable' =>  0,
+            'is_suspend' =>  0
+        ]);
+        $this->logActivity->generateLog('Creating Account');
+        // Mail::to(trim($request->email))->send(new UserCredentialsMail([
+        //     'email' => trim($request->email),
+        //     'organization' => $request->organization,
+        //     'position' => Str::upper($request->position),
+        //     'password' => $defaultPassword
+        // ]));
+        return response()->json();
     }
 
     public function updateAccount(Request $request, $userId)
@@ -109,18 +107,16 @@ class UserAccountsController extends Controller
             'email' => 'required|email|unique:user,email,' . $userId
         ]);
 
-        if ($updateAccountValidation->passes()) {
-            $this->user->find($userId)->update([
-                'organization' => $request->organization,
-                'position' => $request->position,
-                'email' => trim($request->email)
-            ]);
-            $this->logActivity->generateLog('Updating Account');
+        if ($updateAccountValidation->fails())
+            return response(['status' => 'warning', 'message' => $updateAccountValidation->errors()->first()]);
 
-            return response()->json();
-        }
-
-        return response(['status' => 'warning', 'message' => $updateAccountValidation->errors()->first()]);
+        $this->user->find($userId)->update([
+            'organization' => $request->organization,
+            'position' => $request->position,
+            'email' => trim($request->email)
+        ]);
+        $this->logActivity->generateLog('Updating Account');
+        return response()->json();
     }
 
     public function disableAccount($userId)
@@ -130,7 +126,6 @@ class UserAccountsController extends Controller
             'is_disable' => 1
         ]);
         $this->logActivity->generateLog('Disabling Account');
-
         return response()->json();
     }
 
@@ -141,7 +136,6 @@ class UserAccountsController extends Controller
             'is_disable' => 0
         ]);
         $this->logActivity->generateLog('Enabling Account');
-
         return response()->json();
     }
 
@@ -151,18 +145,16 @@ class UserAccountsController extends Controller
             'suspend_time' => 'required'
         ]);
 
-        if ($suspendAccountValidation->passes()) {
-            $this->user->find($userId)->update([
-                'status' => 'Suspended',
-                'is_suspend' => 1,
-                'suspend_time' => Carbon::parse($request->suspend_time)->format('Y-m-d H:i:s')
-            ]);
-            $this->logActivity->generateLog('Suspending Account');
+        if ($suspendAccountValidation->fails())
+            return response(['status' => 'warning', 'error' => $suspendAccountValidation->errors()->first()]);
 
-            return response()->json();
-        }
-
-        return response(['status' => 'warning', 'error' => $suspendAccountValidation->errors()->first()]);
+        $this->user->find($userId)->update([
+            'status' => 'Suspended',
+            'is_suspend' => 1,
+            'suspend_time' => Carbon::parse($request->suspend_time)->format('Y-m-d H:i:s')
+        ]);
+        $this->logActivity->generateLog('Suspending Account');
+        return response()->json();
     }
 
     public function openAccount($userId)
@@ -174,7 +166,6 @@ class UserAccountsController extends Controller
             'suspend_time' => null
         ]);
         $this->logActivity->generateLog('Opening Account');
-
         return response()->json();
     }
 
@@ -198,16 +189,14 @@ class UserAccountsController extends Controller
                     'confirmPassword' => 'required'
                 ]);
 
-                if ($changePasswordValidation->passes()) {
-                    $this->user->find($userId)->update([
-                        'password' => Hash::make(trim($request->password))
-                    ]);
-                    $this->logActivity->generateLog('Changing Password');
+                if ($changePasswordValidation->fails())
+                    return response(['status' => 'warning', 'error' => $changePasswordValidation->errors()->toArray()]);
 
-                    return response()->json();
-                }
-
-                return response(['status' => 'warning', 'error' => $changePasswordValidation->errors()->toArray()]);
+                $this->user->find($userId)->update([
+                    'password' => Hash::make(trim($request->password))
+                ]);
+                $this->logActivity->generateLog('Changing Password');
+                return response()->json();
             } else {
                 return response(['status' => 'warning', 'message' => 'Password & Confirm pasword must be the same.']);
             }
@@ -220,7 +209,6 @@ class UserAccountsController extends Controller
     {
         $this->user->find($userId)->delete();
         $this->logActivity->generateLog('Removing Account');
-
         return response()->json();
     }
 }

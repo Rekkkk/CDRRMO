@@ -120,7 +120,7 @@
         });
 
         @if (auth()->user()->is_disable == 0)
-            let evacuationCenterId, defaultFormData, status, map, marker, saveBtnClicked = false;
+            let evacuationCenterId, defaultFormData, status, map, marker, current_status, saveBtnClicked = false;
 
             function initMap() {
                 var mapTypeStyleArray = [{
@@ -210,24 +210,30 @@
                 });
 
                 $(document).on('click', '.updateEvacuationCenter', function() {
-                    let data = getRowData(this, evacuationCenterTable);
-                    evacuationCenterId = data.id;
-
+                    let {
+                        id,
+                        name,
+                        latitude,
+                        longitude,
+                        capacity,
+                        barangay_name
+                    } = getRowData(this, evacuationCenterTable);
+                    evacuationCenterId = id;
                     $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                     $('.modal-title').text('Update Evacuation Center');
                     $('#createEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-update').text(
                         'Update');
                     $('#operation').val('update');
-                    $('#name').val(data.name);
-                    $('#latitude').val(data.latitude);
-                    $('#longitude').val(data.longitude);
-                    $('#capacity').val(data.capacity);
-                    $(`#barangayName, option[value="${data.barangay_name}"`).prop('selected', true);
+                    $('#name').val(name);
+                    $('#latitude').val(latitude);
+                    $('#longitude').val(longitude);
+                    $('#capacity').val(capacity);
+                    $(`#barangayName, option[value="${barangay_name}"`).prop('selected', true);
 
                     marker = new google.maps.Marker({
                         position: {
-                            lat: parseFloat(data.latitude),
-                            lng: parseFloat(data.longitude)
+                            lat: parseFloat(latitude),
+                            lng: parseFloat(longitude)
                         },
                         map: map,
                         icon: {

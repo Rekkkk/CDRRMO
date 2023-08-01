@@ -41,25 +41,21 @@ class AuthenticationController extends Controller
         if (auth()->check()) {
             $userAuthenticated = auth()->user();
 
-            if ($userAuthenticated->is_suspend == 1) {
+            if ($userAuthenticated->is_suspend == 1 && $userAuthenticated->suspend_time <= Carbon::now()->format('Y-m-d H:i:s')) {
+                $this->user->find($userAuthenticated->id)->update([
+                    'status' => 'Active',
+                    'is_suspend' => 0,
+                    'suspend_time' => null
+                ]);
+            } else if ($userAuthenticated->is_suspend == 1) {
                 $suspendTime = Carbon::parse($userAuthenticated->suspend_time)->format('F j, Y H:i:s');
-
-                if ($userAuthenticated->suspend_time <= Carbon::now()->format('Y-m-d H:i:s')) {
-                    $this->user->find($userAuthenticated->id)->update([
-                        'status' => 'Active',
-                        'is_suspend' => 0,
-                        'suspend_time' => null
-                    ]);
-                } else {
-                    auth()->logout();
-                    session()->flush();
-                    return back()->withInput()->with('warning', 'Your account has been suspended until ' . $suspendTime);
-                }
+                auth()->logout();
+                session()->flush();
+                return back()->withInput()->with('warning', 'Your account has been suspended until ' . $suspendTime);
             }
 
             $this->logActivity->generateLog('Logged In');
             $userOrganization = $userAuthenticated->organization;
-
             return redirect("/" . Str::of($userOrganization)->lower() . "/dashboard")->with('success', "Welcome to " . $userOrganization . " Panel.");
         }
 
@@ -77,23 +73,21 @@ class AuthenticationController extends Controller
             'email' => 'required|email|exists:user'
         ]);
 
-        if ($verifyEmailValidation->passes()) {
-            try {
-                $token = Str::random(124);
-                DB::table('password_resets')->insert([
-                    'email' => $request->email,
-                    'token' => $token,
-                    'created_at' => Carbon::now()
-                ]);
-                Mail::to($request->email)->send(new SendResetPasswordLink(['token' => $token]));
+        if ($verifyEmailValidation->fails())
+            return back()->with('warning', 'Email address is not exist.');
 
-                return back()->with('success', 'We have sent you an email with a link to reset your password.');
-            } catch (\Exception $e) {
-                return back()->with('error', 'An error occurred while processing your request.');
-            }
+        try {
+            $token = Str::random(124);
+            DB::table('password_resets')->insert([
+                'email' => $request->email,
+                'token' => $token,
+                'created_at' => Carbon::now()
+            ]);
+            Mail::to($request->email)->send(new SendResetPasswordLink(['token' => $token]));
+            return back()->with('success', 'We have sent you an email with a link to reset your password.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while processing your request.');
         }
-
-        return back()->with('warning', 'Email address is not exist.');
     }
 
     public function resetPasswordForm($token)
@@ -111,29 +105,18 @@ class AuthenticationController extends Controller
             'password_confirmation' => 'required'
         ]);
 
-        if ($resetPasswordValidation->passes()) {
-            try {
-                $tokenAuthorization = DB::table('password_resets')
-                    ->where([
-                        'email' => $request->email,
-                        'token' => $request->token
-                    ])
-                    ->first();
+        if ($resetPasswordValidation->fails()) return back()->withInput()->with('warning', $resetPasswordValidation->errors()->first());
 
-                if (!$tokenAuthorization) {
-                    return back()->withInput()->with('error', 'Unauthorized Token!');
-                }
+        if (!DB::table('password_resets')->where('email', $request->email)->where('token', $request->token)->exists())
+            return back()->withInput()->with('error', 'Unauthorized Token!');
 
-                $this->user->where('email', $request->email)->update(['password' => Hash::make($request->password)]);
-                DB::table('password_resets')->where(['email' => $request->email])->delete();
-
-                return redirect('/')->with('success', 'Your password has been changed.');
-            } catch (\Exception $e) {
-                return back()->with('error', 'An error occurred while processing your request.');
-            }
+        try {
+            $this->user->where('email', $request->email)->update(['password' => Hash::make($request->password)]);
+            DB::table('password_resets')->where('email', $request->email)->delete();
+            return redirect('/')->with('success', 'Your password has been changed.');
+        } catch (\Exception $e) {
+            return back()->with('error', 'An error occurred while processing your request.');
         }
-
-        return back()->withInput()->with('warning', $resetPasswordValidation->errors()->first());
     }
 
     public function logout()
@@ -142,7 +125,6 @@ class AuthenticationController extends Controller
         $this->logActivity->generateLog('Logged Out');
         auth()->logout();
         session()->flush();
-
         return redirect('/')->with('success', 'Logged out ' . $organization . ' Panel.');
     }
 }

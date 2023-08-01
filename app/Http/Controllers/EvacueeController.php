@@ -52,21 +52,19 @@ class EvacueeController extends Controller
             'evacuation_assigned' => 'required'
         ]);
 
-        if ($evacueeInfoValidation->passes()) {
-            $evacueeInfo = $request->only([
-                'infants', 'minors', 'senior_citizen', 'pwd', 'pregnant', 'lactating',
-                'families', 'individuals', 'male', 'female', 'disaster_id', 'date_entry',
-                'barangay', 'evacuation_assigned'
-            ]);
-            $evacueeInfo['remarks'] = Str::ucfirst(trim($request->remarks));
-            $this->evacuee->create($evacueeInfo);
-            $this->logActivity->generateLog('Recording evacuee information');
-            // event(new ActiveEvacuees());
+        if ($evacueeInfoValidation->fails())
+            return response(['status' => 'warning', 'message' => $evacueeInfoValidation->errors()->first()]);
 
-            return response()->json();
-        }
-
-        return response(['status' => 'warning', 'message' => $evacueeInfoValidation->errors()->first()]);
+        $evacueeInfo = $request->only([
+            'infants', 'minors', 'senior_citizen', 'pwd', 'pregnant', 'lactating',
+            'families', 'individuals', 'male', 'female', 'disaster_id', 'date_entry',
+            'barangay', 'evacuation_assigned'
+        ]);
+        $evacueeInfo['remarks'] = Str::ucfirst(trim($request->remarks));
+        $this->evacuee->create($evacueeInfo);
+        $this->logActivity->generateLog('Recording evacuee information');
+        // event(new ActiveEvacuees());
+        return response()->json();
     }
 
     public function updateEvacueeInfo(Request $request, $evacueeId)
@@ -84,23 +82,21 @@ class EvacueeController extends Controller
             'female' => 'required|numeric',
             'disaster_id' => 'required',
             'date_entry' => 'required',
-            'barangay' => 'required|unique:evacuee,barangay',
+            'barangay' => 'required',
             'evacuation_assigned' => 'required'
         ]);
 
-        if ($evacueeInfoValidation->passes()) {
-            $evacueeInfo = $request->only([
-                'infants', 'minors', 'senior_citizen', 'pwd', 'pregnant', 'lactating',
-                'families', 'individuals', 'male', 'female', 'disaster_id', 'date_entry',
-                'barangay', 'evacuation_assigned'
-            ]);
-            $evacueeInfo['remarks'] = Str::ucfirst(trim($request->remarks));
-            $this->evacuee->find($evacueeId)->update($evacueeInfo);
-            $this->logActivity->generateLog('Updating an evacuee information');
+        if ($evacueeInfoValidation->fails())
+            return response(['status' => 'warning', 'message' => $evacueeInfoValidation->errors()->first()]);
 
-            return response()->json();
-        }
-
-        return response(['status' => 'warning', 'message' => $evacueeInfoValidation->errors()->first()]);
+        $evacueeInfo = $request->only([
+            'infants', 'minors', 'senior_citizen', 'pwd', 'pregnant', 'lactating',
+            'families', 'individuals', 'male', 'female', 'disaster_id', 'date_entry',
+            'barangay', 'evacuation_assigned'
+        ]);
+        $evacueeInfo['remarks'] = Str::ucfirst(trim($request->remarks));
+        $this->evacuee->find($evacueeId)->update($evacueeInfo);
+        $this->logActivity->generateLog('Updating an evacuee information');
+        return response()->json();
     }
 }

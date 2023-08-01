@@ -39,19 +39,16 @@ class EvacuationCenterController extends Controller
                 return '<div class="flex justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
             })->addColumn('action', function ($row) use ($operation) {
                 if ($operation == "locator") {
-                    return match ($row->status) {
-                        'Inactive' => "<span class='text-sm'>Evacuation Center isn't available.</span>",
-                        default => '<button class="btn-table-primary p-2 w-24 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>'
-                    };
+                    return $row->status == 'Inactive' ? "<span class='text-sm'>Evacuation Center isn't available.</span>" :
+                        '<button class="btn-table-primary p-2 w-24 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>';
                 } else {
                     if (auth()->user()->is_disable == 0) {
                         $statusOptions = '';
                         $availableStatus = ['Active', 'Inactive', 'Full'];
 
                         foreach ($availableStatus as $status) {
-                            if ($row->status != $status) {
+                            if ($row->status != $status) 
                                 $statusOptions .= '<option value="' . $status . '">' . $status . '</option>';
-                            }
                         }
 
                         return '<div class="flex justify-center actionContainer">' .
@@ -78,22 +75,20 @@ class EvacuationCenterController extends Controller
             'longitude' => 'required'
         ]);
 
-        if ($validateEvacuationCenter->passes()) {
-            $this->evacuationCenter->create([
-                'name' => Str::ucfirst(trim($request->name)),
-                'barangay_name' => $request->barangayName,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'capacity' => trim($request->capacity),
-                'is_archive' => 0,
-                'status' => 'Active'
-            ]);
-            $this->logActivity->generateLog('Adding new evacuation center');
+        if ($validateEvacuationCenter->fails())
+            return response(['status' => 'warning', 'message' => $validateEvacuationCenter->errors()->first()]);
 
-            return response()->json();
-        }
-
-        return response(['status' => 'warning', 'message' => $validateEvacuationCenter->errors()->first()]);
+        $this->evacuationCenter->create([
+            'name' => Str::ucfirst(trim($request->name)),
+            'barangay_name' => $request->barangayName,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'capacity' => trim($request->capacity),
+            'is_archive' => 0,
+            'status' => 'Active'
+        ]);
+        $this->logActivity->generateLog('Adding new evacuation center');
+        return response()->json();
     }
 
     public function updateEvacuationCenter(Request $request, $evacuationId)
@@ -105,20 +100,18 @@ class EvacuationCenterController extends Controller
             'longitude' => 'required'
         ]);
 
-        if ($validateEvacuationCenter->passes()) {
-            $this->evacuationCenter->find($evacuationId)->update([
-                'name' => Str::ucfirst(trim($request->name)),
-                'barangay_name' => $request->barangayName,
-                'latitude' => $request->latitude,
-                'longitude' => $request->longitude,
-                'capacity' => trim($request->capacity)
-            ]);
-            $this->logActivity->generateLog('Updating evacuation center');
+        if ($validateEvacuationCenter->fails())
+            return response(['status' => 'warning', 'message' => $validateEvacuationCenter->errors()->first()]);
 
-            return response()->json();
-        }
-
-        return response(['status' => 'warning', 'message' => $validateEvacuationCenter->errors()->first()]);
+        $this->evacuationCenter->find($evacuationId)->update([
+            'name' => Str::ucfirst(trim($request->name)),
+            'barangay_name' => $request->barangayName,
+            'latitude' => $request->latitude,
+            'longitude' => $request->longitude,
+            'capacity' => trim($request->capacity)
+        ]);
+        $this->logActivity->generateLog('Updating evacuation center');
+        return response()->json();
     }
 
     public function removeEvacuationCenter($evacuationId)
@@ -128,7 +121,6 @@ class EvacuationCenterController extends Controller
             'status' => 'Archived'
         ]);
         $this->logActivity->generateLog('Removing evacuation center');
-
         return response()->json();
     }
 
@@ -138,7 +130,6 @@ class EvacuationCenterController extends Controller
             'status' => $request->status
         ]);
         $this->logActivity->generateLog('Changing evacuation center status');
-
         return response()->json();
     }
 }

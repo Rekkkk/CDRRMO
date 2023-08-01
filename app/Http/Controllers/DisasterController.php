@@ -57,18 +57,16 @@ class DisasterController extends Controller
             'name' => 'required'
         ]);
 
-        if ($validatedDisasterData->passes()) {
-            $this->disaster->create([
-                'name' => trim($request->name),
-                'status' => "On Going",
-                'is_archive' => 0
-            ]);
-            $this->logActivity->generateLog('Creating Disaster Data');
+        if ($validatedDisasterData->fails())
+            return response(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
 
-            return response()->json();
-        }
-
-        return response(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
+        $this->disaster->create([
+            'name' => trim($request->name),
+            'status' => "On Going",
+            'is_archive' => 0
+        ]);
+        $this->logActivity->generateLog('Creating Disaster Data');
+        return response()->json();
     }
 
     public function updateDisasterData(Request $request, $disasterId)
@@ -77,16 +75,14 @@ class DisasterController extends Controller
             'name' => 'required'
         ]);
 
-        if ($validatedDisasterData->passes()) {
-            $this->disaster->find($disasterId)->update([
-                'name' => trim($request->name)
-            ]);
-            $this->logActivity->generateLog('Updating Disaster Data');
+        if ($validatedDisasterData->fails())
+            return response()->json(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
 
-            return response()->json();
-        }
-
-        return response()->json(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
+        $this->disaster->find($disasterId)->update([
+            'name' => trim($request->name)
+        ]);
+        $this->logActivity->generateLog('Updating Disaster Data');
+        return response()->json();
     }
 
     public function removeDisasterData($disasterId)
@@ -97,7 +93,6 @@ class DisasterController extends Controller
 
         ]);
         $this->logActivity->generateLog('Removing Disaster Data');
-
         return response()->json();
     }
 
@@ -107,7 +102,6 @@ class DisasterController extends Controller
             'status' => $request->status
         ]);
         $this->logActivity->generateLog('Changing Disaster Status');
-
         return response()->json();
     }
 }
