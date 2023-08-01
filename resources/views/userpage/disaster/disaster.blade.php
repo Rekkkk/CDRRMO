@@ -99,7 +99,7 @@
         });
 
         @if (auth()->user()->is_disable == 0)
-            let disasterId, defaultFormData, current_status, status;
+            let disasterId, defaultFormData, status;
 
             $.ajaxSetup({
                 headers: {
@@ -127,12 +127,15 @@
             });
 
             $(document).on('click', '.updateDisaster', function() {
-                let data = getRowData(this, disasterTable);
-                disasterId = data.id;
+                let {
+                    id,
+                    name
+                } = getRowData(this, disasterTable);
+                disasterId = id;
+                $('#disasterName').val(name);
                 $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
                 $('.modal-title').text('Update Disaster Form');
                 $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
-                $('#disasterName').val(data.name);
                 $('#operation').val('update');
                 $('#disasterModal').modal('show');
                 defaultFormData = $('#disasterForm').serialize();
@@ -144,9 +147,7 @@
             });
 
             $(document).on('change', '.changeDisasterStatus', function() {
-                let rowData = getRowData(this, disasterTable);
-                disasterId = rowData.id;
-                current_status = rowData.status;
+                disasterId = getRowData(this, disasterTable).id;
                 status = $(this).val();
                 alterDisasterData('change');
             });
@@ -158,17 +159,9 @@
 
             function alterDisasterData(operation) {
                 confirmModal(`Do you want to ${operation} this disaster?`).then((result) => {
-                    if (operation == 'change' && status == current_status) {
-                        showWarningMessage('No changes were made.');
-                        $('.changeDisasterStatus').val('');
-                        return;
-                    }
                     if (result.isConfirmed) {
-                        let url, type;
-
-                        url = operation == 'remove' ? "{{ route('disaster.remove', ':disasterId') }}"
-                            .replace(':disasterId', disasterId) :
-                            "{{ route('disaster.change.status', ':disasterId') }}"
+                        let url = operation == 'remove' ? "{{ route('disaster.remove', ':disasterId') }}".replace(
+                                ':disasterId', disasterId) : "{{ route('disaster.change.status', ':disasterId') }}"
                             .replace(':disasterId', disasterId);
 
                         $.ajax({
@@ -211,8 +204,8 @@
                         }
                         $.ajax({
                             data: formData,
-                            url: url,
-                            type: type,
+                            url,
+                            type,
                             success: function(response) {
                                 response.status == 'warning' ? showWarningMessage(response.message) : (
                                     showSuccessMessage(`Disaster successfully ${operation}d.`), $(

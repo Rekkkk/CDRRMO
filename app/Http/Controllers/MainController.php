@@ -63,22 +63,19 @@ class MainController extends Controller
             'disaster_id' => 'required'
         ]);
 
-        if ($generateReportValidation->passes()) {
-            if ($this->evacuee->all()->isEmpty()) {
-                return back()->with('warning', 'Evacuee is currently empty.');
-            }
+        if ($generateReportValidation->fails())
+            return back()->with('warning', $generateReportValidation->errors()->first());
 
-            return Excel::download(new EvacueeDataExport($request->disaster_id), 'evacuee-data.xlsx', FileFormat::XLSX);
-        }
+        if ($this->evacuee->all()->isEmpty())
+            return back()->with('warning', 'Evacuee is currently empty.');
 
-        return back()->with('warning', $generateReportValidation->errors()->first());
+        return Excel::download(new EvacueeDataExport($request->disaster_id), 'evacuee-data.xlsx', FileFormat::XLSX);
     }
 
     public function manageEvacueeInformation(Request $request)
     {
         $disasterList = $this->disaster->where('status', 'On Going')->get();
         $evacuationList = $this->evacuationCenter->all();
-
         return view('userpage.evacuee.evacuee', compact('evacuationList', 'disasterList'));
     }
 
@@ -86,7 +83,6 @@ class MainController extends Controller
     {
         $evacuationCenters = $this->evacuationCenter->all();
         $prefix = Request()->route()->getPrefix();
-
         return view('userpage.evacuationCenter.evacuationCenter', compact('evacuationCenters', 'prefix'));
     }
 
@@ -98,7 +94,6 @@ class MainController extends Controller
     public function incidentReport()
     {
         $incidentReport = Reporting::whereNotIn('status', ["On Process"])->where('is_archive', 0)->get();
-
         return view('userpage.incidentReport', compact('incidentReport'));
     }
 

@@ -30,9 +30,9 @@ class IncidentReportController extends Controller
         $pendingReport = $this->incidentReport->where('status', 'On Process')->get();
 
         return DataTables::of($pendingReport)
-            ->addIndexColumn()->addColumn('status', function () {
-                return '<div class="flex justify-center"><div class="bg-orange-600 status-container w-28">On Process</div></div>';
-            })->addColumn('action', function ($row) {
+            ->addIndexColumn()
+            ->addColumn('status', '<div class="flex justify-center"><div class="bg-orange-600 status-container w-28">On Process</div></div>')
+            ->addColumn('action', function ($row) {
                 if ($row->user_ip == request()->ip() && !auth()->check())
                     return '<button  class="btn-table-remove p-2 revertIncidentReport">Revert</button>';
 
@@ -66,13 +66,9 @@ class IncidentReportController extends Controller
 
                 return '<div class="flex justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
             })->addColumn('action', function () {
-                if (auth()->user()->is_disable == 0) {
-                    return '<button class="btn-table-remove p-2 removeIncidentReport">Remove</button>';
-                }
-
-                return '<span class="text-sm">Currently Disabled.</span>';
+                return auth()->user()->is_disable == 0 ? '<button class="btn-table-remove p-2 removeIncidentReport">Remove</button>' : '<span class="text-sm">Currently Disabled.</span>';
             })->addColumn('photo', function ($row) {
-                return '<div class="flex justify-center"><img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img></div>';
+                return '<div class="flex justify-center"><img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></div>';
             })
             ->rawColumns(['status', 'action', 'photo'])
             ->make(true);
@@ -80,59 +76,55 @@ class IncidentReportController extends Controller
 
     public function createIncidentReport(Request $request)
     {
-        $validatedAccidentReport = Validator::make($request->all(), [
+        $validatedIncidentReport = Validator::make($request->all(), [
             'description' => 'required',
             'location' => 'required',
             'photo' => 'image|mimes:jpeg|max:2048'
         ]);
 
-        if ($validatedAccidentReport->passes()) {
-            $userIp = $this->reportLog->where('user_ip', $request->ip())->exists();
-            $reportPhotoPath = $request->file('photo')->store();
-            $request->photo->move(public_path('reports_image'), $reportPhotoPath);
-            $incidentReport = [
-                'description' => Str::ucFirst(trim($request->description)),
-                'location' => Str::of(trim($request->location))->title(),
-                'photo' => $reportPhotoPath,
-                'status' => 'On Process',
-                'user_ip' => $request->ip(),
-                'is_archive' => 0
-            ];
+        if ($validatedIncidentReport->fails())
+            return response(['status' => 'warning', 'message' => $validatedIncidentReport->errors()->first()]);
 
-            if ($userIp) {
-                $residentAttempt = $this->reportLog->where('user_ip', $request->ip())->value('attempt');
-                $reportTime = $this->reportLog->where('user_ip', $request->ip())->value('report_time');
+        $resident = $this->reportLog->where('user_ip', $request->ip())->first();
+        $reportPhotoPath = $request->file('photo')->store();
+        $request->photo->move(public_path('reports_image'), $reportPhotoPath);
+        $incidentReport = [
+            'description' => Str::ucFirst(trim($request->description)),
+            'location' => Str::of(trim($request->location))->title(),
+            'photo' => $reportPhotoPath,
+            'status' => 'On Process',
+            'user_ip' => $request->ip(),
+            'is_archive' => 0
+        ];
 
-                if ($residentAttempt == 3) {
-                    if ($reportTime <= Carbon::now()->toDateTimeString()) {
-                        $this->reportLog->where('user_ip', $request->ip())->update(['attempt' => 0, 'report_time' => null]);
-                        $residentAttempt = 0;
-                    } else {
-                        $reportTime = Carbon::parse($reportTime)->format('F j, Y H:i:s');
-                        return response(['status' => 'blocked', 'message' => "You have been blocked until $reportTime."]);
-                    }
+        if ($resident) {
+            $residentAttempt = $resident->attempt;
+            $reportTime = $resident->report_time;
+
+            if ($residentAttempt == 3) {
+                if ($reportTime <= Carbon::now()->toDateTimeString()) {
+                    $resident->update(['attempt' => 0, 'report_time' => null]);
+                    $residentAttempt = 0;
+                } else {
+                    $reportTime = Carbon::parse($reportTime)->format('F j, Y H:i:s');
+                    return response(['status' => 'blocked', 'message' => "You have been blocked until $reportTime."]);
                 }
-                $this->incidentReport->create($incidentReport);
-                $this->reportLog->where('user_ip', $request->ip())->update(['attempt' => $residentAttempt + 1]);
-                $attempt = $this->reportLog->where('user_ip', $request->ip())->value('attempt');
-                $attempt == 3 ? $this->reportLog->where('user_ip', $request->ip())->update(['report_time' => Carbon::now()->addDays(3)]) :
-                    intval($this->reportLog->where('user_ip', $request->ip())->value('attempt'));
-                //event(new IncidentReport());
-
-                return response(['status' => 'success']);
             }
-
             $this->incidentReport->create($incidentReport);
-            $this->reportLog->create([
-                'user_ip' => $request->ip(),
-                'attempt' => 1
-            ]);
+            $resident->update(['attempt' => $residentAttempt + 1]);
+            $attempt = $resident->attempt;
+            $attempt == 3 ? $resident->update(['report_time' => Carbon::now()->addDays(3)]) : null;
             //event(new IncidentReport());
-
             return response(['status' => 'success']);
         }
 
-        return response(['status' => 'warning', 'message' => $validatedAccidentReport->errors()->first()]);
+        $this->incidentReport->create($incidentReport);
+        $this->reportLog->create([
+            'user_ip' => $request->ip(),
+            'attempt' => 1
+        ]);
+        //event(new IncidentReport());
+        return response(['status' => 'success']);
     }
 
     public function approveIncidentReport($reportId)
@@ -140,7 +132,6 @@ class IncidentReportController extends Controller
         $this->report->approveStatus($reportId);
         $this->logActivity->generateLog('Approving Incident Report');
         //event(new IncidentReport());
-
         return response()->json();
     }
 
@@ -149,7 +140,6 @@ class IncidentReportController extends Controller
         $this->report->declineStatus($reportId);
         $this->logActivity->generateLog('Declining Incident Report');
         //event(new IncidentReport());
-
         return response()->json();
     }
 
@@ -158,7 +148,6 @@ class IncidentReportController extends Controller
         $reportPhotoPath = $this->incidentReport->find($reportId)->value('photo');
         $this->report->revertReport($reportId, $reportPhotoPath);
         //event(new IncidentReport());
-
         return response()->json();
     }
 
@@ -176,7 +165,6 @@ class IncidentReportController extends Controller
                 'attempt' => $userReport - 1
             ]);
         }
-
         return response()->json();
     }
 
@@ -186,7 +174,6 @@ class IncidentReportController extends Controller
             'is_archive' => 1
         ]);
         $this->logActivity->generateLog('Removing Incident Report');
-
         return response()->json();
     }
 }
