@@ -25,7 +25,7 @@
             <div class="locator-content my-3">
                 <div class="locator-header text-center text-white h-22 bg-red-600 rounded-t">
                     <div class="text-2xl py-3">
-                        <span class="font-extrabold">Cabuyao City Map</span>
+                        <span id="kilometer" class="font-extrabold">Cabuyao City Map</span>
                     </div>
                 </div>
                 <div class="map-section border-2 border-red-600 rounded-b-md">
@@ -230,6 +230,123 @@
                 ]
             });
 
+            $(document).on('click', '.locateEvacuationCenter', function() {
+                let {
+                    name,
+                    latitude,
+                    longitude,
+                    barangay_name,
+                    status
+                } = getRowData(this, evacuationCenterTable);
+                let evacuationStatus = $(status).find('.status-container').text();
+                const evacuationCenterLatLng = new google.maps.LatLng(latitude, longitude);
+                const mapOptions = {
+                    center: evacuationCenterLatLng,
+                    zoom: 12,
+                    mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                const map = new google.maps.Map(document.getElementById('map'), mapOptions);
+
+                if (navigator.geolocation) {
+                    navigator.geolocation.getCurrentPosition(function(position) {
+                        const userLatLng = new google.maps.LatLng(position.coords.latitude, position
+                            .coords.longitude);
+
+                        map.setCenter(userLatLng);
+
+                        const directionsService = new google.maps.DirectionsService();
+                        const directionsRenderer = new google.maps.DirectionsRenderer({
+                            map: map,
+                            suppressMarkers: true
+                        });
+
+                        const request = {
+                            origin: userLatLng,
+                            destination: evacuationCenterLatLng,
+                            travelMode: google.maps.TravelMode.WALKING
+                        };
+
+                        directionsService.route(request, function(response, status) {
+                            if (status == 'OK') {
+                                directionsRenderer.setDirections(response);
+                            } else {
+                                showWarningMessage(status);
+                            }
+                        });
+
+                        let evacuationStatusColor = evacuationStatus == 'Active' ? "green" : "orange";
+
+                        const evacuationCenterMarker = new google.maps.Marker({
+                            position: evacuationCenterLatLng,
+                            map: map,
+                            icon: {
+                                url: "{{ asset('assets/img/picture.png') }}".replace(
+                                    'picture', evacuationStatus == 'Active' ?
+                                    "evacMarkerActive" : "evacMarkerFull"),
+                                scaledSize: new google.maps.Size(35, 35),
+                            },
+                            animation: google.maps.Animation.DROP
+                        });
+
+                        let evacuationInfoWindow = new google.maps.InfoWindow({
+                            content: `<div class="info-window-container">
+                                <div class="info-description">
+                                    <span>Name:</span> ${name}
+                                </div>
+                                <div class="info-description">
+                                    <span>Barangay:</span> ${barangay_name}
+                                </div>
+                                <div class="info-description">
+                                    <span>Status:</span> <span class="bg-${evacuationStatusColor}-600 status-container">${evacuationStatus}</span>
+                                </div>
+                            </div>`
+                        });
+
+                        evacuationCenterMarker.addListener("click", () => {
+                            if (activeInfoWindow) {
+                                activeInfoWindow.close();
+                            }
+                            evacuationInfoWindow.open({
+                                anchor: evacuationCenterMarker,
+                                shouldFocus: false,
+                                map
+                            });
+                            activeInfoWindow = evacuationInfoWindow;
+                        });
+
+                        const userMarker = new google.maps.Marker({
+                            position: userLatLng,
+                            map: map,
+                            icon: {
+                                url: "{{ asset('assets/img/userMarker.png') }}",
+                                scaledSize: new google.maps.Size(35, 35),
+                            },
+                            animation: google.maps.Animation.DROP
+                        });
+
+                        let userInfoWindow = new google.maps.InfoWindow({
+                            content: 'You are here.'
+                        });
+
+                        userMarker.addListener("click", () => {
+                            if (activeInfoWindow) {
+                                activeInfoWindow.close();
+                            }
+                            userInfoWindow.open({
+                                anchor: userMarker,
+                                shouldFocus: false,
+                                map
+                            });
+                            activeInfoWindow = userInfoWindow;
+                        });
+                    }, function() {
+                        toastr.error('Error: The Geolocation service failed.');
+                    });
+                } else {
+                    showWarningMessage('Error: Your browser doesn\'t support geolocation.');
+                }
+            });
+
             $('#locateCurrentLocationBtn').click(function() {
                 if (navigator.geolocation) {
                     navigator.geolocation.getCurrentPosition(function(position) {
@@ -254,7 +371,7 @@
                         toastr.error('The Geolocation service failed.', 'Error');
                     });
                 } else {
-                    toastr.info('Your browser does not support geolocation', 'Info');
+                    showWarningMessage('Your browser does not support geolocation');
                 }
             });
 
@@ -275,8 +392,6 @@
                     }
                 });
             }
-
-            calcRoute();
         });
     </script>
 </body>
