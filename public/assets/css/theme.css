@@ -145,16 +145,62 @@ hr,
 /* Header Section Start Here */
 .header-section {
     position: absolute;
+    width: 100%;
     top: 0;
     left: 0;
-    height: 70px;
+    height: 64px;
     background: var(--color-red);
     z-index: 1;
 }
 
+.header-section .container-fluid {
+    display: flex;
+    position: relative;
+    justify-content: space-between;
+    align-items: center;
+    height: 100%;
+}
+
+.dropdown button {
+    color: var(--color-text);
+    font-size: 14px;
+    line-height: 20px;
+    margin: 0 14px;
+    background: transparent;
+    border: none;
+}
+
 .dropdown-menu li {
     font-size: 13px;
-    padding-bottom: 1.5px;
+    padding: 0 8px 1.5px 8px;
+}
+
+.dropdown-menu li i {
+    padding-right: 8px;
+}
+
+.dropdown-menu .changePasswordBtn,
+.dropdown .myProfile,
+.dropdown-menu .logout {
+    border-radius: 2px;
+}
+
+.dropdown-menu .changePasswordBtn:hover,
+.dropdown .myProfile:hover,
+.dropdown-menu .logout:hover {
+    background: #e5e7eb;
+}
+
+.dropdown-menu .changePasswordBtn:active {
+    background: #2563eb;
+}
+
+.dropdown-menu .myProfile:active {
+    background: #16a34a;
+}
+
+.dropdown-menu .logout:active {
+    background: #dc2626;
 }
 
 /* Header Section End */
@@ -184,10 +230,14 @@ hr,
 
 /* Side Bar Section Start Here*/
 .sidebar {
+    position: fixed;
+    width: 80px;
+    background: #334155;
     z-index: 1;
     left: 0;
     top: 0;
     transition: 0.3s ease;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .sidebar-content::-webkit-scrollbar {
@@ -208,7 +258,10 @@ hr,
     -ms-justify-content: space-between;
     justify-content: space-between;
     -ms-flex-pack: space-between;
-    padding: 13px 12px;
+    padding: 12px 12px;
+    height: 64px;
+    color: var(--color-text);
+    cursor: pointer;
 }
 
 .sidebar-content {
@@ -294,6 +347,25 @@ hr,
 
 .user-details {
     display: none;
+    padding: 8px 0;
+    background: #1e293b;
+}
+
+.details-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--color-text);
+    letter-spacing: 0.025em;
+    font-weight: 700;
+    gap: 16px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.details-content img {
+    width: 64px;
 }
 
 .sidebar.active .user-details,
@@ -304,9 +376,17 @@ hr,
 #btn-sidebar-mobile,
 #btn-sidebar-close {
     display: none;
+    color: var(--color-text);
+    cursor: pointer;
+    font-size: 24px;
+    line-height: 32px;
+    background: transparent;
+    border: none;
 }
 
-.user-active {
+.user-active,
+.user-disable,
+.resident {
     width: 16px;
     background: var(--color-green);
     padding: 8px 0;
@@ -314,10 +394,16 @@ hr,
 }
 
 .user-disable {
-    width: 16px;
     background: var(--color-red);
-    padding: 8px 0;
-    border-radius: 100%;
+}
+
+.resident {
+    background: #eab308;
+}
+
+.nav_list {
+    margin: 0;
+    padding: 0;
 }
 
 /* Side Bar End Section */
@@ -870,6 +956,14 @@ table td {
 
     .sidebar {
         width: 0 !important;
+    }
+
+    .sidebar #logo {
+        display: none;
+    }
+
+    .sidebar.active #logo {
+        display: block;
     }
 
     .sidebar #btn-sidebar-close {

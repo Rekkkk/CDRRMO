@@ -1,18 +1,18 @@
-<div class="sidebar fixed bg-slate-700 w-20 drop-shadow-lg">
-    <div class="sidebar-header h-16 text-white cursor-pointer pt-3">
+<div class="sidebar">
+    <div class="sidebar-header">
         <img id="logo" src="{{ asset('assets/img/e-ligtas-logo.png') }}" alt="Logo">
-        <button type="button" class="bi bi-x text-3xl" id="btn-sidebar-close"></button>
+        <button type="button" class="bi bi-x" id="btn-sidebar-close"></button>
     </div>
     <div class="sidebar-content">
-        <div class="user-details py-2 bg-slate-800">
-            <div class="truncate flex justify-center items-center text-white tracking-wide font-bold gap-4">
+        <div class="user-details">
+            <div class="details-content">
                 @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
                     @if (auth()->user()->is_disable == 0)
                         <div title="Active" class="user-active"></div>
                     @else
                         <div title="Currently Disabled" class="user-disable"></div>
                     @endif
-                    <img class="w-12" src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="Logo">
+                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}" alt="Logo">
                     <span>CDRRMO Panel</span>
                 @elseif (auth()->check() && auth()->user()->organization == 'CSWD')
                     @if (auth()->user()->is_disable == 0)
@@ -20,9 +20,10 @@
                     @else
                         <div title="Currently Disabled" class="user-disable"></div>
                     @endif
-                    <span>CSWD Panel</span>
+                    <img src="{{ asset('assets/img/CSWDO-LOGO.png') }}" alt="Logo">
+                    <span>CSWDO Panel</span>
                 @else
-                    <div title="Resident" class="bg-yellow-500 py-2 rounded-full w-4"></div>
+                    <div title="Resident" class="resident"></div>
                     <span class="py-2">Cabuyao Resident</span>
                 @endif
             </div>
