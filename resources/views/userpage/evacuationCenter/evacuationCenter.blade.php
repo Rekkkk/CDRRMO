@@ -25,7 +25,7 @@
             <div class="locator-content my-3">
                 <div class="locator-header text-center text-white h-22 bg-red-600 rounded-t">
                     <div class="text-2xl py-3">
-                        <span id="kilometer" class="font-extrabold">Cabuyao City Map</span>
+                        <span class="font-extrabold">Cabuyao City Map</span>
                     </div>
                 </div>
                 <div class="map-section border-2 border-red-600 rounded-b-md">
