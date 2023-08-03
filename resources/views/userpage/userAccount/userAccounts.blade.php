@@ -14,15 +14,15 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="grid grid-cols-1">
-                <div class="grid col-end-1">
-                    <div class="text-2xl text-white">
-                        <i class="bi bi-person-gear p-2 bg-slate-600"></i>
+            <div class="homepage-header">
+                <div class="header-icon">
+                    <div class="icon-content">
+                        <i class="bi bi-person-gear"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold">MANAGE ACCOUNTS</span>
+                <span>MANAGE ACCOUNTS</span>
             </div>
-            <hr class="mt-4 mb-3">
+            <hr>
             @if (auth()->user()->is_disable == 0)
                 <div class="create-section">
                     <button class="btn-submit p-2 createUserAccount">

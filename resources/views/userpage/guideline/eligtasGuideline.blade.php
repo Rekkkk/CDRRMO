@@ -10,15 +10,15 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="grid grid-cols-1">
-                <div class="grid col-end-1">
-                    <div class="text-2xl text-white">
-                        <i class="bi bi-book p-2 bg-slate-600"></i>
+            <div class="homepage-header">
+                <div class="header-icon">
+                    <div class="icon-content">
+                        <i class="bi bi-book"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold">E-LIGTAS GUIDELINES</span>
+                <span>E-LIGTAS GUIDELINES</span>
             </div>
-            <hr class="mt-4">
+            <hr>
             <div class="content-item text-center mt-3">
                 <div class="guideline-container">
                     @foreach ($guideline as $guidelineItem)

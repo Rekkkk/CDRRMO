@@ -13,15 +13,15 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="grid grid-cols-1">
-                <div class="grid col-end-1">
-                    <div class="text-white text-2xl">
-                        <i class="bi bi-tropical-storm p-2 bg-slate-600"></i>
+            <div class="homepage-header">
+                <div class="header-icon">
+                    <div class="icon-content">
+                        <i class="bi bi-tropical-storm"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold">MANAGE DISASTER INFORMATION</span>
+                <span>MANAGE DISASTER INFORMATION</span>
             </div>
-            <hr class="mt-4 mb-3">
+            <hr>
             @if (auth()->user()->is_disable == 0)
                 <div class="create-section">
                     <button class="btn-submit createDisasterData">
