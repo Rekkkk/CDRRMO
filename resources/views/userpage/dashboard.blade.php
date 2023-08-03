@@ -11,32 +11,32 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="grid grid-cols-1">
-                <div class="grid col-end-1">
-                    <div class="text-white text-2xl">
-                        <i class="bi bi-speedometer2 p-2 bg-slate-600"></i>
+            <div class="homepage-header">
+                <div class="header-icon">
+                    <div class="icon-content">
+                        <i class="bi bi-speedometer2"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold">DASHBOARD</span>
+                <span>DASHBOARD</span>
             </div>
-            <hr class="mt-4">
+            <hr>
             @if (auth()->user()->position == 'President' || auth()->user()->position == 'Focal')
                 <div class="report-container">
-                    <p class="font-semibold tracking-wider"> Current Disaster:
+                    <p> Current Disaster:
                         @foreach ($onGoingDisaster as $disasters)
-                            <span class="text-red-600 font-black">{{ $disasters->name }},</span>
+                            <span>{{ $disasters->name }}| </span>
                         @endforeach
                     </p>
-                    <div class=" flex justify-end">
+                    <div class="generate-button-container">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#generateReportModal"
-                            class="btn-submit mt-1 bg-green-600">
-                            <i class="bi bi-printer pr-2"></i>
+                            class="btn-submit">
+                            <i class="bi bi-printer"></i>
                             Generate Report Data
                         </button>
                     </div>
                 </div>
             @endif
-            <div class="grid grid-cols-1 mt-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
+            <div class="mt-4 row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 gap-4">
                 <div class="widget">
                     <div class="widget-content">
                         <div class="content-description">
@@ -64,8 +64,8 @@
             </div>
             @foreach ($onGoingDisaster as $count => $disaster)
                 <figure class="chart-container my-4">
-                    <div id="evacueePie{{ $count + 1 }}" class="pie-chart bg-slate-50 rounded shadow-lg mr-5"></div>
-                    <div id="evacueeGraph{{ $count + 1 }}" class="bar-graph bg-slate-200 rounded shadow-lg flex-1">
+                    <div id="evacueePie{{ $count + 1 }}" class="pie-chart"></div>
+                    <div id="evacueeGraph{{ $count + 1 }}" class="bar-graph">
                     </div>
                 </figure>
             @endforeach
