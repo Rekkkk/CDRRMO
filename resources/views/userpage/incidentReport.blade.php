@@ -14,15 +14,15 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="grid grid-cols-1">
-                <div class="grid col-end-1">
-                    <div class="text-2xl text-white">
-                        <i class="bi bi-megaphone p-2 bg-slate-600"></i>
+            <div class="homepage-header">
+                <div class="header-icon">
+                    <div class="icon-content">
+                        <i class="bi bi-megaphone"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold">INCIDENT REPORT</span>
+                <span>INCIDENT REPORT</span>
             </div>
-            <hr class="mt-4">
+            <hr>
             <div class="report-table shadow-lg p-4 rounded my-3">
                 <div class="block w-full overflow-auto pb-2">
                     <header class="text-2xl font-semibold">Pending Incident Report Table</header>

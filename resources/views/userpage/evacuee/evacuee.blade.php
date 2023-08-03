@@ -14,15 +14,15 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="grid grid-cols-1">
-                <div class="grid col-end-1">
-                    <div class="text-2xl text-white">
-                        <i class="bi bi-people p-2 bg-slate-600"></i>
+            <div class="homepage-header">
+                <div class="header-icon">
+                    <div class="icon-content">
+                        <i class="bi bi-people"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold">MANAGE EVACUEE INFORMATION</span>
+                <span>MANAGE EVACUEE INFORMATION</span>
             </div>
-            <hr class="mt-4">
+            <hr>
             <div class="flex flex-wrap justify-end text-white gap-3 my-3">
                 <button id="recordEvacueeBtn" data-toggle="modal" data-target="#evacueeInfoFormModal"
                     class="btn-submit p-2">

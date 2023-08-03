@@ -215,7 +215,7 @@ hr,
     transition: 0.2s all ease-in-out;
 }
 
-.main-content hr{
+.main-content hr {
     margin-top: 22px;
 }
 
@@ -912,15 +912,80 @@ hr,
 /* About Section Start Here */
 .about-content {
     display: flex;
+    margin-top: 16px;
 }
 
 .about-content .location-section {
     flex: 3;
+    margin-right: 16px;
     padding: 24px;
     background: #475569;
     color: var(--color-text);
+    border-radius: 6px;
     filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
+
+.location-section span {
+    font-weight: 700;
+    font-size: 24px;
+}
+
+.location-detail {
+    margin-top: 32px;
+}
+
+.location-detail i {
+    margin-right: 16px;
+    font-size: 18px;
+}
+
+.location-detail hr {
+    margin-top: 16px;
+    clear: both;
+}
+
+.right-side {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+}
+
+.social-section,
+.telephone-section {
+    filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+    background: #475569;
+    color: var(--color-text);
+    margin-bottom: 16px;
+    border-radius: 6px;
+}
+
+.social-section div,
+.telephone-section div {
+    text-align: center;
+    padding: 24px 0;
+}
+
+.social-section span,
+.telephone-section span {
+    font-weight: 700;
+    font-size: 18px;
+}
+
+.social-section p,
+.telephone-section p {
+    padding: 24px;
+}
+
+.social-section i,
+.telephone-section i {
+    margin-right: 16px;
+}
+
+.social-section hr,
+.telephone-section hr {
+    margin: 0;
+}
+
 
 #editAddressModal {
     float: right;
@@ -1164,7 +1229,7 @@ table td {
     }
 
     .about-content>div {
-        margin: 15px 0;
+        margin: 15px;
     }
 
     .chart-container {
@@ -1393,6 +1458,44 @@ table td {
     }
 
     /* Dashboard Section End*/
+
+    /* About Section Start Here */
+    .about-content>div {
+        margin: 20px 0;
+    }
+
+    .about-content .location-section {
+        margin: 20px 0;
+    }
+
+    .location-section span,
+    .telephone-section span {
+        font-size: 18px;
+    }
+
+    .location-detail i {
+        margin-right: 6px;
+    }
+
+    .location-detail hr {
+        margin: 0;
+    }
+
+    .location-detail p {
+        font-size: 12px;
+    }
+
+    .social-section span {
+        font-size: 18px;
+    }
+
+    .social-section p,
+    .telephone-section p {
+        padding: 16px;
+        font-size: 12px;
+    }
+
+    /* About Section End */
 }
 
 /* Mobile View End Section */

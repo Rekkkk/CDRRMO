@@ -10,15 +10,15 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="grid grid-cols-1">
-                <div class="grid col-end-1">
-                    <div class="text-2xl text-white">
-                        <i class="bi bi-person-circle p-2 bg-slate-600"></i>
+            <div class="homepage-header">
+                <div class="header-icon">
+                    <div class="icon-content">
+                        <i class="bi bi-person-circle"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold">MY PROFILE</span>
+                <span>MY PROFILE</span>
             </div>
-            <hr class="mt-4">
+            <hr>
             <div class="user-profile-container rounded shadow-lg mt-3">
                 <div class="profile-section flex justify-center items-center py-4">
                     <div class="bg-slate-300 w-60 h-60 rounded-full overflow-hidden border-4 border-blue-500">

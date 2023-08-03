@@ -13,15 +13,15 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="grid grid-cols-1">
-                <div class="grid col-end-1">
-                    <div class="text-2xl text-white">
-                        <i class="bi bi-house p-2 bg-slate-600"></i>
+            <div class="homepage-header">
+                <div class="header-icon">
+                    <div class="icon-content">
+                        <i class="bi bi-house"></i>
                     </div>
                 </div>
-                <span class="text-xl font-bold">EVACUATION CENTER LOCATOR</span>
+                <span>EVACUATION CENTER LOCATOR</span>
             </div>
-            <hr class="mt-4">
+            <hr>
             <div class="locator-content my-3">
                 <div class="locator-header text-center text-white h-22 bg-red-600 rounded-t">
                     <div class="text-2xl py-3">
