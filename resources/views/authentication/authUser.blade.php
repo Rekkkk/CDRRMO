@@ -1,51 +1,49 @@
 @include('partials.authHeader')
 
-<body id="login-container">
+<body class="auth-body">
     <div class="wrapper">
-        <div class="header-section w-full drop-shadow-lg"></div>
-        <div class="login-section relative m-auto">
-            <div class="login-content flex justify-around">
-                <div class="header-desc">
-                    <h1 class="text-white tracking-wide font-extrabold">{{ config('app.name') }}</h1>
-                    <div class="pt-4">
-                        <p class="text-slate-400">E-LIGTAS can help you to locate an evacuation centers in Cabuyao,
-                            Laguna,
-                            and disseminate information on disaster preparedness.</p>
+        <div class="header-section"></div>
+        <div class="auth-content">
+            <div class="auth-container">
+                <div class="auth-header-desc">
+                    <h1>{{ config('app.name') }}</h1>
+                    <div class="auth-header-title">
+                        <p>E-LIGTAS can help you to locate an evacuation centers in Cabuyao, Laguna, and disseminate
+                            information on disaster preparedness.</p>
                     </div>
                 </div>
-                <div class="login-form-section bg-slate-300 mr-2">
-                    <form action="{{ route('login') }}" method="POST" class="px-3">
+                <div class="auth-form-section">
+                    <form action="{{ route('login') }}" method="POST">
                         @csrf
-                        <div class="my-3">
-                            <input type="email" name="email" class="form-control p-3"
+                        <div class="auth-email-container">
+                            <input type="email" name="email" class="form-control"
                                 value="{{ !empty(old('email')) ? old('email') : null }}" placeholder="Email Address"
                                 required>
                         </div>
-                        <div class="my-3 relative">
-                            <input type="password" name="password" id="authPassword" class="form-control p-3"
+                        <div class="auth-password-container">
+                            <input type="password" name="password" id="authPassword" class="form-control"
                                 autocomplete="off" placeholder="Password">
-                            <i class="bi bi-eye-slash absolute cursor-pointer text-2xl" id="showAuthPassword"></i>
+                            <i class="bi bi-eye-slash" id="showAuthPassword"></i>
                         </div>
-                        <div class="login-btn">
-                            <button type="submit" class="btn-login bg-slate-700 hover:bg-slate-800">Login</button>
+                        <div class="auth-btn-container">
+                            <button type="submit" class="btn-login">Login</button>
                         </div>
                     </form>
                     <form action="{{ route('resident.guideline') }}" method="POST" class="py-2 px-3">
-                        @method('GET')
                         @csrf
-                        <button type="submit" class="btn-resident bg-red-600 hover:bg-red-700">
+                        <button type="submit" class="btn-resident">
                             Continue as resident
                         </button>
                     </form>
-                    <div class="flex justify-center my-10 text-sky-600">
+                    <div class="forgot-password-container">
                         <a href="{{ route('recoverAccount') }}">Forgotten password?</a>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="bottom-section w-full text-white">
+        <div class="auth-bottom-section">
             <hr>
-            <p class="text-slate-400">E-LIGTAS @ {{ date('Y') }}</p>
+            <p>E-LIGTAS @ {{ date('Y') }}</p>
         </div>
     </div>
 

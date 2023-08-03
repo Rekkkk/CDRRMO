@@ -151,6 +151,7 @@ hr,
     height: 64px;
     background: var(--color-red);
     z-index: 1;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .header-section .container-fluid {
@@ -409,29 +410,52 @@ hr,
 /* Side Bar End Section */
 
 /* Authentication Section Start Here */
-#login-container {
+.auth-body {
     background: var(--color-gray);
 }
 
-.login-section {
+.auth-content {
+    position: relative;
+    margin: auto;
     padding: 20% 0 15% 0;
 }
 
-.header-desc {
+.auth-header-desc {
     padding: 20px 0;
 }
 
-.login-section h1 {
+.auth-header-desc h1 {
+    color: var(--color-text);
+    letter-spacing: 0.025em;
+    font-weight: 800;
+}
+
+.auth-header-desc .auth-header-title {
+    padding-top: 24px;
+}
+
+.auth-header-desc .auth-header-title p {
+    color: rgb(148, 163, 184)
+}
+
+.auth-content h1 {
     font-size: 65px;
 }
 
-.login-section p {
+.auth-content p {
     font-size: 20px;
     line-height: 1.4em;
     max-width: 800px;
 }
 
-.login-form-section {
+.auth-container {
+    display: flex;
+    justify-content: space-around;
+}
+
+.auth-form-section {
+    background-color: rgb(203, 213, 225);
+    margin-right: 8px;
     height: 75%;
     padding: 20px 10px;
     width: 100%;
@@ -440,41 +464,80 @@ hr,
     filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
 }
 
-.login-form-section .my-3 input {
-    border-radius: 4px;
-    width: 100%;
-    padding: 20px;
+.auth-form-section form {
+    padding: 0 16px;
 }
 
-.login-form-section .my-3.relative i {
-    top: 14px;
+.auth-email-container {
+    margin: 16px 0;
+}
+
+.auth-password-container {
+    position: relative;
+    margin: 16px 0;
+}
+
+.auth-password-container i {
+    position: absolute;
+    font-size: 24px;
+    cursor: pointer;
+    top: 12px;
     right: 15px;
 }
 
-.recover-container,
-.res-password-cotainer {
-    padding: 20% 0 15% 0;
-}
-
-.recover-form,
-.res-password-form {
-    height: 75%;
+.auth-form-section input {
+    border-radius: 4px;
     width: 100%;
-    max-width: 500px;
-    border-radius: 6px;
-    filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+    padding: 16px;
 }
 
-.res-password-cotainer .res-input-form {
-    padding: 24px 24px 2px 24px;
+.auth-btn-container .btn-login {
+    background: var(--color-gray);
+    border: none;
 }
 
-.bottom-section p {
+.auth-btn-container .btn-login:hover {
+    background: #1e293b;
+}
+
+.auth-body .btn-resident {
+    background: var(--color-red);
+    border: none;
+}
+
+.auth-body .btn-resident:hover {
+    background: #b91c1c;
+}
+
+.forgot-password-container {
+    display: flex;
+    margin: 40px 0;
+    justify-content: center;
+    color: rgb(2, 132, 199);
+}
+
+.auth-body .auth-bottom-section {
+    width: 100%;
+    color: var(--color-text);
+}
+
+.auth-body .auth-bottom-section hr {
+    margin: 0;
+}
+
+.auth-body .auth-bottom-section p {
+    margin: 0;
+    color: #94a3b8;
     font-size: 15px;
     padding: 5px 0;
 }
 
-#login-container .btn-login,
+.auth-bottom-section p {
+    font-size: 15px;
+    padding: 5px 0;
+}
+
+.auth-body .btn-login,
 .btn-resident {
     width: 100%;
     padding: 15px;
@@ -482,6 +545,144 @@ hr,
     font-weight: 800;
     color: var(--color-text);
     border-radius: 6px;
+}
+
+.recover-container,
+.res-password-cotainer {
+    position: relative;
+    margin: auto;
+    padding: 300px 0;
+}
+
+.recover-content {
+    display: flex;
+    justify-content: center;
+}
+
+.recover-form,
+.res-password-form {
+    background: #cbd5e1;
+    height: 75%;
+    width: 100%;
+    max-width: 500px;
+    border-radius: 6px;
+    filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
+}
+
+.recover-form form,
+.res-password-form form {
+    width: 100%;
+    position: relative;
+}
+
+.recover-form hr {
+    margin: 0;
+}
+
+.form-header {
+    padding: 16px;
+}
+
+.form-header h1 {
+    margin: 0;
+    font-size: 20px;
+    font-weight: 700;
+}
+
+.form-group {
+    padding: 24px;
+}
+
+.button-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 16px 24px;
+}
+
+.button-container .btn-remove {
+    background: var(--color-red);
+    padding: 8px;
+    margin: 8px;
+    border: none;
+}
+
+.button-container .btn-remove:hover {
+    background: #b91c1c;
+}
+
+.rec-bottom-section {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 100%;
+    color: var(--color-text);
+    padding: 0 24px;
+}
+
+.rec-bottom-section hr {
+    margin: 0;
+}
+
+.res-password-content {
+    display: flex;
+    justify-content: center;
+}
+
+.res-header-container {
+    padding: 16px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.res-password-form hr {
+    margin: 0;
+}
+
+.res-header-container h1 {
+    text-align: center;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+}
+
+.res-password-cotainer .res-input-form {
+    padding: 24px 24px 2px 24px;
+}
+
+.res-button-container {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    padding: 16px 24px;
+}
+
+.button-container .btn-submit,
+.res-button-container .btn-submit {
+    background: var(--color-green);
+    border: none;
+}
+
+.button-container .btn-submit:hover,
+.res-button-container .btn-submit:hover {
+    background: #15803d;
+}
+
+.res-bottom-container {
+    width: 100%;
+    color: var(--color-text);
+}
+
+.res-bottom-container hr {
+    margin: 0;
+}
+
+.rec-bottom-section p,
+.res-bottom-container p {
+    margin: 0;
+    font-size: 15px;
+    padding: 5px 0;
+    color: #94a3b8;
 }
 
 /* Authentication End Section */
@@ -874,27 +1075,27 @@ table td {
 
 /* Laptop View Section */
 @media only screen and (max-width: 1024px) {
-    .login-section {
+    .auth-content {
         text-align: center;
         padding: 20% 0 15% 0;
         width: 100%;
     }
 
-    .login-section .login-content .header-desc h1 {
+    .auth-content .auth-container .auth-header-desc h1 {
         font-size: 60px;
     }
 
-    .login-section .login-content .header-desc p {
+    .auth-content .auth-container .auth-header-desc p {
         margin: 0 auto;
         font-size: 18px;
         padding-bottom: 20px;
     }
 
-    .login-section .login-content {
+    .auth-content .auth-container {
         display: block;
     }
 
-    .login-section .login-form-section {
+    .auth-content .auth-form-section {
         margin: 0 auto;
     }
 
@@ -931,27 +1132,31 @@ table td {
         padding: 0 20px;
     }
 
-    .login-section {
+    .auth-content {
         padding: 29% 0 20% 0;
     }
 
-    .login-section .login-content .header-desc {
+    .auth-content .auth-container .auth-header-desc {
         width: 100%;
         padding-bottom: 30px;
     }
 
-    .login-section .login-content .header-desc h1 {
+    .auth-content .auth-container .auth-header-desc h1 {
         font-size: 50px;
     }
 
-    .login-section .login-content .header-desc p {
+    .auth-content .auth-container .auth-header-desc p {
         margin: 0 auto;
         font-size: 16px;
     }
 
-    .login-section .login-form-section {
+    .auth-content .auth-form-section {
         margin: 0 auto;
         max-width: 400px;
+    }
+
+    .recover-container {
+        padding: 300px 0;
     }
 
     .sidebar {
@@ -1001,60 +1206,114 @@ table td {
 @media only screen and (max-width: 380px) {
 
     /* Login Section Start Here */
-    .login-section {
+    .auth-content {
         padding: 35% 0 20% 0;
         transition: 0.5s all ease-in-out;
     }
 
-    .login-section .login-content .header-desc {
+    .auth-content .auth-container .auth-header-desc {
         width: 100%;
         padding-bottom: 30px;
     }
 
-    .login-section .login-content .header-desc h1 {
+    .auth-content .auth-container .auth-header-desc h1 {
         font-size: 40px;
     }
 
-    .login-section .login-content .header-desc p {
+    .auth-content .auth-container .auth-header-desc p {
         margin: 0 auto;
         font-size: 14px;
     }
 
-    .login-form-section {
+    .auth-form-section {
         padding: 5px 0;
         width: 100%;
         max-width: 430px;
     }
 
-    .login-section .login-form-section {
+    .auth-content .auth-form-section {
         max-width: 250px;
     }
 
-    .login-form-section .my-3 input,
-    .login-form-section .my-3.relative input {
+    .auth-form-section .auth-email-container input,
+    .auth-form-section .auth-password-container input {
         padding: 10px !important;
         font-size: 12px;
     }
 
-    .login-form-section .my-3.relative i {
-        top: 5px;
+    .auth-form-section .auth-password-container i {
+        top: 9px;
         right: 10px;
         font-size: 16px;
     }
 
-    #login-container .btn-login,
-    #login-container .btn-resident {
+    .auth-body .btn-login,
+    .auth-body .btn-resident {
         padding: 10px;
         font-size: 13px;
         font-weight: 500;
     }
 
-    .login-form-section .flex {
+    .auth-form-section .forgot-password-container {
         font-size: 12px;
         letter-spacing: 0.5px;
     }
 
-    .bottom-section p {
+    .auth-bottom-section p {
+        font-size: 12px !important;
+    }
+
+    .form-header {
+        padding: 12px;
+    }
+
+    .form-header h1 {
+        font-size: 15px;
+    }
+
+    .form-group {
+        padding: 18px;
+    }
+
+    .form-group label {
+        font-size: 14px;
+    }
+
+    .form-group input {
+        margin-top: 10px;
+        font-size: 12px;
+        padding: 10px;
+    }
+
+    .button-container {
+        padding: 8px 24px;
+    }
+
+    .button-container .btn-remove,
+    .rec-bottom-section p {
+        font-size: 12px;
+    }
+
+    .button-container .btn-submit {
+        font-size: 11px;
+    }
+
+    .res-header-container,
+    .res-header-container h1 {
+        font-size: 16px;
+    }
+
+    .res-password-form .res-input-form {
+        padding: 8px 13px 2px 13px;
+    }
+
+    .res-password-form .res-input-form label,
+    .res-password-form .res-input-form input {
+        font-size: 14px;
+    }
+
+    .res-button-container button,
+    .res-bottom-container p {
         font-size: 12px;
     }
 
