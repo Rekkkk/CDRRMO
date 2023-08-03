@@ -34,7 +34,7 @@ Route::prefix('resident')->middleware('guest')->group(function () {
         });
 
         Route::prefix('eligtasGuideline')->controller(GuidelineController::class)->group(function () {
-            Route::post('/', 'eligtasGuideline')->name('guideline');
+            Route::get('/', 'eligtasGuideline')->name('guideline');
             Route::get('/guide/{guidelineId}', 'guide')->name('guide');
         });
 

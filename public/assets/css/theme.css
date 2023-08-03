@@ -215,16 +215,36 @@ hr,
     transition: 0.2s all ease-in-out;
 }
 
-.main-content .grid {
-    align-items: baseline;
+.main-content hr{
+    margin-top: 22px;
 }
 
-.main-content .grid .grid {
+.homepage-header {
+    display: grid;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    align-items: center;
+}
+
+.header-icon {
+    display: grid;
     margin-right: 16px;
+    grid-column-end: 1;
 }
 
-.main-content .grid i {
+.icon-content {
+    color: var(--color-text);
+    font-size: 24px;
+}
+
+.icon-content i {
+    padding: 8px;
     border-radius: 4px;
+    background-color: rgb(71, 85, 105);
+}
+
+.homepage-header span {
+    font-size: 20px;
+    font-weight: 700;
 }
 
 /* Main End Content */
@@ -694,6 +714,31 @@ hr,
     margin: 12px 0;
 }
 
+.report-container p {
+    margin: auto 0;
+    font-weight: 600;
+    letter-spacing: 0.8px;
+}
+
+.report-container span {
+    color: var(--color-red);
+    font-weight: 900;
+}
+
+.generate-button-container {
+    display: flex;
+    justify-content: end;
+}
+
+.generate-button-container button {
+    background: var(--color-green);
+    border: none;
+}
+
+.generate-button-container button i {
+    padding-right: 8px;
+}
+
 .widget {
     background: var(--color-text);
     position: relative;
@@ -723,8 +768,12 @@ hr,
 .content-description .wigdet-header p {
     color: #000;
     font-size: 16px;
-    padding: 10px 0 0;
+    padding: 10px 0 0 0;
     font-weight: 600;
+}
+
+.content-description p {
+    margin: 0;
 }
 
 .wigdet-header img {
@@ -749,6 +798,17 @@ hr,
 
 .pie-chart {
     width: 500px;
+    background: var(--color-text);
+    border-radius: 6px;
+    margin-right: 20px;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+}
+
+.bar-graph {
+    flex: 1;
+    background: #e2e8f0;
+    border-radius: 6px;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 /* Dashboard End Section */
@@ -1275,7 +1335,9 @@ table td {
         padding: 18px;
     }
 
-    .form-group label {
+    .form-group label,
+    .res-password-form .res-input-form label,
+    .res-password-form .res-input-form input {
         font-size: 14px;
     }
 
@@ -1290,7 +1352,9 @@ table td {
     }
 
     .button-container .btn-remove,
-    .rec-bottom-section p {
+    .rec-bottom-section p,
+    .res-button-container button,
+    .res-bottom-container p {
         font-size: 12px;
     }
 
@@ -1307,16 +1371,6 @@ table td {
         padding: 8px 13px 2px 13px;
     }
 
-    .res-password-form .res-input-form label,
-    .res-password-form .res-input-form input {
-        font-size: 14px;
-    }
-
-    .res-button-container button,
-    .res-bottom-container p {
-        font-size: 12px;
-    }
-
     /* Login Section End*/
 
     /* Dashboard Section Start Here */
@@ -1331,6 +1385,11 @@ table td {
 
     .report-container form {
         margin: 10px 0;
+    }
+
+    .generate-button-container button {
+        width: 100%;
+        display: block;
     }
 
     /* Dashboard Section End*/
