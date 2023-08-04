@@ -1,26 +1,21 @@
 <div class="modal fade" id="disasterModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header justify-center bg-green-600">
-                <h1 class="modal-title fs-5 text-white font-extrabold">Create Disaster Form</h1>
+            <div class="modal-label-container">
+                <h1 class="modal-label"></h1>
             </div>
             <div class="modal-body">
                 <form id="disasterForm">
                     @csrf
-                    <div class="bg-slate-50 pt-3 pb-2 rounded">
-                        <div class="flex-auto">
-                            <div class="flex flex-wrap">
-                                <input type="text" id="operation" hidden>
-                                <div class="field-container">
-                                    <label>Name</label>
-                                    <input type="text" name="name" class="form-control" autocomplete="off"
-                                        placeholder="Enter Disaster Name" id="disasterName">
-                                </div>
-                                <div class="w-full px-4 pt-2 pb-3">
-                                    <button id="submitDisasterBtn"
-                                        class="btn-submit p-2 float-right">Create</button>
-                                </div>
-                            </div>
+                    <div class="form-content">
+                        <input type="text" id="operation" hidden>
+                        <div class="field-container">
+                            <label>Name</label>
+                            <input type="text" name="name" class="form-control" autocomplete="off"
+                                placeholder="Enter Disaster Name" id="disasterName">
+                        </div>
+                        <div class="form-button-container">
+                            <button id="submitDisasterBtn" class="btn-submit">Create</button>
                         </div>
                     </div>
                 </form>

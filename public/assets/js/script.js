@@ -57,11 +57,11 @@ $(document).ready(function () {
                 success: function (response) {
                     if (response.status == "warning") {
                         current_password = "";
-                        currentPassword.text("* Password doesn't matched.").removeClass('text-green-600').addClass('text-red-600');
+                        currentPassword.text("* Password doesn't matched.").removeClass('success').addClass('error');
                         eyeIcon.removeClass('bi-eye').addClass('bi-eye-slash');
                         password.add(confirmPassword).val("").prop('type', 'password').add(resetPasswordBtn.removeClass('hover:scale-105 hover:bg-yellow-600')).prop('disabled', true);
                     } else {
-                        currentPassword.text('* Password matched.').removeClass('text-red-600').addClass('text-green-600');
+                        currentPassword.text('* Password matched.').removeClass('error').addClass('success');
                         password.add(confirmPassword).add(resetPasswordBtn).prop('disabled', false)
                         resetPasswordBtn.addClass('hover:scale-105 hover:bg-yellow-600');
                     }

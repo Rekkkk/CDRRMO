@@ -32,39 +32,39 @@
             <ul class="nav_list">
                 @if (auth()->check() && auth()->user()->organization == 'CDRRMO')
                     <li>
-                        <a href="{{ route('dashboard.cdrrmo') }}" class="menuLink">
+                        <a href="{{ route('dashboard.cdrrmo') }}" class="menu-link">
                             <i class="bi bi-speedometer2"></i>
                             <span class="links_name">Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('guideline.display') }}" class="menuLink">
+                        <a href="{{ route('guideline.display') }}" class="menu-link">
                             <i class="bi bi-book"></i>
                             <span class="links_name">E-LIGTAS Guideline</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('display.incident.report') }}" class="menuLink">
+                        <a href="{{ route('display.incident.report') }}" class="menu-link">
                             <i class="bi bi-megaphone"></i>
                             <span class="links_name">Report Incident</span>
                         </a>
                     </li>
                     @if (auth()->user()->position == 'President')
                         <li>
-                            <a href="{{ route('account.display.users') }}" class="menuLink">
+                            <a href="{{ route('account.display.users') }}" class="menu-link">
                                 <i class="bi bi-person-gear"></i>
                                 <span class="links_name">Manage User Accounts</span>
                             </a>
                         </li>
                     @endif
                     <li>
-                        <a href="{{ route('hotline.number') }}" class="menuLink">
+                        <a href="{{ route('hotline.number') }}" class="menu-link">
                             <i class="bi bi-telephone"></i>
                             <span class="links_name">Hotline Numbers</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('about') }}" class="menuLink">
+                        <a href="{{ route('about') }}" class="menu-link">
                             <i class="bi bi-info-circle"></i>
                             <span class="links_name">About</span>
                         </a>
@@ -72,44 +72,44 @@
                 @endif
                 @if (auth()->check() && auth()->user()->organization == 'CSWD')
                     <li>
-                        <a href="{{ route('dashboard.cswd') }}" class="menuLink">
+                        <a href="{{ route('dashboard.cswd') }}" class="menu-link">
                             <i class="bi bi-speedometer2"></i>
                             <span class="links_name">Dashboard</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('guideline.display') }}" class="menuLink">
+                        <a href="{{ route('guideline.display') }}" class="menu-link">
                             <i class="bi bi-book"></i>
                             <span class="links_name">E-LIGTAS Guideline</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('disaster.display') }}" class="menuLink">
+                        <a href="{{ route('disaster.display') }}" class="menu-link">
                             <i class="bi bi-tropical-storm"></i>
                             <span class="links_name">Manage Disaster Information</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('manage.evacuee.record') }}" class="menuLink">
+                        <a href="{{ route('manage.evacuee.record') }}" class="menu-link">
                             <i class="bi bi-people"></i>
                             <span class="links_name">Manage Evacuee Information</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('manage.evacuation') }}" class="menuLink">
+                        <a href="{{ route('manage.evacuation') }}" class="menu-link">
                             <i class="bi bi-house-gear"></i>
                             <span class="links_name">Manage Evacuation Center</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('evacuation.center.locator') }}" class="menuLink">
+                        <a href="{{ route('evacuation.center.locator') }}" class="menu-link">
                             <i class="bi bi-house"></i>
                             <span class="links_name">Evacuation Center Locator</span>
                         </a>
                     </li>
                     @if (auth()->user()->position === 'Focal')
                         <li>
-                            <a href="{{ route('account.display.users') }}" class="menuLink">
+                            <a href="{{ route('account.display.users') }}" class="menu-link">
                                 <i class="bi bi-person-gear"></i>
                                 <span class="links_name">Manage User Accounts</span>
                             </a>
@@ -118,31 +118,31 @@
                 @endif
                 @guest
                     <li>
-                        <a href="{{ route('resident.guideline') }}" class="menuLink">
+                        <a href="{{ route('resident.guideline') }}" class="menu-link">
                             <i class="bi bi-book"></i>
                             <span class="links_name">E-LIGTAS Guidelines</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('resident.evacuation.center.locator') }}" class="menuLink">
+                        <a href="{{ route('resident.evacuation.center.locator') }}" class="menu-link">
                             <i class="bi bi-house"></i>
                             <span class="links_name">Evacuation Center Locator</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('resident.display.incident.report') }}" class="menuLink">
+                        <a href="{{ route('resident.display.incident.report') }}" class="menu-link">
                             <i class="bi bi-megaphone"></i>
                             <span class="links_name">Report Incident</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('resident.hotline.number') }}" class="menuLink">
+                        <a href="{{ route('resident.hotline.number') }}" class="menu-link">
                             <i class="bi bi-telephone"></i>
                             <span class="links_name">Hotline Numbers</span>
                         </a>
                     </li>
                     <li>
-                        <a href="{{ route('resident.about') }}" class="menuLink">
+                        <a href="{{ route('resident.about') }}" class="menu-link">
                             <i class="bi bi-info-circle"></i>
                             <span class="links_name">About</span>
                         </a>

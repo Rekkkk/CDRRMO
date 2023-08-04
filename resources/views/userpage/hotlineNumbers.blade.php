@@ -10,8 +10,8 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="homepage-header">
-                <div class="header-icon">
+            <div class="label-container">
+                <div class="icon-container">
                     <div class="icon-content">
                         <i class="bi bi-telephone"></i>
                     </div>

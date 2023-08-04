@@ -30,19 +30,19 @@ class DisasterController extends Controller
                         'Inactive' => 'red'
                     };
 
-                    return '<div class="flex  justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
+                    return '<div class="status-container"><div class="bg-' . $color . '-600 status-content">' . $row->status . '</div></div>';
                 })->addColumn('action', function ($row) {
                     if (auth()->user()->is_disable == 0) {
                         $statusOptions = $row->status == 'On Going' ? '<option value="Inactive">Inactive</option>' : '<option value="On Going">On Going</option>';
 
-                        return '<div class="flex justify-center actionContainer">' .
-                            '<button class="btn-table-update w-28 mr-2 updateDisaster"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
-                            '<button class="btn-table-remove w-28 mr-2 removeDisaster"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
-                            '<select class="form-select w-44 bg-blue-500 text-white drop-shadow-md changeDisasterStatus">' .
+                        return '<div class="action-container">' .
+                            '<button class="btn-table-update updateDisaster"><i class="bi bi-pencil-square"></i>Update</button>' .
+                            '<button class="btn-table-remove removeDisaster"><i class="bi bi-trash3-fill"></i>Remove</button>' .
+                            '<select class="form-select changeDisasterStatus">' .
                             '<option value="" disabled selected hidden>Change Status</option>' . $statusOptions . '</select></div>';
                     }
 
-                    return '<span class="text-sm">Currently Disabled.</span>';
+                    return '<span class="message-text">Currently Disabled.</span>';
                 })
                 ->rawColumns(['status', 'action'])
                 ->make(true);

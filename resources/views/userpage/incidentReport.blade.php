@@ -14,8 +14,8 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="homepage-header">
-                <div class="header-icon">
+            <div class="label-container">
+                <div class="icon-container">
                     <div class="icon-content">
                         <i class="bi bi-megaphone"></i>
                     </div>
@@ -23,10 +23,11 @@
                 <span>INCIDENT REPORT</span>
             </div>
             <hr>
-            <div class="report-table shadow-lg p-4 rounded my-3">
-                <div class="block w-full overflow-auto pb-2">
-                    <header class="text-2xl font-semibold">Pending Incident Report Table</header>
-                    <table class="table pendingReport" style="width:100%">
+            <br>
+            <div class="table-container">
+                <div class="table-content">
+                    <header class="table-label">Pending Incident Report Table</header>
+                    <table class="table pendingReport" width="100%">
                         <thead class="thead-light">
                             <tr>
                                 <th colspan="2">Description</th>
@@ -62,7 +63,7 @@
                                         </div>
                                         <div class="py-2">
                                             <p class="font-bold">Report Status : <span
-                                                    class="bg-green-600 status-container">{{ $report->status }}</span>
+                                                    class="bg-green-600 status-content">{{ $report->status }}</span>
                                             </p>
                                         </div>
                                         <p class="pb-2 font-bold">Date Reported: <span class="text-red-600">July 22,
@@ -76,10 +77,11 @@
                 </div>
             @endguest
             @auth
-                <div class="report-table shadow-lg p-4 rounded">
-                    <div class="block w-full overflow-auto pb-2">
-                        <header class="text-2xl font-semibold">Incident Report Table</header>
-                        <table class="table incidentReports" style="width:100%">
+                <br>
+                <div class="table-container">
+                    <div class="table-content">
+                        <header class="table-label">Incident Report Table</header>
+                        <table class="table incidentReports" width="100%">
                             <thead class="thead-light">
                                 <tr>
                                     <th colspan="2">Description</th>
@@ -94,8 +96,8 @@
                         </table>
                     </div>
                 </div>
-            @endauth
-        </div>
+            </div>
+        @endauth
         @guest
             <div class="modal fade" id="createAccidentReportModal" aria-hidden="true">
                 <div class="modal-dialog">
@@ -173,7 +175,7 @@
             @auth
             let pendingReport = $('.pendingReport').DataTable({
                 language: {
-                    emptyTable: '<div class="no-data">There are currently no pending reports.</div>',
+                    emptyTable: '<div class="message-text">There are currently no pending reports.</div>',
                 },
                 ordering: false,
                 responsive: true,
@@ -219,7 +221,7 @@
 
             let incidentReports = $('.incidentReports').DataTable({
                 language: {
-                    emptyTable: '<div class="no-data">There are currently no reports.</div>',
+                    emptyTable: '<div class="message-text">There are currently no reports.</div>',
                 },
                 ordering: false,
                 responsive: true,
@@ -242,12 +244,14 @@
                     {
                         data: 'status',
                         name: 'status',
+                        width: '10%',
                         orderable: false,
                         searchable: false
                     },
                     {
                         data: 'photo',
                         name: 'photo',
+                        width: '10%',
                         orderable: false,
                         searchable: false
                     },
@@ -308,7 +312,7 @@
         @guest
         let pendingReport = $('.pendingReport').DataTable({
             language: {
-                emptyTable: '<div class="no-data">You have no pending reports.</div>',
+                emptyTable: '<div class="message-text">You have no pending reports.</div>',
             },
             ordering: false,
             responsive: true,

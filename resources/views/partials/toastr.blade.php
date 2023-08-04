@@ -5,8 +5,8 @@
     $(document).ready(function() {
         toastr.options = {
             "positionClass": "toast-bottom-left",
-            "progressBar": true,
-            "closeButton": true,
+            "progressBar": false,
+            "closeButton": false,
             "preventDuplicates": true
         }
 

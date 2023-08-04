@@ -8,8 +8,8 @@
                 <div class="auth-header-desc">
                     <h1>{{ config('app.name') }}</h1>
                     <div class="auth-header-title">
-                        <p>E-LIGTAS can help you to locate an evacuation centers in Cabuyao, Laguna, and disseminate
-                            information on disaster preparedness.</p>
+                        <p>E-LIGTAS can help you to locate an evacuation centers in Cabuyao, Laguna, as well as provide
+                            disaster preparedness information.</p>
                     </div>
                 </div>
                 <div class="auth-form-section">
