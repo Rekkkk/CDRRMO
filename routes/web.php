@@ -79,6 +79,7 @@ Route::middleware('auth')->group(function () {
 
         Route::prefix('evacuationCenter')->name('evacuation.center.')->controller(EvacuationCenterController::class)->group(function () {
             Route::get('/viewEvacuationCenter/{operation}', 'getEvacuationData')->name('get');
+            Route::get('/locateNearestEvacuation', 'locateNearestEvacuation')->name('locate');
             Route::post('/createEvacuationCenter', 'createEvacuationCenter')->name('create');
             Route::put('/updateEvacuation/{evacuationId}', 'updateEvacuationCenter')->name('update');
             Route::patch('/removeEvacuation/{evacuationId}', 'removeEvacuationCenter')->name('remove');

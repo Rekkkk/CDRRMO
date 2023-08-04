@@ -132,4 +132,23 @@ class EvacuationCenterController extends Controller
         $this->logActivity->generateLog('Changing evacuation center status');
         return response()->json();
     }
+
+    public function locateNearestEvacuation(Request $request)
+    {
+        $userLatitude = $request->userLatitude;
+        $nearestCenter = $this->evacuationCenter->select('name', 'barangay_name', 'latitude', 'longitude', 'status')
+            ->selectRaw(
+                '( 6371 * acos( cos( radians(?) ) *
+                cos( radians( latitude ) )
+                * cos( radians( longitude ) - radians(?)
+                ) + sin( radians(?) ) *
+                sin( radians( latitude ) ) )
+                ) AS distance',
+                [$userLatitude, $request->userLongitude, $userLatitude]
+            )
+            ->orderBy('distance')
+            ->first();
+
+        return response()->json($nearestCenter);
+    }
 }
