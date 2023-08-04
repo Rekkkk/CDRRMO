@@ -13,8 +13,8 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="homepage-header">
-                <div class="header-icon">
+            <div class="label-container">
+                <div class="icon-container">
                     <div class="icon-content">
                         <i class="bi bi-house-gear"></i>
                     </div>
@@ -23,16 +23,16 @@
             </div>
             <hr>
             @if (auth()->user()->is_disable == 0)
-                <div class="create-section">
-                    <button class="btn-submit p-2 createEvacuationCenter">
-                        <i class="bi bi-house-down-fill pr-2"></i>
+                <div class="page-button-container">
+                    <button class="btn-submit" id="createEvacuationCenter">
+                        <i class="bi bi-house-down-fill"></i>
                         Create Evacuation Center
                     </button>
                 </div>
             @endif
-            <div class="table-container p-3 shadow-lg rounded-lg">
-                <div class="block w-full overflow-auto pb-2">
-                    <header class="text-2xl font-semibold mb-3">Evacuation Center Table</header>
+            <div class="table-container">
+                <div class="table-content">
+                    <header class="table-label">Evacuation Center Table</header>
                     <table class="table evacuationCenterTable" width="100%">
                         <thead class="thead-light">
                             <tr>
@@ -75,7 +75,7 @@
     <script type="text/javascript">
         let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
             language: {
-                emptyTable: '<div class="no-data">No evacuation center added yet.</div>',
+                emptyTable: '<div class="message-text">No evacuation center added yet.</div>',
             },
             ordering: false,
             responsive: true,
@@ -107,12 +107,12 @@
                 {
                     data: 'status',
                     name: 'status',
-                    width: '10%'
+                    width: '10%',
                 },
                 {
                     data: 'action',
                     name: 'action',
-                    width: '10%',
+                    width: '1rem',
                     orderable: false,
                     searchable: false
                 }
@@ -200,9 +200,9 @@
                     submitHandler: formSubmitHandler
                 });
 
-                $(document).on('click', '.createEvacuationCenter', function() {
-                    $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                    $('.modal-title').text('Create Evacuation Center');
+                $(document).on('click', '#createEvacuationCenter', function() {
+                    $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
+                    $('.modal-label').text('Create Evacuation Center');
                     $('#createEvacuationCenterBtn').removeClass('btn-update').addClass('btn-submit').text(
                         'Create');
                     $('#operation').val('create');
@@ -219,8 +219,8 @@
                         barangay_name
                     } = getRowData(this, evacuationCenterTable);
                     evacuationCenterId = id;
-                    $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                    $('.modal-title').text('Update Evacuation Center');
+                    $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                    $('.modal-label').text('Update Evacuation Center');
                     $('#createEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-update').text(
                         'Update');
                     $('#operation').val('update');
@@ -249,7 +249,7 @@
                 $(document).on('click', '.removeEvacuationCenter', function() {
                     let url = "{{ route('evacuation.center.remove', ':evacuationCenterId') }}".replace(
                         ':evacuationCenterId', getRowData(this, evacuationCenterTable).id);
-                    alterEvacuationCenter(url, 'PATCH', 'remove');
+                    alterEvacuationCenter(url, 'DELETE', 'remove');
                 })
 
                 $(document).on('change', '.changeEvacuationStatus', function() {

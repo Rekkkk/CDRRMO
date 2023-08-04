@@ -27,7 +27,7 @@ class EvacueeController extends Controller
         return DataTables::of($evacueeInfo)
             ->addIndexColumn()
             ->addColumn('action', function () {
-                return '<button class="btn-table-update p-2" id="updateEvacueeBtn"><i class="bi bi-pencil-square pr-2"></i>Update</button>';
+                return '<button class="btn-table-update" id="updateEvacueeBtn"><i class="bi bi-pencil-square"></i>Update</button>';
             })
             ->rawColumns(['action'])
             ->make(true);

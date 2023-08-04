@@ -11,8 +11,8 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="homepage-header">
-                <div class="header-icon">
+            <div class="label-container">
+                <div class="icon-container">
                     <div class="icon-content">
                         <i class="bi bi-speedometer2"></i>
                     </div>
@@ -24,7 +24,7 @@
                 <div class="report-container">
                     <p> Current Disaster:
                         @foreach ($onGoingDisaster as $disasters)
-                            <span>{{ $disasters->name }}| </span>
+                            <span>{{ $disasters->name }} | </span>
                         @endforeach
                     </p>
                     <div class="generate-button-container">
@@ -36,7 +36,7 @@
                     </div>
                 </div>
             @endif
-            <div class="mt-4 row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 row-cols-xl-5 gap-4">
+            <div class="widget-container">
                 <div class="widget">
                     <div class="widget-content">
                         <div class="content-description">
@@ -63,7 +63,7 @@
                 </div>
             </div>
             @foreach ($onGoingDisaster as $count => $disaster)
-                <figure class="chart-container my-4">
+                <figure class="chart-container">
                     <div id="evacueePie{{ $count + 1 }}" class="pie-chart"></div>
                     <div id="evacueeGraph{{ $count + 1 }}" class="bar-graph">
                     </div>
@@ -74,32 +74,27 @@
         <div class="modal fade" id="generateReportModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-header justify-center bg-green-600">
-                        <h1 class="modal-title fs-5 text-white font-extrabold">Generate Excel Report</h1>
+                    <div class="modal-label-container bg-green">
+                        <h1 class="modal-label">Generate Excel Report</h1>
                     </div>
                     <div class="modal-body">
                         <form action="{{ route('generate.evacuee.data') }}" method="POST" id="generateReportForm">
                             @csrf
-                            <div class="bg-slate-50 pt-3 pb-2 rounded">
-                                <div class="flex-auto">
-                                    <div class="flex flex-wrap">
-                                        <div class="field-container mb-3">
-                                            <label>On Going Disaster</label>
-                                            <select name="disaster_id" id="disaster_id" class="form-select">
-                                                <option value="" hidden disabled selected>Select Disaster
-                                                </option>
-                                                @foreach ($onGoingDisaster as $disaster)
-                                                    <option value="{{ $disaster->id }}">
-                                                        {{ $disaster->name }}</option>
-                                                @endforeach
-                                            </select>
+                            <div class="form-content">
+                                <div class="field-container">
+                                    <label>On Going Disaster</label>
+                                    <select name="disaster_id" id="disaster_id" class="form-select">
+                                        <option value="" hidden disabled selected>Select Disaster
+                                        </option>
+                                        @foreach ($onGoingDisaster as $disaster)
+                                            <option value="{{ $disaster->id }}">
+                                                {{ $disaster->name }}</option>
+                                        @endforeach
+                                    </select>
 
-                                        </div>
-                                        <div class="w-full px-4 py-2">
-                                            <button type="submit"
-                                                class="btn-submit bg-green-600 p-2 float-right">Generate</button>
-                                        </div>
-                                    </div>
+                                </div>
+                                <div class="form-button-container">
+                                    <button class="btn-submit">Generate</button>
                                 </div>
                             </div>
                         </form>
@@ -148,7 +143,10 @@
                             color: '#f43f5e'
                         }]
                     }],
-                    exporting: false
+                    exporting: false,
+                    credits: {
+                        enabled: false
+                    },
                 });
 
                 Highcharts.chart('evacueeGraph{{ $count + 1 }}', {
@@ -210,7 +208,10 @@
                         data: ['', '', '', '', '', {{ intval($disaster['totalLactating']) }}],
                         color: '#9b59b6'
                     }],
-                    exporting: false
+                    exporting: false,
+                    credits: {
+                        enabled: false
+                    },
                 });
             @endforeach
 

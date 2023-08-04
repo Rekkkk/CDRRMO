@@ -14,8 +14,8 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="homepage-header">
-                <div class="header-icon">
+            <div class="label-container">
+                <div class="icon-container">
                     <div class="icon-content">
                         <i class="bi bi-person-gear"></i>
                     </div>
@@ -24,16 +24,16 @@
             </div>
             <hr>
             @if (auth()->user()->is_disable == 0)
-                <div class="create-section">
-                    <button class="btn-submit p-2 createUserAccount">
-                        <i class="bi bi-person-fill-add pr-2"></i>
+            <div class="page-button-container">
+                <button class="btn-submit" id="createUserAccount">
+                        <i class="bi bi-person-fill-add"></i>
                         Create User Account
                     </button>
                 </div>
             @endif
-            <div class="table-container p-3 shadow-lg rounded-lg">
-                <div class="block w-full overflow-auto pb-2">
-                    <header class="text-2xl font-semibold mb-3">User Accounts Table</header>
+            <div class="table-container">
+                <div class="table-content">
+                    <header class="table-label">User Accounts Table</header>
                     <table class="table accountTable" width="100%">
                         <thead class="thead-light">
                             <tr>
@@ -73,7 +73,7 @@
             $(document).ready(function() {
                 let accountTable = $('.accountTable').DataTable({
                     language: {
-                        emptyTable: '<div class="no-data">No accounts added yet.</div>',
+                        emptyTable: '<div class="message-text">No accounts added yet.</div>',
                     },
                     ordering: false,
                     responsive: true,
@@ -188,8 +188,8 @@
                                 }
                             });
                         } else if (selectedAction == 'updateAccount') {
-                            $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                            $('.modal-title').text('Update User Account');
+                            $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                            $('.modal-label').text('Update User Account');
                             $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text(
                                 'Update');
                             $('#suspend-container').prop('hidden', true);
@@ -220,8 +220,8 @@
                                 }
                             });
                         } else if (selectedAction == 'suspendAccount') {
-                            $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                            $('.modal-title').text('Suspend User Account');
+                            $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                            $('.modal-label').text('Suspend User Account');
                             $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text(
                                 'Suspend');
                             $('#organization').val(organization);
@@ -253,9 +253,9 @@
                         }
                     });
 
-                    $(document).on('click', '.createUserAccount', function() {
-                        $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                        $('.modal-title').text('Create User Account');
+                    $(document).on('click', '#createUserAccount', function() {
+                        $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
+                        $('.modal-label').text('Create User Account');
                         $('#saveProfileDetails').removeClass('btn-update').addClass('btn-submit').text(
                             'Create');
                         $('#suspend-container').prop('hidden', true);

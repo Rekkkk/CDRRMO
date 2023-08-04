@@ -14,8 +14,8 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="homepage-header">
-                <div class="header-icon">
+            <div class="label-container">
+                <div class="icon-container">
                     <div class="icon-content">
                         <i class="bi bi-people"></i>
                     </div>
@@ -23,16 +23,16 @@
                 <span>MANAGE EVACUEE INFORMATION</span>
             </div>
             <hr>
-            <div class="flex flex-wrap justify-end text-white gap-3 my-3">
+            <div class="page-button-container">
                 <button id="recordEvacueeBtn" data-toggle="modal" data-target="#evacueeInfoFormModal"
-                    class="btn-submit p-2">
-                    <i class="bi bi-person-down pr-2"></i>
+                    class="btn-submit">
+                    <i class="bi bi-person-down "></i>
                     Record Evacuee Info
                 </button>
             </div>
-            <div class="table-container p-3 shadow-lg rounded-lg">
-                <div class="block w-full overflow-auto pb-2">
-                    <header class="text-2xl font-semibold mb-3">Evacuee Informations Table</header>
+            <div class="table-container">
+                <div class="table-content">
+                    <header class="table-label">Evacuee Informations Table</header>
                     <table class="table evacueeTable" width="100%">
                         <thead class="thead-light">
                             <tr class="table-row">
@@ -80,7 +80,7 @@
 
             let evacueeTable = $('.evacueeTable').DataTable({
                 language: {
-                    emptyTable: '<div class="no-data">No evacuees data added yet.</div>',
+                    emptyTable: '<div class="message-text">No evacuees data added yet.</div>',
                 },
                 ordering: false,
                 responsive: true,
@@ -169,7 +169,7 @@
                         name: 'action',
                         orderable: false,
                         searchable: false,
-                        width: '8%'
+                        width: '1rem'
                     }
                 ],
             });
@@ -213,16 +213,16 @@
             });
 
             $(document).on('click', '#recordEvacueeBtn', function() {
-                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                $('.modal-title').text('Record Evacuee Information');
+                $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
+                $('.modal-label').text('Record Evacuee Information');
                 $('#recordEvacueeInfoBtn').removeClass('btn-update').addClass('btn-submit').text('Record');
                 $('#operation').val('record');
                 $('#evacueeInfoFormModal').modal('show');
             });
 
             $(document).on('click', '#updateEvacueeBtn', function() {
-                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                $('.modal-title').text('Update Evacuee Information');
+                $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                $('.modal-label').text('Update Evacuee Information');
                 $('#recordEvacueeInfoBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
 
                 let data = getRowData(this, evacueeTable);

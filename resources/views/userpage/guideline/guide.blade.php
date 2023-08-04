@@ -10,8 +10,8 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="homepage-header">
-                <div class="header-icon">
+            <div class="label-container">
+                <div class="icon-container">
                     <div class="icon-content">
                         <i class="bi bi-file-earmark-richtext"></i>
                     </div>
@@ -103,8 +103,8 @@
                     $(document).on('click', '.createGuideBtn', function() {
                         $('#createGuideForm').trigger("reset");
                         $('#guide_operation').val('create');
-                        $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                        $('.modal-title').text('Create Guide Form');
+                        $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
+                        $('.modal-label').text('Create Guide');
                         $('#submitGuideBtn').removeClass('btn-update').addClass('btn-submit').text('Create');
                         $('#guideModal').modal('show');
                     });
@@ -119,8 +119,8 @@
                         guideWidget = $(this).closest('.guide-widget');
                         guideItem = guideWidget.find('.guide-item');
                         guideId = guideWidget.find('#guideId').val();
-                        $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                        $('.modal-title').text('Update Guide Form');
+                        $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                        $('.modal-label').text('Update Guide');
                         $('#submitGuideBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
                         $('#label').val(guideItem.find('p').text());
                         $('#content').val(guideWidget.find('#guideContent').val());

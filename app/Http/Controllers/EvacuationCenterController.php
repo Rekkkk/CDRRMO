@@ -36,30 +36,30 @@ class EvacuationCenterController extends Controller
                     'Full' => 'orange'
                 };
 
-                return '<div class="flex justify-center"><div class="bg-' . $color . '-600 status-container">' . $row->status . '</div></div>';
+                return '<div class="status-container"><div class="bg-' . $color . '-600 status-content">' . $row->status . '</div></div>';
             })->addColumn('action', function ($row) use ($operation) {
                 if ($operation == "locator") {
-                    return $row->status == 'Inactive' ? "<span class='text-sm'>Evacuation Center isn't available.</span>" :
-                        '<button class="btn-table-primary p-2 w-24 text-white locateEvacuationCenter"><i class="bi bi-search pr-2"></i>Locate</button>';
+                    return $row->status == 'Inactive' ? "<span class='message-text'>Evacuation Center isn't available.</span>" :
+                        '<button class="btn-table-primary text-white locateEvacuationCenter"><i class="bi bi-search"></i>Locate</button>';
                 } else {
                     if (auth()->user()->is_disable == 0) {
                         $statusOptions = '';
                         $availableStatus = ['Active', 'Inactive', 'Full'];
 
                         foreach ($availableStatus as $status) {
-                            if ($row->status != $status) 
+                            if ($row->status != $status)
                                 $statusOptions .= '<option value="' . $status . '">' . $status . '</option>';
                         }
 
-                        return '<div class="flex justify-center actionContainer">' .
-                            '<button class="btn-table-update w-28 mr-2 updateEvacuationCenter"><i class="bi bi-pencil-square pr-2"></i>Update</button>' .
-                            '<button class="btn-table-remove w-28 mr-2 removeEvacuationCenter"><i class="bi bi-trash3-fill pr-2"></i>Remove</button>' .
-                            '<select class="form-select w-44 bg-blue-500 text-white drop-shadow-md changeEvacuationStatus">' .
+                        return '<div class="action-container">' .
+                            '<button class="btn-table-update updateEvacuationCenter"><i class="bi bi-pencil-square"></i>Update</button>' .
+                            '<button class="btn-table-remove removeEvacuationCenter"><i class="bi bi-trash3-fill"></i>Remove</button>' .
+                            '<select class="form-select changeEvacuationStatus">' .
                             '<option value="" disabled selected hidden>Change Status</option>' .
                             $statusOptions . '</select></div>';
                     }
 
-                    return '<span class="text-sm">Currently Disabled.</span>';
+                    return '<span class="message-text">Currently Disabled.</span>';
                 }
             })
             ->rawColumns(['capacity', 'status', 'action'])

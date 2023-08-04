@@ -10,8 +10,8 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="homepage-header">
-                <div class="header-icon">
+            <div class="label-container">
+                <div class="icon-container">
                     <div class="icon-content">
                         <i class="bi bi-book"></i>
                     </div>
@@ -103,15 +103,15 @@
                     $(document).on('click', '#createGuidelineBtn', function() {
                         $('#guidelineForm')[0].reset();
                         $('#guideline_operation').val('create');
-                        $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                        $('.modal-title').text('Create Guideline');
+                        $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
+                        $('.modal-label').text('Create Guideline');
                         $('#submitGuidelineBtn').removeClass('btn-update').addClass('btn-submit').text('Create');
                         $('#guidelineModal').modal('show');
                     });
 
                     $(document).on('click', '#updateGuidelineBtn', function() {
-                        $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                        $('.modal-title').text('Update Guideline');
+                        $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                        $('.modal-label').text('Update Guideline');
                         $('#submitGuidelineBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
                         let guidelineWidget = this.closest('.guideline-widget');
                         let guidelineItem = guidelineWidget.querySelector('.guidelines-item');

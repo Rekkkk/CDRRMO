@@ -10,8 +10,8 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="homepage-header">
-                <div class="header-icon">
+            <div class="label-container">
+                <div class="icon-container">
                     <div class="icon-content">
                         <i class="bi bi-person-circle"></i>
                     </div>
@@ -26,8 +26,8 @@
                     </div>
                 </div>
                 @if (auth()->user()->is_disable == 0)
-                    <div class="flex justify-end pb-3 pr-6">
-                        <button class="btn-update p-2" id="editProfileBtn">
+                    <div class="flex justify-end -my-2 pr-6">
+                        <button class="btn-update px-3 py-2" id="editProfileBtn">
                             <i class="bi bi-pencil-square pr-2"></i>
                             Edit Profile
                         </button>
@@ -85,8 +85,8 @@
                 let defaultFormData, modal = $('#userAccountModal');
 
                 $(document).on('click', '#editProfileBtn', function() {
-                    $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                    $('.modal-title').text('Edit Profile Account');
+                    $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                    $('.modal-label').text('Edit Profile Account');
                     $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text('Update');
                     $('#suspend-container').hide();
                     $('#account_operation').val('update');

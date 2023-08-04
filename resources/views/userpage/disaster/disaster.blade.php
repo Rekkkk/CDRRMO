@@ -13,8 +13,8 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="homepage-header">
-                <div class="header-icon">
+            <div class="label-container">
+                <div class="icon-container">
                     <div class="icon-content">
                         <i class="bi bi-tropical-storm"></i>
                     </div>
@@ -23,16 +23,16 @@
             </div>
             <hr>
             @if (auth()->user()->is_disable == 0)
-                <div class="create-section">
-                    <button class="btn-submit createDisasterData">
-                        <i class="bi bi-cloud-plus pr-2"></i>
+                <div class="page-button-container">
+                    <button class="btn-submit" id="createDisasterData">
+                        <i class="bi bi-cloud-plus"></i>
                         Create Disaster
                     </button>
                 </div>
             @endif
-            <div class="table-container p-3 shadow-lg rounded-lg">
-                <div class="block w-full overflow-auto pb-2">
-                    <header class="text-2xl font-semibold mb-3">Disaster Information Table</header>
+            <div class="table-container">
+                <div class="table-content">
+                    <header class="table-label">Disaster Information Table</header>
                     <table class="table disasterTable" width="100%">
                         <thead class="thead-light">
                             <tr>
@@ -67,7 +67,7 @@
     <script>
         let disasterTable = $('.disasterTable').DataTable({
             language: {
-                emptyTable: '<div class="no-data">There are no disaster data available.</div>',
+                emptyTable: '<div class="message-text">There are no disaster data available.</div>',
             },
             ordering: false,
             responsive: true,
@@ -86,12 +86,12 @@
                 {
                     data: 'status',
                     name: 'status',
-                    width: '10%'
+                    width: '10%',
                 },
                 {
                     data: 'action',
                     name: 'action',
-                    width: '10%',
+                    width: '1rem',
                     orderable: false,
                     searchable: false
                 },
@@ -118,9 +118,9 @@
                 submitHandler: disasterFormHandler
             });
 
-            $(document).on('click', '.createDisasterData', function() {
-                $('.modal-header').removeClass('bg-yellow-500').addClass('bg-green-600');
-                $('.modal-title').text('Create Disaster Form');
+            $(document).on('click', '#createDisasterData', function() {
+                $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
+                $('.modal-label').text('Create Disaster');
                 $('#submitDisasterBtn').removeClass('btn-update').addClass('btn-submit').text('Create');
                 $('#operation').val('create');
                 $('#disasterModal').modal('show');
@@ -133,8 +133,8 @@
                 } = getRowData(this, disasterTable);
                 disasterId = id;
                 $('#disasterName').val(name);
-                $('.modal-header').removeClass('bg-green-600').addClass('bg-yellow-500');
-                $('.modal-title').text('Update Disaster Form');
+                $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                $('.modal-label').text('Update Disaster');
                 $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
                 $('#operation').val('update');
                 $('#disasterModal').modal('show');

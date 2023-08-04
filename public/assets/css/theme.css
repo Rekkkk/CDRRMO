@@ -7,7 +7,7 @@
     --color-red: #dc2626;
     --color-gray: #2c3e50;
     --color-green: #16a34a;
-    --color-primary: #2563eb;
+    --color-primary: #3575ff;
     --color-yellow: #eab308;
 }
 
@@ -64,7 +64,8 @@ hr,
     font-weight: 600;
     border-radius: 4px;
     padding: 8px 10px;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-duration: 100ms;
 }
 
@@ -83,17 +84,60 @@ hr,
     font-weight: 600;
     color: var(--color-text);
     transition-duration: 100ms;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 4px;
 }
-
 
 .btn-update:hover,
 .btn-table-update:hover {
     background: #ca8a04;
     color: var(--color-text);
     transform: scale(1.05);
+}
+
+.btn-remove,
+.btn-table-remove,
+#locateCurrentLocationBtn {
+    background: var(--color-red);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 0 10px;
+    color: var(--color-text);
+    transition-duration: 100ms;
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    border-radius: 4px;
+}
+
+.btn-remove:hover,
+.btn-table-remove:hover,
+#locateCurrentLocationBtn:hover {
+    background: #b91c1c;
+    color: var(--color-text);
+    transform: scale(1.05);
+}
+
+.btn-table-submit,
+.btn-table-update,
+.btn-table-remove {
+    width: 112px;
+    margin-right: 8px;
+    padding: 8px;
+}
+
+.btn-table-primary {
+    padding: 8px;
+    width: 96px;
+}
+
+.btn-table-submit i,
+.btn-table-update i,
+.btn-table-remove i,
+.btn-table-primary i {
+    padding-right: 8px;
 }
 
 .btn-table-primary {
@@ -112,32 +156,15 @@ hr,
     transform: scale(1.05);
 }
 
-.btn-remove,
-.btn-table-remove,
-#locateCurrentLocationBtn {
-    background: var(--color-red);
-    font-size: 14px;
-    font-weight: 600;
-    padding: 0 10px;
-    color: var(--color-text);
-    transition-duration: 100ms;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    border-radius: 4px;
-}
-
-.btn-remove:hover,
-.btn-table-remove:hover,
-#locateCurrentLocationBtn:hover {
-    background: #b91c1c;
-    color: var(--color-text);
-    transform: scale(1.05);
-}
-
-.create-section {
+.page-button-container {
     display: flex;
     justify-content: end;
-    margin-bottom: 16px;
+    margin: 16px 0;
+}
+
+.page-button-container button i,
+.generate-button-container button i {
+    padding-right: 8px;
 }
 
 /* Button End Section */
@@ -151,7 +178,8 @@ hr,
     height: 64px;
     background: var(--color-red);
     z-index: 1;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .header-section .container-fluid {
@@ -166,7 +194,7 @@ hr,
     color: var(--color-text);
     font-size: 14px;
     line-height: 20px;
-    margin: 0 14px;
+    margin: 0 18px;
     background: transparent;
     border: none;
 }
@@ -219,13 +247,13 @@ hr,
     margin-top: 22px;
 }
 
-.homepage-header {
+.label-container {
     display: grid;
     grid-template-columns: repeat(1, minmax(0, 1fr));
-    align-items: center;
+    align-items: baseline;
 }
 
-.header-icon {
+.icon-container {
     display: grid;
     margin-right: 16px;
     grid-column-end: 1;
@@ -242,7 +270,7 @@ hr,
     background-color: rgb(71, 85, 105);
 }
 
-.homepage-header span {
+.label-container span {
     font-size: 20px;
     font-weight: 700;
 }
@@ -258,7 +286,8 @@ hr,
     left: 0;
     top: 0;
     transition: 0.3s ease;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .sidebar-content::-webkit-scrollbar {
@@ -334,12 +363,12 @@ hr,
     border-radius: 5px;
 }
 
-.sidebar ul li a:not(.activeLink):hover {
+.sidebar ul li a:not(.active-link):hover {
     background: rgb(170, 170, 170);
     color: var(--color-text);
 }
 
-.activeLink {
+.active-link {
     background: var(--color-red);
     color: var(--color-text);
 }
@@ -455,7 +484,7 @@ hr,
 }
 
 .auth-header-desc .auth-header-title p {
-    color: rgb(148, 163, 184)
+    color: rgb(148, 163, 184);
 }
 
 .auth-content h1 {
@@ -711,11 +740,10 @@ hr,
 .report-container {
     display: flex;
     justify-content: space-between;
-    margin: 12px 0;
 }
 
 .report-container p {
-    margin: auto 0;
+    margin-top: 12px;
     font-weight: 600;
     letter-spacing: 0.8px;
 }
@@ -727,7 +755,8 @@ hr,
 
 .generate-button-container {
     display: flex;
-    justify-content: end;
+    justify-content: flex-end;
+    margin: 16px 0;
 }
 
 .generate-button-container button {
@@ -735,8 +764,11 @@ hr,
     border: none;
 }
 
-.generate-button-container button i {
-    padding-right: 8px;
+.widget-container {
+    display: grid;
+    grid-auto-flow: row;
+    gap: 20px;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
 }
 
 .widget {
@@ -793,7 +825,7 @@ hr,
 .chart-container {
     display: flex;
     justify-content: flex-start;
-    margin: 30px 0;
+    margin: 20px 0;
 }
 
 .pie-chart {
@@ -801,14 +833,14 @@ hr,
     background: var(--color-text);
     border-radius: 6px;
     margin-right: 20px;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    box-shadow: 0 0px 19px -1px rgba(0, 0, 0, 0.2);
 }
 
 .bar-graph {
     flex: 1;
     background: #e2e8f0;
     border-radius: 6px;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    box-shadow: 0 0px 19px -1px rgba(0, 0, 0, 0.2);
 }
 
 /* Dashboard End Section */
@@ -839,7 +871,8 @@ hr,
     z-index: -50;
     position: relative;
     background: var(--color-text);
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     border-radius: 4px;
 }
 
@@ -864,7 +897,8 @@ hr,
     display: flex;
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     justify-content: center;
     align-items: center;
     color: var(--color-gray);
@@ -898,8 +932,8 @@ hr,
 }
 
 #actualPhoto {
-    max-width: 300px;
-    max-height: 300px;
+    max-width: 100px;
+    max-height: 150px;
 }
 
 .report-photo {
@@ -917,12 +951,13 @@ hr,
 
 .about-content .location-section {
     flex: 3;
-    margin-right: 16px;
+    margin: 0;
     padding: 24px;
     background: #475569;
     color: var(--color-text);
     border-radius: 6px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .location-section span {
@@ -931,7 +966,7 @@ hr,
 }
 
 .location-detail {
-    margin-top: 32px;
+    margin-top: 20px;
 }
 
 .location-detail i {
@@ -940,7 +975,6 @@ hr,
 }
 
 .location-detail hr {
-    margin-top: 16px;
     clear: both;
 }
 
@@ -948,6 +982,7 @@ hr,
     display: flex;
     flex: 1;
     flex-direction: column;
+    margin-left: 17px;
 }
 
 .social-section,
@@ -955,8 +990,11 @@ hr,
     filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
     background: #475569;
     color: var(--color-text);
-    margin-bottom: 16px;
     border-radius: 6px;
+}
+
+.social-section {
+    margin-bottom: 16px;
 }
 
 .social-section div,
@@ -986,12 +1024,6 @@ hr,
     margin: 0;
 }
 
-
-#editAddressModal {
-    float: right;
-    padding: 4px 8px;
-}
-
 /* About End Section */
 
 /* Hotline Number Section Start Here */
@@ -1001,7 +1033,8 @@ hr,
     padding: 24px;
     background: #475569;
     color: var(--color-text);
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .number-section .font-bold a {
@@ -1033,7 +1066,8 @@ hr,
     background: var(--color-text);
     padding: 8px 0;
     font-weight: 700;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .details-section {
@@ -1050,31 +1084,9 @@ hr,
     background-size: cover;
 }
 
-.form-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.form-container .form-content {
-    padding: 10px 20px;
-}
-
 .mb-2.relative i {
     top: 28px;
     right: 38px;
-}
-
-select.form-select {
-    font-size: 14px;
-    font-weight: 600;
-}
-
-select.form-select option {
-    background: var(--color-background);
-    color: #000;
-    font-size: 15px;
-    font-weight: 700;
 }
 
 /* User Profile End Section */
@@ -1116,7 +1128,60 @@ input::-webkit-inner-spin-button {
 
 /* Recording Evacuee End Section */
 
+/* Modal Section Start Here */
+
+.modal-label-container,
+.change-modal-label-container {
+    display: flex;
+    justify-content: center;
+    padding: 12px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+    background: var(--color-yellow);
+}
+
+.modal-label-container.bg-green {
+    background: var(--color-green);
+}
+
+.modal-label-container.bg-yellow {
+    background: var(--color-yellow);
+}
+
+.modal-label,
+.change-modal-label {
+    color: var(--color-text);
+    padding: 4px;
+    text-align: center;
+    font-weight: 800;
+    font-size: larger;
+}
+
+/* Modal Section End */
+
 /* Form Section Start Here */
+
+.form-content {
+    display: flex;
+    flex-wrap: wrap;
+    background-color: rgb(248 250 252 / 1);
+    padding-top: 14px;
+    padding-bottom: 8px;
+    border-radius: 4px;
+}
+
+.field-container {
+    width: 100%;
+    margin-bottom: 16px;
+    padding: 0 24px;
+}
+
+.field-container label {
+    display: block;
+    text-align: start;
+    margin: 0px;
+}
+
 input[type="number"] {
     -moz-appearance: textfield;
 }
@@ -1153,16 +1218,14 @@ input::-ms-clear {
     border: 2px solid #94a3b8;
 }
 
-.field-container {
-    width: 100%;
-    margin-bottom: 16px;
-    padding: 0 24px;
+.map-border {
+    border: 2px solid rgb(148 163 184 / 1);
+    border-radius: 6px;
 }
 
-.field-container label {
-    display: block;
-    text-align: start;
-    margin: 0px;
+.map-container {
+    height: 384px;
+    border-radius: 4px;
 }
 
 span.error {
@@ -1174,16 +1237,68 @@ span.error {
     float: left;
 }
 
+span.success {
+    color: #10b981;
+    font-size: 12px;
+    font-family: Montserrat, san-serif;
+    font-style: italic;
+    margin-top: 5px;
+    float: left;
+}
+
+#change-button-container {
+    width: 100%;
+    padding: 18px 24px;
+}
+
+.form-button-container {
+    width: 100%;
+    padding: 10px 24px 20px 0;
+}
+
+#change-button-container button,
+.form-button-container button {
+    float: right;
+    padding: 8px;
+}
+
 /* Form Section End */
 
 /* DataTable Section Start Here */
+
+.table-container {
+    padding: 12px;
+    box-shadow: 0 0px 19px -1px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+.table-content {
+    display: block;
+    width: 100%;
+    overflow: auto;
+    padding-bottom: 8px;
+}
+
+.table-label {
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 600;
+    margin-bottom: 12px;
+}
+
 table th,
 table td {
     text-align: center !important;
     vertical-align: middle !important;
 }
 
-.status-container {
+.status-container,
+.photo-container {
+    display: flex;
+    justify-content: center;
+}
+
+.status-content {
     width: 120px;
     border-radius: 9999px;
     padding: 6px 8px;
@@ -1191,7 +1306,30 @@ table td {
     font-weight: bold;
 }
 
-.no-data {
+.action-container {
+    display: flex;
+    justify-content: center;
+}
+
+.action-container select {
+    width: 176px;
+    background-color: var(--color-primary);
+    color: var(--color-text);
+}
+
+select.form-select {
+    font-size: 14px;
+    font-weight: 600;
+}
+
+select.form-select option {
+    background: var(--color-background);
+    color: #000;
+    font-size: 15px;
+    font-weight: 700;
+}
+
+.message-text {
     color: var(--color-red);
     font-weight: 600;
 }
@@ -1228,8 +1366,12 @@ table td {
         display: contents;
     }
 
-    .about-content>div {
+    .about-content > div {
         margin: 15px;
+    }
+
+    .widget-container {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
     }
 
     .chart-container {
@@ -1240,6 +1382,11 @@ table td {
     .pie-chart {
         width: 100%;
         margin: 20px 0;
+    }
+
+    .about-content .location-section,
+    .about-content .right-side {
+        margin: 15px 0 0 0;
     }
 }
 
@@ -1309,19 +1456,27 @@ table td {
         width: 320px !important;
     }
 
+    .widget-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
     .chart-container {
         display: contents;
     }
 
-    .actionContainer {
+    .action-container {
         flex-wrap: wrap;
     }
 
-    .actionContainer button,
-    .actionContainer select {
+    .action-container button,
+    .action-container select {
         padding: 5px;
         margin-top: 2px;
         margin-bottom: 2px;
+    }
+
+    .dropdown button {
+        margin: 0 -22px;
     }
 }
 
@@ -1329,7 +1484,6 @@ table td {
 
 /* Mobile View Section */
 @media only screen and (max-width: 380px) {
-
     /* Login Section Start Here */
     .auth-content {
         padding: 35% 0 20% 0;
@@ -1445,27 +1599,26 @@ table td {
 
     .report-container p {
         font-size: 15px;
-        margin: 15px 0 10px 0;
+        margin-bottom: 0;
     }
 
     .report-container form {
         margin: 10px 0;
     }
 
-    .generate-button-container button {
-        width: 100%;
-        display: block;
+    .widget-container {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 
     /* Dashboard Section End*/
 
     /* About Section Start Here */
-    .about-content>div {
+    .about-content > div {
         margin: 20px 0;
     }
 
     .about-content .location-section {
-        margin: 20px 0;
+        margin: 15px 0 0px 0;
     }
 
     .location-section span,

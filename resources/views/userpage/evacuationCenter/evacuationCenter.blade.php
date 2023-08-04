@@ -13,8 +13,8 @@
         @include('partials.header')
         @include('partials.sidebar')
         <div class="main-content">
-            <div class="homepage-header">
-                <div class="header-icon">
+            <div class="label-container">
+                <div class="icon-container">
                     <div class="icon-content">
                         <i class="bi bi-house"></i>
                     </div>
@@ -32,17 +32,17 @@
                     <div class="w-full rounded-b-md" id="map" style="height:600px;"></div>
                 </div>
             </div>
-            <div class="flex justify-end my-3">
+            <div class="page-button-container">
                 <button type="button" class="mr-3" id="locateNearestBtn">
-                    <i class="bi bi-search pr-2"></i>
+                    <i class="bi bi-search"></i>
                     Locate Nearest Evacuation</button>
                 <button type="button" id="locateCurrentLocationBtn">
-                    <i class="bi bi-geo-fill pr-2"></i>
+                    <i class="bi bi-geo-fill"></i>
                     Locate Current Location</button>
             </div>
-            <div class="table-container p-3 shadow-lg rounded-lg">
-                <div class="block w-full overflow-auto pb-2">
-                    <header class="text-2xl font-semibold mb-3">Evacuation Centers Table</header>
+            <div class="table-container">
+                <div class="table-content">
+                    <header class="table-label">Evacuation Centers Table</header>
                     <table class="table evacuationCenterTable" width="100%">
                         <thead class="thead-light">
                             <tr>
@@ -152,7 +152,7 @@
                                     <span>Barangay:</span> ${evacuationCenter.barangay_name}
                                 </div>
                                 <div class="info-description">
-                                    <span>Status:</span> <span class="bg-${statusColor}-600 status-container">${evacuationCenter.status}</span>
+                                    <span>Status:</span> <span class="bg-${statusColor}-600 status-content">${evacuationCenter.status}</span>
                                 </div>
                             </div>`
                 });
@@ -181,7 +181,7 @@
 
             let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
                 language: {
-                    emptyTable: '<div class="no-data">There are currently no evacuation centers available.</div>',
+                    emptyTable: '<div class="message-text">There are currently no evacuation centers available.</div>',
                 },
                 ordering: false,
                 language: {
@@ -238,7 +238,7 @@
                     barangay_name,
                     status
                 } = getRowData(this, evacuationCenterTable);
-                let evacuationStatus = $(status).find('.status-container').text();
+                let evacuationStatus = $(status).find('.status-content').text();
                 const evacuationCenterLatLng = new google.maps.LatLng(latitude, longitude);
                 const mapOptions = {
                     center: evacuationCenterLatLng,
@@ -297,7 +297,7 @@
                                     <span>Barangay:</span> ${barangay_name}
                                 </div>
                                 <div class="info-description">
-                                    <span>Status:</span> <span class="bg-${evacuationStatusColor}-600 status-container">${evacuationStatus}</span>
+                                    <span>Status:</span> <span class="bg-${evacuationStatusColor}-600 status-content">${evacuationStatus}</span>
                                 </div>
                             </div>`
                         });
