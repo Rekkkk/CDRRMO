@@ -23,12 +23,12 @@
             </div>
             <hr>
             <div class="locator-content my-3">
-                <div class="locator-header text-center text-white h-22 bg-red-600 rounded-t">
-                    <div class="text-2xl py-3">
-                        <span class="font-extrabold">Cabuyao City Map</span>
+                <div class="locator-header">
+                    <div class="header-title">
+                        <span>Cabuyao City Map</span>
                     </div>
                 </div>
-                <div class="map-section border-2 border-red-600 rounded-b-md">
+                <div class="map-section">
                     <div class="w-full rounded-b-md" id="map" style="height:600px;"></div>
                 </div>
             </div>
@@ -211,14 +211,13 @@
                     {
                         data: 'capacity',
                         name: 'capacity',
-                        width: '5%',
                         orderable: false,
                         searchable: false
                     },
                     {
                         data: 'status',
                         name: 'status',
-                        width: '10%'
+                        width: '15%'
                     },
                     {
                         data: 'action',

@@ -120,7 +120,7 @@
 
             $(document).on('click', '#createDisasterData', function() {
                 $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
-                $('.modal-label').text('Create Disaster');
+                $('.modal-label').text('Create Disaster Form');
                 $('#submitDisasterBtn').removeClass('btn-update').addClass('btn-submit').text('Create');
                 $('#operation').val('create');
                 $('#disasterModal').modal('show');
@@ -134,7 +134,7 @@
                 disasterId = id;
                 $('#disasterName').val(name);
                 $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
-                $('.modal-label').text('Update Disaster');
+                $('.modal-label').text('Update Disaster Form');
                 $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
                 $('#operation').val('update');
                 $('#disasterModal').modal('show');

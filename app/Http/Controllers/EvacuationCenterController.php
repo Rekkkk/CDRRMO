@@ -31,12 +31,12 @@ class EvacuationCenterController extends Controller
             })
             ->addColumn('status', function ($row) {
                 $color = match ($row->status) {
-                    'Active' => 'green',
-                    'Inactive' => 'red',
-                    'Full' => 'orange'
+                    'Active' => 'success',
+                    'Inactive' => 'danger',
+                    'Full' => 'warning'
                 };
 
-                return '<div class="status-container"><div class="bg-' . $color . '-600 status-content">' . $row->status . '</div></div>';
+                return '<div class="status-container"><div class="bg-' . $color . ' status-content">' . $row->status . '</div></div>';
             })->addColumn('action', function ($row) use ($operation) {
                 if ($operation == "locator") {
                     return $row->status == 'Inactive' ? "<span class='message-text'>Evacuation Center isn't available.</span>" :

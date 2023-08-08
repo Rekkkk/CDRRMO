@@ -2,7 +2,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="change-modal-label-container bg-yellow">
-                <h1 class="change-modal-label">Change Password</h1>
+                <h1 class="change-modal-label">Change Password Form</h1>
             </div>
             <div class="modal-body">
                 <form id="changePasswordForm">
@@ -18,19 +18,18 @@
                                 autocomplete="off">
                             <span id="currentPassword"></span>
                         </div>
-                        <div class="field-container mb-2 relative">
+                        <div class="field-container mb-2">
                             <label>New Password</label>
                             <input type="password" name="password" id="password" class="form-control"
                                 autocomplete="off" disabled>
-                            <i class="bi bi-eye-slash absolute cursor-pointer text-lg mt-1 toggle-password"
-                                id="showPassword" data-target="#password"></i>
+                            <i class="bi bi-eye-slash toggle-password" id="showPassword" data-target="#password"></i>
                         </div>
-                        <div class="field-container mb-2 mt-2 relative">
+                        <div class="field-container mb-2 mt-2">
                             <label>Confirm Password</label>
                             <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"
                                 autocomplete="off" onpaste="return false;" disabled>
-                            <i class="bi bi-eye-slash absolute cursor-pointer text-lg mt-1 toggle-password"
-                                id="showConfirmPassword" data-target="#confirmPassword"></i>
+                            <i class="bi bi-eye-slash toggle-password" id="showConfirmPassword"
+                                data-target="#confirmPassword"></i>
                         </div>
                         <div id="change-button-container">
                             <button id="resetPasswordBtn" class="btn-update" disabled>Change</button>

@@ -9,7 +9,7 @@
                     @csrf
                     <div class="form-content">
                         <input type="text" id="operation" hidden>
-                        <div class="lg:w-6/12 field-container ">
+                        <div class="col-lg-6 field-container ">
                             <label>Disaster</label>
                             <select name="disaster_id" id="disaster_id" class="form-select">
                                 <option value="" hidden disabled selected>Select Disaster</option>
@@ -19,7 +19,7 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="lg:w-6/12 field-container " id="dateEntryContainer">
+                        <div class="col-lg-6 field-container " id="dateEntryContainer">
                             <label>Date Entry</label>
                             <input type="text" name="date_entry" id="date_entry" class="form-control"
                                 autocomplete="off" placeholder="Select Date Entry">
@@ -59,52 +59,52 @@
                                 @endforeach
                             </select>
                         </div>
-                        <div class="lg:w-4/12 field-container">
+                        <div class="col-lg-4 field-container">
                             <label>Infants</label>
                             <input type="number" name="infants" id="infants" class="form-control" autocomplete="off"
                                 placeholder="Infants">
                         </div>
-                        <div class="lg:w-4/12 field-container">
+                        <div class="col-lg-4 field-container">
                             <label>Minors</label>
                             <input type="number" name="minors" id="minors" class="form-control" autocomplete="off"
                                 placeholder="Minors">
                         </div>
-                        <div class="lg:w-4/12 field-container">
+                        <div class="col-lg-4 field-container">
                             <label>Senior Citizen</label>
                             <input type="number" name="senior_citizen" id="senior_citizen" class="form-control"
                                 autocomplete="off" placeholder="Senior Citizen">
                         </div>
-                        <div class="lg:w-4/12 field-container">
+                        <div class="col-lg-4 field-container">
                             <label>PWD</label>
                             <input type="number" name="pwd" id="pwd" class="form-control" autocomplete="off"
                                 placeholder="PWD">
                         </div>
-                        <div class="lg:w-4/12 field-container">
+                        <div class="col-lg-4 field-container">
                             <label>Pregnant</label>
                             <input type="number" name="pregnant" id="pregnant" class="form-control" autocomplete="off"
                                 placeholder="Pregnant">
                         </div>
-                        <div class="lg:w-4/12 field-container">
+                        <div class="col-lg-4 field-container">
                             <label>Lactating</label>
                             <input type="number" name="lactating" id="lactating" class="form-control"
                                 autocomplete="off" placeholder="Lactating">
                         </div>
-                        <div class="lg:w-3/12 field-container ">
+                        <div class="col-lg-3 field-container ">
                             <label>Families</label>
                             <input type="number" name="families" id="families" class="form-control"
                                 autocomplete="off" placeholder="Families">
                         </div>
-                        <div class="lg:w-3/12 field-container ">
+                        <div class="col-lg-3 field-container ">
                             <label>No. Individual</label>
                             <input type="number" name="individuals" id="individuals" class="form-control"
                                 autocomplete="off" placeholder="No. Individual">
                         </div>
-                        <div class="lg:w-3/12 field-container ">
+                        <div class="col-lg-3 field-container ">
                             <label>Male</label>
                             <input type="number" name="male" id="male" class="form-control"
                                 autocomplete="off" placeholder="Male">
                         </div>
-                        <div class="lg:w-3/12 field-container ">
+                        <div class="col-lg-3 field-container ">
                             <label>Female</label>
                             <input type="number" name="female" id="female" class="form-control"
                                 autocomplete="off" placeholder="Female">

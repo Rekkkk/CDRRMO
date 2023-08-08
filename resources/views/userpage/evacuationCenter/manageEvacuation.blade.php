@@ -202,7 +202,7 @@
 
                 $(document).on('click', '#createEvacuationCenter', function() {
                     $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
-                    $('.modal-label').text('Create Evacuation Center');
+                    $('.modal-label').text('Create Evacuation Center Form');
                     $('#createEvacuationCenterBtn').removeClass('btn-update').addClass('btn-submit').text(
                         'Create');
                     $('#operation').val('create');
@@ -220,7 +220,7 @@
                     } = getRowData(this, evacuationCenterTable);
                     evacuationCenterId = id;
                     $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
-                    $('.modal-label').text('Update Evacuation Center');
+                    $('.modal-label').text('Update Evacuation Center Form');
                     $('#createEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-update').text(
                         'Update');
                     $('#operation').val('update');
