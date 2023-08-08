@@ -86,24 +86,9 @@ class MainController extends Controller
         return view('userpage.evacuationCenter.evacuationCenter', compact('evacuationCenters', 'prefix'));
     }
 
-    public function manageEvacuation()
-    {
-        return view('userpage.evacuationCenter.manageEvacuation');
-    }
-
     public function incidentReport()
     {
         $incidentReport = Reporting::whereNotIn('status', ["On Process"])->where('is_archive', 0)->get();
         return view('userpage.incidentReport', compact('incidentReport'));
-    }
-
-    public function hotlineNumber()
-    {
-        return view('userpage.hotlineNumbers');
-    }
-
-    public function about()
-    {
-        return view('userpage.about');
     }
 }

@@ -23,11 +23,6 @@ class UserAccountsController extends Controller
         $this->logActivity = new ActivityUserLog;
     }
 
-    public function userProfile()
-    {
-        return view('userpage.userAccount.userProfile');
-    }
-
     public function userAccounts(Request $request)
     {
         if ($request->ajax()) {
@@ -167,11 +162,6 @@ class UserAccountsController extends Controller
         ]);
         $this->logActivity->generateLog('Opening Account');
         return response()->json();
-    }
-
-    public function changePassword()
-    {
-        return view('userpage.userAccount.changePassword');
     }
 
     public function checkPassword(Request $request)
