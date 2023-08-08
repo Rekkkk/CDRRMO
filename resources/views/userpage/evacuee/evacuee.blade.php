@@ -214,7 +214,7 @@
 
             $(document).on('click', '#recordEvacueeBtn', function() {
                 $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
-                $('.modal-label').text('Record Evacuee Information');
+                $('.modal-label').text('Record Evacuee Information Form');
                 $('#recordEvacueeInfoBtn').removeClass('btn-update').addClass('btn-submit').text('Record');
                 $('#operation').val('record');
                 $('#evacueeInfoFormModal').modal('show');
@@ -222,7 +222,7 @@
 
             $(document).on('click', '#updateEvacueeBtn', function() {
                 $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
-                $('.modal-label').text('Update Evacuee Information');
+                $('.modal-label').text('Update Evacuee Information Form');
                 $('#recordEvacueeInfoBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
 
                 let data = getRowData(this, evacueeTable);
