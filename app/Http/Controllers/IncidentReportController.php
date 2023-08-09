@@ -36,12 +36,11 @@ class IncidentReportController extends Controller
                 if ($row->user_ip == request()->ip() && !auth()->check())
                     return '<button class="btn-table-remove revertIncidentReport"><i class="bi bi-arrow-counterclockwise"></i>Revert</button>';
 
-                if (auth()->check()) {
-                    if (auth()->user()->is_disable == 0)
-                        return '<div class="action-container">' .
-                            '<button class="btn-table-submit approveIncidentReport"><i class="bi bi-check-circle-fill"></i>Approve</button>' .
-                            '<button class="btn-table-remove declineIncidentReport"><i class="bi bi-x-circle-fill"></i>Decline</button>' .
-                            '</div>';
+                if (auth()->check() && auth()->user()->is_disable == 0) {
+                    return '<div class="action-container">' .
+                        '<button class="btn-table-submit approveIncidentReport"><i class="bi bi-check-circle-fill"></i>Approve</button>' .
+                        '<button class="btn-table-remove declineIncidentReport"><i class="bi bi-x-circle-fill"></i>Decline</button>' .
+                        '</div>';
                 }
 
                 return '<span class="message-text">Currently Disabled.</span>';
@@ -54,7 +53,7 @@ class IncidentReportController extends Controller
 
     public function displayIncidentReport()
     {
-        $incidentReport = $this->incidentReport->whereNotIn('status', ["On Process"])->where('is_archive', 0)->get();
+        $incidentReport = $this->incidentReport->whereNotIn('status', ['On Process'])->where('is_archive', 0)->get();
 
         return DataTables::of($incidentReport)
             ->addIndexColumn()->addColumn('status', function ($row) {
@@ -152,18 +151,15 @@ class IncidentReportController extends Controller
 
     public function updateUserAttempt()
     {
-        $userReport = $this->reportLog->where('user_ip', request()->ip())->value('attempt');
+        $userIp = request()->ip();
+        $this->reportLog->where('user_ip', $userIp)->decrement('attempt');
 
-        if ($userReport == 3) {
-            $this->reportLog->where('user_ip', request()->ip())->update([
-                'attempt' => $userReport - 1,
+        if ($this->reportLog->where('user_ip', $userIp)->value('attempt') == 2) {
+            $this->reportLog->where('user_ip', $userIp)->update([
                 'report_time' => null
             ]);
-        } else {
-            $this->reportLog->where('user_ip', request()->ip())->update([
-                'attempt' => $userReport - 1
-            ]);
         }
+
         return response()->json();
     }
 

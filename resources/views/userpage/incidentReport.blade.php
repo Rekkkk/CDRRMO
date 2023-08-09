@@ -43,30 +43,30 @@
                 </div>
             </div>
             @guest
-                <div class="shadow-lg p-4 rounded my-3">
-                    <div class="incidentReportTable grid gap-6">
+                <div class="incident-report">
+                    <div class="incidentReportTable">
                         @foreach ($incidentReport as $report)
-                            <div class="bg-slate-50 rounded shadow-md">
-                                <div class="flex p-4 rounded">
-                                    <div class="report-photo-container shadow-md">
+                            <div class="incident-report-container">
+                                <div class="incident-report-content">
+                                    <div class="report-photo-container">
                                         <img class="report-photo" src="{{ asset('reports_image/' . $report->photo) }}"
                                             alt="logo">
                                     </div>
-                                    <div class="ml-4 flex-1">
+                                    <div class="incident-report-details">
                                         <div class="pt-2">
-                                            <p class="font-bold">Report Description</p>
-                                            <p class="text-sm text-gray-600">{{ $report->description }}</p>
+                                            <p class="fw-bold">Report Description</p>
+                                            <p class="fs-6 text-secondary">{{ $report->description }}</p>
                                         </div>
                                         <div class="py-2">
-                                            <p class="font-bold">Report Location</p>
-                                            <p class="text-sm text-gray-600">{{ $report->location }}</p>
+                                            <p class="fw-bold">Report Location</p>
+                                            <p class="fs-6 text-secondary">{{ $report->location }}</p>
                                         </div>
                                         <div class="py-2">
-                                            <p class="font-bold">Report Status : <span
-                                                    class="status-content bg-success">{{ $report->status }}</span>
+                                            <p class="fw-bold">Report Status :
+                                                <span class="status-content bg-success">{{ $report->status }}</span>
                                             </p>
                                         </div>
-                                        <p class="pb-2 font-bold">Date Reported: <span class="text-red-600">July 22,
+                                        <p class="pb-2 fw-bold">Date Reported: <span class="text-danger">July 22,
                                                 2002</span>
                                         </p>
                                     </div>
@@ -100,39 +100,34 @@
         @endauth
         @guest
             <div class="modal fade" id="createAccidentReportModal" aria-hidden="true">
-                <div class="modal-dialog">
+                <div class="modal-dialog modal-lg">
                     <div class="modal-content">
-                        <div class="modal-header bg-green-600 text-white justify-center">
-                            <h1 class="modal-title fs-5 font-bold">Incident Report Form</h1>
+                        <div class="modal-label-container bg-success">
+                            <h1 class="modal-label">Incident Report</h1>
                         </div>
                         <div class="modal-body">
                             <form id="reportForm" name="reportForm" enctype="multipart/form-data">
                                 @csrf
-                                <div class="bg-slate-50 pt-3 pb-2 rounded">
-                                    <div class="flex-auto">
-                                        <div class="flex flex-wrap">
-                                            <input type="text" id="operation" hidden>
-                                            <div class="field-container">
-                                                <label>Report Description</label>
-                                                <textarea type="text" id="description" name="description" class="form-control" rows="5"
-                                                    placeholder="Enter Incident Description" autocomplete="off"></textarea>
-                                            </div>
-                                            <div class="field-container">
-                                                <label>Report Location</label>
-                                                <input type="text" id="location" name="location" class="form-control"
-                                                    placeholder="Enter Incident Location" autocomplete="off">
-                                            </div>
-                                            <div class="field-container">
-                                                <label>Report Photo</label>
-                                                <input type="file" id="photo" name="photo"
-                                                    class="form-control form-control-lg"
-                                                    placeholder="Enter Incident Location" autocomplete="off">
-                                            </div>
-                                            <div class="w-full px-4 pt-2 pb-3">
-                                                <button id="reportIncidentBtn"
-                                                    class="btn-submit p-2 float-right">Report</button>
-                                            </div>
-                                        </div>
+                                <div class="form-content">
+                                    <input type="text" id="operation" hidden>
+                                    <div class="field-container">
+                                        <label>Report Description</label>
+                                        <textarea type="text" id="description" name="description" class="form-control" rows="5"
+                                            placeholder="Enter Incident Description" autocomplete="off"></textarea>
+                                    </div>
+                                    <div class="field-container">
+                                        <label>Report Location</label>
+                                        <input type="text" id="location" name="location" class="form-control"
+                                            placeholder="Enter Incident Location" autocomplete="off">
+                                    </div>
+                                    <div class="field-container">
+                                        <label>Report Photo</label>
+                                        <input type="file" id="photo" name="photo"
+                                            class="form-control form-control-lg" placeholder="Enter Incident Location"
+                                            autocomplete="off">
+                                    </div>
+                                    <div class="form-button-container">
+                                        <button id="reportIncidentBtn" class="btn-submit">Report</button>
                                     </div>
                                 </div>
                             </form>
@@ -142,8 +137,7 @@
             </div>
             <div class="report-button">
                 <div class="report-form">
-                    <a class="bg-slate-700 hover:bg-slate-800 p-3 fs-4 rounded-full" href="#createAccidentReportModal"
-                        data-bs-toggle="modal">
+                    <a href="#createAccidentReportModal" data-bs-toggle="modal">
                         <i class="bi bi-megaphone text-white"></i>
                     </a>
                 </div>

@@ -45,7 +45,7 @@ class EvacueeController extends Controller
             'families' => 'required|numeric',
             'individuals' => 'required|numeric',
             'male' => 'required|numeric',
-            'female' => 'required|numeric',
+            'female' => 'required|numeric', 
             'disaster_id' => 'required',
             'date_entry' => 'required',
             'barangay' => 'required|unique:evacuee,barangay',

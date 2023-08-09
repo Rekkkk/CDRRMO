@@ -99,21 +99,6 @@
         });
     });
 
-    function confirmModal(text) {
-        return Swal.fire({
-            title: 'Confirmation',
-            text: text,
-            icon: 'info',
-            iconColor: '#1d4ed8',
-            showDenyButton: true,
-            confirmButtonText: 'Yes',
-            confirmButtonColor: '#15803d',
-            denyButtonText: 'No',
-            denyButtonColor: '#B91C1C',
-            allowOutsideClick: false,
-        });
-    }
-
     function datePicker(id) {
         return flatpickr(id, {
             enableTime: true,
@@ -200,6 +185,21 @@
         });
 
     });
+
+    function confirmModal(text) {
+        return Swal.fire({
+            title: 'Confirmation',
+            text: text,
+            icon: 'info',
+            iconColor: '#1d4ed8',
+            showDenyButton: true,
+            confirmButtonText: 'Yes',
+            confirmButtonColor: '#15803d',
+            denyButtonText: 'No',
+            denyButtonColor: '#B91C1C',
+            allowOutsideClick: false,
+        });
+    }
 
     function getRowData(row, table) {
         let currentRow = $(row).closest('tr');

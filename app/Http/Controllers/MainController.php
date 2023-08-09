@@ -29,29 +29,27 @@ class MainController extends Controller
         $totalEvacuee = 0;
         $disasterData = [];
 
-        foreach ($onGoingDisaster as $count => $disaster) {
-            $totalEvacueeCount =  $this->evacuee->where('disaster_id', $disaster->id)->sum('individuals');
+        foreach ($onGoingDisaster as $disaster) {
+            $totalEvacuee += $this->evacuee->where('disaster_id', $disaster->id)->sum('individuals');
             $result = $this->evacuee->where('disaster_id', $disaster->id)
                 ->selectRaw('SUM(male) as totalMale, 
-                 SUM(female) as totalFemale, 
-                 SUM(senior_citizen) as totalSeniorCitizen, 
-                 SUM(minors) as totalMinors, 
-                 SUM(infants) as totalInfants, 
-                 SUM(pwd) as totalPwd, 
-                 SUM(pregnant) as totalPregnant, 
-                 SUM(lactating) as totalLactating')
+                    SUM(female) as totalFemale, SUM(senior_citizen) as totalSeniorCitizen, 
+                    SUM(minors) as totalMinors, SUM(infants) as totalInfants, 
+                    SUM(pwd) as totalPwd, SUM(pregnant) as totalPregnant, 
+                    SUM(lactating) as totalLactating')
                 ->first();
-
-            $totalEvacuee += $totalEvacueeCount;
-            $disasterData[$count]['disasterName'] = $disaster->name;
-            $disasterData[$count]['totalMale'] = $result->totalMale;
-            $disasterData[$count]['totalFemale'] = $result->totalFemale;
-            $disasterData[$count]['totalSeniorCitizen'] = $result->totalSeniorCitizen;
-            $disasterData[$count]['totalMinors'] = $result->totalMinors;
-            $disasterData[$count]['totalInfants'] = $result->totalInfants;
-            $disasterData[$count]['totalPwd'] = $result->totalPwd;
-            $disasterData[$count]['totalPregnant'] = $result->totalPregnant;
-            $disasterData[$count]['totalLactating'] = $result->totalLactating;
+                
+            $disasterData[] = [
+                'disasterName' => $disaster->name,
+                'totalMale' => $result->totalMale,
+                'totalFemale' => $result->totalFemale,
+                'totalSeniorCitizen' => $result->totalSeniorCitizen,
+                'totalMinors' => $result->totalMinors,
+                'totalInfants' => $result->totalInfants,
+                'totalPwd' => $result->totalPwd,
+                'totalPregnant' => $result->totalPregnant,
+                'totalLactating' => $result->totalLactating,
+            ];
         }
 
         return view('userpage.dashboard',  compact('activeEvacuation', 'disasterData', 'totalEvacuee', 'onGoingDisaster'));
