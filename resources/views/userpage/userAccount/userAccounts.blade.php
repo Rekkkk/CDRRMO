@@ -33,7 +33,7 @@
             @endif
             <div class="table-container">
                 <div class="table-content">
-                    <header class="table-label">User Accounts Table</header>
+                    <header class="table-label">User Accounts</header>
                     <table class="table accountTable" width="100%">
                         <thead class="thead-light">
                             <tr>

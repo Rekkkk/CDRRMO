@@ -27,12 +27,12 @@
                 <button id="recordEvacueeBtn" data-toggle="modal" data-target="#evacueeInfoFormModal"
                     class="btn-submit">
                     <i class="bi bi-person-down "></i>
-                    Record Evacuee Info
+                    Record Evacuees Info
                 </button>
             </div>
             <div class="table-container">
                 <div class="table-content">
-                    <header class="table-label">Evacuee Informations Table</header>
+                    <header class="table-label">Evacuees Informations</header>
                     <table class="table evacueeTable" width="100%">
                         <thead class="thead-light">
                             <tr class="table-row">

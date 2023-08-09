@@ -66,6 +66,7 @@ hr,
     padding: 8px 10px;
     filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-duration: 100ms;
+    border: none;
 }
 
 .btn-submit:hover,
@@ -913,6 +914,7 @@ hr,
 .locator-content {
     margin-top: 16px;
     margin-bottom: 12px;
+    border-top: 0.375rem;
 }
 
 .locator-header {
@@ -926,6 +928,8 @@ hr,
     font-size: 1.5rem;
     line-height: 2rem;
     padding: 1rem;
+    background: var(--color-red);
+    border-radius: 0.375rem 0.375rem 0 0;
 }
 
 .header-title span {
@@ -1286,7 +1290,7 @@ span.success {
 
 #change-button-container {
     width: 100%;
-    padding: 16px 18px;
+    padding: 16px 18px
 }
 
 .form-button-container {
