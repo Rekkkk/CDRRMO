@@ -172,24 +172,20 @@ class UserAccountsController extends Controller
     public function resetPassword(Request $request, $userId)
     {
         if (Hash::check($request->current_password, auth()->user()->password)) {
-            if ($request->password == $request->confirmPassword) {
-                $changePasswordValidation = Validator::make($request->all(), [
-                    'current_password' => 'required',
-                    'password' => 'required',
-                    'confirmPassword' => 'required'
-                ]);
+            $changePasswordValidation = Validator::make($request->all(), [
+                'current_password' => 'required',
+                'password' => 'required',
+                'confirmPassword' => 'required|same:password'
+            ]);
 
-                if ($changePasswordValidation->fails())
-                    return response(['status' => 'warning', 'error' => $changePasswordValidation->errors()->toArray()]);
+            if ($changePasswordValidation->fails())
+                return response(['status' => 'warning', 'message' => $changePasswordValidation->errors()->first()]);
 
-                $this->user->find($userId)->update([
-                    'password' => Hash::make(trim($request->password))
-                ]);
-                $this->logActivity->generateLog('Changing Password');
-                return response()->json();
-            } else {
-                return response(['status' => 'warning', 'message' => 'Password & Confirm pasword must be the same.']);
-            }
+            $this->user->find($userId)->update([
+                'password' => Hash::make(trim($request->password))
+            ]);
+            $this->logActivity->generateLog('Changing Password');
+            return response()->json();
         }
 
         return response(['status' => 'warning', 'message' => "Current password doesn't match."]);
