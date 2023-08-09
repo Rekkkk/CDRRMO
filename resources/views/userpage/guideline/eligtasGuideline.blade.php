@@ -179,7 +179,7 @@
                                     type: type,
                                     success: function(response) {
                                         if (response.status == 'warning') {
-                                            toastr.warning(response.message, 'Error');
+                                            showWarningMessage(response.message);
                                         } else {
                                             showSuccessMessage(
                                                 `Guideline successfully ${operation}d, Please wait...`

@@ -66,9 +66,6 @@ class MainController extends Controller
         if ($generateReportValidation->fails())
             return back()->with('warning', $generateReportValidation->errors()->first());
 
-        if ($this->evacuee->all()->isEmpty())
-            return back()->with('warning', 'Evacuee is currently empty.');
-
         return Excel::download(new EvacueeDataExport($request->disaster_id), 'evacuee-data.xlsx', FileFormat::XLSX);
     }
 

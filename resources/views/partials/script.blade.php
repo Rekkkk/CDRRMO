@@ -14,20 +14,12 @@
     $(document).ready(function() {
         let changePasswordValidation = changePasswordForm.validate({
             rules: {
-                password: {
-                    required: true
-                },
-                confirmPassword: {
-                    required: true
-                }
+                password: 'required',
+                confirmPassword: 'required'
             },
             messages: {
-                password: {
-                    required: 'Password field is required.'
-                },
-                confirmPassword: {
-                    required: 'Confirm password field is required.'
-                }
+                password: 'Password field is required.',
+                confirmPassword: 'Confirm password field is required.'
             },
             errorElement: 'span',
             submitHandler: changePasswordHandler
@@ -140,8 +132,7 @@
         currentPassword.text("");
         changePasswordForm[0].reset();
         eyeIcon.removeClass('bi-eye').addClass('bi-eye-slash');
-        password.add(confirmPassword).prop('type', 'password').add(resetPasswordBtn.toggleClass(
-            'hover:scale-105 hover:bg-yellow-600')).prop('disabled', true);
+        password.add(confirmPassword).prop('type', 'password').prop('disabled', true);
     }
 
     function changePasswordHandler(form) {

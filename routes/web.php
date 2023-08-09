@@ -41,8 +41,8 @@ Route::prefix('resident')->middleware('guest')->group(function () {
         Route::controller(MainController::class)->group(function () {
             Route::get('/evacuationCenter', 'evacuationCenterLocator')->name('evacuation.center.locator');
             Route::get('/incidentReport', 'incidentReport')->name('display.incident.report');
-            Route::get('/hotlineNumber', 'hotlineNumber')->name('hotline.number');
-            Route::get('/about', 'about')->name('about');
+            Route::view('/hotlineNumber', 'userpage.hotlineNumbers')->name('hotline.number');
+            Route::view('/about', 'userpage.about')->name('about');
         });
 
         Route::controller(EvacuationCenterController::class)->group(function () {
@@ -90,7 +90,7 @@ Route::middleware('auth')->group(function () {
         Route::controller(MainController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
             Route::get('/incidentReport', 'incidentReport')->name('display.incident.report');
-            Route::view('/hotlineNumber', 'userpage.hotlineNumber')->name('hotline.number');
+            Route::view('/hotlineNumber', 'userpage.hotlineNumbers')->name('hotline.number');
             Route::view('/about', 'userpage.about')->name('about');
         });
 

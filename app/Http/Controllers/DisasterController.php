@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Disaster;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
@@ -30,7 +31,7 @@ class DisasterController extends Controller
                         'Inactive' => 'danger',
                     };
 
-                    return '<div class="status-container"><div class="status-content bg-'.$color.'">' . $row->status . '</div></div>';
+                    return '<div class="status-container"><div class="status-content bg-' . $color . '">' . $row->status . '</div></div>';
                 })->addColumn('action', function ($row) {
                     if (auth()->user()->is_disable == 0) {
                         $statusOptions = $row->status == 'On Going' ? '<option value="Inactive">Inactive</option>' : '<option value="On Going">On Going</option>';
@@ -61,7 +62,7 @@ class DisasterController extends Controller
             return response(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
 
         $this->disaster->create([
-            'name' => trim($request->name),
+            'name' => Str::ucsplit(trim($request->name)),
             'status' => "On Going",
             'is_archive' => 0
         ]);
@@ -79,7 +80,7 @@ class DisasterController extends Controller
             return response()->json(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
 
         $this->disaster->find($disasterId)->update([
-            'name' => trim($request->name)
+            'name' => Str::ucsplit(trim($request->name))
         ]);
         $this->logActivity->generateLog('Updating Disaster Data');
         return response()->json();

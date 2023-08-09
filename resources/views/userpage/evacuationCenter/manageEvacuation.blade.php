@@ -121,7 +121,7 @@
                 targets: 5,
                 render: function(data) {
                     let color = data == 'Active' ? 'success' : data == 'Inactive' ? 'danger' :
-                    'warning';
+                        'warning';
 
                     return `
                         <div class="status-container">
@@ -165,7 +165,7 @@
 
                     $('#latitude').val(location.lat());
                     $('#longitude').val(location.lng());
-                    $('#location-error').text(' ');
+                    $('#location-error').text('');
                 });
             }
 
@@ -174,7 +174,10 @@
                     rules: {
                         name: 'required',
                         barangayName: 'required',
-                        capacity: 'required'
+                        capacity: {
+                            required: true,
+                            number: true
+                        }
                     },
                     messages: {
                         name: 'Please enter evacuation center name.',
