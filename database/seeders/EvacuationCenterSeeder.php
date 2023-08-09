@@ -16,7 +16,6 @@ class EvacuationCenterSeeder extends Seeder
             'latitude' => '14.2862',
             'longitude' => '121.1338',
             'capacity' => '120',
-            'is_archive' => 0,
             'status' => 'Active'
         ]);
 
@@ -26,7 +25,6 @@ class EvacuationCenterSeeder extends Seeder
             'latitude' => '14.2546',
             'longitude' => '121.1295',
             'capacity' => '120',
-            'is_archive' => 0,
             'status' => 'Active'
         ]);
 
@@ -36,7 +34,6 @@ class EvacuationCenterSeeder extends Seeder
             'latitude' => '14.2704',
             'longitude' => '121.1539',
             'capacity' => '120',
-            'is_archive' => 0,
             'status' => 'Active'
         ]);
     }

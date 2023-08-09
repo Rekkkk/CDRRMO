@@ -26,7 +26,7 @@
                 <div class="page-button-container">
                     <button class="btn-submit" id="createEvacuationCenter">
                         <i class="bi bi-house-down-fill"></i>
-                        Create Evacuation Center
+                        Add Evacuation Center
                     </button>
                 </div>
             @endif
@@ -58,7 +58,7 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/js/script.js') }}"></script>
+    @include('partials.script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -116,67 +116,56 @@
                     orderable: false,
                     searchable: false
                 }
-            ]
+            ],
+            columnDefs: [{
+                targets: 5,
+                render: function(data) {
+                    let color = data == 'Active' ? 'success' : data == 'Inactive' ? 'danger' :
+                    'warning';
+
+                    return `
+                        <div class="status-container">
+                            <div class="status-content bg-${color}">
+                                ${data}
+                            </div>
+                        </div>
+                    `;
+                }
+            }]
         });
 
         @if (auth()->user()->is_disable == 0)
             let evacuationCenterId, defaultFormData, status, map, marker, current_status, saveBtnClicked = false;
 
             function initMap() {
-                var mapTypeStyleArray = [{
-                        featureType: 'water',
-                        elementType: 'labels.text',
-                        stylers: [{
-                            color: '#000000'
-                        }]
-                    },
-                    {
-                        featureType: 'road.local',
-                        elementType: 'geometry.fill',
-                        stylers: [{
-                            color: '#b8b8b8'
-                        }]
-                    },
-                    {
-                        featureType: 'road.highway',
-                        elementType: 'geometry.fill',
-                        stylers: [{
-                            color: '#383838'
-                        }]
-                    },
-                ];
-
                 map = new google.maps.Map(document.getElementById("map"), {
                     center: {
                         lat: 14.2471423,
                         lng: 121.1366715
                     },
                     zoom: 13,
-                    clickableIcons: false,
-                    mapTypeId: 'terrain',
-                    styles: mapTypeStyleArray
+                    clickableIcons: false
                 });
 
                 map.addListener("click", (event) => {
                     let location = event.latLng;
 
                     if (marker) {
-                        marker.setMap(null);
+                        marker.setPosition(location);
+                    } else {
+                        marker = new google.maps.Marker({
+                            position: location,
+                            map: map,
+                            icon: {
+                                url: "{{ asset('assets/img/evacMarkerDefault.png') }}",
+                                scaledSize: new google.maps.Size(35, 35),
+                            }
+                        });
                     }
-
-                    marker = new google.maps.Marker({
-                        position: location,
-                        map: map,
-                        icon: {
-                            url: "{{ asset('assets/img/evacMarkerDefault.png') }}",
-                            scaledSize: new google.maps.Size(35, 35),
-                        },
-                        animation: google.maps.Animation.DROP
-                    });
 
                     $('#latitude').val(location.lat());
                     $('#longitude').val(location.lng());
-                    $('#location-error').hide();
+                    $('#location-error').text(' ');
                 });
             }
 
@@ -184,11 +173,16 @@
                 let validator = $("#evacuationCenterForm").validate({
                     rules: {
                         name: 'required',
-                        barangayName: 'required'
+                        barangayName: 'required',
+                        capacity: 'required'
                     },
                     messages: {
                         name: 'Please enter evacuation center name.',
-                        barangayName: 'Please select a barangay.'
+                        barangayName: 'Please select a barangay.',
+                        capacity: {
+                            required: 'Please enter evacuation center capacity.',
+                            numeric: 'Please enter a valid number.'
+                        }
                     },
                     showErrors: function(errorMap, errorList) {
                         this.defaultShowErrors();
@@ -201,10 +195,10 @@
                 });
 
                 $(document).on('click', '#createEvacuationCenter', function() {
-                    $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
+                    $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
                     $('.modal-label').text('Create Evacuation Center');
                     $('#createEvacuationCenterBtn').removeClass('btn-update').addClass('btn-submit').text(
-                        'Create');
+                        'Add');
                     $('#operation').val('create');
                     $('#evacuationCenterModal').modal('show');
                 });
@@ -219,7 +213,7 @@
                         barangay_name
                     } = getRowData(this, evacuationCenterTable);
                     evacuationCenterId = id;
-                    $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                    $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
                     $('.modal-label').text('Update Evacuation Center');
                     $('#createEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-update').text(
                         'Update');
@@ -262,7 +256,7 @@
 
                 $('#evacuationCenterModal').on('hidden.bs.modal', function() {
                     validator.resetForm();
-                    $('#evacuationCenterForm')[0].reset();
+                    $('#evacuationCenterForm').trigger('reset');
 
                     if (marker) {
                         marker.setMap(null);
