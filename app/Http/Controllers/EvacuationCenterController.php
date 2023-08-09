@@ -9,7 +9,6 @@ use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use App\Models\EvacuationCenter;
 use Illuminate\Support\Facades\Validator;
-
 class EvacuationCenterController extends Controller
 {
     private $evacuationCenter, $logActivity;
@@ -22,26 +21,16 @@ class EvacuationCenterController extends Controller
 
     public function getEvacuationData($operation)
     {
-        $evacuationCenterList = $this->evacuationCenter->orderBy('name', 'asc')->where('is_archive', 0)->get();
+        $evacuationCenterList = $this->evacuationCenter->orderBy('name', 'asc')->get();
 
         return DataTables::of($evacuationCenterList)
             ->addIndexColumn()
             ->addColumn('capacity', function ($row) use ($operation) {
                 return $operation == "locator" ? Evacuee::where('evacuation_assigned', $row->name)->sum('individuals') . '/' . $row->capacity : $row->capacity;
-            })
-            ->addColumn('status', function ($row) {
-                $color = match ($row->status) {
-                    'Active' => 'success',
-                    'Inactive' => 'danger',
-                    'Full' => 'warning'
-                };
-
-                return '<div class="status-container"><div class="bg-' . $color . ' status-content">' . $row->status . '</div></div>';
             })->addColumn('action', function ($row) use ($operation) {
-                if ($operation == "locator") {
-                    return $row->status == 'Inactive' ? "<span class='message-text'>Evacuation Center isn't available.</span>" :
-                        '<button class="btn-table-primary text-white locateEvacuationCenter"><i class="bi bi-search"></i>Locate</button>';
-                } else {
+                if ($operation == "locator")
+                    return '<button class="btn-table-primary text-white locateEvacuationCenter"><i class="bi bi-search"></i>Locate</button>';
+                else {
                     if (auth()->user()->is_disable == 0) {
                         $statusOptions = '';
                         $availableStatus = ['Active', 'Inactive', 'Full'];
@@ -62,7 +51,7 @@ class EvacuationCenterController extends Controller
                     return '<span class="message-text">Currently Disabled.</span>';
                 }
             })
-            ->rawColumns(['capacity', 'status', 'action'])
+            ->rawColumns(['capacity', 'action'])
             ->make(true);
     }
 
@@ -71,12 +60,13 @@ class EvacuationCenterController extends Controller
         $validateEvacuationCenter = Validator::make($request->all(), [
             'name' => 'required',
             'barangayName' => 'required',
+            'capacity' => 'required|numeric|min:1',
             'latitude' => 'required',
             'longitude' => 'required'
         ]);
 
         if ($validateEvacuationCenter->fails())
-            return response(['status' => 'warning', 'message' => $validateEvacuationCenter->errors()->first()]);
+            return response(['status' => 'warning', 'message' => implode('<br>', $validateEvacuationCenter->errors()->all())]);
 
         $this->evacuationCenter->create([
             'name' => Str::ucfirst(trim($request->name)),
@@ -84,7 +74,6 @@ class EvacuationCenterController extends Controller
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
             'capacity' => trim($request->capacity),
-            'is_archive' => 0,
             'status' => 'Active'
         ]);
         $this->logActivity->generateLog('Adding new evacuation center');
@@ -116,10 +105,7 @@ class EvacuationCenterController extends Controller
 
     public function removeEvacuationCenter($evacuationId)
     {
-        $this->evacuationCenter->find($evacuationId)->update([
-            'is_archive' => 1,
-            'status' => 'Archived'
-        ]);
+        $this->evacuationCenter->find($evacuationId)->delete();
         $this->logActivity->generateLog('Removing evacuation center');
         return response()->json();
     }
@@ -131,24 +117,5 @@ class EvacuationCenterController extends Controller
         ]);
         $this->logActivity->generateLog('Changing evacuation center status');
         return response()->json();
-    }
-
-    public function locateNearestEvacuation(Request $request)
-    {
-        $userLatitude = $request->userLatitude;
-        $nearestCenter = $this->evacuationCenter->select('name', 'barangay_name', 'latitude', 'longitude', 'status')
-            ->selectRaw(
-                '( 6371 * acos( cos( radians(?) ) *
-                cos( radians( latitude ) )
-                * cos( radians( longitude ) - radians(?)
-                ) + sin( radians(?) ) *
-                sin( radians( latitude ) ) )
-                ) AS distance',
-                [$userLatitude, $request->userLongitude, $userLatitude]
-            )
-            ->orderBy('distance')
-            ->first();
-
-        return response()->json($nearestCenter);
     }
 }

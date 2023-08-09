@@ -63,7 +63,7 @@
                                         </div>
                                         <div class="py-2">
                                             <p class="font-bold">Report Status : <span
-                                                    class="bg-green-600 status-content">{{ $report->status }}</span>
+                                                    class="status-content bg-success">{{ $report->status }}</span>
                                             </p>
                                         </div>
                                         <p class="pb-2 font-bold">Date Reported: <span class="text-red-600">July 22,
@@ -154,7 +154,7 @@
         @endauth
     </div>
 
-    <script src="{{ asset('assets/js/script.js') }}"></script>
+    @include('partials.script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>

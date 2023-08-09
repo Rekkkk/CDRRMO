@@ -76,8 +76,8 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
+    @include('partials.script')
     @auth
-        <script src="{{ asset('assets/js/script.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
             integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
@@ -103,14 +103,14 @@
                     $(document).on('click', '#createGuidelineBtn', function() {
                         $('#guidelineForm')[0].reset();
                         $('#guideline_operation').val('create');
-                        $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
+                        $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
                         $('.modal-label').text('Create Guideline');
                         $('#submitGuidelineBtn').removeClass('btn-update').addClass('btn-submit').text('Create');
                         $('#guidelineModal').modal('show');
                     });
 
                     $(document).on('click', '#updateGuidelineBtn', function() {
-                        $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                        $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
                         $('.modal-label').text('Update Guideline');
                         $('#submitGuidelineBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
                         let guidelineWidget = this.closest('.guideline-widget');
@@ -144,7 +144,7 @@
                                     success: function() {
                                         showSuccessMessage(
                                             'Guideline removed successfully, Please wait...'
-                                            );
+                                        );
                                     },
                                     error: function() {
                                         showErrorMessage();

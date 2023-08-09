@@ -74,7 +74,7 @@
         <div class="modal fade" id="generateReportModal" tabindex="-1" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <div class="modal-label-container bg-green">
+                    <div class="modal-label-container bg-success">
                         <h1 class="modal-label">Generate Excel Report</h1>
                     </div>
                     <div class="modal-body">
@@ -104,7 +104,7 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/js/script.js') }}"></script>
+    @include('partials.script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>

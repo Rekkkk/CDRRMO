@@ -26,11 +26,11 @@ class DisasterController extends Controller
                 ->addIndexColumn()
                 ->addColumn('status', function ($row) {
                     $color = match ($row->status) {
-                        'On Going' => 'green',
-                        'Inactive' => 'red'
+                        'On Going' => 'success',
+                        'Inactive' => 'danger',
                     };
 
-                    return '<div class="status-container"><div class="bg-' . $color . '-600 status-content">' . $row->status . '</div></div>';
+                    return '<div class="status-container"><div class="status-content bg-'.$color.'">' . $row->status . '</div></div>';
                 })->addColumn('action', function ($row) {
                     if (auth()->user()->is_disable == 0) {
                         $statusOptions = $row->status == 'On Going' ? '<option value="Inactive">Inactive</option>' : '<option value="On Going">On Going</option>';

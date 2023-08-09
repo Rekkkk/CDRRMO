@@ -62,7 +62,7 @@
         @include('userpage.changePasswordModal')
     </div>
 
-    <script src="{{ asset('assets/js/script.js') }}"></script>
+    @include('partials.script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -213,16 +213,16 @@
             });
 
             $(document).on('click', '#recordEvacueeBtn', function() {
-                $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
-                $('.modal-label').text('Record Evacuee Information Form');
+                $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
+                $('.modal-label').text('Record Evacuee Information');
                 $('#recordEvacueeInfoBtn').removeClass('btn-update').addClass('btn-submit').text('Record');
                 $('#operation').val('record');
                 $('#evacueeInfoFormModal').modal('show');
             });
 
             $(document).on('click', '#updateEvacueeBtn', function() {
-                $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
-                $('.modal-label').text('Update Evacuee Information Form');
+                $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
+                $('.modal-label').text('Update Evacuee Information');
                 $('#recordEvacueeInfoBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
 
                 let data = getRowData(this, evacueeTable);

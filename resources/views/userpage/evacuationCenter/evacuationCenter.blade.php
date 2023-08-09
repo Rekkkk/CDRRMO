@@ -22,21 +22,21 @@
                 <span>EVACUATION CENTER LOCATOR</span>
             </div>
             <hr>
-            <div class="locator-content my-3">
+            <div class="locator-content">
                 <div class="locator-header">
                     <div class="header-title">
                         <span>Cabuyao City Map</span>
                     </div>
                 </div>
                 <div class="map-section">
-                    <div class="w-full rounded-b-md" id="map" style="height:600px;"></div>
+                    <div class="locator-map" id="map"></div>
                 </div>
             </div>
             <div class="page-button-container">
-                <button type="button" class="mr-3" id="locateNearestBtn">
+                <button type="button" class="btn-submit mr-3" id="locateNearestBtn" disabled>
                     <i class="bi bi-search"></i>
-                    Locate Nearest Evacuation</button>
-                <button type="button" id="locateCurrentLocationBtn">
+                    Locate Nearest Active Evacuation</button>
+                <button type="button" class="btn-remove" id="locateCurrentLocationBtn">
                     <i class="bi bi-geo-fill"></i>
                     Locate Current Location</button>
             </div>
@@ -62,14 +62,12 @@
     </div>
     @auth
         @include('userpage.changePasswordModal')
-    @endauth
-    @auth
-        <script src="{{ asset('assets/js/script.js') }}"></script>
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
             integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
             crossorigin="anonymous"></script>
     @endauth
+    @include('partials.script')
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script
         src="https://maps.googleapis.com/maps/api/js?key={{ config('services.googleMap.key') }}&callback=initMap&v=weekly"
@@ -80,112 +78,251 @@
     </script>
     @include('partials.toastr')
     <script>
-        let map, activeInfoWindow;
-        var directionsDisplay, directionsService;
+        let map, activeInfoWindow, userMarker, userBounds, evacuationCentersData, evacuationCenterJson = [],
+            evacuationCenterTable, directionDisplay, directionService;
 
         function initMap() {
-            var mapTypeStyleArray = [{
-                    featureType: 'water',
-                    elementType: 'labels.text',
-                    stylers: [{
-                        color: '#000000'
-                    }]
-                },
-                {
-                    featureType: 'road.local',
-                    elementType: 'geometry.fill',
-                    stylers: [{
-                        color: '#b8b8b8'
-                    }]
-                },
-                {
-                    featureType: 'road.highway',
-                    elementType: 'geometry.fill',
-                    stylers: [{
-                        color: '#383838'
-                    }]
-                }
-            ];
-
             map = new google.maps.Map(document.getElementById("map"), {
                 center: {
                     lat: 14.242311,
                     lng: 121.12772
                 },
-                zoom: 13,
-                clickableIcons: false,
-                mapTypeId: 'terrain',
-                styles: mapTypeStyleArray
+                zoom: 13
             });
 
-            directionsService = new google.maps.DirectionsService();
-            directionsDisplay = new google.maps.DirectionsRenderer();
-            directionsDisplay.setMap(map);
-
-            for (let evacuationCenter of @json($evacuationCenters)) {
-                let picture = evacuationCenter.status == 'Active' ? "evacMarkerActive" : "evacMarkerInactive"
-                picture = evacuationCenter.status == 'Full' ? "evacMarkerFull" : picture
-
-                let marker = new google.maps.Marker({
-                    position: {
-                        lat: parseFloat(evacuationCenter.latitude),
-                        lng: parseFloat(evacuationCenter.longitude)
-                    },
-                    map,
+            directionService = new google.maps.DirectionsService();
+            directionDisplay = new google.maps.DirectionsRenderer({
+                map: map,
+                suppressMarkers: true,
+                preserveViewport: false,
+                markerOptions: {
                     icon: {
-                        url: "{{ asset('assets/img/picture.png') }}".replace('picture', picture),
+                        url: "{{ asset('assets/img/userMarker.png') }}",
                         scaledSize: new google.maps.Size(35, 35),
                     },
-                    animation: google.maps.Animation.DROP
+                },
+            });
+        }
+
+        function initMarkers(evacuationCenters) {
+            evacuationCenters.forEach(evacuationCenter => {
+                let picture = evacuationCenter.status == 'Active' ?
+                    "evacMarkerActive" : evacuationCenter.status == 'Full' ?
+                    "evacMarkerFull" : "evacMarkerInactive";
+
+                generateInfoWindow(
+                    generateMarker({
+                        lat: parseFloat(evacuationCenter.latitude),
+                        lng: parseFloat(evacuationCenter.longitude)
+                    }, "{{ asset('assets/img/picture.png') }}".replace('picture', picture)),
+                    `<div class="info-window-container">
+                        <div class="info-description">
+                            <span>Name:</span> ${evacuationCenter.name}
+                        </div>
+                        <div class="info-description">
+                            <span>Barangay:</span> ${evacuationCenter.barangay_name}
+                        </div>
+                        <div class="info-description">
+                            <span>Capacity:</span> ${evacuationCenter.capacity}
+                        </div>
+                        <div class="info-description">
+                            <span>
+                                Status:
+                            </span>
+                            <span class="status-content bg-${getStatusColor(evacuationCenter.status)}">
+                                ${evacuationCenter.status}
+                            </span>
+                        </div>
+                    </div>`
+                );
+            });
+        }
+
+        function generateMarker(position, icon) {
+            return new google.maps.Marker({
+                position,
+                map: map,
+                icon: {
+                    url: icon,
+                    scaledSize: new google.maps.Size(35, 35)
+                },
+            });
+        }
+
+        function generateInfoWindow(marker, content) {
+            const infoWindow = new google.maps.InfoWindow({
+                content: content
+            });
+
+            marker.addListener('click', () => {
+                if (activeInfoWindow)
+                    activeInfoWindow.close();
+
+                infoWindow.open({
+                    anchor: marker,
+                    shouldFocus: false,
+                    map: map
                 });
 
-                let statusColor = evacuationCenter.status == 'Active' ?
-                    'green' : evacuationCenter.status == 'Inactive' ?
-                    'red' : 'orange';
+                activeInfoWindow = infoWindow;
+                map.panTo(marker.getPosition());
+            });
+        }
 
-                let infowindow = new google.maps.InfoWindow({
-                    content: `<div class="info-window-container">
-                                <div class="info-description">
-                                    <span>Name:</span> ${evacuationCenter.name}
-                                </div>
-                                <div class="info-description">
-                                    <span>Barangay:</span> ${evacuationCenter.barangay_name}
-                                </div>
-                                <div class="info-description">
-                                    <span>Status:</span> <span class="bg-${statusColor}-600 status-content">${evacuationCenter.status}</span>
-                                </div>
-                            </div>`
-                });
+        function generateCircle(center) {
+            return new google.maps.Circle({
+                map: map,
+                center: center,
+                radius: 14 * Math.pow(2, 0),
+                fillColor: "#557ed8",
+                fillOpacity: 0.3,
+                strokeColor: "#557ed8",
+                strokeOpacity: 0.8,
+                strokeWeight: 2,
+            });
+        }
 
-                marker.addListener("click", () => {
-                    if (activeInfoWindow) activeInfoWindow.close();
+        function getStatusColor(status) {
+            return status == 'Active' ? 'success' : status == 'Inactive' ? 'danger' : 'warning';
+        }
 
-                    infowindow.open({
-                        anchor: marker,
-                        shouldFocus: false,
-                        map
+        function newLatLng(lat, lng) {
+            return new google.maps.LatLng(lat, lng);
+        }
+
+        function getKilometers(response) {
+            return (response.routes[0].legs[0].distance.value / 1000).toFixed(2);
+        }
+
+        function getUserLocation() {
+            return new Promise((resolve, reject) => {
+                navigator.geolocation ?
+                    navigator.geolocation.getCurrentPosition(
+                        (position) => resolve(position),
+                        () => getUserLocation(), {
+                            enableHighAccuracy: true
+                        }
+                    ) : (showInfoMessage('Geolocation is not supported by this browser.'),
+                        $('#locateNearestBtn').removeAttr('disabled'));
+
+            });
+        }
+
+        function getEvacuationCentersDistance() {
+            getUserLocation()
+                .then((position) => {
+                    let promises = [];
+
+                    evacuationCentersData.forEach(data => {
+                        if (data.status == 'Active' &&
+                            !evacuationCenterJson.some(item =>
+                                item.latitude === data.latitude &&
+                                item.longitude === data.longitude)) {
+                            const request = {
+                                origin: newLatLng(
+                                    position.coords.latitude,
+                                    position.coords.longitude),
+                                destination: newLatLng(
+                                    data.latitude,
+                                    data.longitude),
+                                travelMode: google.maps.TravelMode.WALKING,
+                            };
+
+                            const direction = new google.maps.DirectionsService();
+
+                            promises.push(new Promise((resolve, reject) => {
+                                direction.route(request, function(response, status) {
+                                    if (status == 'OK') {
+                                        evacuationCenterJson.push({
+                                            latitude: data.latitude,
+                                            longitude: data.longitude,
+                                            distance: getKilometers(response)
+                                        });
+                                        resolve();
+                                    }
+                                });
+                            }));
+                        }
                     });
-                    activeInfoWindow = infowindow;
-                    map.panTo(marker.getPosition());
+
+
+                    Promise.all(promises)
+                        .then(() => {
+                            evacuationCenterJson.sort((a, b) => a.distance - b.distance);
+                            $('#locateNearestBtn').removeAttr('disabled');
+                        }).catch((error) => {
+                            getEvacuationCentersDistance();
+                        });
                 });
-            }
+        }
+
+        function locateEvacuationCenter(findNearestActive, row = null) {
+            getUserLocation()
+                .then((position) => {
+                    const {
+                        latitude,
+                        longitude,
+                    } = findNearestActive ? evacuationCenterJson[0] : getRowData(row, evacuationCenterTable);
+
+                    const request = {
+                        origin: newLatLng(position.coords.latitude, position.coords.longitude),
+                        destination: newLatLng(latitude, longitude),
+                        travelMode: google.maps.TravelMode.WALKING,
+                    };
+
+                    directionService.route(request, function(response, status) {
+                        if (status == 'OK') {
+                            const userLocation = response.routes[0].legs[0].start_location;
+
+                            if (userMarker) {
+                                userMarker.setPosition(userLocation);
+                                userBounds.setCenter(userMarker.getPosition());
+                            } else {
+                                userMarker =
+                                    generateMarker(
+                                        userLocation,
+                                        "{{ asset('assets/img/userMarker.png') }}"
+                                    );
+                                userBounds = generateCircle(userMarker.getPosition());
+                            }
+
+                            directionDisplay.setMap(map);
+
+                            generateInfoWindow(
+                                userMarker,
+                                `<div class="info-window-container">
+                                        <div class="info-description">
+                                            <center>You are here.</center>
+                                        </div>
+                                        <div class="info-description">
+                                            <span>Pathway distance to evacuation: </span>${getKilometers(response)} km</span>
+                                        </div>
+                                    </div>`
+                            );
+
+                            directionDisplay.setDirections(response);
+                            scrollToMap();
+                        }
+                    });
+                })
+        }
+
+        function scrollToMap() {
+            $("html, body").animate({
+                scrollTop: $(".locator-content").offset().top - 16
+            }, 500);
         }
 
         $(document).ready(() => {
-            let url;
+            let url = '{{ $prefix }}' == 'resident' ?
+                "{{ route('resident.evacuation.center.get', 'locator') }}" :
+                "{{ route('evacuation.center.get', 'locator') }}";
 
-            '{{ $prefix }}' == 'resident' ?
-            url = "{{ route('resident.evacuation.center.get', 'locator') }}":
-                url = "{{ route('evacuation.center.get', 'locator') }}";
-
-            let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
+            evacuationCenterTable = $('.evacuationCenterTable').DataTable({
                 language: {
                     emptyTable: '<div class="message-text">There are currently no evacuation centers available.</div>',
                 },
                 ordering: false,
-                language: {
-                    emptyTable: 'No available evacuation center yet.',
-                },
                 responsive: true,
                 processing: false,
                 serverSide: true,
@@ -225,265 +362,61 @@
                         orderable: false,
                         searchable: false
                     }
-                ]
+                ],
+                columnDefs: [{
+                    targets: 5,
+                    render: function(data) {
+                        return `
+                            <div class="status-container">
+                                <div class="status-content bg-${getStatusColor(data)}">
+                                    ${data}
+                                </div>
+                            </div>
+                        `;
+                    }
+                }],
+                drawCallback: function() {
+                    evacuationCentersData = this.api().ajax.json().data;
+                    initMarkers(evacuationCentersData);
+                    getEvacuationCentersDistance();
+                },
             });
 
-            $(document).on('click', '#locateNearestBtn', function() {
-                navigator.geolocation.getCurrentPosition((position) => {
-                    const {
-                        latitude: userLatitude,
-                        longitude: userLongitude
-                    } = position.coords;
+            $(document).on("click", "#locateCurrentLocationBtn", function() {
+                getUserLocation()
+                    .then((position) => {
+                        if (directionDisplay) directionDisplay.setMap(null);
 
-                    fetch(
-                            `{{ route('evacuation.center.locate') }}?userLatitude=${userLatitude}&userLongitude=${userLongitude}`
-                        )
-                        .then(response => response.json())
-                        .then(nearestCenter => {
-                            const evacuationCenterLatLng = new google.maps.LatLng(nearestCenter
-                                .latitude, nearestCenter.longitude);
-                            const map = new google.maps.Map(document.getElementById('map'), {
-                                center: evacuationCenterLatLng,
-                                zoom: 12,
-                                mapTypeId: google.maps.MapTypeId.ROADMAP
-                            });
-                            const userLatLng = new google.maps.LatLng(userLatitude,
-                                userLongitude);
-                            const directionsService = new google.maps.DirectionsService();
-                            const directionsRenderer = new google.maps.DirectionsRenderer({
-                                map,
-                                suppressMarkers: true
-                            });
-                            const request = {
-                                origin: userLatLng,
-                                destination: evacuationCenterLatLng,
-                                travelMode: 'WALKING'
-                            };
+                        const userLocation = newLatLng(
+                            position.coords.latitude,
+                            position.coords.longitude
+                        );
 
-                            directionsService.route(request, function(response, status) {
-                                if (status == 'OK') {
-                                    directionsRenderer.setDirections(response)
+                        if (userMarker) {
+                            userMarker.setPosition(userLocation);
+                            userBounds.setCenter(userMarker.getPosition());
+                        } else {
+                            userMarker = generateMarker(userLocation,
+                                "{{ asset('assets/img/userMarker.png') }}");
+                            userBounds = generateCircle(userMarker.getPosition());
+                        }
 
-                                    const evacuationStatus = nearestCenter.status;
-                                    const evacuationMarkerUrl = evacuationStatus ==
-                                        'Active' ?
-                                        "{{ asset('assets/img/evacMarkerActive.png') }}" :
-                                        "{{ asset('assets/img/evacMarkerFull.png') }}";
+                        generateInfoWindow(
+                            userMarker,
+                            `<div class="info-window-container">
+                                <div class="info-description">
+                                    <center>You are here.</center>
+                                </div>
+                            </div>`
+                        );
 
-                                    const generateMarker = (position, iconMarker) =>
-                                        new google.maps
-                                        .Marker({
-                                            position,
-                                            map,
-                                            icon: {
-                                                url: iconMarker.replace('picture',
-                                                    evacuationStatus ==
-                                                    'Active' ?
-                                                    'evacMarkerActive' :
-                                                    'evacMarkerFull'),
-                                                scaledSize: new google.maps.Size(35,
-                                                    35)
-                                            },
-                                            animation: google.maps.Animation.DROP
-                                        });
-
-                                    const generateInfoWindow = (marker, infoWindow) => {
-                                        marker.addListener('click', () => {
-                                            if (activeInfoWindow)
-                                                activeInfoWindow.close();
-
-                                            infoWindow.open({
-                                                anchor: marker,
-                                                shouldFocus: false,
-                                                map
-                                            });
-                                            activeInfoWindow = infoWindow;
-                                        });
-                                    };
-
-                                    let evacuationInfoWindow = new google.maps
-                                        .InfoWindow({
-                                            content: `<div class="info-window-container">
-                                                        <div class="info-description">
-                                                            <span>Name:</span> ${nearestCenter.name}
-                                                        </div>
-                                                        <div class="info-description">
-                                                            <span>Barangay:</span> ${nearestCenter.barangay_name}
-                                                        </div>
-                                                        <div class="info-description">
-                                                            <span>Status:</span> <span class="bg-${evacuationStatus == 'Active' ? "green" : "orange"}-600 status-content">${evacuationStatus}</span>
-                                                        </div>
-                                                        <div class="info-description">
-                                                            <span>Pathway Distance: </span>${(response.routes[0].legs[0].distance.value / 1000).toFixed(2)} km</span>
-                                                        </div>
-                                                    </div>`
-                                        });
-
-                                    let userInfoWindow = new google.maps.InfoWindow({
-                                        content: `<div class="info-window-container">
-                                            <div class="info-description">
-                                                <center>You are here.</center>
-                                            </div>
-                                            <div class="info-description">
-                                                <span>Pathway Distance: </span>${(response.routes[0].legs[0].distance.value / 1000).toFixed(2)} km from ${nearestCenter.barangay_name}</span>
-                                            </div>
-                                        </div>`
-                                    });
-
-                                    const evacuationCenterMarker = generateMarker(
-                                        evacuationCenterLatLng,
-                                        evacuationMarkerUrl);
-                                    const userMarker = generateMarker(userLatLng,
-                                        "{{ asset('assets/img/userMarker.png') }}");
-
-                                    generateInfoWindow(evacuationCenterMarker,
-                                        evacuationInfoWindow);
-                                    generateInfoWindow(userMarker, userInfoWindow);
-                                } else {
-                                    showWarningMessage(status);
-                                }
-                            });
-
-                        });
-                });
+                        map.fitBounds(userBounds.getBounds());
+                        scrollToMap();
+                    });
             });
 
-            $(document).on('click', '.locateEvacuationCenter', function() {
-                let {
-                    name,
-                    latitude,
-                    longitude,
-                    barangay_name,
-                    status
-                } = getRowData(this, evacuationCenterTable);
-                let evacuationStatus = $(status).find('.status-content').text();
-                const evacuationCenterLatLng = new google.maps.LatLng(latitude, longitude);
-                const map = new google.maps.Map(document.getElementById('map'), {
-                    center: evacuationCenterLatLng,
-                    zoom: 12,
-                    mapTypeId: google.maps.MapTypeId.ROADMAP
-                });
-
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition((position) => {
-                        const userLatLng = new google.maps.LatLng(position.coords.latitude, position
-                            .coords.longitude);
-                        map.setCenter(userLatLng);
-
-                        const directionsService = new google.maps.DirectionsService();
-                        const directionsRenderer = new google.maps.DirectionsRenderer({
-                            map: map,
-                            suppressMarkers: true
-                        });
-
-                        const request = {
-                            origin: userLatLng,
-                            destination: evacuationCenterLatLng,
-                            travelMode: google.maps.TravelMode.WALKING
-                        };
-
-                        directionsService.route(request, function(response, status) {
-                            if (status == 'OK') {
-                                directionsRenderer.setDirections(response)
-
-                                const generateMarker = (position, iconUrl) => {
-                                    return new google.maps.Marker({
-                                        position: position,
-                                        map: map,
-                                        icon: {
-                                            url: iconUrl,
-                                            scaledSize: new google.maps.Size(35,
-                                                35)
-                                        },
-                                        animation: google.maps.Animation.DROP
-                                    });
-                                };
-
-                                const generateInfoWindow = (marker, infoWindow) => {
-                                    marker.addListener('click', () => {
-                                        if (activeInfoWindow) activeInfoWindow
-                                            .close();
-
-                                        infoWindow.open({
-                                            anchor: marker,
-                                            shouldFocus: false,
-                                            map
-                                        });
-                                        activeInfoWindow = infoWindow;
-                                    });
-                                };
-
-                                const evacuationMarkerUrl = evacuationStatus == 'Active' ?
-                                    "{{ asset('assets/img/evacMarkerActive.png') }}" :
-                                    "{{ asset('assets/img/evacMarkerFull.png') }}";
-                                const evacuationCenterMarker = generateMarker(
-                                    evacuationCenterLatLng,
-                                    evacuationMarkerUrl);
-                                const userMarker = generateMarker(userLatLng,
-                                    "{{ asset('assets/img/userMarker.png') }}");
-
-                                let evacuationInfoWindow = new google.maps.InfoWindow({
-                                    content: `<div class="info-window-container">
-                                                <div class="info-description">
-                                                    <span>Name:</span> ${name}
-                                                </div>
-                                                <div class="info-description">
-                                                    <span>Barangay:</span> ${barangay_name}
-                                                </div>
-                                                <div class="info-description">
-                                                    <span>Status:</span> <span class="bg-${evacuationStatus == 'Active' ? "green" : "orange"}-600 status-content">${evacuationStatus}</span>
-                                                </div>
-                                                <div class="info-description">
-                                                    <span>Pathway Distance: </span>${(response.routes[0].legs[0].distance.value / 1000).toFixed(2)} km from ${barangay_name}</span>
-                                                </div>
-                                            </div>`
-                                });
-
-                                let userInfoWindow = new google.maps.InfoWindow({
-                                    content: `<div class="info-window-container">
-                                            <div class="info-description">
-                                                <center>You are here.</center>
-                                            </div>
-                                            <div class="info-description">
-                                                <span>Pathway Distance: </span>${(response.routes[0].legs[0].distance.value / 1000).toFixed(2)} km from ${name}</span>
-                                            </div>
-                                        </div>`
-                                });
-                                generateInfoWindow(evacuationCenterMarker,
-                                    evacuationInfoWindow);
-                                generateInfoWindow(userMarker, userInfoWindow);
-                            } else {
-                                showWarningMessage(status);
-                            }
-                        });
-                    }, () => toastr.error('Error: The Geolocation service failed.'));
-                } else {
-                    showWarningMessage('Error: Your browser doesn\'t support geolocation.');
-                }
-            });
-
-            $(document).on('click', '#locateCurrentLocationBtn', function() {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition((position) => {
-                        if (activeInfoWindow) activeInfoWindow.close();
-
-                        let userMarker = new google.maps.Marker({
-                            position: {
-                                lat: position.coords.latitude,
-                                lng: position.coords.longitude
-                            },
-                            map,
-                            icon: {
-                                url: "{{ asset('assets/img/userMarker.png') }}",
-                                scaledSize: new google.maps.Size(35, 35)
-                            }
-                        });
-
-                        map.panTo(userMarker.getPosition());
-                    }, () => toastr.error('The Geolocation service failed.', 'Error'));
-                } else {
-                    showWarningMessage('Your browser does not support geolocation');
-                }
+            $(document).on("click", "#locateNearestBtn, .locateEvacuationCenter", function() {
+                locateEvacuationCenter(this.id == "locateNearestBtn" ? true : false, this);
             });
         });
     </script>

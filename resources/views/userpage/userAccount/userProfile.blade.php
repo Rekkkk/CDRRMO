@@ -70,7 +70,7 @@
         @include('userpage.changePasswordModal')
     </div>
 
-    <script src="{{ asset('assets/js/script.js') }}"></script>
+    @include('partials.script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
@@ -85,7 +85,7 @@
                 let defaultFormData, modal = $('#userAccountModal');
 
                 $(document).on('click', '#editProfileBtn', function() {
-                    $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                    $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
                     $('.modal-label').text('Edit Profile Account');
                     $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text('Update');
                     $('#suspend-container').hide();

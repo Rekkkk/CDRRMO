@@ -31,7 +31,7 @@ class IncidentReportController extends Controller
 
         return DataTables::of($pendingReport)
             ->addIndexColumn()
-            ->addColumn('status', '<div class="status-container"><div class="bg-orange-600 status-content w-28">On Process</div></div>')
+            ->addColumn('status', '<div class="status-container"><div class="status-content bg-warning">On Process</div></div>')
             ->addColumn('action', function ($row) {
                 if ($row->user_ip == request()->ip() && !auth()->check())
                     return '<button class="btn-table-remove revertIncidentReport"><i class="bi bi-arrow-counterclockwise"></i>Revert</button>';
@@ -59,11 +59,11 @@ class IncidentReportController extends Controller
         return DataTables::of($incidentReport)
             ->addIndexColumn()->addColumn('status', function ($row) {
                 $color = match ($row->status) {
-                    'Approved' => 'green',
-                    'Declined' => 'red'
+                    'Approved' => 'success',
+                    'Declined' => 'danger'
                 };
 
-                return '<div class="status-container"><div class="bg-' . $color . '-600 status-content">' . $row->status . '</div></div>';
+                return '<div class="status-container"><div class="status-content bg-' . $color . '">' . $row->status . '</div></div>';
             })->addColumn('action', function () {
                 return auth()->user()->is_disable == 0 ? '<button class="btn-table-remove removeIncidentReport"><i class="bi bi-trash3-fill"></i>Remove</button>' : '<span class="message-text">Currently Disabled.</span>';
             })->addColumn('photo', function ($row) {

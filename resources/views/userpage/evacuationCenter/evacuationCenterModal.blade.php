@@ -39,18 +39,18 @@
                             </select>
                         </div>
                         <div class="field-container">
-                            <label>Estimated Evacuation Center Capacity</label>
+                            <label>Capacity</label>
                             <input type="number" name="capacity" class="form-control" autocomplete="off"
-                                placeholder="Enter Estimated Capacity" id="capacity">
+                                placeholder="Enter Capacity" id="capacity">
                         </div>
                         <div class="field-container">
                             <label>Location</label>
                             <div class="map-border">
-                                <div class="map-container" id="map"></div>
+                                <div class="form-map" id="map"></div>
                             </div>
                             <input type="text" name="latitude" id="latitude" hidden>
                             <input type="text" name="longitude" id="longitude" hidden>
-                            <span id="location-error" class="error"></span>
+                            <span id="location-error" class="error mt-1"></span>
                         </div>
                         <div class="form-button-container">
                             <button id="createEvacuationCenterBtn" class="btn-submit">Create</button>

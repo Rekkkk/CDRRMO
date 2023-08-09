@@ -26,7 +26,7 @@
                 <div class="page-button-container">
                     <button class="btn-submit" id="createDisasterData">
                         <i class="bi bi-cloud-plus"></i>
-                        Create Disaster
+                        Add Disaster
                     </button>
                 </div>
             @endif
@@ -53,7 +53,7 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/js/script.js') }}"></script>
+    @include('partials.script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/responsive/2.4.1/js/dataTables.responsive.min.js"></script>
@@ -119,9 +119,9 @@
             });
 
             $(document).on('click', '#createDisasterData', function() {
-                $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
-                $('.modal-label').text('Create Disaster Form');
-                $('#submitDisasterBtn').removeClass('btn-update').addClass('btn-submit').text('Create');
+                $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
+                $('.modal-label').text('Create Disaster');
+                $('#submitDisasterBtn').removeClass('btn-update').addClass('btn-submit').text('Add');
                 $('#operation').val('create');
                 $('#disasterModal').modal('show');
             });
@@ -133,8 +133,8 @@
                 } = getRowData(this, disasterTable);
                 disasterId = id;
                 $('#disasterName').val(name);
-                $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
-                $('.modal-label').text('Update Disaster Form');
+                $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
+                $('.modal-label').text('Update Disaster');
                 $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
                 $('#operation').val('update');
                 $('#disasterModal').modal('show');
