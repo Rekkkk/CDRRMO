@@ -348,14 +348,13 @@
                     {
                         data: 'capacity',
                         name: 'capacity',
-                        width: '5%',
                         orderable: false,
                         searchable: false
                     },
                     {
                         data: 'status',
                         name: 'status',
-                        width: '10%'
+                        width: '15%'
                     },
                     {
                         data: 'action',

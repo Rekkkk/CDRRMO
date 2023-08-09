@@ -23,11 +23,6 @@ class AuthenticationController extends Controller
         $this->logActivity = new ActivityUserLog;
     }
 
-    public function landingPage()
-    {
-        return view('authentication.authUser');
-    }
-
     public function authUser(Request $request)
     {
         if (auth()->attempt($request->only('email', 'password')))
@@ -62,11 +57,6 @@ class AuthenticationController extends Controller
         return back();
     }
 
-    public function recoverAccount()
-    {
-        return view('authentication.forgotPassword');
-    }
-
     public function findAccount(Request $request)
     {
         $verifyEmailValidation = Validator::make($request->all(), [
@@ -93,8 +83,7 @@ class AuthenticationController extends Controller
     public function resetPasswordForm($token)
     {
         return DB::table('password_resets')->where('token', $token)->exists()
-            ? view('authentication.resetPasswordForm', compact('token'))
-            : redirect('/')->with('warning', 'Token Expired.');
+            ? view('authentication.resetPasswordForm', compact('token')) : redirect('/')->with('warning', 'Token Expired.');
     }
 
     public function resetPassword(Request $request)
@@ -105,7 +94,8 @@ class AuthenticationController extends Controller
             'password_confirmation' => 'required'
         ]);
 
-        if ($resetPasswordValidation->fails()) return back()->withInput()->with('warning', $resetPasswordValidation->errors()->first());
+        if ($resetPasswordValidation->fails())
+            return back()->withInput()->with('warning', $resetPasswordValidation->errors()->first());
 
         if (!DB::table('password_resets')->where('email', $request->email)->where('token', $request->token)->exists())
             return back()->withInput()->with('error', 'Unauthorized Token!');

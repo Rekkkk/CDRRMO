@@ -3,17 +3,17 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\EvacueeController;
+use App\Http\Controllers\DisasterController;
 use App\Http\Controllers\GuidelineController;
 use App\Http\Controllers\UserAccountsController;
 use App\Http\Controllers\AuthenticationController;
-use App\Http\Controllers\DisasterController;
 use App\Http\Controllers\IncidentReportController;
 use App\Http\Controllers\EvacuationCenterController;
 
 Route::controller(AuthenticationController::class)->group(function () {
     Route::post('/', 'authUser')->name('login');
     Route::get('/logout', 'logout')->name('logout.user');
-    Route::get('/recoverAccount', 'recoverAccount')->name('recoverAccount');
+    Route::view('/recoverAccount', 'authentication.forgotPassword')->name('recoverAccount');
     Route::post('/findAccount', 'findAccount')->name('findAccount');
     Route::get('/resetPasswordForm/{token}', 'resetPasswordForm')->name('resetPasswordForm');
     Route::post('resetPassword', 'resetPassword')->name('resetPassword');
@@ -57,7 +57,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cswd');
             Route::post('/generateEvacueeData', 'generateExcelEvacueeData')->name('generate.evacuee.data');
             Route::get('/evacuee', 'manageEvacueeInformation')->name('manage.evacuee.record');
-            Route::get('/manageEvacuation', 'manageEvacuation')->name('manage.evacuation');
+            Route::view('/manageEvacuation', 'userpage.evacuationCenter.manageEvacuation')->name('manage.evacuation');
             Route::get('/evacuationCenter', 'evacuationCenterLocator')->name('evacuation.center.locator');
         });
 
@@ -90,8 +90,8 @@ Route::middleware('auth')->group(function () {
         Route::controller(MainController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
             Route::get('/incidentReport', 'incidentReport')->name('display.incident.report');
-            Route::get('/hotlineNumber', 'hotlineNumber')->name('hotline.number');
-            Route::get('/about', 'about')->name('about');
+            Route::view('/hotlineNumber', 'userpage.hotlineNumber')->name('hotline.number');
+            Route::view('/about', 'userpage.about')->name('about');
         });
 
         Route::prefix('incidentReport')->name('report.')->controller(IncidentReportController::class)->group(function () {
@@ -121,14 +121,13 @@ Route::middleware('auth')->group(function () {
 
     Route::name('account.')->controller(UserAccountsController::class)->group(function () {
         Route::post('/createAccount', 'createAccount')->name('create');
-        Route::get('/userProfile', 'userProfile')->name('display.profile');
+        Route::view('/userProfile', 'userpage.userAccount.userProfile')->name('display.profile');
         Route::put('/updateAccount/{userId}', 'updateAccount')->name('update');
         Route::get('/userAccount', 'userAccounts')->name('display.users');
         Route::put('/disableAccount/{userId}', 'disableAccount')->name('disable');
         Route::put('/enableAccount/{userId}', 'enableAccount')->name('enable');
         Route::put('/suspendAccount/{userId}', 'suspendAccount')->name('suspend');
         Route::put('/openAccount/{userId}', 'openAccount')->name('open');
-        Route::get('/changePassword', 'changePassword')->name('change.password');
         Route::put('/resetPassword/{userId}', 'resetPassword')->name('reset.password');
         Route::post('/checkPassword', 'checkPassword')->name('check.password');
         Route::delete('/removeAccount/{userId}', 'removeAccount')->name('remove');

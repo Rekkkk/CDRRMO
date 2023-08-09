@@ -24,8 +24,8 @@
             </div>
             <hr>
             @if (auth()->user()->is_disable == 0)
-            <div class="page-button-container">
-                <button class="btn-submit" id="createUserAccount">
+                <div class="page-button-container">
+                    <button class="btn-submit" id="createUserAccount">
                         <i class="bi bi-person-fill-add"></i>
                         Create User Account
                     </button>

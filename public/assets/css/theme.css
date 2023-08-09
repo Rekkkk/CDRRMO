@@ -66,7 +66,6 @@ hr,
     padding: 8px 10px;
     filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-duration: 100ms;
-    border: none;
 }
 
 .btn-submit:hover,
@@ -129,11 +128,13 @@ hr,
     width: 112px;
     margin-right: 8px;
     padding: 8px;
+    border: none;
 }
 
 .btn-table-primary {
     padding: 8px;
     width: 96px;
+    border: none;
 }
 
 .btn-table-submit i,
@@ -165,6 +166,7 @@ hr,
     display: flex;
     justify-content: end;
     margin: 16px 0;
+    border: none;
 }
 
 .page-button-container button i,
@@ -234,6 +236,20 @@ hr,
 
 .dropdown-menu .logout:active {
     background: #dc2626;
+}
+
+.field-container.mb-2 {
+    position: relative;
+}
+
+.toggle-password {
+    position: absolute;
+    cursor: pointer;
+    font-size: 18px;
+    line-height: 28px;
+    margin-top: 4px;
+    top: 27px;
+    right: 25px;
 }
 
 /* Header Section End */
@@ -1269,6 +1285,28 @@ input::-ms-clear {
     border-radius: 4px;
 }
 
+.locator-header {
+    text-align: center;
+    color: white;
+    background-color: #DC2626;
+    border-radius: 0.375rem 0.375rem 0 0;
+}
+
+.header-title {
+    font-size: 1.5rem;
+    line-height: 2rem;
+    padding: 1rem;
+}
+
+.header-title span {
+    font-weight: 800;
+}
+
+.map-section {
+    border: 2px solid var(--color-red);
+    border-radius: 0 0 0.375rem 0.375rem;
+}
+
 span.error {
     color: var(--color-red);
     font-size: 12px;
@@ -1370,6 +1408,7 @@ select.form-select option {
 }
 
 .message-text {
+    font-size: 12px;
     color: var(--color-red);
     font-weight: 600;
     font-size: 15px;
