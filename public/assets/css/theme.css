@@ -242,16 +242,6 @@ hr,
     position: relative;
 }
 
-.toggle-password {
-    position: absolute;
-    cursor: pointer;
-    font-size: 18px;
-    line-height: 28px;
-    margin-top: 4px;
-    top: 27px;
-    right: 25px;
-}
-
 /* Header Section End */
 
 /* Main Content Start Here */
@@ -759,6 +749,8 @@ hr,
 .report-container {
     display: flex;
     justify-content: space-between;
+    margin: 15px 0;
+    align-items: center;
 }
 
 .report-container p {
@@ -771,15 +763,9 @@ hr,
     font-weight: 900;
 }
 
-.generate-button-container {
-    display: flex;
-    justify-content: flex-end;
-}
-
 .generate-button-container button {
     background: var(--color-green);
     border: none;
-    margin-bottom: 15px;
 }
 
 .widget-container {
@@ -794,7 +780,7 @@ hr,
     position: relative;
     overflow: hidden;
     border-radius: 15px;
-    box-shadow: 0 0px 19px -1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 19px -1px rgba(0, 0, 0, 0.2);
 }
 
 .widget-logo {
@@ -851,14 +837,14 @@ hr,
     background: var(--color-text);
     border-radius: 6px;
     margin-right: 20px;
-    box-shadow: 0 0px 19px -1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 19px -1px rgba(0, 0, 0, 0.2);
 }
 
 .bar-graph {
     flex: 1;
     background: #e2e8f0;
     border-radius: 6px;
-    box-shadow: 0 0px 19px -1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 19px -1px rgba(0, 0, 0, 0.2);
 }
 
 /* Dashboard End Section */
@@ -1130,11 +1116,6 @@ hr,
     background-size: cover;
 }
 
-.mb-2.relative i {
-    top: 28px;
-    right: 38px;
-}
-
 /* User Profile End Section */
 
 /* Recording Evacuee Section Start Here */
@@ -1152,26 +1133,6 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-#evacueeInfoForm .checkbox-container {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-#evacueeInfoForm .checkbox-container label {
-    margin-top: 9px;
-}
-
-.evacueeArchiveSelect select {
-    width: 270px;
-    height: 40px;
-}
-
-.checkbox {
-    transform: scale(1.25);
-    accent-color: var(--color-primary);
-}
-
 /* Recording Evacuee End Section */
 
 /* Modal Section Start Here */
@@ -1183,7 +1144,6 @@ input::-webkit-inner-spin-button {
     padding: 12px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
-    background: var(--color-yellow);
 }
 
 .modal-label-container h1,
@@ -1211,7 +1171,7 @@ input::-webkit-inner-spin-button {
     line-height: 28px;
     margin-top: 4px;
     top: 27px;
-    right: 40px;
+    right: 30px;
 }
 
 /* Modal Section End */
@@ -1326,7 +1286,7 @@ span.success {
 
 #change-button-container {
     width: 100%;
-    padding: 16px 24px;
+    padding: 16px 18px;
 }
 
 .form-button-container {
@@ -1346,7 +1306,7 @@ span.success {
 
 .table-container {
     padding: 12px;
-    box-shadow: 0 0px 19px -1px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 19px -1px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
 }
 
@@ -1675,7 +1635,7 @@ select.form-select option {
 
     /* Dashboard Section Start Here */
     .report-container {
-        display: contents;
+        display: block;
     }
 
     .report-container p {
@@ -1691,6 +1651,10 @@ select.form-select option {
         margin-top: 14px;
     }
 
+    .generate-button-container .generateBtn {
+        width: 100%;
+    }
+
     .widget-container {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
@@ -1703,7 +1667,7 @@ select.form-select option {
     }
 
     .about-content .location-section {
-        margin: 15px 0 0px 0;
+        margin-top: 15px;
     }
 
     .location-section span,

@@ -19,14 +19,12 @@
                             <span id="currentPassword"></span>
                         </div>
                         <div class="field-container mb-2">
-                        <div class="field-container mb-2">
                             <label>New Password</label>
                             <input type="password" name="password" id="password" class="form-control"
                                 autocomplete="off" disabled>
                             <i class="bi bi-eye-slash toggle-password"
                                 id="showPassword" data-target="#password"></i>
                         </div>
-                        <div class="field-container mb-2 mt-2">
                         <div class="field-container mb-2 mt-2">
                             <label>Confirm Password</label>
                             <input type="password" name="confirmPassword" id="confirmPassword" class="form-control"

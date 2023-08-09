@@ -245,7 +245,6 @@
                         }
                     });
 
-
                     Promise.all(promises)
                         .then(() => {
                             evacuationCenterJson.sort((a, b) => a.distance - b.distance);

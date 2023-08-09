@@ -20,22 +20,54 @@
                 <span>DASHBOARD</span>
             </div>
             <hr>
-            @if (auth()->user()->position == 'President' || auth()->user()->position == 'Focal')
-                <div class="report-container">
-                    <p> Current Disaster:
-                        @foreach ($onGoingDisaster as $disasters)
-                            <span>{{ $disasters->name }} | </span>
-                        @endforeach
-                    </p>
+
+            <div class="report-container">
+                <p> Current Disaster:
+                    @foreach ($onGoingDisaster as $disasters)
+                        <span>{{ $disasters->name }} | </span>
+                    @endforeach
+                </p>
+                @if (auth()->user()->position == 'President' || auth()->user()->position == 'Focal')
                     <div class="generate-button-container">
                         <button type="button" data-bs-toggle="modal" data-bs-target="#generateReportModal"
-                            class="btn-submit">
+                            class="btn-submit generateBtn">
                             <i class="bi bi-printer"></i>
                             Generate Report Data
                         </button>
+                        <div class="modal fade" id="generateReportModal" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-label-container bg-success">
+                                        <h1 class="modal-label">Generate Excel Report</h1>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form action="{{ route('generate.evacuee.data') }}" method="POST"
+                                            id="generateReportForm">
+                                            @csrf
+                                            <div class="form-content">
+                                                <div class="field-container">
+                                                    <label>On Going Disaster</label>
+                                                    <select name="disaster_id" id="disaster_id" class="form-select">
+                                                        <option value="" hidden disabled selected>Select Disaster
+                                                        </option>
+                                                        @foreach ($onGoingDisaster as $disaster)
+                                                            <option value="{{ $disaster->id }}">
+                                                                {{ $disaster->name }}</option>
+                                                        @endforeach
+                                                    </select>
+                                                </div>
+                                                <div class="form-button-container">
+                                                    <button class="btn-submit">Generate</button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            @endif
+                @endif
+            </div>
             <div class="widget-container">
                 <div class="widget">
                     <div class="widget-content">
@@ -65,43 +97,11 @@
             @foreach ($onGoingDisaster as $count => $disaster)
                 <figure class="chart-container">
                     <div id="evacueePie{{ $count + 1 }}" class="pie-chart"></div>
-                    <div id="evacueeGraph{{ $count + 1 }}" class="bar-graph">
-                    </div>
+                    <div id="evacueeGraph{{ $count + 1 }}" class="bar-graph"></div>
                 </figure>
             @endforeach
         </div>
         @include('userpage.changePasswordModal')
-        <div class="modal fade" id="generateReportModal" tabindex="-1" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-label-container bg-success">
-                        <h1 class="modal-label">Generate Excel Report</h1>
-                    </div>
-                    <div class="modal-body">
-                        <form action="{{ route('generate.evacuee.data') }}" method="POST" id="generateReportForm">
-                            @csrf
-                            <div class="form-content">
-                                <div class="field-container">
-                                    <label>On Going Disaster</label>
-                                    <select name="disaster_id" id="disaster_id" class="form-select">
-                                        <option value="" hidden disabled selected>Select Disaster
-                                        </option>
-                                        @foreach ($onGoingDisaster as $disaster)
-                                            <option value="{{ $disaster->id }}">
-                                                {{ $disaster->name }}</option>
-                                        @endforeach
-                                    </select>
-
-                                </div>
-                                <div class="form-button-container">
-                                    <button class="btn-submit">Generate</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 
     @include('partials.script')
@@ -217,22 +217,14 @@
 
             let validator = $("#generateReportForm").validate({
                 rules: {
-                    disaster_id: {
-                        required: true
-                    }
+                    disaster_id: 'required'
                 },
                 messages: {
-                    disaster_id: {
-                        required: 'Please select disaster.'
-                    }
+                    disaster_id: 'Please select disaster.'
                 },
                 errorElement: 'span'
             });
 
-            $('#generateReportModal').on('hidden.bs.modal', function() {
-                validator.resetForm();
-                $('#generateReportForm')[0].reset();
-            });
 
         });
     </script>

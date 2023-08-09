@@ -141,7 +141,7 @@ class UserAccountsController extends Controller
         ]);
 
         if ($suspendAccountValidation->fails())
-            return response(['status' => 'warning', 'error' => $suspendAccountValidation->errors()->first()]);
+            return response(['status' => 'warning', 'message' => $suspendAccountValidation->errors()->first()]);
 
         $this->user->find($userId)->update([
             'status' => 'Suspended',

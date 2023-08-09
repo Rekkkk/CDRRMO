@@ -148,7 +148,7 @@
                                     type: "PATCH",
                                     success: function(response) {
                                         if (response.status == 'warning') {
-                                            toastr.warning(response.message, 'Error');
+                                            showWarningMessage(response.message);
                                         } else {
                                             showSuccessMessage('Guide removed successfully, Please wait...');
                                         }
