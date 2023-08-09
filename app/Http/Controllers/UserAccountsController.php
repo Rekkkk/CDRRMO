@@ -41,15 +41,15 @@ class UserAccountsController extends Controller
                 ->addIndexColumn()
                 ->addColumn('status', function ($row) {
                     $color = match ($row->status) {
-                        'Active' => 'green',
-                        'Disabled' => 'red',
-                        'Suspended' => 'orange'
+                        'Active' => 'success',
+                        'Disabled' => 'danger',
+                        'Suspended' => 'warning'
                     };
 
-                    return '<div class="status-container"><div class="bg-' . $color . '-600 status-content">' . $row->status . '</div></div>';
+                    return '<div class="status-container"><div class="status-content bg-' . $color . '">' . $row->status . '</div></div>';
                 })->addColumn('action', function ($user) {
                     if (auth()->user()->is_disable == 0) {
-                        $actionBtns = '<div class="action-container"><select class="form-select">
+                        $actionBtns = '<div class="action-container"><select class="form-select actionSelect">
                         <option value="" disabled selected hidden>Select Action</option>';
 
                         $actionBtns .= $user->is_suspend == 0 && $user->is_disable == 0

@@ -56,7 +56,7 @@
         </div>
     </div>
 
-    <script src="{{ asset('assets/js/script.js') }}"></script>
+    @include('partials.script')
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
@@ -188,7 +188,7 @@
                                 }
                             });
                         } else if (selectedAction == 'updateAccount') {
-                            $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                            $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
                             $('.modal-label').text('Update User Account');
                             $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text(
                                 'Update');
@@ -220,7 +220,7 @@
                                 }
                             });
                         } else if (selectedAction == 'suspendAccount') {
-                            $('.modal-label-container').removeClass('bg-green').addClass('bg-yellow');
+                            $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
                             $('.modal-label').text('Suspend User Account');
                             $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text(
                                 'Suspend');
@@ -254,7 +254,7 @@
                     });
 
                     $(document).on('click', '#createUserAccount', function() {
-                        $('.modal-label-container').removeClass('bg-yellow').addClass('bg-green');
+                        $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
                         $('.modal-label').text('Create User Account');
                         $('#saveProfileDetails').removeClass('btn-update').addClass('btn-submit').text(
                             'Create');

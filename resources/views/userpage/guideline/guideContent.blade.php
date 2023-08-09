@@ -1,7 +1,7 @@
 <div class="modal fade" id="guideContentModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
-            <div class="modal-header bg-green-600 text-white">
+            <div class="modal-header bg-success text-white">
                 <h1 class="modal-title fs-5" id="exampleModalLabel">Guide Content</h1>
             </div>
             <div class="modal-body">
