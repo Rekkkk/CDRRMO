@@ -4,11 +4,12 @@
 <script>
     $(document).ready(function() {
         toastr.options = {
-            "positionClass": "toast-bottom-left",
-            "progressBar": false,
-            "closeButton": false,
-            "preventDuplicates": true
-        }
+            closeButton: false,
+            progressBar: true,
+            preventDuplicates: true,
+            timeOut: 3000,
+            positionClass: "toast-bottom-left"
+        };
 
         @if (Session::has('success'))
             toastr.success("{{ Session::get('success') }}", 'Success');
