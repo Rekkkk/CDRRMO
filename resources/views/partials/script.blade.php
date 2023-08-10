@@ -184,6 +184,15 @@
             }
         });
 
+        $(document).on('click', '.overlay-text', function() {
+            var reportPhotoUrl = $(this).closest('.image-wrapper').find('.report-img').attr('src');
+            var overlay = $('<div class="overlay show"><img src="' + reportPhotoUrl +
+                '" class="overlay-image"></div>');
+            $('body').append(overlay);
+            overlay.click(function() {
+                overlay.remove();
+            });
+        });
     });
 
     function confirmModal(text) {

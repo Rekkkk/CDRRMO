@@ -45,7 +45,14 @@ class IncidentReportController extends Controller
 
                 return '<span class="message-text">Currently Disabled.</span>';
             })->addColumn('photo', function ($row) {
-                return '<div class="photo-container"><img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></img></div>';
+                return '<div class="photo-container">
+                            <div class="image-wrapper">
+                                <img class="report-img" src="' . asset('reports_image/' . $row->photo) . '">
+                                <div class="image-overlay">
+                                    <div class="overlay-text">View Photo</div>
+                                </div>
+                            </div>
+                        </div>';
             })
             ->rawColumns(['status', 'action', 'photo'])
             ->make(true);
@@ -66,7 +73,14 @@ class IncidentReportController extends Controller
             })->addColumn('action', function () {
                 return auth()->user()->is_disable == 0 ? '<button class="btn-table-remove removeIncidentReport"><i class="bi bi-trash3-fill"></i>Remove</button>' : '<span class="message-text">Currently Disabled.</span>';
             })->addColumn('photo', function ($row) {
-                return '<div class="photo-container"><img id="actualPhoto" src="' . asset('reports_image/' . $row->photo) . '"></div>';
+                return '<div class="photo-container">
+                            <div class="image-wrapper">
+                                <img class="report-img" src="' . asset('reports_image/' . $row->photo) . '">
+                                <div class="image-overlay">
+                                    <div class="overlay-text">View Photo</div>
+                                </div>
+                            </div>
+                        </div>';
             })
             ->rawColumns(['status', 'action', 'photo'])
             ->make(true);

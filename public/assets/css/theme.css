@@ -775,6 +775,7 @@ hr,
     grid-auto-flow: row;
     gap: 20px;
     grid-template-columns: repeat(4, minmax(0, 1fr));
+
 }
 
 .widget {
@@ -783,6 +784,8 @@ hr,
     overflow: hidden;
     border-radius: 15px;
     box-shadow: 0 0 19px -1px rgba(0, 0, 0, 0.2);
+    -webkit-animation: scaleIn 0.5s;
+    animation: scaleIn 0.5s;
 }
 
 .widget-logo {
@@ -982,9 +985,9 @@ hr,
     background: #1e293b;
 }
 
-#actualPhoto {
-    max-width: 100px;
-    max-height: 150px;
+.report-img {
+    width: 100px;
+    height: 80px;
 }
 
 .report-photo {
@@ -999,34 +1002,102 @@ hr,
     filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
-.incidentReportTable{
+.incidentReportTable {
     display: grid;
     gap: 16px;
 }
 
-.incident-report-container{
+.incident-report-container {
     background: var(--color-text);
     border-radius: 4px;
     filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
 }
 
-.incident-report-content{
+.incident-report-content {
     display: flex;
     padding: 16px;
     border-radius: 4px;
 }
 
-.report-photo-container{
+.report-photo-container {
     filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
 }
 
-.incident-report-details{
+.incident-report-details {
     padding: 16px;
     flex: 1;
 }
 
-.incident-report p{
+.incident-report p {
     margin: 0;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    z-index: 9999;
+    display: none;
+}
+
+.overlay.show {
+    display: flex;
+}
+
+.overlay.show .overlay-image {
+    animation: scaleIn 0.3s ease-in-out;
+}
+
+.overlay-image {
+    max-width: 80%;
+    max-height: 80vh;
+}
+
+.photo-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+}
+
+.image-wrapper {
+    position: relative;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    overflow: hidden;
+    background-color: #f5f5f5;
+}
+
+.image-overlay {
+    display: flex;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    left: 0;
+    width: 100%;
+    height: 40%;
+    background: rgba(0, 0, 0, 0.404);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(10px);
+    cursor: pointer;
+}
+
+.overlay-text {
+    color: white;
+    font-size: 12px;
+    font-weight: 700;
+    text-align: center;
+}
+
+.overlay-text:hover {
+    transform: scale(1.05);
 }
 
 /* Report Incident End Section*/
@@ -1758,3 +1829,18 @@ select.form-select option {
 }
 
 /* Mobile View End Section */
+
+/* Animations Start Here */
+@keyframes scaleIn {
+    0% {
+        opacity: 0;
+        transform: scale(0);
+    }
+
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Animations End */
