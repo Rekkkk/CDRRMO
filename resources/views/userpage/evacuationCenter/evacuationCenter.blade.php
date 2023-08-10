@@ -33,10 +33,10 @@
                 </div>
             </div>
             <div class="page-button-container">
-                <button type="button" class="btn-submit mr-3" id="locateNearestBtn" disabled>
+                <button type="button" class="mr-3" id="locateNearestBtn" disabled>
                     <i class="bi bi-search"></i>
                     Locate Nearest Active Evacuation</button>
-                <button type="button" class="btn-remove" id="locateCurrentLocationBtn">
+                <button type="button" id="locateCurrentLocationBtn">
                     <i class="bi bi-geo-fill"></i>
                     Locate Current Location</button>
             </div>
@@ -78,8 +78,11 @@
     </script>
     @include('partials.toastr')
     <script>
-        let map, activeInfoWindow, userMarker, userBounds, evacuationCentersData, evacuationCenterJson = [],
-            evacuationCenterTable, directionDisplay, directionService;
+        let map, activeInfoWindow, userMarker, userBounds, evacuationCentersData,
+            evacuationCenterTable, directionDisplay, directionService,
+            evacuationCenterJson = [],
+            intervalId = null,
+            locating = false;
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
@@ -87,14 +90,16 @@
                     lat: 14.242311,
                     lng: 121.12772
                 },
-                zoom: 13
+                zoom: 13,
+                mapTypeControlOptions: {
+                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                }
             });
 
             directionService = new google.maps.DirectionsService();
             directionDisplay = new google.maps.DirectionsRenderer({
                 map: map,
                 suppressMarkers: true,
-                preserveViewport: false,
                 markerOptions: {
                     icon: {
                         url: "{{ asset('assets/img/userMarker.png') }}",
@@ -102,6 +107,12 @@
                     },
                 },
             });
+
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'stop-btn-container';
+            buttonContainer.innerHTML = `<button id="stopLocatingBtn" class="btn-remove">Stop Locating</button>`;
+
+            map.controls[google.maps.ControlPosition.TOP_RIGHT].push(buttonContainer);
         }
 
         function initMarkers(evacuationCenters) {
@@ -126,9 +137,7 @@
                             <span>Capacity:</span> ${evacuationCenter.capacity}
                         </div>
                         <div class="info-description">
-                            <span>
-                                Status:
-                            </span>
+                            <span>Status:</span>
                             <span class="status-content bg-${getStatusColor(evacuationCenter.status)}">
                                 ${evacuationCenter.status}
                             </span>
@@ -208,6 +217,16 @@
             });
         }
 
+        function setMarker(userlocation) {
+            userMarker ?
+                (userMarker.setMap(map), userBounds.setMap(map),
+                    userMarker.setPosition(userlocation),
+                    userBounds.setCenter(userMarker.getPosition())) :
+                (userMarker = generateMarker(userlocation,
+                        "{{ asset('assets/img/userMarker.png') }}"),
+                    userBounds = generateCircle(userMarker.getPosition()));
+        }
+
         function getEvacuationCentersDistance() {
             getUserLocation()
                 .then((position) => {
@@ -218,7 +237,10 @@
                             !evacuationCenterJson.some(item =>
                                 item.latitude === data.latitude &&
                                 item.longitude === data.longitude)) {
-                            const request = {
+                            const direction = new google.maps.DirectionsService();
+
+                            promises.push(new Promise((resolve, reject) => {
+                                direction.route({
                                 origin: newLatLng(
                                     position.coords.latitude,
                                     position.coords.longitude),
@@ -226,12 +248,7 @@
                                     data.latitude,
                                     data.longitude),
                                 travelMode: google.maps.TravelMode.WALKING,
-                            };
-
-                            const direction = new google.maps.DirectionsService();
-
-                            promises.push(new Promise((resolve, reject) => {
-                                direction.route(request, function(response, status) {
+                            }, function(response, status) {
                                     if (status == 'OK') {
                                         evacuationCenterJson.push({
                                             latitude: data.latitude,
@@ -260,50 +277,36 @@
                 .then((position) => {
                     const {
                         latitude,
-                        longitude,
-                    } = findNearestActive ? evacuationCenterJson[0] : getRowData(row, evacuationCenterTable);
+                        longitude
+                    } = findNearestActive ?
+                        evacuationCenterJson[0] : getRowData(row, evacuationCenterTable);
 
-                    const request = {
+                    directionService.route({
                         origin: newLatLng(position.coords.latitude, position.coords.longitude),
                         destination: newLatLng(latitude, longitude),
                         travelMode: google.maps.TravelMode.WALKING,
-                    };
-
-                    directionService.route(request, function(response, status) {
-                        if (status == 'OK') {
-                            const userLocation = response.routes[0].legs[0].start_location;
-
-                            if (userMarker) {
-                                userMarker.setPosition(userLocation);
-                                userBounds.setCenter(userMarker.getPosition());
-                            } else {
-                                userMarker =
-                                    generateMarker(
-                                        userLocation,
-                                        "{{ asset('assets/img/userMarker.png') }}"
-                                    );
-                                userBounds = generateCircle(userMarker.getPosition());
-                            }
-
+                    }, function(response, status) {
+                        if (status == 'OK' && locating) {
                             directionDisplay.setMap(map);
+                            directionDisplay.setDirections(response);
 
-                            generateInfoWindow(
-                                userMarker,
+                            setMarker(response.routes[0].legs[0].start_location);
+
+                            generateInfoWindow(userMarker,
                                 `<div class="info-window-container">
-                                        <div class="info-description">
-                                            <center>You are here.</center>
-                                        </div>
-                                        <div class="info-description">
-                                            <span>Pathway distance to evacuation: </span>${getKilometers(response)} km</span>
-                                        </div>
-                                    </div>`
+                                    <center>You are here.</center>
+                                    <div class="info-description">
+                                        <span>Pathway distance to evacuation: </span>${getKilometers(response)} km
+                                    </div>
+                                </div>`
                             );
 
-                            directionDisplay.setDirections(response);
-                            scrollToMap();
+                            if ($('.stop-btn-container').is(':hidden')) {
+                                $('.stop-btn-container').show();
+                            }
                         }
                     });
-                })
+                });
         }
 
         function scrollToMap() {
@@ -313,10 +316,6 @@
         }
 
         $(document).ready(() => {
-            let url = '{{ $prefix }}' == 'resident' ?
-                "{{ route('resident.evacuation.center.get', 'locator') }}" :
-                "{{ route('evacuation.center.get', 'locator') }}";
-
             evacuationCenterTable = $('.evacuationCenterTable').DataTable({
                 language: {
                     emptyTable: '<div class="message-text">There are currently no evacuation centers available.</div>',
@@ -325,7 +324,9 @@
                 responsive: true,
                 processing: false,
                 serverSide: true,
-                ajax: url,
+                ajax: '{{ $prefix }}' == 'resident' ?
+                    "{{ route('resident.evacuation.center.get', 'locator') }}" :
+                    "{{ route('evacuation.center.get', 'locator') }}",
                 columns: [{
                         data: 'name',
                         name: 'name'
@@ -365,13 +366,11 @@
                 columnDefs: [{
                     targets: 5,
                     render: function(data) {
-                        return `
-                            <div class="status-container">
-                                <div class="status-content bg-${getStatusColor(data)}">
-                                    ${data}
-                                </div>
-                            </div>
-                        `;
+                        return `<div class="status-container">
+                                    <div class="status-content bg-${getStatusColor(data)}">
+                                        ${data}
+                                    </div>
+                                </div>`;
                     }
                 }],
                 drawCallback: function() {
@@ -382,26 +381,17 @@
             });
 
             $(document).on("click", "#locateCurrentLocationBtn", function() {
-                getUserLocation()
+                if (!locating)
+                    getUserLocation()
                     .then((position) => {
                         if (directionDisplay) directionDisplay.setMap(null);
 
-                        const userLocation = newLatLng(
+                        setMarker(newLatLng(
                             position.coords.latitude,
                             position.coords.longitude
-                        );
+                        ));
 
-                        if (userMarker) {
-                            userMarker.setPosition(userLocation);
-                            userBounds.setCenter(userMarker.getPosition());
-                        } else {
-                            userMarker = generateMarker(userLocation,
-                                "{{ asset('assets/img/userMarker.png') }}");
-                            userBounds = generateCircle(userMarker.getPosition());
-                        }
-
-                        generateInfoWindow(
-                            userMarker,
+                        generateInfoWindow(userMarker,
                             `<div class="info-window-container">
                                 <div class="info-description">
                                     <center>You are here.</center>
@@ -409,13 +399,31 @@
                             </div>`
                         );
 
-                        map.fitBounds(userBounds.getBounds());
+                        map.setCenter(userMarker.getPosition());
+                        map.setZoom(18);
                         scrollToMap();
                     });
             });
 
             $(document).on("click", "#locateNearestBtn, .locateEvacuationCenter", function() {
-                locateEvacuationCenter(this.id == "locateNearestBtn" ? true : false, this);
+                if (!locating) {
+                    const findNearestActive = this.id == "locateNearestBtn" ? true : false;
+                    locating = true;
+                    locateEvacuationCenter(findNearestActive, this);
+                    intervalId = setInterval(() => locateEvacuationCenter(findNearestActive, this), 20000);
+                    scrollToMap();
+                }
+            });
+
+            $(document).on("click", "#stopLocatingBtn", function() {
+                clearInterval(intervalId);
+                directionDisplay.setMap(null);
+                userMarker.setMap(null);
+                userBounds.setMap(null);
+                $('.stop-btn-container').hide();
+                map.setZoom(12);
+                map.setCenter(newLatLng(14.242311, 121.12772));
+                locating = false;
             });
         });
     </script>
