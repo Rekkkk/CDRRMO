@@ -23,7 +23,6 @@
                 <span>INCIDENT REPORT</span>
             </div>
             <hr>
-            <br>
             <div class="table-container">
                 <div class="table-content">
                     <header class="table-label">Pending Incident Report</header>
