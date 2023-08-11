@@ -245,8 +245,7 @@ hr,
 /* Main Content Start Here */
 .main-content {
     width: 100%;
-    margin: 100px auto 0;
-    margin-bottom: 30px;
+    margin: 100px auto 30px;
     padding: 0 20px 0 90px;
     transition: 0.2s all ease-in-out;
 }
