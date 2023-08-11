@@ -16,18 +16,14 @@
         <div class="main-content">
             <div class="label-container">
                 <div class="icon-container">
-                    <div class="icon-content">
-                        <i class="bi bi-house"></i>
-                    </div>
+                    <div class="icon-content"><i class="bi bi-house"></i></div>
                 </div>
                 <span>EVACUATION CENTER LOCATOR</span>
             </div>
             <hr>
             <div class="locator-content">
                 <div class="locator-header">
-                    <div class="header-title">
-                        <span>Cabuyao City Map</span>
-                    </div>
+                    <div class="header-title"><span>Cabuyao City Map</span></div>
                 </div>
                 <div class="map-section">
                     <div class="locator-map" id="map"></div>
@@ -35,11 +31,9 @@
             </div>
             <div class="page-button-container">
                 <button type="button" class="mr-3" id="locateNearestBtn" disabled>
-                    <i class="bi bi-search"></i>
-                    Locate Nearest Active Evacuation</button>
+                    <i class="bi bi-search"></i>Locate Nearest Active Evacuation</button>
                 <button type="button" id="locateCurrentLocationBtn">
-                    <i class="bi bi-geo-fill"></i>
-                    Locate Current Location</button>
+                    <i class="bi bi-geo-fill"></i>Locate Current Location</button>
             </div>
             <div class="table-container">
                 <div class="table-content">
@@ -61,6 +55,7 @@
             </div>
         </div>
     </div>
+    
     @auth
         @include('userpage.changePasswordModal')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -93,7 +88,7 @@
                 },
                 zoom: 13,
                 mapTypeControlOptions: {
-                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU,
+                    style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
                 }
             });
 
@@ -104,9 +99,9 @@
                 markerOptions: {
                     icon: {
                         url: "{{ asset('assets/img/userMarker.png') }}",
-                        scaledSize: new google.maps.Size(35, 35),
-                    },
-                },
+                        scaledSize: new google.maps.Size(35, 35)
+                    }
+                }
             });
 
             const buttonContainer = document.createElement('div');
@@ -188,7 +183,7 @@
                 fillOpacity: 0.3,
                 strokeColor: "#557ed8",
                 strokeOpacity: 0.8,
-                strokeWeight: 2,
+                strokeWeight: 2
             });
         }
 
@@ -349,6 +344,7 @@
                     {
                         data: 'capacity',
                         name: 'capacity',
+                        width: '1rem',
                         orderable: false,
                         searchable: false
                     },
@@ -378,7 +374,7 @@
                     evacuationCentersData = this.api().ajax.json().data;
                     initMarkers(evacuationCentersData);
                     getEvacuationCentersDistance();
-                },
+                }
             });
 
             $(document).on("click", "#locateCurrentLocationBtn", function() {

@@ -184,7 +184,7 @@
                         barangayName: 'Please select a barangay.',
                         capacity: {
                             required: 'Please enter evacuation center capacity.',
-                            numeric: 'Please enter a valid number.'
+                            number: 'Please enter a valid number.'
                         }
                     },
                     showErrors: function(errorMap, errorList) {

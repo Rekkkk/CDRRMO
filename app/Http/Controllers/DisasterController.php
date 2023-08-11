@@ -37,9 +37,9 @@ class DisasterController extends Controller
                         $statusOptions = $row->status == 'On Going' ? '<option value="Inactive">Inactive</option>' : '<option value="On Going">On Going</option>';
 
                         return '<div class="action-container">' .
-                            '<button class="btn-table-update updateDisaster"><i class="bi bi-pencil-square"></i>Update</button>' .
-                            '<button class="btn-table-remove removeDisaster"><i class="bi bi-trash3-fill"></i>Remove</button>' .
-                            '<select class="form-select changeDisasterStatus">' .
+                            '<button class="btn-table-update" id="updateDisaster"><i class="bi bi-pencil-square"></i>Update</button>' .
+                            '<button class="btn-table-remove" id="removeDisaster"><i class="bi bi-trash3-fill"></i>Remove</button>' .
+                            '<select class="form-select" id="changeDisasterStatus">' .
                             '<option value="" disabled selected hidden>Change Status</option>' . $statusOptions . '</select></div>';
                     }
 
@@ -62,7 +62,7 @@ class DisasterController extends Controller
             return response(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
 
         $this->disaster->create([
-            'name' => Str::ucsplit(trim($request->name)),
+            'name' => trim($request->name),
             'status' => "On Going",
             'is_archive' => 0
         ]);
@@ -80,7 +80,7 @@ class DisasterController extends Controller
             return response()->json(['status' => 'warning', 'message' => $validatedDisasterData->errors()->first()]);
 
         $this->disaster->find($disasterId)->update([
-            'name' => Str::ucsplit(trim($request->name))
+            'name' => trim($request->name)
         ]);
         $this->logActivity->generateLog('Updating Disaster Data');
         return response()->json();
