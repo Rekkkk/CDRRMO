@@ -37,7 +37,6 @@ class IncidentReport implements ShouldBroadcast
     function revertReport($accidentReportId, $reportPhotoPath)
     {
         $this->incidentReport = new Reporting;
-    
         $image_path = public_path('reports_image/' .$reportPhotoPath);
         
         if(file_exists($image_path)){

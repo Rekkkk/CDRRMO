@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Events\EvacuationCenterLocator;
 use App\Models\Evacuee;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
@@ -73,6 +74,7 @@ class EvacuationCenterController extends Controller
             'status' => 'Active'
         ]);
         $this->logActivity->generateLog('Adding new evacuation center');
+        // event(new EvacuationCenterLocator());
         return response()->json();
     }
 
@@ -96,6 +98,7 @@ class EvacuationCenterController extends Controller
             'capacity' => trim($request->capacity)
         ]);
         $this->logActivity->generateLog('Updating evacuation center');
+        // event(new EvacuationCenter());
         return response()->json();
     }
 
@@ -103,6 +106,7 @@ class EvacuationCenterController extends Controller
     {
         $this->evacuationCenter->find($evacuationId)->delete();
         $this->logActivity->generateLog('Removing evacuation center');
+        // event(new EvacuationCenter());
         return response()->json();
     }
 
@@ -112,6 +116,7 @@ class EvacuationCenterController extends Controller
             'status' => $request->status
         ]);
         $this->logActivity->generateLog('Changing evacuation center status');
+        // event(new EvacuationCenter());
         return response()->json();
     }
 }

@@ -5,7 +5,8 @@
     @include('partials.headPackage')
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">]
+    {{-- @vite(['resources/js/app.js']) --}}
 </head>
 
 <body>
@@ -241,14 +242,14 @@
 
                             promises.push(new Promise((resolve, reject) => {
                                 direction.route({
-                                origin: newLatLng(
-                                    position.coords.latitude,
-                                    position.coords.longitude),
-                                destination: newLatLng(
-                                    data.latitude,
-                                    data.longitude),
-                                travelMode: google.maps.TravelMode.WALKING,
-                            }, function(response, status) {
+                                    origin: newLatLng(
+                                        position.coords.latitude,
+                                        position.coords.longitude),
+                                    destination: newLatLng(
+                                        data.latitude,
+                                        data.longitude),
+                                    travelMode: google.maps.TravelMode.WALKING,
+                                }, function(response, status) {
                                     if (status == 'OK') {
                                         evacuationCenterJson.push({
                                             latitude: data.latitude,
@@ -425,6 +426,10 @@
                 map.setCenter(newLatLng(14.242311, 121.12772));
                 locating = false;
             });
+
+            // Echo.channel('evacuation-center-locator').listen('EvacuationCenterLocator', (e) => {
+            //     evacuationCenterTable.draw();
+            // })
         });
     </script>
 </body>

@@ -448,8 +448,8 @@
         @endguest
 
         // Echo.channel('incident-report').listen('IncidentReport', (e) => {
-        //     pendingReport.draw();
-        //     incidentReports.draw();
+        // pendingReport.draw();
+        // incidentReports.draw();
         // })
         });
     </script>
