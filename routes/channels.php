@@ -9,3 +9,7 @@ Broadcast::channel('active-evacuees', function () {
 Broadcast::channel('incident-report', function () {
     return true;
 });
+
+Broadcast::channel('evacuation-center-locator', function () {
+    return true;
+});
