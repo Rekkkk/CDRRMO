@@ -40,7 +40,7 @@
                         </div>
                         <div class="field-container">
                             <label>Capacity</label>
-                            <input type="number" name="capacity" class="form-control" autocomplete="off"
+                            <input type="text" name="capacity" class="form-control" autocomplete="off"
                                 placeholder="Enter Capacity" id="capacity">
                         </div>
                         <div class="field-container">

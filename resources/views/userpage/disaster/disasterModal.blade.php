@@ -10,7 +10,7 @@
                     <div class="form-content">
                         <input type="text" id="operation" hidden>
                         <div class="field-container">
-                            <label>Name</label>
+                            <label>Disaster Name</label>
                             <input type="text" name="name" class="form-control" autocomplete="off"
                                 placeholder="Enter Disaster Name" id="disasterName">
                         </div>
