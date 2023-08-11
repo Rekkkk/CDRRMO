@@ -20,12 +20,9 @@
                 <span>DASHBOARD</span>
             </div>
             <hr>
-
             <div class="report-container">
-                <p> Current Disaster:
-                    @foreach ($onGoingDisaster as $disasters)
-                        <span>{{ $disasters->name }} | </span>
-                    @endforeach
+                <p>Current Disaster:
+                    <span>{{ $onGoingDisasters->isEmpty() ? 'No Disaster' : implode(' | ', $onGoingDisasters->pluck('name')->toArray()) }}</span>
                 </p>
                 @if (auth()->user()->position == 'President' || auth()->user()->position == 'Focal')
                     <div class="generate-button-container">
@@ -46,19 +43,39 @@
                                             @csrf
                                             <div class="form-content">
                                                 <div class="field-container">
-                                                    <label>On Going Disaster</label>
-                                                    <select name="disaster_id" id="disaster_id" class="form-select">
+                                                    <label>Disaster Status</label>
+                                                    <select name="select_status" id="select_status" class="form-select">
+                                                        <option value="" hidden disabled selected>Select Status
+                                                        </option>
+                                                        <option value="Inactive">Inactive</option>
+                                                        <option value="On Going">On Going</option>
+                                                    </select>
+                                                </div>
+                                                <div class="field-container" id="inactive_disaster" hidden>
+                                                    <label>Inactive Disaster</label>
+                                                    <select name="disaster_id" class="form-select">
                                                         <option value="" hidden disabled selected>Select Disaster
                                                         </option>
-                                                        @foreach ($onGoingDisaster as $disaster)
+                                                        @foreach ($inactiveDisasters as $disaster)
                                                             <option value="{{ $disaster->id }}">
                                                                 {{ $disaster->name }}</option>
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                                <div class="form-button-container">
-                                                    <button class="btn-submit">Generate</button>
+                                                <div class="field-container" id="on_going_disaster" hidden>
+                                                    <label>On Going Disaster</label>
+                                                    <select name="disaster_id" class="form-select">
+                                                        <option value="" hidden disabled selected>Select Disaster
+                                                        </option>
+                                                        @foreach ($onGoingDisasters as $disaster)
+                                                            <option value="{{ $disaster->id }}">
+                                                                {{ $disaster->name }}</option>
+                                                        @endforeach
+                                                    </select>
                                                 </div>
+                                            </div>
+                                            <div class="form-button-container">
+                                                <button class="btn-submit">Generate</button>
                                             </div>
                                         </form>
                                     </div>
@@ -94,7 +111,7 @@
                     </div>
                 </div>
             </div>
-            @foreach ($onGoingDisaster as $count => $disaster)
+            @foreach ($onGoingDisasters as $count => $disaster)
                 <figure class="chart-container">
                     <div id="evacueePie{{ $count + 1 }}" class="pie-chart"></div>
                     <div id="evacueeGraph{{ $count + 1 }}" class="bar-graph"></div>
@@ -119,6 +136,9 @@
     @include('partials.toastr')
     <script>
         $(document).ready(function() {
+            let onGoingDisaster = $('#on_going_disaster'),
+                inactiveDisaster = $('#inactive_disaster');
+
             @foreach ($disasterData as $count => $disaster)
                 Highcharts.chart('evacueePie{{ $count + 1 }}', {
                     chart: {
@@ -217,15 +237,26 @@
 
             let validator = $("#generateReportForm").validate({
                 rules: {
+                    select_status: 'required',
                     disaster_id: 'required'
                 },
                 messages: {
+                    select_status: 'Please select status.',
                     disaster_id: 'Please select disaster.'
                 },
                 errorElement: 'span'
             });
 
+            $(document).on('change', '#select_status', function() {
+                let isActive = $(this).val() !== "Inactive";
+                onGoingDisaster.prop('hidden', !isActive);
+                inactiveDisaster.prop('hidden', isActive);
+            });
 
+            $('#generateReportModal').on('hidden.bs.modal', function() {
+                onGoingDisaster.add(inactiveDisaster).prop('hidden', true);
+                $('#generateReportForm').trigger("reset");
+            });
         });
     </script>
     {{-- <script>

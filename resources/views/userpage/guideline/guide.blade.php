@@ -19,7 +19,7 @@
                 <span>GUIDES</span>
             </div>
             <hr>
-            <div class="guide-btn flex justify-end my-3">
+            <div class="guide-btn">
                 @if (auth()->check() && auth()->user()->is_disable == 0)
                     <a href="javascript:void(0)" class="btn-submit createGuideBtn">
                         <i class="bi bi-plus-lg mr-2"></i> Create Guide
@@ -28,7 +28,7 @@
                     @include('userpage.guideline.guideModal')
                 @endif
             </div>
-            <div class="guide-container">
+            {{-- <div class="guide-container">
                 @foreach ($guide as $guide)
                     <div class="guide-widget">
                         @auth
@@ -64,7 +64,7 @@
                         @endguest
                     </div>
                 @endforeach
-            </div>
+            </div> --}}
             @auth
                 @include('userpage.changePasswordModal')
             @endauth
@@ -150,7 +150,9 @@
                                         if (response.status == 'warning') {
                                             showWarningMessage(response.message);
                                         } else {
-                                            showSuccessMessage('Guide removed successfully, Please wait...');
+                                            showSuccessMessage(
+                                                'Guide removed successfully, Please wait...'
+                                            );
                                         }
                                     },
                                     error: function() {
@@ -176,7 +178,6 @@
                         confirmModal(`Do you want to ${operation} this guide?`).then((result) => {
                             if (result.isConfirmed) {
                                 if (operation == 'update' && defaultFormData == formData) {
-                                    $('#guideModal').modal('hide');
                                     showWarningMessage('No changes were made.');
                                     return;
                                 }
@@ -188,7 +189,8 @@
                                         if (response.status == 'warning') {
                                             showWarningMessage(response.message);
                                         } else {
-                                            showSuccessMessage(`Guide successfully ${operation}d, Please wait...`);
+                                            showSuccessMessage(
+                                                `Guide successfully ${operation}d, Please wait...`);
                                             $('#guideForm')[0].reset();
                                             $('#guideModal').modal('hide');
                                         }

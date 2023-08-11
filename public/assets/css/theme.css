@@ -865,10 +865,41 @@ hr,
     margin-top: 20px;
 }
 
+.content-item {
+    text-align: center;
+    margin-top: 16px;
+}
+
 .guideline-widget,
 .guide-widget {
     position: relative;
     max-width: 300px;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+}
+
+#updateGuidelineBtn {
+    position: absolute;
+    left: 8px;
+    top: 12px;
+    border: none;
+}
+
+#updateGuidelineBtn i,
+#removeGuidelineBtn i {
+    padding: 8px;
+}
+
+#removeGuidelineBtn {
+    position: absolute;
+    right: 8px;
+    top: 12px;
+    border: none;
+}
+
+#updateGuidelineBtn:hover,
+#removeGuidelineBtn:hover,
+#createGuidelineBtn:hover {
+    transform: scale(1.05);
 }
 
 .guideline-content,
@@ -879,6 +910,10 @@ hr,
     background: var(--color-text);
     filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     border-radius: 4px;
+}
+
+.guideline-content img {
+    width: 100%;
 }
 
 .guideline-type,
@@ -894,18 +929,37 @@ hr,
     background: var(--color-gray);
 }
 
+.guideline-type p {
+    text-transform: uppercase;
+}
+
 .guideline-btn {
     width: 288px;
+}
+
+.guideline-btn .btn-container button {
+    margin: 112px 0;
+    border: none;
+}
+
+.guideline-btn .btn-container button i {
+    padding: 8px;
+    font-size: 18px;
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .guideline-btn div {
     display: flex;
     width: 100%;
     height: 100%;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     justify-content: center;
     align-items: center;
-    color: var(--color-gray);
+}
+
+.guide-btn {
+    display: flex;
+    justify-content: end;
+    margin: 12px;
 }
 
 /* Guideline End Section */
@@ -920,7 +974,7 @@ hr,
 
 .locator-header {
     text-align: center;
-    color: white;
+    color: var(--color-text);
     background-color: var(--color-red);
     border-radius: 0.375rem 0.375rem 0 0;
 }
@@ -1105,7 +1159,7 @@ hr,
 }
 
 .overlay-text {
-    color: white;
+    color: var(--color-text);
     font-size: 12px;
     font-weight: 700;
     text-align: center;
@@ -1225,17 +1279,66 @@ hr,
     position: relative;
     background: var(--color-text);
     height: 100%;
+    margin-top: 18px;
     margin-bottom: 10px;
+    border-radius: 4px;
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+}
+
+.profile-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 16px 0;
+}
+
+.profile-img {
+    width: 240px;
+    height: 240px;
+    border-radius: 50%;
+    background: #cbd5e1;
+    border: 4px solid #60A5FA;
+    overflow: hidden;
+}
+
+.edit-profile-btn {
+    display: flex;
+    justify-content: end;
+    margin-top: -0.5rem;
+    margin-bottom: -0.5rem;
+    padding-right: 1.5rem;
+}
+
+.edit-profile-btn button {
+    padding: 8px 12px;
+}
+
+.edit-profile-btn button i{
+    padding-right: 8px;
+}
+
+.user-profile-container hr{
+    margin: 22px 24px 16px 24px;
+}
+
+.profile-details-container{
+    display: flex;
+    flex-wrap: wrap;
+    text-align: center;
+    padding-bottom: 8px;
 }
 
 .profile-details-label {
     width: 100%;
+    background: var(--color-red);
     color: var(--color-text);
     padding: 8px;
     font-size: 16px;
     line-height: 28px;
     font-weight: 600;
     letter-spacing: 0.025em;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
 }
 
 .profile-details {
@@ -1243,11 +1346,12 @@ hr,
     padding: 8px 0;
     font-weight: 700;
     filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    border-bottom-right-radius: 0.25rem;
+    border-bottom-left-radius: 0.25rem;
 }
 
 .details-section {
     position: relative;
-    width: 100%;
     margin-bottom: 16px;
     padding: 0 24px;
 }
@@ -1255,8 +1359,14 @@ hr,
 #profile {
     position: relative;
     margin-top: 20px;
+    width: 100%;
     background-attachment: fixed;
     background-size: cover;
+}
+
+#userProfileForm{
+    position: relative;
+    flex: 1 1 auto;
 }
 
 /* User Profile End Section */
@@ -1389,7 +1499,7 @@ input::-ms-clear {
 
 .locator-header {
     text-align: center;
-    color: white;
+    color: var(--color-text);
     background-color: #DC2626;
     border-radius: 0.375rem 0.375rem 0 0;
 }
@@ -1423,7 +1533,7 @@ span.success {
 
 #change-button-container {
     width: 100%;
-    padding: 13px 18px 20px 0;
+    padding: 13px 18px 20px;
 }
 
 .form-button-container {
@@ -1477,7 +1587,7 @@ table td {
     width: 120px;
     border-radius: 9999px;
     padding: 6px 8px;
-    color: white;
+    color: var(--color-text);
     font-weight: bold;
 }
 
@@ -1654,6 +1764,10 @@ select.form-select option {
 
     .dropdown button {
         margin: 0 -19px;
+    }
+
+    .profile-details-container{
+        display: block;
     }
 }
 

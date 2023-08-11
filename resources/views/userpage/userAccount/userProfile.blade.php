@@ -19,46 +19,46 @@
                 <span>MY PROFILE</span>
             </div>
             <hr>
-            <div class="user-profile-container rounded shadow-lg mt-3">
-                <div class="profile-section flex justify-center items-center py-4">
-                    <div class="bg-slate-300 w-60 h-60 rounded-full overflow-hidden border-4 border-blue-500">
+            <div class="user-profile-container">
+                <div class="profile-section">
+                    <div class="profile-img">
                         <img src="{{ asset('assets/img/profile.png') }}" alt="Profile" id="profile">
                     </div>
                 </div>
                 @if (auth()->user()->is_disable == 0)
-                    <div class="flex justify-end -my-2 pr-6">
-                        <button class="btn-update px-3 py-2" id="editProfileBtn">
-                            <i class="bi bi-pencil-square pr-2"></i>
+                    <div class="edit-profile-btn">
+                        <button class="btn-update" id="editProfileBtn">
+                            <i class="bi bi-pencil-square"></i>
                             Edit Profile
                         </button>
                     </div>
                 @endif
-                <hr class="mx-6 mb-3">
-                <form id='userProfileForm' class="relative flex-auto">
-                    <div class="flex flex-wrap text-center pb-2">
-                        <div class="details-section lg:w-2/12">
-                            <label class="bg-red-700 rounded-t profile-details-label">Position</label>
-                            <p class="profile-details rounded-b">{{ auth()->user()->position }}</p>
+                <hr>
+                <form id="userProfileForm">
+                    <div class="profile-details-container">
+                        <div class="details-section col-lg-2">
+                            <label class="profile-details-label">Position</label>
+                            <p class="profile-details">{{ auth()->user()->position }}</p>
                         </div>
-                        <div class="details-section lg:w-4/12">
-                            <label class="bg-red-700 rounded-t profile-details-label">Organization</label>
+                        <div class="details-section col-lg-4">
+                            <label class="profile-details-label">Organization</label>
                             @if (auth()->user()->organization == 'CDRRMO')
-                                <p class="profile-details rounded-b">Cabuyao Disaster Risk Reduction
+                                <p class="profile-details">Cabuyao Disaster Risk Reduction
                                     and Management Office (CDRRMO)</p>
                             @else
-                                <p class="profile-details rounded-b">City Social Welfare and
+                                <p class="profile-details">City Social Welfare and
                                     Development (CSWD)
                                 </p>
                             @endif
                         </div>
-                        <div class="details-section lg:w-4/12">
-                            <label class="bg-red-700 rounded-t profile-details-label">Email
+                        <div class="details-section col-lg-4">
+                            <label class="profile-details-label">Email
                                 Address</label>
-                            <p class="profile-details rounded-b">{{ auth()->user()->email }}</p>
+                            <p class="profile-details">{{ auth()->user()->email }}</p>
                         </div>
-                        <div class="details-section lg:w-2/12">
-                            <label class="bg-red-700 rounded-t profile-details-label">Account Status</label>
-                            <p class="profile-details rounded-b">{{ auth()->user()->status }}</p>
+                        <div class="details-section col-lg-2">
+                            <label class="profile-details-label">Account Status</label>
+                            <p class="profile-details">{{ auth()->user()->status }}</p>
                         </div>
                     </div>
                 </form>
@@ -139,7 +139,6 @@
                                     }
                                 },
                                 error: function() {
-                                    modal.modal('hide');
                                     showErrorMessage();
                                 }
                             });

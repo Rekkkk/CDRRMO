@@ -19,25 +19,25 @@
                 <span>E-LIGTAS GUIDELINES</span>
             </div>
             <hr>
-            <div class="content-item text-center mt-3">
+            <div class="content-item">
                 <div class="guideline-container">
                     @foreach ($guideline as $guidelineItem)
-                        <div class="guideline-widget shadow-lg">
+                        <div class="guideline-widget">
                             @auth
                                 @if (auth()->user()->is_disable == 0)
-                                    <button class="absolute left-2 top-3 hover:scale-105" id="updateGuidelineBtn">
-                                        <i class="btn-update bi bi-pencil-square p-2"></i>
+                                    <button id="updateGuidelineBtn">
+                                        <i class="btn-update bi bi-pencil-square"></i>
                                     </button>
-                                    <button class="absolute top-3 right-2 hover:scale-105" id="removeGuidelineBtn">
-                                        <i class="btn-remove bi bi-x-lg cursor-pointer p-2"></i>
+                                    <button id="removeGuidelineBtn">
+                                        <i class="btn-remove bi bi-x-lg"></i>
                                     </button>
                                 @endif
                                 <a class="guidelines-item"
                                     href="{{ route('guide.display', Crypt::encryptString($guidelineItem->id)) }}">
                                     <div class="guideline-content">
-                                        <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
+                                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
                                         <div class="guideline-type">
-                                            <p class="uppercase">{{ $guidelineItem->type }}</p>
+                                            <p>{{ $guidelineItem->type }}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -46,9 +46,9 @@
                                 <a class="guidelines-item"
                                     href="{{ route('resident.guide', Crypt::encryptString($guidelineItem->id)) }}">
                                     <div class="guideline-content">
-                                        <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
+                                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
                                         <div class="guideline-type">
-                                            <p class="uppercase">{{ $guidelineItem->type }}</p>
+                                            <p>{{ $guidelineItem->type }}</p>
                                         </div>
                                     </div>
                                 </a>
@@ -58,8 +58,8 @@
                     @if (auth()->check() && auth()->user()->is_disable == 0)
                         <div class="guideline-btn">
                             <div class="btn-container">
-                                <button class="py-28 hover:scale-105" id="createGuidelineBtn">
-                                    <i class="btn-submit bi bi-plus-lg text-lg p-2 "></i>
+                                <button id="createGuidelineBtn">
+                                    <i class="btn-submit bi bi-plus-lg"></i>
                                 </button>
                             </div>
                         </div>

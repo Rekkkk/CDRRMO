@@ -22,37 +22,33 @@ class MainController extends Controller
         $this->disaster = new Disaster;
         $this->evacuationCenter = new EvacuationCenter;
     }
+
     public function dashboard()
     {
-        $onGoingDisaster = $this->disaster->where('status', "On Going")->get();
-        $activeEvacuation = $this->evacuationCenter->where('status', 'Active')->count();
         $totalEvacuee = 0;
         $disasterData = [];
+        $inactiveDisasters = $this->disaster->where('status', "Inactive")->get();
+        $onGoingDisasters = $this->disaster->where('status', "On Going")->get();
+        $activeEvacuation = $this->evacuationCenter->where('status', "Active")->count();
 
-        foreach ($onGoingDisaster as $disaster) {
+        foreach ($onGoingDisasters as $disaster) {
             $totalEvacuee += $this->evacuee->where('disaster_id', $disaster->id)->sum('individuals');
-            $result = $this->evacuee->where('disaster_id', $disaster->id)
+            $result = $this->evacuee
+                ->where('disaster_id', $disaster->id)
                 ->selectRaw('SUM(male) as totalMale, 
-                    SUM(female) as totalFemale, SUM(senior_citizen) as totalSeniorCitizen, 
-                    SUM(minors) as totalMinors, SUM(infants) as totalInfants, 
-                    SUM(pwd) as totalPwd, SUM(pregnant) as totalPregnant, 
+                    SUM(female) as totalFemale, 
+                    SUM(senior_citizen) as totalSeniorCitizen, 
+                    SUM(minors) as totalMinors, 
+                    SUM(infants) as totalInfants, 
+                    SUM(pwd) as totalPwd, 
+                    SUM(pregnant) as totalPregnant, 
                     SUM(lactating) as totalLactating')
                 ->first();
-                
-            $disasterData[] = [
-                'disasterName' => $disaster->name,
-                'totalMale' => $result->totalMale,
-                'totalFemale' => $result->totalFemale,
-                'totalSeniorCitizen' => $result->totalSeniorCitizen,
-                'totalMinors' => $result->totalMinors,
-                'totalInfants' => $result->totalInfants,
-                'totalPwd' => $result->totalPwd,
-                'totalPregnant' => $result->totalPregnant,
-                'totalLactating' => $result->totalLactating,
-            ];
+
+            $disasterData[] = array_merge(['disasterName' => $disaster->name], $result->toArray());
         }
 
-        return view('userpage.dashboard',  compact('activeEvacuation', 'disasterData', 'totalEvacuee', 'onGoingDisaster'));
+        return view('userpage.dashboard',  compact('activeEvacuation', 'disasterData', 'totalEvacuee', 'onGoingDisasters', 'inactiveDisasters'));
     }
 
     public function generateExcelEvacueeData(Request $request)
