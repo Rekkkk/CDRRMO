@@ -11,6 +11,7 @@ use Yajra\DataTables\DataTables;
 use App\Mail\UserCredentialsMail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
 class UserAccountsController extends Controller
@@ -25,42 +26,42 @@ class UserAccountsController extends Controller
 
     public function userAccounts(Request $request)
     {
-        if ($request->ajax()) {
-            $userAccounts = $this->user->all();
-            $userId = auth()->user()->id;
+        if (!$request->ajax()) return view('userpage.userAccount.userAccounts');
 
-            $userAccounts = auth()->user()->organization == "CSWD" ? $userAccounts->whereNotIn('id', [$userId]) :
-                $userAccounts->where('organization', 'CDRRMO')->whereNotIn('id', [$userId]);
+        $userAccounts = $this->user->all();
+        $userId = auth()->user()->id;
+        $userAccounts = auth()->user()->organization == "CSWD" ? $userAccounts->whereNotIn('id', [$userId]) :
+            $userAccounts->where('organization', 'CDRRMO')->whereNotIn('id', [$userId]);
 
-            return DataTables::of($userAccounts)
-                ->addIndexColumn()
-                ->addColumn('status', function ($row) {
-                    $color = match ($row->status) {
-                        'Active' => 'success',
-                        'Disabled' => 'danger',
-                        'Suspended' => 'warning'
-                    };
+        return DataTables::of($userAccounts)
+            ->addIndexColumn()
+            ->addColumn('id', function ($account) {
+                return Crypt::encryptString($account->id);
+            })
+            ->addColumn('status', function ($account) {
+                $color = match ($account->status) {
+                    'Active' => 'success',
+                    'Disabled' => 'danger',
+                    'Suspended' => 'warning'
+                };
 
-                    return '<div class="status-container"><div class="status-content bg-' . $color . '">' . $row->status . '</div></div>';
-                })->addColumn('action', function ($user) {
-                    if (auth()->user()->is_disable == 0) {
-                        $actionBtns = '<div class="action-container"><select class="form-select actionSelect">
+                return '<div class="status-container"><div class="status-content bg-' . $color . '">' . $account->status . '</div></div>';
+            })->addColumn('action', function ($user) {
+                if (auth()->user()->is_disable == 0) {
+                    $actionBtns = '<div class="action-container"><select class="form-select actionSelect">
                         <option value="" disabled selected hidden>Select Action</option>';
 
-                        $actionBtns .= $user->is_suspend == 0 && $user->is_disable == 0
-                            ? '<option value="disableAccount">Disable Account</option><option value="suspendAccount">Suspend Account</option>'
-                            : ($user->is_suspend == 1 ? '<option value="openAccount">Open Account</option>' : '<option value="enableAccount">Enable Account</option>');
+                    $actionBtns .= $user->is_suspend == 0 && $user->is_disable == 0
+                        ? '<option value="disableAccount">Disable Account</option><option value="suspendAccount">Suspend Account</option>'
+                        : ($user->is_suspend == 1 ? '<option value="openAccount">Open Account</option>' : '<option value="enableAccount">Enable Account</option>');
 
-                        return $actionBtns .= '<option value="updateAccount">Update Account</option><option value="removeAccount">Remove Account</option></select></div>';
-                    }
+                    return $actionBtns .= '<option value="updateAccount">Update Account</option><option value="removeAccount">Remove Account</option></select></div>';
+                }
 
-                    return '<span class="message-text">Currently Disabled.</span>';
-                })
-                ->rawColumns(['status', 'action'])
-                ->make(true);
-        }
-
-        return view('userpage.userAccount.userAccounts');
+                return '<span class="message-text">Currently Disabled.</span>';
+            })
+            ->rawColumns(['id', 'status', 'action'])
+            ->make(true);
     }
 
     public function createAccount(Request $request)
@@ -99,13 +100,13 @@ class UserAccountsController extends Controller
         $updateAccountValidation = Validator::make($request->all(), [
             'organization' => 'required',
             'position' => 'required',
-            'email' => 'required|email|unique:user,email,' . $userId
+            'email' => 'required|email'
         ]);
 
         if ($updateAccountValidation->fails())
             return response(['status' => 'warning', 'message' => $updateAccountValidation->errors()->first()]);
 
-        $this->user->find($userId)->update([
+        $this->user->find(Crypt::decryptString($userId))->update([
             'organization' => $request->organization,
             'position' => $request->position,
             'email' => trim($request->email)
@@ -116,7 +117,7 @@ class UserAccountsController extends Controller
 
     public function disableAccount($userId)
     {
-        $this->user->find($userId)->update([
+        $this->user->find(Crypt::decryptString($userId))->update([
             'status' => 'Disabled',
             'is_disable' => 1
         ]);
@@ -126,7 +127,7 @@ class UserAccountsController extends Controller
 
     public function enableAccount($userId)
     {
-        $this->user->find($userId)->update([
+        $this->user->find(Crypt::decryptString($userId))->update([
             'status' => 'Active',
             'is_disable' => 0
         ]);
@@ -143,7 +144,7 @@ class UserAccountsController extends Controller
         if ($suspendAccountValidation->fails())
             return response(['status' => 'warning', 'message' => $suspendAccountValidation->errors()->first()]);
 
-        $this->user->find($userId)->update([
+        $this->user->find(Crypt::decryptString($userId))->update([
             'status' => 'Suspended',
             'is_suspend' => 1,
             'suspend_time' => Carbon::parse($request->suspend_time)->format('Y-m-d H:i:s')
@@ -154,7 +155,7 @@ class UserAccountsController extends Controller
 
     public function openAccount($userId)
     {
-        $this->user->find($userId)->update([
+        $this->user->find(Crypt::decryptString($userId))->update([
             'status' => 'Active',
             'is_disable' => 0,
             'is_suspend' => 0,
@@ -181,7 +182,7 @@ class UserAccountsController extends Controller
             if ($changePasswordValidation->fails())
                 return response(['status' => 'warning', 'message' => $changePasswordValidation->errors()->first()]);
 
-            $this->user->find($userId)->update([
+            $this->user->find(Crypt::decryptString($userId))->update([
                 'password' => Hash::make(trim($request->password))
             ]);
             $this->logActivity->generateLog('Changing Password');
@@ -193,7 +194,7 @@ class UserAccountsController extends Controller
 
     public function removeAccount($userId)
     {
-        $this->user->find($userId)->delete();
+        $this->user->find(Crypt::decryptString($userId))->delete();
         $this->logActivity->generateLog('Removing Account');
         return response()->json();
     }

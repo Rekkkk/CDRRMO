@@ -83,13 +83,12 @@
             integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
             crossorigin="anonymous"></script>
         @include('partials.toastr')
-        @if (auth()->check() && auth()->user()->is_disable == 0)
-            <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+        @if (auth()->user()->is_disable == 0)
             <script>
                 $(document).ready(function() {
                     let guidelineId, defaultFormData;
 
-                    let validator = $("#guidelineForm").validate({
+                    const validator = $("#guidelineForm").validate({
                         rules: {
                             type: 'required'
                         },
@@ -97,10 +96,10 @@
                             type: 'Please Enter Guideline Type.'
                         },
                         errorElement: 'span',
-                        submitHandler: createGuidelineForm
+                        submitHandler: formSubmitHandler
                     });
 
-                    $(document).on('click', '#createGuidelineBtn', function() {
+                    $(document).on('click', '#createGuidelineBtn', () => {
                         $('#guidelineForm')[0].reset();
                         $('#guideline_operation').val('create');
                         $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
@@ -141,12 +140,12 @@
                                     url: "{{ route('guideline.remove', ':guidelineId') }}"
                                         .replace(':guidelineId', guidelineId),
                                     type: "PATCH",
-                                    success: function() {
+                                    success() {
                                         showSuccessMessage(
-                                            'Guideline removed successfully, Please wait...'
+                                            'Guideline removed successfully.'
                                         );
                                     },
-                                    error: function() {
+                                    error() {
                                         showErrorMessage();
                                     }
                                 });
@@ -154,44 +153,34 @@
                         });
                     });
 
-                    function createGuidelineForm(form) {
+                    function formSubmitHandler(form) {
                         let operation = $('#guideline_operation').val(),
-                            url = "",
-                            type = "",
                             formData = $(form).serialize();
-
-                        url = operation == 'create' ? "{{ route('guideline.create') }}" :
+                        let url = operation == 'create' ? "{{ route('guideline.create') }}" :
                             "{{ route('guideline.update', 'guidelineId') }}".replace('guidelineId',
                                 guidelineId);
-
-                        type = operation == 'create' ? "POST" : "PUT";
+                        let type = operation == 'create' ? "POST" : "PUT";
 
                         confirmModal(`Do you want to ${operation} this guideline?`).then((result) => {
                             if (result.isConfirmed) {
-                                if (operation == 'update' && defaultFormData == formData) {
-                                    $('#guidelineModal').modal('hide');
-                                    showWarningMessage('No changes were made.');
-                                    return;
-                                }
-                                $.ajax({
-                                    data: formData,
-                                    url: url,
-                                    type: type,
-                                    success: function(response) {
-                                        if (response.status == 'warning') {
-                                            showWarningMessage(response.message);
-                                        } else {
-                                            showSuccessMessage(
-                                                `Guideline successfully ${operation}d, Please wait...`
-                                            );
-                                            $('#guidelineForm')[0].reset();
-                                            $('#guidelineModal').modal('hide');
+                                return operation == 'update' && defaultFormData == formData ? showWarningMessage(
+                                        'No changes were made.') :
+                                    $.ajax({
+                                        data: formData,
+                                        url,
+                                        type,
+                                        success(response) {
+                                            response.status == 'warning' ?
+                                                showWarningMessage(response.message) : (
+                                                    showSuccessMessage(`Guideline successfully ${operation}d.`),
+                                                    $('#guidelineForm')[0].reset(),
+                                                    $('#guidelineModal').modal('hide')
+                                                );
+                                        },
+                                        error() {
+                                            showErrorMessage();
                                         }
-                                    },
-                                    error: function() {
-                                        showErrorMessage();
-                                    }
-                                });
+                                    });
                             }
                         });
                     }

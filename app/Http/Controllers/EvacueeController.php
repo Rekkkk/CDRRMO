@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Events\ActiveEvacuees;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
 class EvacueeController extends Controller
@@ -26,10 +27,13 @@ class EvacueeController extends Controller
         $evacueeInfo = $this->evacuee->all();
         return DataTables::of($evacueeInfo)
             ->addIndexColumn()
+            ->addColumn('id', function ($evacuee) {
+                return Crypt::encryptString($evacuee->id);
+            })
             ->addColumn('action', function () {
                 return '<button class="btn-table-update" id="updateEvacueeBtn"><i class="bi bi-pencil-square"></i>Update</button>';
             })
-            ->rawColumns(['action'])
+            ->rawColumns(['id', 'action'])
             ->make(true);
     }
 
@@ -45,7 +49,7 @@ class EvacueeController extends Controller
             'families' => 'required|numeric',
             'individuals' => 'required|numeric',
             'male' => 'required|numeric',
-            'female' => 'required|numeric', 
+            'female' => 'required|numeric',
             'disaster_id' => 'required',
             'date_entry' => 'required',
             'barangay' => 'required|unique:evacuee,barangay',
@@ -95,7 +99,7 @@ class EvacueeController extends Controller
             'barangay', 'evacuation_assigned'
         ]);
         $evacueeInfo['remarks'] = Str::ucfirst(trim($request->remarks));
-        $this->evacuee->find($evacueeId)->update($evacueeInfo);
+        $this->evacuee->find(Crypt::decryptString($evacueeId))->update($evacueeInfo);
         $this->logActivity->generateLog('Updating an evacuee information');
         return response()->json();
     }

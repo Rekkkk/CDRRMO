@@ -55,7 +55,7 @@
             </div>
         </div>
     </div>
-    
+
     @auth
         @include('userpage.changePasswordModal')
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -314,7 +314,7 @@
         $(document).ready(() => {
             evacuationCenterTable = $('.evacuationCenterTable').DataTable({
                 language: {
-                    emptyTable: '<div class="message-text">There are currently no evacuation centers available.</div>',
+                    emptyTable: '<div class="message-text">There are currently no evacuation centers available.</div>'
                 },
                 ordering: false,
                 responsive: true,

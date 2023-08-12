@@ -1312,15 +1312,15 @@ hr,
     padding: 8px 12px;
 }
 
-.edit-profile-btn button i{
+.edit-profile-btn button i {
     padding-right: 8px;
 }
 
-.user-profile-container hr{
+.user-profile-container hr {
     margin: 22px 24px 16px 24px;
 }
 
-.profile-details-container{
+.profile-details-container {
     display: flex;
     flex-wrap: wrap;
     text-align: center;
@@ -1363,7 +1363,7 @@ hr,
     background-size: cover;
 }
 
-#userProfileForm{
+#userProfileForm {
     position: relative;
     flex: 1 1 auto;
 }
@@ -1513,21 +1513,22 @@ input::-ms-clear {
     font-weight: 800;
 }
 
-span.error {
-    color: var(--color-red);
-    font-size: 12px;
-    font-family: Montserrat, san-serif;
-    font-style: italic;
-    float: left;
+.checkPassword {
+    position: absolute;
+    font-size: 18px;
+    line-height: 28px;
+    margin-top: 4px;
+    top: 27px;
+    right: 30px;
+    animation: scaleIn 0.1s ease-in-out;
 }
 
-span.success {
-    color: #10b981;
-    font-size: 12px;
-    font-family: Montserrat, san-serif;
-    font-style: italic;
-    margin-top: 5px;
-    float: left;
+.checkPassword.success {
+    color: var(--color-green);
+}
+
+.checkPassword.error {
+    color: var(--color-red);
 }
 
 #change-button-container {
@@ -1765,7 +1766,7 @@ select.form-select option {
         margin: 0 -19px;
     }
 
-    .profile-details-container{
+    .profile-details-container {
         display: block;
     }
 }

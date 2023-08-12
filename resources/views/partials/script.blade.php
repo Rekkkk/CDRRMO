@@ -9,6 +9,7 @@
         changePasswordForm = $('#changePasswordForm'),
         changePasswordModal = $('#changePasswordModal'),
         eyeIcon = $('.toggle-password'),
+        checkPasswordIcon = $('.checkPassword'),
         current_password = "";
 
     $(document).ready(function() {
@@ -34,6 +35,8 @@
                 let checkPasswordRoute = $('#checkPasswordRoute').data('route');
 
                 if (current_password == "") {
+                    checkPasswordIcon.removeClass('bi-check2-circle').addClass(
+                        'bi-x-circle').prop('hidden', true);
                     changePasswordValidation.resetForm();
                     resetChangePasswordForm();
                     return;
@@ -41,35 +44,28 @@
 
                 $.ajax({
                     headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr(
-                            'content')
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     type: 'POST',
                     url: checkPasswordRoute,
                     data: {
                         current_password: current_password
                     },
-                    success: function(response) {
+                    success(response) {
                         if (response.status == "warning") {
                             current_password = "";
-                            currentPassword.text(
-                                    "* Password doesn't matched.")
-                                .removeClass('success').addClass('error');
-                            eyeIcon.removeClass('bi-eye').addClass(
-                                'bi-eye-slash');
-                            password.add(confirmPassword).val("").prop(
-                                'type', 'password').add(resetPasswordBtn
-                                .removeClass(
-                                    'hover:scale-105 hover:bg-yellow-600'
-                                )).prop('disabled', true);
+                            checkPasswordIcon.removeClass(
+                                'bi-check2-circle success').addClass(
+                                'bi-x-circle error').prop('hidden', false);
+                            eyeIcon.removeClass('bi-eye').addClass('bi-eye-slash');
+                            password.add(confirmPassword).val("").prop('type',
+                                'password').prop('disabled', true);
                         } else {
-                            currentPassword.text('* Password matched.')
-                                .removeClass('error').addClass('success');
-                            password.add(confirmPassword).add(
-                                resetPasswordBtn).prop('disabled',
-                                false)
-                            resetPasswordBtn.addClass(
-                                'hover:scale-105 hover:bg-yellow-600');
+                            checkPasswordIcon.removeClass('bi-x-circle error')
+                                .addClass('bi-check2-circle success').prop('hidden',
+                                    false);
+                            password.add(confirmPassword).add(resetPasswordBtn)
+                                .prop('disabled', false);
                         }
                     }
                 });
@@ -78,6 +74,7 @@
 
         changePasswordModal.on('hidden.bs.modal', function() {
             resetChangePasswordForm();
+            checkPasswordIcon.removeClass('success').removeClass('error').prop('hidden', true);
             changePasswordValidation.resetForm();
         });
 
@@ -114,7 +111,7 @@
 
     function resetChangePasswordForm() {
         current_password = "";
-        currentPassword.text("");
+        currentPassword.text("").removeAttr('class');
         changePasswordForm[0].reset();
         eyeIcon.removeClass('bi-eye').addClass('bi-eye-slash');
         password.add(confirmPassword).prop('type', 'password').prop('disabled', true);
@@ -129,17 +126,12 @@
                     type: "PUT",
                     url: changePasswordRoute,
                     data: $(form).serialize(),
-                    success: function(response) {
-                        if (response.status == "warning") {
-                            showWarningMessage(response.message);
-                        } else {
-                            showSuccessMessage('Password successfully changed.');
-                            form[0].reset();
-                            currentPassword.text("");
-                            changePasswordModal.modal('hide');
-                        }
+                    success(response) {
+                        return response.status == "warning" ? showWarningMessage(response.message) :
+                            (showSuccessMessage('Password successfully changed.'), form[0].reset(),
+                                currentPassword.text(""), changePasswordModal.modal('hide'));
                     },
-                    error: function() {
+                    error() {
                         showErrorMessage();
                     }
                 });
@@ -189,7 +181,7 @@
             var overlay = $('<div class="overlay show"><img src="' + reportPhotoUrl +
                 '" class="overlay-image"></div>');
             $('body').append(overlay);
-            overlay.click(function() {
+            overlay.click(() => {
                 overlay.remove();
             });
         });
@@ -206,7 +198,7 @@
             confirmButtonColor: '#15803d',
             denyButtonText: 'No',
             denyButtonColor: '#B91C1C',
-            allowOutsideClick: false,
+            allowOutsideClick: false
         });
     }
 
