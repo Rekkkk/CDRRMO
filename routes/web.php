@@ -29,7 +29,7 @@ Route::prefix('resident')->middleware('guest')->group(function () {
             Route::get('/displayPendingIncidentReport', 'displayPendingIncidentReport')->name('pending');
             Route::get('/displayIncidentReport', 'displayIncidentReport')->name('display');
             Route::delete('/revertIncidentReport/{reportId}', 'revertIncidentReport')->name('revert');
-            Route::put('/updateAttempt', 'updateUserAttempt')->name('update');
+            Route::patch('/updateAttempt', 'updateUserAttempt')->name('update');
             Route::post('/createIncidentReport', 'createIncidentReport')->name('accident');
         });
 
@@ -124,10 +124,10 @@ Route::middleware('auth')->group(function () {
         Route::view('/userProfile', 'userpage.userAccount.userProfile')->name('display.profile');
         Route::put('/updateAccount/{userId}', 'updateAccount')->name('update');
         Route::get('/userAccount', 'userAccounts')->name('display.users');
-        Route::put('/disableAccount/{userId}', 'disableAccount')->name('disable');
-        Route::put('/enableAccount/{userId}', 'enableAccount')->name('enable');
+        Route::patch('/disableAccount/{userId}', 'disableAccount')->name('disable');
+        Route::patch('/enableAccount/{userId}', 'enableAccount')->name('enable');
         Route::put('/suspendAccount/{userId}', 'suspendAccount')->name('suspend');
-        Route::put('/openAccount/{userId}', 'openAccount')->name('open');
+        Route::patch('/openAccount/{userId}', 'openAccount')->name('open');
         Route::put('/resetPassword/{userId}', 'resetPassword')->name('reset.password');
         Route::post('/checkPassword', 'checkPassword')->name('check.password');
         Route::delete('/removeAccount/{userId}', 'removeAccount')->name('remove');

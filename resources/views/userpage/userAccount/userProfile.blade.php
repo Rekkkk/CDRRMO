@@ -25,14 +25,11 @@
                         <img src="{{ asset('assets/img/profile.png') }}" alt="Profile" id="profile">
                     </div>
                 </div>
-                @if (auth()->user()->is_disable == 0)
-                    <div class="edit-profile-btn">
-                        <button class="btn-update" id="editProfileBtn">
-                            <i class="bi bi-pencil-square"></i>
-                            Edit Profile
-                        </button>
-                    </div>
-                @endif
+                <div class="edit-profile-btn">
+                    <button class="btn-update" id="editProfileBtn">
+                        <i class="bi bi-pencil-square"></i>Edit Profile
+                    </button>
+                </div>
                 <hr>
                 <form id="userProfileForm">
                     <div class="profile-details-container">
@@ -43,17 +40,16 @@
                         <div class="details-section col-lg-4">
                             <label class="profile-details-label">Organization</label>
                             @if (auth()->user()->organization == 'CDRRMO')
-                                <p class="profile-details">Cabuyao Disaster Risk Reduction
+                                <p class="profile-details">Cabuyao City Disaster Risk Reduction
                                     and Management Office (CDRRMO)</p>
                             @else
                                 <p class="profile-details">City Social Welfare and
-                                    Development (CSWD)
+                                    Development(CSWD)
                                 </p>
                             @endif
                         </div>
                         <div class="details-section col-lg-4">
-                            <label class="profile-details-label">Email
-                                Address</label>
+                            <label class="profile-details-label">Email Address</label>
                             <p class="profile-details">{{ auth()->user()->email }}</p>
                         </div>
                         <div class="details-section col-lg-2">
@@ -64,9 +60,7 @@
                 </form>
             </div>
         </div>
-        @if (auth()->user()->is_disable == 0)
-            @include('userpage.userAccount.userAccountModal')
-        @endif
+        @include('userpage.userAccount.userAccountModal')
         @include('userpage.changePasswordModal')
     </div>
 
@@ -79,80 +73,73 @@
         integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
         crossorigin="anonymous"></script>
     @include('partials.toastr')
-    @if (auth()->user()->is_disable == 0)
-        <script>
-            $(document).ready(function() {
-                let defaultFormData, modal = $('#userAccountModal');
+    <script>
+        $(document).ready(() => {
+            let defaultFormData, modal = $('#userAccountModal');
 
-                $(document).on('click', '#editProfileBtn', function() {
-                    $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
-                    $('.modal-label').text('Edit Profile Account');
-                    $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text('Update');
-                    $('#suspend-container').hide();
-                    $('#account_operation').val('update');
-                    $('#accountId').val('{{ auth()->user()->id }}');
-                    $('#organization').val('{{ auth()->user()->organization }}');
-                    $('#position').val('{{ auth()->user()->position }}');
-                    $('#email').val('{{ auth()->user()->email }}');
-                    modal.modal('show');
-                    defaultFormData = $('#accountForm').serialize();
-                });
-
-                let validator = $("#accountForm").validate({
-                    rules: {
-                        organization: 'required',
-                        position: 'required',
-                        email: 'required'
-                    },
-                    messages: {
-                        organization: 'Please Enter Your Organization.',
-                        position: 'Please Enter Your Position.',
-                        email: 'Please Enter Your Email Address.'
-
-                    },
-                    errorElement: 'span',
-                    submitHandler: formSubmitHandler
-                });
-
-                function formSubmitHandler(form) {
-                    let accountid = $('#accountId').val(),
-                        operation = $('#account_operation').val(),
-                        formData = $(form).serialize();
-
-                    confirmModal('Do you want to update this user details?').then((result) => {
-                        if (result.isConfirmed) {
-                            if (operation == 'update' && defaultFormData == formData) {
-                                showWarningMessage('No changes were made.');
-                                return;
-                            }
-                            $.ajax({
-                                url: "{{ route('account.update', ':accountid') }}"
-                                    .replace(':accountid', accountid),
-                                method: 'PUT',
-                                data: formData,
-                                success: function(response) {
-                                    if (response.status == 'warning') {
-                                        showWarningMessage(response.message);
-                                    } else {
-                                        showSuccessMessage(
-                                            'Successfully updated the account details.');
-                                    }
-                                },
-                                error: function() {
-                                    showErrorMessage();
-                                }
-                            });
-                        }
-                    });
-                }
-
-                modal.on('hidden.bs.modal', function() {
-                    validator.resetForm();
-                    $('#accountForm').trigger("reset");
-                });
+            $(document).on('click', '#editProfileBtn', () => {
+                $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
+                $('.modal-label').text('Edit Profile Account');
+                $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text('Update');
+                $('#suspend-container').hide();
+                $('#account_operation').val('update');
+                $('#organization').val('{{ auth()->user()->organization }}');
+                $('#position').val('{{ auth()->user()->position }}');
+                $('#email').val('{{ auth()->user()->email }}');
+                modal.modal('show');
+                defaultFormData = $('#accountForm').serialize();
             });
-        </script>
-    @endif
+
+            const validator = $("#accountForm").validate({
+                rules: {
+                    organization: 'required',
+                    position: 'required',
+                    email: 'required'
+                },
+                messages: {
+                    organization: 'Please Enter Your Organization.',
+                    position: 'Please Enter Your Position.',
+                    email: 'Please Enter Your Email Address.'
+
+                },
+                errorElement: 'span',
+                submitHandler: formSubmitHandler
+            });
+
+            function formSubmitHandler(form) {
+                let accountid = '{{ auth()->user()->id }}',
+                    operation = $('#account_operation').val(),
+                    formData = $(form).serialize();
+
+                confirmModal('Do you want to update this user details?').then((result) => {
+                    if (result.isConfirmed) {
+                        return operation == 'update' && defaultFormData == formData ? showWarningMessage(
+                            'No changes were made.') : $.ajax({
+                            url: "{{ route('account.update', ':accountid') }}"
+                                .replace(':accountid', accountid),
+                            type: 'PUT',
+                            data: formData,
+                            success(response) {
+                                if (response.status == 'warning') {
+                                    showWarningMessage(response.message);
+                                } else {
+                                    showSuccessMessage('Successfully updated the account details.');
+                                }
+                            },
+                            error() {
+                                showErrorMessage();
+                            }
+                        });
+                    }
+                });
+            }
+
+            modal.on('hidden.bs.modal', () => {
+                validator.resetForm();
+                $('#accountForm')[0].reset();
+            });
+        });
+    </script>
 </body>
 
 </html>

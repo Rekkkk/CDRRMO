@@ -303,9 +303,11 @@
             @endif
         @endauth
         @guest
+        const modal = $('#createAccidentReportModal');
+
         let pendingReport = $('.pendingReport').DataTable({
             language: {
-                emptyTable: '<div class="message-text">You have no pending reports.</div>',
+                emptyTable: '<div class="message-text">You have no pending reports.</div>'
             },
             ordering: false,
             responsive: true,
@@ -349,17 +351,7 @@
             ]
         });
 
-        $('#report_photo').change(function() {
-            let reader = new FileReader();
-
-            reader.onload = (e) => {
-                $('#preview-image').attr('src', e.target.result);
-            }
-
-            reader.readAsDataURL(this.files[0]);
-        });
-
-        let validator = $("#reportForm").validate({
+        const validator = $("#reportForm").validate({
             rules: {
                 description: 'required',
                 location: 'required'
@@ -369,7 +361,17 @@
                 location: 'Please Enter Incident Location.'
             },
             errorElement: 'span',
-            submitHandler: formSubmitHandler,
+            submitHandler: formSubmitHandler
+        });
+
+        $('#report_photo').change(function() {
+            let reader = new FileReader();
+
+            reader.onload = (e) => {
+                $('#preview-image').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(this.files[0]);
         });
 
         function formSubmitHandler(form, e) {
@@ -384,22 +386,22 @@
                         data: formData,
                         contentType: false,
                         processData: false,
-                        success: function(response) {
+                        success(response) {
                             if (response.status == 'success') {
                                 showSuccessMessage(
                                     'Successfully reported, Thank for your concern.');
                                 $('#reportForm')[0].reset();
-                                $('#createAccidentReportModal').modal('hide');
+                                modal.modal('hide');
                                 pendingReport.draw();
                             } else if (response.status == 'warning') {
                                 showWarningMessage(response.message);
                             } else if (response.status == 'blocked') {
                                 $('#reportForm')[0].reset();
-                                $('#createAccidentReportModal').modal('hide');
+                                modal.modal('hide');
                                 showWarningMessage(response.message);
                             }
                         },
-                        error: function() {
+                        error() {
                             showErrorMessage();
                         }
                     });
@@ -407,7 +409,7 @@
             });
         }
 
-        $(document).on('click', '.revertIncidentReport', function() {
+        $(document).on('click', '#revertIncidentReport', function() {
             let reportId = getRowData(this, pendingReport).id;
 
             confirmModal('Do you want to revert your report?').then((result) => {
@@ -429,20 +431,19 @@
 
         function revertReport(reportId) {
             $.ajax({
-                type: "PUT",
-                url: "{{ route('resident.report.update', ':reportId') }}".replace(':reportId',
-                    reportId),
-                success: function() {
+                type: "PATCH",
+                url: "{{ route('resident.report.update', 'reportId') }}".replace('reportId', reportId),
+                success() {
                     showSuccessMessage('Incident report successfully reverted.');
                     pendingReport.draw();
                 },
-                error: function() {
+                error() {
                     showErrorMessage();
                 }
             });
         }
 
-        $('#createAccidentReportModal').on('hidden.bs.modal', function() {
+        modal.on('hidden.bs.modal', function() {
             validator.resetForm();
         });
         @endguest

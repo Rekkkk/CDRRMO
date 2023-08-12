@@ -21,7 +21,7 @@ class ActiveEvacuees implements ShouldBroadcast
         $totalEvacuee = 0;
 
         foreach ($onGoingDisaster as $disaster) {
-            $totalEvacueeCount = Evacuee::where('disaster_name', $disaster->name)->sum('individuals');
+            $totalEvacueeCount = Evacuee::where('disaster_id', $disaster->id)->sum('individuals');
             $totalEvacuee += $totalEvacueeCount;
         }
 

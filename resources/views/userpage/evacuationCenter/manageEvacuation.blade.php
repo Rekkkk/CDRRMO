@@ -75,7 +75,7 @@
     <script type="text/javascript">
         let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
             language: {
-                emptyTable: '<div class="message-text">No evacuation center added yet.</div>',
+                emptyTable: '<div class="message-text">No evacuation center added yet.</div>'
             },
             ordering: false,
             responsive: true,
@@ -158,7 +158,7 @@
                             map: map,
                             icon: {
                                 url: "{{ asset('assets/img/evacMarkerDefault.png') }}",
-                                scaledSize: new google.maps.Size(35, 35),
+                                scaledSize: new google.maps.Size(35, 35)
                             }
                         });
                     }
@@ -170,7 +170,7 @@
             }
 
             $(document).ready(function() {
-                let validator = $("#evacuationCenterForm").validate({
+                const validator = $("#evacuationCenterForm").validate({
                     rules: {
                         name: 'required',
                         barangayName: 'required',

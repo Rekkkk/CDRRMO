@@ -57,7 +57,7 @@
                                                         <option value="" hidden disabled selected>Select Disaster
                                                         </option>
                                                         @foreach ($inactiveDisasters as $disaster)
-                                                            <option value="{{ $disaster->id }}">
+                                                            <option value="{{ Crypt::encryptString($disaster->id) }}">
                                                                 {{ $disaster->name }}</option>
                                                         @endforeach
                                                     </select>
@@ -68,7 +68,7 @@
                                                         <option value="" hidden disabled selected>Select Disaster
                                                         </option>
                                                         @foreach ($onGoingDisasters as $disaster)
-                                                            <option value="{{ $disaster->id }}">
+                                                            <option value="{{ Crypt::encryptString($disaster->id) }}">
                                                                 {{ $disaster->name }}</option>
                                                         @endforeach
                                                     </select>
@@ -257,15 +257,12 @@
                 onGoingDisaster.add(inactiveDisaster).prop('hidden', true);
                 $('#generateReportForm').trigger("reset");
             });
+
+            // Echo.channel('active-evacuees').listen('ActiveEvacuees', (e) => {
+            //     $("#totalEvacuee").text(e.activeEvacuees);
+            // })
         });
     </script>
-    {{-- <script>
-        window.addEventListener('DOMContentLoaded', function(e) {
-            Echo.channel('active-evacuees').listen('ActiveEvacuees', (e) => {
-                $("#totalEvacuee").text(e.activeEvacuees);
-            })
-        });
-    </script> --}}
 </body>
 
 </html>

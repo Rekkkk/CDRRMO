@@ -43,9 +43,7 @@
                     </table>
                 </div>
             </div>
-            @if (auth()->user()->is_disable == 0)
-                @include('userpage.disaster.disasterModal')
-            @endif
+            @include('userpage.disaster.disasterModal')
             @include('userpage.changePasswordModal')
         </div>
     </div>
@@ -62,50 +60,50 @@
         crossorigin="anonymous"></script>
     @include('partials.toastr')
     <script>
-        let disasterTable = $('.disasterTable').DataTable({
-            language: {
-                emptyTable: '<div class="message-text">There are no disaster data available.</div>',
-            },
-            ordering: false,
-            responsive: true,
-            processing: false,
-            serverSide: true,
-            ajax: "{{ route('disaster.display') }}",
-            columns: [{
-                    data: 'id',
-                    name: 'id',
-                    visible: false
+        $(document).ready(() => {
+            let disasterTable = $('.disasterTable').DataTable({
+                language: {
+                    emptyTable: '<div class="message-text">There are no disaster data available.</div>'
                 },
-                {
-                    data: 'name',
-                    name: 'name'
-                },
-                {
-                    data: 'status',
-                    name: 'status',
-                    width: '10%'
-                },
-                {
-                    data: 'action',
-                    name: 'action',
-                    width: '1rem',
-                    orderable: false,
-                    searchable: false
-                },
-            ]
-        });
+                ordering: false,
+                responsive: true,
+                processing: false,
+                serverSide: true,
+                ajax: "{{ route('disaster.display') }}",
+                columns: [{
+                        data: 'id',
+                        name: 'id',
+                        visible: false
+                    },
+                    {
+                        data: 'name',
+                        name: 'name'
+                    },
+                    {
+                        data: 'status',
+                        name: 'status',
+                        width: '10%'
+                    },
+                    {
+                        data: 'action',
+                        name: 'action',
+                        width: '1rem',
+                        orderable: false,
+                        searchable: false
+                    },
+                ]
+            });
 
-        @if (auth()->user()->is_disable == 0)
-            let disasterId, defaultFormData, status;
+            @if (auth()->user()->is_disable == 0)
+                let disasterId, defaultFormData, status;
 
-            $(document).ready(function() {
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
 
-                let validator = $("#disasterForm").validate({
+                const validator = $("#disasterForm").validate({
                     rules: {
                         name: 'required'
                     },
@@ -119,7 +117,8 @@
                 $(document).on('click', '#createDisasterData', () => {
                     $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
                     $('.modal-label').text('Create Disaster');
-                    $('#submitDisasterBtn').removeClass('btn-update').addClass('btn-submit').text('Add');
+                    $('#submitDisasterBtn').removeClass('btn-update').addClass('btn-submit').text(
+                        'Add');
                     $('#operation').val('create');
                     $('#disasterModal').modal('show');
                 });
@@ -133,29 +132,27 @@
                     $('#disasterName').val(name);
                     $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
                     $('.modal-label').text('Update Disaster');
-                    $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
+                    $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-update').text(
+                        'Update');
                     $('#operation').val('update');
                     $('#disasterModal').modal('show');
                     defaultFormData = $('#disasterForm').serialize();
                 });
 
                 $(document).on('click', '#removeDisaster', function() {
-                    let url = "{{ route('disaster.remove', ':disasterId') }}".replace(':disasterId',
-                        getRowData(this, disasterTable).id);
-                    alterDisasterData('remove', url);
+                    alterDisasterData('remove', "{{ route('disaster.remove', 'disasterId') }}".replace(
+                        'disasterId', getRowData(this, disasterTable).id));
                 });
 
                 $(document).on('change', '#changeDisasterStatus', function() {
                     status = $(this).val();
-                    let url = "{{ route('disaster.change.status', ':disasterId') }}".replace(':disasterId',
-                        getRowData(this, disasterTable).id);
-                    alterDisasterData('change', url);
+                    alterDisasterData('change', "{{ route('disaster.change.status', 'disasterId') }}"
+                        .replace('disasterId', getRowData(this, disasterTable).id));
                 });
 
                 $('#disasterModal').on('hidden.bs.modal', () => {
                     validator.resetForm();
                     $('#disasterForm')[0].reset();
-                    $('#disasterForm').trigger('reset');
                 });
 
                 function alterDisasterData(operation, url) {
@@ -209,8 +206,8 @@
                                 });
                     });
                 }
-            });
-        @endif
+            @endif
+        });
     </script>
 </body>
 

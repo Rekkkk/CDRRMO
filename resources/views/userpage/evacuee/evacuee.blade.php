@@ -76,11 +76,29 @@
     @include('partials.toastr')
     <script>
         $(document).ready(function() {
-            let evacueeId, defaultFormData;
+            let evacueeId, defaultFormData, modal = $('#evacueeInfoFormModal'),
+                dateEntryInput = datePicker("#date_entry");
+            const fieldNames = [
+                    'infants', 'minors', 'senior_citizen', 'pwd',
+                    'pregnant', 'lactating', 'families', 'individuals',
+                    'male', 'female'
+                ],
+                rules = {
+                    disaster_id: 'required',
+                    date_entry: 'required',
+                    barangay: 'required',
+                    evacuation_assigned: 'required'
+                },
+                messages = {
+                    disaster_id: 'Please select disaster.',
+                    date_entry: 'Please enter date entry.',
+                    barangay: 'Please enter barangay.',
+                    evacuation_assigned: 'Please enter evacuation center assigned.'
+                };
 
             let evacueeTable = $('.evacueeTable').DataTable({
                 language: {
-                    emptyTable: '<div class="message-text">No evacuees data added yet.</div>',
+                    emptyTable: '<div class="message-text">No evacuees data added yet.</div>'
                 },
                 ordering: false,
                 responsive: true,
@@ -174,40 +192,20 @@
                 ],
             });
 
-            let dateEntryInput = datePicker("#date_entry");
+            fieldNames.forEach(fieldName => {
+                rules[fieldName] = {
+                    required: true,
+                    number: true
+                };
+                messages[fieldName] = {
+                    required: `Please enter ${fieldName}.`,
+                    number: `Please enter a valid number for ${fieldName}.`
+                };
+            });
 
-            let validator = $("#evacueeInfoForm").validate({
-                rules: {
-                    disaster_id: 'required',
-                    date_entry: 'required',
-                    barangay: 'required',
-                    evacuation_assigned: 'required',
-                    infants: 'required',
-                    minors: 'required',
-                    senior_citizen: 'required',
-                    pwd: 'required',
-                    pregnant: 'required',
-                    lactating: 'required',
-                    families: 'required',
-                    individuals: 'required',
-                    male: 'required',
-                    female: 'required'
-                },
-                messages: {
-                    disaster_id: 'Please select disaster.',
-                    date_entry: 'Please enter date entry.',
-                    evacuation_assigned: 'Please enter evacuation center assigned.',
-                    infants: 'Please enter number of infants.',
-                    minors: 'Please enter number of minors.',
-                    senior_citizen: 'Please enter number of senior citizens.',
-                    pwd: 'Please enter number of PWD.',
-                    pregnant: 'Please enter number of pregnant.',
-                    lactating: 'Please enter number of lactating.',
-                    families: 'Please enter number of families.',
-                    individuals: 'Please enter number of individuals.',
-                    male: 'Please enter number of male.',
-                    female: 'Please enter number of female.'
-                },
+            const validator = $("#evacueeInfoForm").validate({
+                rules,
+                messages,
                 errorElement: 'span',
                 submitHandler: formSubmitHandler
             });
@@ -217,7 +215,7 @@
                 $('.modal-label').text('Record Evacuee Information');
                 $('#recordEvacueeInfoBtn').removeClass('btn-update').addClass('btn-submit').text('Record');
                 $('#operation').val('record');
-                $('#evacueeInfoFormModal').modal('show');
+                modal.modal('show');
             });
 
             $(document).on('click', '#updateEvacueeBtn', function() {
@@ -239,52 +237,44 @@
                 }
 
                 $('#operation').val('update');
-                $('#evacueeInfoFormModal').modal('show');
+                modal.modal('show');
                 defaultFormData = $('#evacueeInfoForm').serialize();
             });
 
-            $('#evacueeInfoFormModal').on('hidden.bs.modal', function() {
+            modal.on('hidden.bs.modal', function() {
                 validator.resetForm();
-                $('#evacueeInfoForm').trigger("reset");
+                $('#evacueeInfoForm')[0].reset();
             });
 
             function formSubmitHandler(form) {
                 let operation = $('#operation').val(),
-                    url = "",
-                    type = "",
-                    formData = $(form).serialize(),
-                    modal = $('#evacueeInfoFormModal');
-
-                url = operation == 'record' ?
-                    "{{ route('evacuee.info.record') }}" :
+                    formData = $(form).serialize();
+                let url = operation == 'record' ? "{{ route('evacuee.info.record') }}" :
                     "{{ route('evacuee.info.update', 'evacueeId') }}".replace('evacueeId', evacueeId);
-
-                type = operation == 'record' ? "POST" : "PUT";
+                let type = operation == 'record' ? "POST" : "PUT";
 
                 confirmModal(`Do you want to ${operation} this evacuee info?`).then((result) => {
                     if (result.isConfirmed) {
-                        if (operation == 'update' && defaultFormData == formData) {
-                            showWarningMessage('No changes were made.');
-                            return;
-                        }
-                        $.ajax({
-                            headers: {
-                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                            },
-                            data: formData,
-                            url: url,
-                            type: type,
-                            success: function(response) {
-                                response.status == 'warning' ? showWarningMessage(response
-                                    .message) : (modal.modal('hide'), evacueeTable.draw(),
-                                    showSuccessMessage(
-                                        `Successfully ${operation}${operation == 'record' ? 'ed new' : 'd the'} evacuee info.`
-                                    ));
-                            },
-                            error: function() {
-                                showErrorMessage();
-                            }
-                        });
+                        return operation == 'update' && defaultFormData == formData ?
+                            showWarningMessage('No changes were made.') :
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                data: formData,
+                                url,
+                                type,
+                                success(response) {
+                                    response.status == 'warning' ? showWarningMessage(response
+                                        .message) : (modal.modal('hide'), evacueeTable.draw(),
+                                        showSuccessMessage(
+                                            `Successfully ${operation}${operation == 'record' ? 'ed new' : 'd the'} evacuee info.`
+                                        ));
+                                },
+                                error() {
+                                    showErrorMessage();
+                                }
+                            });
                     }
                 });
             }

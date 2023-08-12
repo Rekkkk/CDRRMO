@@ -10,11 +10,11 @@ use Illuminate\Http\Request;
 use App\Events\IncidentReport;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
 class IncidentReportController extends Controller
 {
-
     private $report, $reportLog, $logActivity, $incidentReport;
 
     function __construct()
@@ -31,10 +31,13 @@ class IncidentReportController extends Controller
 
         return DataTables::of($pendingReport)
             ->addIndexColumn()
+            ->addColumn('id', function ($report) {
+                return Crypt::encryptString($report->id);
+            })
             ->addColumn('status', '<div class="status-container"><div class="status-content bg-warning">On Process</div></div>')
-            ->addColumn('action', function ($row) {
-                if ($row->user_ip == request()->ip() && !auth()->check())
-                    return '<button class="btn-table-remove revertIncidentReport"><i class="bi bi-arrow-counterclockwise"></i>Revert</button>';
+            ->addColumn('action', function ($report) {
+                if ($report->user_ip == request()->ip() && !auth()->check())
+                    return '<button class="btn-table-remove" id="revertIncidentReport"><i class="bi bi-arrow-counterclockwise"></i>Revert</button>';
 
                 if (auth()->check() && auth()->user()->is_disable == 0) {
                     return '<div class="action-container">' .
@@ -44,17 +47,17 @@ class IncidentReportController extends Controller
                 }
 
                 return '<span class="message-text">Currently Disabled.</span>';
-            })->addColumn('photo', function ($row) {
+            })->addColumn('photo', function ($report) {
                 return '<div class="photo-container">
                             <div class="image-wrapper">
-                                <img class="report-img" src="' . asset('reports_image/' . $row->photo) . '">
+                                <img class="report-img" src="' . asset('reports_image/' . $report->photo) . '">
                                 <div class="image-overlay">
                                     <div class="overlay-text">View Photo</div>
                                 </div>
                             </div>
                         </div>';
             })
-            ->rawColumns(['status', 'action', 'photo'])
+            ->rawColumns(['id', 'status', 'action', 'photo'])
             ->make(true);
     }
 
@@ -63,39 +66,43 @@ class IncidentReportController extends Controller
         $incidentReport = $this->incidentReport->whereNotIn('status', ['On Process'])->where('is_archive', 0)->get();
 
         return DataTables::of($incidentReport)
-            ->addIndexColumn()->addColumn('status', function ($row) {
-                $color = match ($row->status) {
+            ->addIndexColumn()
+            ->addColumn('id', function ($report) {
+                return Crypt::encryptString($report->id);
+            })
+            ->addColumn('status', function ($report) {
+                $color = match ($report->status) {
                     'Approved' => 'success',
                     'Declined' => 'danger'
                 };
 
-                return '<div class="status-container"><div class="status-content bg-' . $color . '">' . $row->status . '</div></div>';
+                return '<div class="status-container"><div class="status-content bg-' . $color . '">' . $report->status . '</div></div>';
             })->addColumn('action', function () {
                 return auth()->user()->is_disable == 0 ? '<button class="btn-table-remove removeIncidentReport"><i class="bi bi-trash3-fill"></i>Remove</button>' : '<span class="message-text">Currently Disabled.</span>';
-            })->addColumn('photo', function ($row) {
+            })->addColumn('photo', function ($report) {
                 return '<div class="photo-container">
                             <div class="image-wrapper">
-                                <img class="report-img" src="' . asset('reports_image/' . $row->photo) . '">
+                                <img class="report-img" src="' . asset('reports_image/' . $report->photo) . '">
                                 <div class="image-overlay">
                                     <div class="overlay-text">View Photo</div>
                                 </div>
                             </div>
                         </div>';
             })
-            ->rawColumns(['status', 'action', 'photo'])
+            ->rawColumns(['id', 'status', 'action', 'photo'])
             ->make(true);
     }
 
     public function createIncidentReport(Request $request)
     {
-        $validatedIncidentReport = Validator::make($request->all(), [
+        $incidentReportValidation = Validator::make($request->all(), [
             'description' => 'required',
             'location' => 'required',
             'photo' => 'image|mimes:jpeg|max:2048'
         ]);
 
-        if ($validatedIncidentReport->fails())
-            return response(['status' => 'warning', 'message' => $validatedIncidentReport->errors()->first()]);
+        if ($incidentReportValidation->fails())
+            return response(['status' => 'warning', 'message' => $incidentReportValidation->errors()->first()]);
 
         $resident = $this->reportLog->where('user_ip', $request->ip())->first();
         $reportPhotoPath = $request->file('photo')->store();
@@ -141,7 +148,7 @@ class IncidentReportController extends Controller
 
     public function approveIncidentReport($reportId)
     {
-        $this->report->approveStatus($reportId);
+        $this->report->approveStatus(Crypt::decryptString($reportId));
         $this->logActivity->generateLog('Approving Incident Report');
         //event(new IncidentReport());
         return response()->json();
@@ -149,7 +156,7 @@ class IncidentReportController extends Controller
 
     public function declineIncidentReport($reportId)
     {
-        $this->report->declineStatus($reportId);
+        $this->report->declineStatus(Crypt::decryptString($reportId));
         $this->logActivity->generateLog('Declining Incident Report');
         //event(new IncidentReport());
         return response()->json();
@@ -157,6 +164,7 @@ class IncidentReportController extends Controller
 
     public function revertIncidentReport($reportId)
     {
+        $reportId = Crypt::decryptString($reportId);
         $reportPhotoPath = $this->incidentReport->find($reportId)->value('photo');
         $this->report->revertReport($reportId, $reportPhotoPath);
         //event(new IncidentReport());
@@ -179,7 +187,7 @@ class IncidentReportController extends Controller
 
     public function removeIncidentReport($reportId)
     {
-        $this->incidentReport->find($reportId)->update([
+        $this->incidentReport->find(Crypt::decryptString($reportId))->update([
             'is_archive' => 1
         ]);
         $this->logActivity->generateLog('Removing Incident Report');
