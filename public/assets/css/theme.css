@@ -162,7 +162,7 @@ hr,
 
 .page-button-container {
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
     margin: 16px 0;
     border: none;
 }
@@ -1032,6 +1032,49 @@ hr,
     margin-left: 5px;
 }
 
+.evacuation-markers {
+    background: var(--color-text);
+    display: flex;
+    align-items: center;
+    border-radius: 4px;
+    border: 2px solid var(--color-red);
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+}
+
+.markers-header {
+    position: relative;
+    height: 100%;
+    background: var(--color-red);
+    text-align: center;
+    color: var(--color-text);
+}
+
+.markers-header p {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+    padding: 0 10px;
+    font-weight: 700;
+}
+
+.marker-container {
+    display: flex;
+    padding: 0 10px;
+    gap: 15px;
+}
+
+.markers img {
+    width: 30px;
+    cursor: pointer;
+    transition: 0.1s all ease-in-out;
+}
+
+.markers img:hover {
+    transform: scale(1.10);
+}
+
 /* Evacuation Center Section End */
 
 /* Report Incident Section Start Here */
@@ -1545,6 +1588,12 @@ input::-ms-clear {
 .form-button-container button {
     float: right;
     padding: 8px;
+}
+
+span.error {
+    color: var(--color-red);
+    font-size: 12px;
+    font-style: italic;
 }
 
 /* Form Section End */
