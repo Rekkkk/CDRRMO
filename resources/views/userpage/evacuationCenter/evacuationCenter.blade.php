@@ -29,7 +29,7 @@
                     <div class="locator-map" id="map"></div>
                 </div>
             </div>
-            <div class="page-button-container">
+            <div class="evacuation-button-container">
                 <div class="evacuation-markers">
                     <div class="markers-header">
                         <p>Markers</p>
@@ -37,19 +37,19 @@
                     <div class="marker-container">
                         <div class="markers">
                             <img src="{{ asset('assets/img/evacMarkerActive.png') }}" alt="Icon">
-                            <span> - Active</span>
+                            <span class="fw-bold"> - Active</span>
                         </div>
                         <div class="markers">
                             <img src="{{ asset('assets/img/evacMarkerInactive.png') }}" alt="Icon">
-                            <span> - Inactive</span>
+                            <span class="fw-bold"> - Inactive</span>
                         </div>
                         <div class="markers">
                             <img src="{{ asset('assets/img/evacMarkerFull.png') }}" alt="Icon">
-                            <span> - Full</span>
+                            <span class="fw-bold"> - Full</span>
                         </div>
                         <div class="markers" id="user-marker" hidden>
                             <img src="{{ asset('assets/img/userMarker.png') }}" alt="Icon">
-                            <span> - You</span>
+                            <span class="fw-bold"> - You</span>
                         </div>
                     </div>
                 </div>
@@ -62,7 +62,7 @@
             </div>
             <div class="table-container">
                 <div class="table-content">
-                    <header class="table-label">Evacuation Centers</header>
+                    <header class="table-label">Evacuation Centers Table</header>
                     <table class="table evacuationCenterTable" width="100%">
                         <thead class="thead-light">
                             <tr>

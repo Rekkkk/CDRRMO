@@ -159,7 +159,7 @@
         crossorigin="anonymous"></script>
     @include('partials.toastr')
     <script>
-        $(document).ready(function() {
+        $(document).ready(() => {
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
@@ -443,7 +443,7 @@
             });
         }
 
-        modal.on('hidden.bs.modal', function() {
+        modal.on('hidden.bs.modal', () => {
             validator.resetForm();
         });
         @endguest
