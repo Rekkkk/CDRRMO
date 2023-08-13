@@ -123,7 +123,7 @@
                                         <label>Report Photo</label>
                                         <input type="file" id="photo" name="photo"
                                             class="form-control form-control-lg" placeholder="Enter Incident Location"
-                                            autocomplete="off">
+                                            autocomplete="off" accept=".jpeg">
                                     </div>
                                     <div class="form-button-container">
                                         <button id="reportIncidentBtn" class="btn-submit">Report</button>

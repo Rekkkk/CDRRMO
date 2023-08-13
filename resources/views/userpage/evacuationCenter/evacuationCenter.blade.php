@@ -30,10 +30,35 @@
                 </div>
             </div>
             <div class="page-button-container">
-                <button type="button" class="mr-3" id="locateNearestBtn" disabled>
-                    <i class="bi bi-search"></i>Locate Nearest Active Evacuation</button>
-                <button type="button" id="locateCurrentLocationBtn">
-                    <i class="bi bi-geo-fill"></i>Locate Current Location</button>
+                <div class="evacuation-markers">
+                    <div class="markers-header">
+                        <p>Markers</p>
+                    </div>
+                    <div class="marker-container">
+                        <div class="markers">
+                            <img src="{{ asset('assets/img/evacMarkerActive.png') }}" alt="Icon">
+                            <span> - Active</span>
+                        </div>
+                        <div class="markers">
+                            <img src="{{ asset('assets/img/evacMarkerInactive.png') }}" alt="Icon">
+                            <span> - Inactive</span>
+                        </div>
+                        <div class="markers">
+                            <img src="{{ asset('assets/img/evacMarkerFull.png') }}" alt="Icon">
+                            <span> - Full</span>
+                        </div>
+                        <div class="markers" id="user-marker" hidden>
+                            <img src="{{ asset('assets/img/userMarker.png') }}" alt="Icon">
+                            <span> - You</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="locator-button-container">
+                    <button type="button" class="mr-3" id="locateNearestBtn" disabled>
+                        <i class="bi bi-search"></i>Locate Nearest Active Evacuation</button>
+                    <button type="button" id="locateCurrentLocationBtn">
+                        <i class="bi bi-geo-fill"></i>Locate Current Location</button>
+                </div>
             </div>
             <div class="table-container">
                 <div class="table-content">
@@ -399,6 +424,7 @@
                         map.setCenter(userMarker.getPosition());
                         map.setZoom(18);
                         scrollToMap();
+                        $('#user-marker').prop('hidden', false);
                     });
             });
 
@@ -409,6 +435,7 @@
                     locateEvacuationCenter(findNearestActive, this);
                     intervalId = setInterval(() => locateEvacuationCenter(findNearestActive, this), 20000);
                     scrollToMap();
+                    $('#user-marker').prop('hidden', false);
                 }
             });
 
@@ -421,6 +448,7 @@
                 map.setZoom(12);
                 map.setCenter(newLatLng(14.242311, 121.12772));
                 locating = false;
+                $('#user-marker').prop('hidden', true);
             });
 
             // Echo.channel('evacuation-center-locator').listen('EvacuationCenterLocator', (e) => {
