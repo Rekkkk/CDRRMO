@@ -2,7 +2,6 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
 
 :root {
-    /* Light Mode */
     --color-text: #ffffff;
     --color-background: #ecf0f1;
     --color-red: #dc3545;
@@ -10,12 +9,11 @@
     --color-green: #28a745;
     --color-primary: #3575ff;
     --color-yellow: #ffc107;
-    /* Light Mode*/
 
     /* Dark Mode*/
     --color-d-background: #1e293b;
     --color-d-text: rgb(255 255 255);
-    --color-d-sub-text: #94a3b8;
+    --color-d-sub-text: #cbd5e1;
     --color-d-bg-container: #475569;
     /* Dark Mode*/
 }
@@ -247,6 +245,10 @@ hr,
 
 .dropdown-menu .changePasswordBtn:active {
     background: #2563eb;
+}
+
+.dropdown-menu #changeTheme:active {
+    background: #facc15;
 }
 
 .dropdown-menu .myProfile:active {
@@ -1819,12 +1821,16 @@ select.form-select option {
         padding: 300px 0;
     }
 
-    .sidebar {
+    .sidebar,
+    .dark-mode .sidebar,
+    .sidebar:hover {
         width: 0;
     }
 
     .sidebar #logo,
-    .sidebar #btn-sidebar-close {
+    .sidebar #btn-sidebar-close,
+    .dark-mode .sidebar #logo,
+    .dark-mode .sidebar #btn-sidebar-close {
         display: none;
     }
 
@@ -1835,7 +1841,8 @@ select.form-select option {
         display: block;
     }
 
-    .sidebar.active {
+    .sidebar.active,
+    .dark-mode .sidebar.active {
         width: 320px;
     }
 
@@ -2063,34 +2070,37 @@ select.form-select option {
 /* Dark Mode Section*/
 
 /* Dark Mode Header Section  */
-.dropdown-menu {
+.dark-mode .dropdown-menu {
     background: var(--color-d-bg-container);
 }
 
-.dropdown-menu a {
+.dark-mode .dropdown-menu a {
     color: var(--color-d-text);
+}
+
+.dark-mode .dropdown-menu .changePasswordBtn:hover,
+.dark-mode .dropdown .myProfile:hover,
+.dark-mode .dropdown-menu .logout:hover,
+.dark-mode .dropdown-menu #changeTheme:hover {
+    background: var(--color-d-background);
 }
 
 /* Dark Mode Header Section */
 
-/* Dashboard Sectin */
+/* Dark Mode Dashboard Section */
 .dark-mode {
     background: var(--color-d-background);
 }
 
-.dark-mode *{
+.dark-mode * {
     font-weight: 400 !important;
-}
-
-.dark-mode .main-content hr {
-    color: var(--color-d-text);
 }
 
 .dark-mode .label-container span,
 .dark-mode .report-container p,
-.dark-mode .wigdet-header p {
+.dark-mode .wigdet-header p,
+.dark-mode .main-content hr {
     color: var(--color-d-text);
-    font-weight: 400;
 }
 
 .dark-mode .report-container span {
@@ -2111,7 +2121,6 @@ select.form-select option {
 
 .dark-mode .highcharts-title,
 .dark-mode text {
-    
     fill: var(--color-d-text) !important;
 }
 
@@ -2119,6 +2128,7 @@ select.form-select option {
     color: var(--color-d-sub-text) !important;
     fill: var(--color-d-background) !important;
 }
-/* Dashboard Section*/
+
+/* Dark Mode Dashboard Section*/
 
 /* Dark Mode */
