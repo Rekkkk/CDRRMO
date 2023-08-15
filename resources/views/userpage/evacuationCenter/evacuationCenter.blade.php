@@ -60,7 +60,7 @@
                         <i class="bi bi-geo-fill"></i>Pinpoint Current Location</button>
                 </div>
             </div>
-            <div class="table-container">
+            <div class="table-container mt-2">
                 <div class="table-content">
                     <header class="table-label">Evacuation Centers</header>
                     <table class="table" id="evacuationCenterTable" width="100%">
