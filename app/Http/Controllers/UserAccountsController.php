@@ -35,18 +35,14 @@ class UserAccountsController extends Controller
 
         return DataTables::of($userAccounts)
             ->addIndexColumn()
-            ->addColumn('id', function ($account) {
-                return Crypt::encryptString($account->id);
-            })
-            ->addColumn('status', function ($account) {
-                $color = match ($account->status) {
-                    'Active' => 'success',
-                    'Disabled' => 'danger',
-                    'Suspended' => 'warning'
-                };
-
-                return '<div class="status-container"><div class="status-content bg-' . $color . '">' . $account->status . '</div></div>';
-            })->addColumn('action', function ($user) {
+            ->addColumn('id', fn ($account) => Crypt::encryptString($account->id))
+            ->addColumn('status', fn ($account) => '<div class="status-container"><div class="status-content bg-' . match ($account->status) {
+                'Active' => 'success',
+                'Disabled' => 'danger',
+                'Suspended' => 'warning'
+            }
+                . '">' . $account->status . '</div></div>')
+            ->addColumn('action', function ($user) {
                 if (auth()->user()->is_disable == 0) {
                     $actionBtns = '<div class="action-container"><select class="form-select actionSelect">
                         <option value="" disabled selected hidden>Select Action</option>';

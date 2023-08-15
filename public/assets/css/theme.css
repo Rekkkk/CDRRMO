@@ -2,6 +2,7 @@
 @import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css");
 
 :root {
+    /* Light Mode */
     --color-text: #ffffff;
     --color-background: #ecf0f1;
     --color-red: #dc3545;
@@ -9,6 +10,14 @@
     --color-green: #28a745;
     --color-primary: #3575ff;
     --color-yellow: #ffc107;
+    /* Light Mode*/
+
+    /* Dark Mode*/
+    --color-d-background: #1e293b;
+    --color-d-text: rgb(255 255 255);
+    --color-d-sub-text: #94a3b8;
+    --color-d-bg-container: #475569;
+    /* Dark Mode*/
 }
 
 * {
@@ -20,15 +29,15 @@
     font-family: "Montserrat", sans-serif;
 }
 
-/* Toastr Section Start Here */
+/* Toastr Section */
 .toast {
     opacity: 1 !important;
     box-shadow: none !important;
 }
 
-/* Toastr Section End */
+/* Toastr Section */
 
-/* Website Scroll Bar Start Here */
+/* Website Scroll Bar */
 ::-webkit-scrollbar {
     width: 0.5vw;
 }
@@ -46,7 +55,7 @@ hr,
     background: var(--color-gray);
 }
 
-/* Website Scroll Bar End */
+/* Website Scroll Bar */
 
 .wrapper {
     width: 100%;
@@ -54,7 +63,7 @@ hr,
     padding: 0 10px 0 20px;
 }
 
-/* Button Section Start Here */
+/* Button Section */
 .btn-submit,
 .btn-table-submit,
 #locateNearestBtn {
@@ -180,9 +189,9 @@ hr,
     padding-right: 8px;
 }
 
-/* Button End Section */
+/* Button */
 
-/* Header Section Start Here */
+/* Header Section */
 .header-section {
     position: absolute;
     width: 100%;
@@ -200,6 +209,10 @@ hr,
     justify-content: space-between;
     align-items: center;
     height: 100%;
+}
+
+#changeTheme {
+    cursor: pointer;
 }
 
 .dropdown button {
@@ -244,9 +257,9 @@ hr,
     background: #dc2626;
 }
 
-/* Header Section End */
+/* Header Section */
 
-/* Main Content Start Here */
+/* Main Content */
 .main-content {
     width: 100%;
     margin: 100px auto 30px;
@@ -286,9 +299,9 @@ hr,
     font-weight: 700;
 }
 
-/* Main End Content */
+/* Main Content */
 
-/* Side Bar Section Start Here*/
+/* Side Bar Section*/
 .sidebar {
     position: fixed;
     width: 80px;
@@ -354,7 +367,8 @@ hr,
     width: 100%;
 }
 
-.sidebar #logo {
+.sidebar #logo,
+.dark-mode .sidebar #logo {
     width: 55px;
     transition: 100ms;
 }
@@ -466,9 +480,9 @@ hr,
     padding: 0;
 }
 
-/* Side Bar End Section */
+/* Side Bar */
 
-/* Authentication Section Start Here */
+/* Authentication Section */
 .auth-body {
     background: var(--color-gray);
 }
@@ -744,9 +758,9 @@ hr,
     color: #94a3b8;
 }
 
-/* Authentication End Section */
+/* Authentication */
 
-/* Dashboard Section Start Here */
+/* Dashboard Section */
 .report-container {
     display: flex;
     justify-content: space-between;
@@ -852,9 +866,24 @@ hr,
     box-shadow: 0 0 19px -1px rgba(0, 0, 0, 0.2);
 }
 
-/* Dashboard End Section */
+.highcharts-label path {
+    color: var(--color-text) !important;
+    fill: var(--color-text) !important;
+}
 
-/* Guideline Section Start Here */
+.highcharts-title,
+text {
+    font-weight: 800 !important;
+}
+
+text {
+    color: #000 !important;
+    fill: #000 !important;
+}
+
+/* Dashboard */
+
+/* Guideline Section */
 .guideline-container,
 .guide-container {
     display: flex;
@@ -972,9 +1001,9 @@ hr,
     margin: 12px;
 }
 
-/* Guideline End Section */
+/* Guideline */
 
-/* Evacuation Center Section Start Here */
+/* Evacuation Center Section */
 
 .locator-content {
     margin-top: 16px;
@@ -1086,9 +1115,9 @@ hr,
     transform: scale(1.10);
 }
 
-/* Evacuation Center Section End */
+/* Evacuation Center Section */
 
-/* Report Incident Section Start Here */
+/* Report Incident Section */
 .report-button {
     position: fixed;
     margin: 35px 14px;
@@ -1222,9 +1251,9 @@ hr,
     transform: scale(1.05);
 }
 
-/* Report Incident End Section*/
+/* Report Incident*/
 
-/* About Section Start Here */
+/* About Section */
 .about-content {
     display: flex;
     margin-top: 16px;
@@ -1308,16 +1337,21 @@ hr,
     margin: 0;
 }
 
-/* About End Section */
+/* About */
 
-/* Hotline Number Section Start Here */
+/* Hotline Number Section */
 
 .hotline-content .number-section {
     flex: 3;
     padding: 24px;
     background: #475569;
     color: var(--color-text);
+    border-radius: 4px;
     filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+}
+
+.hotline-container {
+    margin-top: 32px;
 }
 
 .number-section .font-bold a {
@@ -1325,9 +1359,15 @@ hr,
     padding: 4px 8px;
 }
 
-/* Hotline Number End Section */
+.number-section i {
+    margin-right: 12px;
+    font-size: 18px;
+    line-height: 28px;
+}
 
-/* User Profile Section Start Here */
+/* Hotline Number */
+
+/* User Profile Section */
 .user-profile-container {
     position: relative;
     background: var(--color-text);
@@ -1422,9 +1462,9 @@ hr,
     flex: 1 1 auto;
 }
 
-/* User Profile End Section */
+/* User Profile */
 
-/* Recording Evacuee Section Start Here */
+/* Recording Evacuee Section */
 select {
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -1439,9 +1479,9 @@ input::-webkit-inner-spin-button {
     margin: 0;
 }
 
-/* Recording Evacuee End Section */
+/* Recording Evacuee */
 
-/* Modal Section Start Here */
+/* Modal Section */
 
 .modal-label-container,
 .change-modal-label-container {
@@ -1476,9 +1516,9 @@ input::-webkit-inner-spin-button {
     right: 30px;
 }
 
-/* Modal Section End */
+/* Modal Section */
 
-/* Form Section Start Here */
+/* Form Section */
 .form-content {
     display: flex;
     flex-wrap: wrap;
@@ -1606,9 +1646,9 @@ span.error {
     font-style: italic;
 }
 
-/* Form Section End */
+/* Form Section */
 
-/* DataTable Section Start Here */
+/* DataTable Section */
 
 .table-container {
     padding: 12px;
@@ -1680,7 +1720,7 @@ select.form-select option {
     font-size: 15px;
 }
 
-/* DataTable Section End */
+/* DataTable Section */
 
 /* Laptop View Section */
 @media only screen and (max-width: 1024px) {
@@ -1736,7 +1776,7 @@ select.form-select option {
     }
 }
 
-/* Laptop View End Section */
+/* Laptop View */
 
 /* Tablet View Section */
 @media only screen and (max-width: 767px) {
@@ -1819,12 +1859,12 @@ select.form-select option {
     }
 }
 
-/* Tablet View End Section */
+/* Tablet View */
 
 /* Mobile View Section */
 @media only screen and (max-width: 380px) {
 
-    /* Login Section Start Here */
+    /* Login Section */
     .auth-content {
         padding: 35% 0 20% 0;
         transition: 0.5s all ease-in-out;
@@ -1930,9 +1970,9 @@ select.form-select option {
         padding: 8px 13px 2px 13px;
     }
 
-    /* Login Section End*/
+    /* Login Section*/
 
-    /* Dashboard Section Start Here */
+    /* Dashboard Section */
     .report-container {
         display: block;
     }
@@ -1959,9 +1999,9 @@ select.form-select option {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 
-    /* Dashboard Section End*/
+    /* Dashboard Section*/
 
-    /* About Section Start Here */
+    /* About Section */
     .about-content>div {
         margin: 20px 0;
     }
@@ -1997,12 +2037,12 @@ select.form-select option {
         font-size: 12px;
     }
 
-    /* About Section End */
+    /* About Section */
 }
 
-/* Mobile View End Section */
+/* Mobile View */
 
-/* Animations Start Here */
+/* Animations */
 @keyframes scaleIn {
     0% {
         opacity: 0;
@@ -2015,4 +2055,67 @@ select.form-select option {
     }
 }
 
-/* Animations End */
+/* Animations */
+
+/* Dark Mode Section*/
+
+/* Dark Mode Header Section  */
+.dropdown-menu {
+    background: var(--color-d-bg-container);
+}
+
+.dropdown-menu a {
+    color: var(--color-d-text);
+}
+
+/* Dark Mode Header Section */
+
+/* Dashboard Sectin */
+.dark-mode {
+    background: var(--color-d-background);
+}
+
+.dark-mode *{
+    font-weight: 400 !important;
+}
+
+.dark-mode .main-content hr {
+    color: var(--color-d-text);
+}
+
+.dark-mode .label-container span,
+.dark-mode .report-container p,
+.dark-mode .wigdet-header p {
+    color: var(--color-d-text);
+    font-weight: 400;
+}
+
+.dark-mode .report-container span {
+    color: #f87171;
+}
+
+.dark-mode .widget {
+    background: var(--color-d-bg-container);
+}
+
+.dark-mode .content-description span {
+    color: var(--color-d-sub-text);
+}
+
+.dark-mode .highcharts-background {
+    fill: var(--color-d-bg-container);
+}
+
+.dark-mode .highcharts-title,
+.dark-mode text {
+    
+    fill: var(--color-d-text) !important;
+}
+
+.dark-mode .highcharts-label path {
+    color: var(--color-d-sub-text) !important;
+    fill: var(--color-d-background) !important;
+}
+/* Dashboard Section*/
+
+/* Dark Mode */

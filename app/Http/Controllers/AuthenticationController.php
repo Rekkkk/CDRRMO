@@ -7,8 +7,8 @@ use App\Models\User;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
-use App\Mail\SendResetPasswordLink;
 use Illuminate\Support\Facades\DB;
+use App\Mail\SendResetPasswordLink;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Validator;
@@ -71,7 +71,7 @@ class AuthenticationController extends Controller
             DB::table('password_resets')->insert([
                 'email' => $request->email,
                 'token' => $token,
-                'created_at' => Carbon::now()
+                'created_at' => Carbon::now()->addHours(3)
             ]);
             Mail::to($request->email)->send(new SendResetPasswordLink(['token' => $token]));
             return back()->with('success', 'We have sent you an email with a link to reset your password.');
@@ -82,8 +82,8 @@ class AuthenticationController extends Controller
 
     public function resetPasswordForm($token)
     {
-        return DB::table('password_resets')->where('token', $token)->exists()
-            ? view('authentication.resetPasswordForm', compact('token')) : redirect('/')->with('warning', 'Token Expired.');
+        $passwordReset = DB::table('password_resets')->where('token', $token)->first();
+        return !$passwordReset ? redirect('/')->with('warning', 'Unauthorized Token.') : (Carbon::parse($passwordReset->created_at)->isPast() ? redirect('/')->with('warning', 'Token Expired.') : view('authentication.resetPasswordForm', compact('token')));
     }
 
     public function resetPassword(Request $request)
@@ -97,16 +97,9 @@ class AuthenticationController extends Controller
         if ($resetPasswordValidation->fails())
             return back()->withInput()->with('warning', $resetPasswordValidation->errors()->first());
 
-        if (!DB::table('password_resets')->where('email', $request->email)->where('token', $request->token)->exists())
-            return back()->withInput()->with('error', 'Unauthorized Token!');
-
-        try {
-            $this->user->where('email', $request->email)->update(['password' => Hash::make($request->password)]);
-            DB::table('password_resets')->where('email', $request->email)->delete();
-            return redirect('/')->with('success', 'Your password has been changed.');
-        } catch (\Exception $e) {
-            return back()->with('error', 'An error occurred while processing your request.');
-        }
+        $this->user->where('email', $request->email)->update(['password' => Hash::make($request->password)]);
+        DB::table('password_resets')->where('email', $request->email)->delete();
+        return redirect('/')->with('success', 'Your password has been changed.');
     }
 
     public function logout()

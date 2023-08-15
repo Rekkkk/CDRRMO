@@ -150,6 +150,16 @@
                     tooltip: {
                         pointFormat: '{series.name}: <b>{point.y}</b>'
                     },
+                    plotOptions: {
+                        pie: {
+                            dataLabels: {
+                                enabled: true,
+                                style: {
+                                    textOutline: 'none'
+                                }
+                            }
+                        }
+                    },
                     series: [{
                         name: 'Evacuee',
                         colorByPoint: true,
@@ -189,6 +199,14 @@
                         reversed: true
                     },
                     plotOptions: {
+                        bar: {
+                            dataLabels: {
+                                enabled: true,
+                                style: {
+                                    textOutline: 'none'
+                                }
+                            }
+                        },
                         series: {
                             stacking: 'normal',
                             dataLabels: {

@@ -13,7 +13,6 @@ use Illuminate\Support\Facades\Crypt;
 use App\Events\EvacuationCenterLocator;
 use Illuminate\Support\Facades\Validator;
 
-
 class EvacuationCenterController extends Controller
 {
     private $evacuationCenter, $logActivity;
@@ -30,9 +29,7 @@ class EvacuationCenterController extends Controller
 
         return DataTables::of($evacuationCenterList)
             ->addIndexColumn()
-            ->addColumn('id', function ($evacuation) {
-                return Crypt::encryptString($evacuation->id);
-            })
+            ->addColumn('id', fn ($evacuation) => Crypt::encryptString($evacuation->id))
             ->addColumn('capacity', function ($evacuation) use ($operation) {
                 return $operation == "locator" ? Evacuee::where('evacuation_assigned', $evacuation->name)->sum('individuals') . '/' . $evacuation->capacity : $evacuation->capacity;
             })->addColumn('action', function ($evacuation) use ($operation) {
@@ -72,7 +69,7 @@ class EvacuationCenterController extends Controller
             return response(['status' => 'warning', 'message' => implode('<br>', $evacuationCenterValidation->errors()->all())]);
 
         $this->evacuationCenter->create([
-            'name' => Str::ucfirst(trim($request->name)),
+            'name' => Str::of(trim($request->name))->title(),
             'barangay_name' => $request->barangayName,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,
@@ -97,7 +94,7 @@ class EvacuationCenterController extends Controller
             return response(['status' => 'warning', 'message' => $evacuationCenterValidation->errors()->first()]);
 
         $this->evacuationCenter->find(Crypt::decryptString($evacuationId))->update([
-            'name' => Str::ucfirst(trim($request->name)),
+            'name' => Str::of(trim($request->name))->title(),
             'barangay_name' => $request->barangayName,
             'latitude' => $request->latitude,
             'longitude' => $request->longitude,

@@ -77,23 +77,6 @@
             checkPasswordIcon.removeClass('success').removeClass('error').prop('hidden', true);
             changePasswordValidation.resetForm();
         });
-
-        $(document).on('click', '.toggle-password', function() {
-            const currentPasswordInput = $('#current_password');
-
-            if (current_password == "") {
-                currentPasswordInput.css('border-color', 'red');
-                setTimeout(function() {
-                    currentPasswordInput.removeAttr('style');
-                }, 1000);
-            } else {
-                currentPasswordInput.removeAttr('style');
-                const inputElement = $($(this).data('target'));
-                inputElement.prop('type', inputElement.prop('type') == 'password' ? 'text' :
-                    'password');
-                $(this).toggleClass('bi-eye-slash bi-eye');
-            }
-        });
     });
 
     function datePicker(id) {
@@ -140,7 +123,11 @@
     }
     @endauth
 
-    const sidebar = document.querySelector('.sidebar');
+    const sidebar = document.querySelector('.sidebar'),
+        body = $('body'),
+        themeIcon = $('#themeIcon'),
+        themeText = $('#themeText'),
+        theme = localStorage.getItem('theme');
 
     document.addEventListener('click', ({
         target
@@ -185,6 +172,26 @@
                 overlay.remove();
             });
         });
+
+        theme == 'dark' ? enableDarkMode() : disableDarkMode();
+
+        $(document).on('click', '#changeTheme', () => {
+            body.hasClass('dark-mode') ? disableDarkMode() : enableDarkMode();
+        });
+
+        function enableDarkMode() {
+            body.addClass('dark-mode');
+            themeIcon.removeClass('bi-moon').addClass('bi-brightness-high');
+            themeText.text('Light Mode');
+            localStorage.setItem('theme', 'dark');
+        }
+
+        function disableDarkMode() {
+            body.removeClass('dark-mode');
+            themeIcon.removeClass('bi-brightness-high').addClass('bi-moon');
+            themeText.text('Dark Mode');
+            localStorage.setItem('theme', 'light');
+        }
     });
 
     function confirmModal(text) {

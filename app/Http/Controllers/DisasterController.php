@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Disaster;
+use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
@@ -26,17 +27,13 @@ class DisasterController extends Controller
 
         return DataTables::of($disasterInformation)
             ->addIndexColumn()
-            ->addColumn('id', function ($disaster) {
-                return Crypt::encryptString($disaster->id);
-            })
-            ->addColumn('status', function ($disaster) {
-                $color = match ($disaster->status) {
-                    'On Going' => 'success',
-                    'Inactive' => 'danger',
-                };
-
-                return '<div class="status-container"><div class="status-content bg-' . $color . '">' . $disaster->status . '</div></div>';
-            })->addColumn('action', function ($disaster) {
+            ->addColumn('id', fn ($disaster) => Crypt::encryptString($disaster->id))
+            ->addColumn('status', fn ($disaster) => '<div class="status-container"><div class="status-content bg-' . match ($disaster->status) {
+                'On Going' => 'success',
+                'Inactive' => 'danger'
+            }
+                . '">' . $disaster->status . '</div></div>')
+            ->addColumn('action', function ($disaster) {
                 if (auth()->user()->is_disable == 0) {
                     $statusOptions = $disaster->status == 'On Going' ? '<option value="Inactive">Inactive</option>' : '<option value="On Going">On Going</option>';
 
@@ -63,7 +60,7 @@ class DisasterController extends Controller
             return response(['status' => 'warning', 'message' => $validatedDisasterValidation->errors()->first()]);
 
         $this->disaster->create([
-            'name' => trim($request->name),
+            'name' => Str::of(trim($request->name))->title(),
             'status' => "On Going",
             'is_archive' => 0
         ]);
@@ -81,7 +78,7 @@ class DisasterController extends Controller
             return response()->json(['status' => 'warning', 'message' => $validatedDisasterValidation->errors()->first()]);
 
         $this->disaster->find(Crypt::decryptString($disasterId))->update([
-            'name' => trim($request->name)
+            'name' => Str::of(trim($request->name))->title()
         ]);
         $this->logActivity->generateLog('Updating Disaster Data');
         return response()->json();

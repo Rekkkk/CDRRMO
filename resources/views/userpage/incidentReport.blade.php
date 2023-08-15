@@ -65,8 +65,8 @@
                                                 <span class="status-content bg-success">{{ $report->status }}</span>
                                             </p>
                                         </div>
-                                        <p class="pb-2 fw-bold">Date Reported: <span class="text-danger">July 22,
-                                                2002</span>
+                                        <p class="pb-2 fw-bold">Date Reported: <span
+                                                class="text-danger">{{ date('Y') }}</span>
                                         </p>
                                     </div>
                                 </div>
@@ -105,7 +105,7 @@
                             <h1 class="modal-label">Incident Report</h1>
                         </div>
                         <div class="modal-body">
-                            <form id="reportForm" name="reportForm" enctype="multipart/form-data">
+                            <form id="reportForm" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-content">
                                     <input type="text" id="operation" hidden>
@@ -347,7 +347,7 @@
                     width: '1rem',
                     orderable: false,
                     searchable: false
-                },
+                }
             ]
         });
 
@@ -387,18 +387,18 @@
                         contentType: false,
                         processData: false,
                         success(response) {
-                            if (response.status == 'success') {
-                                showSuccessMessage(
-                                    'Successfully reported, Thank for your concern.');
-                                $('#reportForm')[0].reset();
-                                modal.modal('hide');
-                                pendingReport.draw();
-                            } else if (response.status == 'warning') {
+                            if (response.status == 'warning') {
                                 showWarningMessage(response.message);
                             } else if (response.status == 'blocked') {
                                 $('#reportForm')[0].reset();
                                 modal.modal('hide');
                                 showWarningMessage(response.message);
+                            } else {
+                                showSuccessMessage(
+                                    'Successfully reported, Thank for your concern.');
+                                $('#reportForm')[0].reset();
+                                modal.modal('hide');
+                                pendingReport.draw();
                             }
                         },
                         error() {
