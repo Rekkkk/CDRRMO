@@ -20,34 +20,34 @@
             </div>
             <hr>
             <div class="hotline-content mt-3">
-                <div class="number-section rounded">
-                    <div class="">
-                        <div class="font-bold">
-                            <i class="bi bi-hospital mr-4 text-lg"></i>
+                <div class="number-section">
+                    <div>
+                        <div class="fw-bold">
+                            <i class="bi bi-hospital"></i>
                             Hotline Numbers:
                         </div>
                         <hr class="mt-3">
                         <p class="my-3">+12 3341 562 341</p>
                     </div>
-                    <div class="mt-8">
-                        <span class="font-bold">
-                            <i class="bi bi-fire mr-4 text-lg"></i>
+                    <div class="hotline-container">
+                        <span class="fw-bold">
+                            <i class="bi bi-fire"></i>
                             Hotline Numbers:
                         </span>
                         <hr class="mt-3">
                         <p class="my-3">+12 3341 562 341</p>
                     </div>
-                    <div class="mt-8">
-                        <span class="font-bold">
-                            <i class="bi bi-droplet mr-4 text-lg"></i>
+                    <div class="hotline-container">
+                        <span class="fw-bold">
+                            <i class="bi bi-droplet"></i>
                             Hotline Numbers:
                         </span>
                         <hr class="mt-3">
                         <p class="my-3">+12 3341 562 341</p>
                     </div>
-                    <div class="mt-8">
-                        <span class="font-bold">
-                            <i class="bi bi-tree mr-4 text-lg"></i>
+                    <div class="hotline-container">
+                        <span class="fw-bold">
+                            <i class="bi bi-tree"></i>
                             Hotline Numbers:
                         </span>
                         <hr class="mt-3">

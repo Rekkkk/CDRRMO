@@ -115,6 +115,18 @@
                             </a>
                         </li>
                     @endif
+                    <li>
+                        <a href="{{ route('hotline.number') }}" class="menu-link">
+                            <i class="bi bi-telephone"></i>
+                            <span class="links_name">Hotline Numbers</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('about') }}" class="menu-link">
+                            <i class="bi bi-info-circle"></i>
+                            <span class="links_name">About</span>
+                        </a>
+                    </li>
                 @endif
                 @guest
                     <li>

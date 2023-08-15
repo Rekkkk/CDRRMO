@@ -8,6 +8,8 @@
                 <button class="bi bi-caret-down-fill" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 </button>
                 <ul class="dropdown-menu">
+                    <li><a class="dropdown-item" id="changeTheme">
+                            <i class="bi bi-moon" id="themeIcon"></i><span id="themeText">Dark Mode</span></a></li>
                     <li><a class="changePasswordBtn dropdown-item" href="#changePasswordModal" data-bs-toggle="modal">
                             <i class="bi bi-shield-lock"></i>Change Password</a></li>
                     <li><a class="myProfile dropdown-item" href="{{ route('account.display.profile') }}">

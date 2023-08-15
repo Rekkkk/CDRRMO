@@ -36,7 +36,6 @@
                         </a>
                     </div>
                 </div>
-
                 <div class="right-side">
                     <div class="social-section">
                         <div><span>Social</span></div>
@@ -57,7 +56,6 @@
                             <p><i class="bi bi-instagram"></i> Example 4</p>
                         </a>
                     </div>
-
                     <div class="telephone-section">
                         <div><span>Contact</span></div>
                         <hr>

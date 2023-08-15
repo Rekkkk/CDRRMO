@@ -27,12 +27,8 @@ class EvacueeController extends Controller
         $evacueeInfo = $this->evacuee->all();
         return DataTables::of($evacueeInfo)
             ->addIndexColumn()
-            ->addColumn('id', function ($evacuee) {
-                return Crypt::encryptString($evacuee->id);
-            })
-            ->addColumn('action', function () {
-                return '<button class="btn-table-update" id="updateEvacueeBtn"><i class="bi bi-pencil-square"></i>Update</button>';
-            })
+            ->addColumn('id', fn ($evacuee) => Crypt::encryptString($evacuee->id))
+            ->addColumn('action', fn () => '<button class="btn-table-update" id="updateEvacueeBtn"><i class="bi bi-pencil-square"></i>Update</button>')
             ->rawColumns(['id', 'action'])
             ->make(true);
     }
