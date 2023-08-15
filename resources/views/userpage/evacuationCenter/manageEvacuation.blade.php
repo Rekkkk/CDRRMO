@@ -135,12 +135,12 @@
 
             function initMap() {
                 map = new google.maps.Map(document.getElementById("map"), {
-                    center: {
-                        lat: 14.2471423,
-                        lng: 121.1366715
-                    },
+                    center: { lat: 14.246261, lng: 121.12772 },
                     zoom: 13,
-                    clickableIcons: false
+                    clickableIcons: false,
+                    mapTypeControlOptions: {
+                        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+                    }
                 });
 
                 map.addListener("click", (event) => {
@@ -161,7 +161,7 @@
 
                     $('#latitude').val(location.lat());
                     $('#longitude').val(location.lng());
-                    $('#location-error').text('');
+                    $('#location-error').text('').prop('style', 'display: none');
                 });
             }
 
@@ -187,7 +187,8 @@
                         this.defaultShowErrors();
 
                         if (!marker && saveBtnClicked)
-                            $('#location-error').text('Please select a location.').show();
+                            $('#location-error').text('Please select a location.').
+                            prop('style', 'display: block !important');
                     },
                     errorElement: 'span',
                     submitHandler: formSubmitHandler

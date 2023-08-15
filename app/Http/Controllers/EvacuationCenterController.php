@@ -101,7 +101,7 @@ class EvacuationCenterController extends Controller
             'capacity' => trim($request->capacity)
         ]);
         $this->logActivity->generateLog('Updating evacuation center');
-        // event(new EvacuationCenter());
+        // event(new EvacuationCenterLocator());
         return response()->json();
     }
 
@@ -109,7 +109,7 @@ class EvacuationCenterController extends Controller
     {
         $this->evacuationCenter->find(Crypt::decryptString($evacuationId))->delete();
         $this->logActivity->generateLog('Removing evacuation center');
-        // event(new EvacuationCenter());
+        // event(new EvacuationCenterLocator());
         return response()->json();
     }
 
@@ -119,7 +119,7 @@ class EvacuationCenterController extends Controller
             'status' => $request->status
         ]);
         $this->logActivity->generateLog('Changing evacuation center status');
-        // event(new EvacuationCenter());
+        // event(new EvacuationCenterLocator());
         return response()->json();
     }
 }
