@@ -1,5 +1,10 @@
 <script>
+    const body = $('body'),
+        themeIcon = $('#themeIcon'),
+        themeText = $('#themeText'),
+        theme = localStorage.getItem('theme');
     @auth
+
     let currentPassword = $('#currentPassword'),
         password = $('#password'),
         confirmPassword = $('#confirmPassword'),
@@ -12,7 +17,7 @@
         checkPasswordIcon = $('.checkPassword'),
         current_password = "";
 
-    $(document).ready(function() {
+    $(document).ready(() => {
         let changePasswordValidation = changePasswordForm.validate({
             rules: {
                 password: 'required',
@@ -76,6 +81,28 @@
             resetChangePasswordForm();
             checkPasswordIcon.removeClass('success').removeClass('error').prop('hidden', true);
             changePasswordValidation.resetForm();
+        }); 
+
+        $(document).on('click', '.toggle-password', function() {
+            const currentPasswordInput = $('#current_password');
+            if (current_password == "") {
+                currentPasswordInput.css('border-color', 'red');
+                setTimeout(function() {
+                    currentPasswordInput.removeAttr('style');
+                }, 1000);
+            } else {
+                currentPasswordInput.removeAttr('style');
+                const inputElement = $($(this).data('target'));
+                inputElement.prop('type', inputElement.prop('type') == 'password' ? 'text' :
+                    'password');
+                $(this).toggleClass('bi-eye-slash bi-eye');
+            }
+        });
+
+        theme == 'dark' ? enableDarkMode() : disableDarkMode();
+
+        $(document).on('click', '#changeTheme', () => {
+            body.hasClass('dark-mode') ? disableDarkMode() : enableDarkMode();
         });
     });
 
@@ -122,57 +149,28 @@
         });
     }
     @endauth
-
-    const sidebar = document.querySelector('.sidebar'),
-        body = $('body'),
-        themeIcon = $('#themeIcon'),
-        themeText = $('#themeText'),
-        theme = localStorage.getItem('theme');
-
-    document.addEventListener('click', ({
-        target
-    }) => {
-        const element = target;
-
-        element.id == 'btn-sidebar-mobile' ? sidebar.classList.toggle('active') :
-            element.id == 'btn-sidebar-close' ? sidebar.classList.remove('active') :
-            element.parentElement.className == 'menu-link' ? localStorage.setItem('active-link', $(element
-                .parentElement).attr('href')) :
-            element.closest('#logoutBtn') || element.parentElement.id == 'loginLink' ? localStorage.removeItem(
-                'active-link') : null;
-    });
-    
-    $(document).ready(function() {
-        $(document).on('click', '.overlay-text', function() {
-            var reportPhotoUrl = $(this).closest('.image-wrapper').find('.report-img').attr('src');
-            var overlay = $('<div class="overlay show"><img src="' + reportPhotoUrl +
-                '" class="overlay-image"></div>');
-            $('body').append(overlay);
-            overlay.click(() => {
-                overlay.remove();
-            });
+    function displayReportPhoto(reportPhotoUrl) {
+        let overlay = $('<div class="overlay show"><img src="' + reportPhotoUrl +
+            '" class="overlay-image"></div>');
+        $('body').append(overlay);
+        overlay.click(() => {
+            overlay.remove();
         });
+    }
 
-        theme == 'dark' ? enableDarkMode() : disableDarkMode();
+    function enableDarkMode() {
+        body.addClass('dark-mode');
+        themeIcon.removeClass('bi-moon').addClass('bi-brightness-high');
+        themeText.text('Light Mode');
+        localStorage.setItem('theme', 'dark');
+    }
 
-        $(document).on('click', '#changeTheme', () => {
-            body.hasClass('dark-mode') ? disableDarkMode() : enableDarkMode();
-        });
-
-        function enableDarkMode() {
-            body.addClass('dark-mode');
-            themeIcon.removeClass('bi-moon').addClass('bi-brightness-high');
-            themeText.text('Light Mode');
-            localStorage.setItem('theme', 'dark');
-        }
-
-        function disableDarkMode() {
-            body.removeClass('dark-mode');
-            themeIcon.removeClass('bi-brightness-high').addClass('bi-moon');
-            themeText.text('Dark Mode');
-            localStorage.setItem('theme', 'light');
-        }
-    });
+    function disableDarkMode() {
+        body.removeClass('dark-mode');
+        themeIcon.removeClass('bi-brightness-high').addClass('bi-moon');
+        themeText.text('Dark Mode');
+        localStorage.setItem('theme', 'light');
+    }
 
     function confirmModal(text) {
         return Swal.fire({
