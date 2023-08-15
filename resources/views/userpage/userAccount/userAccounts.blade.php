@@ -35,7 +35,7 @@
                 <div class="table-content">
                     <header class="table-label">User Accounts Table</header>
                     <table class="table accountTable" width="100%">
-                        <thead class="thead-light">
+                        <thead>
                             <tr>
                                 <th colspan="2">Email Address</th>
                                 <th>Organization</th>
@@ -143,7 +143,7 @@
                             email
                         } = getRowData(this, accountTable);
                     userId = id;
-                    
+
                     switch (selectedAction) {
                         case 'disableAccount':
                             confirmModal('Do you want to disable this account?').then((result) => {
@@ -262,9 +262,9 @@
                 });
 
                 $(document).on('click', '#createUserAccount', () => {
-                    $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
+                    $('.modal-label-container').removeClass('bg-warning');
                     $('.modal-label').text('Create User Account');
-                    $('#saveProfileDetails').removeClass('btn-update').addClass('btn-submit').text(
+                    $('#saveProfileDetails').removeClass('btn-update').text(
                         'Create');
                     $('#suspend-container').prop('hidden', true);
                     $('#suspend').prop('disabled', true);

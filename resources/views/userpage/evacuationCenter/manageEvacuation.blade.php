@@ -34,7 +34,7 @@
                 <div class="table-content">
                     <header class="table-label">Evacuation Center Table</header>
                     <table class="table evacuationCenterTable" width="100%">
-                        <thead class="thead-light">
+                        <thead>
                             <tr>
                                 <th colspan="2">Name</th>
                                 <th>Barangay</th>
@@ -195,9 +195,9 @@
                 });
 
                 $(document).on('click', '#createEvacuationCenter', function() {
-                    $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
+                    $('.modal-label-container').removeClass('bg-warning');
                     $('.modal-label').text('Create Evacuation Center');
-                    $('#createEvacuationCenterBtn').removeClass('btn-update').addClass('btn-submit').text(
+                    $('#createEvacuationCenterBtn').removeClass('btn-update').text(
                         'Add');
                     $('#operation').val('create');
                     $('#evacuationCenterModal').modal('show');
@@ -213,9 +213,9 @@
                         barangay_name
                     } = getRowData(this, evacuationCenterTable);
                     evacuationCenterId = id;
-                    $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
+                    $('.modal-label-container').addClass('bg-warning');
                     $('.modal-label').text('Update Evacuation Center');
-                    $('#createEvacuationCenterBtn').removeClass('btn-submit').addClass('btn-update').text(
+                    $('#createEvacuationCenterBtn').addClass('btn-update').text(
                         'Update');
                     $('#operation').val('update');
                     $('#name').val(name);

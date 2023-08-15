@@ -103,9 +103,9 @@
                     $(document).on('click', '.createGuideBtn', function() {
                         $('#createGuideForm').trigger("reset");
                         $('#guide_operation').val('create');
-                        $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
+                        $('.modal-label-container').removeClass('bg-warning');
                         $('.modal-label').text('Create Guide');
-                        $('#submitGuideBtn').removeClass('btn-update').addClass('btn-submit').text('Create');
+                        $('#submitGuideBtn').removeClass('btn-update').text('Create');
                         $('#guideModal').modal('show');
                     });
 
@@ -119,9 +119,9 @@
                         guideWidget = $(this).closest('.guide-widget');
                         guideItem = guideWidget.find('.guide-item');
                         guideId = guideWidget.find('#guideId').val();
-                        $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
+                        $('.modal-label-container').addClass('bg-warning');
                         $('.modal-label').text('Update Guide');
-                        $('#submitGuideBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
+                        $('#submitGuideBtn').addClass('btn-update').text('Update');
                         $('#label').val(guideItem.find('p').text());
                         $('#content').val(guideWidget.find('#guideContent').val());
                         $('#guide_operation').val('update');

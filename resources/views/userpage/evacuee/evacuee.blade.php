@@ -34,7 +34,7 @@
                 <div class="table-content">
                     <header class="table-label">Evacuees Informations Table</header>
                     <table class="table evacueeTable" width="100%">
-                        <thead class="thead-light">
+                        <thead>
                             <tr class="table-row">
                                 <th colspan="2">Barangay</th>
                                 <th>Date Entry</th>
@@ -211,17 +211,17 @@
             });
 
             $(document).on('click', '#recordEvacueeBtn', function() {
-                $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
+                $('.modal-label-container').removeClass('bg-warning');
                 $('.modal-label').text('Record Evacuee Information');
-                $('#recordEvacueeInfoBtn').removeClass('btn-update').addClass('btn-submit').text('Record');
+                $('#recordEvacueeInfoBtn').removeClass('btn-update').text('Record');
                 $('#operation').val('record');
                 modal.modal('show');
             });
 
             $(document).on('click', '#updateEvacueeBtn', function() {
-                $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
+                $('.modal-label-container').addClass('bg-warning');
                 $('.modal-label').text('Update Evacuee Information');
-                $('#recordEvacueeInfoBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
+                $('#recordEvacueeInfoBtn').addClass('btn-update').text('Update');
 
                 let data = getRowData(this, evacueeTable);
                 evacueeId = data.id;

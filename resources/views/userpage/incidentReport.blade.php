@@ -27,7 +27,7 @@
                 <div class="table-content">
                     <header class="table-label">Pending Incident Report</header>
                     <table class="table pendingReport" width="100%">
-                        <thead class="thead-light">
+                        <thead>
                             <tr>
                                 <th colspan="2">Description</th>
                                 <th>Location</th>
@@ -81,7 +81,7 @@
                     <div class="table-content">
                         <header class="table-label">Incident Report</header>
                         <table class="table incidentReports" width="100%">
-                            <thead class="thead-light">
+                            <thead>
                                 <tr>
                                     <th colspan="2">Description</th>
                                     <th>Location</th>

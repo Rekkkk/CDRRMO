@@ -37,24 +37,24 @@
                     <div class="marker-container">
                         <div class="markers">
                             <img src="{{ asset('assets/img/evacMarkerActive.png') }}" alt="Icon">
-                            <span class="fw-bold"> - Active</span>
+                            <span class="fw-bold">Active</span>
                         </div>
                         <div class="markers">
                             <img src="{{ asset('assets/img/evacMarkerInactive.png') }}" alt="Icon">
-                            <span class="fw-bold"> - Inactive</span>
+                            <span class="fw-bold">Inactive</span>
                         </div>
                         <div class="markers">
                             <img src="{{ asset('assets/img/evacMarkerFull.png') }}" alt="Icon">
-                            <span class="fw-bold"> - Full</span>
+                            <span class="fw-bold">Full</span>
                         </div>
                         <div class="markers" id="user-marker" hidden>
                             <img src="{{ asset('assets/img/userMarker.png') }}" alt="Icon">
-                            <span class="fw-bold"> - You</span>
+                            <span class="fw-bold">You</span>
                         </div>
                     </div>
                 </div>
                 <div class="locator-button-container">
-                    <button type="button" class="mr-3" id="locateNearestBtn" disabled>
+                    <button type="button" id="locateNearestBtn" disabled>
                         <i class="bi bi-search"></i>Locate Nearest Active Evacuation</button>
                     <button type="button" id="pinpointCurrentLocationBtn">
                         <i class="bi bi-geo-fill"></i>Pinpoint Current Location</button>
@@ -64,7 +64,7 @@
                 <div class="table-content">
                     <header class="table-label">Evacuation Centers</header>
                     <table class="table" id="evacuationCenterTable" width="100%">
-                        <thead class="thead-light">
+                        <thead>
                             <tr>
                                 <th>Name</th>
                                 <th>Barangay</th>
