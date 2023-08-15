@@ -32,13 +32,13 @@
             <div class="page-button-container">
                 <button type="button" class="mr-3" id="locateNearestBtn" disabled>
                     <i class="bi bi-search"></i>Locate Nearest Active Evacuation</button>
-                <button type="button" id="locateCurrentLocationBtn">
-                    <i class="bi bi-geo-fill"></i>Locate Current Location</button>
+                <button type="button" id="pinpointCurrentLocationBtn">
+                    <i class="bi bi-geo-fill"></i>Pinpoint Current Location</button>
             </div>
             <div class="table-container">
                 <div class="table-content">
                     <header class="table-label">Evacuation Centers</header>
-                    <table class="table evacuationCenterTable" width="100%">
+                    <table class="table" id="evacuationCenterTable" width="100%">
                         <thead class="thead-light">
                             <tr>
                                 <th>Name</th>
@@ -75,17 +75,13 @@
     @include('partials.toastr')
     <script>
         let map, activeInfoWindow, userMarker, userBounds, evacuationCentersData,
-            evacuationCenterTable, directionDisplay, directionService,
-            evacuationCenterJson = [],
-            intervalId = null,
-            locating = false;
+            evacuationCenterTable, directionDisplay, directionService, findNearestActive, rowData,
+            evacuationCenterJson = [], evacuationCenterMarkers = [], intervalId = null,
+            locating = false, geolocationBlocked = false, hasActiveEvacuationCenter = false;
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
-                center: {
-                    lat: 14.242311,
-                    lng: 121.12772
-                },
+                center: { lat: 14.246261, lng: 121.12772 },
                 zoom: 13,
                 mapTypeControlOptions: {
                     style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
@@ -94,8 +90,9 @@
 
             directionService = new google.maps.DirectionsService();
             directionDisplay = new google.maps.DirectionsRenderer({
-                map: map,
+                map,
                 suppressMarkers: true,
+                preserveViewport: true,
                 markerOptions: {
                     icon: {
                         url: "{{ asset('assets/img/userMarker.png') }}",
@@ -107,21 +104,26 @@
             const buttonContainer = document.createElement('div');
             buttonContainer.className = 'stop-btn-container';
             buttonContainer.innerHTML = `<button id="stopLocatingBtn" class="btn-remove">Stop Locating</button>`;
-
             map.controls[google.maps.ControlPosition.TOP_RIGHT].push(buttonContainer);
         }
 
-        function initMarkers(evacuationCenters) {
+        const initMarkers = evacuationCenters => {
+            while (evacuationCenterMarkers.length) evacuationCenterMarkers.pop().setMap(null);
+
             evacuationCenters.forEach(evacuationCenter => {
                 let picture = evacuationCenter.status == 'Active' ?
                     "evacMarkerActive" : evacuationCenter.status == 'Full' ?
                     "evacMarkerFull" : "evacMarkerInactive";
 
+                let evacuationCenterMarker = generateMarker({
+                    lat: parseFloat(evacuationCenter.latitude),
+                    lng: parseFloat(evacuationCenter.longitude)
+                }, "{{ asset('assets/img/picture.png') }}".replace('picture', picture));
+
+                evacuationCenterMarkers.push(evacuationCenterMarker);
+
                 generateInfoWindow(
-                    generateMarker({
-                        lat: parseFloat(evacuationCenter.latitude),
-                        lng: parseFloat(evacuationCenter.longitude)
-                    }, "{{ asset('assets/img/picture.png') }}".replace('picture', picture)),
+                    evacuationCenterMarker,
                     `<div class="info-window-container">
                         <div class="info-description">
                             <span>Name:</span> ${evacuationCenter.name}
@@ -143,151 +145,143 @@
             });
         }
 
-        function generateMarker(position, icon) {
-            return new google.maps.Marker({
-                position,
-                map: map,
-                icon: {
-                    url: icon,
-                    scaledSize: new google.maps.Size(35, 35)
-                },
-            });
-        }
+        const generateMarker = (position, icon) => new google.maps.Marker({
+            position, map,
+            icon: { url: icon, scaledSize: new google.maps.Size(35, 35) }
+        });
 
-        function generateInfoWindow(marker, content) {
-            const infoWindow = new google.maps.InfoWindow({
-                content: content
-            });
+        const generateInfoWindow = (marker, content) => {
+            if (!locating) closeInfoWindow();
+
+            const infoWindow = new google.maps.InfoWindow({ content });
 
             marker.addListener('click', () => {
-                if (activeInfoWindow)
-                    activeInfoWindow.close();
-
-                infoWindow.open({
-                    anchor: marker,
-                    shouldFocus: false,
-                    map: map
-                });
-
+                closeInfoWindow();
+                infoWindow.open({ anchor: marker, map });
                 activeInfoWindow = infoWindow;
-                map.panTo(marker.getPosition());
+                if (marker.icon.url.includes('userMarker'))
+                    zoomToUserLocation();
             });
+        };
+
+        const generateCircle = center => new google.maps.Circle({
+            map, center, radius: 14, fillColor: "#557ed8", fillOpacity: 0.3,
+            strokeColor: "#557ed8", strokeOpacity: 0.8, strokeWeight: 2
+        });
+
+        const request = (origin, destination) => ({
+            origin, destination, travelMode: google.maps.TravelMode.WALKING
+        });
+
+        const getStatusColor = status => status == 'Active' ? 'success' : status == 'Inactive' ? 'danger' : 'warning';
+
+        const getKilometers = response => (response.routes[0]?.legs[0]?.distance.value / 1000)?.toFixed(2);
+
+        const zoomToUserLocation = () => {
+            map.panTo(userMarker.getPosition());
+            map.setZoom(18);
         }
 
-        function generateCircle(center) {
-            return new google.maps.Circle({
-                map: map,
-                center: center,
-                radius: 14 * Math.pow(2, 0),
-                fillColor: "#557ed8",
-                fillOpacity: 0.3,
-                strokeColor: "#557ed8",
-                strokeOpacity: 0.8,
-                strokeWeight: 2
-            });
-        }
+        const scrollToMap = () => $('html, body').animate({ scrollTop: $('.locator-content').offset().top - 15}, 500);
 
-        function getStatusColor(status) {
-            return status == 'Active' ? 'success' : status == 'Inactive' ? 'danger' : 'warning';
-        }
+        const newLatLng = (lat, lng) => new google.maps.LatLng(lat, lng);
 
-        function newLatLng(lat, lng) {
-            return new google.maps.LatLng(lat, lng);
-        }
+        const closeInfoWindow = () => activeInfoWindow?.close();
 
-        function getKilometers(response) {
-            return (response.routes[0].legs[0].distance.value / 1000).toFixed(2);
-        }
-
-        function getUserLocation() {
+        const getUserLocation = () => {
             return new Promise((resolve, reject) => {
                 navigator.geolocation ?
                     navigator.geolocation.getCurrentPosition(
-                        (position) => resolve(position),
-                        () => getUserLocation(), {
-                            enableHighAccuracy: true
-                        }
-                    ) : (showInfoMessage('Geolocation is not supported by this browser.'),
-                        $('#locateNearestBtn').removeAttr('disabled'));
-
+                        (position) => position.coords.accuracy <= 500 ? (
+                            geolocationBlocked = false,
+                            resolve(position)) : getUserLocation(),
+                        (error) => {error.code == error.PERMISSION_DENIED ? (
+                            showWarningMessage(
+                                'Request for geolocation denied. To use this feature, please allow the browser to locate you.'
+                            ),
+                            locating = false, $('#locateNearestBtn').removeAttr('disabled'),
+                            geolocationBlocked = true) :
+                            getUserLocation()
+                        }, { enableHighAccuracy: true }) :
+                    (showInfoMessage('Geolocation is not supported by this browser.'), $('#locateNearestBtn').removeAttr('disabled'));
             });
         }
 
-        function setMarker(userlocation) {
+        const setMarker = userlocation =>
             userMarker ?
-                (userMarker.setMap(map), userBounds.setMap(map),
-                    userMarker.setPosition(userlocation),
-                    userBounds.setCenter(userMarker.getPosition())) :
+                (userMarker.setMap(map),
+                userBounds.setMap(map),
+                userMarker.setPosition(userlocation),
+                userBounds.setCenter(userMarker.getPosition())) :
                 (userMarker = generateMarker(userlocation,
-                        "{{ asset('assets/img/userMarker.png') }}"),
-                    userBounds = generateCircle(userMarker.getPosition()));
-        }
+                "{{ asset('assets/img/userMarker.png') }}"),
+                userBounds = generateCircle(userMarker.getPosition()));
 
-        function getEvacuationCentersDistance() {
-            getUserLocation()
-                .then((position) => {
-                    let promises = [];
+        const getEvacuationCentersDistance = async () => {
+            evacuationCenterJson.splice(0, evacuationCenterJson.length);
+            const activeEvacuationCenters = evacuationCentersData.filter(data => data.status != 'Inactive');
 
-                    evacuationCentersData.forEach(data => {
-                        if (data.status == 'Active' &&
-                            !evacuationCenterJson.some(item =>
-                                item.latitude === data.latitude &&
-                                item.longitude === data.longitude)) {
-                            const direction = new google.maps.DirectionsService();
-
-                            promises.push(new Promise((resolve, reject) => {
-                                direction.route({
-                                    origin: newLatLng(
-                                        position.coords.latitude,
-                                        position.coords.longitude),
-                                    destination: newLatLng(
-                                        data.latitude,
-                                        data.longitude),
-                                    travelMode: google.maps.TravelMode.WALKING,
-                                }, function(response, status) {
-                                    if (status == 'OK') {
-                                        evacuationCenterJson.push({
-                                            latitude: data.latitude,
-                                            longitude: data.longitude,
-                                            distance: getKilometers(response)
-                                        });
-                                        resolve();
-                                    }
-                                });
-                            }));
-                        }
+            if (activeEvacuationCenters.length == 0) {
+                hasActiveEvacuationCenter = false;
+                if (locating && findNearestActive) $('#stopLocatingBtn').trigger('click');
+            } else {
+                hasActiveEvacuationCenter = true;
+                const position = await getUserLocation();
+                const promises = activeEvacuationCenters.map(data => {
+                    return new Promise(resolve => {
+                        const direction = new google.maps.DirectionsService();
+                        direction.route(
+                            request(newLatLng(position.coords.latitude, position.coords.longitude),
+                            newLatLng(data.latitude, data.longitude)),
+                            (response, status) => {
+                                if (status == 'OK') {
+                                    evacuationCenterJson.push({
+                                        latitude: data.latitude,
+                                        longitude: data.longitude,
+                                        distance: parseFloat(getKilometers(response))
+                                    });
+                                }
+                                resolve();
+                            }
+                        );
                     });
-
-                    Promise.all(promises)
-                        .then(() => {
-                            evacuationCenterJson.sort((a, b) => a.distance - b.distance);
-                            $('#locateNearestBtn').removeAttr('disabled');
-                        }).catch((error) => {
-                            getEvacuationCentersDistance();
-                        });
                 });
+
+                await Promise.all(promises);
+                evacuationCenterJson.sort((a, b) => a.distance - b.distance);
+            }
+
+            $('#locateNearestBtn').removeAttr('disabled');
         }
 
-        function locateEvacuationCenter(findNearestActive, row = null) {
-            getUserLocation()
-                .then((position) => {
-                    const {
-                        latitude,
-                        longitude
-                    } = findNearestActive ?
-                        evacuationCenterJson[0] : getRowData(row, evacuationCenterTable);
+        const locateEvacuationCenter = async () => {
+            if (findNearestActive && evacuationCenterJson.length == 0) {
+                await getEvacuationCentersDistance();
 
-                    directionService.route({
-                        origin: newLatLng(position.coords.latitude, position.coords.longitude),
-                        destination: newLatLng(latitude, longitude),
-                        travelMode: google.maps.TravelMode.WALKING,
-                    }, function(response, status) {
-                        if (status == 'OK' && locating) {
+                if (!hasActiveEvacuationCenter && !geolocationBlocked) {
+                    showInfoMessage('There are no active evacuation centers.');
+                    locating = false;
+                    return;
+                }
+            }
+
+            if (locating && (evacuationCenterJson[0] || rowData)) {
+                const position = await getUserLocation();
+
+                console.log(evacuationCenterJson[0])
+
+                const { latitude, longitude } = findNearestActive ?
+                    evacuationCenterJson[0] : rowData;
+
+                directionService.route(request(
+                    newLatLng(position.coords.latitude, position.coords.longitude),
+                    newLatLng(latitude, longitude)),
+                    function(response, status) {
+                        if (status == 'OK') {
                             directionDisplay.setMap(map);
                             directionDisplay.setDirections(response);
 
                             setMarker(response.routes[0].legs[0].start_location);
-
                             generateInfoWindow(userMarker,
                                 `<div class="info-window-container">
                                     <center>You are here.</center>
@@ -298,21 +292,24 @@
                             );
 
                             if ($('.stop-btn-container').is(':hidden')) {
+                                scrollToMap();
+                                var bounds = new google.maps.LatLngBounds();
+                                response.routes[0].legs.forEach(({ steps }) =>
+                                    steps.forEach(({ start_location, end_location }) =>
+                                        (bounds.extend(start_location), bounds.extend(end_location))
+                                    )
+                                );
+                                map.fitBounds(bounds);
                                 $('.stop-btn-container').show();
                             }
                         }
-                    });
-                });
-        }
-
-        function scrollToMap() {
-            $("html, body").animate({
-                scrollTop: $(".locator-content").offset().top - 16
-            }, 500);
+                    }
+                );
+            }
         }
 
         $(document).ready(() => {
-            evacuationCenterTable = $('.evacuationCenterTable').DataTable({
+            evacuationCenterTable = $('#evacuationCenterTable').DataTable({
                 language: {
                     emptyTable: '<div class="message-text">There are currently no evacuation centers available.</div>'
                 },
@@ -372,60 +369,61 @@
                 }],
                 drawCallback: function() {
                     evacuationCentersData = this.api().ajax.json().data;
-                    initMarkers(evacuationCentersData);
                     getEvacuationCentersDistance();
+                    initMarkers(evacuationCentersData);
+                    if (locating && !findNearestActive && rowData && !evacuationCentersData.some(evacuationCenter =>
+                        evacuationCenter.latitude == rowData.latitude &&
+                        evacuationCenter.longitude == rowData.longitude)) {
+                        $('#stopLocatingBtn').trigger('click');
+                        showWarningMessage('The evacuation center you are looking for is no longer available.');
+                    }
                 }
             });
 
-            $(document).on("click", "#locateCurrentLocationBtn", function() {
+            $(document).on("click", "#pinpointCurrentLocationBtn", function() {
                 if (!locating)
                     getUserLocation()
                     .then((position) => {
-                        if (directionDisplay) directionDisplay.setMap(null);
-
-                        setMarker(newLatLng(
-                            position.coords.latitude,
-                            position.coords.longitude
-                        ));
-
+                        setMarker(newLatLng(position.coords.latitude, position.coords.longitude));
                         generateInfoWindow(userMarker,
                             `<div class="info-window-container">
                                 <div class="info-description">
                                     <center>You are here.</center>
                                 </div>
-                            </div>`
-                        );
-
-                        map.setCenter(userMarker.getPosition());
-                        map.setZoom(18);
+                            </div>`);
                         scrollToMap();
+                        zoomToUserLocation();
                     });
             });
 
             $(document).on("click", "#locateNearestBtn, .locateEvacuationCenter", function() {
                 if (!locating) {
-                    const findNearestActive = this.id == "locateNearestBtn" ? true : false;
+                    rowData = getRowData(this, evacuationCenterTable);
                     locating = true;
-                    locateEvacuationCenter(findNearestActive, this);
-                    intervalId = setInterval(() => locateEvacuationCenter(findNearestActive, this), 20000);
-                    scrollToMap();
+                    findNearestActive = $(this).hasClass('locateEvacuationCenter') ? false : true;
+                    locateEvacuationCenter();
+                    if (!geolocationBlocked && locating) {
+                        if (findNearestActive && !hasActiveEvacuationCenter) return;
+                        intervalId = setInterval(() => locateEvacuationCenter(), 5000);
+                    }
                 }
             });
 
             $(document).on("click", "#stopLocatingBtn", function() {
+                directionDisplay?.setMap(null);
+                userMarker?.setMap(null);
+                userBounds?.setMap(null);
+                closeInfoWindow();
                 clearInterval(intervalId);
-                directionDisplay.setMap(null);
-                userMarker.setMap(null);
-                userBounds.setMap(null);
                 $('.stop-btn-container').hide();
-                map.setZoom(12);
-                map.setCenter(newLatLng(14.242311, 121.12772));
                 locating = false;
+                map.setCenter(newLatLng(14.246261, 121.12772));
+                map.setZoom(13);
             });
 
             // Echo.channel('evacuation-center-locator').listen('EvacuationCenterLocator', (e) => {
             //     evacuationCenterTable.draw();
-            // })
+            // });
         });
     </script>
 </body>
