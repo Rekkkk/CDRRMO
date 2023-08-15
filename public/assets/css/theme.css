@@ -170,6 +170,7 @@ hr,
 .evacuation-button-container {
     display: flex;
     justify-content: space-between;
+    overflow: auto;
     margin: 16px 0;
     border: none;
 }
@@ -177,7 +178,7 @@ hr,
 .page-button-container {
     display: flex;
     justify-content: end;
-    margin: 16px 0;
+    margin: 17px 0;
     border: none;
 }
 
@@ -231,15 +232,11 @@ hr,
     padding-right: 8px;
 }
 
-.dropdown-menu .changePasswordBtn,
-.dropdown .myProfile,
-.dropdown-menu .logout {
+.dropdown-item {
     border-radius: 2px;
 }
 
-.dropdown-menu .changePasswordBtn:hover,
-.dropdown .myProfile:hover,
-.dropdown-menu .logout:hover {
+.dropdown-item:hover {
     background: #e5e7eb;
 }
 
@@ -766,7 +763,7 @@ hr,
 .report-container {
     display: flex;
     justify-content: space-between;
-    margin: 15px 0;
+    margin: 5px 0 15px;
     align-items: center;
 }
 
@@ -1000,7 +997,7 @@ text {
 .guide-btn {
     display: flex;
     justify-content: end;
-    margin: 12px;
+    margin: 12px 0;
 }
 
 /* Guideline */
@@ -1074,6 +1071,16 @@ text {
     margin-left: 5px;
 }
 
+#locateNearestBtn {
+    margin-right: 16px;
+}
+
+.locator-button-container {
+    display: flex;
+    justify-content: end;
+    margin-left: 16px;
+}
+
 .evacuation-markers {
     background: var(--color-text);
     display: flex;
@@ -1103,8 +1110,21 @@ text {
 
 .marker-container {
     display: flex;
-    padding: 0 10px;
+    padding: 0 15px 0 10px;
     gap: 15px;
+}
+
+.evacuation-markers .markers {
+    display: flex;
+    justify-content: center;
+}
+
+.marker-container span.fw-bold {
+    margin-top: 3px;
+}
+
+#user-marker span.fw-bold {
+    margin-left: 6px;
 }
 
 .markers img {
@@ -1489,6 +1509,7 @@ input::-webkit-inner-spin-button {
 .change-modal-label-container {
     display: flex;
     justify-content: center;
+    background-color: var(--color-green);
     padding: 12px;
     border-top-left-radius: 4px;
     border-top-right-radius: 4px;
@@ -1564,7 +1585,8 @@ input::-ms-clear {
 #guideForm input,
 #evacuationCenterForm select,
 #evacueeInfoForm select,
-#accountForm select {
+#accountForm select,
+#generateReportModal select {
     border-radius: 5px;
     font-weight: 400;
     font-size: 0.875rem;
@@ -1675,6 +1697,10 @@ span.error {
     margin-bottom: 12px;
 }
 
+table thead {
+    background-color: rgb(234, 234, 234);
+}
+
 table th,
 table td {
     text-align: center !important;
@@ -1709,6 +1735,7 @@ table td {
 select.form-select {
     font-size: 14px;
     font-weight: 600;
+    border: var(--color-primary);
 }
 
 select.form-select option {
@@ -1780,6 +1807,10 @@ select.form-select option {
         margin: 15px 0 0 0;
     }
 }
+
+/* @media only screen and (max-width: 425px) {
+
+} */
 
 /* Laptop View */
 
@@ -1867,6 +1898,34 @@ select.form-select option {
     .dropdown button {
         margin: 0 -19px;
     }
+
+    /* Evacuation Center Section */
+
+    .evacuation-button-container {
+        display: block;
+    }
+
+    .evacuation-markers {
+        overflow: auto;
+        height: 43px ;
+        width: 100%;
+    }
+
+    .locator-button-container {
+        margin-left: 0;
+        margin-top: 16px;
+    }
+
+    .evacuation-markers::-webkit-scrollbar {
+        display: none;
+    }
+
+    .evacuation-markers {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+
+    /* Evacuation Center Section */
 }
 
 /* Tablet View */
@@ -1989,20 +2048,13 @@ select.form-select option {
 
     .report-container p {
         font-size: 15px;
-        margin-bottom: 0;
-    }
-
-    .report-container form {
-        margin: 10px 0;
+        margin: 0;
     }
 
     .generate-button-container {
-        margin-top: 14px;
-        display: block;
-    }
-
-    .generate-button-container button {
-        width: 100%;
+        margin-top: 12px;
+        display: flex;
+        justify-content: end;
     }
 
     .widget-container {
@@ -2048,6 +2100,7 @@ select.form-select option {
     }
 
     /* About Section */
+
 }
 
 /* Mobile View */
@@ -2069,6 +2122,11 @@ select.form-select option {
 
 /* Dark Mode Section*/
 
+.dark-mode * {
+    font-weight: 400 !important;
+    color: var(--color-d-text);
+}
+
 /* Dark Mode Header Section  */
 .dark-mode .dropdown-menu {
     background: var(--color-d-bg-container);
@@ -2078,11 +2136,24 @@ select.form-select option {
     color: var(--color-d-text);
 }
 
-.dark-mode .dropdown-menu .changePasswordBtn:hover,
-.dark-mode .dropdown .myProfile:hover,
-.dark-mode .dropdown-menu .logout:hover,
-.dark-mode .dropdown-menu #changeTheme:hover {
+.dark-mode .dropdown-item:hover {
     background: var(--color-d-background);
+}
+
+.dark-mode .dropdown-item:focus {
+    background: var(--color-d-bg-container);
+}
+
+.dark-mode .changePasswordBtn:active {
+    background: #2563eb;
+}
+
+.dark-mode .myProfile:active {
+    background: #16a34a;
+}
+
+.dark-mode .logout:active {
+    background: #dc2626;
 }
 
 /* Dark Mode Header Section */
@@ -2090,10 +2161,6 @@ select.form-select option {
 /* Dark Mode Dashboard Section */
 .dark-mode {
     background: var(--color-d-background);
-}
-
-.dark-mode * {
-    font-weight: 400 !important;
 }
 
 .dark-mode .label-container span,
@@ -2130,5 +2197,62 @@ select.form-select option {
 }
 
 /* Dark Mode Dashboard Section*/
+
+
+/* Datatable Section  */
+
+.dark-mode .table-container {
+    background: var(--color-d-bg-container);
+}
+
+.dark-mode th {
+    background: var(--color-d-background);
+}
+
+/* Datatable Section  */
+
+/* Modal Section */
+
+.dark-mode .modal-content {
+    background: var(--color-d-background);
+}
+
+.dark-mode .form-content {
+    background: var(--color-d-bg-container);
+}
+
+
+.dark-mode .form-content .form-select,
+.dark-mode .form-content input,
+.dark-mode .form-content input::placeholder {
+    color: black;
+}
+
+.dark-mode span.error {
+    color: var(--color-yellow);
+}
+
+/* Modal Section */
+
+/* Evacuation Center Section */
+
+.dark-mode .gm-style-iw,
+.dark-mode .gm-style-iw a,
+.dark-mode .gm-style-iw div,
+.dark-mode .gm-style-iw-tc::after {
+    background: var(--color-d-bg-container);
+    color: var(--color-d-text);
+}
+
+.dark-mode .evacuation-markers {
+    background: var(--color-d-bg-container);
+}
+
+.gmnoprint span,
+.ssQIHO-checkbox-menu-item label {
+    color:black;
+}
+
+/* Evacuation Center Section */
 
 /* Dark Mode */

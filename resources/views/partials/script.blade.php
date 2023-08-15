@@ -81,7 +81,7 @@
             resetChangePasswordForm();
             checkPasswordIcon.removeClass('success').removeClass('error').prop('hidden', true);
             changePasswordValidation.resetForm();
-        }); 
+        });
 
         $(document).on('click', '.toggle-password', function() {
             const currentPasswordInput = $('#current_password');
@@ -163,6 +163,7 @@
         themeIcon.removeClass('bi-moon').addClass('bi-brightness-high');
         themeText.text('Light Mode');
         localStorage.setItem('theme', 'dark');
+        $('hr').addClass('bg-white');
     }
 
     function disableDarkMode() {
@@ -170,6 +171,7 @@
         themeIcon.removeClass('bi-brightness-high').addClass('bi-moon');
         themeText.text('Dark Mode');
         localStorage.setItem('theme', 'light');
+        $('hr').removeClass('bg-white');
     }
 
     function confirmModal(text) {

@@ -102,16 +102,16 @@
                     $(document).on('click', '#createGuidelineBtn', () => {
                         $('#guidelineForm')[0].reset();
                         $('#guideline_operation').val('create');
-                        $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
+                        $('.modal-label-container').removeClass('bg-warning');
                         $('.modal-label').text('Create Guideline');
-                        $('#submitGuidelineBtn').removeClass('btn-update').addClass('btn-submit').text('Create');
+                        $('#submitGuidelineBtn').removeClass('btn-update').text('Create');
                         $('#guidelineModal').modal('show');
                     });
 
                     $(document).on('click', '#updateGuidelineBtn', function() {
-                        $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
+                        $('.modal-label-container').addClass('bg-warning');
                         $('.modal-label').text('Update Guideline');
-                        $('#submitGuidelineBtn').removeClass('btn-submit').addClass('btn-update').text('Update');
+                        $('#submitGuidelineBtn').addClass('btn-update').text('Update');
                         let guidelineWidget = this.closest('.guideline-widget');
                         let guidelineItem = guidelineWidget.querySelector('.guidelines-item');
                         guidelineId = guidelineItem.getAttribute('href').split('/').pop();

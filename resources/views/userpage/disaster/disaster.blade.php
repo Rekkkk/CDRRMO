@@ -31,7 +31,7 @@
                 <div class="table-content">
                     <header class="table-label">Disaster Information Table</header>
                     <table class="table disasterTable" width="100%">
-                        <thead class="thead-light">
+                        <thead>
                             <tr>
                                 <th colspan="2">Disaster Name</th>
                                 <th>Status</th>
@@ -115,10 +115,9 @@
                 });
 
                 $(document).on('click', '#createDisasterData', () => {
-                    $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
+                    $('.modal-label-container').removeClass('bg-warning');
                     $('.modal-label').text('Create Disaster');
-                    $('#submitDisasterBtn').removeClass('btn-update').addClass('btn-submit').text(
-                        'Add');
+                    $('#submitDisasterBtn').removeClass('btn-update').text('Add');
                     $('#operation').val('create');
                     $('#disasterModal').modal('show');
                 });
@@ -130,10 +129,9 @@
                     } = getRowData(this, disasterTable);
                     disasterId = id;
                     $('#disasterName').val(name);
-                    $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
+                    $('.modal-label-container').addClass('bg-warning');
                     $('.modal-label').text('Update Disaster');
-                    $('#submitDisasterBtn').removeClass('btn-submit').addClass('btn-update').text(
-                        'Update');
+                    $('#submitDisasterBtn').addClass('btn-update').text('Update');
                     $('#operation').val('update');
                     $('#disasterModal').modal('show');
                     defaultFormData = $('#disasterForm').serialize();

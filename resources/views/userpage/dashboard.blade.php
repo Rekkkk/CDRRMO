@@ -34,7 +34,7 @@
                         <div class="modal fade" id="generateReportModal" tabindex="-1" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
-                                    <div class="modal-label-container bg-success">
+                                    <div class="modal-label-container">
                                         <h1 class="modal-label">Generate Excel Report</h1>
                                     </div>
                                     <div class="modal-body">
@@ -73,9 +73,9 @@
                                                         @endforeach
                                                     </select>
                                                 </div>
-                                            </div>
-                                            <div class="form-button-container">
-                                                <button class="btn-submit">Generate</button>
+                                                <div class="form-button-container">
+                                                    <button class="btn-submit">Generate</button>
+                                                </div>
                                             </div>
                                         </form>
                                     </div>
