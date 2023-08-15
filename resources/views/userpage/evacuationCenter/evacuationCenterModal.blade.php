@@ -51,7 +51,7 @@
                                 </div>
                                 <input type="text" name="latitude" id="latitude" hidden>
                                 <input type="text" name="longitude" id="longitude" hidden>
-                                <span id="location-error" class="error mt-1"></span>
+                                <span id="location-error" class="error" hidden></span>
                             </div>
                             <div class="form-button-container">
                                 <button id="createEvacuationCenterBtn" class="btn-submit">Create</button>
