@@ -30,7 +30,7 @@
             <div class="table-container">
                 <div class="table-content">
                     <header class="table-label">Disaster Information Table</header>
-                    <table class="table disasterTable" width="100%">
+                    <table class="table" id="disasterTable" width="100%">
                         <thead>
                             <tr>
                                 <th colspan="2">Disaster Name</th>
@@ -61,7 +61,7 @@
     @include('partials.toastr')
     <script>
         $(document).ready(() => {
-            let disasterTable = $('.disasterTable').DataTable({
+            let disasterTable = $('#disasterTable').DataTable({
                 language: {
                     emptyTable: '<div class="message-text">There are no disaster data available.</div>'
                 },

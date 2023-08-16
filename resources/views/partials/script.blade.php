@@ -174,7 +174,7 @@
         themeIcon.removeClass('bi-brightness-high').addClass('bi-moon');
         themeText.text('Dark Mode');
         localStorage.setItem('theme', 'light');
-        $('hr').removeClass('bg-white');
+        $('hr').removeClass('bg-white').addClass('bg-dark');
     }
 
     function confirmModal(text) {

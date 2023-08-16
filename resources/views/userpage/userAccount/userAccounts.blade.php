@@ -34,7 +34,7 @@
             <div class="table-container">
                 <div class="table-content">
                     <header class="table-label">User Accounts Table</header>
-                    <table class="table accountTable" width="100%">
+                    <table class="table" id="accountTable" width="100%">
                         <thead>
                             <tr>
                                 <th colspan="2">Email Address</th>
@@ -68,7 +68,7 @@
     @include('partials.toastr')
     <script>
         $(document).ready(() => {
-            let accountTable = $('.accountTable').DataTable({
+            let accountTable = $('#accountTable').DataTable({
                 language: {
                     emptyTable: '<div class="message-text">No accounts added yet.</div>'
                 },
@@ -270,7 +270,7 @@
                     $('#suspend-container').prop('hidden', true);
                     $('#suspend').prop('disabled', true);
                     operation = "create";
-                    $modal.modal('show');
+                    modal.modal('show');
                 });
 
                 modal.on('hidden.bs.modal', () => {
@@ -291,21 +291,21 @@
                     confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
                         if (result.isConfirmed) {
                             return operation == 'update' && defaultFormData == formData
-                            showWarningMessage('No changes were made.'):
-                                $.ajax({
-                                    data: formData,
-                                    url: url,
-                                    type: type,
-                                    success(response) {
-                                        response.status == "warning" ? showWarningMessage(response
-                                            .message) : (showSuccessMessage(
-                                            `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`
-                                        ), modal.modal('hide'), accountTable.draw())
-                                    },
-                                    error() {
-                                        showErrorMessage();
-                                    }
-                                });
+                            showWarningMessage('No changes were made.');
+                            $.ajax({
+                                data: formData,
+                                url: url,
+                                type: type,
+                                success(response) {
+                                    response.status == "warning" ? showWarningMessage(response
+                                        .message) : (showSuccessMessage(
+                                        `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`
+                                    ), modal.modal('hide'), accountTable.draw())
+                                },
+                                error() {
+                                    showErrorMessage();
+                                }
+                            });
                         }
                     });
                 }
