@@ -33,7 +33,7 @@
             <div class="table-container">
                 <div class="table-content">
                     <header class="table-label">Evacuees Informations Table</header>
-                    <table class="table evacueeTable" width="100%">
+                    <table class="table" id="evacueeTable" width="100%">
                         <thead>
                             <tr class="table-row">
                                 <th colspan="2">Barangay</th>
@@ -96,7 +96,7 @@
                     evacuation_assigned: 'Please enter evacuation center assigned.'
                 };
 
-            let evacueeTable = $('.evacueeTable').DataTable({
+            let evacueeTable = $('#evacueeTable').DataTable({
                 language: {
                     emptyTable: '<div class="message-text">No evacuees data added yet.</div>'
                 },

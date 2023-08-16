@@ -33,7 +33,7 @@
             <div class="table-container">
                 <div class="table-content">
                     <header class="table-label">Evacuation Center Table</header>
-                    <table class="table evacuationCenterTable" width="100%">
+                    <table class="table" id="evacuationCenterTable" width="100%">
                         <thead>
                             <tr>
                                 <th colspan="2">Name</th>
@@ -69,7 +69,7 @@
         crossorigin="anonymous"></script>
     @include('partials.toastr')
     <script type="text/javascript">
-        let evacuationCenterTable = $('.evacuationCenterTable').DataTable({
+        let evacuationCenterTable = $('#evacuationCenterTable').DataTable({
             language: {
                 emptyTable: '<div class="message-text">No evacuation center added yet.</div>'
             },

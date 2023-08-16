@@ -26,7 +26,7 @@
             <div class="table-container">
                 <div class="table-content">
                     <header class="table-label">Dangerous Areas Report Table</header>
-                    <table class="table dangerousAreasReports" width="100%">
+                    <table class="table" id="dangerousAreasReports" width="100%">
                         <thead>
                             <tr>
                                 <th colspan="2">Description</th>
@@ -104,7 +104,7 @@
                     }
                 });
                 @auth
-                let dangerousAreasReports = $('.dangerousAreasReports').DataTable({
+                let dangerousAreasReports = $('#dangerousAreasReports').DataTable({
                     language: {
                         emptyTable: '<div class="message-text">There are currently no dangerous areas reports.</div>',
                     },
@@ -189,7 +189,7 @@
             @guest
             const modal = $('#reportDangerousAreaModal');
 
-            let dangerousAreasReports = $('.dangerousAreasReports').DataTable({
+            let dangerousAreasReports = $('#dangerousAreasReports').DataTable({
                 language: {
                     emptyTable: '<div class="message-text">There are currently no dangerous areas reports.</div>',
                 },

@@ -26,7 +26,7 @@
             <div class="table-container">
                 <div class="table-content">
                     <header class="table-label">Pending Incident Report</header>
-                    <table class="table pendingReport" width="100%">
+                    <table class="table" id="pendingReport" width="100%">
                         <thead>
                             <tr>
                                 <th colspan="2">Description</th>
@@ -80,7 +80,7 @@
                 <div class="table-container">
                     <div class="table-content">
                         <header class="table-label">Incident Report</header>
-                        <table class="table incidentReports" width="100%">
+                        <table class="table" id="incidentReports" width="100%">
                             <thead>
                                 <tr>
                                     <th colspan="2">Description</th>
@@ -165,7 +165,7 @@
                     }
                 });
                 @auth
-                let pendingReport = $('.pendingReport').DataTable({
+                let pendingReport = $('#pendingReport').DataTable({
                     language: {
                         emptyTable: '<div class="message-text">There are currently no pending reports.</div>',
                     },
@@ -211,7 +211,7 @@
                     ]
                 });
 
-                let incidentReports = $('.incidentReports').DataTable({
+                let incidentReports = $('#incidentReports').DataTable({
                     language: {
                         emptyTable: '<div class="message-text">There are currently no reports.</div>',
                     },
@@ -302,7 +302,7 @@
             @guest
             const modal = $('#createAccidentReportModal');
 
-            let pendingReport = $('.pendingReport').DataTable({
+            let pendingReport = $('#pendingReport').DataTable({
                 language: {
                     emptyTable: '<div class="message-text">You have no pending reports.</div>'
                 },

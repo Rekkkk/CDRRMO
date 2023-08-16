@@ -1,4 +1,5 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html
+    PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 
 <head>
@@ -7,15 +8,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>{{ config('app.name') }}</title>
     <style>
-        *{
+        * {
             text-decoration: none;
         }
 
-        body{
+        body {
             background: #ecf0f1;
         }
 
-        #btn-login{
+        #btn-login {
             color: white;
             background: #3b82f6;
             padding: 14px;
@@ -32,7 +33,8 @@
     <p>Email Address: {{ $userCredentials['email'] }}</p>
 
     @if ($userCredentials['organization'] == 'CDRRMO')
-        <p>Organization: Cabuyao Disaster Risk Reduction and Management Office ({{ $userCredentials['organization'] }})</p>
+        <p>Organization: Cabuyao Disaster Risk Reduction and Management Office ({{ $userCredentials['organization'] }})
+        </p>
     @else
         <p>Organization: City Social Welfare and Developement ({{ $userCredentials['organization'] }})</p>
     @endif
