@@ -8,7 +8,6 @@
                 <form id="guidelineForm">
                     @csrf
                     <div class="form-content">
-                        <input type="text" id="guideline_operation" hidden>
                         <div class="field-container">
                             <label>Guideline Type</label>
                             <input type="text" name="type" class="form-control" autocomplete="off"

@@ -108,7 +108,6 @@
                             <form id="reportForm" enctype="multipart/form-data">
                                 @csrf
                                 <div class="form-content">
-                                    <input type="text" id="operation" hidden>
                                     <div class="field-container">
                                         <label>Report Description</label>
                                         <textarea type="text" id="description" name="description" class="form-control" rows="5"
@@ -259,41 +258,39 @@
                 });
 
                 @if (auth()->user()->is_disable == 0)
-                    $(document).on('click', '.approveIncidentReport', function() {
+                    $(document).on('click', '#approveIncidentReport', function() {
                         alterIncidentReport('approve', getRowData(this, pendingReport).id);
                     });
 
-                    $(document).on('click', '.declineIncidentReport', function() {
+                    $(document).on('click', '#declineIncidentReport', function() {
                         alterIncidentReport('decline', getRowData(this, pendingReport).id);
                     });
 
-                    $(document).on('click', '.removeIncidentReport', function() {
+                    $(document).on('click', '#removeIncidentReport', function() {
                         alterIncidentReport('remove', getRowData(this, incidentReports).id);
                     });
 
                     function alterIncidentReport(operation, reportId) {
                         confirmModal(`Do you want to ${operation} this report?`).then((result) => {
                             if (result.isConfirmed) {
-                                let url = operation == 'approve' ? "{{ route('report.approve', ':reportId') }}"
-                                    .replace(':reportId',
-                                        reportId) : operation == 'decline' ?
-                                    "{{ route('report.decline', ':reportId') }}".replace(':reportId',
-                                        reportId) : "{{ route('report.remove', ':reportId') }}".replace(
-                                        ':reportId', reportId);
-
+                                let url = operation == 'approve' ? "{{ route('report.approve', 'reportId') }}"
+                                    .replace('reportId', reportId) : operation == 'decline' ?
+                                    "{{ route('report.decline', 'reportId') }}".replace('reportId',
+                                        reportId) : "{{ route('report.remove', 'reportId') }}".replace(
+                                        'reportId', reportId);
                                 let type = operation == 'approve' ? "POST" : operation == 'decline' ? "DELETE" :
                                     "PATCH";
 
                                 $.ajax({
                                     type: type,
                                     url: url,
-                                    success: function() {
+                                    success() {
                                         showSuccessMessage(
                                             `Incident report successfully ${operation}d.`);
                                         pendingReport.draw();
                                         incidentReports.draw();
                                     },
-                                    error: function() {
+                                    error() {
                                         showErrorMessage();
                                     }
                                 });
@@ -416,8 +413,8 @@
                     if (result.isConfirmed) {
                         $.ajax({
                             type: "DELETE",
-                            url: "{{ route('resident.report.revert', ':reportId') }}"
-                                .replace(':reportId', reportId),
+                            url: "{{ route('resident.report.revert', 'reportId') }}"
+                                .replace('reportId', reportId),
                             success: function() {
                                 revertReport(reportId);
                             },
@@ -449,8 +446,8 @@
         @endguest
 
         $(document).on('click', '.overlay-text', function() {
-            let reportPhotoUrl = $(this).closest('.image-wrapper').find('.report-img').attr('src');
-            displayReportPhoto(reportPhotoUrl);
+        let reportPhotoUrl = $(this).closest('.image-wrapper').find('.report-img').attr('src');
+        displayReportPhoto(reportPhotoUrl);
         });
         // Echo.channel('incident-report').listen('IncidentReport', (e) => {
         // pendingReport.draw();

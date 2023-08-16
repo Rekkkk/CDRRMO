@@ -8,7 +8,6 @@
                 <form id="guideForm">
                     @csrf
                     <div class="form-content">
-                        <input type="text" id="guide_operation" hidden>
                         <input type="text" id="guideline_operation" hidden>
                         <div class="field-container">
                             <label>Guide Description</label>

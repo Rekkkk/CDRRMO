@@ -98,12 +98,15 @@
                 $(this).toggleClass('bi-eye-slash bi-eye');
             }
         });
+    @endauth
 
-        theme == 'dark' ? enableDarkMode() : disableDarkMode();
+    theme == 'dark' ? enableDarkMode() : disableDarkMode();
 
-        $(document).on('click', '#changeTheme', () => {
-            body.hasClass('dark-mode') ? disableDarkMode() : enableDarkMode();
-        });
+    $(document).on('click', '#changeTheme', () => {
+        body.hasClass('dark-mode') ? disableDarkMode() : enableDarkMode();
+    });
+
+    @auth
     });
 
     function datePicker(id) {

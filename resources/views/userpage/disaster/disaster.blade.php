@@ -95,7 +95,7 @@
             });
 
             @if (auth()->user()->is_disable == 0)
-                let disasterId, defaultFormData, status;
+                let disasterId, defaultFormData, status, operation;
 
                 $.ajaxSetup({
                     headers: {
@@ -118,7 +118,7 @@
                     $('.modal-label-container').removeClass('bg-warning');
                     $('.modal-label').text('Create Disaster');
                     $('#submitDisasterBtn').removeClass('btn-update').text('Add');
-                    $('#operation').val('create');
+                    operation = "create";
                     $('#disasterModal').modal('show');
                 });
 
@@ -132,7 +132,7 @@
                     $('.modal-label-container').addClass('bg-warning');
                     $('.modal-label').text('Update Disaster');
                     $('#submitDisasterBtn').addClass('btn-update').text('Update');
-                    $('#operation').val('update');
+                    operation = "update";
                     $('#disasterModal').modal('show');
                     defaultFormData = $('#disasterForm').serialize();
                 });
@@ -174,8 +174,7 @@
                 }
 
                 function disasterFormHandler(form) {
-                    let operation = $('#operation').val(),
-                        formData = $(form).serialize();
+                    let formData = $(form).serialize();
                     let url = operation == 'create' ? "{{ route('disaster.create') }}" :
                         "{{ route('disaster.update', 'disasterId') }}".replace('disasterId',
                             disasterId);

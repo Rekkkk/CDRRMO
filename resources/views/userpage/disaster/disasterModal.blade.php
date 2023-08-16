@@ -8,7 +8,6 @@
                 <form id="disasterForm">
                     @csrf
                     <div class="form-content">
-                        <input type="text" id="operation" hidden>
                         <div class="field-container">
                             <label>Disaster Name</label>
                             <input type="text" name="name" class="form-control" autocomplete="off"

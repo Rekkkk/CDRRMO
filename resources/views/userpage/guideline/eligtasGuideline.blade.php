@@ -86,7 +86,7 @@
         @if (auth()->user()->is_disable == 0)
             <script>
                 $(document).ready(() => {
-                    let guidelineId, defaultFormData;
+                    let guidelineId, defaultFormData, operation, modal = $('#guidelineModal');
 
                     const validator = $("#guidelineForm").validate({
                         rules: {
@@ -100,12 +100,11 @@
                     });
 
                     $(document).on('click', '#createGuidelineBtn', () => {
-                        $('#guidelineForm')[0].reset();
-                        $('#guideline_operation').val('create');
+                        operation = "create";
                         $('.modal-label-container').removeClass('bg-warning');
                         $('.modal-label').text('Create Guideline');
                         $('#submitGuidelineBtn').removeClass('btn-update').text('Create');
-                        $('#guidelineModal').modal('show');
+                        modal.modal('show');
                     });
 
                     $(document).on('click', '#updateGuidelineBtn', function() {
@@ -118,8 +117,8 @@
                         let guidelineLabel = guidelineItem.querySelector('.guideline-type p').innerText
                             .toLowerCase();
                         $('#guidelineType').val(guidelineLabel);
-                        $('#guideline_operation').val('update');
-                        $('#guidelineModal').modal('show');
+                        operation = "update";
+                        modal.modal('show');
                         defaultFormData = $('#guidelineForm').serialize();
                     });
 
@@ -137,8 +136,8 @@
                                     data: {
                                         guidelineId: guidelineId
                                     },
-                                    url: "{{ route('guideline.remove', ':guidelineId') }}"
-                                        .replace(':guidelineId', guidelineId),
+                                    url: "{{ route('guideline.remove', 'guidelineId') }}"
+                                        .replace('guidelineId', guidelineId),
                                     type: "PATCH",
                                     success() {
                                         showSuccessMessage('Guideline removed successfully.', true);
@@ -152,8 +151,7 @@
                     });
 
                     function formSubmitHandler(form) {
-                        let operation = $('#guideline_operation').val(),
-                            formData = $(form).serialize();
+                        let formData = $(form).serialize();
                         let url = operation == 'create' ? "{{ route('guideline.create') }}" :
                             "{{ route('guideline.update', 'guidelineId') }}".replace('guidelineId',
                                 guidelineId);
@@ -168,11 +166,10 @@
                                         url,
                                         type,
                                         success(response) {
-                                            return response.status == 'warning' ? owWarningMessage(response
-                                                .message) : (showSuccessMessage(
+                                            response.status == 'warning' ? owWarningMessage(response
+                                                .message) : (modal.modal('hide'), showSuccessMessage(
                                                 `Guideline successfully ${operation}d, Please wait...`,
-                                                true), $('#guidelineForm')[0].reset(), $(
-                                                '#guidelineModal').modal('hide'));
+                                                true));
                                         },
                                         error() {
                                             showErrorMessage();
@@ -181,6 +178,11 @@
                             }
                         });
                     }
+
+                    modal.on('hidden.bs.modal', () => {
+                        validator.resetForm();
+                        $('#guidelineForm')[0].reset();
+                    });
                 });
             </script>
         @endif

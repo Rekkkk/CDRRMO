@@ -60,9 +60,9 @@
                         <i class="bi bi-geo-fill"></i>Pinpoint Current Location</button>
                 </div>
             </div>
-            <div class="table-container mt-2">
+            <div class="table-container">
                 <div class="table-content">
-                    <header class="table-label">Evacuation Centers</header>
+                    <header class="table-label">Evacuation Centers Table</header>
                     <table class="table" id="evacuationCenterTable" width="100%">
                         <thead>
                             <tr>
@@ -101,12 +101,19 @@
     <script>
         let map, activeInfoWindow, userMarker, userBounds, evacuationCentersData,
             evacuationCenterTable, directionDisplay, directionService, findNearestActive, rowData,
-            evacuationCenterJson = [], evacuationCenterMarkers = [], intervalId = null,
-            locating = false, geolocationBlocked = false, hasActiveEvacuationCenter = false;
+            evacuationCenterJson = [],
+            evacuationCenterMarkers = [],
+            intervalId = null,
+            locating = false,
+            geolocationBlocked = false,
+            hasActiveEvacuationCenter = false;
 
         function initMap() {
             map = new google.maps.Map(document.getElementById("map"), {
-                center: { lat: 14.246261, lng: 121.12772 },
+                center: {
+                    lat: 14.246261,
+                    lng: 121.12772
+                },
                 zoom: 13,
                 mapTypeControlOptions: {
                     style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
@@ -171,18 +178,27 @@
         }
 
         const generateMarker = (position, icon) => new google.maps.Marker({
-            position, map,
-            icon: { url: icon, scaledSize: new google.maps.Size(35, 35) }
+            position,
+            map,
+            icon: {
+                url: icon,
+                scaledSize: new google.maps.Size(35, 35)
+            }
         });
 
         const generateInfoWindow = (marker, content) => {
             if (!locating) closeInfoWindow();
 
-            const infoWindow = new google.maps.InfoWindow({ content });
+            const infoWindow = new google.maps.InfoWindow({
+                content
+            });
 
             marker.addListener('click', () => {
                 closeInfoWindow();
-                infoWindow.open({ anchor: marker, map });
+                infoWindow.open({
+                    anchor: marker,
+                    map
+                });
                 activeInfoWindow = infoWindow;
                 if (marker.icon.url.includes('userMarker'))
                     zoomToUserLocation();
@@ -190,12 +206,20 @@
         };
 
         const generateCircle = center => new google.maps.Circle({
-            map, center, radius: 14, fillColor: "#557ed8", fillOpacity: 0.3,
-            strokeColor: "#557ed8", strokeOpacity: 0.8, strokeWeight: 2
+            map,
+            center,
+            radius: 14,
+            fillColor: "#557ed8",
+            fillOpacity: 0.3,
+            strokeColor: "#557ed8",
+            strokeOpacity: 0.8,
+            strokeWeight: 2
         });
 
         const request = (origin, destination) => ({
-            origin, destination, travelMode: google.maps.TravelMode.WALKING
+            origin,
+            destination,
+            travelMode: google.maps.TravelMode.WALKING
         });
 
         const getStatusColor = status => status == 'Active' ? 'success' : status == 'Inactive' ? 'danger' : 'warning';
@@ -207,7 +231,9 @@
             map.setZoom(18);
         }
 
-        const scrollToMap = () => $('html, body').animate({ scrollTop: $('.locator-content').offset().top - 15}, 500);
+        const scrollToMap = () => $('html, body').animate({
+            scrollTop: $('.locator-content').offset().top - 15
+        }, 500);
 
         const newLatLng = (lat, lng) => new google.maps.LatLng(lat, lng);
 
@@ -220,26 +246,30 @@
                         (position) => position.coords.accuracy <= 500 ? (
                             geolocationBlocked = false,
                             resolve(position)) : getUserLocation(),
-                        (error) => {error.code == error.PERMISSION_DENIED ? (
-                            showWarningMessage(
-                                'Request for geolocation denied. To use this feature, please allow the browser to locate you.'
-                            ),
-                            locating = false, $('#locateNearestBtn').removeAttr('disabled'),
-                            geolocationBlocked = true) :
-                            getUserLocation()
-                        }, { enableHighAccuracy: true }) :
-                    (showInfoMessage('Geolocation is not supported by this browser.'), $('#locateNearestBtn').removeAttr('disabled'));
+                        (error) => {
+                            error.code == error.PERMISSION_DENIED ? (
+                                    showWarningMessage(
+                                        'Request for geolocation denied. To use this feature, please allow the browser to locate you.'
+                                    ),
+                                    locating = false, $('#locateNearestBtn').removeAttr('disabled'),
+                                    geolocationBlocked = true) :
+                                getUserLocation()
+                        }, {
+                            enableHighAccuracy: true
+                        }) :
+                    (showInfoMessage('Geolocation is not supported by this browser.'), $('#locateNearestBtn')
+                        .removeAttr('disabled'));
             });
         }
 
         const setMarker = userlocation =>
             userMarker ?
-                (userMarker.setMap(map),
+            (userMarker.setMap(map),
                 userBounds.setMap(map),
                 userMarker.setPosition(userlocation),
                 userBounds.setCenter(userMarker.getPosition())) :
-                (userMarker = generateMarker(userlocation,
-                "{{ asset('assets/img/userMarker.png') }}"),
+            (userMarker = generateMarker(userlocation,
+                    "{{ asset('assets/img/userMarker.png') }}"),
                 userBounds = generateCircle(userMarker.getPosition()));
 
         const getEvacuationCentersDistance = async () => {
@@ -256,8 +286,9 @@
                     return new Promise(resolve => {
                         const direction = new google.maps.DirectionsService();
                         direction.route(
-                            request(newLatLng(position.coords.latitude, position.coords.longitude),
-                            newLatLng(data.latitude, data.longitude)),
+                            request(newLatLng(position.coords.latitude, position.coords
+                                    .longitude),
+                                newLatLng(data.latitude, data.longitude)),
                             (response, status) => {
                                 if (status == 'OK') {
                                     evacuationCenterJson.push({
@@ -292,20 +323,19 @@
 
             if (locating && (evacuationCenterJson[0] || rowData)) {
                 const position = await getUserLocation();
-
-                console.log(evacuationCenterJson[0])
-
-                const { latitude, longitude } = findNearestActive ?
+                const {
+                    latitude,
+                    longitude
+                } = findNearestActive ?
                     evacuationCenterJson[0] : rowData;
 
                 directionService.route(request(
-                    newLatLng(position.coords.latitude, position.coords.longitude),
-                    newLatLng(latitude, longitude)),
+                        newLatLng(position.coords.latitude, position.coords.longitude),
+                        newLatLng(latitude, longitude)),
                     function(response, status) {
                         if (status == 'OK') {
                             directionDisplay.setMap(map);
                             directionDisplay.setDirections(response);
-
                             setMarker(response.routes[0].legs[0].start_location);
                             generateInfoWindow(userMarker,
                                 `<div class="info-window-container">
@@ -319,8 +349,13 @@
                             if ($('.stop-btn-container').is(':hidden')) {
                                 scrollToMap();
                                 var bounds = new google.maps.LatLngBounds();
-                                response.routes[0].legs.forEach(({ steps }) =>
-                                    steps.forEach(({ start_location, end_location }) =>
+                                response.routes[0].legs.forEach(({
+                                        steps
+                                    }) =>
+                                    steps.forEach(({
+                                            start_location,
+                                            end_location
+                                        }) =>
                                         (bounds.extend(start_location), bounds.extend(end_location))
                                     )
                                 );
@@ -396,11 +431,13 @@
                     evacuationCentersData = this.api().ajax.json().data;
                     getEvacuationCentersDistance();
                     initMarkers(evacuationCentersData);
-                    if (locating && !findNearestActive && rowData && !evacuationCentersData.some(evacuationCenter =>
-                        evacuationCenter.latitude == rowData.latitude &&
-                        evacuationCenter.longitude == rowData.longitude)) {
+                    if (locating && !findNearestActive && rowData && !evacuationCentersData.some(
+                            evacuationCenter =>
+                            evacuationCenter.latitude == rowData.latitude &&
+                            evacuationCenter.longitude == rowData.longitude)) {
                         $('#stopLocatingBtn').trigger('click');
-                        showWarningMessage('The evacuation center you are looking for is no longer available.');
+                        showWarningMessage(
+                            'The evacuation center you are looking for is no longer available.');
                     }
                 }
             });

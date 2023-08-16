@@ -31,32 +31,6 @@ class AuthenticationController extends Controller
         return back()->withInput()->with('warning', 'Incorrect User Credentials.');
     }
 
-    public function checkUserAccount()
-    {
-        if (auth()->check()) {
-            $userAuthenticated = auth()->user();
-
-            if ($userAuthenticated->is_suspend == 1 && $userAuthenticated->suspend_time <= Carbon::now()->format('Y-m-d H:i:s')) {
-                $this->user->find($userAuthenticated->id)->update([
-                    'status' => 'Active',
-                    'is_suspend' => 0,
-                    'suspend_time' => null
-                ]);
-            } else if ($userAuthenticated->is_suspend == 1) {
-                $suspendTime = Carbon::parse($userAuthenticated->suspend_time)->format('F j, Y H:i:s');
-                auth()->logout();
-                session()->flush();
-                return back()->withInput()->with('warning', 'Your account has been suspended until ' . $suspendTime);
-            }
-
-            $this->logActivity->generateLog('Logged In');
-            $userOrganization = $userAuthenticated->organization;
-            return redirect("/" . Str::of($userOrganization)->lower() . "/dashboard")->with('success', "Welcome to " . $userOrganization . " Panel.");
-        }
-
-        return back();
-    }
-
     public function findAccount(Request $request)
     {
         $verifyEmailValidation = Validator::make($request->all(), [
@@ -109,5 +83,31 @@ class AuthenticationController extends Controller
         auth()->logout();
         session()->flush();
         return redirect('/')->with('success', 'Logged out ' . $organization . ' Panel.');
+    }
+
+    private function checkUserAccount()
+    {
+        if (auth()->check()) {
+            $userAuthenticated = auth()->user();
+
+            if ($userAuthenticated->is_suspend == 1 && $userAuthenticated->suspend_time <= Carbon::now()->format('Y-m-d H:i:s')) {
+                $this->user->find($userAuthenticated->id)->update([
+                    'status' => 'Active',
+                    'is_suspend' => 0,
+                    'suspend_time' => null
+                ]);
+            } else if ($userAuthenticated->is_suspend == 1) {
+                $suspendTime = Carbon::parse($userAuthenticated->suspend_time)->format('F j, Y H:i:s');
+                auth()->logout();
+                session()->flush();
+                return back()->withInput()->with('warning', 'Your account has been suspended until ' . $suspendTime);
+            }
+
+            $this->logActivity->generateLog('Logged In');
+            $userOrganization = $userAuthenticated->organization;
+            return redirect("/" . Str::of($userOrganization)->lower() . "/dashboard")->with('success', "Welcome to " . $userOrganization . " Panel.");
+        }
+
+        return back();
     }
 }

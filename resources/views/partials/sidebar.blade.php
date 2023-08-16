@@ -116,6 +116,12 @@
                         </li>
                     @endif
                     <li>
+                        <a href="{{ route('report.dangerous.areas.cswd') }}" class="menu-link">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            <span class="links_name">Dangerous Area Reports</span>
+                        </a>
+                    </li>
+                    <li>
                         <a href="{{ route('hotline.number') }}" class="menu-link">
                             <i class="bi bi-telephone"></i>
                             <span class="links_name">Hotline Numbers</span>
@@ -145,6 +151,12 @@
                         <a href="{{ route('resident.display.incident.report') }}" class="menu-link">
                             <i class="bi bi-megaphone"></i>
                             <span class="links_name">Report Incident</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="{{ route('resident.report.danger.areas') }}" class="menu-link">
+                            <i class="bi bi-exclamation-triangle"></i>
+                            <span class="links_name">Report Dangerous Areas</span>
                         </a>
                     </li>
                     <li>

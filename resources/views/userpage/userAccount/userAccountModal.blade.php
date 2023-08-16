@@ -9,7 +9,6 @@
                     <form id="accountForm">
                         @csrf
                         <div class="form-content">
-                            <input type="text" id="account_operation" hidden>
                             <div class="field-container" id="organization-container">
                                 <label>Organization</label>
                                 <select name="organization" class="form-select" id="organization"

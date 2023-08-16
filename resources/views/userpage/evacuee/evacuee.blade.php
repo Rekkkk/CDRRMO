@@ -76,7 +76,7 @@
     @include('partials.toastr')
     <script>
         $(document).ready(() => {
-            let evacueeId, defaultFormData, modal = $('#evacueeInfoFormModal'),
+            let evacueeId, operation, defaultFormData, modal = $('#evacueeInfoFormModal'),
                 dateEntryInput = datePicker("#date_entry");
             const fieldNames = [
                     'infants', 'minors', 'senior_citizen', 'pwd',
@@ -210,11 +210,11 @@
                 submitHandler: formSubmitHandler
             });
 
-            $(document).on('click', '#recordEvacueeBtn', function() {
+            $(document).on('click', '#recordEvacueeBtn', () => {
                 $('.modal-label-container').removeClass('bg-warning');
                 $('.modal-label').text('Record Evacuee Information');
                 $('#recordEvacueeInfoBtn').removeClass('btn-update').text('Record');
-                $('#operation').val('record');
+                operation == "record";
                 modal.modal('show');
             });
 
@@ -235,20 +235,18 @@
 
                     $(fields).val(data[index]);
                 }
-
-                $('#operation').val('update');
+                operation == "update";
                 modal.modal('show');
                 defaultFormData = $('#evacueeInfoForm').serialize();
             });
 
-            modal.on('hidden.bs.modal', function() {
+            modal.on('hidden.bs.modal', () => {
                 validator.resetForm();
                 $('#evacueeInfoForm')[0].reset();
             });
 
             function formSubmitHandler(form) {
-                let operation = $('#operation').val(),
-                    formData = $(form).serialize();
+                let formData = $(form).serialize();
                 let url = operation == 'record' ? "{{ route('evacuee.info.record') }}" :
                     "{{ route('evacuee.info.update', 'evacueeId') }}".replace('evacueeId', evacueeId);
                 let type = operation == 'record' ? "POST" : "PUT";
@@ -262,8 +260,8 @@
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },
                                 data: formData,
-                                url,
-                                type,
+                                url: url,
+                                type: type,
                                 success(response) {
                                     response.status == 'warning' ? showWarningMessage(response
                                         .message) : (modal.modal('hide'), evacueeTable.draw(),

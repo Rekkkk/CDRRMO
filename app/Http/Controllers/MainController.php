@@ -8,10 +8,10 @@ use App\Models\Reporting;
 use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
 use App\Exports\EvacueeDataExport;
-use Illuminate\Support\Facades\Crypt;
 use Maatwebsite\Excel\Facades\Excel;
-use Maatwebsite\Excel\Excel as FileFormat;
+use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
+use Maatwebsite\Excel\Excel as FileFormat;
 
 class MainController extends Controller
 {
@@ -80,7 +80,7 @@ class MainController extends Controller
 
     public function incidentReport()
     {
-        $incidentReport = Reporting::whereNotIn('status', ["On Process"])->where('is_archive', 0)->get();
+        $incidentReport = Reporting::whereNotIn('status', ["On Process"])->where('is_archive', 0)->whereNotNull('photo')->get();
         return view('userpage.incidentReport', compact('incidentReport'));
     }
 }

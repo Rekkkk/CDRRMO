@@ -110,7 +110,7 @@ class UserAccountsController extends Controller
         $this->logActivity->generateLog('Updating Account');
         return response()->json();
     }
-
+    
     public function disableAccount($userId)
     {
         $this->user->find(Crypt::decryptString($userId))->update([

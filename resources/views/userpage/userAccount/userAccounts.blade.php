@@ -109,7 +109,8 @@
                 ]
             });
             @if (auth()->user()->is_disable == 0)
-                let userId, defaultFormData, dateSuspendTime = datePicker("#suspend");
+                let userId, defaultFormData, dateSuspendTime = datePicker("#suspend"),
+                    operation, modal = $('#userAccountModal');
 
                 const validator = $("#accountForm").validate({
                     rules: {
@@ -196,9 +197,9 @@
                             $('#organization').val(organization);
                             $('#position').val(position);
                             $('#email').val(email);
-                            $('#account_operation').val('update');
+                            operation == "update";
                             defaultFormData = $('#accountForm').serialize();
-                            $('#userAccountModal').modal('show');
+                            modal.modal('show');
                             break;
 
                         case 'removeAccount':
@@ -230,9 +231,9 @@
                             $('#organization').val(organization);
                             $('#position').val(position);
                             $('#email').val(email);
-                            $('#account_operation').val('suspend');
+                            operation = "suspend";
                             defaultFormData = $('#accountForm').serialize();
-                            $('#userAccountModal').modal('show');
+                            modal.modal('show');
                             break;
 
                         case 'openAccount':
@@ -268,11 +269,11 @@
                         'Create');
                     $('#suspend-container').prop('hidden', true);
                     $('#suspend').prop('disabled', true);
-                    $('#account_operation').val('create');
-                    $('#userAccountModal').modal('show');
+                    operation = "create";
+                    $modal.modal('show');
                 });
 
-                $('#userAccountModal').on('hidden.bs.modal', () => {
+                modal.on('hidden.bs.modal', () => {
                     validator.resetForm();
                     $('#suspend-container').prop('hidden', false);
                     $('#suspend').prop('disabled', false);
@@ -281,35 +282,30 @@
                 });
 
                 function formSubmitHandler(form) {
-                    let operation = $('#account_operation').val(),
-                        url, type, formData = $(form).serialize(),
-                        modal = $('#userAccountModal');
-
-                    url = operation == 'create' ? "{{ route('account.create') }}" :
+                    let formData = $(form).serialize();
+                    let url = operation == 'create' ? "{{ route('account.create') }}" :
                         operation == 'update' ? "{{ route('account.update', 'userId') }}".replace('userId',
                             userId) : "{{ route('account.suspend', 'userId') }}".replace('userId', userId);
-                    type = operation == 'create' ? "POST" : "PUT";
+                    let type = operation == 'create' ? "POST" : "PUT";
 
                     confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
                         if (result.isConfirmed) {
-                            if (operation == 'update' && defaultFormData == formData) {
-                                showWarningMessage('No changes were made.');
-                                return;
-                            }
-                            $.ajax({
-                                data: formData,
-                                url,
-                                type,
-                                success(response) {
-                                    response.status == "warning" ? showWarningMessage(response
-                                        .message) : (showSuccessMessage(
-                                        `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`
-                                    ), modal.modal('hide'), accountTable.draw())
-                                },
-                                error() {
-                                    showErrorMessage();
-                                }
-                            });
+                            return operation == 'update' && defaultFormData == formData
+                            showWarningMessage('No changes were made.'):
+                                $.ajax({
+                                    data: formData,
+                                    url: url,
+                                    type: type,
+                                    success(response) {
+                                        response.status == "warning" ? showWarningMessage(response
+                                            .message) : (showSuccessMessage(
+                                            `Successfully ${operation}${operation == 'create' ? 'd' : operation == 'update' ? 'd' : 'ed'} user account.`
+                                        ), modal.modal('hide'), accountTable.draw())
+                                    },
+                                    error() {
+                                        showErrorMessage();
+                                    }
+                                });
                         }
                     });
                 }

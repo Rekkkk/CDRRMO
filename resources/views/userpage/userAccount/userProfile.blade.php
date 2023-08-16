@@ -44,7 +44,7 @@
                                     and Management Office (CDRRMO)</p>
                             @else
                                 <p class="profile-details">City Social Welfare and
-                                    Development(CSWD)
+                                    Development (CSWD)
                                 </p>
                             @endif
                         </div>
@@ -75,14 +75,14 @@
     @include('partials.toastr')
     <script>
         $(document).ready(() => {
-            let defaultFormData, modal = $('#userAccountModal');
+            let defaultFormData, operation, modal = $('#userAccountModal');
 
             $(document).on('click', '#editProfileBtn', () => {
                 $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
                 $('.modal-label').text('Edit Profile Account');
                 $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text('Update');
                 $('#suspend-container').hide();
-                $('#account_operation').val('update');
+                operation = "update";
                 $('#organization').val('{{ auth()->user()->organization }}');
                 $('#position').val('{{ auth()->user()->position }}');
                 $('#email').val('{{ auth()->user()->email }}');
@@ -108,7 +108,6 @@
 
             function formSubmitHandler(form) {
                 let accountid = '{{ auth()->user()->id }}',
-                    operation = $('#account_operation').val(),
                     formData = $(form).serialize();
 
                 confirmModal('Do you want to update this user details?').then((result) => {
@@ -120,11 +119,9 @@
                             type: 'PUT',
                             data: formData,
                             success(response) {
-                                if (response.status == 'warning') {
-                                    showWarningMessage(response.message);
-                                } else {
-                                    showSuccessMessage('Successfully updated the account details.');
-                                }
+                                response.status == 'warning' ? showWarningMessage(response
+                                    .message) : showSuccessMessage(
+                                    'Successfully updated the account details.', true);
                             },
                             error() {
                                 showErrorMessage();

@@ -9,11 +9,12 @@
     --color-green: #28a745;
     --color-primary: #3575ff;
     --color-yellow: #ffc107;
+    --color-black: #000000;
 
     /* Dark Mode*/
     --color-d-background: #1e293b;
-    --color-d-text: rgb(255 255 255);
-    --color-d-sub-text: #cbd5e1;
+    --color-d-text: #e2e8f0;
+    --color-d-sub-text: #94a3b8;
     --color-d-bg-container: #475569;
     /* Dark Mode*/
 }
@@ -25,12 +26,21 @@
     list-style: none !important;
     text-decoration: none !important;
     font-family: "Montserrat", sans-serif;
+    -webkit-font-smoothing: antialiased;
 }
 
 /* Toastr Section */
 .toast {
+
     opacity: 1 !important;
     box-shadow: none !important;
+}
+
+.toast-title,
+.toast-message,
+.dark-mode .toast-title,
+.dark-mode .toast-message {
+    color: var(--color-text);
 }
 
 /* Toastr Section */
@@ -48,7 +58,6 @@
     background: #64748b;
 }
 
-hr,
 ::-webkit-scrollbar-thumb:hover {
     background: var(--color-gray);
 }
@@ -768,7 +777,7 @@ hr,
 }
 
 .report-container p {
-    margin-right: 5px;
+    margin: 0;
     font-weight: 600;
     letter-spacing: 0.8px;
 }
@@ -822,7 +831,6 @@ hr,
 .content-description .wigdet-header p {
     color: #000;
     font-size: 16px;
-    padding: 10px 0 0 0;
     font-weight: 600;
 }
 
@@ -860,6 +868,7 @@ hr,
 
 .bar-graph {
     flex: 1;
+    height: 400px;
     background: #e2e8f0;
     border-radius: 6px;
     box-shadow: 0 0 19px -1px rgba(0, 0, 0, 0.2);
@@ -870,14 +879,26 @@ hr,
     fill: var(--color-text) !important;
 }
 
-.highcharts-title,
-text {
+.highcharts-title text {
     font-weight: 800 !important;
 }
 
 text {
     color: #000 !important;
     fill: #000 !important;
+}
+
+.highcharts-title {
+    font-size: 1.2em !important;
+}
+
+.highcharts-axis-labels,
+.highcharts-legend g {
+    font-size: 1rem !important;
+}
+
+.highcharts-label {
+    font-size: 1rem !important;
 }
 
 /* Dashboard */
@@ -1586,6 +1607,7 @@ input::-ms-clear {
 #evacuationCenterForm select,
 #evacueeInfoForm select,
 #accountForm select,
+#dangerousAreaReportForm select,
 #generateReportModal select {
     border-radius: 5px;
     font-weight: 400;
@@ -1665,9 +1687,8 @@ input::-ms-clear {
 }
 
 span.error {
-    color: #ef4444;
+    color: var(--color-red);
     font-size: 12px;
-    font-family: Montserrat, san-serif;
     font-style: italic;
     margin-top: 5px;
     float: left;
@@ -1678,6 +1699,7 @@ span.error {
 /* DataTable Section */
 
 .table-container {
+    margin-top: 8px;
     padding: 12px;
     box-shadow: 0 0 19px -1px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
@@ -1754,6 +1776,224 @@ select.form-select option {
 
 /* DataTable Section */
 
+/* Dark Mode Section*/
+.dark-mode {
+    background: var(--color-d-background);
+}
+
+.dark-mode * {
+    font-weight: 400 !important;
+    color: var(--color-d-text);
+}
+
+/* Dark Mode Header Section  */
+.dark-mode .dropdown-menu {
+    background: var(--color-d-bg-container);
+}
+
+.dark-mode .dropdown-menu a {
+    color: var(--color-d-text);
+}
+
+.dark-mode .dropdown-item:hover {
+    background: var(--color-d-background);
+}
+
+.dark-mode .dropdown-item:focus {
+    background: var(--color-d-bg-container);
+}
+
+.dark-mode .changePasswordBtn:active {
+    background: #2563eb;
+}
+
+.dark-mode .myProfile:active {
+    background: #16a34a;
+}
+
+.dark-mode .logout:active {
+    background: #dc2626;
+}
+
+/* Dark Mode Header Section */
+
+/* Dark Mode Dashboard Section */
+.dark-mode .label-container span,
+.dark-mode .report-container p,
+.dark-mode .wigdet-header p {
+    color: var(--color-d-text);
+}
+
+.dark-mode button,
+.dark-mode button i,
+.dark-mode .status-content {
+    color: var(--color-text);
+}
+
+.dark-mode .report-container span {
+    color: #f87171;
+}
+
+.dark-mode .widget {
+    background: var(--color-d-bg-container);
+}
+
+.dark-mode .content-description span {
+    color: var(--color-d-sub-text);
+}
+
+.dark-mode .highcharts-background {
+    fill: var(--color-d-bg-container);
+}
+
+.dark-mode .highcharts-title {
+    fill: var(--color-d-text) !important;
+}
+
+.dark-mode text {
+    fill: var(--color-text) !important;
+}
+
+.dark-mode .highcharts-label path {
+    color: var(--color-d-sub-text) !important;
+    fill: var(--color-d-background) !important;
+}
+
+.dark-mode .highcharts-bar-series path {
+    stroke: none;
+}
+
+.dark-mode .highcharts-color-1,
+.dark-mode .highcharts-bar-series path {
+    fill: #f87171;
+}
+
+.dark-mode .highcharts-color-0,
+.dark-mode .highcharts-series-1 path {
+    fill: #0369a1;
+}
+
+.dark-mode .highcharts-series-2 path {
+    fill: #16a34a;
+}
+
+.dark-mode .highcharts-series-3 path {
+    fill: #0d9488;
+}
+
+.dark-mode .highcharts-series-4 path {
+    fill: #b45309;
+}
+
+.dark-mode .highcharts-series-5 path {
+    fill: #7c3aed;
+}
+
+.dark-mode .highcharts-data-label-connector {
+    stroke: var(--color-text)
+}
+
+/* Dark Mode Dashboard Section*/
+
+/* Dark Mode Profile Section */
+.dark-mode .user-profile-container {
+    background: var(--color-d-bg-container);
+}
+
+.dark-mode .profile-details {
+    background: var(--color-d-bg-container);
+}
+
+/* Dark Mode Profile Section */
+
+/* Datatable Section  */
+.dark-mode .table-container {
+    background: var(--color-d-bg-container);
+}
+
+.dark-mode th {
+    background: var(--color-d-background);
+}
+
+.dark-mode .table-container select option {
+    color: var(--color-black);
+}
+
+.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
+.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+    color: var(--color-d-sub-text) !important;
+}
+
+/* Datatable Section  */
+
+/* Modal Section */
+.dark-mode .modal-content {
+    background: var(--color-d-background);
+}
+
+.dark-mode .modal-label {
+    color: var(--color-text);
+}
+
+.dark-mode .form-content {
+    background: var(--color-d-bg-container);
+}
+
+.dark-mode span.error {
+    color: var(--color-yellow);
+}
+
+.dark-mode .form-content textarea,
+.dark-mode .field-container input,
+.dark-mode .field-container select {
+    background: var(--color-d-bg-container);
+    color: var(--color-d-text);
+}
+
+.dark-mode .form-content textarea::placeholder,
+.dark-mode .field-container input::placeholder,
+.dark-mode .field-container .form-select {
+    color: var(--color-d-text);
+}
+
+.dark-mode select.form-select option {
+    background: var(--color-d-background);
+    color: var(--color-d-text);
+}
+
+/* Modal Section */
+
+/* Sweet Alert Section */
+.swal2-popup {
+    background: var(--color-d-background);
+    border: 1px solid var(--color-d-sub-text);
+}
+
+/* Sweet Alert Section */
+
+/* Evacuation Center Section */
+.dark-mode .gm-style-iw,
+.dark-mode .gm-style-iw a,
+.dark-mode .gm-style-iw div,
+.dark-mode .gm-style-iw-tc::after {
+    background: var(--color-d-bg-container);
+    color: var(--color-d-text);
+}
+
+.dark-mode .evacuation-markers {
+    background: var(--color-d-bg-container);
+}
+
+.gmnoprint span,
+.ssQIHO-checkbox-menu-item label {
+    color: var(--color-black);
+}
+
+/* Evacuation Center Section */
+
+/* Dark Mode */
+
 /* Laptop View Section */
 @media only screen and (max-width: 1024px) {
     .auth-content {
@@ -1804,15 +2044,28 @@ select.form-select option {
 
     .about-content .location-section,
     .about-content .right-side {
-        margin: 15px 0 0 0;
+        margin-top: 15px;
     }
-}
 
-@media only screen and (max-width: 865px) {
+    /* Evacuation Center Section */
     .evacuation-button-container {
-        overflow-x: auto;
-        padding: 8px 10px 8px 0;
+        display: block;
     }
+
+    .evacuation-markers {
+        overflow: auto;
+        height: 43px;
+    }
+
+    .marker-container {
+        margin: auto;
+    }
+
+    .locator-button-container {
+        margin-top: 10px;
+    }
+
+    /* Evacuation Center Section */
 }
 
 /* Laptop View */
@@ -1902,18 +2155,12 @@ select.form-select option {
         margin: 0 -19px;
     }
 
-    /* Evacuation Center Section */
-
-    .evacuation-button-container {
-        display: block;
-        padding: 8px 0;
+    .marker-container {
         overflow: visible;
     }
 
-    .evacuation-markers {
-        overflow: auto;
-        height: 43px ;
-        width: 100%;
+    .marker-container {
+        margin: 0 auto;
     }
 
     .locator-button-container {
@@ -2046,24 +2293,105 @@ select.form-select option {
 
     /* Login Section*/
 
+    /* Sidebar Section */
+    .sidebar.active,
+    .dark-mode .sidebar.active {
+        width: 300px;
+    }
+
+    .sidebar ul li {
+        font-size: 16px;
+    }
+
+    .sidebar.active .links_name {
+        font-size: 14px;
+    }
+
+    .details-content img {
+        width: 50px;
+    }
+
+    .details-content span {
+        font-size: 14px;
+    }
+
+    /* Sidebar Section */
+
     /* Dashboard Section */
+    .main-content hr {
+        margin: 14px 0;
+    }
+
+    .label-container span {
+        font-size: 18px;
+    }
+
+    .icon-content i {
+        font-size: 18px;
+        padding: 6px;
+    }
+
+    .content-description .wigdet-header p {
+        font-size: 14px;
+    }
+
+    .content-description span {
+        font-size: 14px;
+    }
+
+    .content-description p {
+        font-size: 30px;
+    }
+
+    .wigdet-header img {
+        width: 25px;
+    }
+
     .report-container {
         display: block;
+        margin-top: 0;
     }
 
     .report-container p {
-        font-size: 15px;
+        font-size: 14px;
         margin: 0;
     }
 
     .generate-button-container {
         margin-top: 12px;
-        display: flex;
-        justify-content: end;
+        display: block;
+    }
+
+    .generateBtn {
+        font-size: 13px;
+        width: 100%;
     }
 
     .widget-container {
         grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .pie-chart,
+    .pie-chart {
+        height: 250px;
+    }
+
+    .highcharts-title,
+    .highcharts-title {
+        font-size: 16px !important;
+    }
+
+    .highcharts-axis-labels,
+    .highcharts-legend g {
+        font-size: 12px !important;
+    }
+
+    .highcharts-label {
+        font-size: 14px !important;
+    }
+
+    .bar-graph {
+        height: 350px !important;
     }
 
     /* Dashboard Section*/
@@ -2105,7 +2433,6 @@ select.form-select option {
     }
 
     /* About Section */
-
 }
 
 /* Mobile View */
@@ -2124,145 +2451,3 @@ select.form-select option {
 }
 
 /* Animations */
-
-/* Dark Mode Section*/
-
-.dark-mode * {
-    font-weight: 400 !important;
-    color: var(--color-d-text);
-}
-
-/* Dark Mode Header Section  */
-.dark-mode .dropdown-menu {
-    background: var(--color-d-bg-container);
-}
-
-.dark-mode .dropdown-menu a {
-    color: var(--color-d-text);
-}
-
-.dark-mode .dropdown-item:hover {
-    background: var(--color-d-background);
-}
-
-.dark-mode .dropdown-item:focus {
-    background: var(--color-d-bg-container);
-}
-
-.dark-mode .changePasswordBtn:active {
-    background: #2563eb;
-}
-
-.dark-mode .myProfile:active {
-    background: #16a34a;
-}
-
-.dark-mode .logout:active {
-    background: #dc2626;
-}
-
-/* Dark Mode Header Section */
-
-/* Dark Mode Dashboard Section */
-.dark-mode {
-    background: var(--color-d-background);
-}
-
-.dark-mode .label-container span,
-.dark-mode .report-container p,
-.dark-mode .wigdet-header p,
-.dark-mode .main-content hr {
-    color: var(--color-d-text);
-}
-
-.dark-mode .report-container span {
-    color: #f87171;
-}
-
-.dark-mode .widget {
-    background: var(--color-d-bg-container);
-}
-
-.dark-mode .content-description span {
-    color: var(--color-d-sub-text);
-}
-
-.dark-mode .highcharts-background {
-    fill: var(--color-d-bg-container);
-}
-
-.dark-mode .highcharts-title,
-.dark-mode text {
-    fill: var(--color-d-text) !important;
-}
-
-.dark-mode .highcharts-label path {
-    color: var(--color-d-sub-text) !important;
-    fill: var(--color-d-background) !important;
-}
-
-/* Dark Mode Dashboard Section*/
-
-
-/* Datatable Section  */
-
-.dark-mode .table-container {
-    background: var(--color-d-bg-container);
-}
-
-.dark-mode th {
-    background: var(--color-d-background);
-}
-
-.dark-mode .table-container select option{
-    color: black;
-}
-
-/* Datatable Section  */
-
-/* Modal Section */
-
-.dark-mode .modal-content {
-    background: var(--color-d-background);
-}
-
-.dark-mode .form-content {
-    background: var(--color-d-bg-container);
-}
-
-
-.dark-mode .form-content .form-select,
-.dark-mode .form-content input,
-.dark-mode .form-content input::placeholder,
-.dark-mode .form-content textarea::placeholder {
-    color: black;
-}
-
-.dark-mode span.error {
-    color: var(--color-yellow);
-}
-
-/* Modal Section */
-
-/* Evacuation Center Section */
-
-.dark-mode .gm-style-iw,
-.dark-mode .gm-style-iw a,
-.dark-mode .gm-style-iw div,
-.dark-mode .gm-style-iw-tc::after {
-    background: var(--color-d-bg-container);
-    color: var(--color-d-text);
-}
-
-.dark-mode .evacuation-markers {
-    background: var(--color-d-bg-container);
-}
-
-.gmnoprint span,
-.ssQIHO-checkbox-menu-item label {
-    color:black;
-}
-
-/* Evacuation Center Section */
-
-/* Dark Mode */

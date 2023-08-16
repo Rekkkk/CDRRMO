@@ -42,9 +42,9 @@ class EvacuationCenterController extends Controller
                     }, ['Active', 'Inactive', 'Full']));
 
                     return '<div class="action-container">' .
-                        '<button class="btn-table-update updateEvacuationCenter"><i class="bi bi-pencil-square"></i>Update</button>' .
-                        '<button class="btn-table-remove removeEvacuationCenter"><i class="bi bi-trash3-fill"></i>Remove</button>' .
-                        '<select class="form-select changeEvacuationStatus">' .
+                        '<button class="btn-table-update" id="updateEvacuationCenter"><i class="bi bi-pencil-square"></i>Update</button>' .
+                        '<button class="btn-table-remove" id="removeEvacuationCenter"><i class="bi bi-trash3-fill"></i>Remove</button>' .
+                        '<select class="form-select" id="changeEvacuationStatus">' .
                         '<option value="" disabled selected hidden>Change Status</option>' .
                         $statusOptions . '</select></div>';
                 }

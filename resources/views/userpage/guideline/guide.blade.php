@@ -21,7 +21,7 @@
             <hr>
             <div class="guide-btn">
                 @if (auth()->check() && auth()->user()->is_disable == 0)
-                    <a href="javascript:void(0)" class="btn-submit createGuideBtn">
+                    <a href="javascript:void(0)" class="btn-submit" id="createGuideBtn">
                         <i class="bi bi-plus-lg mr-2"></i> Create Guide
                     </a>
                     <input type="text" class="guidelineId" value="{{ $guidelineId }}" hidden>
@@ -85,7 +85,8 @@
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script>
                 $(document).ready(function() {
-                    let guideId, guideWidget, guideItem, defaultFormData, guidelineId = $('.guidelineId').val();
+                    let guideId, guideWidget, guideItem, defaultFormData, guidelineId = $('.guidelineId').val(),
+                        operation, modal = $('#guideModal');
 
                     let validator = $("#guideForm").validate({
                         rules: {
@@ -100,13 +101,12 @@
                         submitHandler: guideFormHandler
                     });
 
-                    $(document).on('click', '.createGuideBtn', function() {
-                        $('#createGuideForm').trigger("reset");
-                        $('#guide_operation').val('create');
+                    $(document).on('click', '#createGuideBtn', () => {
+                        operation = "create";
                         $('.modal-label-container').removeClass('bg-warning');
                         $('.modal-label').text('Create Guide');
                         $('#submitGuideBtn').removeClass('btn-update').text('Create');
-                        $('#guideModal').modal('show');
+                        modal.modal('show');
                     });
 
                     $(document).on('click', '.guideContentBtn', function() {
@@ -202,6 +202,11 @@
                             }
                         });
                     }
+
+                    modal.on('hidden.bs.modal', () => {
+                        validator.resetForm();
+                        $('#guideForm')[0].reset();
+                    });
                 });
             </script>
         @endif

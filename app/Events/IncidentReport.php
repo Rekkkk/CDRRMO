@@ -34,16 +34,39 @@ class IncidentReport implements ShouldBroadcast
         ]);
     }
 
-    function revertReport($accidentReportId, $reportPhotoPath)
+    function revertIncidentReport($accidentReportId, $reportPhotoPath)
     {
         $this->incidentReport = new Reporting;
-        $image_path = public_path('reports_image/' .$reportPhotoPath);
-        
-        if(file_exists($image_path)){
+        $image_path = public_path('reports_image/' . $reportPhotoPath);
+
+        if (file_exists($image_path)) {
             unlink($image_path);
         }
-        
+
         $this->incidentReport->find($accidentReportId)->delete();
+    }
+
+    function confirmDangerAreaReport($dangerAreaId)
+    {
+        $this->incidentReport = new Reporting;
+        $this->incidentReport->find($dangerAreaId)->update([
+            'status' => 'Confirmed'
+        ]);
+    }
+
+    function removeDangerAreaReport($dangerAreaId)
+    {
+        $this->incidentReport = new Reporting;
+        $this->incidentReport->find($dangerAreaId)->update([
+            'status' => "Archived",
+            'is_archive' => 1
+        ]);
+    }
+
+    function revertDangerAreaReport($dangerAreaId)
+    {
+        $this->incidentReport = new Reporting;
+        $this->incidentReport->find($dangerAreaId)->delete();
     }
 
     public function broadcastOn()

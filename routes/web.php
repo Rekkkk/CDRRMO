@@ -31,6 +31,9 @@ Route::prefix('resident')->middleware('guest')->group(function () {
             Route::delete('/revertIncidentReport/{reportId}', 'revertIncidentReport')->name('revert');
             Route::patch('/updateAttempt', 'updateUserAttempt')->name('update');
             Route::post('/createIncidentReport', 'createIncidentReport')->name('accident');
+            Route::get('/displayDangerousAreasReport', 'displayDangerousAreasReport')->name('danger.areas');
+            Route::post('/reportDangerousArea', 'reportDangerousArea')->name('dangerous.area');
+            Route::delete('/revertDangerousAreaReport/{dangerAreaId}', 'revertDangerousAreaReport')->name('revert.danger.area.report');
         });
 
         Route::prefix('eligtasGuideline')->controller(GuidelineController::class)->group(function () {
@@ -55,7 +58,6 @@ Route::middleware('auth')->group(function () {
     Route::prefix('cswd')->middleware('check.cswd')->group(function () {
         Route::controller(MainController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cswd');
-            Route::post('/generateEvacueeData', 'generateExcelEvacueeData')->name('generate.evacuee.data');
             Route::get('/evacuee', 'manageEvacueeInformation')->name('manage.evacuee.record');
             Route::view('/manageEvacuation', 'userpage.evacuationCenter.manageEvacuation')->name('manage.evacuation');
             Route::get('/evacuationCenter', 'evacuationCenterLocator')->name('evacuation.center.locator');
@@ -84,14 +86,18 @@ Route::middleware('auth')->group(function () {
             Route::delete('/removeEvacuation/{evacuationId}', 'removeEvacuationCenter')->name('remove');
             Route::patch('/changeEvacuationStatus/{evacuationId}', 'changeEvacuationStatus')->name('change.status');
         });
+
+        Route::prefix('incidentReport')->name('report.dangerous.areas.')->controller(IncidentReportController::class)->group(function () {
+            Route::get('/displayDangerousAreasReport', 'displayDangerousAreasReport')->name('cswd');
+            Route::post('/confirmDangerAreaReport/{dangerAreaId}', 'confirmDangerAreaReport')->name('confirm');
+            Route::delete('/rejectDangerAreaReport/{dangerAreaId}', 'rejectDangerAreaReport')->name('reject');
+            Route::patch('/removeDangerAreaReport/{dangerAreaId}', 'removeDangerAreaReport')->name('remove');
+        });
     });
 
     Route::prefix('cdrrmo')->middleware('check.cdrrmo')->group(function () {
         Route::controller(MainController::class)->group(function () {
             Route::get('/dashboard', 'dashboard')->name('dashboard.cdrrmo');
-            Route::get('/incidentReport', 'incidentReport')->name('display.incident.report');
-            Route::view('/hotlineNumber', 'userpage.hotlineNumbers')->name('hotline.number');
-            Route::view('/about', 'userpage.about')->name('about');
         });
 
         Route::prefix('incidentReport')->name('report.')->controller(IncidentReportController::class)->group(function () {
@@ -117,6 +123,13 @@ Route::middleware('auth')->group(function () {
             Route::put('/guide/updateGuide/{guideId}', 'updateGuide')->name('update');
             Route::patch('/guide/removeGuide/{guideId}', 'removeGuide')->name('remove');
         });
+    });
+
+    Route::controller(MainController::class)->group(function () {
+        Route::post('/generateEvacueeData', 'generateExcelEvacueeData')->name('generate.evacuee.data');
+        Route::get('/incidentReport', 'incidentReport')->name('display.incident.report');
+        Route::view('/hotlineNumber', 'userpage.hotlineNumbers')->name('hotline.number');
+        Route::view('/about', 'userpage.about')->name('about');
     });
 
     Route::name('account.')->controller(UserAccountsController::class)->group(function () {

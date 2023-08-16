@@ -8,7 +8,6 @@
                 <form id="evacueeInfoForm">
                     @csrf
                     <div class="form-content">
-                        <input type="text" id="operation" hidden>
                         <div class="col-lg-6 field-container">
                             <label class="">Disaster</label>
                             <select name="disaster_id" id="disaster_id" class="form-select">
