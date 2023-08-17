@@ -45,7 +45,7 @@ class EvacueeDataExport implements FromView, ShouldAutoSize, WithStyles, WithDef
 
     public function view(): View
     {
-        return view('userpage.evacueeDataExcel', [
+        return view('userpage.evacuee.evacueeDataExcel', [
             'evacueeData' => $this->evacueeData,
             'onGoingDisaster' => $this->onGoingDisaster,
             'totalEvacuationCenter' => $this->totalEvacuationCenter,

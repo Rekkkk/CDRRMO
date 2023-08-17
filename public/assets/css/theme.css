@@ -79,8 +79,7 @@
     font-weight: 600;
     border-radius: 4px;
     padding: 8px 10px;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
-        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-duration: 100ms;
     border: none;
 }
@@ -101,8 +100,7 @@
     font-weight: 600;
     color: var(--color-text);
     transition-duration: 100ms;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
-        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 4px;
     border: none;
@@ -124,8 +122,7 @@
     padding: 0 10px;
     color: var(--color-text);
     transition-duration: 100ms;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
-        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 4px;
     border: none;
@@ -210,8 +207,7 @@
     height: 64px;
     background: var(--color-red);
     z-index: 1;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
-        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .header-section .container-fluid {
@@ -321,8 +317,7 @@
     left: 0;
     top: 0;
     transition: 0.3s ease;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
-        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
     overflow: hidden;
 }
 
@@ -926,8 +921,7 @@ text {
     position: relative;
     max-width: 300px;
     transition: 0.1s all ease-in-out;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
-        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .guideline-widget:hover {
@@ -965,8 +959,7 @@ text {
     z-index: -50;
     position: relative;
     background: var(--color-text);
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
-        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     border-radius: 4px;
 }
 
@@ -1003,8 +996,7 @@ text {
 .guideline-btn .btn-container button i {
     padding: 8px;
     font-size: 18px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
-        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .guideline-btn div {
@@ -1024,7 +1016,6 @@ text {
 /* Guideline */
 
 /* Evacuation Center Section */
-
 .locator-content {
     margin-top: 16px;
     margin-bottom: 12px;
@@ -1108,8 +1099,7 @@ text {
     align-items: center;
     border-radius: 4px;
     border: 2px solid var(--color-red);
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
-        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
 }
 
 .markers-header {
@@ -1194,8 +1184,7 @@ text {
     padding: 16px 0;
     border-radius: 4px;
     margin: 12px 0;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
-        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .incidentReportTable {
@@ -1206,8 +1195,7 @@ text {
 .incident-report-container {
     background: var(--color-text);
     border-radius: 4px;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
-        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
 }
 
 .incident-report-content {
@@ -1217,8 +1205,7 @@ text {
 }
 
 .report-photo-container {
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
-        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
 }
 
 .incident-report-details {
@@ -1317,8 +1304,7 @@ text {
     background: #475569;
     color: var(--color-text);
     border-radius: 6px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
-        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .location-section span {
@@ -1396,8 +1382,7 @@ text {
     background: #475569;
     color: var(--color-text);
     border-radius: 4px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
-        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .hotline-container {
@@ -1425,8 +1410,7 @@ text {
     margin-top: 18px;
     margin-bottom: 10px;
     border-radius: 4px;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
-        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .profile-section {
@@ -1490,8 +1474,7 @@ text {
     height: max-content;
     padding: 10px;
     font-weight: 700;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
-        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
     border-bottom-right-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
 }
@@ -1706,7 +1689,6 @@ span.error {
 /* Form Section */
 
 /* DataTable Section */
-
 .table-container {
     margin-top: 8px;
     padding: 12px;
@@ -1933,14 +1915,8 @@ select.form-select option {
 }
 
 .dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
-.dark-mode
-    .dataTables_wrapper
-    .dataTables_paginate
-    .paginate_button.disabled:hover,
-.dark-mode
-    .dataTables_wrapper
-    .dataTables_paginate
-    .paginate_button.disabled:active {
+.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
+.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
     color: var(--color-d-sub-text) !important;
 }
 
@@ -1951,7 +1927,8 @@ select.form-select option {
     background: var(--color-d-background);
 }
 
-.dark-mode .modal-label {
+.dark-mode .modal-label,
+.dark-mode .change-modal-label {
     color: var(--color-text);
 }
 
@@ -2043,7 +2020,7 @@ select.form-select option {
         display: contents;
     }
 
-    .about-content > div {
+    .about-content>div {
         margin: 15px;
     }
 
@@ -2204,6 +2181,7 @@ select.form-select option {
 
 /* Mobile View Section */
 @media only screen and (max-width: 380px) {
+
     /* Login Section */
     .auth-content {
         padding: 35% 0 20% 0;
@@ -2385,12 +2363,10 @@ select.form-select option {
         grid-template-columns: repeat(1, minmax(0, 1fr));
     }
 
-    .pie-chart,
     .pie-chart {
         height: 250px;
     }
 
-    .highcharts-title,
     .highcharts-title {
         font-size: 16px !important;
     }
@@ -2411,7 +2387,7 @@ select.form-select option {
     /* Dashboard Section*/
 
     /* About Section */
-    .about-content > div {
+    .about-content>div {
         margin: 20px 0;
     }
 

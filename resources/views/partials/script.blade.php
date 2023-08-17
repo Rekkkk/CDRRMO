@@ -4,7 +4,6 @@
         themeText = $('#themeText'),
         theme = localStorage.getItem('theme');
     @auth
-
     let currentPassword = $('#currentPassword'),
         password = $('#password'),
         confirmPassword = $('#confirmPassword'),
@@ -16,8 +15,10 @@
         eyeIcon = $('.toggle-password'),
         checkPasswordIcon = $('.checkPassword'),
         current_password = "";
+    @endauth
 
     $(document).ready(() => {
+        @auth
         let changePasswordValidation = changePasswordForm.validate({
             rules: {
                 password: 'required',
@@ -77,7 +78,7 @@
             }, 500));
         });
 
-        changePasswordModal.on('hidden.bs.modal', function() {
+        changePasswordModal.on('hidden.bs.modal', () => {
             resetChangePasswordForm();
             checkPasswordIcon.removeClass('success').removeClass('error').prop('hidden', true);
             changePasswordValidation.resetForm();
@@ -152,6 +153,7 @@
         });
     }
     @endauth
+
     function displayReportPhoto(reportPhotoUrl) {
         let overlay = $('<div class="overlay show"><img src="' + reportPhotoUrl +
             '" class="overlay-image"></div>');
