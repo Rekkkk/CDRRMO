@@ -175,7 +175,7 @@ class IncidentReportController extends Controller
 
     public function displayDangerousAreasReport(Request $request)
     {
-        if (!$request->ajax()) return view('userpage.dangerousAreasReport');
+        if (!$request->ajax()) return view('userpage.evacuationCenter.dangerousAreasReport');
 
         $dangerousAreasReport = $this->incidentReport->whereIn('status', ['On Process', 'Confirmed'])->where('is_archive', 0)->whereNull('photo')->get();
 
