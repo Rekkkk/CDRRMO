@@ -12,8 +12,10 @@ return new class extends Migration
         Schema::create('report', function (Blueprint $table) {
             $table->id();
             $table->string('description');
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->string('photo')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->string('status');
             $table->string('user_ip');
             $table->boolean('is_archive');

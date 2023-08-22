@@ -252,28 +252,29 @@
                 let type = operation == 'record' ? "POST" : "PUT";
 
                 confirmModal(`Do you want to ${operation} this evacuee info?`).then((result) => {
-                    if (result.isConfirmed) {
-                        return operation == 'update' && defaultFormData == formData ?
-                            showWarningMessage('No changes were made.') :
-                            $.ajax({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                data: formData,
-                                url: url,
-                                type: type,
-                                success(response) {
-                                    response.status == 'warning' ? showWarningMessage(response
-                                        .message) : (modal.modal('hide'), evacueeTable.draw(),
-                                        showSuccessMessage(
-                                            `Successfully ${operation}${operation == 'record' ? 'ed new' : 'd the'} evacuee info.`
-                                        ));
-                                },
-                                error() {
-                                    showErrorMessage();
-                                }
-                            });
-                    }
+                    if (!result.isConfirmed) return;
+
+                    return operation == 'update' && defaultFormData == formData ?
+                        showWarningMessage('No changes were made.') :
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: formData,
+                            url: url,
+                            type: type,
+                            success(response) {
+                                response.status == 'warning' ? showWarningMessage(response
+                                    .message) : (modal.modal('hide'), evacueeTable.draw(),
+                                    showSuccessMessage(
+                                        `Successfully ${operation}${operation == 'record' ? 'ed new' : 'd the'} evacuee info.`
+                                    ));
+                            },
+                            error() {
+                                showErrorMessage();
+                            }
+                        });
+
                 });
             }
         });

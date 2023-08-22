@@ -289,9 +289,10 @@
                     let type = operation == 'create' ? "POST" : "PUT";
 
                     confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
-                        if (result.isConfirmed) {
-                            return operation == 'update' && defaultFormData == formData
-                            showWarningMessage('No changes were made.');
+                        if (!result.isConfirmed) return;
+
+                        return operation == 'update' && defaultFormData == formData ?
+                            showWarningMessage('No changes were made.') :
                             $.ajax({
                                 data: formData,
                                 url: url,
@@ -306,7 +307,6 @@
                                     showErrorMessage();
                                 }
                             });
-                        }
                     });
                 }
             @endif

@@ -289,25 +289,25 @@
                     let type = operation == 'create' ? 'POST' : 'PUT';
 
                     confirmModal(`Do you want to ${operation} this evacuation center?`).then((result) => {
-                        if (result.isConfirmed) {
-                            return operation == 'update' && defaultFormData == formData ?
-                                showWarningMessage('No changes were made.') :
-                                $.ajax({
-                                    data: formData,
-                                    url: url,
-                                    type: type,
-                                    success(response) {
-                                        response.status == "warning" ? showWarningMessage(response
-                                            .message) : (showSuccessMessage(
-                                            `Successfully ${operation}d evacuation center.`
-                                        ), evacuationCenterTable.draw(), modal.modal('hide'));
-                                    },
-                                    error() {
-                                        modal.modal('hide');
-                                        showErrorMessage();
-                                    }
-                                });
-                        }
+                        if (!result.isConfirmed) return;
+
+                        return operation == 'update' && defaultFormData == formData ?
+                            showWarningMessage('No changes were made.') :
+                            $.ajax({
+                                data: formData,
+                                url: url,
+                                type: type,
+                                success(response) {
+                                    response.status == "warning" ? showWarningMessage(response
+                                        .message) : (showSuccessMessage(
+                                        `Successfully ${operation}d evacuation center.`
+                                    ), evacuationCenterTable.draw(), modal.modal('hide'));
+                                },
+                                error() {
+                                    modal.modal('hide');
+                                    showErrorMessage();
+                                }
+                            });
                     });
                 }
 
