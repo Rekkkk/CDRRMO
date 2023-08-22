@@ -65,9 +65,7 @@
                     </div>
                 @endforeach
             </div> --}}
-            @auth
-                @include('userpage.changePasswordModal')
-            @endauth
+            @include('userpage.changePasswordModal')
         </div>
     </div>
 

@@ -253,7 +253,7 @@
                 });
             @endforeach
 
-            let validator = $("#generateReportForm").validate({
+            const validator = $("#generateReportForm").validate({
                 rules: {
                     select_status: 'required',
                     disaster_id: 'required'

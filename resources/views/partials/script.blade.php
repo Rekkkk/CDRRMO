@@ -3,6 +3,7 @@
         themeIcon = $('#themeIcon'),
         themeText = $('#themeText'),
         theme = localStorage.getItem('theme');
+
     @auth
     let currentPassword = $('#currentPassword'),
         password = $('#password'),
@@ -16,7 +17,6 @@
         checkPasswordIcon = $('.checkPassword'),
         current_password = "";
     @endauth
-
     $(document).ready(() => {
         @auth
         let changePasswordValidation = changePasswordForm.validate({
@@ -100,15 +100,13 @@
             }
         });
     @endauth
-
     theme == 'dark' ? enableDarkMode() : disableDarkMode();
 
     $(document).on('click', '#changeTheme', () => {
         body.hasClass('dark-mode') ? disableDarkMode() : enableDarkMode();
     });
-
-    @auth
     });
+    @auth
 
     function datePicker(id) {
         return flatpickr(id, {
@@ -153,7 +151,6 @@
         });
     }
     @endauth
-
     function displayReportPhoto(reportPhotoUrl) {
         let overlay = $('<div class="overlay show"><img src="' + reportPhotoUrl +
             '" class="overlay-image"></div>');
@@ -197,9 +194,7 @@
     function getRowData(row, table) {
         let currentRow = $(row).closest('tr');
 
-        if (table.responsive && table.responsive.hasHidden()) {
-            currentRow = currentRow.prev('tr');
-        }
+        if (table.responsive && table.responsive.hasHidden()) currentRow = currentRow.prev('tr');
 
         return table.row(currentRow).data();
     }

@@ -95,7 +95,7 @@
             });
 
             @if (auth()->user()->is_disable == 0)
-                let disasterId, defaultFormData, status, operation;
+                let disasterId, defaultFormData, status, operation, modal = $('#disasterModal');
 
                 $.ajaxSetup({
                     headers: {
@@ -133,7 +133,7 @@
                     $('.modal-label').text('Update Disaster');
                     $('#submitDisasterBtn').addClass('btn-update').text('Update');
                     operation = "update";
-                    $('#disasterModal').modal('show');
+                    modal.modal('show');
                     defaultFormData = $('#disasterForm').serialize();
                 });
 
@@ -148,7 +148,7 @@
                         .replace('disasterId', getRowData(this, disasterTable).id));
                 });
 
-                $('#disasterModal').on('hidden.bs.modal', () => {
+                modal.on('hidden.bs.modal', () => {
                     validator.resetForm();
                     $('#disasterForm')[0].reset();
                 });
@@ -161,7 +161,7 @@
                                 data: {
                                     status
                                 },
-                                url,
+                                url: url,
                                 success() {
                                     showSuccessMessage(`Disaster successfully ${operation}d.`);
                                     disasterTable.draw();
@@ -181,26 +181,27 @@
                     let type = operation == 'create' ? "POST" : "PATCH";
 
                     confirmModal(`Do you want to ${operation} this disaster?`).then((result) => {
-                        if (result.isConfirmed)
-                            return operation == 'update' && defaultFormData == formData ?
-                                showWarningMessage(
-                                    'No changes were made.') :
-                                $.ajax({
-                                    data: formData,
-                                    url,
-                                    type,
-                                    success(response) {
-                                        response.status == 'warning' ? showWarningMessage(response
-                                            .message) : (
-                                            showSuccessMessage(
-                                                `Disaster successfully ${operation}d.`), $(
-                                                '#disasterModal').modal('hide'), disasterTable
-                                            .draw());
-                                    },
-                                    error() {
-                                        showErrorMessage();
-                                    }
-                                });
+                        if (!result.isConfirmed) return;
+
+                        return operation == 'update' && defaultFormData == formData ?
+                            showWarningMessage(
+                                'No changes were made.') :
+                            $.ajax({
+                                data: formData,
+                                url: url,
+                                type: type,
+                                success(response) {
+                                    response.status == 'warning' ? showWarningMessage(response
+                                        .message) : (
+                                        showSuccessMessage(
+                                            `Disaster successfully ${operation}d.`), $(
+                                            '#disasterModal').modal('hide'), disasterTable
+                                        .draw());
+                                },
+                                error() {
+                                    showErrorMessage();
+                                }
+                            });
                     });
                 }
             @endif

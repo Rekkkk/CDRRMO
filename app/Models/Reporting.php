@@ -17,6 +17,8 @@ class Reporting extends Model
         'description',
         'location',
         'photo',
+        'latitude',
+        'longitude',
         'status',
         'user_ip',
         'is_archive'
