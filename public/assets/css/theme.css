@@ -87,7 +87,6 @@
 .btn-submit:hover,
 .btn-table-submit:hover,
 #locateNearestBtn:hover {
-    color: var(--color-text);
     background: #06782f;
     transform: scale(1.05);
     border: none;
@@ -109,7 +108,6 @@
 .btn-update:hover,
 .btn-table-update:hover {
     background: #ffb412;
-    color: var(--color-text);
     transform: scale(1.05);
     border: none;
 }
@@ -131,7 +129,6 @@
 .btn-remove:hover,
 .btn-table-remove:hover {
     background: #b91c1c;
-    color: var(--color-text);
     transform: scale(1.05);
     border: none;
 }
@@ -170,7 +167,6 @@
 .btn-table-primary:hover,
 #pinpointCurrentLocationBtn:hover {
     background: #1d4ed8;
-    color: var(--color-text);
     transform: scale(1.05);
     border: none;
 }
@@ -1382,6 +1378,7 @@ text {
 
 .social-section p,
 .telephone-section p {
+    margin: 0;
     padding: 24px;
 }
 
@@ -1764,6 +1761,7 @@ table td {
 
 .action-container select {
     width: 176px;
+    border-radius: 4px;
     background-color: var(--color-primary);
     color: var(--color-text);
 }
@@ -2128,6 +2126,7 @@ select.form-select option {
         padding: 300px 0;
     }
 
+    /* Sidebar Section */
     .sidebar,
     .dark-mode .sidebar,
     .sidebar:hover {
@@ -2153,6 +2152,15 @@ select.form-select option {
         width: 320px;
     }
 
+    /* Sidebar Section */
+
+    /* Dashboard Section */
+    .label-container {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+    }
+
     .widget-container {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -2160,6 +2168,8 @@ select.form-select option {
     .chart-container {
         display: contents;
     }
+
+    /* Dashbaord Section */
 
     .action-container {
         flex-wrap: wrap;
@@ -2198,12 +2208,36 @@ select.form-select option {
     }
 
     /* Evacuation Center Section */
+
+    /* Data Table Section */
+    .btn-table-submit,
+    .btn-table-update,
+    .btn-table-remove {
+        width: 176px;
+        font-size: 12px;
+        margin: 4px;
+    }
+
+    #changeDisasterStatus,
+    #changeEvacuationStatus {
+        text-align: center;
+        font-size: 12px;
+    }
+
+    /* Data Table Section */
 }
 
 /* Tablet View */
 
 /* Mobile View Section */
 @media only screen and (max-width: 380px) {
+
+    /* Toast Section */
+    .toast {
+        font-size: 12px;
+    }
+
+    /* Toast Section */
 
     /* Login Section */
     .auth-content {
@@ -2374,11 +2408,11 @@ select.form-select option {
 
     .generate-button-container {
         margin-top: 12px;
-        display: flex;
-        justify-content: end;
+        display: block;
     }
 
     .generateBtn {
+        width: 100%;
         font-size: 13px;
     }
 
@@ -2408,6 +2442,51 @@ select.form-select option {
     }
 
     /* Dashboard Section*/
+
+    /* Evacuation Locator Section */
+    .header-title {
+        padding: 8px;
+    }
+
+    .header-title span {
+        font-size: 18px;
+    }
+
+    .gmnoprint button {
+        padding: 10px 16px !important;
+        font-size: 12px !important;
+    }
+
+    .evacuation-markers {
+        font-size: 14px;
+    }
+
+    /* Evacuation Locator Section */
+
+    /* Manage Disaster Information Section */
+    .page-button-container {
+        display: block;
+    }
+
+    .page-button-container button {
+        width: 100%;
+    }
+
+    /* Data Table Section */
+    .table-container {
+        font-size: 12px;
+    }
+
+    .table-content .table-label {
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .message-text {
+        font-size: 10px;
+    }
+
+    /* Data Table Section */
 
     /* About Section */
     .about-content>div {

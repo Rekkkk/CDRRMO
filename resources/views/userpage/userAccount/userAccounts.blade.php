@@ -241,7 +241,7 @@
                             confirmModal('Do you want to open this user account?').then((result) => {
                                 if (result.isConfirmed) {
                                     $.ajax({
-                                        type: "PUT",
+                                        type: "PATCH",
                                         url: "{{ route('account.open', 'userId') }}"
                                             .replace('userId', userId),
                                         success() {

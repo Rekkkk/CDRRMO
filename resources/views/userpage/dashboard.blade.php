@@ -3,6 +3,7 @@
 
 <head>
     @include('partials.headPackage')
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" media="(prefers-color-scheme: dark)" />
     {{-- @vite(['resources/js/app.js']) --}}
 </head>
 
