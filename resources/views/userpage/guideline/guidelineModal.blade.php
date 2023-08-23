@@ -14,7 +14,7 @@
                                 placeholder="Enter Guideline Type" id="guidelineType">
                         </div>
                         <div class="form-button-container">
-                            <button id="submitGuidelineBtn" class="btn-submit">Create</button>
+                            <button id="submitGuidelineBtn"></button>
                         </div>
                     </div>
                 </form>

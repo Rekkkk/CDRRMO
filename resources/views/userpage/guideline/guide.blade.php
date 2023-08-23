@@ -33,10 +33,10 @@
                     <div class="guide-widget">
                         @auth
                             @if (auth()->user()->is_disable == 0)
-                                <a href="javascript:void(0)" class="absolute top-3 right-2 removeGuideBtn">
+                                <a href="javascript:void(0)" class="absolute top-3 right-2" id="removeGuideBtn">
                                     <i class="btn-remove bi bi-x-lg cursor-pointer p-2"></i>
                                 </a>
-                                <a href="javascript:void(0)" class="absolute left-2 top-3 updateGuideBtn">
+                                <a href="javascript:void(0)" class="absolute left-2 top-3" id="updateGuideBtn">
                                     <i class="btn-update bi bi-pencil p-2"></i>
                                 </a>
                             @endif
@@ -82,11 +82,14 @@
         @if (auth()->user()->is_disable == 0)
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script>
-                $(document).ready(function() {
-                    let guideId, guideWidget, guideItem, defaultFormData, guidelineId = $('.guidelineId').val(),
-                        operation, modal = $('#guideModal');
+                $(document).ready(() => {
+                    let guideId, validator, guideWidget, guideItem, defaultFormData, guidelineId = $('.guidelineId').val(),
+                        operation, modal = $('#guideModal'),
+                        modalLabel = $('.modal-label'),
+                        modalLabelContainer = $('.modal-label-container'),
+                        formButton = $('#submitGuideBtn');
 
-                    let validator = $("#guideForm").validate({
+                    validator = $("#guideForm").validate({
                         rules: {
                             label: 'required',
                             content: 'required'
@@ -101,9 +104,9 @@
 
                     $(document).on('click', '#createGuideBtn', () => {
                         operation = "create";
-                        $('.modal-label-container').removeClass('bg-warning');
-                        $('.modal-label').text('Create Guide');
-                        $('#submitGuideBtn').removeClass('btn-update').text('Create');
+                        modalLabelContainer.removeClass('bg-warning');
+                        modalLabel.text('Create Guide');
+                        formButton.addClass('btn-submit').removeClass('btn-update').text('Create');
                         modal.modal('show');
                     });
 
@@ -113,21 +116,21 @@
                         $('#guideContentSection').text($(this).find('#guideContent').val());
                     });
 
-                    $(document).on('click', '.updateGuideBtn', function() {
+                    $(document).on('click', '#updateGuideBtn', function() {
                         guideWidget = $(this).closest('.guide-widget');
                         guideItem = guideWidget.find('.guide-item');
                         guideId = guideWidget.find('#guideId').val();
-                        $('.modal-label-container').addClass('bg-warning');
-                        $('.modal-label').text('Update Guide');
-                        $('#submitGuideBtn').addClass('btn-update').text('Update');
+                        modalLabelContainer.addClass('bg-warning');
+                        modalLabel.text('Update Guide');
+                        formButton.addClass('btn-update').removeClass('btn-submit').text('Update');
                         $('#label').val(guideItem.find('p').text());
                         $('#content').val(guideWidget.find('#guideContent').val());
-                        $('#guide_operation').val('update');
-                        $('#guideModal').modal('show');
+                        operation = "update";
+                        modal.modal('show');
                         defaultFormData = $('#guideForm').serialize();
                     });
 
-                    $(document).on('click', '.removeGuideBtn', function() {
+                    $(document).on('click', '#removeGuideBtn', function() {
                         guideWidget = $(this).closest('.guide-widget');
                         guideItem = guideWidget.find('.guide-item');
                         guideId = guideWidget.find('#guideId').val();
@@ -138,22 +141,16 @@
                                     headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     },
-                                    data: {
-                                        guideId: guideId
-                                    },
-                                    url: "{{ route('guide.remove', ':guideId') }}"
-                                        .replace(':guideId', guideId),
+                                    data: guideId,
+                                    url: "{{ route('guide.remove', 'guideId') }}".replace('guideId',
+                                        guideId),
                                     type: "PATCH",
-                                    success: function(response) {
-                                        if (response.status == 'warning') {
-                                            showWarningMessage(response.message);
-                                        } else {
-                                            showSuccessMessage(
-                                                'Guide removed successfully, Please wait...'
-                                            );
-                                        }
+                                    success(response) {
+                                        return response.status == 'warning' ? showWarningMessage(
+                                            response.message) : showSuccessMessage(
+                                            'Guide removed successfully, Please wait...', true);
                                     },
-                                    error: function() {
+                                    error() {
                                         showErrorMessage();
                                     }
                                 });
@@ -162,42 +159,31 @@
                     });
 
                     function guideFormHandler(form) {
-                        let operation = $('#guide_operation').val(),
-                            url = "",
-                            type = "",
-                            formData = $(form).serialize();
-
-                        url = operation == 'create' ? "{{ route('guide.create', 'guidelineId') }}".replace(
+                        let formData = $(form).serialize();
+                        let url = operation == 'create' ? "{{ route('guide.create', 'guidelineId') }}".replace(
                             'guidelineId', guidelineId) : "{{ route('guide.update', 'guideId') }}".replace(
                             'guideId', guideId);
-
-                        type = operation == 'create' ? "POST" : "PUT";
+                        let type = operation == 'create' ? "POST" : "PUT";
 
                         confirmModal(`Do you want to ${operation} this guide?`).then((result) => {
-                            if (result.isConfirmed) {
-                                if (operation == 'update' && defaultFormData == formData) {
-                                    showWarningMessage('No changes were made.');
-                                    return;
-                                }
+                            if (!result.isConfirmed) return;
+
+                            return operation == 'update' && defaultFormData == formData ? showWarningMessage(
+                                    'No changes were made.') :
                                 $.ajax({
                                     data: formData,
                                     url: url,
                                     type: type,
-                                    success: function(response) {
-                                        if (response.status == 'warning') {
-                                            showWarningMessage(response.message);
-                                        } else {
-                                            showSuccessMessage(
-                                                `Guide successfully ${operation}d, Please wait...`);
-                                            $('#guideForm')[0].reset();
-                                            $('#guideModal').modal('hide');
-                                        }
+                                    success(response) {
+                                        return response.status == 'warning' ? showWarningMessage(response
+                                            .message) : (showSuccessMessage(
+                                                `Guide successfully ${operation}d, Please wait...`, true),
+                                            modal.modal('hide'))
                                     },
-                                    error: function() {
+                                    error() {
                                         showErrorMessage();
                                     }
                                 });
-                            }
                         });
                     }
 

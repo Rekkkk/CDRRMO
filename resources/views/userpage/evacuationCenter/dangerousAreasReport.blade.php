@@ -23,11 +23,13 @@
                 <span>DANGEROUS AREAS REPORTS</span>
             </div>
             <hr>
-            <div class="page-button-container">
-                <button class="btn-submit" id="reportDangerAreaBtn">
-                    <i class="bi bi-cloud-plus"></i>Report Danger Area
-                </button>
-            </div>
+            @guest
+                <div class="page-button-container">
+                    <button class="btn-submit" id="reportDangerArea">
+                        <i class="bi bi-cloud-plus"></i>Report Danger Area
+                    </button>
+                </div>
+            @endguest
             <div class="table-container">
                 <div class="table-content">
                     <header class="table-label">Dangerous Areas Report Table</header>
@@ -46,7 +48,9 @@
                     </table>
                 </div>
             </div>
-            @include('userpage.evacuationCenter.dangerAreaReportModal')
+            @guest
+                @include('userpage.evacuationCenter.dangerAreaReportModal')
+            @endguest
             @include('userpage.changePasswordModal')
         </div>
 
@@ -68,7 +72,7 @@
         @include('partials.toastr')
         <script>
             @guest
-            let defaultFormData, map, marker;
+            let map, marker;
 
             function initMap() {
                 map = new google.maps.Map(document.getElementById("map"), {
@@ -105,6 +109,7 @@
                 });
             }
             @endguest
+
             $(document).ready(() => {
                 $.ajaxSetup({
                     headers: {
@@ -201,9 +206,13 @@
                 @endif
             @endauth
             @guest
-            let reportId, operation, saveBtnClicked = false, modal = $('#reportDangerousAreaModal');
+            let validator, defaultFormData, dangerousAreasReports, reportId, operation, saveBtnClicked = false,
+                modalLabelContainer = $('.modal-label-container'),
+                modalLabel = $('.modal-label'),
+                formButton = $('#reportDangerousAreaBtn'),
+                modal = $('#reportDangerousAreaModal');
 
-            let dangerousAreasReports = $('#dangerousAreasReports').DataTable({
+            dangerousAreasReports = $('#dangerousAreasReports').DataTable({
                 language: {
                     emptyTable: '<div class="message-text">There are currently no dangerous areas reports.</div>',
                 },
@@ -247,8 +256,8 @@
                     },
                 ]
             });
-
-            const validator = $("#dangerousAreaReportForm").validate({
+            
+            validator = $("#dangerousAreaReportForm").validate({
                 rules: {
                     report_type: 'required'
                 },
@@ -266,10 +275,10 @@
                 submitHandler: formSubmitHandler
             });
 
-            $(document).on('click', '#reportDangerAreaBtn', () => {
-                $('.modal-label-container').removeClass('bg-warning');
-                $('.modal-label').text('Report Dangerous Area');
-                $('#reportDangerousAreaBtn').removeClass('btn-update').text('Report');
+            $(document).on('click', '#reportDangerArea', () => {
+                modalLabelContainer.removeClass('bg-warning');
+                modalLabel.text('Report Dangerous Area');
+                formButton.addClass('btn-submit').removeClass('btn-update').text('Report');
                 operation = "report";
                 modal.modal('show');
             });
@@ -282,9 +291,9 @@
                     longitude
                 } = getRowData(this, dangerousAreasReports);
                 reportId = id;
-                $('.modal-label-container').addClass('bg-warning');
-                $('.modal-label').text('Update Report Dangerous Area');
-                $('#reportDangerousAreaBtn').addClass('btn-update').text('Update');
+                modalLabelContainer.addClass('bg-warning');
+                modalLabel.text('Update Report Dangerous Area');
+                formButton.addClass('btn-update').removeClass('btn-submit').text('Update');
                 operation = "update";
                 $('#report_type').val(description);
                 $('#latitude').val(latitude);
@@ -315,10 +324,10 @@
                             type: "DELETE",
                             url: "{{ route('resident.report.revert.danger.area.report', 'reportId') }}"
                                 .replace('reportId', reportId),
-                            success: function() {
+                            success() {
                                 revertDangerAreaReport(reportId);
                             },
-                            error: function() {
+                            error() {
                                 showErrorMessage();
                             }
                         });
@@ -381,7 +390,6 @@
 
             modal.on('hidden.bs.modal', () => {
                 validator.resetForm();
-                operation = "";
                 $('#dangerousAreaReportForm')[0].reset();
 
                 if (marker) {
@@ -398,7 +406,7 @@
             });
             @endguest
 
-            // Echo.channel('incident-report').listen('IncidentReport', (e) => {
+            // Echo.channel('incident-report-event').listen('IncidentReportEvent', (e) => {
             // pendingReport.draw();
             // incidentReports.draw();
             // })

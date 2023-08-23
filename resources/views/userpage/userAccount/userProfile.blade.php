@@ -75,22 +75,13 @@
     @include('partials.toastr')
     <script>
         $(document).ready(() => {
-            let defaultFormData, operation, modal = $('#userAccountModal');
+            let defaultFormData, validator, operation, modal = $('#userAccountModal'),
+                modalLabelContainer = $('.modal-label-container'),
+                modalLabel = $('.modal-label'),
+                formButton = $('#saveProfileDetails'),
+                accountId = '{{ auth()->user()->id }}';
 
-            $(document).on('click', '#editProfileBtn', () => {
-                $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
-                $('.modal-label').text('Edit Profile Account');
-                $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text('Update');
-                $('#suspend-container').hide();
-                operation = "update";
-                $('#organization').val('{{ auth()->user()->organization }}');
-                $('#position').val('{{ auth()->user()->position }}');
-                $('#email').val('{{ auth()->user()->email }}');
-                modal.modal('show');
-                defaultFormData = $('#accountForm').serialize();
-            });
-
-            const validator = $("#accountForm").validate({
+            validator = $("#accountForm").validate({
                 rules: {
                     organization: 'required',
                     position: 'required',
@@ -106,35 +97,48 @@
                 submitHandler: formSubmitHandler
             });
 
-            function formSubmitHandler(form) {
-                let accountid = '{{ auth()->user()->id }}',
-                    formData = $(form).serialize();
-
-                confirmModal('Do you want to update this user details?').then((result) => {
-                    if (result.isConfirmed) {
-                        return operation == 'update' && defaultFormData == formData ? showWarningMessage(
-                            'No changes were made.') : $.ajax({
-                            url: "{{ route('account.update', ':accountid') }}"
-                                .replace(':accountid', accountid),
-                            type: 'PUT',
-                            data: formData,
-                            success(response) {
-                                response.status == 'warning' ? showWarningMessage(response
-                                    .message) : showSuccessMessage(
-                                    'Successfully updated the account details.', true);
-                            },
-                            error() {
-                                showErrorMessage();
-                            }
-                        });
-                    }
-                });
-            }
+            $(document).on('click', '#editProfileBtn', () => {
+                modalLabelContainer.removeClass('bg-success').addClass('bg-warning');
+                modalLabel.text('Edit Profile Account');
+                formButton.removeClass('btn-submit').addClass('btn-update').text('Update');
+                $('#suspend-container').hide();
+                operation = "update";
+                $('#organization').val('{{ auth()->user()->organization }}');
+                $('#position').val('{{ auth()->user()->position }}');
+                $('#email').val('{{ auth()->user()->email }}');
+                modal.modal('show');
+                defaultFormData = $('#accountForm').serialize();
+            });
 
             modal.on('hidden.bs.modal', () => {
                 validator.resetForm();
                 $('#accountForm')[0].reset();
             });
+
+            function formSubmitHandler(form) {
+                let formData = $(form).serialize();
+
+                confirmModal('Do you want to update this user details?').then((result) => {
+                    if (result.isConfirmed) {
+                        return operation == 'update' && defaultFormData == formData ? showWarningMessage(
+                                'No changes were made.') :
+                            $.ajax({
+                                url: "{{ route('account.update', 'accountId') }}".replace('accountId',
+                                    accountId),
+                                type: 'PUT',
+                                data: formData,
+                                success(response) {
+                                    response.status == 'warning' ? showWarningMessage(response
+                                        .message) : showSuccessMessage(
+                                        'Successfully updated the account details.', true);
+                                },
+                                error() {
+                                    showErrorMessage();
+                                }
+                            });
+                    }
+                });
+            }
         });
     </script>
 </body>
