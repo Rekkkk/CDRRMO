@@ -2,13 +2,13 @@
 
 namespace App\Events;
 
-use App\Models\Reporting;
+use App\Models\IncidentReport;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Queue\SerializesModels;
 
-class IncidentReport implements ShouldBroadcast
+class IncidentReportEvent implements ShouldBroadcast
 {
     use Dispatchable, SerializesModels;
 
@@ -20,7 +20,7 @@ class IncidentReport implements ShouldBroadcast
 
     function approveStatus($accidentReportId)
     {
-        $this->incidentReport = new Reporting;
+        $this->incidentReport = new IncidentReport;
         $this->incidentReport->find($accidentReportId)->update([
             'status' => 'Approved'
         ]);
@@ -28,7 +28,7 @@ class IncidentReport implements ShouldBroadcast
 
     function declineStatus($accidentReportId)
     {
-        $this->incidentReport = new Reporting;
+        $this->incidentReport = new IncidentReport;
         $this->incidentReport->find($accidentReportId)->update([
             'status' => 'Declined'
         ]);
@@ -36,7 +36,7 @@ class IncidentReport implements ShouldBroadcast
 
     function revertIncidentReport($accidentReportId, $reportPhotoPath)
     {
-        $this->incidentReport = new Reporting;
+        $this->incidentReport = new IncidentReport;
         $image_path = public_path('reports_image/' . $reportPhotoPath);
 
         if (file_exists($image_path)) {
@@ -48,7 +48,7 @@ class IncidentReport implements ShouldBroadcast
 
     function confirmDangerAreaReport($dangerAreaId)
     {
-        $this->incidentReport = new Reporting;
+        $this->incidentReport = new IncidentReport;
         $this->incidentReport->find($dangerAreaId)->update([
             'status' => 'Confirmed'
         ]);
@@ -56,7 +56,7 @@ class IncidentReport implements ShouldBroadcast
 
     function removeDangerAreaReport($dangerAreaId)
     {
-        $this->incidentReport = new Reporting;
+        $this->incidentReport = new IncidentReport;
         $this->incidentReport->find($dangerAreaId)->update([
             'status' => "Archived",
             'is_archive' => 1
@@ -65,12 +65,12 @@ class IncidentReport implements ShouldBroadcast
 
     function revertDangerAreaReport($dangerAreaId)
     {
-        $this->incidentReport = new Reporting;
+        $this->incidentReport = new IncidentReport;
         $this->incidentReport->find($dangerAreaId)->delete();
     }
 
     public function broadcastOn()
     {
-        return new Channel('incident-report');
+        return new Channel('incident-report-event');
     }
 }

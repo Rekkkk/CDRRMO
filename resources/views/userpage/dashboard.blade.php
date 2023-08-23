@@ -271,9 +271,9 @@
                 inactiveDisaster.prop('hidden', isActive);
             });
 
-            $('#generateReportModal').on('hidden.bs.modal', function() {
+            $('#generateReportModal').on('hidden.bs.modal', () => {
                 onGoingDisaster.add(inactiveDisaster).prop('hidden', true);
-                $('#generateReportForm').trigger("reset");
+                $('#generateReportForm')[0].reset();
             });
 
             // Echo.channel('active-evacuees').listen('ActiveEvacuees', (e) => {

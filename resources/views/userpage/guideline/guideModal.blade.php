@@ -8,7 +8,6 @@
                 <form id="guideForm">
                     @csrf
                     <div class="form-content">
-                        <input type="text" id="guideline_operation" hidden>
                         <div class="field-container">
                             <label>Guide Description</label>
                             <input type="text" name="label" class="form-control" autocomplete="off"
@@ -20,7 +19,7 @@
                                 id="content"></textarea>
                         </div>
                         <div class="form-button-container">
-                            <button id="submitGuideBtn" class="btn-submit">Create</button>
+                            <button id="submitGuideBtn"></button>
                         </div>
                     </div>
                 </form>

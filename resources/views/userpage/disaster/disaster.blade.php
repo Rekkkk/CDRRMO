@@ -95,7 +95,11 @@
             });
 
             @if (auth()->user()->is_disable == 0)
-                let disasterId, defaultFormData, status, operation, modal = $('#disasterModal');
+                let disasterId, defaultFormData, status, operation, validator,
+                    modalLabelContainer = $('.modal-label-container'),
+                    modalLabel = $('.modal-label'),
+                    formButton = $('#submitDisasterBtn'),
+                    modal = $('#disasterModal');
 
                 $.ajaxSetup({
                     headers: {
@@ -103,7 +107,7 @@
                     }
                 });
 
-                const validator = $("#disasterForm").validate({
+                validator = $("#disasterForm").validate({
                     rules: {
                         name: 'required'
                     },
@@ -115,11 +119,11 @@
                 });
 
                 $(document).on('click', '#createDisasterData', () => {
-                    $('.modal-label-container').removeClass('bg-warning');
-                    $('.modal-label').text('Create Disaster');
-                    $('#submitDisasterBtn').removeClass('btn-update').text('Add');
+                    modalLabelContainer.removeClass('bg-warning');
+                    modalLabel.text('Create Disaster');
+                    formButton.addClass('btn-submit').removeClass('btn-update').text('Add');
                     operation = "create";
-                    $('#disasterModal').modal('show');
+                    modal.modal('show');
                 });
 
                 $(document).on('click', '#updateDisaster', function() {
@@ -129,9 +133,9 @@
                     } = getRowData(this, disasterTable);
                     disasterId = id;
                     $('#disasterName').val(name);
-                    $('.modal-label-container').addClass('bg-warning');
-                    $('.modal-label').text('Update Disaster');
-                    $('#submitDisasterBtn').addClass('btn-update').text('Update');
+                    modalLabelContainer.addClass('bg-warning');
+                    modalLabel.text('Update Disaster');
+                    formButton.addClass('btn-update').removeClass('btn-submit').text('Update');
                     operation = "update";
                     modal.modal('show');
                     defaultFormData = $('#disasterForm').serialize();
@@ -158,13 +162,11 @@
                         return result.isConfirmed == false ? $('#changeDisasterStatus').val('') :
                             $.ajax({
                                 type: 'PATCH',
-                                data: {
-                                    status
-                                },
+                                data: status,
                                 url: url,
                                 success() {
-                                    showSuccessMessage(`Disaster successfully ${operation}d.`);
                                     disasterTable.draw();
+                                    showSuccessMessage(`Disaster successfully ${operation}d.`);
                                 },
                                 error() {
                                     showErrorMessage();
@@ -184,8 +186,7 @@
                         if (!result.isConfirmed) return;
 
                         return operation == 'update' && defaultFormData == formData ?
-                            showWarningMessage(
-                                'No changes were made.') :
+                            showWarningMessage('No changes were made.') :
                             $.ajax({
                                 data: formData,
                                 url: url,
@@ -194,9 +195,8 @@
                                     response.status == 'warning' ? showWarningMessage(response
                                         .message) : (
                                         showSuccessMessage(
-                                            `Disaster successfully ${operation}d.`), $(
-                                            '#disasterModal').modal('hide'), disasterTable
-                                        .draw());
+                                            `Disaster successfully ${operation}d.`),
+                                        modal.modal('hide'), disasterTable.draw());
                                 },
                                 error() {
                                     showErrorMessage();

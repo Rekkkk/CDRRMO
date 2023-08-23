@@ -101,7 +101,7 @@
             @include('userpage.incidentReport.incidentReportModal')
             <div class="report-button">
                 <div class="report-form">
-                    <a href="#createAccidentReportModal" data-bs-toggle="modal">
+                    <a href="javascript:void(0)" id="reportIncident">
                         <i class="bi bi-megaphone text-white"></i>
                     </a>
                 </div>
@@ -123,13 +123,15 @@
     @include('partials.toastr')
     <script>
         $(document).ready(() => {
+                let pendingReport;
+
                 $.ajaxSetup({
                     headers: {
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     }
                 });
                 @auth
-                let pendingReport = $('#pendingReport').DataTable({
+                pendingReport = $('#pendingReport').DataTable({
                     language: {
                         emptyTable: '<div class="message-text">There are currently no pending reports.</div>',
                     },
@@ -236,37 +238,40 @@
 
                     function alterIncidentReport(operation, reportId) {
                         confirmModal(`Do you want to ${operation} this report?`).then((result) => {
-                            if (result.isConfirmed) {
-                                let url = operation == 'approve' ? "{{ route('report.approve', 'reportId') }}"
-                                    .replace('reportId', reportId) : operation == 'decline' ?
-                                    "{{ route('report.decline', 'reportId') }}".replace('reportId',
-                                        reportId) : "{{ route('report.remove', 'reportId') }}".replace(
-                                        'reportId', reportId);
-                                let type = operation == 'approve' ? "POST" : operation == 'decline' ? "DELETE" :
-                                    "PATCH";
+                            if (!result.isConfirmed) return;
 
-                                $.ajax({
-                                    type: type,
-                                    url: url,
-                                    success() {
-                                        showSuccessMessage(
-                                            `Incident report successfully ${operation}d.`);
-                                        pendingReport.draw();
-                                        incidentReports.draw();
-                                    },
-                                    error() {
-                                        showErrorMessage();
-                                    }
-                                });
-                            }
+                            let url = operation == 'approve' ? "{{ route('report.approve', 'reportId') }}"
+                                .replace('reportId', reportId) : operation == 'decline' ?
+                                "{{ route('report.decline', 'reportId') }}".replace('reportId',
+                                    reportId) : "{{ route('report.remove', 'reportId') }}".replace(
+                                    'reportId', reportId);
+                            let type = operation == 'approve' ? "POST" : operation == 'decline' ? "DELETE" :
+                                "PATCH";
+
+                            $.ajax({
+                                type: type,
+                                url: url,
+                                success() {
+                                    showSuccessMessage(
+                                        `Incident report successfully ${operation}d.`);
+                                    pendingReport.draw();
+                                    incidentReports.draw();
+                                },
+                                error() {
+                                    showErrorMessage();
+                                }
+                            });
                         });
                     }
                 @endif
             @endauth
             @guest
-            let reportId, operation, modal = $('#createAccidentReportModal');
+            let reportId, validator, operation, modal = $('#createAccidentReportModal'),
+                modalLabelContainer = $('.modal-label-container'),
+                modalLabel = $('.modal-label'),
+                formButton = $('#reportIncidentBtn');
 
-            let pendingReport = $('#pendingReport').DataTable({
+            pendingReport = $('#pendingReport').DataTable({
                 language: {
                     emptyTable: '<div class="message-text">You have no pending reports.</div>'
                 },
@@ -312,22 +317,7 @@
                 ]
             });
 
-            $(document).on('click', '#updateIncidentReport', function() {
-                let {
-                    id,
-                    description,
-                    location
-                } = getRowData(this, pendingReport);
-                operation = "update";
-                reportId = id;
-                $('#description').val(description);
-                $('#location').val(location);
-                $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
-                $('#reportIncidentBtn').removeClass('btn-submit').addClass('btn-update').text("Update");
-                modal.modal('show');
-            });
-
-            const validator = $("#reportForm").validate({
+            validator = $("#reportForm").validate({
                 rules: {
                     description: 'required',
                     location: 'required'
@@ -338,6 +328,50 @@
                 },
                 errorElement: 'span',
                 submitHandler: formSubmitHandler
+            });
+
+            $(document).on('click', '#reportIncident', function() {
+                operation = "report";
+                modalLabelContainer.removeClass('bg-warning');
+                modalLabel.text('Report Incident');
+                formButton.addClass('btn-submit').removeClass('btn-update').text('Report');
+                modal.modal('show');
+            });
+
+            $(document).on('click', '#updateIncidentReport', function() {
+                let {
+                    id,
+                    description,
+                    location
+                } = getRowData(this, pendingReport);
+                operation = "update";
+                reportId = id;
+                $('#description').val(description);
+                $('#location').val(location);
+                modalLabelContainer.addClass('bg-warning');
+                modalLabel.text('Update Report Incident');
+                formButton.removeClass('btn-submit').addClass('btn-update').text("Update");
+                modal.modal('show');
+            });
+
+            $(document).on('click', '#revertIncidentReport', function() {
+                reportId = getRowData(this, pendingReport).id;
+
+                confirmModal('Do you want to revert your report?').then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            type: "DELETE",
+                            url: "{{ route('resident.report.revert', 'reportId') }}"
+                                .replace('reportId', reportId),
+                            success() {
+                                revertReport(reportId);
+                            },
+                            error() {
+                                showErrorMessage();
+                            }
+                        });
+                    }
+                });
             });
 
             $('#report_photo').change(function() {
@@ -384,26 +418,6 @@
                 });
             }
 
-            $(document).on('click', '#revertIncidentReport', function() {
-                reportId = getRowData(this, pendingReport).id;
-
-                confirmModal('Do you want to revert your report?').then((result) => {
-                    if (result.isConfirmed) {
-                        $.ajax({
-                            type: "DELETE",
-                            url: "{{ route('resident.report.revert', 'reportId') }}"
-                                .replace('reportId', reportId),
-                            success() {
-                                revertReport(reportId);
-                            },
-                            error() {
-                                showErrorMessage();
-                            }
-                        });
-                    }
-                });
-            });
-
             function revertReport(reportId) {
                 $.ajax({
                     type: "PATCH",
@@ -420,10 +434,7 @@
 
             modal.on('hidden.bs.modal', () => {
                 validator.resetForm();
-                operation = "";
                 $('#reportForm')[0].reset();
-                $('.modal-label-container').removeClass('bg-warning').addClass('bg-success');
-                $('#reportIncidentBtn').removeClass('btn-update').addClass('btn-submit').text("Report");
             });
         @endguest
 
@@ -431,10 +442,13 @@
         let reportPhotoUrl = $(this).closest('.image-wrapper').find('.report-img').attr('src');
         displayReportPhoto(reportPhotoUrl);
         });
-        // Echo.channel('incident-report').listen('IncidentReport', (e) => {
+
+        // Echo.channel('incident-report-event').listen('IncidentReportEvent', (e) => {
         // pendingReport.draw();
+        // @auth
         // incidentReports.draw();
-        // })
+        // @endauth
+        // });
         });
     </script>
 </body>

@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\ReportLog;
-use App\Models\Reporting;
+use App\Models\IncidentReport;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Events\IncidentReport;
+use App\Events\IncidentReportEvent;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\Crypt;
@@ -15,13 +15,13 @@ use Illuminate\Support\Facades\Validator;
 
 class IncidentReportController extends Controller
 {
-    private $report, $reportLog, $logActivity, $incidentReport;
+    private $reportEvent, $reportLog, $logActivity, $incidentReport;
 
     function __construct()
     {
         $this->reportLog = new ReportLog;
-        $this->report = new IncidentReport;
-        $this->incidentReport = new Reporting;
+        $this->reportEvent = new IncidentReportEvent;
+        $this->incidentReport = new IncidentReport;
         $this->logActivity = new ActivityUserLog;
     }
 
@@ -128,7 +128,7 @@ class IncidentReportController extends Controller
             $resident->update(['attempt' => $residentAttempt + 1]);
             $attempt = $resident->attempt;
             $attempt == 3 ? $resident->update(['report_time' => Carbon::now()->addHours(3)]) : null;
-            //event(new IncidentReport());
+            //event(new IncidentReportEvent());
             return response()->json();
         }
 
@@ -137,7 +137,7 @@ class IncidentReportController extends Controller
             'user_ip' => $request->ip(),
             'attempt' => 1
         ]);
-        //event(new IncidentReport());
+        //event(new IncidentReportEvent());
         return response()->json();
     }
 
@@ -175,17 +175,17 @@ class IncidentReportController extends Controller
 
     public function approveIncidentReport($reportId)
     {
-        $this->report->approveStatus(Crypt::decryptString($reportId));
+        $this->reportEvent->approveStatus(Crypt::decryptString($reportId));
         $this->logActivity->generateLog('Approving Incident Report');
-        //event(new IncidentReport());
+        //event(new IncidentReportEvent());
         return response()->json();
     }
 
     public function declineIncidentReport($reportId)
     {
-        $this->report->declineStatus(Crypt::decryptString($reportId));
+        $this->reportEvent->declineStatus(Crypt::decryptString($reportId));
         $this->logActivity->generateLog('Declining Incident Report');
-        //event(new IncidentReport());
+        //event(new IncidentReportEvent());
         return response()->json();
     }
 
@@ -193,8 +193,8 @@ class IncidentReportController extends Controller
     {
         $reportId = Crypt::decryptString($reportId);
         $reportPhotoPath = $this->incidentReport->find($reportId)->value('photo');
-        $this->report->revertIncidentReport($reportId, $reportPhotoPath);
-        //event(new IncidentReport());
+        $this->reportEvent->revertIncidentReport($reportId, $reportPhotoPath);
+        //event(new IncidentReportEvent());
         return response()->json();
     }
 
@@ -204,7 +204,7 @@ class IncidentReportController extends Controller
             'is_archive' => 1
         ]);
         $this->logActivity->generateLog('Removing Incident Report');
-        //event(new IncidentReport());
+        //event(new IncidentReportEvent());
         return response()->json();
     }
 
@@ -291,7 +291,7 @@ class IncidentReportController extends Controller
             $resident->update(['attempt' => $residentAttempt + 1]);
             $attempt = $resident->attempt;
             $attempt == 3 ? $resident->update(['report_time' => Carbon::now()->addHours(3)]) : null;
-            //event(new IncidentReport());
+            //event(new IncidentReportEvent());
             return response()->json();
         }
 
@@ -300,7 +300,7 @@ class IncidentReportController extends Controller
             'user_ip' => $request->ip(),
             'attempt' => 1
         ]);
-        //event(new IncidentReport());
+        //event(new IncidentReportEvent());
         return response()->json();
     }
 
@@ -327,16 +327,16 @@ class IncidentReportController extends Controller
     public function revertDangerousAreaReport($reportId)
     {
         $reportId = Crypt::decryptString($reportId);
-        $this->report->revertDangerAreaReport($reportId);
-        //event(new IncidentReport());
+        $this->reportEvent->revertDangerAreaReport($reportId);
+        //event(new IncidentReportEvent());
         return response()->json();
     }
 
     public function confirmDangerAreaReport($dangerAreaId)
     {
-        $this->report->confirmDangerAreaReport(Crypt::decryptString($dangerAreaId));
+        $this->reportEvent->confirmDangerAreaReport(Crypt::decryptString($dangerAreaId));
         $this->logActivity->generateLog('Confirming Dangerous Area Report');
-        //event(new IncidentReport());
+        //event(new IncidentReportEvent());
         return response()->json();
     }
 
@@ -344,15 +344,15 @@ class IncidentReportController extends Controller
     {
         $this->incidentReport->find(Crypt::decryptString($dangerAreaId))->delete();
         $this->logActivity->generateLog('Rejecting Dangerous Area Report');
-        //event(new IncidentReport());
+        //event(new IncidentReportEvent());
         return response()->json();
     }
 
     public function removeDangerAreaReport($dangerAreaId)
     {
-        $this->report->removeDangerAreaReport(Crypt::decryptString($dangerAreaId));
+        $this->reportEvent->removeDangerAreaReport(Crypt::decryptString($dangerAreaId));
         $this->logActivity->generateLog('Removing Dangerous Area Report');
-        //event(new IncidentReport());
+        //event(new IncidentReportEvent());
         return response()->json();
     }
 
