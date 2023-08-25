@@ -310,7 +310,7 @@
     position: fixed;
     width: 80px;
     background: #334155;
-    z-index: 1;
+    z-index: 100;
     left: 0;
     top: 0;
     transition: 0.3s ease;
@@ -964,8 +964,7 @@ text {
     width: 100%;
 }
 
-.guideline-type,
-.guide-type {
+.guideline-type {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1010,7 +1009,49 @@ text {
     margin: 12px 0;
 }
 
-/* Guideline */
+.guide-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 0 auto;
+    color: var(--color-text);
+    background: var(--color-gray);
+}
+
+.guide-header {
+    width: 100%;
+    background: var(--color-text);
+}
+
+.guide-header img {
+    width: 300px;
+}
+
+.guide-details {
+    padding: 20px;
+}
+
+.guide-details h1 {
+    padding: 10px;
+    font-weight: 700;
+}
+
+.guide-btn-container {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+
+#updateGuideBtn,
+#removeGuideBtn {
+    padding: 8px 10px;
+}
+
+
+/* Guideline Section*/
 
 /* Evacuation Center Section */
 .locator-content {
@@ -1911,6 +1952,14 @@ select.form-select option {
 
 /* Dark Mode Dashboard Section*/
 
+/* Dark Mode Guideline Section */
+.guide-header,
+.guideline-content {
+    background: var(--color-d-bg-container);
+}
+
+/* Dark Mode Guideline Section */
+
 /* Dark Mode Profile Section */
 .dark-mode .user-profile-container {
     background: var(--color-d-bg-container);
@@ -2185,6 +2234,27 @@ select.form-select option {
         margin: 0 -19px;
     }
 
+    /* Guideline Section */
+    .guide-header img {
+        width: 250px;
+    }
+
+    .guide-details h1 {
+        font-size: 25px;
+    }
+
+    .guide-details p {
+        font-size: 15px;
+    }
+
+    .guide-btn-container button {
+        font-size: 12px;
+    }
+
+    /* Guideline Section */
+
+    /* Evacuation Center Section */
+
     .marker-container {
         overflow: visible;
     }
@@ -2225,6 +2295,7 @@ select.form-select option {
     }
 
     /* Data Table Section */
+
 }
 
 /* Tablet View */
@@ -2442,6 +2513,38 @@ select.form-select option {
     }
 
     /* Dashboard Section*/
+
+    /* Guideline Section */
+    .guide-btn {
+        display: block;
+    }
+
+    #createGuideBtn {
+        width: 100%;
+    }
+
+    .guide-header img {
+        width: 200px;
+    }
+
+    .guide-details h1 {
+        font-size: 20px;
+    }
+
+    .guide-details p {
+        font-size: 12px;
+    }
+
+    .guide-btn-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .guide-btn-container button {
+        font-size: 10px;
+    }
+
+    /* Guideline Section */
 
     /* Evacuation Locator Section */
     .header-title {
