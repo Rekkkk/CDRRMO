@@ -99,7 +99,7 @@ class GuidelineController extends Controller
             return response(['status' => 'warning', 'message' => $guideValidation->errors()->first()]);
 
         $this->guide->create([
-            'label' => Str::lower(trim($request->label)),
+            'label' => Str::of(trim($request->label))->title(),
             'content' => Str::ucFirst(trim($request->content)),
             'guideline_id' => Crypt::decryptString($guidelineId),
             'is_archive' => 0
@@ -119,7 +119,7 @@ class GuidelineController extends Controller
             return response(['status' => 'warning', 'message' => $guideValidation->errors()->first()]);
 
         $this->guide->find($guideId)->update([
-            'label' => Str::lower(trim($request->label)),
+            'label' => Str::of(trim($request->label))->title(),
             'content' => Str::ucfirst(trim($request->content))
         ]);
         $this->logActivity->generateLog('Updating Guide');

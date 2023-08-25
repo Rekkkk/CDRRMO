@@ -320,7 +320,7 @@ class IncidentReportController extends Controller
             'latitude' => $request->latitude,
             'longitude' => $request->longitude
         ]);
-
+        //event(new IncidentReportEvent());
         return response()->json();
     }
 
