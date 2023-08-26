@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
 use App\Models\EvacuationCenter;
-use Illuminate\Support\Facades\Crypt;
 use App\Events\EvacuationCenterLocator;
 use Illuminate\Support\Facades\Validator;
 
@@ -29,7 +28,6 @@ class EvacuationCenterController extends Controller
 
         return DataTables::of($evacuationCenterList)
             ->addIndexColumn()
-            ->addColumn('id', fn ($evacuation) => Crypt::encryptString($evacuation->id))
             ->addColumn('capacity', function ($evacuation) use ($operation) {
                 return $operation == "locator" ? Evacuee::where('evacuation_assigned', $evacuation->name)->sum('individuals') . '/' . $evacuation->capacity : $evacuation->capacity;
             })->addColumn('action', function ($evacuation) use ($operation) {
@@ -51,7 +49,7 @@ class EvacuationCenterController extends Controller
 
                 return '<span class="message-text">Currently Disabled.</span>';
             })
-            ->rawColumns(['id', 'capacity', 'action'])
+            ->rawColumns(['capacity', 'action'])
             ->make(true);
     }
 
@@ -93,7 +91,7 @@ class EvacuationCenterController extends Controller
         if ($evacuationCenterValidation->fails())
             return response(['status' => 'warning', 'message' => $evacuationCenterValidation->errors()->first()]);
 
-        $this->evacuationCenter->find(Crypt::decryptString($evacuationId))->update([
+        $this->evacuationCenter->find($evacuationId)->update([
             'name' => Str::of(trim($request->name))->title(),
             'barangay_name' => $request->barangayName,
             'latitude' => $request->latitude,
@@ -107,7 +105,7 @@ class EvacuationCenterController extends Controller
 
     public function removeEvacuationCenter($evacuationId)
     {
-        $this->evacuationCenter->find(Crypt::decryptString($evacuationId))->delete();
+        $this->evacuationCenter->find($evacuationId)->delete();
         $this->logActivity->generateLog('Removing evacuation center');
         // event(new EvacuationCenterLocator());
         return response()->json();
@@ -115,7 +113,7 @@ class EvacuationCenterController extends Controller
 
     public function changeEvacuationStatus(Request $request, $evacuationId)
     {
-        $this->evacuationCenter->find(Crypt::decryptString($evacuationId))->update([
+        $this->evacuationCenter->find($evacuationId)->update([
             'status' => $request->status
         ]);
         $this->logActivity->generateLog('Changing evacuation center status');
