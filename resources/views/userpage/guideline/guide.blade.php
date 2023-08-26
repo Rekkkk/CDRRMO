@@ -3,6 +3,7 @@
 
 <head>
     @include('partials.headPackage')
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
 </head>
 
 <body>
@@ -21,59 +22,56 @@
             <hr>
             <div class="guide-btn">
                 @if (auth()->check() && auth()->user()->is_disable == 0)
-                    <a href="javascript:void(0)" class="btn-submit" id="createGuideBtn">
+                    <button class="btn-submit" id="createGuideBtn">
                         <i class="bi bi-plus-lg mr-2"></i> Create Guide
-                    </a>
+                    </button>
                     <input type="text" class="guidelineId" value="{{ $guidelineId }}" hidden>
                     @include('userpage.guideline.guideModal')
                 @endif
             </div>
-            {{-- <div class="guide-container">
-                @foreach ($guide as $guide)
-                    <div class="guide-widget">
-                        @auth
-                            @if (auth()->user()->is_disable == 0)
-                                <a href="javascript:void(0)" class="absolute top-3 right-2 removeGuideBtn">
-                                    <i class="btn-remove bi bi-x-lg cursor-pointer p-2"></i>
-                                </a>
-                                <a href="javascript:void(0)" class="absolute left-2 top-3 updateGuideBtn">
-                                    <i class="btn-update bi bi-pencil p-2"></i>
-                                </a>
-                            @endif
-                            <a class="guide-item cursor-pointer guideContentBtn">
-                                <div class="guide-content">
-                                    <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
-                                    <div class="guide-type">
-                                        <p class="uppercase">{{ $guide->label }}</p>
-                                    </div>
+            <div class="swiper guide-section">
+                <div class="swiper-wrapper">
+                    @foreach ($guide as $guide)
+                        <div class="swiper-slide">
+                            <div class="guide-content">
+                                <div class="guide-header">
+                                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}">
+                                </div>
+                                <div class="guide-details">
+                                    <h1>{{ $guide->label }}</h1>
+                                    <p>{{ $guide->content }}</p>
+                                </div>
+                                @auth
+                                    @if (auth()->user()->is_disable == 0)
+                                        <div class="guide-btn-container">
+                                            <div class="guide-update-btn">
+                                                <button class="btn-update" id="updateGuideBtn">
+                                                    <i class="bi bi-pencil-square"></i> Update
+                                                </button>
+                                            </div>
+                                            <div class="guide-remove-btn">
+                                                <button class="btn-remove" id="removeGuideBtn">
+                                                    <i class="bi bi-trash3-fill"></i> Remove
+                                                </button>
+                                            </div>
+                                        </div>
+                                    @endif
                                     <input type="text" id="guideContent" value="{{ $guide->content }}" hidden>
                                     <input type="text" id="guideId" value="{{ $guide->id }}" hidden>
-                                </div>
-                            </a>
-                            @include('userpage.guideline.guideContent')
-                        @endauth
-                        @guest
-                            <a class="guide-item" href="">
-                                <div class="guide-content">
-                                    <img class="w-full" src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
-                                    <div class="guide-type">
-                                        <p class="uppercase">{{ $guide->label }}</p>
-                                    </div>
-                                </div>
-                            </a>
-                        @endguest
-                    </div>
-                @endforeach
-            </div> --}}
-            @auth
-                @include('userpage.changePasswordModal')
-            @endauth
+                                @endauth
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+            @include('userpage.changePasswordModal')
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
         integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
     </script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.js"></script>
     @include('partials.script')
     @auth
         <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -84,11 +82,26 @@
         @if (auth()->user()->is_disable == 0)
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
             <script>
-                $(document).ready(function() {
-                    let guideId, guideWidget, guideItem, defaultFormData, guidelineId = $('.guidelineId').val(),
-                        operation, modal = $('#guideModal');
+                $(document).ready(() => {
+                    let guideId, validator, guideWidget, guideItem, defaultFormData, guidelineId = $('.guidelineId').val(),
+                        operation, modal = $('#guideModal'),
+                        modalLabel = $('.modal-label'),
+                        modalLabelContainer = $('.modal-label-container'),
+                        formButton = $('#submitGuideBtn');
+                    var swiper = new Swiper(".guide-section", {
+                        grabCursor: true,
+                        centeredSlides: true,
+                        slidesPerView: 1,
+                        spaceBetween: 50,
+                        freeMode: true,
+                        breakpoints: {
+                            1200: {
+                                slidesPerView: 3
+                            }
+                        }
+                    });
 
-                    let validator = $("#guideForm").validate({
+                    validator = $("#guideForm").validate({
                         rules: {
                             label: 'required',
                             content: 'required'
@@ -103,103 +116,81 @@
 
                     $(document).on('click', '#createGuideBtn', () => {
                         operation = "create";
-                        $('.modal-label-container').removeClass('bg-warning');
-                        $('.modal-label').text('Create Guide');
-                        $('#submitGuideBtn').removeClass('btn-update').text('Create');
+                        modalLabelContainer.removeClass('bg-warning');
+                        modalLabel.text('Create Guide');
+                        formButton.addClass('btn-submit').removeClass('btn-update').text('Create');
                         modal.modal('show');
                     });
 
-                    $(document).on('click', '.guideContentBtn', function() {
-                        $('#guideContentModal').modal('show');
-                        $('.modal-title').text($(this).find('.guide-type p').text().toUpperCase());
-                        $('#guideContentSection').text($(this).find('#guideContent').val());
-                    });
-
-                    $(document).on('click', '.updateGuideBtn', function() {
-                        guideWidget = $(this).closest('.guide-widget');
-                        guideItem = guideWidget.find('.guide-item');
+                    $(document).on('click', '#updateGuideBtn', function() {
+                        guideWidget = $(this).closest('.swiper-slide');
+                        guideContent = guideWidget.find('.guide-content');
                         guideId = guideWidget.find('#guideId').val();
-                        $('.modal-label-container').addClass('bg-warning');
-                        $('.modal-label').text('Update Guide');
-                        $('#submitGuideBtn').addClass('btn-update').text('Update');
-                        $('#label').val(guideItem.find('p').text());
+                        modalLabelContainer.addClass('bg-warning');
+                        modalLabel.text('Update Guide');
+                        formButton.addClass('btn-update').removeClass('btn-submit').text('Update');
+                        $('#label').val(guideContent.find('h1').text());
                         $('#content').val(guideWidget.find('#guideContent').val());
-                        $('#guide_operation').val('update');
-                        $('#guideModal').modal('show');
+                        operation = "update";
+                        modal.modal('show');
                         defaultFormData = $('#guideForm').serialize();
                     });
 
-                    $(document).on('click', '.removeGuideBtn', function() {
-                        guideWidget = $(this).closest('.guide-widget');
+                    $(document).on('click', '#removeGuideBtn', function() {
+                        guideWidget = $(this).closest('.swiper-slide');
                         guideItem = guideWidget.find('.guide-item');
                         guideId = guideWidget.find('#guideId').val();
 
                         confirmModal('Do you want to remove this guide?').then((result) => {
-                            if (result.isConfirmed) {
-                                $.ajax({
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    data: {
-                                        guideId: guideId
-                                    },
-                                    url: "{{ route('guide.remove', ':guideId') }}"
-                                        .replace(':guideId', guideId),
-                                    type: "PATCH",
-                                    success: function(response) {
-                                        if (response.status == 'warning') {
-                                            showWarningMessage(response.message);
-                                        } else {
-                                            showSuccessMessage(
-                                                'Guide removed successfully, Please wait...'
-                                            );
-                                        }
-                                    },
-                                    error: function() {
-                                        showErrorMessage();
-                                    }
-                                });
-                            }
+                            if (!result.isConfirmed) return;
+
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                data: guideId,
+                                url: "{{ route('guide.remove', 'guideId') }}".replace(
+                                    'guideId',
+                                    guideId),
+                                type: "PATCH",
+                                success(response) {
+                                    return response.status == 'warning' ? showWarningMessage(
+                                        response.message) : showSuccessMessage(
+                                        'Guide removed successfully, Please wait...', true);
+                                },
+                                error() {
+                                    showErrorMessage();
+                                }
+                            });
                         });
                     });
 
                     function guideFormHandler(form) {
-                        let operation = $('#guide_operation').val(),
-                            url = "",
-                            type = "",
-                            formData = $(form).serialize();
-
-                        url = operation == 'create' ? "{{ route('guide.create', 'guidelineId') }}".replace(
+                        let formData = $(form).serialize();
+                        let url = operation == 'create' ? "{{ route('guide.create', 'guidelineId') }}".replace(
                             'guidelineId', guidelineId) : "{{ route('guide.update', 'guideId') }}".replace(
                             'guideId', guideId);
-
-                        type = operation == 'create' ? "POST" : "PUT";
+                        let type = operation == 'create' ? "POST" : "PUT";
 
                         confirmModal(`Do you want to ${operation} this guide?`).then((result) => {
-                            if (result.isConfirmed) {
-                                if (operation == 'update' && defaultFormData == formData) {
-                                    showWarningMessage('No changes were made.');
-                                    return;
-                                }
+                            if (!result.isConfirmed) return;
+
+                            return operation == 'update' && defaultFormData == formData ? showWarningMessage(
+                                    'No changes were made.') :
                                 $.ajax({
                                     data: formData,
                                     url: url,
                                     type: type,
-                                    success: function(response) {
-                                        if (response.status == 'warning') {
-                                            showWarningMessage(response.message);
-                                        } else {
-                                            showSuccessMessage(
-                                                `Guide successfully ${operation}d, Please wait...`);
-                                            $('#guideForm')[0].reset();
-                                            $('#guideModal').modal('hide');
-                                        }
+                                    success(response) {
+                                        return response.status == 'warning' ? showWarningMessage(response
+                                            .message) : (showSuccessMessage(
+                                                `Guide successfully ${operation}d, Please wait...`, true),
+                                            modal.modal('hide'))
                                     },
-                                    error: function() {
+                                    error() {
                                         showErrorMessage();
                                     }
                                 });
-                            }
                         });
                     }
 

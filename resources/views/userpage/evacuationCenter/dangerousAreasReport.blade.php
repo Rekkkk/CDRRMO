@@ -23,6 +23,13 @@
                 <span>DANGEROUS AREAS REPORTS</span>
             </div>
             <hr>
+            @guest
+                <div class="page-button-container">
+                    <button class="btn-submit" id="reportDangerArea">
+                        <i class="bi bi-cloud-plus"></i>Report Danger Area
+                    </button>
+                </div>
+            @endguest
             <div class="table-container">
                 <div class="table-content">
                     <header class="table-label">Dangerous Areas Report Table</header>
@@ -30,7 +37,8 @@
                         <thead>
                             <tr>
                                 <th colspan="2">Description</th>
-                                <th>Location</th>
+                                <th>Latitude</th>
+                                <th>Longitude</th>
                                 <th>Status</th>
                                 <th>Action</th>
                             </tr>
@@ -41,48 +49,9 @@
                 </div>
             </div>
             @guest
-                <div class="modal fade" id="reportDangerousAreaModal" aria-hidden="true">
-                    <div class="modal-dialog modal-lg">
-                        <div class="modal-content">
-                            <div class="modal-label-container bg-success">
-                                <h1 class="modal-label">Report Dangerous Area</h1>
-                            </div>
-                            <div class="modal-body">
-                                <form id="dangerousAreaReportForm">
-                                    @csrf
-                                    <div class="form-content">
-                                        <div class="field-container">
-                                            <label>Report Type</label>
-                                            <select name="report_type" id="report_type" class="form-select">
-                                                <option value="" hidden selected disabled>Select Report Type</option>
-                                                <option value="Flooded Area">Flooded Area</option>
-                                            </select>
-                                        </div>
-                                        <div class="field-container">
-                                            <label>Report Location</label>
-                                            <input type="text" id="location" name="location" class="form-control"
-                                                placeholder="Enter Incident Location" autocomplete="off">
-                                        </div>
-                                        <div class="form-button-container">
-                                            <button id="reportDangerousAreaBtn" class="btn-submit">Report</button>
-                                        </div>
-                                    </div>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="report-button">
-                    <div class="report-form">
-                        <a href="#reportDangerousAreaModal" data-bs-toggle="modal">
-                            <i class="bi bi-pencil-square"></i>
-                        </a>
-                    </div>
-                </div>
+                @include('userpage.evacuationCenter.dangerAreaReportModal')
             @endguest
-            @auth
-                @include('userpage.changePasswordModal')
-            @endauth
+            @include('userpage.changePasswordModal')
         </div>
 
         @include('partials.script')
@@ -92,11 +61,55 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous">
         </script>
+        @guest
+            <script defer
+                src="https://maps.googleapis.com/maps/api/js?key={{ config('services.googleMap.key') }}&callback=initMap&v=weekly">
+            </script>
+        @endguest
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"
             integrity="sha512-rstIgDs0xPgmG6RX1Aba4KV5cWJbAMcvRCVmglpam9SoHZiUCyQVDdH2LPlxoHtrv17XWblE/V/PP+Tr04hbtA=="
             crossorigin="anonymous"></script>
         @include('partials.toastr')
         <script>
+            @guest
+            let map, marker;
+
+            function initMap() {
+                map = new google.maps.Map(document.getElementById("map"), {
+                    center: {
+                        lat: 14.246261,
+                        lng: 121.12772
+                    },
+                    zoom: 13,
+                    clickableIcons: false,
+                    mapTypeControlOptions: {
+                        style: google.maps.MapTypeControlStyle.DROPDOWN_MENU
+                    }
+                });
+
+                map.addListener("click", (event) => {
+                    let location = event.latLng;
+
+                    if (marker) {
+                        marker.setPosition(location);
+                    } else {
+                        marker = new google.maps.Marker({
+                            position: location,
+                            map: map,
+                            icon: {
+                                url: "{{ asset('assets/img/evacMarkerDefault.png') }}",
+                                scaledSize: new google.maps.Size(35, 35)
+                            }
+                        });
+                    }
+
+                    $('#latitude').val(location.lat());
+                    $('#longitude').val(location.lng());
+                    $('#location-error').text('').prop('style', 'display: none');
+                });
+            }
+            @endguest
+
             $(document).ready(() => {
                 $.ajaxSetup({
                     headers: {
@@ -123,8 +136,14 @@
                             name: 'description'
                         },
                         {
-                            data: 'location',
-                            name: 'location'
+                            data: 'latitude',
+                            name: 'latitude',
+                            visible: false
+                        },
+                        {
+                            data: 'longitude',
+                            name: 'longitude',
+                            visible: false
                         },
                         {
                             data: 'status',
@@ -187,9 +206,13 @@
                 @endif
             @endauth
             @guest
-            const modal = $('#reportDangerousAreaModal');
+            let validator, defaultFormData, dangerousAreasReports, reportId, operation, saveBtnClicked = false,
+                modalLabelContainer = $('.modal-label-container'),
+                modalLabel = $('.modal-label'),
+                formButton = $('#reportDangerousAreaBtn'),
+                modal = $('#reportDangerousAreaModal');
 
-            let dangerousAreasReports = $('#dangerousAreasReports').DataTable({
+            dangerousAreasReports = $('#dangerousAreasReports').DataTable({
                 language: {
                     emptyTable: '<div class="message-text">There are currently no dangerous areas reports.</div>',
                 },
@@ -208,8 +231,14 @@
                         name: 'description'
                     },
                     {
-                        data: 'location',
-                        name: 'location'
+                        data: 'latitude',
+                        name: 'latitude',
+                        visible: false
+                    },
+                    {
+                        data: 'longitude',
+                        name: 'longitude',
+                        visible: false
                     },
                     {
                         data: 'status',
@@ -227,42 +256,76 @@
                     },
                 ]
             });
-
-            const validator = $("#dangerousAreaReportForm").validate({
+            
+            validator = $("#dangerousAreaReportForm").validate({
                 rules: {
-                    report_type: 'required',
-                    location: 'required'
+                    report_type: 'required'
                 },
                 messages: {
-                    report_type: 'Please Select Report Type.',
-                    location: 'Please Enter Report Location.'
+                    report_type: 'Please Select Report Type.'
+                },
+                showErrors: function(errorMap, errorList) {
+                    this.defaultShowErrors();
+
+                    if (!marker && saveBtnClicked)
+                        $('#location-error').text('Please select a location.').prop('style',
+                            'display: block !important');
                 },
                 errorElement: 'span',
                 submitHandler: formSubmitHandler
             });
 
-            function formSubmitHandler(form, e) {
-                e.preventDefault();
+            $(document).on('click', '#reportDangerArea', () => {
+                modalLabelContainer.removeClass('bg-warning');
+                modalLabel.text('Report Dangerous Area');
+                formButton.addClass('btn-submit').removeClass('btn-update').text('Report');
+                operation = "report";
+                modal.modal('show');
+            });
 
-                confirmModal('Do you want to report as dangerous this area?').then((result) => {
+            $(document).on('click', '#updateDangerousAreaReport', function() {
+                let {
+                    id,
+                    description,
+                    latitude,
+                    longitude
+                } = getRowData(this, dangerousAreasReports);
+                reportId = id;
+                modalLabelContainer.addClass('bg-warning');
+                modalLabel.text('Update Report Dangerous Area');
+                formButton.addClass('btn-update').removeClass('btn-submit').text('Update');
+                operation = "update";
+                $('#report_type').val(description);
+                $('#latitude').val(latitude);
+                $('#longitude').val(longitude);
+
+                marker = new google.maps.Marker({
+                    position: {
+                        lat: parseFloat(latitude),
+                        lng: parseFloat(longitude)
+                    },
+                    map: map,
+                    icon: {
+                        url: "{{ asset('assets/img/evacMarkerDefault.png') }}",
+                        scaledSize: new google.maps.Size(35, 35),
+                    },
+                });
+
+                modal.modal('show');
+                defaultFormData = $('#dangerousAreaReportForm').serialize();
+            });
+
+            $(document).on('click', '#revertDangerousAreaReport', function() {
+                reportId = getRowData(this, dangerousAreasReports).id;
+
+                confirmModal('Do you want to revert your report?').then((result) => {
                     if (result.isConfirmed) {
                         $.ajax({
-                            type: 'POST',
-                            url: "{{ route('resident.report.dangerous.area') }}",
-                            data: $(form).serialize(),
-                            success(response) {
-                                if (response.status == 'warning') {
-                                    showWarningMessage(response.message);
-                                } else if (response.status == 'blocked') {
-                                    $('#dangerousAreaReportForm')[0].reset();
-                                    modal.modal('hide');
-                                    showWarningMessage(response.message);
-                                } else {
-                                    showSuccessMessage('Danger area successfully reported.');
-                                    $('#dangerousAreaReportForm')[0].reset();
-                                    modal.modal('hide');
-                                    dangerousAreasReports.draw();
-                                }
+                            type: "DELETE",
+                            url: "{{ route('resident.report.revert.danger.area.report', 'reportId') }}"
+                                .replace('reportId', reportId),
+                            success() {
+                                revertDangerAreaReport(reportId);
                             },
                             error() {
                                 showErrorMessage();
@@ -270,33 +333,51 @@
                         });
                     }
                 });
-            }
+            });
 
-            $(document).on('click', '#revertDangerousAreaReport', function() {
-                let dangerAreaId = getRowData(this, dangerousAreasReports).id;
+            $(document).on('click', '#reportDangerAreaBtn', () => {
+                saveBtnClicked = true;
+            });
 
-                confirmModal('Do you want to revert your report?').then((result) => {
-                    if (result.isConfirmed) {
+            function formSubmitHandler(form) {
+                if (!marker) return;
+
+                confirmModal(
+                    `Do you want to ${operation == 'update' ? 'update your report' : 'report as dangerous this area'}?`
+                ).then((result) => {
+                    if (!result.isConfirmed) return;
+
+                    let formData = $(form).serialize();
+                    let url = operation == 'update' ?
+                        "{{ route('resident.report.update.danger.area', 'reportId') }}".replace('reportId',
+                            reportId) : "{{ route('resident.report.dangerous.area') }}";
+                    let type = operation == 'update' ? 'PUT' : 'POST';
+
+                    return operation == 'update' && defaultFormData == formData ?
+                        showWarningMessage('No changes were made.') :
                         $.ajax({
-                            type: "DELETE",
-                            url: "{{ route('resident.report.revert.danger.area.report', ':dangerAreaId') }}"
-                                .replace(':dangerAreaId', dangerAreaId),
-                            success: function() {
-                                revertDangerAreaReport(dangerAreaId);
+                            data: formData,
+                            url: url,
+                            type: type,
+                            success(response) {
+                                return response.status == 'warning' ? showWarningMessage(response.message) :
+                                    response.status == 'blocked' ? (modal.modal('hide'), showWarningMessage(
+                                        response.message)) : (showSuccessMessage(
+                                        `Danger area successfully ${operation}${operation == 'update' ? 'd' : 'ed'}.`
+                                    ), modal.modal('hide'), dangerousAreasReports.draw());
                             },
-                            error: function() {
+                            error() {
                                 showErrorMessage();
                             }
                         });
-                    }
                 });
-            });
+            }
 
-            function revertDangerAreaReport(dangerAreaId) {
+            function revertDangerAreaReport(reportId) {
                 $.ajax({
                     type: "PATCH",
-                    url: "{{ route('resident.report.update', 'dangerAreaId') }}".replace(
-                        'dangerAreaId', dangerAreaId),
+                    url: "{{ route('resident.report.update', 'reportId') }}".replace(
+                        'reportId', reportId),
                     success() {
                         showSuccessMessage('Danger area report successfully reverted.');
                         dangerousAreasReports.draw();
@@ -309,10 +390,23 @@
 
             modal.on('hidden.bs.modal', () => {
                 validator.resetForm();
+                $('#dangerousAreaReportForm')[0].reset();
+
+                if (marker) {
+                    marker.setMap(null);
+                    marker = undefined;
+                }
+
+                map.setCenter({
+                    lat: 14.2471423,
+                    lng: 121.1366715
+                });
+                map.setZoom(13);
+                saveBtnClicked = false;
             });
             @endguest
 
-            // Echo.channel('incident-report').listen('IncidentReport', (e) => {
+            // Echo.channel('incident-report-event').listen('IncidentReportEvent', (e) => {
             // pendingReport.draw();
             // incidentReports.draw();
             // })

@@ -31,9 +31,11 @@ Route::prefix('resident')->middleware('guest')->group(function () {
             Route::delete('/revertIncidentReport/{reportId}', 'revertIncidentReport')->name('revert');
             Route::patch('/updateAttempt', 'updateUserAttempt')->name('update');
             Route::post('/createIncidentReport', 'createIncidentReport')->name('accident');
+            Route::post('/updateIncidentReport/{reportId}', 'updateIncidentReport')->name('incident.update');
             Route::get('/displayDangerousAreasReport', 'displayDangerousAreasReport')->name('danger.areas');
             Route::post('/reportDangerousArea', 'reportDangerousArea')->name('dangerous.area');
-            Route::delete('/revertDangerousAreaReport/{dangerAreaId}', 'revertDangerousAreaReport')->name('revert.danger.area.report');
+            Route::put('/updateDangerousArea/{reportId}', 'updateDangerousAreaReport')->name('update.danger.area');
+            Route::delete('/revertDangerousAreaReport/{reportId}', 'revertDangerousAreaReport')->name('revert.danger.area.report');
         });
 
         Route::prefix('eligtasGuideline')->controller(GuidelineController::class)->group(function () {

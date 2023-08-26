@@ -20,7 +20,7 @@
                         <i class="bi bi-person-gear"></i>
                     </div>
                 </div>
-                <span>MANAGE ACCOUNTS</span>
+                <span>MANAGE USER ACCOUNTS</span>
             </div>
             <hr>
             @if (auth()->user()->is_disable == 0)
@@ -109,10 +109,13 @@
                 ]
             });
             @if (auth()->user()->is_disable == 0)
-                let userId, defaultFormData, dateSuspendTime = datePicker("#suspend"),
-                    operation, modal = $('#userAccountModal');
+                let userId, validator, defaultFormData, dateSuspendTime = datePicker("#suspend"),
+                    operation, modal = $('#userAccountModal'),
+                    modalLabelContainer = $('.modal-label-container'),
+                    modalLabel = $('.modal-label'),
+                    formButton = $('#saveProfileDetails');
 
-                const validator = $("#accountForm").validate({
+                validator = $("#accountForm").validate({
                     rules: {
                         organization: 'required',
                         position: 'required',
@@ -189,15 +192,14 @@
                             break;
 
                         case 'updateAccount':
-                            $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
-                            $('.modal-label').text('Update User Account');
-                            $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text(
-                                'Update');
+                            modalLabelContainer.removeClass('bg-success').addClass('bg-warning');
+                            modalLabel.text('Update User Account');
+                            formButton.removeClass('btn-submit').addClass('btn-update').text('Update');
                             $('#suspend-container').prop('hidden', true);
                             $('#organization').val(organization);
                             $('#position').val(position);
                             $('#email').val(email);
-                            operation == "update";
+                            operation = "update";
                             defaultFormData = $('#accountForm').serialize();
                             modal.modal('show');
                             break;
@@ -224,10 +226,9 @@
                             break;
 
                         case 'suspendAccount':
-                            $('.modal-label-container').removeClass('bg-success').addClass('bg-warning');
-                            $('.modal-label').text('Suspend User Account');
-                            $('#saveProfileDetails').removeClass('btn-submit').addClass('btn-update').text(
-                                'Suspend');
+                            modalLabelContainer.removeClass('bg-success').addClass('bg-warning');
+                            modalLabel.text('Suspend User Account');
+                            formButton.removeClass('btn-submit').addClass('btn-update').text('Suspend');
                             $('#organization').val(organization);
                             $('#position').val(position);
                             $('#email').val(email);
@@ -240,7 +241,7 @@
                             confirmModal('Do you want to open this user account?').then((result) => {
                                 if (result.isConfirmed) {
                                     $.ajax({
-                                        type: "PUT",
+                                        type: "PATCH",
                                         url: "{{ route('account.open', 'userId') }}"
                                             .replace('userId', userId),
                                         success() {
@@ -263,10 +264,9 @@
                 });
 
                 $(document).on('click', '#createUserAccount', () => {
-                    $('.modal-label-container').removeClass('bg-warning');
-                    $('.modal-label').text('Create User Account');
-                    $('#saveProfileDetails').removeClass('btn-update').text(
-                        'Create');
+                    modalLabelContainer.removeClass('bg-warning');
+                    modalLabel.text('Create User Account');
+                    formButton.addClass('btn-submit').removeClass('btn-update').text('Create');
                     $('#suspend-container').prop('hidden', true);
                     $('#suspend').prop('disabled', true);
                     operation = "create";
@@ -289,9 +289,10 @@
                     let type = operation == 'create' ? "POST" : "PUT";
 
                     confirmModal(`Do you want to ${operation} this user details?`).then((result) => {
-                        if (result.isConfirmed) {
-                            return operation == 'update' && defaultFormData == formData
-                            showWarningMessage('No changes were made.');
+                        if (!result.isConfirmed) return;
+
+                        return operation == 'update' && defaultFormData == formData ?
+                            showWarningMessage('No changes were made.') :
                             $.ajax({
                                 data: formData,
                                 url: url,
@@ -306,7 +307,6 @@
                                     showErrorMessage();
                                 }
                             });
-                        }
                     });
                 }
             @endif

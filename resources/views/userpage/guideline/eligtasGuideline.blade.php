@@ -68,9 +68,7 @@
                 </div>
             </div>
         </div>
-        @auth
-            @include('userpage.changePasswordModal')
-        @endauth
+        @include('userpage.changePasswordModal')
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"
@@ -86,7 +84,11 @@
         @if (auth()->user()->is_disable == 0)
             <script>
                 $(document).ready(() => {
-                    let guidelineId, defaultFormData, operation, modal = $('#guidelineModal');
+                    let guidelineId, guidelineWidget, guidelineItem, defaultFormData, operation,
+                        modal = $('#guidelineModal'),
+                        modalLabel = $('.modal-label'),
+                        modalLabelContainer = $('.modal-label-container'),
+                        formButton = $('#submitGuidelineBtn');
 
                     const validator = $("#guidelineForm").validate({
                         rules: {
@@ -101,18 +103,18 @@
 
                     $(document).on('click', '#createGuidelineBtn', () => {
                         operation = "create";
-                        $('.modal-label-container').removeClass('bg-warning');
-                        $('.modal-label').text('Create Guideline');
-                        $('#submitGuidelineBtn').removeClass('btn-update').text('Create');
+                        modalLabelContainer.removeClass('bg-warning');
+                        modalLabel.text('Create Guideline');
+                        formButton.addClass('btn-submit').removeClass('btn-update').text('Create');
                         modal.modal('show');
                     });
 
                     $(document).on('click', '#updateGuidelineBtn', function() {
-                        $('.modal-label-container').addClass('bg-warning');
-                        $('.modal-label').text('Update Guideline');
-                        $('#submitGuidelineBtn').addClass('btn-update').text('Update');
-                        let guidelineWidget = this.closest('.guideline-widget');
-                        let guidelineItem = guidelineWidget.querySelector('.guidelines-item');
+                        modalLabelContainer.addClass('bg-warning');
+                        modalLabel.text('Update Guideline');
+                        formButton.addClass('btn-update').removeClass('btn-submit').text('Update');
+                        guidelineWidget = this.closest('.guideline-widget');
+                        guidelineItem = guidelineWidget.querySelector('.guidelines-item');
                         guidelineId = guidelineItem.getAttribute('href').split('/').pop();
                         let guidelineLabel = guidelineItem.querySelector('.guideline-type p').innerText
                             .toLowerCase();
@@ -133,9 +135,7 @@
                                     headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     },
-                                    data: {
-                                        guidelineId: guidelineId
-                                    },
+                                    data: guidelineId,
                                     url: "{{ route('guideline.remove', 'guidelineId') }}"
                                         .replace('guidelineId', guidelineId),
                                     type: "PATCH",
@@ -163,8 +163,8 @@
                                         'No changes were made.') :
                                     $.ajax({
                                         data: formData,
-                                        url,
-                                        type,
+                                        url: url,
+                                        type: type,
                                         success(response) {
                                             response.status == 'warning' ? owWarningMessage(response
                                                 .message) : (modal.modal('hide'), showSuccessMessage(

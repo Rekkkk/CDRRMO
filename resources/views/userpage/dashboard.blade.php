@@ -3,6 +3,7 @@
 
 <head>
     @include('partials.headPackage')
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" media="(prefers-color-scheme: dark)" />
     {{-- @vite(['resources/js/app.js']) --}}
 </head>
 
@@ -253,7 +254,7 @@
                 });
             @endforeach
 
-            let validator = $("#generateReportForm").validate({
+            const validator = $("#generateReportForm").validate({
                 rules: {
                     select_status: 'required',
                     disaster_id: 'required'
@@ -271,9 +272,9 @@
                 inactiveDisaster.prop('hidden', isActive);
             });
 
-            $('#generateReportModal').on('hidden.bs.modal', function() {
+            $('#generateReportModal').on('hidden.bs.modal', () => {
                 onGoingDisaster.add(inactiveDisaster).prop('hidden', true);
-                $('#generateReportForm').trigger("reset");
+                $('#generateReportForm')[0].reset();
             });
 
             // Echo.channel('active-evacuees').listen('ActiveEvacuees', (e) => {

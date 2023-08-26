@@ -10,7 +10,7 @@
                         @csrf
                         <div class="form-content">
                             <div class="field-container">
-                                <label>Evacuation Center    Name</label>
+                                <label>Evacuation Center Name</label>
                                 <input type="text" name="name" class="form-control" autocomplete="off"
                                     placeholder="Enter Evacuation Center Name" id="name">
                             </div>
@@ -53,7 +53,7 @@
                                 <span id="location-error" class="error" hidden></span>
                             </div>
                             <div class="form-button-container">
-                                <button id="createEvacuationCenterBtn" class="btn-submit">Create</button>
+                                <button id="createEvacuationCenterBtn"></button>
                             </div>
                         </div>
                     </form>

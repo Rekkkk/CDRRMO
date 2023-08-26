@@ -6,14 +6,15 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-
     public function up(): void
     {
-        Schema::create('report', function (Blueprint $table) {
+        Schema::create('incident_report', function (Blueprint $table) {
             $table->id();
             $table->string('description');
-            $table->string('location');
+            $table->string('location')->nullable();
             $table->string('photo')->nullable();
+            $table->string('latitude')->nullable();
+            $table->string('longitude')->nullable();
             $table->string('status');
             $table->string('user_ip');
             $table->boolean('is_archive');
@@ -22,6 +23,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('report');
+        Schema::dropIfExists('incident_report');
     }
 };

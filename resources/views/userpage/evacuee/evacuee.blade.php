@@ -76,8 +76,11 @@
     @include('partials.toastr')
     <script>
         $(document).ready(() => {
-            let evacueeId, operation, defaultFormData, modal = $('#evacueeInfoFormModal'),
-                dateEntryInput = datePicker("#date_entry");
+            let evacueeId, validator, evacueeTable, operation, defaultFormData, modal = $('#evacueeInfoFormModal'),
+                dateEntryInput = datePicker("#date_entry"),
+                modalLabelContainer = $('.modal-label-container'),
+                modalLabel = $('.modal-label'),
+                formButton = $('#recordEvacueeInfoBtn');
             const fieldNames = [
                     'infants', 'minors', 'senior_citizen', 'pwd',
                     'pregnant', 'lactating', 'families', 'individuals',
@@ -96,7 +99,7 @@
                     evacuation_assigned: 'Please enter evacuation center assigned.'
                 };
 
-            let evacueeTable = $('#evacueeTable').DataTable({
+            evacueeTable = $('#evacueeTable').DataTable({
                 language: {
                     emptyTable: '<div class="message-text">No evacuees data added yet.</div>'
                 },
@@ -189,7 +192,7 @@
                         searchable: false,
                         width: '1rem'
                     }
-                ],
+                ]
             });
 
             fieldNames.forEach(fieldName => {
@@ -203,7 +206,7 @@
                 };
             });
 
-            const validator = $("#evacueeInfoForm").validate({
+            validator = $("#evacueeInfoForm").validate({
                 rules,
                 messages,
                 errorElement: 'span',
@@ -211,17 +214,17 @@
             });
 
             $(document).on('click', '#recordEvacueeBtn', () => {
-                $('.modal-label-container').removeClass('bg-warning');
-                $('.modal-label').text('Record Evacuee Information');
-                $('#recordEvacueeInfoBtn').removeClass('btn-update').text('Record');
-                operation == "record";
+                modalLabelContainer.removeClass('bg-warning');
+                modalLabel.text('Record Evacuee Information');
+                formButton.addClass('btn-submit').removeClass('btn-update').text('Record');
+                operation = "record";
                 modal.modal('show');
             });
 
             $(document).on('click', '#updateEvacueeBtn', function() {
-                $('.modal-label-container').addClass('bg-warning');
-                $('.modal-label').text('Update Evacuee Information');
-                $('#recordEvacueeInfoBtn').addClass('btn-update').text('Update');
+                modalLabelContainer.addClass('bg-warning');
+                modalLabel.text('Update Evacuee Information');
+                formButton.addClass('btn-update').removeClass('btn-submit').text('Update');
 
                 let data = getRowData(this, evacueeTable);
                 evacueeId = data.id;
@@ -235,7 +238,7 @@
 
                     $(fields).val(data[index]);
                 }
-                operation == "update";
+                operation = "update";
                 modal.modal('show');
                 defaultFormData = $('#evacueeInfoForm').serialize();
             });
@@ -252,28 +255,29 @@
                 let type = operation == 'record' ? "POST" : "PUT";
 
                 confirmModal(`Do you want to ${operation} this evacuee info?`).then((result) => {
-                    if (result.isConfirmed) {
-                        return operation == 'update' && defaultFormData == formData ?
-                            showWarningMessage('No changes were made.') :
-                            $.ajax({
-                                headers: {
-                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                },
-                                data: formData,
-                                url: url,
-                                type: type,
-                                success(response) {
-                                    response.status == 'warning' ? showWarningMessage(response
-                                        .message) : (modal.modal('hide'), evacueeTable.draw(),
-                                        showSuccessMessage(
-                                            `Successfully ${operation}${operation == 'record' ? 'ed new' : 'd the'} evacuee info.`
-                                        ));
-                                },
-                                error() {
-                                    showErrorMessage();
-                                }
-                            });
-                    }
+                    if (!result.isConfirmed) return;
+
+                    return operation == 'update' && defaultFormData == formData ?
+                        showWarningMessage('No changes were made.') :
+                        $.ajax({
+                            headers: {
+                                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                            },
+                            data: formData,
+                            url: url,
+                            type: type,
+                            success(response) {
+                                response.status == 'warning' ? showWarningMessage(response
+                                    .message) : (modal.modal('hide'), evacueeTable.draw(),
+                                    showSuccessMessage(
+                                        `Successfully ${operation}${operation == 'record' ? 'ed new' : 'd the'} evacuee info.`
+                                    ));
+                            },
+                            error() {
+                                showErrorMessage();
+                            }
+                        });
+
                 });
             }
         });

@@ -1,8 +1,8 @@
 <div class="modal fade" id="createAccidentReportModal" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
-            <div class="modal-label-container bg-success">
-                <h1 class="modal-label">Incident Report</h1>
+            <div class="modal-label-container">
+                <h1 class="modal-label"></h1>
             </div>
             <div class="modal-body">
                 <form id="reportForm" enctype="multipart/form-data">
@@ -21,10 +21,10 @@
                         <div class="field-container">
                             <label>Report Photo</label>
                             <input type="file" id="photo" name="photo" class="form-control form-control-lg"
-                                placeholder="Enter Incident Location" autocomplete="off" accept=".jpeg">
+                                placeholder="Enter Incident Location" accept=".jpeg">
                         </div>
                         <div class="form-button-container">
-                            <button id="reportIncidentBtn" class="btn-submit">Report</button>
+                            <button id="reportIncidentBtn"></button>
                         </div>
                     </div>
                 </form>

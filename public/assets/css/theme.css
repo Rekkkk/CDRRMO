@@ -87,7 +87,6 @@
 .btn-submit:hover,
 .btn-table-submit:hover,
 #locateNearestBtn:hover {
-    color: var(--color-text);
     background: #06782f;
     transform: scale(1.05);
     border: none;
@@ -109,7 +108,6 @@
 .btn-update:hover,
 .btn-table-update:hover {
     background: #ffb412;
-    color: var(--color-text);
     transform: scale(1.05);
     border: none;
 }
@@ -131,7 +129,6 @@
 .btn-remove:hover,
 .btn-table-remove:hover {
     background: #b91c1c;
-    color: var(--color-text);
     transform: scale(1.05);
     border: none;
 }
@@ -170,7 +167,6 @@
 .btn-table-primary:hover,
 #pinpointCurrentLocationBtn:hover {
     background: #1d4ed8;
-    color: var(--color-text);
     transform: scale(1.05);
     border: none;
 }
@@ -192,6 +188,7 @@
 
 .locator-button-container button i,
 .page-button-container button i,
+.page-button-container a i,
 .generate-button-container button i {
     padding-right: 8px;
 }
@@ -313,7 +310,7 @@
     position: fixed;
     width: 80px;
     background: #334155;
-    z-index: 1;
+    z-index: 100;
     left: 0;
     top: 0;
     transition: 0.3s ease;
@@ -967,8 +964,7 @@ text {
     width: 100%;
 }
 
-.guideline-type,
-.guide-type {
+.guideline-type {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1013,7 +1009,49 @@ text {
     margin: 12px 0;
 }
 
-/* Guideline */
+.guide-content {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    text-align: center;
+    margin: 0 auto;
+    color: var(--color-text);
+    background: var(--color-gray);
+}
+
+.guide-header {
+    width: 100%;
+    background: var(--color-text);
+}
+
+.guide-header img {
+    width: 300px;
+}
+
+.guide-details {
+    padding: 20px;
+}
+
+.guide-details h1 {
+    padding: 10px;
+    font-weight: 700;
+}
+
+.guide-btn-container {
+    padding: 10px;
+    width: 100%;
+    display: flex;
+    justify-content: end;
+    gap: 10px;
+}
+
+#updateGuideBtn,
+#removeGuideBtn {
+    padding: 8px 10px;
+}
+
+
+/* Guideline Section*/
 
 /* Evacuation Center Section */
 .locator-content {
@@ -1151,6 +1189,28 @@ text {
 }
 
 /* Evacuation Center Section */
+
+/* Danger Areas Report Section */
+.page-button-container a {
+    background: var(--color-green);
+    color: var(--color-text);
+    font-size: 14px;
+    font-weight: 600;
+    border-radius: 4px;
+    padding: 8px 10px;
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    transition-duration: 100ms;
+    border: none;
+}
+
+.page-button-container a:hover {
+    color: var(--color-text);
+    background: #06782f;
+    transform: scale(1.05);
+    border: none;
+}
+
+/* Danger Areas Report Section */
 
 /* Report Incident Section */
 .report-button {
@@ -1360,6 +1420,7 @@ text {
 
 .social-section p,
 .telephone-section p {
+    margin: 0;
     padding: 24px;
 }
 
@@ -1742,6 +1803,7 @@ table td {
 
 .action-container select {
     width: 176px;
+    border-radius: 4px;
     background-color: var(--color-primary);
     color: var(--color-text);
 }
@@ -1890,6 +1952,14 @@ select.form-select option {
 }
 
 /* Dark Mode Dashboard Section*/
+
+/* Dark Mode Guideline Section */
+.guide-header,
+.guideline-content {
+    background: var(--color-d-bg-container);
+}
+
+/* Dark Mode Guideline Section */
 
 /* Dark Mode Profile Section */
 .dark-mode .user-profile-container {
@@ -2106,6 +2176,7 @@ select.form-select option {
         padding: 300px 0;
     }
 
+    /* Sidebar Section */
     .sidebar,
     .dark-mode .sidebar,
     .sidebar:hover {
@@ -2131,6 +2202,15 @@ select.form-select option {
         width: 320px;
     }
 
+    /* Sidebar Section */
+
+    /* Dashboard Section */
+    .label-container {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+    }
+
     .widget-container {
         grid-template-columns: repeat(2, minmax(0, 1fr));
     }
@@ -2138,6 +2218,8 @@ select.form-select option {
     .chart-container {
         display: contents;
     }
+
+    /* Dashbaord Section */
 
     .action-container {
         flex-wrap: wrap;
@@ -2152,6 +2234,27 @@ select.form-select option {
     .dropdown button {
         margin: 0 -19px;
     }
+
+    /* Guideline Section */
+    .guide-header img {
+        width: 250px;
+    }
+
+    .guide-details h1 {
+        font-size: 25px;
+    }
+
+    .guide-details p {
+        font-size: 15px;
+    }
+
+    .guide-btn-container button {
+        font-size: 12px;
+    }
+
+    /* Guideline Section */
+
+    /* Evacuation Center Section */
 
     .marker-container {
         overflow: visible;
@@ -2181,6 +2284,13 @@ select.form-select option {
 
 /* Mobile View Section */
 @media only screen and (max-width: 380px) {
+
+    /* Toast Section */
+    .toast {
+        font-size: 12px;
+    }
+
+    /* Toast Section */
 
     /* Login Section */
     .auth-content {
@@ -2385,6 +2495,83 @@ select.form-select option {
     }
 
     /* Dashboard Section*/
+
+    /* Guideline Section */
+    .guide-btn {
+        display: block;
+    }
+
+    #createGuideBtn {
+        width: 100%;
+    }
+
+    .guide-header img {
+        width: 200px;
+    }
+
+    .guide-details h1 {
+        font-size: 20px;
+    }
+
+    .guide-details p {
+        font-size: 12px;
+    }
+
+    .guide-btn-container {
+        display: flex;
+        justify-content: center;
+    }
+
+    .guide-btn-container button {
+        font-size: 10px;
+    }
+
+    /* Guideline Section */
+
+    /* Evacuation Locator Section */
+    .header-title {
+        padding: 8px;
+    }
+
+    .header-title span {
+        font-size: 18px;
+    }
+
+    .gmnoprint button {
+        padding: 10px 16px !important;
+        font-size: 12px !important;
+    }
+
+    .evacuation-markers {
+        font-size: 14px;
+    }
+
+    /* Evacuation Locator Section */
+
+    /* Manage Disaster Information Section */
+    .page-button-container {
+        display: block;
+    }
+
+    .page-button-container button {
+        width: 100%;
+    }
+
+    /* Data Table Section */
+    .table-container {
+        font-size: 12px;
+    }
+
+    .table-content .table-label {
+        text-align: center;
+        font-size: 18px;
+    }
+
+    .message-text {
+        font-size: 10px;
+    }
+
+    /* Data Table Section */
 
     /* About Section */
     .about-content>div {

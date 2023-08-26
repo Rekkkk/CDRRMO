@@ -37,7 +37,7 @@
                                     placeholder="Enter Email Address">
                             </div>
                             <div class="form-button-container">
-                                <button id="saveProfileDetails" class="btn-submit">Create</button>
+                                <button id="saveProfileDetails"></button>
                             </div>
                         </div>
                     </form>

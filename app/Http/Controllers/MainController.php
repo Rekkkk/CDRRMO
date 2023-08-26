@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Evacuee;
 use App\Models\Disaster;
-use App\Models\Reporting;
+use App\Models\IncidentReport;
 use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
 use App\Exports\EvacueeDataExport;
@@ -80,7 +80,7 @@ class MainController extends Controller
 
     public function incidentReport()
     {
-        $incidentReport = Reporting::whereNotIn('status', ["On Process"])->where('is_archive', 0)->whereNotNull('photo')->get();
+        $incidentReport = IncidentReport::whereNotIn('status', ["On Process"])->where('is_archive', 0)->whereNotNull('photo')->get();
         return view('userpage.incidentReport.incidentReport', compact('incidentReport'));
     }
 }
