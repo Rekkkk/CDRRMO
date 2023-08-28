@@ -36,20 +36,20 @@
                         <li>
                             <a href="{{ route('guideline.display') }}" class="menu-link">
                                 <i class="bi bi-book"></i>
-                                <span class="links_name">E-LIGTAS Guideline</span>
+                                <span class="links_name">E-LIGTAS Guidelines</span>
                             </a>
                         </li>
                         <li>
                             <a href="{{ route('display.incident.report') }}" class="menu-link">
                                 <i class="bi bi-megaphone"></i>
-                                <span class="links_name">Report Incident</span>
+                                <span class="links_name">Manage Report Incident</span>
                             </a>
                         </li>
                         @if (auth()->user()->position == 'President')
                             <li>
                                 <a href="{{ route('account.display.users') }}" class="menu-link">
                                     <i class="bi bi-person-gear"></i>
-                                    <span class="links_name">Manage User Accounts</span>
+                                    <span class="links_name">Manage CDRRMO Account</span>
                                 </a>
                             </li>
                         @endif
@@ -75,7 +75,7 @@
                         <li>
                             <a href="{{ route('guideline.display') }}" class="menu-link">
                                 <i class="bi bi-book"></i>
-                                <span class="links_name">E-LIGTAS Guideline</span>
+                                <span class="links_name">E-LIGTAS Guidelines</span>
                             </a>
                         </li>
                         <li>
@@ -106,14 +106,14 @@
                             <li>
                                 <a href="{{ route('account.display.users') }}" class="menu-link">
                                     <i class="bi bi-person-gear"></i>
-                                    <span class="links_name">Manage User Accounts</span>
+                                    <span class="links_name">Manage Users Account</span>
                                 </a>
                             </li>
                         @endif
                         <li>
                             <a href="{{ route('report.dangerous.areas.cswd') }}" class="menu-link">
                                 <i class="bi bi-exclamation-triangle"></i>
-                                <span class="links_name">Dangerous Area Reports</span>
+                                <span class="links_name">Manage Report Danger Areas</span>
                             </a>
                         </li>
                         <li>

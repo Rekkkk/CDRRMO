@@ -20,7 +20,7 @@
                         <i class="bi bi-person-gear"></i>
                     </div>
                 </div>
-                <span>MANAGE USER ACCOUNTS</span>
+                <span>MANAGE USERS ACCOUNT</span>
             </div>
             <hr>
             @if (auth()->user()->is_disable == 0)

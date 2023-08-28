@@ -20,7 +20,7 @@
                         <i class="bi bi-exclamation-triangle"></i>
                     </div>
                 </div>
-                <span>DANGEROUS AREAS REPORTS</span>
+                <span>DANGER AREAS REPORT</span>
             </div>
             <hr>
             @guest
@@ -32,7 +32,7 @@
             @endguest
             <div class="table-container">
                 <div class="table-content">
-                    <header class="table-label">Dangerous Areas Report Table</header>
+                    <header class="table-label">Danger Areas Report Table</header>
                     <table class="table" id="dangerousAreasReports" width="100%">
                         <thead>
                             <tr>
