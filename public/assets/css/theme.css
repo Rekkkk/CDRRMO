@@ -10,13 +10,10 @@
     --color-primary: #3575ff;
     --color-yellow: #ffc107;
     --color-black: #000000;
-
-    /* Dark Mode*/
     --color-d-background: #1e293b;
     --color-d-text: #e2e8f0;
     --color-d-sub-text: #94a3b8;
     --color-d-bg-container: #475569;
-    /* Dark Mode*/
 }
 
 * {
@@ -29,7 +26,6 @@
     -webkit-font-smoothing: antialiased;
 }
 
-/* Toastr Section */
 .toast {
     opacity: 1 !important;
     box-shadow: none !important;
@@ -42,9 +38,6 @@
     color: var(--color-text);
 }
 
-/* Toastr Section */
-
-/* Website Scroll Bar */
 ::-webkit-scrollbar {
     width: 0.5vw;
 }
@@ -61,15 +54,12 @@
     background: var(--color-gray);
 }
 
-/* Website Scroll Bar */
-
 .wrapper {
     width: 100%;
     margin: 0 auto;
     padding: 0 10px 0 20px;
 }
 
-/* Button Section */
 .btn-submit,
 .btn-table-submit,
 #locateNearestBtn {
@@ -193,9 +183,6 @@
     padding-right: 8px;
 }
 
-/* Button */
-
-/* Header Section */
 .header-section {
     position: absolute;
     width: 100%;
@@ -261,9 +248,6 @@
     background: #dc2626;
 }
 
-/* Header Section */
-
-/* Main Content */
 .main-content {
     width: 100%;
     margin: 98px auto 30px;
@@ -303,9 +287,6 @@
     font-weight: 700;
 }
 
-/* Main Content */
-
-/* Side Bar Section*/
 .sidebar {
     position: fixed;
     width: 80px;
@@ -480,9 +461,6 @@
     background: #eab308;
 }
 
-/* Side Bar */
-
-/* Authentication Section */
 .auth-body {
     background: var(--color-gray);
 }
@@ -600,7 +578,7 @@
 
 .auth-body .auth-bottom-section p {
     margin: 0;
-    color: #94a3b8;
+    color: var(--color-d-sub-text);
     font-size: 15px;
     padding: 5px 0;
 }
@@ -758,9 +736,6 @@
     color: #94a3b8;
 }
 
-/* Authentication */
-
-/* Dashboard Section */
 .report-container {
     display: flex;
     justify-content: space-between;
@@ -892,9 +867,6 @@ text {
     font-size: 1rem !important;
 }
 
-/* Dashboard */
-
-/* Guideline Section */
 .guideline-container,
 .guide-container {
     display: flex;
@@ -1025,7 +997,7 @@ text {
 }
 
 .guide-header img {
-    width: 300px;
+    width: 250px;
 }
 
 .guide-details {
@@ -1050,13 +1022,7 @@ text {
     padding: 8px 10px;
 }
 
-
-/* Guideline Section*/
-
-/* Evacuation Center Section */
 .locator-content {
-    margin-top: 16px;
-    margin-bottom: 12px;
     border-top: 0.375rem;
 }
 
@@ -1188,9 +1154,6 @@ text {
     transform: scale(1.1);
 }
 
-/* Evacuation Center Section */
-
-/* Danger Areas Report Section */
 .page-button-container a {
     background: var(--color-green);
     color: var(--color-text);
@@ -1210,9 +1173,6 @@ text {
     border: none;
 }
 
-/* Danger Areas Report Section */
-
-/* Report Incident Section */
 .report-button {
     position: fixed;
     margin: 35px 14px;
@@ -1224,7 +1184,7 @@ text {
     background: #334155;
     padding: 16px;
     font-size: 24px;
-    border-radius: 9999px;
+    border-radius: 50%;
 }
 
 .report-form a:hover {
@@ -1314,10 +1274,9 @@ text {
 
 .image-wrapper {
     position: relative;
-    border: 2px solid #ccc;
+    border: 2px solid var(--color-d-sub-text);
     border-radius: 5px;
     overflow: hidden;
-    background-color: #f5f5f5;
 }
 
 .image-overlay {
@@ -1328,7 +1287,7 @@ text {
     left: 0;
     width: 100%;
     height: 40%;
-    background: rgba(0, 0, 0, 0.404);
+    background: var(--color-d-sub-text);
     justify-content: center;
     align-items: center;
     backdrop-filter: blur(10px);
@@ -1346,9 +1305,6 @@ text {
     transform: scale(1.05);
 }
 
-/* Report Incident*/
-
-/* About Section */
 .about-content {
     display: flex;
     margin-top: 16px;
@@ -1362,7 +1318,7 @@ text {
     flex: 3;
     margin: 0;
     padding: 24px;
-    background: #475569;
+    background: var(--color-d-bg-container);
     color: var(--color-text);
     border-radius: 6px;
     filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
@@ -1382,10 +1338,6 @@ text {
     font-size: 18px;
 }
 
-.location-detail hr {
-    clear: both;
-}
-
 .right-side {
     display: flex;
     flex: 1;
@@ -1397,7 +1349,7 @@ text {
 .social-section,
 .telephone-section {
     filter: drop-shadow(0 25px 25px rgb(0 0 0 / 0.15));
-    background: #475569;
+    background: var(--color-d-bg-container);
     color: var(--color-text);
     border-radius: 6px;
 }
@@ -1434,14 +1386,10 @@ text {
     margin: 0;
 }
 
-/* About */
-
-/* Hotline Number Section */
-
 .hotline-content .number-section {
     flex: 3;
     padding: 24px;
-    background: #475569;
+    background: var(--color-d-bg-container);
     color: var(--color-text);
     border-radius: 4px;
     filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
@@ -1462,9 +1410,6 @@ text {
     line-height: 28px;
 }
 
-/* Hotline Number */
-
-/* User Profile Section */
 .user-profile-container {
     position: relative;
     background: var(--color-text);
@@ -1486,7 +1431,7 @@ text {
     width: 240px;
     height: 240px;
     border-radius: 50%;
-    background: #cbd5e1;
+    background: var(--color-d-sub-text);
     border: 4px solid #60a5fa;
     overflow: hidden;
 }
@@ -1494,8 +1439,7 @@ text {
 .edit-profile-btn {
     display: flex;
     justify-content: end;
-    margin-top: -0.5rem;
-    margin-bottom: -0.5rem;
+    margin: -0.5rem 0;
     padding-right: 1.5rem;
 }
 
@@ -1508,7 +1452,7 @@ text {
 }
 
 .user-profile-container hr {
-    margin: 22px 24px 16px 24px;
+    margin: 22px 24px 16px;
 }
 
 .profile-details-container {
@@ -1559,9 +1503,6 @@ text {
     flex: 1 1 auto;
 }
 
-/* User Profile */
-
-/* Recording Evacuee Section */
 select {
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -1575,10 +1516,6 @@ input::-webkit-inner-spin-button {
     -webkit-appearance: none;
     margin: 0;
 }
-
-/* Recording Evacuee */
-
-/* Modal Section */
 
 .modal-label-container,
 .change-modal-label-container {
@@ -1614,9 +1551,6 @@ input::-webkit-inner-spin-button {
     right: 30px;
 }
 
-/* Modal Section */
-
-/* Form Section */
 .form-content {
     display: flex;
     flex-wrap: wrap;
@@ -1666,7 +1600,7 @@ input::-ms-clear {
     border-radius: 5px;
     font-weight: 400;
     font-size: 0.875rem;
-    border: 2px solid #94a3b8;
+    border: 2px solid var(--color-d-sub-text);
     height: 40px;
 }
 
@@ -1676,11 +1610,11 @@ input::-ms-clear {
     border-radius: 5px;
     font-weight: 400;
     font-size: 0.875rem;
-    border: 2px solid #94a3b8;
+    border: 2px solid var(--color-d-sub-text);
 }
 
 .map-border {
-    border: 2px solid rgb(148 163 184 / 1);
+    border: 2px solid var(--color-d-sub-text);
     border-radius: 6px;
 }
 
@@ -1692,7 +1626,7 @@ input::-ms-clear {
 .locator-header {
     text-align: center;
     color: var(--color-text);
-    background-color: #dc2626;
+    background-color: var(--color-red);
     border-radius: 0.375rem 0.375rem 0 0;
 }
 
@@ -1748,9 +1682,6 @@ span.error {
     float: left;
 }
 
-/* Form Section */
-
-/* DataTable Section */
 .table-container {
     margin-top: 10px;
     padding: 12px;
@@ -1816,7 +1747,7 @@ select.form-select {
 
 select.form-select option {
     background: var(--color-background);
-    color: #000;
+    color: var(--color-black);
     font-size: 15px;
     font-weight: 700;
 }
@@ -1828,9 +1759,6 @@ select.form-select option {
     font-size: 15px;
 }
 
-/* DataTable Section */
-
-/* Dark Mode Section*/
 .dark-mode {
     background: var(--color-d-background);
 }
@@ -1840,7 +1768,6 @@ select.form-select option {
     color: var(--color-d-text);
 }
 
-/* Dark Mode Header Section  */
 .dark-mode .dropdown-menu {
     background: var(--color-d-bg-container);
 }
@@ -1858,24 +1785,21 @@ select.form-select option {
 }
 
 .dark-mode .dropdown-menu:first:focus {
-    color: black !important;
+    color: var(--color-black) !important;
 }
 
 .dark-mode .changePasswordBtn:active {
-    background: #2563eb;
+    background: var(--color-primary);
 }
 
 .dark-mode .myProfile:active {
-    background: #16a34a;
+    background: var(--color-green);
 }
 
 .dark-mode .logout:active {
-    background: #dc2626;
+    background: var(--color-red);
 }
 
-/* Dark Mode Header Section */
-
-/* Dark Mode Dashboard Section */
 .dark-mode .label-container span,
 .dark-mode .report-container p,
 .dark-mode .wigdet-header p {
@@ -1951,17 +1875,11 @@ select.form-select option {
     stroke: var(--color-text);
 }
 
-/* Dark Mode Dashboard Section*/
-
-/* Dark Mode Guideline Section */
-.guide-header,
-.guideline-content {
+.dark-mode .guide-header,
+.dark-mode .guideline-content {
     background: var(--color-d-bg-container);
 }
 
-/* Dark Mode Guideline Section */
-
-/* Dark Mode Profile Section */
 .dark-mode .user-profile-container {
     background: var(--color-d-bg-container);
 }
@@ -1970,9 +1888,6 @@ select.form-select option {
     background: var(--color-d-bg-container);
 }
 
-/* Dark Mode Profile Section */
-
-/* Datatable Section  */
 .dark-mode .table-container {
     background: var(--color-d-bg-container);
 }
@@ -1991,9 +1906,6 @@ select.form-select option {
     color: var(--color-d-sub-text) !important;
 }
 
-/* Datatable Section  */
-
-/* Modal Section */
 .dark-mode .modal-content {
     background: var(--color-d-background);
 }
@@ -2029,17 +1941,11 @@ select.form-select option {
     color: var(--color-d-text);
 }
 
-/* Modal Section */
-
-/* Sweet Alert Section */
 .dark-mode .swal2-popup {
     background: var(--color-d-background);
     border: 1px solid var(--color-d-sub-text);
 }
 
-/* Sweet Alert Section */
-
-/* Evacuation Center Section */
 .dark-mode .gm-style-iw,
 .dark-mode .gm-style-iw a,
 .dark-mode .gm-style-iw div,
@@ -2057,11 +1963,6 @@ select.form-select option {
     color: var(--color-black);
 }
 
-/* Evacuation Center Section */
-
-/* Dark Mode */
-
-/* Laptop View Section */
 @media only screen and (max-width: 1024px) {
     .auth-content {
         text-align: center;
@@ -2079,7 +1980,14 @@ select.form-select option {
         padding-bottom: 20px;
     }
 
-    .auth-content .auth-container {
+    .auth-bottom-section {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+    }
+
+    .auth-content .auth-container,
+    .evacuation-button-container {
         display: block;
     }
 
@@ -2115,11 +2023,6 @@ select.form-select option {
         margin-left: 0;
     }
 
-    /* Evacuation Center Section */
-    .evacuation-button-container {
-        display: block;
-    }
-
     .evacuation-markers {
         overflow: auto;
         height: 43px;
@@ -2132,13 +2035,8 @@ select.form-select option {
     .locator-button-container {
         margin-top: 16px;
     }
-
-    /* Evacuation Center Section */
 }
 
-/* Laptop View */
-
-/* Tablet View Section */
 @media only screen and (max-width: 767px) {
     .main-content {
         margin: 90px 0 20px;
@@ -2176,7 +2074,6 @@ select.form-select option {
         padding: 300px 0;
     }
 
-    /* Sidebar Section */
     .sidebar,
     .dark-mode .sidebar,
     .sidebar:hover {
@@ -2202,9 +2099,6 @@ select.form-select option {
         width: 320px;
     }
 
-    /* Sidebar Section */
-
-    /* Dashboard Section */
     .label-container {
         display: flex;
         justify-content: start;
@@ -2218,8 +2112,6 @@ select.form-select option {
     .chart-container {
         display: contents;
     }
-
-    /* Dashbaord Section */
 
     .action-container {
         flex-wrap: wrap;
@@ -2235,7 +2127,6 @@ select.form-select option {
         margin: 0 -19px;
     }
 
-    /* Guideline Section */
     .guide-header img {
         width: 250px;
     }
@@ -2252,10 +2143,6 @@ select.form-select option {
         font-size: 12px;
     }
 
-    /* Guideline Section */
-
-    /* Evacuation Center Section */
-
     .marker-container {
         overflow: visible;
     }
@@ -2269,7 +2156,7 @@ select.form-select option {
     }
 
     .evacuation-markers::-webkit-scrollbar {
-            width: none;
+        width: none;
         display: none;
     }
 
@@ -2278,21 +2165,22 @@ select.form-select option {
         scrollbar-width: none;
     }
 
-}
-
-/* Tablet View */
-
-/* Mobile View Section */
-@media only screen and (max-width: 380px) {
-
-    /* Toast Section */
-    .toast {
+    .btn-table-submit,
+    .btn-table-update,
+    .btn-table-remove {
+        width: 176px;
         font-size: 12px;
+        margin: 4px;
     }
 
-    /* Toast Section */
+    #changeDisasterStatus,
+    #changeEvacuationStatus {
+        text-align: center;
+        font-size: 12px;
+    }
+}
 
-    /* Login Section */
+@media only screen and (max-width: 380px) {
     .auth-content {
         padding: 35% 0 20% 0;
         transition: 0.5s all ease-in-out;
@@ -2346,10 +2234,6 @@ select.form-select option {
         letter-spacing: 0.5px;
     }
 
-    .auth-bottom-section p {
-        font-size: 12px !important;
-    }
-
     .form-header {
         padding: 12px;
     }
@@ -2364,7 +2248,13 @@ select.form-select option {
 
     .form-group label,
     .res-password-form .res-input-form label,
-    .res-password-form .res-input-form input {
+    .res-password-form .res-input-form input,
+    .content-description span,
+    .content-description .wigdet-header p,
+    .details-content span,
+    .sidebar.active .links_name,
+    .toast,
+    .evacuation-markers {
         font-size: 14px;
     }
 
@@ -2381,7 +2271,11 @@ select.form-select option {
     .button-container .btn-remove,
     .rec-bottom-section p,
     .res-button-container button,
-    .res-bottom-container p {
+    .res-bottom-container p,
+    .guide-details p,
+    .table-container,
+    .location-detail p,
+    .auth-body .auth-bottom-section p {
         font-size: 12px;
     }
 
@@ -2398,9 +2292,6 @@ select.form-select option {
         padding: 8px 13px 2px 13px;
     }
 
-    /* Login Section*/
-
-    /* Sidebar Section */
     .sidebar.active,
     .dark-mode .sidebar.active {
         width: 300px;
@@ -2410,35 +2301,16 @@ select.form-select option {
         font-size: 16px;
     }
 
-    .sidebar.active .links_name {
-        font-size: 14px;
-    }
-
     .details-content img {
         width: 50px;
     }
 
-    .details-content span {
-        font-size: 14px;
-    }
-
-    /* Sidebar Section */
-
-    /* Dashboard Section */
     .main-content hr {
         margin: 14px 0;
     }
 
     .label-container span {
         font-size: 18px;
-    }
-
-    .content-description .wigdet-header p {
-        font-size: 14px;
-    }
-
-    .content-description span {
-        font-size: 14px;
     }
 
     .content-description p {
@@ -2494,17 +2366,6 @@ select.form-select option {
         height: 350px !important;
     }
 
-    /* Dashboard Section*/
-
-    /* Guideline Section */
-    .guide-btn {
-        display: block;
-    }
-
-    #createGuideBtn {
-        width: 100%;
-    }
-
     .guide-header img {
         width: 200px;
     }
@@ -2513,27 +2374,24 @@ select.form-select option {
         font-size: 20px;
     }
 
-    .guide-details p {
-        font-size: 12px;
-    }
-
     .guide-btn-container {
         display: flex;
         justify-content: center;
     }
 
-    .guide-btn-container button {
+    .guide-btn-container button,
+    .message-text {
         font-size: 10px;
     }
 
-    /* Guideline Section */
-
-    /* Evacuation Locator Section */
     .header-title {
         padding: 8px;
     }
 
-    .header-title span {
+    .header-title span,
+    .location-section span,
+    .telephone-section span,
+    .social-section span {
         font-size: 18px;
     }
 
@@ -2542,49 +2400,17 @@ select.form-select option {
         font-size: 12px !important;
     }
 
-    .evacuation-markers {
-        font-size: 14px;
-    }
-
-    /* Evacuation Locator Section */
-
-    /* Manage Disaster Information Section */
-    .page-button-container {
-        display: block;
-    }
-
-    .page-button-container button {
-        width: 100%;
-    }
-
-    /* Data Table Section */
-    .table-container {
-        font-size: 12px;
-    }
-
     .table-content .table-label {
         text-align: center;
         font-size: 18px;
     }
 
-    .message-text {
-        font-size: 10px;
-    }
-
-    /* Data Table Section */
-
-    /* About Section */
     .about-content>div {
         margin: 20px 0;
     }
 
     .about-content .location-section {
         margin-top: 15px;
-    }
-
-    .location-section span,
-    .telephone-section span {
-        font-size: 18px;
     }
 
     .location-detail i {
@@ -2595,26 +2421,13 @@ select.form-select option {
         margin: 0;
     }
 
-    .location-detail p {
-        font-size: 12px;
-    }
-
-    .social-section span {
-        font-size: 18px;
-    }
-
     .social-section p,
     .telephone-section p {
         padding: 16px;
         font-size: 12px;
     }
-
-    /* About Section */
 }
 
-/* Mobile View */
-
-/* Animations */
 @keyframes scaleIn {
     0% {
         opacity: 0;
@@ -2626,5 +2439,3 @@ select.form-select option {
         transform: scale(1);
     }
 }
-
-/* Animations */

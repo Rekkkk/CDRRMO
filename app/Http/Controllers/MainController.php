@@ -9,7 +9,6 @@ use Illuminate\Http\Request;
 use App\Models\EvacuationCenter;
 use App\Exports\EvacueeDataExport;
 use Maatwebsite\Excel\Facades\Excel;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 use Maatwebsite\Excel\Excel as FileFormat;
 
@@ -61,7 +60,7 @@ class MainController extends Controller
         if ($generateReportValidation->fails())
             return back()->with('warning', $generateReportValidation->errors()->first());
 
-        return Excel::download(new EvacueeDataExport(Crypt::decryptString($request->disaster_id)), 'evacuee-data.xlsx', FileFormat::XLSX);
+        return Excel::download(new EvacueeDataExport($request->disaster_id), 'evacuee-data.xlsx', FileFormat::XLSX);
     }
 
     public function manageEvacueeInformation(Request $request)

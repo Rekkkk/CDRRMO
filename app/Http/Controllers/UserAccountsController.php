@@ -11,7 +11,6 @@ use Yajra\DataTables\DataTables;
 use App\Mail\UserCredentialsMail;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
 class UserAccountsController extends Controller
@@ -35,7 +34,6 @@ class UserAccountsController extends Controller
 
         return DataTables::of($userAccounts)
             ->addIndexColumn()
-            ->addColumn('id', fn ($account) => Crypt::encryptString($account->id))
             ->addColumn('status', fn ($account) => '<div class="status-container"><div class="status-content bg-' . match ($account->status) {
                 'Active' => 'success',
                 'Disabled' => 'danger',
@@ -102,7 +100,7 @@ class UserAccountsController extends Controller
         if ($updateAccountValidation->fails())
             return response(['status' => 'warning', 'message' => $updateAccountValidation->errors()->first()]);
 
-        $this->user->find(Crypt::decryptString($userId))->update([
+        $this->user->find($userId)->update([
             'organization' => $request->organization,
             'position' => $request->position,
             'email' => trim($request->email)
@@ -113,7 +111,7 @@ class UserAccountsController extends Controller
     
     public function disableAccount($userId)
     {
-        $this->user->find(Crypt::decryptString($userId))->update([
+        $this->user->find($userId)->update([
             'status' => 'Disabled',
             'is_disable' => 1
         ]);
@@ -123,7 +121,7 @@ class UserAccountsController extends Controller
 
     public function enableAccount($userId)
     {
-        $this->user->find(Crypt::decryptString($userId))->update([
+        $this->user->find($userId)->update([
             'status' => 'Active',
             'is_disable' => 0
         ]);
@@ -140,7 +138,7 @@ class UserAccountsController extends Controller
         if ($suspendAccountValidation->fails())
             return response(['status' => 'warning', 'message' => $suspendAccountValidation->errors()->first()]);
 
-        $this->user->find(Crypt::decryptString($userId))->update([
+        $this->user->find($userId)->update([
             'status' => 'Suspended',
             'is_suspend' => 1,
             'suspend_time' => Carbon::parse($request->suspend_time)->format('Y-m-d H:i:s')
@@ -151,7 +149,7 @@ class UserAccountsController extends Controller
 
     public function openAccount($userId)
     {
-        $this->user->find(Crypt::decryptString($userId))->update([
+        $this->user->find($userId)->update([
             'status' => 'Active',
             'is_disable' => 0,
             'is_suspend' => 0,
@@ -178,7 +176,7 @@ class UserAccountsController extends Controller
             if ($changePasswordValidation->fails())
                 return response(['status' => 'warning', 'message' => $changePasswordValidation->errors()->first()]);
 
-            $this->user->find(Crypt::decryptString($userId))->update([
+            $this->user->find($userId)->update([
                 'password' => Hash::make(trim($request->password))
             ]);
             $this->logActivity->generateLog('Changing Password');
@@ -190,7 +188,7 @@ class UserAccountsController extends Controller
 
     public function removeAccount($userId)
     {
-        $this->user->find(Crypt::decryptString($userId))->delete();
+        $this->user->find($userId)->delete();
         $this->logActivity->generateLog('Removing Account');
         return response()->json();
     }

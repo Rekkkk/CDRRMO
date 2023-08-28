@@ -7,7 +7,6 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Crypt;
 use Illuminate\Support\Facades\Validator;
 
 class DisasterController extends Controller
@@ -27,7 +26,6 @@ class DisasterController extends Controller
 
         return DataTables::of($disasterInformation)
             ->addIndexColumn()
-            ->addColumn('id', fn ($disaster) => Crypt::encryptString($disaster->id))
             ->addColumn('status', fn ($disaster) => '<div class="status-container"><div class="status-content bg-' . match ($disaster->status) {
                 'On Going' => 'success',
                 'Inactive' => 'danger'
@@ -46,7 +44,7 @@ class DisasterController extends Controller
 
                 return '<span class="message-text">Currently Disabled.</span>';
             })
-            ->rawColumns(['id', 'status', 'action'])
+            ->rawColumns(['status', 'action'])
             ->make(true);
     }
 
@@ -77,7 +75,7 @@ class DisasterController extends Controller
         if ($validatedDisasterValidation->fails())
             return response()->json(['status' => 'warning', 'message' => $validatedDisasterValidation->errors()->first()]);
 
-        $this->disaster->find(Crypt::decryptString($disasterId))->update([
+        $this->disaster->find($disasterId)->update([
             'name' => Str::of(trim($request->name))->title()
         ]);
         $this->logActivity->generateLog('Updating Disaster Data');
@@ -86,7 +84,7 @@ class DisasterController extends Controller
 
     public function removeDisasterData($disasterId)
     {
-        $this->disaster->find(Crypt::decryptString($disasterId))->update([
+        $this->disaster->find($disasterId)->update([
             'status' => 'Archived',
             'is_archive' => 1
         ]);
@@ -96,7 +94,7 @@ class DisasterController extends Controller
 
     public function changeDisasterStatus(Request $request, $disasterId)
     {
-        $this->disaster->find(Crypt::decryptString($disasterId))->update([
+        $this->disaster->find($disasterId)->update([
             'status' => $request->status
         ]);
         $this->logActivity->generateLog('Changing Disaster Status');

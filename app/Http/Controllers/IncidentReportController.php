@@ -4,13 +4,12 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\ReportLog;
-use App\Models\IncidentReport;
 use Illuminate\Support\Str;
 use Illuminate\Http\Request;
-use App\Events\IncidentReportEvent;
+use App\Models\IncidentReport;
 use App\Models\ActivityUserLog;
 use Yajra\DataTables\DataTables;
-use Illuminate\Support\Facades\Crypt;
+use App\Events\IncidentReportEvent;
 use Illuminate\Support\Facades\Validator;
 
 class IncidentReportController extends Controller
@@ -31,7 +30,6 @@ class IncidentReportController extends Controller
 
         return DataTables::of($pendingReport)
             ->addIndexColumn()
-            ->addColumn('id', fn ($report) => Crypt::encryptString($report->id))
             ->addColumn('status', '<div class="status-container"><div class="status-content bg-warning">On Process</div></div>')
             ->addColumn('action', function ($report) {
                 if (!auth()->check()) {
@@ -64,7 +62,6 @@ class IncidentReportController extends Controller
 
         return DataTables::of($incidentReport)
             ->addIndexColumn()
-            ->addColumn('id', fn ($report) => Crypt::encryptString($report->id))
             ->addColumn('status', fn ($report) => '<div class="status-container"><div class="status-content bg-' . match ($report->status) {
                 'Approved' => 'success',
                 'Declined' => 'danger'
@@ -152,7 +149,7 @@ class IncidentReportController extends Controller
         if ($incidentReportValidation->fails())
             response(['status' => 'warning', 'message' => $incidentReportValidation->errors()->first()]);
 
-        $residentReport = $this->incidentReport->find(Crypt::decryptString($reportId));
+        $residentReport = $this->incidentReport->find($reportId);
         $reportPhoto = $request->file('photo');
 
         $dataToUpdate = [
@@ -175,7 +172,7 @@ class IncidentReportController extends Controller
 
     public function approveIncidentReport($reportId)
     {
-        $this->reportEvent->approveStatus(Crypt::decryptString($reportId));
+        $this->reportEvent->approveStatus($reportId);
         $this->logActivity->generateLog('Approving Incident Report');
         //event(new IncidentReportEvent());
         return response()->json();
@@ -183,7 +180,7 @@ class IncidentReportController extends Controller
 
     public function declineIncidentReport($reportId)
     {
-        $this->reportEvent->declineStatus(Crypt::decryptString($reportId));
+        $this->reportEvent->declineStatus($reportId);
         $this->logActivity->generateLog('Declining Incident Report');
         //event(new IncidentReportEvent());
         return response()->json();
@@ -191,7 +188,6 @@ class IncidentReportController extends Controller
 
     public function revertIncidentReport($reportId)
     {
-        $reportId = Crypt::decryptString($reportId);
         $reportPhotoPath = $this->incidentReport->find($reportId)->value('photo');
         $this->reportEvent->revertIncidentReport($reportId, $reportPhotoPath);
         //event(new IncidentReportEvent());
@@ -200,7 +196,7 @@ class IncidentReportController extends Controller
 
     public function removeIncidentReport($reportId)
     {
-        $this->incidentReport->find(Crypt::decryptString($reportId))->update([
+        $this->incidentReport->find($reportId)->update([
             'is_archive' => 1
         ]);
         $this->logActivity->generateLog('Removing Incident Report');
@@ -222,7 +218,6 @@ class IncidentReportController extends Controller
 
         return DataTables::of($dangerousAreasReport->get())
             ->addIndexColumn()
-            ->addColumn('id', fn ($dangerousAreas) => Crypt::encryptString($dangerousAreas->id))
             ->addColumn('status', fn ($dangerousAreas) => '<div class="status-container"><div class="status-content bg-' . match ($dangerousAreas->status) {
                 'Confirmed' => 'success',
                 'On Process' => 'warning'
@@ -315,7 +310,7 @@ class IncidentReportController extends Controller
         if ($dangerousAreasReportValidation->fails())
             return response(['status' => 'warning', 'message' => $dangerousAreasReportValidation->errors()->first()]);
 
-        $this->incidentReport->find(Crypt::decryptString($reportId))->update([
+        $this->incidentReport->find($reportId)->update([
             'description' => Str::ucFirst(trim($request->report_type)),
             'latitude' => $request->latitude,
             'longitude' => $request->longitude
@@ -326,7 +321,6 @@ class IncidentReportController extends Controller
 
     public function revertDangerousAreaReport($reportId)
     {
-        $reportId = Crypt::decryptString($reportId);
         $this->reportEvent->revertDangerAreaReport($reportId);
         //event(new IncidentReportEvent());
         return response()->json();
@@ -334,7 +328,7 @@ class IncidentReportController extends Controller
 
     public function confirmDangerAreaReport($dangerAreaId)
     {
-        $this->reportEvent->confirmDangerAreaReport(Crypt::decryptString($dangerAreaId));
+        $this->reportEvent->confirmDangerAreaReport($dangerAreaId);
         $this->logActivity->generateLog('Confirming Dangerous Area Report');
         //event(new IncidentReportEvent());
         return response()->json();
@@ -342,7 +336,7 @@ class IncidentReportController extends Controller
 
     public function rejectDangerAreaReport($dangerAreaId)
     {
-        $this->incidentReport->find(Crypt::decryptString($dangerAreaId))->delete();
+        $this->incidentReport->find($dangerAreaId)->delete();
         $this->logActivity->generateLog('Rejecting Dangerous Area Report');
         //event(new IncidentReportEvent());
         return response()->json();
@@ -350,7 +344,7 @@ class IncidentReportController extends Controller
 
     public function removeDangerAreaReport($dangerAreaId)
     {
-        $this->reportEvent->removeDangerAreaReport(Crypt::decryptString($dangerAreaId));
+        $this->reportEvent->removeDangerAreaReport($dangerAreaId);
         $this->logActivity->generateLog('Removing Dangerous Area Report');
         //event(new IncidentReportEvent());
         return response()->json();
