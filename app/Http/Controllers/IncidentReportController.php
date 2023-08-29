@@ -58,7 +58,7 @@ class IncidentReportController extends Controller
 
     public function displayIncidentReport()
     {
-        $incidentReport = $this->incidentReport->whereNotIn('status', ['On Process'])->whereNotNull('photo')->where('is_archive', 0)->get();
+        $incidentReport = $this->incidentReport->where('status', 'Approved')->where('is_archive', 0)->get();
 
         return DataTables::of($incidentReport)
             ->addIndexColumn()
@@ -77,7 +77,7 @@ class IncidentReportController extends Controller
                         </div>
                     </div>
                 </div>')
-            ->rawColumns(['id', 'status', 'action', 'photo'])
+            ->rawColumns(['status', 'action', 'photo'])
             ->make(true);
     }
 
