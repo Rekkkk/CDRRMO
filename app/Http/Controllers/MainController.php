@@ -79,7 +79,7 @@ class MainController extends Controller
 
     public function incidentReport()
     {
-        $incidentReport = IncidentReport::whereNotIn('status', ["On Process"])->where('is_archive', 0)->whereNotNull('photo')->get();
+        $incidentReport = IncidentReport::where('status', 'Confirmed')->where('is_archive', 0)->get();
         return view('userpage.incidentReport.incidentReport', compact('incidentReport'));
     }
 }
