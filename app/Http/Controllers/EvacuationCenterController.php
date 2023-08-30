@@ -28,26 +28,24 @@ class EvacuationCenterController extends Controller
 
         return DataTables::of($evacuationCenterList)
             ->addIndexColumn()
-            ->addColumn('capacity', function ($evacuation) use ($operation) {
+            ->addColumn('capacity', function($evacuation) use ($operation) {
                 return $operation == "locator" ? Evacuee::where('evacuation_assigned', $evacuation->name)->sum('individuals') . '/' . $evacuation->capacity : $evacuation->capacity;
-            })->addColumn('action', function ($evacuation) use ($operation) {
+            })->addColumn('action', function($evacuation) use ($operation) {
                 if ($operation == "locator")
                     return '<button class="btn-table-primary text-white locateEvacuationCenter"><i class="bi bi-search"></i>Locate</button>';
 
-                if (auth()->user()->is_disable == 0) {
-                    $statusOptions = implode('', array_map(function ($status) use ($evacuation) {
-                        return $evacuation->status != $status ? '<option value="' . $status . '">' . $status . '</option>' : '';
-                    }, ['Active', 'Inactive', 'Full']));
+                if (auth()->user()->is_disable == 1) return;
 
-                    return '<div class="action-container">' .
-                        '<button class="btn-table-update" id="updateEvacuationCenter"><i class="bi bi-pencil-square"></i>Update</button>' .
-                        '<button class="btn-table-remove" id="removeEvacuationCenter"><i class="bi bi-trash3-fill"></i>Remove</button>' .
-                        '<select class="form-select" id="changeEvacuationStatus">' .
-                        '<option value="" disabled selected hidden>Change Status</option>' .
-                        $statusOptions . '</select></div>';
-                }
+                $statusOptions = implode('', array_map(function($status) use ($evacuation) {
+                    return $evacuation->status != $status ? '<option value="' . $status . '">' . $status . '</option>' : '';
+                }, ['Active', 'Inactive', 'Full']));
 
-                return '<span class="message-text">Currently Disabled.</span>';
+                return '<div class="action-container">' .
+                    '<button class="btn-table-update" id="updateEvacuationCenter"><i class="bi bi-pencil-square"></i>Update</button>' .
+                    '<button class="btn-table-remove" id="removeEvacuationCenter"><i class="bi bi-trash3-fill"></i>Remove</button>' .
+                    '<select class="form-select" id="changeEvacuationStatus">' .
+                    '<option value="" disabled selected hidden>Change Status</option>' .
+                    $statusOptions . '</select></div>';
             })
             ->rawColumns(['capacity', 'action'])
             ->make(true);
@@ -75,7 +73,7 @@ class EvacuationCenterController extends Controller
             'status' => 'Active'
         ]);
         $this->logActivity->generateLog('Adding new evacuation center');
-        // event(new EvacuationCenterLocator());
+        event(new EvacuationCenterLocator());
         return response()->json();
     }
 
@@ -89,7 +87,7 @@ class EvacuationCenterController extends Controller
         ]);
 
         if ($evacuationCenterValidation->fails())
-            return response(['status' => 'warning', 'message' => $evacuationCenterValidation->errors()->first()]);
+            return response(['status' => 'warning', 'message' => implode('<br>', $evacuationCenterValidation->errors()->all())]);
 
         $this->evacuationCenter->find($evacuationId)->update([
             'name' => Str::of(trim($request->name))->title(),
@@ -99,7 +97,7 @@ class EvacuationCenterController extends Controller
             'capacity' => trim($request->capacity)
         ]);
         $this->logActivity->generateLog('Updating evacuation center');
-        // event(new EvacuationCenterLocator());
+        event(new EvacuationCenterLocator());
         return response()->json();
     }
 
@@ -107,7 +105,7 @@ class EvacuationCenterController extends Controller
     {
         $this->evacuationCenter->find($evacuationId)->delete();
         $this->logActivity->generateLog('Removing evacuation center');
-        // event(new EvacuationCenterLocator());
+        event(new EvacuationCenterLocator());
         return response()->json();
     }
 
@@ -117,7 +115,7 @@ class EvacuationCenterController extends Controller
             'status' => $request->status
         ]);
         $this->logActivity->generateLog('Changing evacuation center status');
-        // event(new EvacuationCenterLocator());
+        event(new EvacuationCenterLocator());
         return response()->json();
     }
 }
