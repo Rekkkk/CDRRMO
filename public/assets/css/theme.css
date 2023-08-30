@@ -1079,7 +1079,7 @@ text {
 }
 
 .gmnoprint ul {
-    width: 88%;
+    width: 98%;
 }
 
 .ssQIHO-checkbox-menu-item label {
@@ -1770,6 +1770,11 @@ select.form-select option {
 
 .dark-mode .dropdown-menu {
     background: var(--color-d-bg-container);
+}
+
+.dark-mode #changeTheme:active #themeText,
+.dark-mode #changeTheme:active #themeIcon {
+    color: black;
 }
 
 .dark-mode .dropdown-menu a {
