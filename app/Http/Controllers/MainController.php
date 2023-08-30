@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Evacuee;
 use App\Models\Disaster;
-use App\Models\IncidentReport;
 use Illuminate\Http\Request;
+use App\Models\IncidentReport;
 use App\Models\EvacuationCenter;
 use App\Exports\EvacueeDataExport;
 use Maatwebsite\Excel\Facades\Excel;
@@ -25,28 +25,11 @@ class MainController extends Controller
 
     public function dashboard()
     {
-        $totalEvacuee = 0;
-        $disasterData = [];
+        $disasterData = $this->fetchDisasterData();
         $inactiveDisasters = $this->disaster->where('status', "Inactive")->get();
         $onGoingDisasters = $this->disaster->where('status', "On Going")->get();
         $activeEvacuation = $this->evacuationCenter->where('status', "Active")->count();
-
-        foreach ($onGoingDisasters as $disaster) {
-            $totalEvacuee += $this->evacuee->where('disaster_id', $disaster->id)->sum('individuals');
-            $result = $this->evacuee
-                ->where('disaster_id', $disaster->id)
-                ->selectRaw('SUM(male) as totalMale,
-                    SUM(female) as totalFemale,
-                    SUM(senior_citizen) as totalSeniorCitizen,
-                    SUM(minors) as totalMinors,
-                    SUM(infants) as totalInfants,
-                    SUM(pwd) as totalPwd,
-                    SUM(pregnant) as totalPregnant,
-                    SUM(lactating) as totalLactating')
-                ->first();
-
-            $disasterData[] = array_merge(['disasterName' => $disaster->name], $result->toArray());
-        }
+        $totalEvacuee = array_sum(array_column($disasterData, 'totalEvacuee'));
 
         return view('userpage.dashboard',  compact('activeEvacuation', 'disasterData', 'totalEvacuee', 'onGoingDisasters', 'inactiveDisasters'));
     }
@@ -80,5 +63,31 @@ class MainController extends Controller
     {
         $incidentReport = IncidentReport::where('status', 'Confirmed')->where('is_archive', 0)->get();
         return view('userpage.incidentReport.incidentReport', compact('incidentReport'));
+    }
+
+    public function fetchDisasterData()
+    {
+        $totalEvacuee = 0;
+        $disasterData = [];
+        $onGoingDisasters = $this->disaster->where('status', "On Going")->get();
+
+        foreach ($onGoingDisasters as $disaster) {
+            $totalEvacuee += $this->evacuee->where('disaster_id', $disaster->id)->sum('individuals');
+            $result = $this->evacuee
+                ->where('disaster_id', $disaster->id)
+                ->selectRaw('SUM(male) as totalMale,
+                    SUM(female) as totalFemale,
+                    SUM(senior_citizen) as totalSeniorCitizen,
+                    SUM(minors) as totalMinors,
+                    SUM(infants) as totalInfants,
+                    SUM(pwd) as totalPwd,
+                    SUM(pregnant) as totalPregnant,
+                    SUM(lactating) as totalLactating')
+                ->first();
+
+            $disasterData[] = array_merge(['disasterName' => $disaster->name, 'totalEvacuee' => $totalEvacuee], $result->toArray());
+        }
+
+        return request()->ajax() ? response()->json($disasterData) :  $disasterData;
     }
 }

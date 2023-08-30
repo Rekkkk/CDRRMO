@@ -63,6 +63,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/evacuee', 'manageEvacueeInformation')->name('manage.evacuee.record');
             Route::view('/manageEvacuation', 'userpage.evacuationCenter.manageEvacuation')->name('manage.evacuation');
             Route::get('/evacuationCenter', 'evacuationCenterLocator')->name('evacuation.center.locator');
+            Route::get('/fetchDisasterData', 'fetchDisasterData')->name('fetchDisasterData');
         });
 
         Route::prefix('disaster')->name('disaster.')->controller(DisasterController::class)->group(function () {
