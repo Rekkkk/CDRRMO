@@ -1774,7 +1774,7 @@ select.form-select option {
 
 .dark-mode #changeTheme:active #themeText,
 .dark-mode #changeTheme:active #themeIcon {
-    color: black;
+    color: var(--color-black);
 }
 
 .dark-mode .dropdown-menu a {
