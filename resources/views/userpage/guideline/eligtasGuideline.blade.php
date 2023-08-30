@@ -166,7 +166,7 @@
                                         url: url,
                                         type: type,
                                         success(response) {
-                                            response.status == 'warning' ? owWarningMessage(response
+                                            response.status == 'warning' ? showWarningMessage(response
                                                 .message) : (modal.modal('hide'), showSuccessMessage(
                                                 `Guideline successfully ${operation}d, Please wait...`,
                                                 true));

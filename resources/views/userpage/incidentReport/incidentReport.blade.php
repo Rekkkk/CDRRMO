@@ -174,7 +174,11 @@
                             orderable: false,
                             searchable: false
                         },
-                    ]
+                    ],
+                    columnDefs: [{
+                        targets: 5,
+                        visible: {{ auth()->user()->is_disable }} == 0 ? true : false
+                    }]
                 });
 
                 let incidentReports = $('#incidentReports').DataTable({
@@ -220,7 +224,11 @@
                             orderable: false,
                             searchable: false
                         },
-                    ]
+                    ],
+                    columnDefs: [{
+                        targets: 5,
+                        visible: {{ auth()->user()->is_disable }} == 0 ? true : false
+                    }]
                 });
 
                 @if (auth()->user()->is_disable == 0)

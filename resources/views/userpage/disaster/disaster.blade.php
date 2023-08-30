@@ -91,7 +91,11 @@
                         orderable: false,
                         searchable: false
                     },
-                ]
+                ],
+                columnDefs: [{
+                    targets: 3,
+                    visible: {{ auth()->user()->is_disable }} == 0 ? true : false
+                }]
             });
 
             @if (auth()->user()->is_disable == 0)

@@ -125,6 +125,9 @@
                         </div>
                     `;
                 }
+            }, {
+                targets: 6,
+                visible: {{ auth()->user()->is_disable }} == 0 ? true : false
             }]
         });
 
@@ -191,7 +194,7 @@
                             number: 'Please enter a valid number.'
                         }
                     },
-                    showErrors: function(errorMap, errorList) {
+                    showErrors: function() {
                         this.defaultShowErrors();
 
                         if (!marker && saveBtnClicked)
@@ -206,7 +209,7 @@
                     modalLabelContainer.removeClass('bg-warning');
                     modalLabel.text('Create Evacuation Center');
                     formButton.addClass('btn-submit').removeClass('btn-update').text('Add');
-                    operation = "create";
+                    operation = "add";
                     modal.modal('show');
                 });
 
@@ -284,10 +287,10 @@
                     if (!marker) return;
 
                     let formData = $(form).serialize();
-                    let url = operation == 'create' ? "{{ route('evacuation.center.create') }}" :
+                    let url = operation == 'add' ? "{{ route('evacuation.center.create') }}" :
                         "{{ route('evacuation.center.update', 'evacuationCenterId') }}".
                     replace('evacuationCenterId', evacuationCenterId);
-                    let type = operation == 'create' ? 'POST' : 'PUT';
+                    let type = operation == 'add' ? 'POST' : 'PUT';
 
                     confirmModal(`Do you want to ${operation} this evacuation center?`).then((result) => {
                         if (!result.isConfirmed) return;
@@ -301,7 +304,7 @@
                                 success(response) {
                                     response.status == "warning" ? showWarningMessage(response
                                         .message) : (showSuccessMessage(
-                                        `Successfully ${operation}d evacuation center.`
+                                        `Successfully ${operation == 'add' ? 'added' : operation+'d'} evacuation center.`
                                     ), evacuationCenterTable.draw(), modal.modal('hide'));
                                 },
                                 error() {
@@ -321,7 +324,9 @@
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },
                                 type: type,
-                                data: status,
+                                data: {
+                                    status
+                                },
                                 url: url,
                                 success() {
                                     showSuccessMessage(
