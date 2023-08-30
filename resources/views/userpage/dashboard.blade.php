@@ -140,120 +140,6 @@
             let onGoingDisaster = $('#on_going_disaster'),
                 inactiveDisaster = $('#inactive_disaster');
 
-            @foreach ($disasterData as $count => $disaster)
-                Highcharts.chart('evacueePie{{ $count + 1 }}', {
-                    chart: {
-                        type: 'pie'
-                    },
-                    title: {
-                        text: '{{ $disaster['disasterName'] }}'
-                    },
-                    tooltip: {
-                        pointFormat: '{series.name}: <b>{point.y}</b>'
-                    },
-                    plotOptions: {
-                        pie: {
-                            dataLabels: {
-                                enabled: true,
-                                style: {
-                                    textOutline: 'none'
-                                }
-                            }
-                        }
-                    },
-                    series: [{
-                        name: 'Evacuee',
-                        colorByPoint: true,
-                        data: [{
-                            name: 'Male',
-                            y: {{ intval($disaster['totalMale']) }},
-                            color: '#0284c7'
-                        }, {
-                            name: 'Female',
-                            y: {{ intval($disaster['totalFemale']) }},
-                            color: '#f43f5e'
-                        }]
-                    }],
-                    exporting: false,
-                    credits: {
-                        enabled: false
-                    },
-                });
-
-                Highcharts.chart('evacueeGraph{{ $count + 1 }}', {
-                    chart: {
-                        type: 'bar'
-                    },
-                    title: {
-                        text: '{{ $disaster['disasterName'] }} Statistics'
-                    },
-                    xAxis: {
-                        categories: ['SENIOR CITIZEN', 'MINORS', 'INFANTS', 'PWD', 'PREGNANT', 'LACTATING'],
-                    },
-                    yAxis: {
-                        allowDecimals: false,
-                        title: {
-                            text: 'Estimated Numbers'
-                        },
-                    },
-                    legend: {
-                        reversed: true
-                    },
-                    plotOptions: {
-                        bar: {
-                            dataLabels: {
-                                enabled: true,
-                                style: {
-                                    textOutline: 'none'
-                                }
-                            }
-                        },
-                        series: {
-                            stacking: 'normal',
-                            dataLabels: {
-                                enabled: true,
-                                formatter: function() {
-                                    if (this.y != 0) {
-                                        return this.y;
-                                    } else {
-                                        return null;
-                                    }
-                                }
-                            }
-                        }
-                    },
-                    series: [{
-                        name: 'SENIOR CITIZEN',
-                        data: [{{ intval($disaster['totalSeniorCitizen']) }}, '', '', '', '', ''],
-                        color: '#e74c3c'
-                    }, {
-                        name: 'MINORS',
-                        data: ['', {{ intval($disaster['totalMinors']) }}, '', '', '', ''],
-                        color: '#3498db'
-                    }, {
-                        name: 'INFANTS',
-                        data: ['', '', {{ intval($disaster['totalInfants']) }}, '', '', ''],
-                        color: '#2ecc71'
-                    }, {
-                        name: 'PWD',
-                        data: ['', '', '', {{ intval($disaster['totalPwd']) }}, '', ''],
-                        color: '#1abc9c'
-                    }, {
-                        name: 'PREGNANT',
-                        data: ['', '', '', '', {{ intval($disaster['totalPregnant']) }}, ''],
-                        color: '#e67e22'
-                    }, {
-                        name: 'LACTATING',
-                        data: ['', '', '', '', '', {{ intval($disaster['totalLactating']) }}],
-                        color: '#9b59b6'
-                    }],
-                    exporting: false,
-                    credits: {
-                        enabled: false
-                    },
-                });
-            @endforeach
-
             const validator = $("#generateReportForm").validate({
                 rules: {
                     select_status: 'required',
@@ -277,10 +163,136 @@
                 $('#generateReportForm')[0].reset();
             });
 
+            fetchChartData();
+
             // Echo.channel('active-evacuees').listen('ActiveEvacuees', (e) => {
             //     $("#totalEvacuee").text(e.activeEvacuees);
+            //     fetchChartData();
             // })
         });
+
+        function fetchChartData() {
+            $.ajax({
+                url: "{{ route('fetchDisasterData') }}",
+                method: 'GET',
+                dataType: 'json',
+                success(disasterData) {
+                    disasterData.forEach((disaster, count) => {
+                        fetchEvacueePieChart(disaster, count);
+                        fetchEvacueeGraph(disaster, count);
+                    });
+                },
+                error() {
+                    showErrorMessage("Unable to fetch data");
+                }
+            });
+        }
+
+        function fetchEvacueePieChart(disaster, count) {
+            Highcharts.chart(`evacueePie${count + 1}`, {
+                chart: {
+                    type: 'pie'
+                },
+                title: {
+                    text: disaster.disasterName
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.y}</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        dataLabels: {
+                            enabled: true,
+                            style: {
+                                textOutline: 'none'
+                            }
+                        }
+                    }
+                },
+                series: [{
+                    name: 'Evacuee',
+                    colorByPoint: true,
+                    data: [{
+                            name: 'Male',
+                            y: parseInt(disaster.totalMale),
+                            color: '#0284c7'
+                        },
+                        {
+                            name: 'Female',
+                            y: parseInt(disaster.totalFemale),
+                            color: '#f43f5e'
+                        }
+                    ]
+                }],
+                exporting: false,
+                credits: {
+                    enabled: false
+                },
+            });
+        }
+
+        function fetchEvacueeGraph(disaster, count) {
+            Highcharts.chart(`evacueeGraph${count + 1}`, {
+                chart: {
+                    type: 'bar'
+                },
+                title: {
+                    text: `${disaster.disasterName} Statistics`
+                },
+                xAxis: {
+                    categories: ['SENIOR CITIZEN', 'MINORS', 'INFANTS', 'PWD',
+                        'PREGNANT', 'LACTATING'
+                    ],
+                },
+                yAxis: {
+                    allowDecimals: false,
+                    title: {
+                        text: 'Estimated Numbers'
+                    },
+                },
+                legend: {
+                    reversed: true
+                },
+                plotOptions: {
+                    bar: {
+                        dataLabels: {
+                            enabled: true,
+                            style: {
+                                textOutline: 'none'
+                            }
+                        }
+                    },
+                    series: {
+                        stacking: 'normal',
+                        dataLabels: {
+                            enabled: true,
+                            formatter: function() {
+                                if (this.y != 0) {
+                                    return this.y;
+                                } else {
+                                    return null;
+                                }
+                            }
+                        }
+                    }
+                },
+                series: [{
+                        name: 'SENIOR CITIZEN',
+                        data: [parseInt(disaster.totalSeniorCitizen), 0, 0, 0, 0, 0],
+                        color: '#e74c3c'
+                    },
+                    {
+                        name: 'MINORS',
+                        data: [0, parseInt(disaster.totalMinors), 0, 0, 0, 0],
+                        color: '#3498db'
+                    },
+                ],
+                exporting: false,
+                credits: {
+                    enabled: false
+                },
+            });
+        }
     </script>
 </body>
 

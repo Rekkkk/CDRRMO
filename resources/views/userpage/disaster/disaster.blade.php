@@ -166,7 +166,9 @@
                         return result.isConfirmed == false ? $('#changeDisasterStatus').val('') :
                             $.ajax({
                                 type: 'PATCH',
-                                data: status,
+                                data: {
+                                    status: status
+                                },
                                 url: url,
                                 success() {
                                     disasterTable.draw();
