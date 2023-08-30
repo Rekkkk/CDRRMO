@@ -159,7 +159,11 @@
                             orderable: false,
                             searchable: false
                         },
-                    ]
+                    ],
+                    columnDefs: [{
+                        targets: 5,
+                        visible: {{ auth()->user()->is_disable }} == 0 ? true : false
+                    }]
                 });
 
                 @if (auth()->user()->is_disable == 0)
@@ -256,7 +260,7 @@
                     },
                 ]
             });
-            
+
             validator = $("#dangerousAreaReportForm").validate({
                 rules: {
                     report_type: 'required'

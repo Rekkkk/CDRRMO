@@ -23,13 +23,15 @@
                 <span>MANAGE EVACUEE INFORMATION</span>
             </div>
             <hr>
-            <div class="page-button-container">
-                <button id="recordEvacueeBtn" data-toggle="modal" data-target="#evacueeInfoFormModal"
-                    class="btn-submit">
-                    <i class="bi bi-person-down "></i>
-                    Record Evacuees Info
-                </button>
-            </div>
+            @if (auth()->user()->is_disable == 0)
+                <div class="page-button-container">
+                    <button id="recordEvacueeBtn" data-toggle="modal" data-target="#evacueeInfoFormModal"
+                        class="btn-submit">
+                        <i class="bi bi-person-down "></i>
+                        Record Evacuees Info
+                    </button>
+                </div>
+            @endif
             <div class="table-container">
                 <div class="table-content">
                     <header class="table-label">Evacuees Informations Table</header>
@@ -192,7 +194,11 @@
                         searchable: false,
                         width: '1rem'
                     }
-                ]
+                ],
+                columnDefs: [{
+                    targets: 14,
+                    visible: {{ auth()->user()->is_disable }} == 0 ? true : false
+                }]
             });
 
             fieldNames.forEach(fieldName => {

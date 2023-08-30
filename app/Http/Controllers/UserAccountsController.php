@@ -41,18 +41,16 @@ class UserAccountsController extends Controller
             }
                 . '">' . $account->status . '</div></div>')
             ->addColumn('action', function ($user) {
-                if (auth()->user()->is_disable == 0) {
-                    $actionBtns = '<div class="action-container"><select class="form-select actionSelect">
-                        <option value="" disabled selected hidden>Select Action</option>';
+                if (auth()->user()->is_disable == 1) return;
 
-                    $actionBtns .= $user->is_suspend == 0 && $user->is_disable == 0
-                        ? '<option value="disableAccount">Disable Account</option><option value="suspendAccount">Suspend Account</option>'
-                        : ($user->is_suspend == 1 ? '<option value="openAccount">Open Account</option>' : '<option value="enableAccount">Enable Account</option>');
+                $actionBtns = '<div class="action-container"><select class="form-select actionSelect">
+                <option value="" disabled selected hidden>Select Action</option>';
 
-                    return $actionBtns .= '<option value="updateAccount">Update Account</option><option value="removeAccount">Remove Account</option></select></div>';
-                }
+                $actionBtns .= $user->is_suspend == 0 && $user->is_disable == 0
+                    ? '<option value="disableAccount">Disable Account</option><option value="suspendAccount">Suspend Account</option>'
+                    : ($user->is_suspend == 1 ? '<option value="openAccount">Open Account</option>' : '<option value="enableAccount">Enable Account</option>');
 
-                return '<span class="message-text">Currently Disabled.</span>';
+                return $actionBtns .= '<option value="updateAccount">Update Account</option><option value="removeAccount">Remove Account</option></select></div>';
             })
             ->rawColumns(['id', 'status', 'action'])
             ->make(true);
@@ -80,12 +78,12 @@ class UserAccountsController extends Controller
             'is_suspend' =>  0
         ]);
         $this->logActivity->generateLog('Creating Account');
-        // Mail::to(trim($request->email))->send(new UserCredentialsMail([
-        //     'email' => trim($request->email),
-        //     'organization' => $request->organization,
-        //     'position' => Str::upper($request->position),
-        //     'password' => $defaultPassword
-        // ]));
+        Mail::to(trim($request->email))->send(new UserCredentialsMail([
+            'email' => trim($request->email),
+            'organization' => $request->organization,
+            'position' => Str::upper($request->position),
+            'password' => $defaultPassword
+        ]));
         return response()->json();
     }
 
@@ -108,7 +106,7 @@ class UserAccountsController extends Controller
         $this->logActivity->generateLog('Updating Account');
         return response()->json();
     }
-    
+
     public function disableAccount($userId)
     {
         $this->user->find($userId)->update([

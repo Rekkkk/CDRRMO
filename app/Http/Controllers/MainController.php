@@ -35,13 +35,13 @@ class MainController extends Controller
             $totalEvacuee += $this->evacuee->where('disaster_id', $disaster->id)->sum('individuals');
             $result = $this->evacuee
                 ->where('disaster_id', $disaster->id)
-                ->selectRaw('SUM(male) as totalMale, 
-                    SUM(female) as totalFemale, 
-                    SUM(senior_citizen) as totalSeniorCitizen, 
-                    SUM(minors) as totalMinors, 
-                    SUM(infants) as totalInfants, 
-                    SUM(pwd) as totalPwd, 
-                    SUM(pregnant) as totalPregnant, 
+                ->selectRaw('SUM(male) as totalMale,
+                    SUM(female) as totalFemale,
+                    SUM(senior_citizen) as totalSeniorCitizen,
+                    SUM(minors) as totalMinors,
+                    SUM(infants) as totalInfants,
+                    SUM(pwd) as totalPwd,
+                    SUM(pregnant) as totalPregnant,
                     SUM(lactating) as totalLactating')
                 ->first();
 
@@ -72,9 +72,8 @@ class MainController extends Controller
 
     public function evacuationCenterLocator()
     {
-        $evacuationCenters = $this->evacuationCenter->all();
         $prefix = Request()->route()->getPrefix();
-        return view('userpage.evacuationCenter.evacuationCenter', compact('evacuationCenters', 'prefix'));
+        return view('userpage.evacuationCenter.evacuationCenter', compact('prefix'));
     }
 
     public function incidentReport()

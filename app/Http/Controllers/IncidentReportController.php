@@ -42,7 +42,7 @@ class IncidentReportController extends Controller
                 return auth()->user()->is_disable == 0
                     ? '<div class="action-container"><button class="btn-table-submit" id="approveIncidentReport"><i class="bi bi-check-circle-fill"></i>Approve</button>' .
                     '<button class="btn-table-remove" id="declineIncidentReport"><i class="bi bi-x-circle-fill"></i>Decline</button></div>'
-                    : '<span class="message-text">Currently Disabled.</span>';
+                    : null;
             })
             ->addColumn('photo', fn ($report) => '<div class="photo-container">
                     <div class="image-wrapper">

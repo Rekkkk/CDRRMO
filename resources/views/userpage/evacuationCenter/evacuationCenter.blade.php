@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
-    {{-- @vite(['resources/js/app.js']) --}}
+    @vite(['resources/js/app.js'])
 </head>
 
 <body>
@@ -375,9 +375,6 @@
                     newLatLng(latitude, longitude)),
                 function(response, status) {
                     if (status == 'OK' && locating) {
-                        directionDisplay.setMap(map);
-                        directionDisplay.setDirections(response);
-
                         setMarker(response.routes[0].legs[0].start_location);
                         generateInfoWindow(userMarker,
                             `<div class="info-window-container">
@@ -388,7 +385,10 @@
                              </div>`
                         );
 
+                        console.log('locating');
+
                         if ($('.stop-btn-container').is(':hidden')) {
+                            directionDisplay.setMap(map);
                             scrollToMap();
                             var bounds = new google.maps.LatLngBounds();
                             response.routes[0].legs.forEach(({
@@ -404,6 +404,8 @@
                             $('.stop-btn-container').show();
                             scrollMarkers();
                         }
+
+                        directionDisplay.setDirections(response);
                     }
                 }
             );
@@ -417,7 +419,7 @@
                 ordering: false,
                 responsive: true,
                 processing: false,
-                serverSide: true,
+                serverSide: false,
                 ajax: '{{ $prefix }}' == 'resident' ?
                     "{{ route('resident.evacuation.center.get', 'locator') }}" :
                     "{{ route('evacuation.center.get', 'locator') }}",
@@ -475,7 +477,7 @@
                 }],
                 drawCallback: function() {
                     if (!this.api().search()) {
-                        evacuationCentersData = this.api().ajax.json().data;
+                        evacuationCentersData = this.api().rows().data().toArray();
                         if (!geolocationBlocked) getEvacuationCentersDistance();
                         initMarkers(evacuationCentersData);
                     }
@@ -533,7 +535,7 @@
                     findNearestActive = $(this).hasClass('locateEvacuationCenter') ? false : true;
                     locateEvacuationCenter();
                     if (geolocationBlocked || (findNearestActive && !hasActiveEvacuationCenter)) return;
-                    intervalId = setInterval(locateEvacuationCenter, 10000);
+                    intervalId = setInterval(locateEvacuationCenter, 5000);
                 }
             });
 
@@ -550,12 +552,13 @@
                 $('#user-marker').prop('hidden', true);
             });
 
-            // Echo.channel('evacuation-center-locator').listen('EvacuationCenterLocator', (e) => {
-            //     evacuationCenterTable.search() ?
-            //         ($('.dataTables_filter input').val(''),
-            //             evacuationCenterTable.search('').draw()) :
-            //         evacuationCenterTable.draw();
-            // });
+            Echo.channel('evacuation-center-locator').listen('EvacuationCenterLocator', (e) => {
+                if (evacuationCenterTable.search()) {
+                    $('.dataTables_filter input').val('');
+                    evacuationCenterTable.search('');
+                }
+                evacuationCenterTable.ajax.reload();
+            });
         });
     </script>
 </body>

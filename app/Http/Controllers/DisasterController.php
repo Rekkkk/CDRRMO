@@ -26,23 +26,21 @@ class DisasterController extends Controller
 
         return DataTables::of($disasterInformation)
             ->addIndexColumn()
-            ->addColumn('status', fn ($disaster) => '<div class="status-container"><div class="status-content bg-' . match ($disaster->status) {
+            ->addColumn('status', fn($disaster) => '<div class="status-container"><div class="status-content bg-' . match ($disaster->status) {
                 'On Going' => 'success',
                 'Inactive' => 'danger'
             }
                 . '">' . $disaster->status . '</div></div>')
-            ->addColumn('action', function ($disaster) {
-                if (auth()->user()->is_disable == 0) {
-                    $statusOptions = $disaster->status == 'On Going' ? '<option value="Inactive">Inactive</option>' : '<option value="On Going">On Going</option>';
+            ->addColumn('action', function($disaster) {
+                if (auth()->user()->is_disable == 1) return;
 
-                    return '<div class="action-container">' .
-                        '<button class="btn-table-update" id="updateDisaster"><i class="bi bi-pencil-square"></i>Update</button>' .
-                        '<button class="btn-table-remove" id="removeDisaster"><i class="bi bi-trash3-fill"></i>Remove</button>' .
-                        '<select class="form-select" id="changeDisasterStatus">' .
-                        '<option value="" disabled selected hidden>Change Status</option>' . $statusOptions . '</select></div>';
-                }
+                $statusOptions = $disaster->status == 'On Going' ? '<option value="Inactive">Inactive</option>' : '<option value="On Going">On Going</option>';
 
-                return '<span class="message-text">Currently Disabled.</span>';
+                return '<div class="action-container">' .
+                    '<button class="btn-table-update" id="updateDisaster"><i class="bi bi-pencil-square"></i>Update</button>' .
+                    '<button class="btn-table-remove" id="removeDisaster"><i class="bi bi-trash3-fill"></i>Remove</button>' .
+                    '<select class="form-select" id="changeDisasterStatus">' .
+                    '<option value="" disabled selected hidden>Change Status</option>' . $statusOptions . '</select></div>';
             })
             ->rawColumns(['status', 'action'])
             ->make(true);
