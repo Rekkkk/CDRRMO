@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css" />
     <link rel="stylesheet" href="https://cdn.datatables.net/1.13.4/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="https://cdn.datatables.net/responsive/2.4.1/css/responsive.dataTables.min.css">
-    @vite(['resources/js/app.js'])
+    {{-- @vite(['resources/js/app.js']) --}}
 </head>
 
 <body>
@@ -385,8 +385,6 @@
                              </div>`
                         );
 
-                        console.log('locating');
-
                         if ($('.stop-btn-container').is(':hidden')) {
                             directionDisplay.setMap(map);
                             scrollToMap();
@@ -552,13 +550,13 @@
                 $('#user-marker').prop('hidden', true);
             });
 
-            Echo.channel('evacuation-center-locator').listen('EvacuationCenterLocator', (e) => {
-                if (evacuationCenterTable.search()) {
-                    $('.dataTables_filter input').val('');
-                    evacuationCenterTable.search('');
-                }
-                evacuationCenterTable.ajax.reload();
-            });
+            // Echo.channel('evacuation-center-locator').listen('EvacuationCenterLocator', (e) => {
+            //     if (evacuationCenterTable.search()) {
+            //         $('.dataTables_filter input').val('');
+            //         evacuationCenterTable.search('');
+            //     }
+            //     evacuationCenterTable.ajax.reload();
+            // });
         });
     </script>
 </body>
