@@ -240,36 +240,38 @@
                         alterIncidentReport('decline', getRowData(this, pendingReport).id);
                     });
 
-                    $(document).on('click', '#removeIncidentReport', function() {
+                    $(document).on('click', '#archiveIncidentReport', function() {
                         alterIncidentReport('remove', getRowData(this, incidentReports).id);
                     });
 
                     function alterIncidentReport(operation, reportId) {
-                        confirmModal(`Do you want to ${operation} this report?`).then((result) => {
-                            if (!result.isConfirmed) return;
+                        confirmModal(`Do you want to ${operation == 'remove' ? 'archive' : operation} this report?`)
+                            .then((result) => {
+                                if (!result.isConfirmed) return;
 
-                            let url = operation == 'approve' ? "{{ route('report.approve', 'reportId') }}"
-                                .replace('reportId', reportId) : operation == 'decline' ?
-                                "{{ route('report.decline', 'reportId') }}".replace('reportId',
-                                    reportId) : "{{ route('report.remove', 'reportId') }}".replace(
-                                    'reportId', reportId);
-                            let type = operation == 'approve' ? "POST" : operation == 'decline' ? "DELETE" :
-                                "PATCH";
+                                let url = operation == 'approve' ? "{{ route('report.approve', 'reportId') }}"
+                                    .replace('reportId', reportId) : operation == 'decline' ?
+                                    "{{ route('report.decline', 'reportId') }}".replace('reportId',
+                                        reportId) : "{{ route('report.remove', 'reportId') }}".replace(
+                                        'reportId', reportId);
+                                let type = operation == 'approve' ? "POST" : operation == 'decline' ? "DELETE" :
+                                    "PATCH";
 
-                            $.ajax({
-                                type: type,
-                                url: url,
-                                success() {
-                                    showSuccessMessage(
-                                        `Incident report successfully ${operation}d.`);
-                                    pendingReport.draw();
-                                    incidentReports.draw();
-                                },
-                                error() {
-                                    showErrorMessage();
-                                }
+                                $.ajax({
+                                    type: type,
+                                    url: url,
+                                    success() {
+                                        showSuccessMessage(
+                                            `Incident report successfully ${operation == 'remove' ? 'archive' : operation}d.`
+                                        );
+                                        pendingReport.draw();
+                                        incidentReports.draw();
+                                    },
+                                    error() {
+                                        showErrorMessage(); 
+                                    }
+                                });
                             });
-                        });
                     }
                 @endif
             @endauth

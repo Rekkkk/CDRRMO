@@ -167,45 +167,47 @@
                 });
 
                 @if (auth()->user()->is_disable == 0)
-                    $(document).on('click', '.confirmDangerAreaReport', function() {
+                    $(document).on('click', '#confirmDangerAreaReport', function() {
                         alterIncidentReport('confirm', getRowData(this, dangerousAreasReports).id);
                     });
 
-                    $(document).on('click', '.rejectDangerAreaReport', function() {
+                    $(document).on('click', '#rejectDangerAreaReport', function() {
                         alterIncidentReport('reject', getRowData(this, dangerousAreasReports).id);
                     });
 
-                    $(document).on('click', '.removeDangerAreaReport', function() {
+                    $(document).on('click', '#archiveDangerAreaReport', function() {
                         alterIncidentReport('remove', getRowData(this, dangerousAreasReports).id);
                     });
 
                     function alterIncidentReport(operation, dangerAreaId) {
-                        confirmModal(`Do you want to ${operation} this report?`).then((result) => {
-                            if (result.isConfirmed) {
-                                let url = operation == 'confirm' ?
-                                    "{{ route('report.dangerous.areas.confirm', 'dangerAreaId') }}"
-                                    .replace('dangerAreaId', dangerAreaId) : operation == 'reject' ?
-                                    "{{ route('report.dangerous.areas.reject', 'dangerAreaId') }}".replace(
-                                        'dangerAreaId', dangerAreaId) :
-                                    "{{ route('report.dangerous.areas.remove', 'dangerAreaId') }}".replace(
-                                        'dangerAreaId', dangerAreaId);
-                                let type = operation == 'confirm' ? "POST" : operation == "reject" ? "DELETE" :
-                                    "PATCH";
+                        confirmModal(`Do you want to ${operation == 'remove' ? 'archive' : operation} this report?`)
+                            .then((result) => {
+                                if (result.isConfirmed) {
+                                    let url = operation == 'confirm' ?
+                                        "{{ route('report.dangerous.areas.confirm', 'dangerAreaId') }}"
+                                        .replace('dangerAreaId', dangerAreaId) : operation == 'reject' ?
+                                        "{{ route('report.dangerous.areas.reject', 'dangerAreaId') }}".replace(
+                                            'dangerAreaId', dangerAreaId) :
+                                        "{{ route('report.dangerous.areas.archive', 'dangerAreaId') }}".replace(
+                                            'dangerAreaId', dangerAreaId);
+                                    let type = operation == 'confirm' ? "POST" : operation == "reject" ? "DELETE" :
+                                        "PATCH";
 
-                                $.ajax({
-                                    type: type,
-                                    url: url,
-                                    success() {
-                                        showSuccessMessage(
-                                            `Danger area successfully ${operation}ed.`);
-                                        dangerousAreasReports.draw();
-                                    },
-                                    error() {
-                                        showErrorMessage();
-                                    }
-                                });
-                            }
-                        });
+                                    $.ajax({
+                                        type: type,
+                                        url: url,
+                                        success() {
+                                            showSuccessMessage(
+                                                `Danger area successfully ${operation == 'remove' ? 'archiv' : operation}ed.`
+                                            );
+                                            dangerousAreasReports.draw();
+                                        },
+                                        error() {
+                                            showErrorMessage();
+                                        }
+                                    });
+                                }
+                            });
                     }
                 @endif
             @endauth
