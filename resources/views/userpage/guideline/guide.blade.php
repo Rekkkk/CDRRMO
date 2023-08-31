@@ -20,22 +20,13 @@
                 <span>GUIDES</span>
             </div>
             <hr>
-            <div class="guide-btn">
-                @if (auth()->check() && auth()->user()->is_disable == 0)
-                    <button class="btn-submit" id="createGuideBtn">
-                        <i class="bi bi-plus-lg mr-2"></i> Create Guide
-                    </button>
-                    <input type="text" class="guidelineId" value="{{ $guidelineId }}" hidden>
-                    @include('userpage.guideline.guideModal')
-                @endif
-            </div>
             <div class="swiper guide-section">
                 <div class="swiper-wrapper">
                     @foreach ($guide as $guide)
                         <div class="swiper-slide">
                             <div class="guide-content">
                                 <div class="guide-header">
-                                    <img src="{{ asset('assets/img/CDRRMO-LOGO.png') }}">
+                                    <img src="{{ asset("guide_photo/$guide->guide_photo") }}">
                                 </div>
                                 <div class="guide-details">
                                     <h1>{{ $guide->label }}</h1>
@@ -114,14 +105,6 @@
                         submitHandler: guideFormHandler
                     });
 
-                    $(document).on('click', '#createGuideBtn', () => {
-                        operation = "create";
-                        modalLabelContainer.removeClass('bg-warning');
-                        modalLabel.text('Create Guide');
-                        formButton.addClass('btn-submit').removeClass('btn-update').text('Create');
-                        modal.modal('show');
-                    });
-
                     $(document).on('click', '#updateGuideBtn', function() {
                         guideWidget = $(this).closest('.swiper-slide');
                         guideContent = guideWidget.find('.guide-content');
@@ -167,10 +150,6 @@
 
                     function guideFormHandler(form) {
                         let formData = $(form).serialize();
-                        let url = operation == 'create' ? "{{ route('guide.create', 'guidelineId') }}".replace(
-                            'guidelineId', guidelineId) : "{{ route('guide.update', 'guideId') }}".replace(
-                            'guideId', guideId);
-                        let type = operation == 'create' ? "POST" : "PUT";
 
                         confirmModal(`Do you want to ${operation} this guide?`).then((result) => {
                             if (!result.isConfirmed) return;
@@ -179,8 +158,8 @@
                                     'No changes were made.') :
                                 $.ajax({
                                     data: formData,
-                                    url: url,
-                                    type: type,
+                                    url: "{{ route('guide.update', 'guideId') }}".replace('guideId', guideId),
+                                    type: "PUT",
                                     success(response) {
                                         return response.status == 'warning' ? showWarningMessage(response
                                             .message) : (showSuccessMessage(

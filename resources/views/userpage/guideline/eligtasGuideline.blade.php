@@ -84,11 +84,12 @@
         @if (auth()->user()->is_disable == 0)
             <script>
                 $(document).ready(() => {
-                    let guidelineId, guidelineWidget, guidelineItem, defaultFormData, operation,
+                    let guidelineId, guidelineWidget, guidelineItem, defaultFormData, operation, guideField = 0,
                         modal = $('#guidelineModal'),
                         modalLabel = $('.modal-label'),
                         modalLabelContainer = $('.modal-label-container'),
                         formButton = $('#submitGuidelineBtn');
+                    const guideContentFields = document.getElementById("guideContentFields");
 
                     const validator = $("#guidelineForm").validate({
                         rules: {
@@ -150,21 +151,68 @@
                         });
                     });
 
+                    $(document).on('click', '#addGuideInput', function() {
+                        const newGuideInputField = document.createElement("div");
+                        newGuideInputField.classList.add("guide-field");
+                        newGuideInputField.innerHTML = `
+                        <div class="image-container">
+                            <img src="{{ asset('assets/img/e-ligtas-logo.png') }}" alt="Profile"
+                                class="myProfile" id="image_preview_container${guideField}">
+                                <span>
+                                    <input type="file" name="guidePhoto[]" id="guidePhoto${guideField}" class="form-control guidePhoto">
+                                </span>
+                            </div>
+                            <div class="guide-field-container">
+                                <div class="field-container">
+                                    <label>Guide Description</label>
+                                    <input type="text" name="label[]" class="form-control" autocomplete="off"
+                                        placeholder="Enter Guide Description">
+                                </div>
+                                <div class="field-container">
+                                    <label>Guide Content</label>
+                                    <textarea name="content[]" class="form-control" autocomplete="off" placeholder="Enter Guide Content" rows="7"></textarea>
+                                </div>
+                                <a href="javascript:void(0)" id="removeGuideField"><i class="bi bi-trash3-fill"></i>Remove</a>
+                            </div>
+                        </div>
+                        `;
+                        guideContentFields.appendChild(newGuideInputField);
+                        guideField++;
+                    });
+
+                    $(document).on('change', '.guidePhoto', function() {
+                        let reader = new FileReader();
+                        let guideField = $(this).attr('id').replace('guidePhoto', '');
+
+                        reader.onload = (e) => {
+                            $(`#image_preview_container${guideField}`).attr('src', e.target.result);
+                        }
+                        reader.readAsDataURL(this.files[0]);
+                    });
+
+                    $(document).on('click', '#removeGuideField', function() {
+                        $(this).closest('.guide-field').remove();
+                        guideField--;
+                    });
+
                     function formSubmitHandler(form) {
-                        let formData = $(form).serialize();
+                        var formData = new FormData(form);
                         let url = operation == 'create' ? "{{ route('guideline.create') }}" :
                             "{{ route('guideline.update', 'guidelineId') }}".replace('guidelineId',
                                 guidelineId);
-                        let type = operation == 'create' ? "POST" : "PUT";
 
                         confirmModal(`Do you want to ${operation} this guideline?`).then((result) => {
                             if (result.isConfirmed) {
-                                return operation == 'update' && defaultFormData == formData ? showWarningMessage(
+                                return operation == 'update' && defaultFormData == formData ?
+                                    showWarningMessage(
                                         'No changes were made.') :
                                     $.ajax({
                                         data: formData,
                                         url: url,
-                                        type: type,
+                                        type: "POST",
+                                        cache: false,
+                                        contentType: false,
+                                        processData: false,
                                         success(response) {
                                             response.status == 'warning' ? showWarningMessage(response
                                                 .message) : (modal.modal('hide'), showSuccessMessage(
@@ -177,10 +225,13 @@
                                     });
                             }
                         });
+
                     }
 
                     modal.on('hidden.bs.modal', () => {
                         validator.resetForm();
+                        guideField = 0;
+                        guideContentFields.innerHTML = '';
                         $('#guidelineForm')[0].reset();
                     });
                 });
