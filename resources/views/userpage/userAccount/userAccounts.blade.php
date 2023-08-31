@@ -208,16 +208,16 @@
                             modal.modal('show');
                             break;
 
-                        case 'removeAccount':
-                            confirmModal('Do you want to remove this user account?').then((result) => {
+                        case 'archiveAccount':
+                            confirmModal('Do you want to archive this user account?').then((result) => {
                                 if (result.isConfirmed) {
                                     $.ajax({
-                                        type: "DELETE",
-                                        url: "{{ route('account.remove', 'userId') }}"
+                                        type: "PATCH",
+                                        url: "{{ route('account.archive', 'userId') }}"
                                             .replace('userId', userId),
                                         success() {
                                             showSuccessMessage(
-                                                'Successfully removed account.');
+                                                'Successfully archive account.');
                                             accountTable.draw();
                                         },
                                         error() {
