@@ -67,7 +67,7 @@ class IncidentReportController extends Controller
                 'Declined' => 'danger'
             }
                 . '">' . $report->status . '</div></div>')
-            ->addColumn('action', fn () => auth()->user()->is_disable == 0 ? '<button class="btn-table-remove" id="removeIncidentReport"><i class="bi bi-trash3-fill"></i>Remove</button>' :
+            ->addColumn('action', fn () => auth()->user()->is_disable == 0 ? '<button class="btn-table-remove" id="archiveIncidentReport"><i class="bi bi-trash3-fill"></i>Archive</button>' :
                 '<span class="message-text">Currently Disabled.</span>')
             ->addColumn('photo', fn ($report) => '<div class="photo-container">
                     <div class="image-wrapper">
@@ -194,12 +194,13 @@ class IncidentReportController extends Controller
         return response()->json();
     }
 
-    public function removeIncidentReport($reportId)
+    public function archiveIncidentReport($reportId)
     {
         $this->incidentReport->find($reportId)->update([
-            'is_archive' => 1
+            'is_archive' => 1,
+            'status' => 'Archived'
         ]);
-        $this->logActivity->generateLog('Removing Incident Report');
+        $this->logActivity->generateLog('Archiving Incident Report');
         //event(new IncidentReportEvent());
         return response()->json();
     }
@@ -232,9 +233,9 @@ class IncidentReportController extends Controller
                 } elseif (auth()->user()->is_disable == 0) {
                     return '<div class="action-container">' .
                         ($dangerousAreas->status == "Confirmed"
-                            ? '<button class="btn-table-remove removeDangerAreaReport"><i class="bi bi-trash3-fill"></i>Remove</button>'
-                            : '<button class="btn-table-submit confirmDangerAreaReport"><i class="bi bi-check-circle-fill"></i>Confirm</button>' .
-                            '<button class="btn-table-remove rejectDangerAreaReport"><i class="bi bi-x-circle-fill"></i>Reject</button>') .
+                            ? '<button class="btn-table-remove" id="archiveDangerAreaReport"><i class="bi bi-trash3-fill"></i>Archive</button>'
+                            : '<button class="btn-table-submit" id="confirmDangerAreaReport"><i class="bi bi-check-circle-fill"></i>Confirm</button>' .
+                            '<button class="btn-table-remove" id="rejectDangerAreaReport"><i class="bi bi-x-circle-fill"></i>Reject</button>') .
                         '</div>';
                 } else {
                     return '<span class="message-text">Currently Disabled.</span>';
@@ -342,10 +343,10 @@ class IncidentReportController extends Controller
         return response()->json();
     }
 
-    public function removeDangerAreaReport($dangerAreaId)
+    public function archiveDangerAreaReport($dangerAreaId)
     {
-        $this->reportEvent->removeDangerAreaReport($dangerAreaId);
-        $this->logActivity->generateLog('Removing Dangerous Area Report');
+        $this->reportEvent->archiveDangerAreaReport($dangerAreaId);
+        $this->logActivity->generateLog('Archiving Dangerous Area Report');
         //event(new IncidentReportEvent());
         return response()->json();
     }

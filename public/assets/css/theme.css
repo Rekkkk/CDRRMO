@@ -47,7 +47,7 @@
 }
 
 ::-webkit-scrollbar-thumb {
-    background: #64748b;
+    background: var(--color-d-bg-container);
 }
 
 ::-webkit-scrollbar-thumb:hover {
@@ -200,6 +200,7 @@
     justify-content: space-between;
     align-items: center;
     height: 100%;
+    padding: 0 15px;
 }
 
 #changeTheme {
@@ -226,26 +227,27 @@
 
 .dropdown-item {
     border-radius: 2px;
+    padding: 0.25rem 1.5rem;
 }
 
 .dropdown-item:hover {
-    background: #e5e7eb;
+    background: var(--color-text);
 }
 
 .dropdown-menu .changePasswordBtn:active {
-    background: #2563eb;
+    background: var(--color-primary);
 }
 
 .dropdown-menu #changeTheme:active {
-    background: #facc15;
+    background: var(--color-yellow);
 }
 
 .dropdown-menu .myProfile:active {
-    background: #16a34a;
+    background: var(--color-green);
 }
 
 .dropdown-menu .logout:active {
-    background: #dc2626;
+    background: var(--color-red);
 }
 
 .main-content {
@@ -1024,6 +1026,7 @@ text {
 
 .locator-content {
     border-top: 0.375rem;
+    margin-bottom: 10px;
 }
 
 .locator-header {
