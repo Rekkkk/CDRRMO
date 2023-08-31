@@ -63,14 +63,13 @@ Route::middleware('auth')->group(function () {
             Route::get('/evacuee', 'manageEvacueeInformation')->name('manage.evacuee.record');
             Route::view('/manageEvacuation', 'userpage.evacuationCenter.manageEvacuation')->name('manage.evacuation');
             Route::get('/evacuationCenter', 'evacuationCenterLocator')->name('evacuation.center.locator');
-            Route::get('/fetchDisasterData', 'fetchDisasterData')->name('fetchDisasterData');
         });
 
         Route::prefix('disaster')->name('disaster.')->controller(DisasterController::class)->group(function () {
             Route::get('/disasterInformation', 'displayDisasterInformation')->name('display');
             Route::post('/createDisasterData', 'createDisasterData')->name('create');
             Route::patch('/updateDisaster/{disasterId}', 'updateDisasterData')->name('update');
-            Route::patch('/removeDisaster/{disasterId}', 'removeDisasterData')->name('remove');
+            Route::patch('/archiveDisasterData/{disasterId}', 'removeDisasterData')->name('archive');
             Route::patch('/changeDisasterStatus/{disasterId}', 'changeDisasterStatus')->name('change.status');
         });
 
@@ -94,7 +93,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/displayDangerousAreasReport', 'displayDangerousAreasReport')->name('cswd');
             Route::post('/confirmDangerAreaReport/{dangerAreaId}', 'confirmDangerAreaReport')->name('confirm');
             Route::delete('/rejectDangerAreaReport/{dangerAreaId}', 'rejectDangerAreaReport')->name('reject');
-            Route::patch('/removeDangerAreaReport/{dangerAreaId}', 'removeDangerAreaReport')->name('remove');
+            Route::patch('/archiveDangerAreaReport/{dangerAreaId}', 'archiveDangerAreaReport')->name('archive');
         });
     });
 
@@ -108,7 +107,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/displayIncidentReport', 'displayIncidentReport')->name('accident');
             Route::post('/approveIncidentReport/{reportId}', 'approveIncidentReport')->name('approve');
             Route::delete('/declineIncidentReport/{reportId}', 'declineIncidentReport')->name('decline');
-            Route::patch('/removeIncidentReport/{reportId}', 'removeIncidentReport')->name('remove');
+            Route::patch('/archiveIncidentReport/{reportId}', 'archiveIncidentReport')->name('remove');
         });
     });
 
@@ -133,6 +132,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/incidentReport', 'incidentReport')->name('display.incident.report');
         Route::view('/hotlineNumber', 'userpage.hotlineNumbers')->name('hotline.number');
         Route::view('/about', 'userpage.about')->name('about');
+        Route::get('/fetchDisasterData', 'fetchDisasterData')->name('fetchDisasterData');
     });
 
     Route::name('account.')->controller(UserAccountsController::class)->group(function () {

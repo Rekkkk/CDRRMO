@@ -145,8 +145,8 @@
                     defaultFormData = $('#disasterForm').serialize();
                 });
 
-                $(document).on('click', '#removeDisaster', function() {
-                    alterDisasterData('remove', "{{ route('disaster.remove', 'disasterId') }}".replace(
+                $(document).on('click', '#archiveDisaster', function() {
+                    alterDisasterData('remove', "{{ route('disaster.archive', 'disasterId') }}".replace(
                         'disasterId', getRowData(this, disasterTable).id));
                 });
 
@@ -162,23 +162,25 @@
                 });
 
                 function alterDisasterData(operation, url) {
-                    confirmModal(`Do you want to ${operation} this disaster?`).then((result) => {
-                        return result.isConfirmed == false ? $('#changeDisasterStatus').val('') :
-                            $.ajax({
-                                type: 'PATCH',
-                                data: {
-                                    status: status
-                                },
-                                url: url,
-                                success() {
-                                    disasterTable.draw();
-                                    showSuccessMessage(`Disaster successfully ${operation}d.`);
-                                },
-                                error() {
-                                    showErrorMessage();
-                                }
-                            });
-                    });
+                    confirmModal(`Do you want to ${operation == 'remove' ? 'archive' : 'change'} this disaster?`)
+                        .then((
+                            result) => {
+                            return !result.isConfirmed ? $('#changeDisasterStatus').val('') :
+                                $.ajax({
+                                    type: 'PATCH',
+                                    data: {
+                                        status: status
+                                    },
+                                    url: url,
+                                    success() {
+                                        disasterTable.draw();
+                                        showSuccessMessage(`Disaster successfully ${operation}d.`);
+                                    },
+                                    error() {
+                                        showErrorMessage();
+                                    }
+                                });
+                        });
                 }
 
                 function disasterFormHandler(form) {

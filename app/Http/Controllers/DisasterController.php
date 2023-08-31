@@ -38,7 +38,7 @@ class DisasterController extends Controller
 
                 return '<div class="action-container">' .
                     '<button class="btn-table-update" id="updateDisaster"><i class="bi bi-pencil-square"></i>Update</button>' .
-                    '<button class="btn-table-remove" id="removeDisaster"><i class="bi bi-trash3-fill"></i>Remove</button>' .
+                    '<button class="btn-table-remove" id="archiveDisaster"><i class="bi bi-trash3-fill"></i>Archive</button>' .
                     '<select class="form-select" id="changeDisasterStatus">' .
                     '<option value="" disabled selected hidden>Change Status</option>' . $statusOptions . '</select></div>';
             })
@@ -80,13 +80,13 @@ class DisasterController extends Controller
         return response()->json();
     }
 
-    public function removeDisasterData($disasterId)
+    public function archiveDisasterData($disasterId)
     {
         $this->disaster->find($disasterId)->update([
             'status' => 'Archived',
             'is_archive' => 1
         ]);
-        $this->logActivity->generateLog('Removing Disaster Data');
+        $this->logActivity->generateLog('Archiving Disaster Data');
         return response()->json();
     }
 

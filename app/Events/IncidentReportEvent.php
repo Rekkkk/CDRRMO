@@ -54,7 +54,7 @@ class IncidentReportEvent implements ShouldBroadcast
         ]);
     }
 
-    function removeDangerAreaReport($dangerAreaId)
+    function archiveDangerAreaReport($dangerAreaId)
     {
         $this->incidentReport = new IncidentReport;
         $this->incidentReport->find($dangerAreaId)->update([
