@@ -231,7 +231,7 @@
 }
 
 .dropdown-item:hover {
-    background: #cbd5e1 !important;
+    background: #cbd5e1;
 }
 
 .dropdown-menu .changePasswordBtn:active {
@@ -1848,7 +1848,7 @@ select.form-select option {
 }
 
 .dark-mode .dropdown-item:hover {
-    background: var(--color-d-background) !important;
+    background: var(--color-d-background);
 }
 
 .dark-mode .dropdown-item:focus {
