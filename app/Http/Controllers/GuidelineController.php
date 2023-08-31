@@ -43,34 +43,81 @@ class GuidelineController extends Controller
     public function createGuideline(Request $request)
     {
         $guidelineValidation = Validator::make($request->all(), [
-            'type' => 'required|unique:guideline,type'
+            'type' => 'required|unique:guideline,type',
+            'label.*' => 'required',
+            'content.*' => 'required'
         ]);
 
         if ($guidelineValidation->fails())
             return response(['status' => 'warning', 'message' => $guidelineValidation->errors()->first()]);
 
-        $this->guideline->create([
+        $guideline = $this->guideline->create([
             'type' => Str::lower(trim("$request->type guideline")),
             'organization' => auth()->user()->organization,
             'is_archive' => 0
         ]);
         $this->logActivity->generateLog('Registering Guideline');
+
+        $labels = $request->input('label');
+        $contents = $request->input('content');
+        $guidePhotos = $request->file('guidePhoto');
+
+        foreach ($labels as $count => $label) {
+            $guide = $this->guide->create([
+                'label' => $label,
+                'content' => $contents[$count],
+                'guideline_id' => $guideline->id,
+                'is_archive' => 0
+            ]);
+
+            if (isset($guidePhotos[$count])) {
+                $reportPhotoPath =  $guidePhotos[$count]->store();
+                $guidePhotos[$count]->move(public_path('guide_photo'), $reportPhotoPath);
+                $guide->guide_photo = $reportPhotoPath;
+                $guide->save();
+            }
+        }
+
         return response()->json();
     }
 
     public function updateGuideline(Request $request, $guidelineId)
     {
         $guidelineValidation = Validator::make($request->all(), [
-            'type' => 'required|unique:guideline,type'
+            'type' => 'required',
+            'label.*' => 'required',
+            'content.*' => 'required'
         ]);
 
         if ($guidelineValidation->fails())
             return response(['status' => 'warning', 'message' => $guidelineValidation->errors()->first()]);
 
-        $this->guideline->find(Crypt::decryptString($guidelineId))->update([
+        $guidelineId = Crypt::decryptString($guidelineId);
+        $this->guideline->find($guidelineId)->update([
             'type' => Str::lower(trim($request->type))
         ]);
         $this->logActivity->generateLog('Updating Guideline');
+
+        $labels = $request->input('label');
+        $contents = $request->input('content');
+        $guidePhotos = $request->file('guidePhoto');
+
+        foreach ($labels as $count => $label) {
+            $guide = $this->guide->create([
+                'label' => $label,
+                'content' => $contents[$count],
+                'guideline_id' => $guidelineId,
+                'is_archive' => 0
+            ]);
+
+            if (isset($guidePhotos[$count])) {
+                $reportPhotoPath =  $guidePhotos[$count]->store();
+                $guidePhotos[$count]->move(public_path('guide_photo'), $reportPhotoPath);
+                $guide->guide_photo = $reportPhotoPath;
+                $guide->save();
+            }
+        }
+
         return response()->json();
     }
 
@@ -89,24 +136,24 @@ class GuidelineController extends Controller
         return view('userpage.guideline.guide', compact('guide', 'guidelineId'));
     }
 
-    public function createGuide(Request $request, $guidelineId)
-    {
-        $guideValidation = Validator::make($request->all(), [
-            'label' => 'required|unique:guide,label'
-        ]);
+    // public function createGuide(Request $request, $guidelineId)
+    // {
+    //     $guideValidation = Validator::make($request->all(), [
+    //         'label' => 'required|unique:guide,label'
+    //     ]);
 
-        if ($guideValidation->fails())
-            return response(['status' => 'warning', 'message' => $guideValidation->errors()->first()]);
+    //     if ($guideValidation->fails())
+    //         return response(['status' => 'warning', 'message' => $guideValidation->errors()->first()]);
 
-        $this->guide->create([
-            'label' => Str::of(trim($request->label))->title(),
-            'content' => Str::ucFirst(trim($request->content)),
-            'guideline_id' => Crypt::decryptString($guidelineId),
-            'is_archive' => 0
-        ]);
-        $this->logActivity->generateLog('Creating Guide');
-        return response()->json();
-    }
+    //     $this->guide->create([
+    //         'label' => Str::of(trim($request->label))->title(),
+    //         'content' => Str::ucFirst(trim($request->content)),
+    //         'guideline_id' => Crypt::decryptString($guidelineId),
+    //         'is_archive' => 0
+    //     ]);
+    //     $this->logActivity->generateLog('Creating Guide');
+    //     return response()->json();
+    // }
 
     public function updateGuide(Request $request, $guideId)
     {

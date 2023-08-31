@@ -13,6 +13,7 @@ return new class extends Migration
             $table->string('label');
             $table->longText('content');
             $table->foreignId('guideline_id')->references('id')->on('guideline')->cascadeOnDelete()->cascadeOnUpdate();
+            $table->string('guide_photo')->nullable();
             $table->boolean('is_archive');
         });
     }

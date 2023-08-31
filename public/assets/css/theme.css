@@ -934,6 +934,66 @@ text {
     border-radius: 4px;
 }
 
+.image-container {
+    padding: 23px 0;
+}
+
+.myProfile {
+    width: 200px;
+    height: 200px;
+}
+
+#guidelineForm .field-container .guide-field {
+    display: flex;
+}
+
+#removeGuideField {
+    background: var(--color-red);
+    border-radius: 4px;
+    color: var(--color-text);
+    padding: 10px 0;
+}
+
+#removeGuideField i {
+    margin-right: 5px;
+}
+
+.guide-field {
+    padding: 20px 0;
+}
+
+.guide-field-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.appendInput {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.appendInput a {
+    width: 100px;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.appendInput a i {
+    color: var(--color-black);
+    font-size: 16px;
+}
+
+.profile-container .field-container label {
+    text-align: center;
+}
+
+.profile-container .field-container {
+    margin: auto 0;
+}
+
 .guideline-content img {
     width: 100%;
 }
@@ -999,7 +1059,9 @@ text {
 }
 
 .guide-header img {
+    object-fit: fill;
     width: 250px;
+    height: 350px;
 }
 
 .guide-details {
@@ -1608,6 +1670,7 @@ input::-ms-clear {
 }
 
 #guideForm textarea,
+#guidelineForm textarea,
 #reportForm textarea,
 #evacueeInfoForm textarea {
     border-radius: 5px;

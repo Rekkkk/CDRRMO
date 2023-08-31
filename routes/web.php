@@ -114,8 +114,8 @@ Route::middleware('auth')->group(function () {
     Route::prefix('eligtasGuideline')->controller(GuidelineController::class)->group(function () {
         Route::name('guideline.')->group(function () {
             Route::get('/', 'eligtasGuideline')->name('display');
-            Route::post('/guideline/addGuideline', 'createGuideline')->name('create');
-            Route::put('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update');
+            Route::post('/guideline/createGuideline', 'createGuideline')->name('create');
+            Route::post('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update');
             Route::patch('/guideline/removeGuideline/{guidelineId}', 'removeGuideline')->name('remove');
         });
 
