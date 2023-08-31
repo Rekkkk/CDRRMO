@@ -146,6 +146,6 @@ Route::middleware('auth')->group(function () {
         Route::patch('/openAccount/{userId}', 'openAccount')->name('open');
         Route::put('/resetPassword/{userId}', 'resetPassword')->name('reset.password');
         Route::post('/checkPassword', 'checkPassword')->name('check.password');
-        Route::delete('/removeAccount/{userId}', 'removeAccount')->name('remove');
+        Route::patch('/archiveAccount/{userId}', 'archiveAccount')->name('archive');
     });
 });

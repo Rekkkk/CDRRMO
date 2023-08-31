@@ -50,7 +50,7 @@ class UserAccountsController extends Controller
                     ? '<option value="disableAccount">Disable Account</option><option value="suspendAccount">Suspend Account</option>'
                     : ($user->is_suspend == 1 ? '<option value="openAccount">Open Account</option>' : '<option value="enableAccount">Enable Account</option>');
 
-                return $actionBtns .= '<option value="updateAccount">Update Account</option><option value="removeAccount">Remove Account</option></select></div>';
+                return $actionBtns .= '<option value="updateAccount">Update Account</option><option value="archiveAccount">Archive Account</option></select></div>';
             })
             ->rawColumns(['id', 'status', 'action'])
             ->make(true);
@@ -184,10 +184,13 @@ class UserAccountsController extends Controller
         return response(['status' => 'warning', 'message' => "Current password doesn't match."]);
     }
 
-    public function removeAccount($userId)
+    public function archiveAccount($userId)
     {
-        $this->user->find($userId)->delete();
-        $this->logActivity->generateLog('Removing Account');
+        $this->user->find($userId)->update([
+            'status' => 'Archived',
+            'is_archive' => 1
+        ]);
+        $this->logActivity->generateLog('Archiving Account');
         return response()->json();
     }
 }
