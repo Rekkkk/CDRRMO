@@ -231,7 +231,7 @@
 }
 
 .dropdown-item:hover {
-    background: var(--color-text);
+    background: #cbd5e1 !important;
 }
 
 .dropdown-menu .changePasswordBtn:active {
@@ -242,7 +242,7 @@
     background: var(--color-yellow);
 }
 
-.dropdown-menu .myProfile:active {
+.dropdown-menu .myAccount:active {
     background: var(--color-green);
 }
 
@@ -1848,7 +1848,7 @@ select.form-select option {
 }
 
 .dark-mode .dropdown-item:hover {
-    background: var(--color-d-background);
+    background: var(--color-d-background) !important;
 }
 
 .dark-mode .dropdown-item:focus {
@@ -1863,7 +1863,7 @@ select.form-select option {
     background: var(--color-primary);
 }
 
-.dark-mode .myProfile:active {
+.dark-mode .myAccount:active {
     background: var(--color-green);
 }
 
