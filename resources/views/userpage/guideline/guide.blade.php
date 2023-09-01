@@ -41,13 +41,13 @@
                                                 </button>
                                             </div>
                                             <div class="guide-remove-btn">
-                                                <button class="btn-remove" id="removeGuideBtn">
+                                                <button class="btn-remove" id="archiveGuideBtn">
                                                     <i class="bi bi-trash3-fill"></i> Remove
                                                 </button>
                                             </div>
                                         </div>
                                     @endif
-                                    <input type="text" id="guideContent" value="{{ $guide->content }}" hidden>
+                                    <input type="text" id="guidePhoto" value="{{ $guide->guide_photo }}" hidden>
                                     <input type="text" id="guideId" value="{{ $guide->id }}" hidden>
                                 @endauth
                             </div>
@@ -55,6 +55,7 @@
                     @endforeach
                 </div>
             </div>
+            @include('userpage.guideline.guideModal')
             @include('userpage.changePasswordModal')
         </div>
     </div>
@@ -79,7 +80,7 @@
                         modalLabel = $('.modal-label'),
                         modalLabelContainer = $('.modal-label-container'),
                         formButton = $('#submitGuideBtn');
-                    var swiper = new Swiper(".guide-section", {
+                    let swiper = new Swiper(".guide-section", {
                         grabCursor: true,
                         centeredSlides: true,
                         slidesPerView: 1,
@@ -108,23 +109,24 @@
                     $(document).on('click', '#updateGuideBtn', function() {
                         guideWidget = $(this).closest('.swiper-slide');
                         guideContent = guideWidget.find('.guide-content');
-                        guideId = guideWidget.find('#guideId').val();
+                        guideId = $('#guideId').val();
                         modalLabelContainer.addClass('bg-warning');
                         modalLabel.text('Update Guide');
                         formButton.addClass('btn-update').removeClass('btn-submit').text('Update');
+                        $(`#image_preview_container`).attr('src', guideContent.find('img').attr('src'));
                         $('#label').val(guideContent.find('h1').text());
-                        $('#content').val(guideWidget.find('#guideContent').val());
+                        $('#content').val(guideContent.find('p').text());
                         operation = "update";
                         modal.modal('show');
                         defaultFormData = $('#guideForm').serialize();
                     });
 
-                    $(document).on('click', '#removeGuideBtn', function() {
+                    $(document).on('click', '#archiveGuideBtn', function() {
                         guideWidget = $(this).closest('.swiper-slide');
                         guideItem = guideWidget.find('.guide-item');
                         guideId = guideWidget.find('#guideId').val();
 
-                        confirmModal('Do you want to remove this guide?').then((result) => {
+                        confirmModal('Do you want to archive this guide?').then((result) => {
                             if (!result.isConfirmed) return;
 
                             $.ajax({
@@ -132,14 +134,14 @@
                                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                 },
                                 data: guideId,
-                                url: "{{ route('guide.remove', 'guideId') }}".replace(
+                                url: "{{ route('guide.archive', 'guideId') }}".replace(
                                     'guideId',
                                     guideId),
                                 type: "PATCH",
                                 success(response) {
                                     return response.status == 'warning' ? showWarningMessage(
                                         response.message) : showSuccessMessage(
-                                        'Guide removed successfully, Please wait...', true);
+                                        'Guide archived successfully, Please wait...', true);
                                 },
                                 error() {
                                     showErrorMessage();
@@ -148,8 +150,18 @@
                         });
                     });
 
+                    $(document).on('change', '#guidePhoto', function() {
+                        let reader = new FileReader();
+                        let guideField = $(this).attr('id').replace('guidePhoto', '');
+
+                        reader.onload = (e) => {
+                            $(`#image_preview_container`).attr('src', e.target.result);
+                        }
+                        reader.readAsDataURL(this.files[0]);
+                    });
+
                     function guideFormHandler(form) {
-                        let formData = $(form).serialize();
+                        let formData = new FormData(form);
 
                         confirmModal(`Do you want to ${operation} this guide?`).then((result) => {
                             if (!result.isConfirmed) return;
@@ -159,7 +171,10 @@
                                 $.ajax({
                                     data: formData,
                                     url: "{{ route('guide.update', 'guideId') }}".replace('guideId', guideId),
-                                    type: "PUT",
+                                    type: "POST",
+                                    cache: false,
+                                    contentType: false,
+                                    processData: false,
                                     success(response) {
                                         return response.status == 'warning' ? showWarningMessage(response
                                             .message) : (showSuccessMessage(

@@ -116,14 +116,14 @@ Route::middleware('auth')->group(function () {
             Route::get('/', 'eligtasGuideline')->name('display');
             Route::post('/guideline/createGuideline', 'createGuideline')->name('create');
             Route::post('/guideline/updateGuideline/{guidelineId}', 'updateGuideline')->name('update');
-            Route::patch('/guideline/removeGuideline/{guidelineId}', 'removeGuideline')->name('remove');
+            Route::patch('/guideline/archiveGuideline/{guidelineId}', 'archiveGuideline')->name('archive');
         });
 
         Route::name('guide.')->group(function () {
             Route::get('/guide/{guidelineId}', 'guide')->name('display');
             Route::post('/guide/addGuide{guidelineId}', 'createGuide')->name('create');
-            Route::put('/guide/updateGuide/{guideId}', 'updateGuide')->name('update');
-            Route::patch('/guide/removeGuide/{guideId}', 'removeGuide')->name('remove');
+            Route::post('/guide/updateGuide/{guideId}', 'updateGuide')->name('update');
+            Route::patch('/guide/archiveGuide/{guideId}', 'archiveGuide')->name('archive');
         });
     });
 

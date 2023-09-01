@@ -216,6 +216,10 @@
     border: none;
 }
 
+.dropdown-menu {
+    border-radius: 6px !important;
+}
+
 .dropdown-menu li {
     font-size: 13px;
     padding: 0.5px 8px;
@@ -231,7 +235,7 @@
 }
 
 .dropdown-item:hover {
-    background: #cbd5e1;
+    background: #f1f5f9;
 }
 
 .dropdown-menu .changePasswordBtn:active {
@@ -410,7 +414,7 @@
 .user-details {
     display: none;
     padding: 8px 0;
-    background: #1e293b;
+    background: var(--color-d-background);
 }
 
 .details-content {
@@ -460,7 +464,7 @@
 }
 
 .resident {
-    background: #eab308;
+    background: var(--color-yellow);
 }
 
 .auth-body {
@@ -550,7 +554,7 @@
 }
 
 .auth-btn-container .btn-login:hover {
-    background: #1e293b;
+    background: var(--color-d-background);
 }
 
 .auth-body .btn-resident {
@@ -907,11 +911,11 @@ text {
 }
 
 #updateGuidelineBtn i,
-#removeGuidelineBtn i {
+#archiveGuidelineBtn i {
     padding: 8px;
 }
 
-#removeGuidelineBtn {
+#archiveGuidelineBtn {
     position: absolute;
     right: 8px;
     top: 12px;
@@ -919,7 +923,7 @@ text {
 }
 
 #updateGuidelineBtn:hover,
-#removeGuidelineBtn:hover,
+#archiveGuidelineBtn:hover,
 #createGuidelineBtn:hover {
     transform: scale(1.05);
 }
@@ -943,8 +947,19 @@ text {
     height: 200px;
 }
 
-#guidelineForm .field-container .guide-field {
+#guidelineForm .field-container .guide-field,
+#guideForm .field-container .guide-field {
     display: flex;
+}
+
+#guideForm #image_preview_container {
+    margin: 0 72px;
+}
+
+#guideForm input[type="file"],
+#guidelineForm input[type="file"] {
+    margin: 4px 0;
+    height: 37px;
 }
 
 #removeGuideField {
@@ -952,6 +967,7 @@ text {
     border-radius: 4px;
     color: var(--color-text);
     padding: 10px 0;
+    margin: 0 14px;
 }
 
 #removeGuideField i {
@@ -1008,10 +1024,6 @@ text {
     top: 50%;
     color: var(--color-text);
     background: var(--color-gray);
-}
-
-.guideline-type p {
-    text-transform: uppercase;
 }
 
 .guideline-btn {
@@ -1082,7 +1094,7 @@ text {
 }
 
 #updateGuideBtn,
-#removeGuideBtn {
+#archiveGuideBtn {
     padding: 8px 10px;
 }
 
@@ -1253,7 +1265,7 @@ text {
 }
 
 .report-form a:hover {
-    background: #1e293b;
+    background: var(--color-d-background);
 }
 
 .report-img {
@@ -1626,9 +1638,6 @@ input::-webkit-inner-spin-button {
 
 .field-container {
     position: relative;
-}
-
-.field-container {
     width: 100%;
     margin-bottom: 12px;
     padding: 0 15px;

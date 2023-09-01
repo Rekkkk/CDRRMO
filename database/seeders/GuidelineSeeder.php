@@ -10,25 +10,25 @@ class GuidelineSeeder extends Seeder
     public function run(): void
     {
         Guideline::insert([
-            'type' => ('typhoon guideline'),
+            'type' => ('TYPHOON GUIDELINE'),
             'organization' => 'CSWD',
             'is_archive' => 0
         ]);
 
         Guideline::insert([
-            'type' => ('road accident guideline'),
+            'type' => ('ROAD ACCIDENT GUIDELINE'),
             'organization' => 'CDRRMO',
             'is_archive' => 0
         ]);
 
         Guideline::insert([
-            'type' => ('earthquake guideline'),
+            'type' => ('EARTHQUAKE GUIDELINE'),
             'organization' => 'CSWD',
             'is_archive' => 0
         ]);
 
         Guideline::insert([
-            'type' => ('flashflood guideline'),
+            'type' => ('FLASHFLOOD guideliGUIDELINEne'),
             'organization' => 'CDRRMO',
             'is_archive' => 0
         ]);
