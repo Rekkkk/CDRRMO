@@ -28,14 +28,14 @@
                                     <button id="updateGuidelineBtn">
                                         <i class="btn-update bi bi-pencil-square"></i>
                                     </button>
-                                    <button id="removeGuidelineBtn">
+                                    <button id="archiveGuidelineBtn">
                                         <i class="btn-remove bi bi-x-lg"></i>
                                     </button>
                                 @endif
                                 <a class="guidelines-item"
                                     href="{{ route('guide.display', Crypt::encryptString($guidelineItem->id)) }}">
                                     <div class="guideline-content">
-                                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
+                                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="Logo">
                                         <div class="guideline-type">
                                             <p>{{ $guidelineItem->type }}</p>
                                         </div>
@@ -46,7 +46,7 @@
                                 <a class="guidelines-item"
                                     href="{{ route('resident.guide', Crypt::encryptString($guidelineItem->id)) }}">
                                     <div class="guideline-content">
-                                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="logo">
+                                        <img src="{{ asset('assets/img/cdrrmo-logo.png') }}" alt="Logo">
                                         <div class="guideline-type">
                                             <p>{{ $guidelineItem->type }}</p>
                                         </div>
@@ -125,23 +125,25 @@
                         defaultFormData = $('#guidelineForm').serialize();
                     });
 
-                    $(document).on('click', '#removeGuidelineBtn', function() {
+                    $(document).on('click', '#archiveGuidelineBtn', function() {
                         guidelineWidget = this.closest('.guideline-widget');
                         guidelineItem = guidelineWidget.querySelector('.guidelines-item');
                         guidelineId = guidelineItem.getAttribute('href').split('/').pop();
 
-                        confirmModal('Do you want to remove this guideline?').then((result) => {
+                        confirmModal('Do you want to archive this guideline?').then((result) => {
                             if (result.isConfirmed) {
                                 $.ajax({
                                     headers: {
                                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                                     },
                                     data: guidelineId,
-                                    url: "{{ route('guideline.remove', 'guidelineId') }}"
+                                    url: "{{ route('guideline.archive', 'guidelineId') }}"
                                         .replace('guidelineId', guidelineId),
                                     type: "PATCH",
                                     success() {
-                                        showSuccessMessage('Guideline removed successfully.', true);
+                                        return response.status == 'warning' ? showWarningMessage(
+                                            response.message) : showSuccessMessage(
+                                            'Guideline archived successfully.', true);
                                     },
                                     error() {
                                         showErrorMessage();
@@ -196,7 +198,7 @@
                     });
 
                     function formSubmitHandler(form) {
-                        var formData = new FormData(form);
+                        let formData = new FormData(form);
                         let url = operation == 'create' ? "{{ route('guideline.create') }}" :
                             "{{ route('guideline.update', 'guidelineId') }}".replace('guidelineId',
                                 guidelineId);

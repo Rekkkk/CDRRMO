@@ -1,29 +1,44 @@
-<div class="modal fade" id="guideModal" tabindex="-1" aria-hidden="true">
-    <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-label-container">
-                <h1 class="modal-label"></h1>
-            </div>
-            <div class="modal-body">
-                <form id="guideForm">
-                    @csrf
-                    <div class="form-content">
-                        <div class="field-container">
-                            <label>Guide Description</label>
-                            <input type="text" name="label" class="form-control" autocomplete="off"
-                                placeholder="Enter Guide Description" id="label">
+@auth
+    <div class="modal fade" id="guideModal" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-label-container">
+                    <h1 class="modal-label"></h1>
+                </div>
+                <div class="modal-body">
+                    <form id="guideForm">
+                        @csrf
+                        <div class="form-content">
+                            <div class="field-container guide-input-container">
+                                <div class="guide-field">
+                                    <div class="image-container">
+                                        <img src="{{ asset('assets/img/e-ligtas-logo.png') }}" alt="Pictue"
+                                            class="myProfile" id="image_preview_container">
+                                        <span>
+                                            <input type="file" name="guidePhoto" id="guidePhoto"
+                                                class="form-control">
+                                        </span>
+                                    </div>
+                                    <div class="guide-field-container">
+                                        <div class="field-container">
+                                            <label>Guide Description</label>
+                                            <input type="text" name="label" id="label" class="form-control" autocomplete="off"
+                                                placeholder="Enter Guide Description">
+                                        </div>
+                                        <div class="field-container">
+                                            <label>Guide Content</label>
+                                            <textarea name="content" id="content" class="form-control" autocomplete="off" placeholder="Enter Guide Content" rows="7"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-button-container">
+                                <button id="submitGuideBtn"></button>
+                            </div>
                         </div>
-                        <div class="field-container">
-                            <label>Guide Content</label>
-                            <textarea name="content" class="form-control" autocomplete="off" placeholder="Enter Guide Content" rows="5"
-                                id="content"></textarea>
-                        </div>
-                        <div class="form-button-container">
-                            <button id="submitGuideBtn"></button>
-                        </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+@endauth
