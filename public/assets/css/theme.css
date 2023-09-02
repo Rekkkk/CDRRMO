@@ -69,7 +69,8 @@
     font-weight: 600;
     border-radius: 4px;
     padding: 8px 10px;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-duration: 100ms;
     border: none;
 }
@@ -89,7 +90,8 @@
     font-weight: 600;
     color: var(--color-text);
     transition-duration: 100ms;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 4px;
     border: none;
@@ -110,7 +112,8 @@
     padding: 0 10px;
     color: var(--color-text);
     transition-duration: 100ms;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
     border-radius: 4px;
     border: none;
@@ -164,7 +167,7 @@
 .evacuation-button-container {
     display: flex;
     justify-content: space-between;
-    margin-top: -3px;
+    margin-top: -1px;
     padding: 8px 0;
     border: none;
 }
@@ -191,7 +194,8 @@
     height: 64px;
     background: var(--color-red);
     z-index: 1;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .header-section .container-fluid {
@@ -297,7 +301,8 @@
     left: 0;
     top: 0;
     transition: 0.3s ease;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
     overflow: hidden;
 }
 
@@ -892,7 +897,8 @@ text {
     position: relative;
     max-width: 300px;
     transition: 0.1s all ease-in-out;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .guideline-widget:hover {
@@ -930,7 +936,8 @@ text {
     z-index: -50;
     position: relative;
     background: var(--color-text);
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
     border-radius: 4px;
 }
 
@@ -1026,7 +1033,8 @@ text {
 .guideline-btn .btn-container button i {
     padding: 8px;
     font-size: 18px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .guideline-btn div {
@@ -1144,7 +1152,7 @@ text {
 }
 
 .gmnoprint ul {
-    width: 98%;
+    width: 88%;
 }
 
 .ssQIHO-checkbox-menu-item label {
@@ -1168,7 +1176,8 @@ text {
     align-items: center;
     border-radius: 4px;
     border: 2px solid var(--color-red);
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
 }
 
 .markers-header {
@@ -1226,7 +1235,8 @@ text {
     font-weight: 600;
     border-radius: 4px;
     padding: 8px 10px;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
     transition-duration: 100ms;
     border: none;
 }
@@ -1270,7 +1280,8 @@ text {
     padding: 16px 0;
     border-radius: 4px;
     margin: 12px 0;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .incidentReportTable {
@@ -1281,7 +1292,8 @@ text {
 .incident-report-container {
     background: var(--color-text);
     border-radius: 4px;
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
 }
 
 .incident-report-content {
@@ -1291,7 +1303,8 @@ text {
 }
 
 .report-photo-container {
-    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07)) drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
+    filter: drop-shadow(0 4px 3px rgb(0 0 0 / 0.07))
+        drop-shadow(0 2px 2px rgb(0 0 0 / 0.06));
 }
 
 .incident-report-details {
@@ -1386,7 +1399,8 @@ text {
     background: var(--color-d-bg-container);
     color: var(--color-text);
     border-radius: 6px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
 }
 
 .location-section span {
@@ -1426,7 +1440,7 @@ text {
 .social-section div,
 .telephone-section div {
     text-align: center;
-    padding: 24px 0;
+    padding: 24px 0 5px 0;
 }
 
 .social-section span,
@@ -1446,9 +1460,9 @@ text {
     margin-right: 16px;
 }
 
-.social-section hr,
-.telephone-section hr {
-    margin: 0;
+.social-section p:last-child,
+.telephone-section p:last-child {
+    margin-bottom: 20px;
 }
 
 .hotline-content .number-section {
@@ -1457,7 +1471,12 @@ text {
     background: var(--color-d-bg-container);
     color: var(--color-text);
     border-radius: 4px;
-    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03)) drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+    filter: drop-shadow(0 20px 13px rgb(0 0 0 / 0.03))
+        drop-shadow(0 8px 5px rgb(0 0 0 / 0.08));
+}
+
+.number-section p:last-child {
+    margin-bottom: 0;
 }
 
 .hotline-container {
@@ -1482,7 +1501,8 @@ text {
     margin-top: 18px;
     margin-bottom: 10px;
     border-radius: 4px;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
 }
 
 .profile-section {
@@ -1545,7 +1565,8 @@ text {
     height: max-content;
     padding: 10px;
     font-weight: 700;
-    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04)) drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
+    filter: drop-shadow(0 10px 8px rgb(0 0 0 / 0.04))
+        drop-shadow(0 4px 3px rgb(0 0 0 / 0.1));
     border-bottom-right-radius: 0.25rem;
     border-bottom-left-radius: 0.25rem;
 }
@@ -1859,6 +1880,10 @@ select.form-select option {
     color: var(--color-black) !important;
 }
 
+.dark-mode .icon-container i {
+    background: var(--color-d-bg-container);
+}
+
 .dark-mode .changePasswordBtn:active {
     background: var(--color-primary);
 }
@@ -1972,8 +1997,14 @@ select.form-select option {
 }
 
 .dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.disabled,
-.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover,
-.dark-mode .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
+.dark-mode
+    .dataTables_wrapper
+    .dataTables_paginate
+    .paginate_button.disabled:hover,
+.dark-mode
+    .dataTables_wrapper
+    .dataTables_paginate
+    .paginate_button.disabled:active {
     color: var(--color-d-sub-text) !important;
 }
 
@@ -2070,7 +2101,7 @@ select.form-select option {
         display: contents;
     }
 
-    .about-content>div {
+    .about-content > div {
         margin: 15px;
     }
 
@@ -2110,7 +2141,7 @@ select.form-select option {
 
 @media only screen and (max-width: 767px) {
     .main-content {
-        margin: 90px 0 20px;
+        margin: 89px 0 20px;
         padding: 0;
     }
 
@@ -2173,7 +2204,6 @@ select.form-select option {
     .label-container {
         display: flex;
         justify-content: start;
-        align-items: center;
     }
 
     .widget-container {
@@ -2227,27 +2257,13 @@ select.form-select option {
     }
 
     .evacuation-markers::-webkit-scrollbar {
-        width: none;
+        width: 0;
         display: none;
     }
 
     .evacuation-markers {
         -ms-overflow-style: none;
         scrollbar-width: none;
-    }
-
-    .btn-table-submit,
-    .btn-table-update,
-    .btn-table-remove {
-        width: 176px;
-        font-size: 12px;
-        margin: 4px;
-    }
-
-    #changeDisasterStatus,
-    #changeEvacuationStatus {
-        text-align: center;
-        font-size: 12px;
     }
 }
 
@@ -2376,10 +2392,6 @@ select.form-select option {
         width: 50px;
     }
 
-    .main-content hr {
-        margin: 14px 0;
-    }
-
     .label-container span {
         font-size: 18px;
     }
@@ -2466,9 +2478,50 @@ select.form-select option {
         font-size: 18px;
     }
 
-    .gmnoprint button {
-        padding: 10px 16px !important;
-        font-size: 12px !important;
+    .page-button-container {
+        margin: 13.5px 0 15px 0;
+    }
+
+    .btn-table-primary,
+    .btn-table-submit,
+    .btn-table-update,
+    .btn-table-remove,
+    #locateNearestBtn,
+    #pinpointCurrentLocationBtn,
+    .page-button-container button,
+    .generate-button-container button {
+        font-size: 11px;
+    }
+
+    .actionSelect,
+    .table-container select option,
+    #changeDisasterStatus,
+    #changeEvacuationStatus {
+        font-size: 11px;
+        width: 140px;
+    }
+
+    .gm-control-active img {
+        width: 12px !important;
+        height: 12px !important;
+    }
+
+    .gmnoprint li {
+        font-size: 15px !important;
+    }
+
+    .gmnoprint ul {
+        width: 88px !important;
+    }
+
+    .gm-style-mtc:first-child button {
+        width: fit-content !important;
+        padding: 3px 15px 5px 15px !important;
+    }
+
+    .gm-style-mtc:first-child span {
+        font-size: 15px !important;
+        width: fit-content !important;
     }
 
     .table-content .table-label {
@@ -2476,7 +2529,7 @@ select.form-select option {
         font-size: 18px;
     }
 
-    .about-content>div {
+    .about-content > div {
         margin: 20px 0;
     }
 
@@ -2486,10 +2539,6 @@ select.form-select option {
 
     .location-detail i {
         margin-right: 6px;
-    }
-
-    .location-detail hr {
-        margin: 0;
     }
 
     .social-section p,
