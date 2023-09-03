@@ -69,7 +69,7 @@ Route::middleware('auth')->group(function () {
             Route::get('/disasterInformation', 'displayDisasterInformation')->name('display');
             Route::post('/createDisasterData', 'createDisasterData')->name('create');
             Route::patch('/updateDisaster/{disasterId}', 'updateDisasterData')->name('update');
-            Route::patch('/archiveDisasterData/{disasterId}', 'removeDisasterData')->name('archive');
+            Route::patch('/archiveDisasterData/{disasterId}', 'archiveDisasterData')->name('archive');
             Route::patch('/changeDisasterStatus/{disasterId}', 'changeDisasterStatus')->name('change.status');
         });
 
