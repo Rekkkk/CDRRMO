@@ -52,7 +52,7 @@ class UserAccountsController extends Controller
 
                 return $actionBtns .= '<option value="updateAccount">Update Account</option><option value="archiveAccount">Archive Account</option></select></div>';
             })
-            ->rawColumns(['id', 'status', 'action'])
+            ->rawColumns(['status', 'action'])
             ->make(true);
     }
 
