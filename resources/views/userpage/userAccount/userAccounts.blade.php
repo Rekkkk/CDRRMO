@@ -15,11 +15,7 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="label-container">
-                <div class="icon-container">
-                    <div class="icon-content">
-                        <i class="bi bi-person-gear"></i>
-                    </div>
-                </div>
+                <i class="bi bi-person-gear"></i>
                 <span>MANAGE USERS ACCOUNT</span>
             </div>
             <hr>

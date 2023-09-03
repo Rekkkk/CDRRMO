@@ -14,9 +14,7 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="label-container">
-                <div class="icon-container">
-                    <div class="icon-content"><i class="bi bi-tropical-storm"></i></div>
-                </div>
+                <i class="bi bi-tropical-storm"></i>
                 <span>MANAGE DISASTER INFORMATION</span>
             </div>
             <hr>

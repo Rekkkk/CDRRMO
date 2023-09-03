@@ -14,11 +14,7 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="label-container">
-                <div class="icon-container">
-                    <div class="icon-content">
-                        <i class="bi bi-house-gear"></i>
-                    </div>
-                </div>
+                <i class="bi bi-house-gear"></i>
                 <span>MANAGE EVACUATION CENTER</span>
             </div>
             <hr>
