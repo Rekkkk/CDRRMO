@@ -272,7 +272,7 @@
                                 response.status == 'warning' ? showWarningMessage(response
                                     .message) : (modal.modal('hide'), evacueeTable.draw(),
                                     showSuccessMessage(
-                                        `Successfully ${operation}${operation == 'record' ? 'ed new' : 'd the'} evacuee info.`
+                                        `Successfully ${operation == 'record' ? 'recorded new' : 'updated the'} evacuee info.`
                                     ));
                             },
                             error() {

@@ -365,7 +365,7 @@
                                 return response.status == 'warning' ? showWarningMessage(response.message) :
                                     response.status == 'blocked' ? (modal.modal('hide'), showWarningMessage(
                                         response.message)) : (showSuccessMessage(
-                                        `Danger area successfully ${operation}${operation == 'update' ? 'd' : 'ed'}.`
+                                        `Danger area successfully ${operation == 'update' ? 'updated' : 'reported'}.`
                                     ), modal.modal('hide'), dangerousAreasReports.draw());
                             },
                             error() {

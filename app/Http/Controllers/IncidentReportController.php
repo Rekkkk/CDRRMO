@@ -241,7 +241,7 @@ class IncidentReportController extends Controller
                     return '<span class="message-text">Currently Disabled.</span>';
                 }
             })
-            ->rawColumns(['id', 'status', 'action'])
+            ->rawColumns(['status', 'action'])
             ->make(true);
     }
 

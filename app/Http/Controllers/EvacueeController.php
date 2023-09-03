@@ -31,7 +31,7 @@ class EvacueeController extends Controller
 
                 return '<button class="btn-table-update" id="updateEvacueeBtn"><i class="bi bi-pencil-square"></i>Update</button>';
             })
-            ->rawColumns(['id', 'action'])
+            ->rawColumns(['action'])
             ->make(true);
     }
 

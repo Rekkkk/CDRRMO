@@ -20,7 +20,7 @@
             <hr>
             @if (auth()->user()->is_disable == 0)
                 <div class="page-button-container">
-                    <button class="btn-submit" id="createDisasterData">
+                    <button class="btn-submit" id="addDisasterData">
                         <i class="bi bi-cloud-plus"></i>Add Disaster
                     </button>
                 </div>
@@ -120,11 +120,11 @@
                     submitHandler: disasterFormHandler
                 });
 
-                $(document).on('click', '#createDisasterData', () => {
+                $(document).on('click', '#addDisasterData', () => {
                     modalLabelContainer.removeClass('bg-warning');
-                    modalLabel.text('Create Disaster');
+                    modalLabel.text('Add Disaster');
                     formButton.addClass('btn-submit').removeClass('btn-update').text('Add');
-                    operation = "create";
+                    operation = "add";
                     modal.modal('show');
                 });
 
@@ -172,7 +172,9 @@
                                     url: url,
                                     success() {
                                         disasterTable.draw();
-                                        showSuccessMessage(`Disaster successfully ${operation}d.`);
+                                        showSuccessMessage(
+                                            `Disaster successfully ${operation == 'remove' ? 'archived' : 'changed'}.`
+                                        );
                                     },
                                     error() {
                                         showErrorMessage();
@@ -183,10 +185,10 @@
 
                 function disasterFormHandler(form) {
                     let formData = $(form).serialize();
-                    let url = operation == 'create' ? "{{ route('disaster.create') }}" :
+                    let url = operation == 'add' ? "{{ route('disaster.create') }}" :
                         "{{ route('disaster.update', 'disasterId') }}".replace('disasterId',
                             disasterId);
-                    let type = operation == 'create' ? "POST" : "PATCH";
+                    let type = operation == 'add' ? "POST" : "PATCH";
 
                     confirmModal(`Do you want to ${operation} this disaster?`).then((result) => {
                         if (!result.isConfirmed) return;
@@ -201,7 +203,8 @@
                                     response.status == 'warning' ? showWarningMessage(response
                                         .message) : (
                                         showSuccessMessage(
-                                            `Disaster successfully ${operation}d.`),
+                                            `Disaster successfully ${operation == "add" ? "addded" : "updated"}.`
+                                        ),
                                         modal.modal('hide'), disasterTable.draw());
                                 },
                                 error() {

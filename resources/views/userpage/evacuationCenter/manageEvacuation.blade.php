@@ -300,7 +300,7 @@
                                 success(response) {
                                     response.status == "warning" ? showWarningMessage(response
                                         .message) : (showSuccessMessage(
-                                        `Successfully ${operation == 'add' ? 'added' : operation+'d'} evacuation center.`
+                                        `Successfully ${operation == 'add' ? 'added' : 'updated'} evacuation center.`
                                     ), evacuationCenterTable.draw(), modal.modal('hide'));
                                 },
                                 error() {
