@@ -136,7 +136,7 @@
                                     url: "{{ route('guideline.archive', 'guidelineId') }}"
                                         .replace('guidelineId', guidelineId),
                                     type: "PATCH",
-                                    success() {
+                                    success(response) {
                                         return response.status == 'warning' ? showWarningMessage(
                                             response.message) : showSuccessMessage(
                                             'Guideline archived successfully.', true);
@@ -223,7 +223,6 @@
                                     });
                             }
                         });
-
                     }
 
                     modal.on('hidden.bs.modal', () => {
