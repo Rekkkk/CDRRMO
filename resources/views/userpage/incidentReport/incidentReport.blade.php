@@ -15,11 +15,7 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="label-container">
-                <div class="icon-container">
-                    <div class="icon-content">
-                        <i class="bi bi-megaphone"></i>
-                    </div>
-                </div>
+                <i class="bi bi-megaphone"></i>
                 <span>INCIDENT REPORT</span>
             </div>
             <hr>
@@ -268,7 +264,7 @@
                                         incidentReports.draw();
                                     },
                                     error() {
-                                        showErrorMessage(); 
+                                        showErrorMessage();
                                     }
                                 });
                             });

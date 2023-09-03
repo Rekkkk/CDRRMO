@@ -15,11 +15,7 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="label-container">
-                <div class="icon-container">
-                    <div class="icon-content">
-                        <i class="bi bi-exclamation-triangle"></i>
-                    </div>
-                </div>
+                <i class="bi bi-exclamation-triangle"></i>
                 <span>DANGER AREAS REPORT</span>
             </div>
             <hr>

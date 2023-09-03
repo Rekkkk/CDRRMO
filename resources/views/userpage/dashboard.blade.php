@@ -3,7 +3,7 @@
 
 <head>
     @include('partials.headPackage')
-    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}"/>
+    <link rel="stylesheet" href="{{ asset('assets/css/theme.css') }}" />
     {{-- @vite(['resources/js/app.js']) --}}
 </head>
 
@@ -13,11 +13,7 @@
         @include('partials.sidebar')
         <div class="main-content">
             <div class="label-container">
-                <div class="icon-container">
-                    <div class="icon-content">
-                        <i class="bi bi-speedometer2"></i>
-                    </div>
-                </div>
+                <i class="bi bi-speedometer2"></i>
                 <span>DASHBOARD</span>
             </div>
             <hr>
