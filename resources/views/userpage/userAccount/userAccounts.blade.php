@@ -151,7 +151,7 @@
                     switch (selectedAction) {
                         case 'disableAccount':
                             confirmModal('Do you want to disable this account?').then((result) => {
-                                if (result.isConfirmed) {
+                                return !result.isConfirmed ? $(this).val('') :
                                     $.ajax({
                                         type: "PATCH",
                                         url: "{{ route('account.disable', 'userId') }}"
@@ -165,14 +165,12 @@
                                             showErrorMessage();
                                         }
                                     })
-                                }
-                                $('.actionSelect').val('');
                             });
                             break;
 
                         case 'enableAccount':
                             confirmModal('Do you want to enable this account?').then((result) => {
-                                if (result.isConfirmed) {
+                                return !result.isConfirmed ? $(this).val('') :
                                     $.ajax({
                                         type: "PATCH",
                                         url: "{{ route('account.enable', 'userId') }}"
@@ -186,8 +184,6 @@
                                             showErrorMessage();
                                         }
                                     });
-                                }
-                                $('.actionSelect').val('');
                             });
                             break;
 
@@ -206,7 +202,7 @@
 
                         case 'archiveAccount':
                             confirmModal('Do you want to archive this user account?').then((result) => {
-                                if (result.isConfirmed) {
+                                return !result.isConfirmed ? $(this).val('') :
                                     $.ajax({
                                         type: "PATCH",
                                         url: "{{ route('account.archive', 'userId') }}"
@@ -220,8 +216,6 @@
                                             showErrorMessage();
                                         }
                                     });
-                                }
-                                $('.actionSelect').val('');
                             });
                             break;
 
@@ -239,7 +233,7 @@
 
                         case 'openAccount':
                             confirmModal('Do you want to open this user account?').then((result) => {
-                                if (result.isConfirmed) {
+                                return !result.isConfirmed ? $(this).val('') :
                                     $.ajax({
                                         type: "PATCH",
                                         url: "{{ route('account.open', 'userId') }}"
@@ -253,8 +247,6 @@
                                             showErrorMessage();
                                         }
                                     });
-                                }
-                                $('.actionSelect').val('');
                             });
                             break;
 
@@ -267,25 +259,25 @@
                     modalLabelContainer.removeClass('bg-warning');
                     modalLabel.text('Create User Account');
                     formButton.addClass('btn-submit').removeClass('btn-update').text('Create');
-                    $('#suspend-container').prop('hidden', true);
-                    $('#suspend').prop('disabled', true);
+                    $('#suspend-container, #suspend').prop('hidden', true).prop('disabled', true);
                     operation = "create";
                     modal.modal('show');
                 });
 
                 modal.on('hidden.bs.modal', () => {
                     validator.resetForm();
-                    $('#suspend-container').prop('hidden', false);
-                    $('#suspend').prop('disabled', false);
+                    $('#suspend-container, #suspend').prop('hidden', false).prop('disabled', false);
                     $('.actionSelect').val('');
                     $('#accountForm')[0].reset();
                 });
 
                 function formSubmitHandler(form) {
                     let formData = $(form).serialize();
-                    let url = operation == 'create' ? "{{ route('account.create') }}" :
-                        operation == 'update' ? "{{ route('account.update', 'userId') }}".replace('userId',
-                            userId) : "{{ route('account.suspend', 'userId') }}".replace('userId', userId);
+                    let url = {
+                        create: "{{ route('account.create') }}",
+                        update: "{{ route('account.update', 'userId') }}".replace('userId', userId),
+                        suspend: "{{ route('account.suspend', 'userId') }}".replace('userId', userId)
+                    } [operation];
                     let type = operation == 'create' ? "POST" : "PUT";
 
                     confirmModal(`Do you want to ${operation} this user details?`).then((result) => {

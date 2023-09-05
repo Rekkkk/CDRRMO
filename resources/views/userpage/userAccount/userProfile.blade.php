@@ -115,24 +115,24 @@
                 let formData = $(form).serialize();
 
                 confirmModal('Do you want to update this user details?').then((result) => {
-                    if (result.isConfirmed) {
-                        return operation == 'update' && defaultFormData == formData ? showWarningMessage(
-                                'No changes were made.') :
-                            $.ajax({
-                                url: "{{ route('account.update', 'accountId') }}".replace('accountId',
-                                    accountId),
-                                type: 'PUT',
-                                data: formData,
-                                success(response) {
-                                    response.status == 'warning' ? showWarningMessage(response
-                                        .message) : showSuccessMessage(
-                                        'Successfully updated the account details.', true);
-                                },
-                                error() {
-                                    showErrorMessage();
-                                }
-                            });
-                    }
+                    if (result.isConfirmed) return;
+
+                    return operation == 'update' && defaultFormData == formData ? showWarningMessage(
+                            'No changes were made.') :
+                        $.ajax({
+                            url: "{{ route('account.update', 'accountId') }}".replace('accountId',
+                                accountId),
+                            type: 'PUT',
+                            data: formData,
+                            success(response) {
+                                response.status == 'warning' ? showWarningMessage(response
+                                    .message) : showSuccessMessage(
+                                    'Successfully updated the account details.', true);
+                            },
+                            error() {
+                                showErrorMessage();
+                            }
+                        });
                 });
             }
         });
