@@ -81,7 +81,7 @@
             <script>
                 $(document).ready(() => {
                     let guidelineId, guidelineWidget, guidelineItem, defaultFormData, operation, guideField = 0,
-                        modal = $('#guidelineModal'),
+                        guidelineType, modal = $('#guidelineModal'),
                         modalLabel = $('.modal-label'),
                         modalLabelContainer = $('.modal-label-container'),
                         formButton = $('#submitGuidelineBtn');
@@ -113,9 +113,9 @@
                         guidelineWidget = this.closest('.guideline-widget');
                         guidelineItem = guidelineWidget.querySelector('.guidelines-item');
                         guidelineId = guidelineItem.getAttribute('href').split('/').pop();
-                        let guidelineLabel = guidelineItem.querySelector('.guideline-type p').innerText
-                            .toLowerCase();
+                        let guidelineLabel = guidelineItem.querySelector('.guideline-type p').innerText;
                         $('#guidelineType').val(guidelineLabel);
+                        guidelineType = guidelineLabel;
                         operation = "update";
                         modal.modal('show');
                         defaultFormData = $('#guidelineForm').serialize();
@@ -127,25 +127,25 @@
                         guidelineId = guidelineItem.getAttribute('href').split('/').pop();
 
                         confirmModal('Do you want to archive this guideline?').then((result) => {
-                            if (result.isConfirmed) {
-                                $.ajax({
-                                    headers: {
-                                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                                    },
-                                    data: guidelineId,
-                                    url: "{{ route('guideline.archive', 'guidelineId') }}"
-                                        .replace('guidelineId', guidelineId),
-                                    type: "PATCH",
-                                    success(response) {
-                                        return response.status == 'warning' ? showWarningMessage(
-                                            response.message) : showSuccessMessage(
-                                            'Guideline archived successfully.', true);
-                                    },
-                                    error() {
-                                        showErrorMessage();
-                                    }
-                                });
-                            }
+                            if (!result.isConfirmed) return;
+
+                            $.ajax({
+                                headers: {
+                                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                                },
+                                data: guidelineId,
+                                url: "{{ route('guideline.archive', 'guidelineId') }}"
+                                    .replace('guidelineId', guidelineId),
+                                type: "PATCH",
+                                success(response) {
+                                    return response.status == 'warning' ? showWarningMessage(
+                                        response.message) : showSuccessMessage(
+                                        'Guideline archived successfully.', true);
+                                },
+                                error() {
+                                    showErrorMessage();
+                                }
+                            });
                         });
                     });
 
@@ -200,28 +200,28 @@
                                 guidelineId);
 
                         confirmModal(`Do you want to ${operation} this guideline?`).then((result) => {
-                            if (result.isConfirmed) {
-                                return operation == 'update' && defaultFormData == formData ?
-                                    showWarningMessage(
-                                        'No changes were made.') :
-                                    $.ajax({
-                                        data: formData,
-                                        url: url,
-                                        type: "POST",
-                                        cache: false,
-                                        contentType: false,
-                                        processData: false,
-                                        success(response) {
-                                            response.status == 'warning' ? showWarningMessage(response
-                                                .message) : (modal.modal('hide'), showSuccessMessage(
-                                                `Guideline successfully ${operation}d, Please wait...`,
-                                                true));
-                                        },
-                                        error() {
-                                            showErrorMessage();
-                                        }
-                                    });
-                            }
+                            if (!result.isConfirmed) return;
+
+                            return operation == 'update' && guidelineType == $('#guidelineType').val() &&
+                                guideField < 0 ?
+                                showWarningMessage('No changes were made.') :
+                                $.ajax({
+                                    data: formData,
+                                    url: url,
+                                    type: "POST",
+                                    cache: false,
+                                    contentType: false,
+                                    processData: false,
+                                    success(response) {
+                                        response.status == 'warning' ? showWarningMessage(response
+                                            .message) : (modal.modal('hide'), showSuccessMessage(
+                                            `Guideline successfully ${operation}d, Please wait...`, true
+                                        ));
+                                    },
+                                    error() {
+                                        showErrorMessage();
+                                    }
+                                });
                         });
                     }
 

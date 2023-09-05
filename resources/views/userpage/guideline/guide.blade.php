@@ -114,7 +114,7 @@
                         $('#content').val(guideContent.find('p').text());
                         operation = "update";
                         modal.modal('show');
-                        defaultFormData = $('#guideForm').serialize();
+                        defaultFormData = serializeFormData(new FormData($('#guideForm')[0]));
                     });
 
                     $(document).on('click', '#archiveGuideBtn', function() {
@@ -162,8 +162,8 @@
                         confirmModal(`Do you want to ${operation} this guide?`).then((result) => {
                             if (!result.isConfirmed) return;
 
-                            return operation == 'update' && defaultFormData == formData ? showWarningMessage(
-                                    'No changes were made.') :
+                            return operation == 'update' && defaultFormData === serializeFormData(formData) ?
+                                showWarningMessage('No changes were made.') :
                                 $.ajax({
                                     data: formData,
                                     url: "{{ route('guide.update', 'guideId') }}".replace('guideId', guideId),
@@ -182,6 +182,10 @@
                                     }
                                 });
                         });
+                    }
+
+                    function serializeFormData(formData) {
+                        return Array.from(formData).map(([name, value]) => `${name}=${value}`).join('&')
                     }
 
                     modal.on('hidden.bs.modal', () => {

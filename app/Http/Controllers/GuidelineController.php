@@ -8,7 +8,6 @@ use Illuminate\Support\Str;
 use Illuminate\Http\Request;
 use App\Models\ActivityUserLog;
 use Illuminate\Support\Facades\Crypt;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class GuidelineController extends Controller
@@ -56,23 +55,26 @@ class GuidelineController extends Controller
         ]);
         $this->logActivity->generateLog('Registering Guideline');
 
-        $labels = $request->input('label');
-        $contents = $request->input('content');
-        $guidePhotos = $request->file('guidePhoto');
+        $labels = $request->label;
+        $contents = $request->content;
 
-        foreach ($labels as $count => $label) {
-            $guide = $this->guide->create([
-                'label' => $label,
-                'content' => $contents[$count],
-                'guideline_id' => $guideline->id,
-                'is_archive' => 0
-            ]);
+        if ($labels && $contents) {
+            $guidePhotos = $request->file('guidePhoto');
 
-            if (isset($guidePhotos[$count])) {
-                $reportPhotoPath =  $guidePhotos[$count]->store();
-                $guidePhotos[$count]->move(public_path('guide_photo'), $reportPhotoPath);
-                $guide->guide_photo = $reportPhotoPath;
-                $guide->save();
+            foreach ($labels as $count => $label) {
+                $guide = $this->guide->create([
+                    'label' => $label,
+                    'content' => $contents[$count],
+                    'guideline_id' => $guideline->id,
+                    'is_archive' => 0
+                ]);
+
+                if (isset($guidePhotos[$count])) {
+                    $reportPhotoPath =  $guidePhotos[$count]->store();
+                    $guidePhotos[$count]->move(public_path('guide_photo'), $reportPhotoPath);
+                    $guide->guide_photo = $reportPhotoPath;
+                    $guide->save();
+                }
             }
         }
 
@@ -96,23 +98,26 @@ class GuidelineController extends Controller
         ]);
         $this->logActivity->generateLog('Updating Guideline');
 
-        $labels = $request->input('label');
-        $contents = $request->input('content');
-        $guidePhotos = $request->file('guidePhoto');
+        $labels = $request->label;
+        $contents = $request->content;
 
-        foreach ($labels as $count => $label) {
-            $guide = $this->guide->create([
-                'label' => $label,
-                'content' => $contents[$count],
-                'guideline_id' => $guidelineId,
-                'is_archive' => 0
-            ]);
+        if ($labels && $contents) {
+            $guidePhotos = $request->file('guidePhoto');
 
-            if (isset($guidePhotos[$count])) {
-                $guidePhotoPath =  $guidePhotos[$count]->store();
-                $guidePhotos[$count]->move(public_path('guide_photo'), $guidePhotoPath);
-                $guide->guide_photo = $guidePhotoPath;
-                $guide->save();
+            foreach ($labels as $count => $label) {
+                $guide = $this->guide->create([
+                    'label' => $label,
+                    'content' => $contents[$count],
+                    'guideline_id' => $guidelineId,
+                    'is_archive' => 0
+                ]);
+
+                if (isset($guidePhotos[$count])) {
+                    $guidePhotoPath =  $guidePhotos[$count]->store();
+                    $guidePhotos[$count]->move(public_path('guide_photo'), $guidePhotoPath);
+                    $guide->guide_photo = $guidePhotoPath;
+                    $guide->save();
+                }
             }
         }
 
