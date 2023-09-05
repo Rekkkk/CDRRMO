@@ -330,17 +330,28 @@
     display: none;
 }
 
-.sidebar ul li {
+.sidebar ul .navigation-item {
     position: relative;
-    height: 50px;
     width: 100%;
     line-height: 50px;
+    cursor: pointer;
 }
 
-.sidebar .links_name {
+.rotate {
+    transform: rotate(90deg);
+}
+
+.sidebar .links_name{
     color: var(--color-text);
     opacity: 0;
     text-align: start;
+    pointer-events: none;
+    overflow: hidden;
+    font-size: 15px;
+}
+
+.sub-item{
+    color: var(--color-text);
     pointer-events: none;
     overflow: hidden;
     font-size: 15px;
@@ -365,7 +376,33 @@
     margin-left: 15px;
 }
 
-.sidebar ul li a {
+.navigation-item .sub-btn .dropdown {
+    display: none;
+    position: absolute;
+    font-size: 12px;
+    right: 0;
+    transition: 0.3s ease;
+}
+
+.sidebar.active .navigation-item .sub-btn .dropdown,
+.sidebar:hover .navigation-item .sub-btn .dropdown {
+    display: block;
+    position: absolute;
+    right: 0;
+    transition: 0.3s ease;
+}
+
+.sub-menu {
+    padding: 5px 0;
+    background: var(--color-d-bg-container);
+    display: none;
+}
+
+.sub-menu.active{
+    display: block;
+}
+
+.sidebar ul .navigation-item a {
     display: flex;
     align-items: center;
     white-space: nowrap;
@@ -373,7 +410,7 @@
     border-radius: 5px;
 }
 
-.sidebar ul li a:not(.active-link):hover {
+.sidebar ul .navigation-item a:not(.active-link):hover{
     background: rgb(170, 170, 170);
     color: var(--color-text);
 }
@@ -383,12 +420,12 @@
     color: var(--color-text);
 }
 
-.sidebar ul li i {
+.sidebar ul .navigation-item i {
     margin-left: -4px;
     color: var(--color-text);
 }
 
-.sidebar ul li i {
+.sidebar ul .navigation-item i {
     height: 50px;
     min-width: 75px;
     border-radius: 12px;

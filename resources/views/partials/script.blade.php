@@ -99,6 +99,11 @@
                 $(this).toggleClass('bi-eye-slash bi-eye');
             }
         });
+
+        $(document).on('click', '.sub-btn', function() {
+            $(this).next('.sub-menu').toggleClass('active');
+            $(this).find('.dropdown').toggleClass('rotate');
+        });
     @endauth
     theme == 'dark' ? enableDarkMode() : disableDarkMode();
 
